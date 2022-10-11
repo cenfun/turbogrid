@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <title>Grid Demo</title>
+    <title>TurboGrid</title>
     <link rel="icon" href="data:,">
     <!--inject:start-->
     <script src="dist/turbogrid.js?v=3.0.2"></script>
@@ -12,14 +12,17 @@
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <style>
-        .main {
-            overflow: hidden;
-        }
-
         .left {
             width: 200px;
             height: 100%;
+            overflow: hidden;
             border-right: 1px solid #999;
+        }
+
+        .right {
+            height: 100%;
+            overflow: hidden;
+            position: relative;
         }
 
         .left-header {
@@ -65,14 +68,13 @@
             position: relative;
         }
 
-        .right {
-            height: 100%;
-        }
-
         .iframe {
+            margin: 0;
+            padding: 0;
             border: none;
             height: 100%;
             width: 100%;
+            position: absolute;
         }
 
         .tg-row-top {
@@ -143,7 +145,7 @@
     </style>
 </head>
 
-<body class="main flex-row">
+<body class="body flex-row">
     <div class="left flex-column">
         <div class="left-header">
             <div class="flex-row">

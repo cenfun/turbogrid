@@ -3,16 +3,18 @@ import CONST from './const.js';
 import Motion from './motion.js';
 import EventBase from './event-base.js';
 
-const E = {
+const EVENT = {
     TOUCH_START: 'touch_start',
     TOUCH_MOVE: 'touch_move',
     TOUCH_END: 'touch_end',
     TOUCH_INERTIA: 'touch_inertia'
 };
 
-export default EventBase.extend({
+export default class extends EventBase {
 
-    createOption: function(data) {
+    static EVENT = EVENT;
+
+    createOption(data) {
         return {
 
             type: 'touch',
@@ -41,11 +43,11 @@ export default EventBase.extend({
 
             ... data
         };
-    },
+    }
 
     //============================================================================
 
-    start: function(e, data) {
+    start(e, data) {
         if (!e) {
             return;
         }
@@ -53,9 +55,9 @@ export default EventBase.extend({
         this.bindEvents();
         this.option = this.createOption(data);
         this.startHandler(e);
-    },
+    }
 
-    bindEvents: function() {
+    bindEvents() {
         this.touchEvents = {
             touchmove: {
                 handler: (e) => {
@@ -86,17 +88,17 @@ export default EventBase.extend({
         };
         //safari use window has issue
         Util.bindEvents(this.touchEvents, document.body);
-    },
+    }
 
-    unbindEvents: function() {
+    unbindEvents() {
         this.motionStop();
         Util.unbindEvents(this.touchEvents);
         this.touchEvents = null;
-    },
+    }
 
     //============================================================================
 
-    startHandler: function(e) {
+    startHandler(e) {
 
         this.trackingPoints = [];
 
@@ -119,10 +121,10 @@ export default EventBase.extend({
         this.addTrackingPoint(o);
 
         //console.log(E.TOUCH_START);
-        this.trigger(E.TOUCH_START, o);
-    },
+        this.trigger(EVENT.TOUCH_START, o);
+    }
 
-    touchMoveHandler: function(e) {
+    touchMoveHandler(e) {
         const touches = e.touches;
         const touchItem = touches[0];
         if (!touchItem) {
@@ -156,17 +158,17 @@ export default EventBase.extend({
         this.addTrackingPoint(o);
 
         //console.log(E.TOUCH_MOVE);
-        this.trigger(E.TOUCH_MOVE, o);
+        this.trigger(EVENT.TOUCH_MOVE, o);
 
-    },
+    }
 
-    touchEndHandler: function(e) {
+    touchEndHandler(e) {
         this.unbindEvents();
 
         const o = this.option;
         o.e = e;
         //console.log(E.TOUCH_END);
-        this.trigger(E.TOUCH_END, o);
+        this.trigger(EVENT.TOUCH_END, o);
 
         const changedTouches = e.changedTouches;
         const touchItem = changedTouches[0];
@@ -190,20 +192,20 @@ export default EventBase.extend({
 
         this.motionStart();
 
-    },
+    }
 
-    touchCancelHandler: function(e) {
+    touchCancelHandler(e) {
 
         console.log(e.type, e);
 
         this.unbindEvents();
         //end for cancel
-        this.trigger(E.TOUCH_END, this.option);
-    },
+        this.trigger(EVENT.TOUCH_END, this.option);
+    }
 
     //============================================================================
 
-    getMotionInfo: function() {
+    getMotionInfo() {
         const points = this.trackingPoints;
         if (points.length < 2) {
             return;
@@ -247,9 +249,9 @@ export default EventBase.extend({
             offsetY
         };
 
-    },
+    }
 
-    motionStart: function() {
+    motionStart() {
         const o = this.option;
         if (!o.inertia) {
             return;
@@ -290,28 +292,28 @@ export default EventBase.extend({
         };
 
         this.motion = new Motion();
-        this.motion.bind(Motion.MOTION_MOVE, (e, d) => {
+        this.motion.bind(Motion.EVENT.MOTION_MOVE, (e, d) => {
             o.touchInertiaX = d.x;
             o.touchInertiaY = d.y;
-            this.trigger(E.TOUCH_INERTIA, o);
+            this.trigger(EVENT.TOUCH_INERTIA, o);
         });
         this.motion.start({
             duration: duration,
             from: from,
             till: till
         });
-    },
+    }
 
-    motionStop: function() {
+    motionStop() {
         if (this.motion) {
             this.motion.destroy();
             this.motion = null;
         }
-    },
+    }
 
     //============================================================================
 
-    getDirection: function(o) {
+    getDirection(o) {
         const ox = o.offsetX;
         const oy = o.offsetY;
 
@@ -364,9 +366,9 @@ export default EventBase.extend({
             }
         }
 
-    },
+    }
 
-    filterTrackingPoints: function(points) {
+    filterTrackingPoints(points) {
         points.reverse();
         const len = points.length;
         const t = Date.now();
@@ -380,9 +382,9 @@ export default EventBase.extend({
         }
         points.reverse();
         //console.log(points.length, points.map((it) => `${it.t - t}`));
-    },
+    }
 
-    addTrackingPoint: function(o) {
+    addTrackingPoint(o) {
 
         if (!o.inertia) {
             return;
@@ -403,14 +405,14 @@ export default EventBase.extend({
             this.filterTrackingPoints(points);
         }
 
-    },
+    }
 
     //============================================================================
 
-    destroy: function() {
+    destroy() {
         this.unbindEvents();
         this.unbind();
     }
 
-}, E);
+}
 

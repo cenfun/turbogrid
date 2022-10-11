@@ -22,14 +22,14 @@ describe('Motion', function() {
             till: till
         });
         let startCalled;
-        m.bind(Motion.MOTION_START, function(e) {
+        m.bind(Motion.EVENT.MOTION_START, function(e) {
             startCalled = true;
         });
         let moveCalled;
-        m.bind(Motion.MOTION_MOVE, function(e) {
+        m.bind(Motion.EVENT.MOTION_MOVE, function(e) {
             moveCalled = true;
         });
-        m.bind(Motion.MOTION_END, function(e, d) {
+        m.bind(Motion.EVENT.MOTION_END, function(e, d) {
             assert(startCalled);
             assert(moveCalled);
 
@@ -47,7 +47,7 @@ describe('Motion', function() {
 
     it('Motion stop on start', function() {
         const m = new Motion();
-        m.bind(Motion.MOTION_START, function(e) {
+        m.bind(Motion.EVENT.MOTION_START, function(e) {
             m.stop();
         });
         m.start({
@@ -80,7 +80,7 @@ describe('Motion', function() {
 
     it('Motion start none', (done) => {
         const m = new Motion();
-        m.bind(Motion.MOTION_END, function(e, d) {
+        m.bind(Motion.EVENT.MOTION_END, function(e, d) {
             assert.equal(d, '');
             done();
         });
@@ -94,7 +94,7 @@ describe('Motion', function() {
 
     it('Motion start object none', (done) => {
         const m = new Motion();
-        m.bind(Motion.MOTION_END, function(e, d) {
+        m.bind(Motion.EVENT.MOTION_END, function(e, d) {
             assert.equal(typeof d.a, 'undefined');
             assert.equal(d.b, 20);
             assert.equal(typeof d.c, 'undefined');

@@ -3,15 +3,17 @@ import Util from '../core/util.js';
 import OptionBase from '../core/option-base.js';
 import Scrollbar from './scrollbar.js';
 
-const E = {
+const EVENT = {
     CHANGE: 'change'
 };
 
-export default OptionBase.extend({
+export default class extends OptionBase {
 
-    visible: true,
+    static EVENT = EVENT;
 
-    getDefaultOption: function() {
+    visible = true;
+
+    getDefaultOption() {
         return {
             scrollbarH: {},
             scrollbarV: {},
@@ -19,9 +21,10 @@ export default OptionBase.extend({
             scrollSizeOnKeyPress: 20,
             gradient: 30
         };
-    },
+    }
 
-    constructor: function(container, name) {
+    constructor(container, name) {
+        super();
         this.id = Util.uid(4, `tg-scroll-pane-${name}-`);
 
         this.setOption();
@@ -35,78 +38,77 @@ export default OptionBase.extend({
 
         //h scrollbar bottom
         this.scrollbarH = new Scrollbar(Scrollbar.H, this.$container);
-        this.scrollbarH.bind(Scrollbar.CHANGE, (e, d) => {
+        this.scrollbarH.bind(Scrollbar.EVENT.CHANGE, (e, d) => {
             this.scrollHChangeHandler();
         });
 
         //v scrollbar right
         this.scrollbarV = new Scrollbar(Scrollbar.V, this.$container);
-        this.scrollbarV.bind(Scrollbar.CHANGE, (e, d) => {
+        this.scrollbarV.bind(Scrollbar.EVENT.CHANGE, (e, d) => {
             this.scrollVChangeHandler();
         });
 
-        return this;
-    },
+    }
 
     //==========================================================================
 
-    show: function() {
+    show() {
         this.$container.show();
         this.visible = true;
         return this;
-    },
+    }
 
-    hide: function() {
+    hide() {
         this.$container.hide();
         this.visible = false;
         return this;
-    },
+    }
 
     //==========================================================================
 
-    width: function() {
+    width() {
         return this.scrollPaneW;
-    },
+    }
 
-    height: function() {
+    height() {
         return this.scrollPaneH;
-    },
+    }
 
     //==========================================================================
 
-    render: function(option) {
+    render(option) {
         if (!this.visible) {
             return this;
         }
         this.setOption(option);
         this.update();
         return this;
-    },
+    }
 
-    update: function() {
+    update() {
         this.scrollPaneW = this.option.scrollPaneW;
         this.scrollPaneH = this.option.scrollPaneH;
         this.scrollBodyW = this.option.scrollBodyW;
         this.scrollBodyH = this.option.scrollBodyH;
 
         this.updateScrollbar();
-    },
+    }
 
     //==========================================================================
     //set sync group list
 
-    setGroupH: function(list) {
+    setGroupH(list) {
         this.groupH = Util.toList(list);
-    },
+    }
 
-    setGroupV: function(list) {
+    setGroupV(list) {
         this.groupV = Util.toList(list);
-    },
+    }
 
     //==========================================================================
     //sync to list
 
-    updateGroupH: function() {
+    updateGroupH() {
         if (!Util.isList(this.groupH)) {
             return this;
         }
@@ -118,9 +120,9 @@ export default OptionBase.extend({
             scrollPane.updateScrollHFromGroup(positionH);
         });
         return this;
-    },
+    }
 
-    updateGroupV: function() {
+    updateGroupV() {
         if (!Util.isList(this.groupV)) {
             return this;
         }
@@ -132,17 +134,17 @@ export default OptionBase.extend({
             scrollPane.updateScrollVFromGroup(positionV);
         });
         return this;
-    },
+    }
 
-    updateGroupList: function() {
+    updateGroupList() {
         this.updateGroupH();
         this.updateGroupV();
-    },
+    }
 
     //==========================================================================
     //sync from group scrollPane
 
-    updateScrollHFromGroup: function(positionH) {
+    updateScrollHFromGroup(positionH) {
         const posH = this.scrollbarH.getPosition();
         if (posH === positionH) {
             return;
@@ -150,9 +152,9 @@ export default OptionBase.extend({
         this.scrollbarH.setPosition(positionH);
         this.updateScrollLeft();
         this.triggerEvent();
-    },
+    }
 
-    updateScrollVFromGroup: function(positionV) {
+    updateScrollVFromGroup(positionV) {
         const posV = this.scrollbarV.getPosition();
         if (posV === positionV) {
             return;
@@ -160,12 +162,12 @@ export default OptionBase.extend({
         this.scrollbarV.setPosition(positionV);
         this.updateScrollTop();
         this.triggerEvent();
-    },
+    }
 
     //==========================================================================
 
     //set position from outside
-    setPosition: function(scrollLeft, scrollTop) {
+    setPosition(scrollLeft, scrollTop) {
         this.scrollbarH.setPosition(scrollLeft);
         this.scrollbarV.setPosition(scrollTop);
 
@@ -175,11 +177,11 @@ export default OptionBase.extend({
         this.updateGroupList();
 
         return this;
-    },
+    }
 
     //==========================================================================
 
-    updateScrollbar: function() {
+    updateScrollbar() {
 
         //set option for calculation
         this.scrollbarH.updateOption(this.option.scrollbarH);
@@ -213,9 +215,9 @@ export default OptionBase.extend({
 
         this.updateGroupList();
 
-    },
+    }
 
-    updateScrollState: function() {
+    updateScrollState() {
 
         const scrollbarSizeH = this.scrollbarH.getSize();
         const scrollbarSizeV = this.scrollbarV.getSize();
@@ -270,9 +272,9 @@ export default OptionBase.extend({
         this.scrollSizeH = scrollSizeH;
         this.scrollSizeV = scrollSizeV;
 
-    },
+    }
 
-    updateScrollView: function() {
+    updateScrollView() {
 
         this.scrollViewW = this.scrollPaneW;
         if (this.hasScrollV) {
@@ -303,9 +305,9 @@ export default OptionBase.extend({
         });
 
         return this;
-    },
+    }
 
-    updateScrollTrack: function() {
+    updateScrollTrack() {
         this.scrollTrackW = this.scrollViewW;
         this.scrollTrackH = this.scrollViewH;
         if (!this.option.scrollbarFade) {
@@ -316,18 +318,18 @@ export default OptionBase.extend({
             this.scrollTrackW -= this.scrollbarV.getSize();
             this.scrollTrackH -= this.scrollbarH.getSize();
         }
-    },
+    }
 
     //==========================================================================
 
-    fade: function(fadeIn) {
+    fade(fadeIn) {
         const doneH = this.scrollbarH.fade(fadeIn);
         const doneV = this.scrollbarV.fade(fadeIn);
         //all need call
         return doneH || doneV;
-    },
+    }
 
-    hasScrollbar: function() {
+    hasScrollbar() {
         if (!this.visible) {
             return false;
         }
@@ -338,20 +340,20 @@ export default OptionBase.extend({
             return false;
         }
         return true;
-    },
+    }
 
     //==========================================================================
 
-    updateScrollLeft: function() {
+    updateScrollLeft() {
         const scrollLeft = this.getScrollLeft();
 
         this.$scrollBody.css('left', `${-scrollLeft}px`);
 
         this.updateGradient();
         return this;
-    },
+    }
 
-    updateScrollTop: function() {
+    updateScrollTop() {
         const scrollTop = this.getScrollTop();
 
         const scrollTopOffset = this.getScrollTopOffset();
@@ -361,9 +363,9 @@ export default OptionBase.extend({
 
         this.updateGradient();
         return this;
-    },
+    }
 
-    updateGradient: function() {
+    updateGradient() {
         const o = this.option;
         if (!o.scrollbarFade) {
             return;
@@ -376,9 +378,9 @@ export default OptionBase.extend({
             this.asyncUpdateGradient = Util.microtask(this.updateGradientSync);
         }
         this.asyncUpdateGradient.apply(this, arguments);
-    },
+    }
 
-    updateGradientSync: function() {
+    updateGradientSync() {
         const gradientInfo = [];
 
         const gradient = this.option.gradient;
@@ -421,57 +423,57 @@ export default OptionBase.extend({
             }
         });
 
-    },
+    }
 
-    getScrollLeft: function() {
+    getScrollLeft() {
         return this.scrollbarH.getPosition();
-    },
+    }
 
-    getScrollTop: function() {
+    getScrollTop() {
         return this.scrollbarV.getPosition();
-    },
+    }
 
-    getMaxScrollLeft: function() {
+    getMaxScrollLeft() {
         return this.scrollbarH.getMaxPosition();
-    },
+    }
 
-    getMaxScrollTop: function() {
+    getMaxScrollTop() {
         return this.scrollbarV.getMaxPosition();
-    },
+    }
 
     // max height fixing for IE
-    getScrollTopOffset: function() {
+    getScrollTopOffset() {
         const scrollTop = this.getScrollTop();
 
         //max size, bigger than 8K screen
         const top = scrollTop % 10000;
         return scrollTop - top;
-    },
+    }
 
-    triggerEvent: function() {
-        this.trigger(E.CHANGE, {
+    triggerEvent() {
+        this.trigger(EVENT.CHANGE, {
             scrollLeft: this.getScrollLeft(),
             scrollTop: this.getScrollTop()
         });
-    },
+    }
 
     //==========================================================================
 
-    scrollHChangeHandler: function() {
+    scrollHChangeHandler() {
         this.updateScrollLeft();
         this.updateGroupList();
         this.triggerEvent();
-    },
+    }
 
-    scrollVChangeHandler: function() {
+    scrollVChangeHandler() {
         this.updateScrollTop();
         this.updateGroupList();
         this.triggerEvent();
-    },
+    }
 
     //==========================================================================
     //set offset from mouse wheel, key up/down/left/right, page up/page down/home/end
-    setOffsetH: function(offset) {
+    setOffsetH(offset) {
         const scrollLeft = this.getScrollLeft();
         this.scrollbarH.setOffset(offset);
         const newScrollLeft = this.getScrollLeft();
@@ -482,9 +484,9 @@ export default OptionBase.extend({
         this.updateGroupList();
         this.triggerEvent();
         return true;
-    },
+    }
 
-    setOffsetV: function(offset) {
+    setOffsetV(offset) {
         const scrollTop = this.getScrollTop();
         this.scrollbarV.setOffset(offset);
         const newScrollTop = this.getScrollTop();
@@ -495,11 +497,11 @@ export default OptionBase.extend({
         this.updateGroupList();
         this.triggerEvent();
         return true;
-    },
+    }
 
     //==========================================================================
 
-    mouseWheelHandler: function(e) {
+    mouseWheelHandler(e) {
 
         const deltaX = e.deltaX;
         const deltaY = e.deltaY;
@@ -522,47 +524,47 @@ export default OptionBase.extend({
         }
 
         return false;
-    },
+    }
 
     //==========================================================================
 
-    keyPageUpHandler: function(e) {
+    keyPageUpHandler(e) {
         return this.setOffsetV(-this.scrollViewH);
-    },
+    }
 
-    keyPageDownHandler: function(e) {
+    keyPageDownHandler(e) {
         return this.setOffsetV(this.scrollViewH);
-    },
+    }
 
-    keyEndHandler: function(e) {
+    keyEndHandler(e) {
         return this.setOffsetV(this.scrollBodyH);
-    },
+    }
 
-    keyHomeHandler: function(e) {
+    keyHomeHandler(e) {
         return this.setOffsetV(-this.scrollBodyH);
-    },
+    }
 
     //==========================================================================
 
-    keyLeftHandler: function(e) {
+    keyLeftHandler(e) {
         return this.setOffsetH(-this.option.scrollSizeOnKeyPress);
-    },
+    }
 
-    keyUpHandler: function(e) {
+    keyUpHandler(e) {
         return this.setOffsetV(-this.option.scrollSizeOnKeyPress);
-    },
+    }
 
-    keyRightHandler: function(e) {
+    keyRightHandler(e) {
         return this.setOffsetH(this.option.scrollSizeOnKeyPress);
-    },
+    }
 
-    keyDownHandler: function(e) {
+    keyDownHandler(e) {
         return this.setOffsetV(this.option.scrollSizeOnKeyPress);
-    },
+    }
 
     //==========================================================================
 
-    destroy: function() {
+    destroy() {
         this.visible = false;
         this.groupH = null;
         this.groupV = null;
@@ -580,4 +582,4 @@ export default OptionBase.extend({
         return this;
     }
 
-}, E);
+}

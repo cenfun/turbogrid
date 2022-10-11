@@ -139,7 +139,7 @@ export default {
         const key = `${vp}${hp}`;
 
         this.scrollPane = this.scrollPaneMap[key];
-        this.scrollPane.bind(ScrollPane.CHANGE, (e, d) => {
+        this.scrollPane.bind(ScrollPane.EVENT.CHANGE, (e, d) => {
             this.scrollPaneChangeHandler(e, d);
         });
 

@@ -1,32 +1,30 @@
-import Extend from './extend.js';
 import EventUtil from './event-util.js';
+export default class {
 
-export default Extend.extend({
+    maxListeners = 10;
 
-    maxListeners: 10,
-
-    setMaxListeners: function(n) {
+    setMaxListeners(n) {
         this.maxListeners = Number(n) || 10;
-    },
+    }
 
-    getMaxListeners: function() {
+    getMaxListeners() {
         return this.maxListeners;
-    },
+    }
 
-    getEventListeners: function() {
+    getEventListeners() {
         if (!this.eventListeners) {
             this.eventListeners = {};
         }
         return this.eventListeners;
-    },
+    }
 
-    delEventListeners: function() {
+    delEventListeners() {
         this.eventListeners = null;
-    },
+    }
 
     //=======================================================
 
-    bind: function(types, handler, option) {
+    bind(types, handler, option) {
         const eventList = EventUtil.getEventList(this, types, handler, option);
         if (!eventList.length) {
             return this;
@@ -34,15 +32,15 @@ export default Extend.extend({
         const eventListeners = this.getEventListeners();
         EventUtil.addEvents(eventListeners, eventList, this.maxListeners);
         return this;
-    },
+    }
 
-    once: function(types, handler) {
+    once(types, handler) {
         return this.bind(types, handler, {
             once: true
         });
-    },
+    }
 
-    unbind: function(types, handler, option) {
+    unbind(types, handler, option) {
         const eventListeners = this.getEventListeners();
         if (!arguments.length) {
             EventUtil.removeAllEvents(eventListeners);
@@ -54,12 +52,12 @@ export default Extend.extend({
         }
         EventUtil.removeEvents(eventListeners, eventList);
         return this;
-    },
+    }
 
-    trigger: function(type, data) {
+    trigger(type, data) {
         const eventListeners = this.getEventListeners();
         EventUtil.sendEvent(this, eventListeners, type, data);
         return this;
     }
 
-});
+}

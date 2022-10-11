@@ -116,52 +116,52 @@ export default {
 
         //column drag events
         this.columnWidthDrag = new Drag();
-        this.columnWidthDrag.bind(Drag.DRAG_START, (e, d) => {
+        this.columnWidthDrag.bind(Drag.EVENT.DRAG_START, (e, d) => {
             this.columnWidthDragStartHandler(e, d);
-        }).bind(Drag.DRAG_MOVE, (e, d) => {
+        }).bind(Drag.EVENT.DRAG_MOVE, (e, d) => {
             this.columnWidthDragMoveHandler(e, d);
-        }).bind(Drag.DRAG_END, (e, d) => {
+        }).bind(Drag.EVENT.DRAG_END, (e, d) => {
             this.columnWidthDragEndHandler(e, d);
         });
 
         //column width touch
         this.columnWidthTouch = new Touch();
-        this.columnWidthTouch.bind(Touch.TOUCH_START, (e, d) => {
+        this.columnWidthTouch.bind(Touch.EVENT.TOUCH_START, (e, d) => {
             this.columnWidthTouchStartHandler(e, d);
-        }).bind(Touch.TOUCH_MOVE, (e, d) => {
+        }).bind(Touch.EVENT.TOUCH_MOVE, (e, d) => {
             this.columnWidthTouchMoveHandler(e, d);
-        }).bind(Touch.TOUCH_END, (e, d) => {
+        }).bind(Touch.EVENT.TOUCH_END, (e, d) => {
             this.columnWidthTouchEndHandler(e, d);
         });
 
         //row drag events
         this.rowDrag = new Drag();
-        this.rowDrag.bind(Drag.DRAG_START, (e, d) => {
+        this.rowDrag.bind(Drag.EVENT.DRAG_START, (e, d) => {
             this.rowDragStartHandler(e, d);
-        }).bind(Drag.DRAG_MOVE, (e, d) => {
+        }).bind(Drag.EVENT.DRAG_MOVE, (e, d) => {
             this.rowDragMoveHandler(e, d);
-        }).bind(Drag.DRAG_END, (e, d) => {
+        }).bind(Drag.EVENT.DRAG_END, (e, d) => {
             this.rowDragEndHandler(e, d);
         });
 
         this.rowTouch = new Touch();
-        this.rowTouch.bind(Touch.TOUCH_START, (e, d) => {
+        this.rowTouch.bind(Touch.EVENT.TOUCH_START, (e, d) => {
             this.rowDragStartHandler(e, d);
-        }).bind(Touch.TOUCH_MOVE, (e, d) => {
+        }).bind(Touch.EVENT.TOUCH_MOVE, (e, d) => {
             this.rowDragMoveHandler(e, d);
-        }).bind(Touch.TOUCH_END, (e, d) => {
+        }).bind(Touch.EVENT.TOUCH_END, (e, d) => {
             this.rowDragEndHandler(e, d);
         });
 
         //scroll touch events
         this.scrollTouch = new Touch();
-        this.scrollTouch.bind(Touch.TOUCH_START, (e, d) => {
+        this.scrollTouch.bind(Touch.EVENT.TOUCH_START, (e, d) => {
             this.scrollTouchStartHandler(e, d);
-        }).bind(Touch.TOUCH_MOVE, (e, d) => {
+        }).bind(Touch.EVENT.TOUCH_MOVE, (e, d) => {
             this.scrollTouchMoveHandler(e, d);
-        }).bind(Touch.TOUCH_END, (e, d) => {
+        }).bind(Touch.EVENT.TOUCH_END, (e, d) => {
             this.scrollTouchEndHandler(e, d);
-        }).bind(Touch.TOUCH_INERTIA, (e, d) => {
+        }).bind(Touch.EVENT.TOUCH_INERTIA, (e, d) => {
             this.scrollTouchInertiaHandler(e, d);
         });
 

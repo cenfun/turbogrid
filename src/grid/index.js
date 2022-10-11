@@ -65,15 +65,106 @@ import Update from './update.js';
 
 import Viewport from './viewport.js';
 
-const Props = {
-    $: $,
-    VERSION: CONST.VERSION,
-    TIMESTAMP: CONST.TIMESTAMP
-};
 
-export default OptionBase.concat(
+import Util from '../core/util.js';
+import defaultOptions from '../config/default-options.js';
+//test if be changed
+// setTimeout(function() {
+//     console.log(defaultOptions());
+// }, 2000);
 
-    Props,
+
+function hasOwn(obj, key) {
+    return Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+function extend(props, list) {
+    list.forEach((item) => {
+        for (const k in item) {
+            if (hasOwn(props, k)) {
+                console.log(`ERROR: concat with an existing key: "${k}"`);
+            }
+            props[k] = item[k];
+        }
+    });
+}
+
+class Grid extends OptionBase {
+
+    static $ = $;
+    static getInstance = Util.getInstance;
+    static getAllThemes = Theme.getAllThemes;
+    static getAllEvents = Events.getAllEvents;
+    static VERSION = CONST.VERSION;
+    static TIMESTAMP = CONST.TIMESTAMP;
+
+    $ = $;
+    VERSION = CONST.VERSION;
+    TIMESTAMP = CONST.TIMESTAMP;
+
+    constructor(holder) {
+        super();
+        this.create(holder);
+    }
+
+    getDefaultOption(option) {
+        const d = defaultOptions();
+        const t = this.getThemeOptions(option && option.theme);
+        if (t) {
+            return Util.merge(d, t);
+        }
+        return d;
+    }
+
+    setOption() {
+        this.renderType = 'all';
+        super.setOption.apply(this, arguments);
+        return this;
+    }
+
+    setData(data) {
+        this.renderType = 'all';
+
+        //init data object
+        if (!data || typeof data !== 'object') {
+            data = {};
+        }
+
+        //init array
+        if (!Array.isArray(data.columns)) {
+            data.columns = [];
+        }
+        if (!Array.isArray(data.rows)) {
+            data.rows = [];
+        }
+
+        //init rows length
+        const rowsLength = data.rowsLength;
+        if (Util.isNum(rowsLength)) {
+            delete data.rowsLength;
+            data.rows.length = rowsLength | 0;
+        }
+
+        this.data = data;
+
+        return this;
+    }
+
+    setDataSnapshot(data) {
+        this.setData(this.getDataSnapshot(data));
+        return this;
+    }
+
+    getData() {
+        return this.data;
+    }
+
+    toString() {
+        return '[object Grid]';
+    }
+}
+
+extend(Grid.prototype, [
 
     Cache,
     Cells,
@@ -133,4 +224,6 @@ export default OptionBase.concat(
     Update,
 
     Viewport
-);
+]);
+
+export default Grid;

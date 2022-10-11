@@ -275,7 +275,7 @@
     };
 
     window.initCommonEvents = function(grid) {
-        console.log(grid);
+        //console.log(grid);
         initThemes(grid);
         initButtons(grid);
     };

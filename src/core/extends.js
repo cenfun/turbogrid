@@ -64,4 +64,10 @@ Extend.concat = function() {
     return Extend.extend.call(this, protoProps);
 };
 
-export default Extend;
+export default class {
+    static extends() {
+        const Cls = function() {};
+        Cls.prototype = mergeProps({}, Array.from(arguments), true);
+        return Cls;
+    }
+}

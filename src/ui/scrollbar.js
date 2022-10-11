@@ -4,9 +4,7 @@ import OptionBase from '../core/option-base.js';
 import Drag from '../core/drag.js';
 import Motion from '../core/motion.js';
 
-const CONST = {
-    H: 'h',
-    V: 'v',
+const EVENT = {
     CHANGE: 'change'
 };
 
@@ -31,27 +29,33 @@ const types = {
     }
 };
 
-export default OptionBase.extend({
+export default class extends OptionBase {
+
+    static EVENT = EVENT;
+    static H = 'h';
+    static V = 'v';
+
     //h, v
-    type: 'h',
-    settings: {},
+    type = 'h';
+    settings = {};
 
     //final value from option
-    size: 0,
-    viewSize: 0,
-    bodySize: 0,
-    trackSize: 0,
+    size = 0;
+    viewSize = 0;
+    bodySize = 0;
+    trackSize = 0;
 
     //scroll position
-    position: 0,
+    position = 0;
 
     //thumb scale: thumb size / track size
-    scale: 0,
+    scale = 0;
 
-    thumbPosition: 0,
-    thumbScale: 0,
+    thumbPosition = 0;
+    thumbScale = 0;
 
-    constructor: function(type, holder) {
+    constructor(type, holder) {
+        super();
         this.settings = types[type] || types.h;
         this.type = this.settings.type;
 
@@ -61,9 +65,9 @@ export default OptionBase.extend({
         this.$holder = $(holder);
         //some clean
         this.$holder.find(`.${this.settings.className}`).remove();
-    },
+    }
 
-    getDefaultOption: function() {
+    getDefaultOption() {
         return {
             //width or height for scrollbar
             //0 means invisible
@@ -84,11 +88,11 @@ export default OptionBase.extend({
             motionDuration: 200
 
         };
-    },
+    }
 
     //========================================================================
 
-    create: function() {
+    create() {
 
         const template = '<div><div class="tg-scrollbar-track"></div><div class="tg-scrollbar-thumb"></div></div>';
 
@@ -103,11 +107,11 @@ export default OptionBase.extend({
 
         //thumb drag events
         this.thumbDrag = new Drag();
-        this.thumbDrag.bind(Drag.DRAG_START, (e, d) => {
+        this.thumbDrag.bind(Drag.EVENT.DRAG_START, (e, d) => {
             this.thumbDragStart(d);
-        }).bind(Drag.DRAG_MOVE, (e, d) => {
+        }).bind(Drag.EVENT.DRAG_MOVE, (e, d) => {
             this.thumbDragMove(d);
-        }).bind(Drag.DRAG_END, (e, d) => {
+        }).bind(Drag.EVENT.DRAG_END, (e, d) => {
             this.thumbDragEnd(d);
         });
 
@@ -151,49 +155,49 @@ export default OptionBase.extend({
         Util.bindEvents(this.scrollEvents, container);
 
         return this;
-    },
+    }
 
     //========================================================================
     //API
 
-    getBlank: function() {
+    getBlank() {
         return this.option.blank;
-    },
+    }
 
-    getSize: function() {
+    getSize() {
         return this.size;
-    },
+    }
 
-    getViewSize: function() {
+    getViewSize() {
         return this.viewSize;
-    },
+    }
 
-    getBodySize: function() {
+    getBodySize() {
         return this.bodySize;
-    },
+    }
 
     //========================================================================
 
-    getTrackMouseDirection: function() {
+    getTrackMouseDirection() {
         let direction = 1;
         if (this.trackMousePosition < this.thumbPosition) {
             direction = -1;
         }
         return direction;
-    },
+    }
 
-    getTrackMousePos: function(e) {
+    getTrackMousePos(e) {
         const offset = this.$track.offset();
         return e[this.settings.page] - offset[this.settings.offset];
-    },
+    }
 
     //========================================================================
 
-    getMaxThumbPosition: function() {
+    getMaxThumbPosition() {
         return this.trackSize - this.thumbSize;
-    },
+    }
 
-    setThumbPosition: function(thumbPosition) {
+    setThumbPosition(thumbPosition) {
         if (thumbPosition === this.thumbPosition) {
             return this;
         }
@@ -202,10 +206,10 @@ export default OptionBase.extend({
             this.$thumb.css(this.settings.offset, thumbPosition);
         }
         return this;
-    },
+    }
 
     //update thumb pos
-    updateThumbPosition: function() {
+    updateThumbPosition() {
         let thumbPosition = 0;
         const maxPosition = this.getMaxPosition();
         if (maxPosition > 0) {
@@ -215,19 +219,19 @@ export default OptionBase.extend({
         }
         this.setThumbPosition(thumbPosition);
         return this;
-    },
+    }
 
     //=====================================================================
     //track
 
-    trackMousedownHandler: function(e) {
+    trackMousedownHandler(e) {
         this.motionStop();
         this.trackMousePosition = this.getTrackMousePos(e);
         this.motionStart();
         return this;
-    },
+    }
 
-    trackMouseupHandler: function(e) {
+    trackMouseupHandler(e) {
         Util.unbindEvents(this.trackEvents);
         this.motionStop();
         if (this.motionStarted) {
@@ -238,38 +242,38 @@ export default OptionBase.extend({
         this.trackScrollHandler();
         this.triggerEvent();
         return this;
-    },
+    }
 
-    trackScrollHandler: function() {
+    trackScrollHandler() {
         const viewSize = Math.max(0, this.viewSize - 20);
         //thumb current position
         const direction = this.getTrackMouseDirection();
         const offset = viewSize * direction;
         this.setOffset(offset);
         return this;
-    },
+    }
 
     //===================================================================
     //motion
 
-    motionStop: function() {
+    motionStop() {
         if (this.motion) {
             this.motion.destroy();
             this.motion = null;
         }
         return this;
-    },
+    }
 
-    motionStart: function() {
+    motionStart() {
         const from = this.position;
         const till = Math.round(this.trackMousePosition / this.viewSize * this.getMaxPosition());
         this.motionStarted = false;
 
         this.motion = new Motion();
-        this.motion.bind(Motion.MOTION_START, (e, d) => {
+        this.motion.bind(Motion.EVENT.MOTION_START, (e, d) => {
             this.motionStarted = true;
         });
-        this.motion.bind(Motion.MOTION_MOVE, (e, d) => {
+        this.motion.bind(Motion.EVENT.MOTION_MOVE, (e, d) => {
             this.motionUpdateHandler(e, d);
         });
         this.motion.start({
@@ -278,33 +282,33 @@ export default OptionBase.extend({
             till: till
         });
         return this;
-    },
+    }
 
-    motionUpdateHandler: function(e, pos) {
+    motionUpdateHandler(e, pos) {
         //update position, change thumb, trigger event
         if (pos === this.position) {
             return;
         }
         this.setPosition(pos);
         this.triggerEvent();
-    },
+    }
 
     //=====================================================================
     //thumb drag
 
-    thumbMouseDownHandler: function(e) {
+    thumbMouseDownHandler(e) {
         this.$thumb.addClass('tg-scrollbar-thumb-hold');
         this.thumbDrag.start(e, {
             target: this.$thumb
         });
-    },
+    }
 
-    thumbDragStart: function(d) {
+    thumbDragStart(d) {
         this.motionStop();
         d.thumbPositionStart = this.thumbPosition;
-    },
+    }
 
-    thumbDragMove: function(d) {
+    thumbDragMove(d) {
 
         //change thumb position
         let thumbPosition = d.thumbPositionStart + d[this.settings.offsetName];
@@ -321,78 +325,78 @@ export default OptionBase.extend({
         this.position = newPosition;
         //update position and event change
         this.triggerEvent();
-    },
+    }
 
-    thumbDragEnd: function(d) {
+    thumbDragEnd(d) {
         //no matter if d.valid always remove, because added on init not start
         if (this.$thumb) {
             this.$thumb.removeClass('tg-scrollbar-thumb-hold');
         }
-    },
+    }
 
     //===================================================================
 
     //from inside change trigger
-    triggerEvent: function() {
-        this.trigger(CONST.CHANGE, this.position);
-    },
+    triggerEvent() {
+        this.trigger(EVENT.CHANGE, this.position);
+    }
 
     //===================================================================
     //px position
 
-    getPosition: function() {
+    getPosition() {
         return this.position;
-    },
+    }
 
-    setPosition: function(position) {
+    setPosition(position) {
         position = Util.toNum(position, true);
         const maxPosition = this.getMaxPosition();
         position = Util.clamp(position, 0, maxPosition);
         //console.log(this.position, position);
         this.position = position;
         this.updateThumbPosition();
-    },
+    }
 
-    getMaxPosition: function() {
+    getMaxPosition() {
         return this.bodySize - this.viewSize;
-    },
+    }
 
-    updatePosition: function() {
+    updatePosition() {
         const maxPosition = this.getMaxPosition();
         const position = Util.clamp(this.position, 0, maxPosition);
         this.position = position;
-    },
+    }
 
     //offset position +/-
-    setOffset: function(offset) {
+    setOffset(offset) {
         offset = Util.toNum(offset);
         const position = this.position + offset;
         this.setPosition(position);
         return this;
-    },
+    }
 
     //===================================================================
     //scale for thumb
 
-    getScale: function() {
+    getScale() {
         return this.scale;
-    },
+    }
 
-    setScale: function(scale) {
+    setScale(scale) {
         scale = Util.per(scale);
         this.scale = scale;
         this.scaleChangeHandler();
         return this;
-    },
+    }
 
-    scaleChangeHandler: function() {
+    scaleChangeHandler() {
         let thumbSize = Math.round(this.viewSize * this.scale);
         thumbSize = Math.max(thumbSize, this.option.size);
         thumbSize = Math.min(thumbSize, this.viewSize);
         this.thumbSize = thumbSize;
         if (this.$thumb) {
             const thumbData = {};
-            if (this.type === CONST.H) {
+            if (this.type === 'h') {
                 thumbData.height = this.size;
                 thumbData.width = this.thumbSize;
             } else {
@@ -401,14 +405,14 @@ export default OptionBase.extend({
             }
             this.$thumb.css(thumbData);
         }
-    },
+    }
 
     //===================================================================
 
     //container and track size
-    updateTrackSize: function() {
+    updateTrackSize() {
         const trackData = {};
-        if (this.type === CONST.H) {
+        if (this.type === 'h') {
             trackData.width = this.trackSize;
             trackData.height = this.size;
         } else {
@@ -417,22 +421,22 @@ export default OptionBase.extend({
         }
         this.$container.css(trackData);
         return this;
-    },
+    }
 
     //thumb size
-    updateThumbSize: function() {
+    updateThumbSize() {
         let scale = 0;
         if (this.bodySize) {
             scale = this.trackSize / this.bodySize;
         }
         this.setScale(scale);
         return this;
-    },
+    }
 
     //===================================================================
 
     //do twice: calculate size and show size
-    updateOption: function(option) {
+    updateOption(option) {
 
         this.setOption(option);
 
@@ -446,20 +450,18 @@ export default OptionBase.extend({
         size = Math.max(size, 0);
         size = Math.min(size, 30);
         this.size = size;
+    }
 
-
-    },
-
-    parseSize: function(v) {
+    parseSize(v) {
         v = Util.toNum(v);
         v = Math.round(v);
         v = Math.max(v, 0);
         return v;
-    },
+    }
 
     //for view size and body size
     //track size for fade
-    updateSize: function(viewSize, bodySize, trackSize) {
+    updateSize(viewSize, bodySize, trackSize) {
         viewSize = this.parseSize(viewSize);
         this.viewSize = viewSize;
         bodySize = this.parseSize(bodySize);
@@ -472,9 +474,9 @@ export default OptionBase.extend({
         this.trackSize = trackSize;
         //reset fade state
         this.previousFadeIn = null;
-    },
+    }
 
-    fade: function(fadeIn) {
+    fade(fadeIn) {
         if (!this.$container || !this.size) {
             return false;
         }
@@ -490,9 +492,9 @@ export default OptionBase.extend({
             this.$container.removeClass('tg-fade-in').addClass('tg-fade-out');
         }
         return true;
-    },
+    }
 
-    show: function() {
+    show() {
         this.updatePosition();
         if (this.getBlank()) {
             this.remove();
@@ -510,15 +512,15 @@ export default OptionBase.extend({
         this.updateThumbSize();
 
         return this;
-    },
+    }
 
-    hide: function() {
+    hide() {
         this.updatePosition();
         this.remove();
         return this;
-    },
+    }
 
-    remove: function() {
+    remove() {
         this.motionStop();
 
         Util.unbindEvents(this.scrollEvents);
@@ -536,13 +538,13 @@ export default OptionBase.extend({
         this.$track = null;
         this.$container.remove();
         this.$container = null;
-    },
+    }
 
     //===================================================================
 
-    destroy: function() {
+    destroy() {
         this.remove();
         return this;
     }
 
-}, CONST);
+}

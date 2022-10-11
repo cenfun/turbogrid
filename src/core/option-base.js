@@ -1,14 +1,15 @@
 import merge from './merge.js';
 import EventBase from './event-base.js';
-const OptionBase = EventBase.extend({
 
-    option: null,
+export default class extends EventBase {
 
-    getDefaultOption: function() {
+    option = null;
+
+    getDefaultOption() {
         return {};
-    },
+    }
 
-    getOption: function() {
+    getOption() {
         if (arguments.length) {
             if (this.option) {
                 return this.option[arguments[0]];
@@ -16,9 +17,9 @@ const OptionBase = EventBase.extend({
             return;
         }
         return this.option;
-    },
+    }
 
-    setOption: function() {
+    setOption() {
         const args = Array.from(arguments);
         const defaultOption = this.getDefaultOption.apply(this, args);
         //no arguments returns default
@@ -42,6 +43,4 @@ const OptionBase = EventBase.extend({
         return this;
     }
 
-});
-
-export default OptionBase;
+}

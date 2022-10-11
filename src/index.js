@@ -1,10 +1,9 @@
-import Grid from './grid.js';
+import Grid from './grid/index.js';
 
 import $ from './core/query.js';
 import CONST from './core/const.js';
 
 import EventBase from './core/event-base.js';
-import Extend from './core/extend.js';
 import Icon from './core/icon.js';
 import Motion from './core/motion.js';
 import OptionBase from './core/option-base.js';
@@ -24,7 +23,6 @@ export {
     $,
     CONST,
     EventBase,
-    Extend,
     Icon,
     Motion,
     OptionBase,
@@ -43,7 +41,6 @@ export default {
     $,
     CONST,
     EventBase,
-    Extend,
     Icon,
     Motion,
     OptionBase,

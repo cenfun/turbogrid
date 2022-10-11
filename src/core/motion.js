@@ -2,7 +2,7 @@ import OptionBase from './option-base.js';
 import Util from './util.js';
 import Easing from './easing.js';
 
-const E = {
+const EVENT = {
     MOTION_START: 'motion_start',
     MOTION_MOVE: 'motion_move',
     MOTION_END: 'motion_end',
@@ -10,18 +10,18 @@ const E = {
 };
 
 
-export default OptionBase.extend({
+export default class extends OptionBase {
 
-    //if stopped then stop everything
-    stopped: true,
+    static EVENT = EVENT;
 
-    constructorOption: null,
-
-    constructor: function(option) {
+    constructor(option) {
+        super();
         this.constructorOption = option;
-    },
+        //if stopped then stop everything
+        this.stopped = true;
+    }
 
-    getDefaultOption: function() {
+    getDefaultOption() {
         return Util.merge({
             //default is Easing.linear
             easing: null,
@@ -36,20 +36,20 @@ export default OptionBase.extend({
             //current data(private)
             data: 0
         }, this.constructorOption);
-    },
+    }
 
-    stop: function() {
+    stop() {
         if (this.stopped) {
             return this;
         }
         //stop everything now
         this.stopped = true;
         this.cancelAnimationFrame();
-        this.trigger(E.MOTION_STOP, this.data);
+        this.trigger(EVENT.MOTION_STOP, this.data);
         return this;
-    },
+    }
 
-    start: function() {
+    start() {
         this.stop();
         this.stopped = false;
         this.setOption.apply(this, arguments);
@@ -57,7 +57,7 @@ export default OptionBase.extend({
         this.initCalculation();
         //first time move, start potion
         this.data = this.calculateHandler(0);
-        this.trigger(E.MOTION_START, this.data);
+        this.trigger(EVENT.MOTION_START, this.data);
         //if call stop in start callback
         if (this.stopped) {
             return this;
@@ -66,26 +66,26 @@ export default OptionBase.extend({
         this.time = Date.now();
         this.requestAnimationFrame(this.moveHandler);
         return this;
-    },
+    }
 
-    requestAnimationFrame: function(callback) {
+    requestAnimationFrame(callback) {
         this.requestId = window.requestAnimationFrame(() => {
             callback.apply(this);
         });
-    },
+    }
 
-    cancelAnimationFrame: function() {
+    cancelAnimationFrame() {
         window.cancelAnimationFrame(this.requestId);
-    },
+    }
 
-    getEasing: function(easing) {
+    getEasing(easing) {
         if (typeof easing !== 'function') {
             easing = Util.getValue(Easing, easing, Easing.Linear.None);
         }
         return easing;
-    },
+    }
 
-    moveHandler: function() {
+    moveHandler() {
         //move
         const now = Date.now();
         const t = now - this.time;
@@ -93,7 +93,7 @@ export default OptionBase.extend({
         if (t < d) {
             const k = t / d;
             this.data = this.calculateHandler(k);
-            this.trigger(E.MOTION_MOVE, this.data);
+            this.trigger(EVENT.MOTION_MOVE, this.data);
             this.requestAnimationFrame(this.moveHandler);
             return;
         }
@@ -102,14 +102,14 @@ export default OptionBase.extend({
         this.cancelAnimationFrame();
         //require last time move
         this.data = this.calculateHandler(1);
-        this.trigger(E.MOTION_MOVE, this.data);
+        this.trigger(EVENT.MOTION_MOVE, this.data);
         //end
-        this.trigger(E.MOTION_END, this.data);
-    },
+        this.trigger(EVENT.MOTION_END, this.data);
+    }
 
     //================================================================================
 
-    initCalculation: function() {
+    initCalculation() {
 
         const o = this.option;
         this.duration = Util.toNum(o.duration, true) || 100;
@@ -133,15 +133,15 @@ export default OptionBase.extend({
         }
 
         this.calculateType = this.calculateNone;
-    },
+    }
 
-    calculateHandler: function(k) {
+    calculateHandler(k) {
         const p = this.easing(k);
         const o = this.option;
         return this.calculateType(p, o.from, o.till);
-    },
+    }
 
-    calculateObject: function(p, from, till) {
+    calculateObject(p, from, till) {
         const d = {};
         if (this.calculateKeys) {
             this.calculateKeys.forEach((k) => {
@@ -161,22 +161,22 @@ export default OptionBase.extend({
             }
         });
         return d;
-    },
+    }
 
-    calculateNumber: function(p, from, till) {
+    calculateNumber(p, from, till) {
         return (till - from) * p + from;
-    },
+    }
 
-    calculateNone: function(p, from, till) {
+    calculateNone(p, from, till) {
         return from;
-    },
+    }
 
     //================================================================================
 
-    destroy: function() {
+    destroy() {
         this.stop();
         this.unbind();
     }
 
-}, E);
+}
 

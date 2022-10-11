@@ -1,15 +1,17 @@
 import Util from './util.js';
 import EventBase from './event-base.js';
 
-const E = {
+const EVENT = {
     DRAG_START: 'drag_start',
     DRAG_MOVE: 'drag_move',
     DRAG_END: 'drag_end'
 };
 
-export default EventBase.extend({
+export default class extends EventBase {
 
-    createOption: function(data) {
+    static EVENT = EVENT;
+
+    createOption(data) {
         return {
 
             type: 'mouse',
@@ -32,11 +34,11 @@ export default EventBase.extend({
 
             ... data
         };
-    },
+    }
 
     //============================================================================
 
-    start: function(e, data) {
+    start(e, data) {
         if (!e) {
             return;
         }
@@ -44,9 +46,9 @@ export default EventBase.extend({
         this.bindEvents();
         this.option = this.createOption(data);
         this.startHandler(e);
-    },
+    }
 
-    bindEvents: function() {
+    bindEvents() {
         this.windowEvents = {
             mousemove: {
                 handler: (e) => {
@@ -65,18 +67,18 @@ export default EventBase.extend({
             }
         };
         Util.bindEvents(this.windowEvents, window);
-    },
+    }
 
-    unbindEvents: function() {
+    unbindEvents() {
         Util.unbindEvents(this.windowEvents);
         this.windowEvents = null;
         if (this.previousIframe) {
             this.previousIframe.classList.remove('tg-pointer-events-none');
             this.previousIframe = null;
         }
-    },
+    }
 
-    iframeHandler: function(e) {
+    iframeHandler(e) {
         const target = e.target;
         if (target.nodeName !== 'IFRAME') {
             return;
@@ -89,11 +91,11 @@ export default EventBase.extend({
         }
         target.classList.add('tg-pointer-events-none');
         this.previousIframe = target;
-    },
+    }
 
     //============================================================================
 
-    startHandler: function(e) {
+    startHandler(e) {
         const o = this.option;
         //start position
         o.e = e;
@@ -102,9 +104,9 @@ export default EventBase.extend({
         o.currentX = o.startX;
         o.currentY = o.startY;
         this.hasMoved = false;
-    },
+    }
 
-    mouseMoveHandler: function(e) {
+    mouseMoveHandler(e) {
         Util.preventDefault(e);
 
         const o = this.option;
@@ -126,15 +128,15 @@ export default EventBase.extend({
 
         //moved but no changed, because position back to start point
         if (this.hasMoved) {
-            this.trigger(E.DRAG_MOVE, o);
+            this.trigger(EVENT.DRAG_MOVE, o);
             return;
         }
 
         this.hasMoved = true;
-        this.trigger(E.DRAG_START, o);
-    },
+        this.trigger(EVENT.DRAG_START, o);
+    }
 
-    mouseUpHandler: function(e) {
+    mouseUpHandler(e) {
         this.unbindEvents();
         const o = this.option;
         if (!this.hasMoved) {
@@ -142,12 +144,12 @@ export default EventBase.extend({
         }
         o.e = e;
         Util.preventDefault(e);
-        this.trigger(E.DRAG_END, o);
-    },
+        this.trigger(EVENT.DRAG_END, o);
+    }
 
-    destroy: function() {
+    destroy() {
         this.unbindEvents();
         this.unbind();
     }
 
-}, E);
+}

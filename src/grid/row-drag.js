@@ -223,7 +223,7 @@ export default {
         const dragMaxScrollTop = d.dragMaxScrollTop;
 
         this.autoScrollMotion = new Motion();
-        this.autoScrollMotion.bind(Motion.MOTION_MOVE, () => {
+        this.autoScrollMotion.bind(Motion.EVENT.MOTION_MOVE, () => {
 
             const newTop = Util.clamp(this.scrollTop + offset, 0, dragMaxScrollTop);
             if (newTop === this.scrollTop) {
@@ -239,7 +239,7 @@ export default {
             this.updateDragPlaceholderPosition(d);
 
         });
-        this.autoScrollMotion.once(Motion.MOTION_END, () => {
+        this.autoScrollMotion.once(Motion.EVENT.MOTION_END, () => {
             this.autoScrollStart(offset, d);
         });
         this.autoScrollMotion.start({

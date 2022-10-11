@@ -81,7 +81,7 @@
 
     window.getHash = function(key) {
         let hash = {};
-        const h = top.location.hash.substr(1);
+        const h = window.location.hash.slice(1);
         if (h) {
             const usp = new URLSearchParams(h);
             hash = Object.fromEntries(usp);
@@ -102,7 +102,7 @@
         }
         hash[key] = value;
         const usp = new URLSearchParams(hash);
-        top.location.hash = usp.toString();
+        window.location.hash = usp.toString();
     };
 
     window.delHash = function(key) {
@@ -112,7 +112,7 @@
         const hash = window.getHash();
         delete hash[key];
         const usp = new URLSearchParams(hash);
-        top.location.hash = usp.toString();
+        window.location.hash = usp.toString();
     };
 
     window.getNum = function(str) {
@@ -361,14 +361,14 @@
         if (!headerTitle) {
             return;
         }
-        const iframe = top.document.querySelector('.iframe');
-        if (!iframe) {
+        if (window.parent === window) {
+            headerTitle.classList.add('header-title-disable');
             return;
         }
         headerTitle.title = 'Open in new window';
         headerTitle.style.cursor = 'pointer';
         headerTitle.addEventListener('click', function() {
-            let url = iframe.src;
+            let url = location.href;
             const hash = window.getHash();
             delete hash.page;
             const usp = new URLSearchParams(hash);

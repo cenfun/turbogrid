@@ -12,28 +12,75 @@
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <style>
-        .demo {
-            position: absolute;
-            z-index: 9999;
-            left: 0;
-            top: 0;
+        .main {
+            overflow: hidden;
+        }
+
+        .left {
             width: 200px;
             height: 100%;
             border-right: 1px solid #999;
         }
 
-        .demo-header {
+        .left-header {
             padding: 5px;
             border-bottom: 1px solid #999;
             background: #f5f5f5;
         }
 
-        .demo-row-top {
+        .left-title {
+            font-weight: bold;
+            padding: 5px;
+            background-repeat: no-repeat;
+            background-position: 5px center;
+            background-image: url("./assets/logo.svg");
+            background-size: 16px;
+            padding-left: 26px;
+        }
+
+        .left-version {
+            color: #555;
+            margin-left: 5px;
+        }
+
+        .left-search {
+            margin-top: 5px;
+        }
+
+        .left-search input {
+            width: 100%;
+            height: 28px;
+            line-height: 28px;
+            background-repeat: no-repeat;
+            background-position: 97% center;
+            background-image: url("./assets/search.svg");
+            background-size: 16px;
+            padding-left: 5px;
+            padding-right: 23px;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+
+        .left-container {
+            position: relative;
+        }
+
+        .right {
+            height: 100%;
+        }
+
+        .iframe {
+            border: none;
+            height: 100%;
+            width: 100%;
+        }
+
+        .tg-row-top {
             font-weight: bold;
             position: relative;
         }
 
-        .demo-row-top::after {
+        .tg-row-top::after {
             content: "";
             position: absolute;
             top: 0;
@@ -42,55 +89,7 @@
             width: 16px;
             background-repeat: no-repeat;
             background-position: center center;
-            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAK5JREFUOI3tkUFOQkEQRN/XD+upqrmKK+IPyEW8niFiCEcx8Q6fM2iGBbjRhMxe366T7uquLvjnFyX5SLIFsP1s+wgsuwUkrSTNSTbAfUl2kg7Aov+KWifbp1LrBIyS3pTsgbFbJMmT7VOSB2Bp++jk5Wff3Q2NobXWhmH4+q5p7bN3+0bSLGkFLCQdSrLrslBqnSTNpdZHYFSyV/LaNQzg5D3JGi4xXp/Xn8Af5AzxiCE7T8CmVAAAAABJRU5ErkJggg==");
-        }
-
-        .demo-title {
-            font-size: 16px;
-            font-weight: bold;
-            height: 30px;
-            line-height: 30px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .demo-title svg {
-            display: block;
-            height: 16px;
-            width: 16px;
-            margin-left: 5px;
-            margin-right: 8px;
-        }
-
-        .demo-version {
-            font-size: 14px;
-            font-weight: normal;
-            color: #555;
-            margin-left: 8px;
-            flex: 1;
-        }
-
-        .demo-searcher {
-            margin-top: 5px;
-        }
-
-        .demo-searcher input {
-            width: 100%;
-            padding: 0 5px;
-            height: 28px;
-            line-height: 28px;
-        }
-
-        .demo-body {
-            height: calc(100% - 80px);
-        }
-
-        .iframe {
-            border: none;
-            height: 100%;
-            width: calc(100% - 200px);
-            margin-left: 200px;
+            background-image: url("./assets/arrow-top.svg");
         }
 
         .tg-tree-row-number {
@@ -152,32 +151,31 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="demo">
-        <div class="demo-header">
-            <div class="demo-title">
-                <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" fill="#333">
-                    <path d="M14,16H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H14a2,2,0,0,1,2,2V14A2,2,0,0,1,14,16ZM4,12h8V4H4Z"/><path d="M14,34H2a2,2,0,0,1-2-2V20a2,2,0,0,1,2-2H14a2,2,0,0,1,2,2V32A2,2,0,0,1,14,34ZM4,30h8V22H4Z"/><path d="M14,52H2a2,2,0,0,1-2-2V38a2,2,0,0,1,2-2H14a2,2,0,0,1,2,2V50A2,2,0,0,1,14,52ZM4,48h8V40H4Z"/><path d="M32,16H20a2,2,0,0,1-2-2V2a2,2,0,0,1,2-2H32a2,2,0,0,1,2,2V14A2,2,0,0,1,32,16ZM22,12h8V4H22Z"/><path d="M32,34H20a2,2,0,0,1-2-2V20a2,2,0,0,1,2-2H32a2,2,0,0,1,2,2V32A2,2,0,0,1,32,34ZM22,30h8V22H22Z"/><path d="M32,52H20a2,2,0,0,1-2-2V38a2,2,0,0,1,2-2H32a2,2,0,0,1,2,2V50A2,2,0,0,1,32,52ZM22,48h8V40H22Z"/><path d="M50,16H38a2,2,0,0,1-2-2V2a2,2,0,0,1,2-2H50a2,2,0,0,1,2,2V14A2,2,0,0,1,50,16ZM40,12h8V4H40Z"/><path d="M50,34H38a2,2,0,0,1-2-2V20a2,2,0,0,1,2-2H50a2,2,0,0,1,2,2V32A2,2,0,0,1,50,34ZM40,30h8V22H40Z"/><path d="M50,52H38a2,2,0,0,1-2-2V38a2,2,0,0,1,2-2H50a2,2,0,0,1,2,2V50A2,2,0,0,1,50,52ZM40,48h8V40H40Z"/>
-                </svg>
-                <div>Turbo Grid</div> 
-                <div class="demo-version"></div>
+<body class="main flex-row">
+    <div class="left flex-column">
+        <div class="left-header">
+            <div class="flex-row">
+                <div class="left-title">TurboGrid</div> 
+                <div class="left-version"></div>
             </div>
-            <div class="demo-searcher">
-                <input value="" onfocus="this.select();" placeholder="Search Demo" class="ip-keywords" />
+            <div class="left-search">
+                <input value="" onfocus="this.select();" placeholder="Search Demo" class="left-keywords" />
             </div>
         </div>
-        <div class="demo-body"></div>
+        <div class="left-container flex-auto"></div>
     </div>
-    <iframe class="iframe"></iframe>
+    <div class="right flex-auto">
+        <iframe class="iframe"></iframe>
+    </div>
 
     <script>
     const tg = window.turbogrid;
 
     const Grid = tg.Grid;
 
-    document.querySelector('.demo-version').innerHTML = `v${tg.VERSION}`;
+    document.querySelector('.left-version').innerHTML = `v${tg.VERSION}`;
 
-    const container = document.querySelector('.demo-body');
+    const container = document.querySelector('.left-container');
     const grid = new Grid(container);
 
     const $iframe = document.querySelector('.iframe');
@@ -199,7 +197,7 @@
         }
         //console.log('iframe loading ...');
         window.setHash('page', id);
-        $iframe.src = `${id}.html`;
+        $iframe.src = `${id}.html${window.location.hash}`;
     
     };
 
@@ -242,7 +240,7 @@
         changeItem(d.rowItem);
     });
 
-    document.querySelector('.ip-keywords').addEventListener('keyup', function() {
+    document.querySelector('.left-keywords').addEventListener('keyup', function() {
         const k = this.value;
         if (k === keywords) {
             return;
@@ -305,11 +303,11 @@
             rows: [{
                 id: 'getting-started',
                 name: 'Getting Started',
-                nameClassMap: 'demo-row-top'
+                nameClassMap: 'tg-row-top'
             }, {
                 id: 'documentation',
                 name: 'Documentation',
-                nameClassMap: 'demo-row-top'
+                nameClassMap: 'tg-row-top'
             }, {
                 name: 'Popular',
                 subs: [{

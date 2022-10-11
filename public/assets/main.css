@@ -58,26 +58,9 @@ a:hover {
     flex: 1;
 }
 
-.flex-h-5 {
-    display: inline-block;
-    width: 5px;
-    height: 100%;
-}
-
-.flex-h-10 {
-    display: inline-block;
-    width: 10px;
-    height: 100%;
-}
-
 .flex-v-5 {
     display: block;
     height: 5px;
-}
-
-.flex-v-10 {
-    display: block;
-    height: 10px;
 }
 
 .header {
@@ -110,7 +93,16 @@ a:hover {
     height: 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20pointer-events%3D%22none%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M6.25%204.5c-.97%200-1.75.78-1.75%201.75v7.5c0%20.97.78%201.75%201.75%201.75h7.5c.97%200%201.75-.78%201.75-1.75v-2a.75.75%200%200%201%201.5%200v2c0%201.8-1.46%203.25-3.25%203.25h-7.5A3.25%203.25%200%200%201%203%2013.75v-7.5C3%204.45%204.46%203%206.25%203h2a.75.75%200%200%201%200%201.5h-2zm4.25-.75c0-.41.34-.75.75-.75h5c.41%200%20.75.34.75.75v5a.75.75%200%200%201-1.5%200V5.56l-3.72%203.72a.75.75%200%201%201-1.06-1.06l3.72-3.72h-3.19a.75.75%200%200%201-.75-.75z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    background-image: url("./open.svg");
+}
+
+.header-title-disable {
+    padding-left: 0;
+    pointer-events: all;
+}
+
+.header-title-disable::before {
+    display: none;
 }
 
 .body {

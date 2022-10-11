@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <title>Grid Demo</title>
+    <title>TurboGrid</title>
     <!--inject:start-->
     <script src="../dist/turbogrid.js"></script>
     <!--inject:end-->
@@ -15,16 +15,17 @@
     <style>
         .body {
             position: relative;
-            padding: 10px;
+            padding: 0 10px;
         }
 
         .body h3 {
-            margin-bottom: 5px;
+            margin: 0;
+            padding: 10px 0;
             font-size: 18px;
         }
 
         .body p {
-            margin: 5px 0;
+            margin: 0;
             padding: 0;
             font-size: 16px;
         }
@@ -42,13 +43,7 @@
 
         .container {
             border: 1px solid #ccc;
-            margin-bottom: 5px;
-        }
-
-        h3 i {
-            color: grey;
-            font-size: 20px;
-            font-weight: normal;
+            margin: 10px 0;
         }
 
     </style>
@@ -56,38 +51,19 @@
 
 <body class="flex-column">
     <div class="body flex-auto">
-        <h2>Getting Started</h2>
-        <div></div>
-
         <h3>Install</h3>
         <div class="code">
             <pre><code class="language-js">
                 npm i turbogrid
             </code></pre>
         </div>
-
-        <h3>Import constructor</h3>
+        <h3>Usage</h3>
         <div class="code">
             <pre><code class="language-js">
-                // global
-                var TG = window.turbogrid;
-                var { Grid, Util } = TG;
-                // cjs
-                var TG = require("turbogrid");
-                var { Grid, Util } = require("turbogrid");
-                // es module
-                import TG from "turbogrid";
-                import { Grid, Util } from "turbogrid";
-            </code></pre>
-        </div>
-
-        <h3>Simple Example</h3>
-        <div class="code">
-            <pre><code class="language-js">
-                var container = document.querySelector(".container");
+                const container = document.querySelector(".container");
                 container.style.width = "500px";
                 container.style.height = "100px";
-                var grid = new Grid(container);
+                const grid = new Grid(container);
                 grid.setOption({
                     sortField: "name"
                 });
@@ -110,10 +86,15 @@
                 grid.render();
             </code></pre>
         </div>
-
-        <h3>Preview</h3>
         <div class="container"></div>
-
+        <h3>API Documentation</h3>
+        <div>
+            <a href="documentation.html">Documentation</a>
+        </div>
+        <h3>Github</h3>
+        <div>
+            <a href="https://github.com/cenfun/turbogrid" target="_blank">https://github.com/cenfun/turbogrid</a>
+        </div>
         <div class="footer"></div>
     </div>
 

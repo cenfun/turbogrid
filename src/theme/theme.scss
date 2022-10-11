@@ -1,0 +1,19 @@
+@import "./default/default.scss";
+@import "./lightblue/lightblue.scss";
+@import "./dark/dark.scss";
+
+.tg-turbogrid {
+    @extend %default;
+}
+
+.tg-lightblue {
+    @extend %lightblue;
+}
+
+.tg-dark {
+    @extend %dark;
+}
+
+.tg-pointer-events-none {
+    pointer-events: none;
+}

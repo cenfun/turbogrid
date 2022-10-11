@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Context Menu example (Right click)</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_100_columns_20k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    <input type="checkbox" id="cb_autoHeight" class="cb_autoHeight" />
+                    <label for="cb_autoHeight">autoHeight</label>
+                    <input type="checkbox" id="cb_collapseAllOnInit" class="cb_collapseAllOnInit" />
+                    <label for="cb_collapseAllOnInit">collapseAllOnInit</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <style>
+        .tg-context-menu {
+            position: absolute;
+            background: #fff;
+            z-index: 10;
+            border: 1px solid #ccc;
+        }
+
+        .tg-context-menu-item {
+            cursor: default;
+            font-size: 14px;
+            white-space: nowrap;
+            padding: 5px 20px;
+            color: #333;
+        }
+
+        .tg-context-menu-item:hover {
+            color: #000;
+            background: #f5f5f5;
+        }
+
+    </style>
+    <script type="text/javascript">
+        const Copy = {
+
+            copyContent: function(content) {
+                navigator.clipboard.writeText(content);
+                return true;
+            },
+
+            copyCellText: function(rowIndex, columnIndex) {
+                const cellNode = grid.getCellNode(rowIndex, columnIndex);
+                if (!cellNode) {
+                    return false;
+                }
+                return Copy.copyContent(cellNode.innerText);
+            },
+
+            copyCellHTML: function(rowIndex, columnIndex) {
+                const cellNode = grid.getCellNode(rowIndex, columnIndex);
+                if (!cellNode) {
+                    return false;
+                }
+                return Copy.copyContent(cellNode.innerHTML);
+            },
+
+            copyCellValue: function(rowIndex, columnIndex) {
+                const rowItem = grid.getRowItem(rowIndex);
+                const columnItem = grid.getColumnItem(columnIndex);
+                if (!rowItem || !columnItem) {
+                    return false;
+                }
+                const value = grid.getCellValue(rowItem, columnItem);
+                return Copy.copyContent(value);
+            },
+
+            copyRowJSON: function(rowIndex) {
+                const rowItem = grid.getRowItem(rowIndex);
+                if (rowItem) {
+                    const str = JSON.stringify(grid.getItemSnapshot(rowItem));
+                    return Copy.copyContent(str);
+                }
+                return false;
+            }
+
+        };
+
+
+        let contextMenu = null;
+        const showContextMenu = function(d) {
+
+            if (d.headerNode) {
+                return;
+            }
+
+            d.e.preventDefault();
+
+            if (contextMenu) {
+                contextMenu.parentNode.removeChild(contextMenu);
+                contextMenu = null;
+            }
+
+            console.log(d);
+
+            let html = '';
+            html += '<div class="tg-context-menu-item text">Copy Cell Text</div>';
+            html += '<div class="tg-context-menu-item html">Copy Cell HTML</div>';
+            html += '<div class="tg-context-menu-item value">Copy Cell Value</div>';
+            html += '<div class="tg-context-menu-item row">Copy Row JSON</div>';
+
+            contextMenu = document.createElement('div');
+            contextMenu.className = 'tg-context-menu';
+            contextMenu.innerHTML = html;
+
+            contextMenu.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            contextMenu.addEventListener('click', function(e) {
+                const elem = e.target;
+                let succeeded;
+                if (elem.classList.contains('text')) {
+                    succeeded = Copy.copyCellText(d.row, d.column);
+                } else if (elem.classList.contains('html')) {
+                    succeeded = Copy.copyCellHTML(d.row, d.column);
+                } else if (elem.classList.contains('value')) {
+                    succeeded = Copy.copyCellValue(d.row, d.column);
+                } else if (elem.classList.contains('row')) {
+                    succeeded = Copy.copyRowJSON(d.row);
+                }
+                console.log(succeeded);
+                if (succeeded) {
+                    elem.innerHTML = 'Copied!';
+                } else {
+                    elem.innerHTML = 'Copy Failed!';
+                }
+                setTimeout(function() {
+                    contextMenu.parentNode.removeChild(contextMenu);
+                    contextMenu = null;
+                }, 200);
+
+            });
+
+            const top = d.e.pageY;
+            const left = d.e.pageX;
+
+            contextMenu.style.top = `${top}px`;
+            contextMenu.style.left = `${left}px`;
+
+            document.body.appendChild(contextMenu);
+
+            const clickHandler = function(ee) {
+                if (!contextMenu) {
+                    return;
+                }
+                if (contextMenu === ee.target || contextMenu.contains(ee.target)) {
+                    return;
+                }
+                contextMenu.parentNode.removeChild(contextMenu);
+                contextMenu = null;
+                document.removeEventListener('click', clickHandler);
+            };
+
+            document.addEventListener('click', clickHandler);
+
+        };
+
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        grid.bind('onContextMenu', function(e, d) {
+            showContextMenu(d);
+        });
+
+        const renderData = function(data) {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                autoHeight: document.querySelector('.cb_autoHeight').checked,
+                collapseAllOnInit: document.querySelector('.cb_collapseAllOnInit').checked,
+                frozenColumn: 0,
+                frozenRow: 1
+            };
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const data = window.randomData(columns, rows);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        ['.st_data', '.st_theme', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

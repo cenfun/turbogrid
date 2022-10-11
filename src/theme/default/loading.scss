@@ -1,0 +1,32 @@
+%loading {
+    .tg-loading {
+        display: none;
+        pointer-events: none;
+        position: absolute;
+        z-index: 100;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    @keyframes tg-loading-animation {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .tg-loading-default {
+        width: 35px;
+        height: 35px;
+        color: #0077cf;
+        animation: 1s tg-loading-animation linear infinite;
+    }
+
+    .tg-loading-fast {
+        animation: 0.382s tg-loading-animation linear infinite;
+    }
+}

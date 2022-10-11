@@ -1,0 +1,69 @@
+%cell {
+    .tg-cell-hover-icon {
+        display: none;
+    }
+
+    .tg-cell-row-number {
+        font-weight: normal;
+    }
+
+    .tg-cell-row-drag {
+        .tg-row-drag-icon {
+            width: 24px;
+            height: 24px;
+            cursor: move;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.8;
+        }
+
+        .tg-row-drag-icon:hover {
+            opacity: 1;
+        }
+    }
+
+    .tg-cell {
+        position: absolute;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        z-index: 1;
+        margin: 0;
+        white-space: nowrap;
+        padding: 0 5px;
+        height: 100%;
+        color: #1e1e1e;
+
+        &:focus {
+            outline: none;
+        }
+
+        &.tg-flashing {
+            border: 1px solid red !important;
+        }
+
+        &.tg-selected {
+            background-color: beige;
+        }
+
+        &.tg-multiline {
+            padding: 3px 5px;
+            line-height: 1.15;
+            white-space: normal;
+        }
+
+        &.tg-align-left {
+            &.tg-cell-negative {
+                padding-left: 1px;
+            }
+        }
+
+        &.tg-align-right {
+            &.tg-cell-negative {
+                padding-right: 1px;
+            }
+        }
+    }
+}

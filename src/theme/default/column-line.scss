@@ -1,0 +1,38 @@
+%column-line {
+    .tg-column-line {
+        position: absolute;
+        pointer-events: none;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        height: 100%;
+        display: none;
+    }
+
+    .tg-column-line-item {
+        position: absolute;
+        display: block;
+        width: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        border-left: thin solid #ccc;
+
+        &.tg-active {
+            border-left: thin solid #0077cf;
+        }
+    }
+
+    .tg-column-dragging {
+        cursor: ew-resize;
+
+        *,
+        .tg-column-name {
+            cursor: ew-resize;
+        }
+
+        .tg-column-resizing {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .tg-gradient-top::before {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 10;
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
+        }
+
+        .tg-gradient-bottom::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 10;
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
+        }
+
+        .tg-gradient-left .tg-scroll-view::before {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 10;
+            display: block;
+            height: 100%;
+            width: 50px;
+            background-image: linear-gradient(to right, #fff, rgb(255 255 255 / 0%));
+        }
+
+        .tg-gradient-right .tg-scroll-view::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 10;
+            display: block;
+            height: 100%;
+            width: 50px;
+            background-image: linear-gradient(to right, rgb(255 255 255 / 0%), #fff);
+        }
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid customize scrollbar:</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_5_columns_20_rows</option>
+                    <option>random_100_columns_20k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    <div class="line">
+                        <label for="cb_frozenBottom">
+                            <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
+                            frozenBottom
+                        </label>
+                        <label>
+                            <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
+                            frozenColumn
+                        </label>
+                        <label>
+                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
+                            frozenRow
+                        </label>
+
+                    </div>
+
+                    <div class="line">
+
+                        <input type="number" value="30" class="ip-number ip_scrollPaneMinWidth" />
+                        <label>scrollPaneMinWidth</label>
+
+                        <input type="number" value="30" class="ip-number ip_scrollPaneGradient" />
+                        <label>scrollPaneGradient (depends scrollbarFade: true)</label>
+
+                    </div>
+
+                    <div>
+                        <select class="st_scrollbarType">
+                            <option>auto</option>
+                            <option>mobile</option>
+                            <option></option>
+                        </select>
+                        <label>scrollbarType</label>
+
+                        <input type="number" value="12" class="ip-number ip_scrollbarSize" />
+                        <label>scrollbarSize</label>
+
+                        <input type="checkbox" id="cb_scrollbarRound" class="cb_scrollbarRound" />
+                        <label for="cb_scrollbarRound">scrollbarRound</label>
+
+                        <input type="checkbox" id="cb_scrollbarFade" class="cb_scrollbarFade" />
+                        <label for="cb_scrollbarFade">scrollbarFade</label>
+
+                        <input type="number" value="1000" class="ip-number ip_scrollbarFadeTimeout" />
+                        <label>scrollbarFadeTimeout</label>
+
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const renderData = function(data) {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                scrollPaneMinWidth: parseInt(document.querySelector('.ip_scrollPaneMinWidth').value, 10),
+                scrollPaneGradient: parseInt(document.querySelector('.ip_scrollPaneGradient').value, 10),
+                scrollbarSize: parseInt(document.querySelector('.ip_scrollbarSize').value),
+                scrollbarRound: document.querySelector('.cb_scrollbarRound').checked,
+                scrollbarFade: document.querySelector('.cb_scrollbarFade').checked,
+                scrollbarType: document.querySelector('.st_scrollbarType').value,
+                scrollbarFadeTimeout: parseInt(document.querySelector('.ip_scrollbarFadeTimeout').value, 10),
+                frozenBottom: document.querySelector('.cb_frozenBottom').checked,
+                frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
+                frozenRow: parseInt(document.querySelector('.ip_frozenRow').value)
+            };
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const data = window.randomData(columns, rows, true);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+
+        [
+            '.st_data',
+            '.st_theme',
+            '.ip_frozenColumn',
+            '.ip_frozenRow',
+            '.cb_frozenBottom',
+            '.ip_scrollbarSize',
+            '.cb_scrollbarRound',
+            '.cb_scrollbarFade',
+            '.st_scrollbarType',
+            '.ip_scrollbarFadeTimeout',
+            '.ip_scrollPaneMinWidth',
+            '.ip_scrollPaneGradient'
+        ].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

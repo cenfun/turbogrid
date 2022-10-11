@@ -1,0 +1,82 @@
+%scroll {
+    .tg-scrollbar {
+        user-select: none;
+        position: absolute;
+        overflow: hidden;
+        z-index: 100;
+    }
+
+    .tg-scrollbar-v {
+        right: 0;
+        top: 0;
+    }
+
+    .tg-scrollbar-h {
+        left: 0;
+        bottom: 0;
+    }
+
+    .tg-scrollbar-track {
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        background: #f9f9f9;
+        width: 100%;
+        height: 100%;
+    }
+
+    .tg-scrollbar-thumb {
+        user-select: none;
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        background: #999;
+        border-radius: 1px;
+    }
+
+    .tg-scrollbar-thumb:hover {
+        background: #888;
+    }
+
+    .tg-scrollbar-thumb-hold {
+        background: #666;
+    }
+
+    .tg-scrollbar-thumb-hold:hover {
+        background: #666;
+    }
+
+    .tg-scrollbar-round {
+        .tg-scrollbar-track {
+            border-radius: 10px;
+        }
+
+        .tg-scrollbar-thumb {
+            border-radius: 10px;
+        }
+    }
+
+    .tg-scroll-pane {
+        position: relative;
+        overflow: hidden;
+        outline: none;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+    .tg-scroll-view {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+    .tg-scroll-body {
+        position: absolute;
+    }
+}

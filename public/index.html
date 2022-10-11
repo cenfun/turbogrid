@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <link rel="icon" href="data:,">
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <style>
+        .demo {
+            position: absolute;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            border-right: 1px solid #999;
+        }
+
+        .demo-header {
+            padding: 5px;
+            border-bottom: 1px solid #999;
+            background: #f5f5f5;
+        }
+
+        .demo-row-top {
+            font-weight: bold;
+            position: relative;
+        }
+
+        .demo-row-top::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 5px;
+            height: 30px;
+            width: 16px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAK5JREFUOI3tkUFOQkEQRN/XD+upqrmKK+IPyEW8niFiCEcx8Q6fM2iGBbjRhMxe366T7uquLvjnFyX5SLIFsP1s+wgsuwUkrSTNSTbAfUl2kg7Aov+KWifbp1LrBIyS3pTsgbFbJMmT7VOSB2Bp++jk5Wff3Q2NobXWhmH4+q5p7bN3+0bSLGkFLCQdSrLrslBqnSTNpdZHYFSyV/LaNQzg5D3JGi4xXp/Xn8Af5AzxiCE7T8CmVAAAAABJRU5ErkJggg==");
+        }
+
+        .demo-title {
+            font-size: 16px;
+            font-weight: bold;
+            height: 30px;
+            line-height: 30px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .demo-title svg {
+            display: block;
+            height: 16px;
+            width: 16px;
+            margin-left: 5px;
+            margin-right: 8px;
+        }
+
+        .demo-version {
+            font-size: 14px;
+            font-weight: normal;
+            color: #555;
+            margin-left: 8px;
+            flex: 1;
+        }
+
+        .demo-searcher {
+            margin-top: 5px;
+        }
+
+        .demo-searcher input {
+            width: 100%;
+            padding: 0 5px;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .demo-body {
+            height: calc(100% - 80px);
+        }
+
+        .iframe {
+            border: none;
+            height: 100%;
+            width: calc(100% - 200px);
+            margin-left: 200px;
+        }
+
+        .tg-tree-row-number {
+            position: absolute;
+            text-align: center;
+            width: 20px;
+        }
+
+        .tg-gradient-top::before {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 10;
+            display: block;
+            height: 30px;
+            width: 100%;
+            background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
+        }
+
+        .tg-dark .tg-gradient-top::before {
+            background-image: linear-gradient(to bottom, #000, rgb(0 0 0 / 0%));
+        }
+
+        .tg-gradient-bottom::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 10;
+            display: block;
+            height: 30px;
+            width: 100%;
+            background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
+        }
+
+        .tg-dark .tg-gradient-bottom::after {
+            background-image: linear-gradient(to bottom, rgb(0 0 0 / 0%), #000);
+        }
+
+        @keyframes tg-cell-effect-animate {
+            from {
+                transform: scale(0.5) translateX(-90%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .tg-cell-effect {
+            animation-name: tg-cell-effect-animate;
+            animation-duration: 0.3s;
+            animation-timing-function: cubic-bezier(0.26, 0.86, 0.44, 0.985);
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="demo">
+        <div class="demo-header">
+            <div class="demo-title">
+                <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" fill="#333">
+                    <path d="M14,16H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H14a2,2,0,0,1,2,2V14A2,2,0,0,1,14,16ZM4,12h8V4H4Z"/><path d="M14,34H2a2,2,0,0,1-2-2V20a2,2,0,0,1,2-2H14a2,2,0,0,1,2,2V32A2,2,0,0,1,14,34ZM4,30h8V22H4Z"/><path d="M14,52H2a2,2,0,0,1-2-2V38a2,2,0,0,1,2-2H14a2,2,0,0,1,2,2V50A2,2,0,0,1,14,52ZM4,48h8V40H4Z"/><path d="M32,16H20a2,2,0,0,1-2-2V2a2,2,0,0,1,2-2H32a2,2,0,0,1,2,2V14A2,2,0,0,1,32,16ZM22,12h8V4H22Z"/><path d="M32,34H20a2,2,0,0,1-2-2V20a2,2,0,0,1,2-2H32a2,2,0,0,1,2,2V32A2,2,0,0,1,32,34ZM22,30h8V22H22Z"/><path d="M32,52H20a2,2,0,0,1-2-2V38a2,2,0,0,1,2-2H32a2,2,0,0,1,2,2V50A2,2,0,0,1,32,52ZM22,48h8V40H22Z"/><path d="M50,16H38a2,2,0,0,1-2-2V2a2,2,0,0,1,2-2H50a2,2,0,0,1,2,2V14A2,2,0,0,1,50,16ZM40,12h8V4H40Z"/><path d="M50,34H38a2,2,0,0,1-2-2V20a2,2,0,0,1,2-2H50a2,2,0,0,1,2,2V32A2,2,0,0,1,50,34ZM40,30h8V22H40Z"/><path d="M50,52H38a2,2,0,0,1-2-2V38a2,2,0,0,1,2-2H50a2,2,0,0,1,2,2V50A2,2,0,0,1,50,52ZM40,48h8V40H40Z"/>
+                </svg>
+                <div>Turbo Grid</div> 
+                <div class="demo-version"></div>
+            </div>
+            <div class="demo-searcher">
+                <input value="" onfocus="this.select();" placeholder="Search Demo" class="ip-keywords" />
+            </div>
+        </div>
+        <div class="demo-body"></div>
+    </div>
+    <iframe class="iframe"></iframe>
+
+    <script>
+    const tg = window.turbogrid;
+
+    const Grid = tg.Grid;
+
+    document.querySelector('.demo-version').innerHTML = `v${tg.VERSION}`;
+
+    const container = document.querySelector('.demo-body');
+    const grid = new Grid(container);
+
+    const $iframe = document.querySelector('.iframe');
+    // $iframe.onload = function() {
+    //     console.log('iframe loaded');
+    // };
+
+    const showItem = function(rowItem) {
+        const page = window.getHash().page;
+    
+        const id = rowItem.id || rowItem.name;
+        if (id === page && $iframe.src) {
+            try {
+                $iframe.contentDocument.location.reload();
+            } catch (e) {
+                //empty
+            }
+            return;
+        }
+        //console.log('iframe loading ...');
+        window.setHash('page', id);
+        $iframe.src = `${id}.html`;
+    
+    };
+
+    const changeItem = function(rowItem) {
+        if (!grid.isRowSelectable(rowItem)) {
+            if (rowItem.tg_frozen) {
+                grid.setRowSelected(false);
+                showItem(rowItem);
+            }
+            return;
+        }
+        grid.setRowSelected(rowItem);
+        showItem(rowItem);
+    };
+
+    grid.bind('onCellUpdated', function(e, d) {
+
+        if (this.renderSettings.type) {
+            // only for scroll
+            return;
+        }
+    
+        const cellNode = d.node;
+        //console.log(d);
+        cellNode.classList.add('tg-cell-effect');
+
+    }).bind('onFirstUpdated', function() {
+        let page = window.getHash().page;
+        if (!page) {
+            page = 'getting-started';
+        }
+        const rowItem = grid.getRowItemBy('id', page);
+        this.scrollRowIntoView(rowItem);
+        if (rowItem) {
+            changeItem(rowItem);
+        }
+    });
+
+    grid.bind('onClick', function(e, d) {
+        changeItem(d.rowItem);
+    });
+
+    document.querySelector('.ip-keywords').addEventListener('keyup', function() {
+        const k = this.value;
+        if (k === keywords) {
+            return;
+        }
+        keywords = k;
+        //update rows
+        grid.update();
+    });
+
+    let keywords = '';
+    let theme = window.getHash('theme');
+
+    const render = function() {
+        const option = {
+            theme: theme,
+            headerVisible: false,
+            selectMultiple: false,
+            scrollbarSize: 10,
+            scrollbarFade: true,
+            scrollbarRound: true,
+            rowFilter: function(rowItem) {
+                if (!keywords) {
+                    return true;
+                }
+                if (rowItem.tg_frozen) {
+                    return true;
+                }
+                let name = rowItem.name;
+                if (name) {
+                    name = name.toLowerCase();
+                    if (name.indexOf(keywords) !== -1) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            rowNumberFilter: function(rowItem, i) {
+                if (rowItem.tg_group || rowItem.tg_frozen || rowItem.nameClassMap) {
+                    return false;
+                }
+                return true;
+            }
+        };
+        grid.setOption(option);
+
+        grid.setFormatter({
+            tree: function(value, rowItem, columnItem, cellNode) {
+                const defaultFormatter = this.getDefaultFormatter('tree');
+                const rn = `<div class="tg-tree-row-number">${rowItem.tg_row_number}</div>`;
+                return rn + defaultFormatter(value, rowItem, columnItem, cellNode);
+            }
+        });
+
+        const data = {
+            columns: [{
+                id: 'name',
+                name: 'Name',
+                width: 195
+            }],
+            rows: [{
+                id: 'getting-started',
+                name: 'Getting Started',
+                nameClassMap: 'demo-row-top'
+            }, {
+                id: 'documentation',
+                name: 'Documentation',
+                nameClassMap: 'demo-row-top'
+            }, {
+                name: 'Popular',
+                subs: [{
+                    id: 'formatter',
+                    name: 'Formatter'
+                }, {
+                    id: 'style',
+                    name: 'Style'
+                }, {
+                    id: 'tooltip',
+                    name: 'Tooltip'
+                }, {
+                    id: 'popover',
+                    name: 'Popover'
+                }, {
+                    id: 'scroll',
+                    name: 'Scroll'
+                }, {
+                    id: 'scrollbar',
+                    name: 'Scrollbar'
+                }, {
+                    id: 'sort',
+                    name: 'Sort'
+                }, {
+                    id: 'events',
+                    name: 'Events'
+                }, {
+                    id: 'lifecycle',
+                    name: 'Lifecycle'
+                }, {
+                    id: 'performance-test',
+                    name: 'Performance Test'
+                }]
+            }, {
+                name: 'Row',
+                subs: [{
+                    id: 'row-add-delete',
+                    name: 'Row Add/Delete'
+                }, {
+                    id: 'row-collapse',
+                    name: 'Row Collapse'
+                }, {
+                    id: 'row-filter',
+                    name: 'Row Filter'
+                }, {
+                    id: 'row-select',
+                    name: 'Row Select'
+                }, {
+                    id: 'row-select-limit',
+                    name: 'Row Select Limit'
+                }, {
+                    id: 'row-select-group',
+                    name: 'Row Select Group'
+                }, {
+                    id: 'row-number',
+                    name: 'Row Number'
+                }, {
+                    id: 'row-drag',
+                    name: 'Row Drag'
+                }, {
+                    id: 'row-move',
+                    name: 'Row Move'
+                }, {
+                    id: 'row-hover',
+                    name: 'Row Hover'
+                }, {
+                    id: 'row-height',
+                    name: 'Row Height'
+                }, {
+                    id: 'row-not-found',
+                    name: 'Row Not Found'
+                }]
+            }, {
+                name: 'Column',
+                subs: [{
+                    id: 'column-add-delete',
+                    name: 'Column Add/Delete'
+                }, {
+                    id: 'column-display',
+                    name: 'Column Display'
+                }, {
+                    id: 'column-set',
+                    name: 'Column Set'
+                }]
+            }, {
+                name: 'Data',
+                subs: [{
+                    id: 'infinite-scroll',
+                    name: 'Infinite Scroll'
+                }, {
+                    id: 'load-cells',
+                    name: 'Load Cells'
+                }, {
+                    id: 'load-rows',
+                    name: 'Load Rows'
+                }, {
+                    id: 'load-subs',
+                    name: 'Load Subs'
+                }, {
+                    id: 'set-rows-sort',
+                    name: 'Set Rows Sort'
+                }, {
+                    id: 'set-rows',
+                    name: 'Set Rows'
+                }, {
+                    id: 'skeleton-screen',
+                    name: 'Skeleton Screen'
+                }, {
+                    id: 'pagination',
+                    name: 'Pagination'
+                }, {
+                    id: 'loading',
+                    name: 'Loading'
+                }]
+            }, {
+                name: 'Other',
+                subs: [{
+                    id: 'poc',
+                    name: 'POC'
+                }, {
+                    id: 'auto-height',
+                    name: 'Auto Height'
+                }, {
+                    id: 'header-display',
+                    name: 'Header Display'
+                }, {
+                    id: 'header-group',
+                    name: 'Header Group'
+                }, {
+                    id: 'frozen',
+                    name: 'Frozen'
+                }, {
+                    id: 'frozen-middle',
+                    name: 'Frozen Middle'
+                }, {
+                    id: 'cache',
+                    name: 'Cache'
+                }, {
+                    id: 'negative-number',
+                    name: 'Negative Number'
+                }, {
+                    id: 'multiple-instance',
+                    name: 'Multiple Instance'
+                }, {
+                    id: 'context-menu',
+                    name: 'Context Menu'
+                }, {
+                    id: 'export',
+                    name: 'Export'
+                }, {
+                    id: 'online-render',
+                    name: 'Online Render'
+                }, {
+                    id: 'touch',
+                    name: 'Touch'
+                }, {
+                    id: 'resize',
+                    name: 'Resize'
+                }, {
+                    id: 'custom-element',
+                    name: 'Custom Element'
+                }, {
+                    id: 'shadow-dom',
+                    name: 'Shadow DOM'
+                }, {
+                    id: 'vue-component',
+                    name: 'Vue Component'
+                }, {
+                    id: 'vue-integration',
+                    name: 'Vue Integration'
+                }, {
+                    id: 'conflict',
+                    name: 'Conflict Test'
+                }, {
+                    id: 'snake-game',
+                    name: 'Snake Game'
+                }, {
+                    id: 'async',
+                    name: 'Async Test'
+                }, {
+                    id: 'other',
+                    name: 'Other'
+                }]
+            }]
+        };
+
+        grid.setData(data);
+        grid.render();
+
+    };
+
+    window.addEventListener('resize', function() {
+        grid.resize();
+    });
+
+    window.addEventListener('load', function() {
+        render();
+    });
+
+    window.addEventListener('hashchange', function() {
+        const t = window.getHash('theme');
+        if (t !== theme) {
+            theme = t;
+            render();
+        }
+    });
+
+    </script>
+</body>
+
+</html>

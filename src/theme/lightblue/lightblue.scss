@@ -1,0 +1,121 @@
+/*
+option.theme = "lightblue"
+*/
+
+$border-color: #e8eaf0;
+$text-color: #304265;
+
+%lightblue {
+    .tg-header-item {
+        border-top: thin solid $border-color;
+        border-right: thin solid $border-color;
+
+        /* &.tg-header-group-item {
+        } */
+    }
+
+    .tg-column-name {
+        color: $text-color;
+        padding: 5px;
+    }
+
+    .tg-header-group-item::after {
+        display: none;
+    }
+
+    .tg-checkbox {
+        .tg-icon-item {
+            fill: #d4d7e0;
+        }
+    }
+
+    .tg-checkbox:hover {
+        .tg-icon-item {
+            fill: #107fff;
+        }
+    }
+
+    .tg-checkbox.tg-selected {
+        .tg-select-checkbox {
+            fill: #107fff;
+        }
+    }
+
+    .tg-checkbox.tg-mixed {
+        .tg-select-mixed {
+            fill: #107fff;
+        }
+    }
+
+    .tg-cell {
+        border-right: thin solid $border-color;
+        color: $text-color;
+
+        &.tg-multiline {
+            padding: 0;
+        }
+    }
+
+    .tg-row {
+        border-bottom: thin solid $border-color;
+
+        &.tg-group-line {
+            border-bottom: thin solid #c9ccd8;
+        }
+
+        &.tg-selected {
+            background: rgb(58 116 213 / 5%);
+        }
+
+        &.tg-hover {
+            background: rgb(58 116 213 / 5%);
+        }
+
+        &.tg-even {
+            background: #fbfcfe;
+        }
+
+        &.tg-odd {
+            background: #fff;
+        }
+    }
+
+    .tg-hover.tg-row::before {
+        background: rgb(58 116 213 / 5%);
+    }
+
+    .tg-selected.tg-row::after {
+        background: rgb(58 116 213 / 10%);
+    }
+
+    .tg-header-frame {
+        border-bottom: thin solid $border-color;
+    }
+
+    /*
+    .tg-frozen-line-v {
+        border-right: thin solid #c9ccd8;
+    }
+    */
+
+    .tg-row-not-found .tg-frozen-line-v {
+        border-right: none;
+    }
+
+    /* scrollbar */
+    .tg-scrollbar-track {
+        background: #fff;
+    }
+
+    .tg-scrollbar-thumb {
+        background: rgb(48 66 101 / 35%);
+    }
+
+    .tg-scrollbar-thumb:hover {
+        background-color: #a8a8a8;
+    }
+
+    .tg-scrollbar-thumb:active {
+        background-color: #787878;
+    }
+}

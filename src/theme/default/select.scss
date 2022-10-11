@@ -1,0 +1,96 @@
+%select {
+    .tg-checkbox {
+        overflow: hidden;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+
+        /* must be in tg-checkbox */
+        &.tg-select-icon-all {
+            height: 18px;
+        }
+
+        .tg-icon-checkbox {
+            display: block;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .tg-checkbox-item {
+            fill: #808080;
+            display: none;
+        }
+
+        .tg-checkbox-none {
+            display: block;
+        }
+
+        &:hover .tg-checkbox-item {
+            fill: #005ba1;
+        }
+
+        &.tg-selected .tg-checkbox-selected {
+            fill: #0077cf;
+            display: block;
+        }
+
+        &.tg-mixed .tg-checkbox-mixed {
+            fill: #0077cf;
+            display: block;
+        }
+    }
+
+    .tg-radio {
+        overflow: hidden;
+        cursor: pointer;
+
+        .tg-icon-radio {
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+            &::before {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                display: block;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                content: "";
+                background: #fff;
+                border: thin solid #808080;
+            }
+
+            &::after {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                display: none;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                content: "";
+                background: #0077cf;
+            }
+        }
+
+        &:hover .tg-icon-radio::before {
+            border-color: #005ba1;
+        }
+
+        &.tg-selected .tg-icon-radio::after {
+            border-color: #0077cf;
+            display: block;
+        }
+    }
+}

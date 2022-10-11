@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .grid-element {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Custom Element demo (require Chrome)</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_5_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container">
+            <grid-element class="grid-element"></grid-element>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+
+        class GridElement extends HTMLElement {
+            constructor() {
+                super();
+                //console.log('connected: ' + this.tagName);
+                this.component = new Grid(this);
+            }
+
+            connectedCallback() {
+                //console.log('connected: ' + this.tagName);
+            }
+
+            disconnectedCallback() {
+                //console.log('disconnected: ' + this.tagName);
+                if (this.component) {
+                    if (typeof this.component.destroy === 'function') {
+                        this.component.destroy();
+                    }
+                }
+            }
+
+            //only observedAttributes will be attributeChangedCallback
+            static get observedAttributes() {
+                return [];
+            }
+
+            attributeChangedCallback(name, oldValue, newValue) {
+                //console.log('attributeChanged:', name, oldValue, newValue);
+
+            }
+
+        }
+
+        customElements.define('grid-element', GridElement);
+
+        const gridElement = document.querySelector('grid-element');
+        const grid = gridElement.component;
+
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const renderData = function(data) {
+            grid.setOption({
+                theme: document.querySelector('.st_theme').value,
+                frozenColumn: 0,
+                frozenRow: 1
+            });
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+
+                let noSubs = false;
+                if (rows < 200) {
+                    noSubs = true;
+                }
+
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

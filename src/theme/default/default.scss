@@ -1,0 +1,27 @@
+@import "./common.scss";
+@import "./animation.scss";
+@import "./loading.scss";
+@import "./select.scss";
+@import "./scroll.scss";
+@import "./header.scss";
+@import "./sort.scss";
+@import "./column-line.scss";
+@import "./tree.scss";
+@import "./pane.scss";
+@import "./cell.scss";
+@import "./row.scss";
+
+%default {
+    @extend %common;
+    @extend %animation;
+    @extend %loading;
+    @extend %select;
+    @extend %scroll;
+    @extend %header;
+    @extend %sort;
+    @extend %column-line;
+    @extend %tree;
+    @extend %pane;
+    @extend %cell;
+    @extend %row;
+}

@@ -1,0 +1,85 @@
+%tree {
+    .tg-tree {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-items: left;
+    }
+
+    .tg-tree-icon {
+        overflow: hidden;
+        cursor: pointer;
+        width: 15px;
+        height: 100%;
+        min-height: 9px;
+        text-align: left;
+        position: relative;
+
+        .tg-icon-tree {
+            display: block;
+            width: 9px;
+            height: 9px;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .tg-tree-item {
+            display: none;
+        }
+    }
+
+    .tg-tree-icon-collapsed .tg-tree-collapsed {
+        display: block;
+    }
+
+    .tg-tree-icon-empty .tg-tree-collapsed {
+        opacity: 0.5;
+    }
+
+    .tg-tree-icon-expanded .tg-tree-expanded {
+        display: block;
+    }
+
+    .tg-tree-name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .tg-tree-header {
+        .tg-tree {
+            .tg-tree-icon {
+                display: none;
+            }
+        }
+    }
+
+    .tg-tree-icon-all {
+        position: relative;
+        height: 17px;
+    }
+
+    .tg-tree-header-indent {
+        .tg-tree {
+            padding-left: 5px;
+
+            .tg-tree-icon {
+                display: block;
+            }
+        }
+
+        &.tg-column-sort-h {
+            .tg-column-sort {
+                margin-left: 20px;
+                width: calc(100% - 20px);
+            }
+        }
+    }
+}

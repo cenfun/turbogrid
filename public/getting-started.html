@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/prism.css" rel="stylesheet" />
+    <script src="assets/prism.js" data-manual></script>
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <style>
+        .body {
+            position: relative;
+            padding: 10px;
+        }
+
+        .body h3 {
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .body p {
+            margin: 5px 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .footer {
+            margin-top: 20px;
+        }
+
+        .code {
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: #f8f8f8;
+            padding: 0 10px;
+        }
+
+        .container {
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
+
+        h3 i {
+            color: grey;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="body flex-auto">
+        <h2>Getting Started</h2>
+        <div></div>
+
+        <h3>Install</h3>
+        <div class="code">
+            <pre><code class="language-js">
+                npm i turbogrid
+            </code></pre>
+        </div>
+
+        <h3>Import constructor</h3>
+        <div class="code">
+            <pre><code class="language-js">
+                // global
+                var TG = window.turbogrid;
+                var { Grid, Util } = TG;
+                // cjs
+                var TG = require("turbogrid");
+                var { Grid, Util } = require("turbogrid");
+                // es module
+                import TG from "turbogrid";
+                import { Grid, Util } from "turbogrid";
+            </code></pre>
+        </div>
+
+        <h3>Simple Example</h3>
+        <div class="code">
+            <pre><code class="language-js">
+                var container = document.querySelector(".container");
+                container.style.width = "500px";
+                container.style.height = "100px";
+                var grid = new Grid(container);
+                grid.setOption({
+                    sortField: "name"
+                });
+                grid.setData({
+                    columns: [{
+                        id: "name",
+                        name: "Name"
+                    }, {
+                        id: "value",
+                        name: "Value"
+                    }],
+                    rows: [{
+                        name: "Row 1",
+                        value: "1"
+                    }, {
+                        name: "Row 2",
+                        value: "2"
+                    }]
+                });
+                grid.render();
+            </code></pre>
+        </div>
+
+        <h3>Preview</h3>
+        <div class="container"></div>
+
+        <div class="footer"></div>
+    </div>
+
+    <script>
+        (function() {
+
+            const Grid = window.turbogrid.Grid;
+
+            const container = document.querySelector('.container');
+            container.style.width = '500px';
+            container.style.height = '100px';
+            const grid = new Grid(container);
+            grid.setOption({
+                sortField: 'name'
+            });
+            grid.setData({
+                columns: [{
+                    id: 'name',
+                    name: 'Name'
+                }, {
+                    id: 'value',
+                    name: 'Value'
+                }],
+                rows: [{
+                    name: 'Row 1',
+                    value: '1'
+                }, {
+                    name: 'Row 2',
+                    value: '2'
+                }]
+            });
+            grid.render();
+
+            window.formatCodes();
+        })();
+
+    </script>
+</body>
+
+</html>

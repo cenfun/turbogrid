@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid update/render API</div>
+            <div>
+                <select class="st_data">
+                    <option>random_20_columns_100_rows</option>
+                    <option>random_20_columns_5k_rows</option>
+                    <option>sample-data.js</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    <input type="checkbox" checked="checked" id="cb_selectMultiple" class="cb_selectMultiple" />
+                    <label for="cb_selectMultiple">selectMultiple</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div class="line">
+                        <button>render()</button>  
+                        <button class="data-render">setData + render</button>
+                        <button class="option-render">setOption + render</button>
+                        <button class="formatter-render">setFormatter + render</button>
+                        <button>rerender()</button>
+                    </div>
+                    <div class="line">
+                        <button>update()</button>
+                    </div>
+                    <div class="line">
+                        <button>updateRow(3)</button>
+                        <button>updateRow(3, {"name":"New Name", "index":"100", "c0": "New Value"})</button>
+                    </div>
+                    
+                    <div class="line">
+                        <button>updateCell(3,1)</button>
+                        <button>updateCell(3,1,"New Cell Name")</button>
+                        <button>updateCell(3,2,1000)</button>
+                        <button>updateCell(3,3,"New Cell Value")</button>
+                    </div>
+
+                    <div class="line"> 
+                        <button>flushRow(5)</button>
+                        <button>flushRow([7,8])</button>
+                        <button>flushRowFrom(10)</button>
+                        <button>flushCell(6,1)</button>
+                        <button>flushCell([6,9],[3,4])</button>
+                    </div>
+                    <div class="line">     
+                        <button>flushColumn(2)</button>
+                        <button>flushColumn([3,4])</button>
+                        <button>flushColumnFrom(6)</button>
+                        <button>flushBody()</button>
+                    </div>
+
+                    <div>
+                        <button>destroy()</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        'use strict';
+
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        grid.bind('onCellUpdated onHeaderUpdated', function(e, d) {
+            const node = d.node;
+            const classList = node.classList;
+            node.addEventListener('animationend', function() {
+                classList.remove('tg-blink');
+            });
+            classList.add('tg-blink');
+        });
+
+        const renderData = function(data) {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                selectMultiple: document.querySelector('.cb_selectMultiple').checked,
+                selectVisible: true,
+                frozenColumn: 0,
+                frozenRow: 1
+            };
+            grid.setOption(option);
+
+            // grid.setFormatter({
+            //     string: function(value) {
+            //         return getBlinkName(value);
+            //     },
+            //     number: function(value) {
+            //         return getBlinkName(value);
+            //     },
+            //     tree: function(value, rowItem, columnItem) {
+            //         const defaultFormatter = this.getDefaultFormatter('tree');
+            //         return defaultFormatter(getBlinkName(value), rowItem, columnItem);
+            //     },
+            //     header: function(value, rowItem) {
+            //         //console.log(rowItem);
+            //         return getBlinkName(value);
+            //     }
+            // });
+
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const data = window.randomData(columns, rows);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        document.querySelector('.data-render').addEventListener('click', function() {
+            if (!grid) {
+                return;
+            }
+            const data = window.randomData(20, 100);
+            grid.setData(data);
+            grid.render();
+        });
+
+        document.querySelector('.option-render').addEventListener('click', function() {
+            if (!grid) {
+                return;
+            }
+            grid.setOption({
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+                rowHeight: 26
+            });
+            grid.render();
+        });
+
+        document.querySelector('.formatter-render').addEventListener('click', function() {
+            if (!grid) {
+                return;
+            }
+            grid.setFormatter({
+                string: function(value, rowItem, columnItem) {
+                    if (columnItem.id === 'index') {
+                        return `${value} (formatted)`;
+                    }
+                    return value;
+                },
+                number: function(value, rowItem, columnItem) {
+                    if (columnItem.id === 'index') {
+                        return `${value} (formatted)`;
+                    }
+                    return value;
+                }
+            });
+            grid.render();
+        });
+
+        ['.st_data', '.st_theme', '.cb_selectMultiple'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

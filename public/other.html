@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <style>
+        .grid-container .flex-row .tg-cell {
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Other Example:</div>
+            <div>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-holder"></div>
+        <div class="grid-container">
+            <div class="tg-turbogrid">
+
+                <div class="flex-row">
+                    <div>tree collapsed:</div>
+                    <div class="tg-cell">
+                        <div class="tg-tree-icon tg-tree-icon-collapsed"></div>
+                    </div>
+                    <div>expanded:</div>
+                    <div class="tg-cell">
+                        <div class="tg-tree-icon tg-tree-icon-expanded"></div>
+                    </div>
+                </div>
+    
+                <div class="flex-row">
+                    <div>checkbox unselected:</div>
+                    <div class="tg-cell">
+                        <div class="tg-checkbox"></div>
+                    </div>
+                    <div>selected:</div>
+                    <div class="tg-cell">
+                        <div class="tg-checkbox tg-selected"></div>
+                    </div>
+                    <div>mixed:</div>
+                    <div class="tg-cell">
+                        <div class="tg-checkbox tg-mixed"></div>
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div>radio unselected:</div>
+                    <div class="tg-cell">
+                        <div class="tg-radio"></div>
+                    </div>
+                    <div>selected:</div>
+                    <div class="tg-cell">
+                        <div class="tg-radio tg-selected"></div>
+                    </div>      
+                </div>
+    
+    
+            </div>
+        </div>
+        
+    </div>
+    <script type="text/javascript">
+        const TG = window.turbogrid;
+        const Grid = TG.Grid;
+        new Grid('.grid-holder');
+        const Icon = TG.Icon;
+
+        Array.from(document.querySelectorAll('.tg-tree-icon')).forEach((item) => {
+            item.innerHTML = Icon.getIcon('tree');
+        });
+
+        Array.from(document.querySelectorAll('.tg-checkbox')).forEach((item) => {
+            item.innerHTML = Icon.getIcon('checkbox');
+        });
+        
+        Array.from(document.querySelectorAll('.tg-radio')).forEach((item) => {
+            item.innerHTML = Icon.getIcon('radio');
+        });
+
+    </script>
+</body>
+
+</html>

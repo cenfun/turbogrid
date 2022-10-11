@@ -1,0 +1,101 @@
+%row {
+    .tg-row {
+        position: absolute;
+        border: 0;
+        width: 100%;
+        border-bottom: thin solid #e5e5e5;
+
+        &.tg-group-line {
+            border-bottom: thin solid #999;
+        }
+
+        &.tg-none-line {
+            border-bottom: none;
+        }
+
+        &.tg-top-line {
+            border-top: thin solid #e5e5e5;
+        }
+
+        &.tg-group {
+            overflow: hidden;
+            font-weight: bold;
+
+            .tg-cell {
+                &.tg-align-left {
+                    &.tg-cell-negative {
+                        padding-left: 0;
+                    }
+                }
+
+                &.tg-align-right {
+                    &.tg-cell-negative {
+                        padding-right: 0;
+                    }
+                }
+            }
+        }
+
+        &.tg-hover {
+            .tg-cell {
+                .tg-cell-hover-icon {
+                    display: inherit;
+                }
+            }
+        }
+
+        &.tg-dragging {
+            opacity: 0.3;
+        }
+
+        &.tg-clone {
+            border: 1px dashed #ccc;
+            border-left: none;
+            border-right: none;
+            background: #fff;
+            z-index: 1000;
+            opacity: 0.5;
+            cursor: move;
+
+            * {
+                cursor: move;
+            }
+        }
+
+        /*
+        &.tg-list-first {}
+        &.tg-list-last {}
+        */
+    }
+
+    .tg-row-placeholder {
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+        border-top: 2px solid #00a8e1;
+        z-index: 9999;
+    }
+
+    .tg-row::before,
+    .tg-row::after {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        pointer-events: none;
+        content: "";
+    }
+
+    .tg-hover.tg-row::before {
+        background: rgb(0 0 0 / 8%);
+        display: block;
+    }
+
+    .tg-selected.tg-row::after {
+        background: rgb(0 0 0 / 13%);
+        display: block;
+    }
+}

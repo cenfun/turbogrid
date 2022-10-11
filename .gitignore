@@ -1,0 +1,7 @@
+node_modules
+server/node_modules
+/package-lock.json
+server/package-lock.json
+.DS_Store
+/.temp/
+/dist

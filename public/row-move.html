@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .tg-icon svg {
+            height: 12px;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid row move:</div>
+            <div>
+                <input type="checkbox" id="cb_no_subs" checked class="cb_no_subs" />
+                <label for="cb_no_subs">no subs</label>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    
+                    <input type="checkbox" id="cb_rowMoveCrossLevel" checked class="cb_rowMoveCrossLevel" />
+                    <label for="cb_rowMoveCrossLevel">rowMoveCrossLevel</label>
+
+                    <input type="checkbox" checked="checked" id="cb_selectMultiple" class="cb_selectMultiple" />
+                    <label for="cb_selectMultiple">selectMultiple</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div class="line">
+                        <button>moveRows(["level_0"], -1)</button>
+                        <button>moveRows(["level_0"], 1)</button>
+                        <button>moveRows(["level_0"], -10)</button>
+                        <button>moveRows(["level_0"], 10)</button>
+                    </div>
+                    <div class="line">
+                        <button>moveRows("level_3_3", -2)</button>
+                        <button>moveRows("level_3_3", 2)</button>
+                        <button>moveRows("level_3_3", -3)</button>
+                        <button>moveRows("level_3_3", 3)</button>
+                    </div>
+                    <div class="line">
+                        <button>moveRowsToTop(["level_0"])</button>
+                        <button>moveRowsUp(["level_0"])</button>
+                        <button>moveRowsDown(["level_0"])</button>
+                        <button>moveRowsToBottom(["level_0"])</button>
+                    </div>
+                    <div>
+                        <button class="tg-icon moveToTop">moveSelectedRowsToTop()
+                            <svg viewBox="0 0 1500 1500" id="angle-double-up--s" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60.4 1254.8l60 80 630-530 630 530 60-80-690-590-690 590zm690-960l630 530 60-80-690-580-690 590 60 80 630-540z"></path>
+                            </svg>
+                        </button>
+                        <button class="tg-icon moveUp">moveSelectedRowsUp()
+                            <svg viewBox="0 0 1500 1500" id="angle-up--s" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M750.4 419.7l-690 590 60 70 630-530 620 530 70-70z"></path>
+                            </svg>
+                        </button>
+                        <button class="tg-icon moveDown">moveSelectedRowsDown()
+                            <svg viewBox="0 0 1500 1500" id="angle-down--s" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1370.4 420l-620 530-630-530-60 70 690 590 690-590z"></path>
+                            </svg>
+                        </button>
+                        <button class="tg-icon moveToBottom">moveSelectedRowsToBottom()
+                            <svg viewBox="0 0 1500 1500" id="angle-double-down--s" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1440.4 244.9l-60-80-630 540-630-530-60 70 690 590 690-590zm-690 960l-630-530-60 70 690 590 690-590-60-80-630 540z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <div>
+                        <input type="text" value="" placeholder="keywords" class="ip_keywords" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function(e, d) {
+            console.log('duration:', `${this.renderDuration}ms`);
+            console.log(`event: ${e.type}`, d);
+        });
+
+        grid.bind('onRowMoved', function(e, d) {
+            console.log(`event: ${e.type}`, d);
+        });
+
+        grid.bind('onUpdated', function(e, d) {
+            console.log(`event: ${e.type}`, d);
+        });
+
+        let keywords = '';
+        const renderData = function(data) {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                rowMoveCrossLevel: document.querySelector('.cb_rowMoveCrossLevel').checked,
+                selectMultiple: document.querySelector('.cb_selectMultiple').checked,
+                bindWindowResize: true,
+                selectVisible: true,
+                //collapseAllOnInit: true,
+                frozenColumn: 0,
+                rowFilter: function(rowItem) {
+                    if (!keywords) {
+                        return true;
+                    }
+                    if (rowItem.tg_frozen) {
+                        return true;
+                    }
+                    let name = rowItem.name || rowItem.c0;
+                    if (name) {
+                        name = name.toLowerCase();
+                        if (name.indexOf(keywords) !== -1) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            };
+            grid.setFormatter({
+                string: function(value, rowItem, columnItem, cellNode) {
+                    if (columnItem.id === 'name') {
+                        if (!rowItem.tg_random) {
+                            rowItem.tg_random = Math.random().toString().substr(2, 3);
+                        }
+                        return `${value} (${rowItem.tg_random})`;
+                    }
+                    return value;
+                }
+            });
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+            console.log('grid render');
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const noSubs = document.querySelector('.cb_no_subs').checked;
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            //update rows
+            grid.update();
+        });
+
+        ['.st_data', '.st_theme', '.cb_rowMoveCrossLevel', '.cb_selectMultiple', '.cb_no_subs'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Negative Number Align:</div>
+            <div>
+                <select class="st_data">
+                    <option value="sample-sort-data">sample-sort-data</option>
+                    <option>random_10_columns_10_rows</option>
+                    <option>random_10_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const customData = {
+            columns: [{
+                id: 'name',
+                name: 'Name',
+                width: 160
+            }, {
+                id: 'id',
+                name: 'Id'
+            }, {
+                id: 'number',
+                name: 'Number',
+                type: 'number'
+            }, {
+                id: 'string_number',
+                name: 'String Number',
+                type: 'number',
+                width: 100
+            }, {
+                id: 'index',
+                name: 'Index'
+            }, {
+                id: 'number_left',
+                name: 'Number Left',
+                width: 100,
+                align: 'left',
+                type: 'number'
+            }],
+            rows: [{
+                id: 'g1',
+                name: 'Group 1',
+                subs: [{
+                    id: 'id1',
+                    name: 'Holding 1',
+                    index: 1,
+                    number: NaN,
+                    number_left: 50,
+                    string_number: '80.13'
+                }, {
+                    id: 'id2',
+                    name: 'Holding 2',
+                    index: 2,
+                    number: 80,
+                    number_left: -20,
+                    string_number: '-9.33'
+                }, {
+                    id: 'id3',
+                    name: 'Holding 3',
+                    index: 3,
+                    number: NaN,
+                    number_left: -50,
+                    string_number: '5.23'
+                }, {
+                    id: 'id4',
+                    name: 'Holding 3',
+                    index: 4,
+                    number: 70,
+                    number_left: 50,
+                    string_number: '5.56'
+                }, {
+                    id: 'id5',
+                    name: 'Holding 5',
+                    index: 5,
+                    number: 30,
+                    number_left: -30,
+                    string_number: '-15.35'
+                }]
+            }, {
+                id: 'g2',
+                name: 'Group 2',
+                number: -38,
+                number_left: -10,
+                string_number: '5.78',
+                subs: [{
+                    id: 'id9',
+                    name: 'Holding 9',
+                    index: 9,
+                    number: -20,
+                    number_left: -30,
+                    string_number: null
+                }, {
+                    id: 'id10',
+                    name: 'Holding 10',
+                    index: 10,
+                    number: 80,
+                    number_left: 30,
+                    string_number: '-6.05'
+                }, {
+                    id: 'id11',
+                    name: 'Holding 11',
+                    index: 11,
+                    number: -25,
+                    number_left: 30,
+                    string_number: '6.59'
+                }]
+            }, {
+                id: 'g3',
+                name: 'Group 3',
+                subs: [{
+                    id: 'id6',
+                    name: 'Holding 6',
+                    index: 6,
+                    number_left: -10,
+                    string_number: '12.26'
+                }, {
+                    id: 'id7',
+                    name: 'Holding 7',
+                    index: 7,
+                    number_left: -30,
+                    string_number: '15.26'
+                }, {
+                    id: 'id8',
+                    name: 'Holding 8',
+                    index: 8,
+                    number: 80,
+                    number_left: 30
+                }]
+            }]
+        };
+
+        const Grid = window.turbogrid.Grid;
+        const Util = window.turbogrid.Util;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const numFix = function(num, fix) {
+            const n = Util.toNum;
+            const f = Util.isNum(fix) ? fix : 2;
+            return n(num).toFixed(n(f, true));
+        };
+
+        const renderData = function(data) {
+            grid.setOption({
+                theme: document.querySelector('.st_theme').value,
+                sortOnInit: true,
+                sortField: 'number'
+            });
+            grid.setFormatter({
+                number: function(v) {
+                    let value = numFix(v);
+                    if (v < 0) {
+                        value = `(${numFix(-v)})`;
+                    }
+                    return value;
+                }
+            });
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+
+                let noSubs = false;
+                if (rows < 200) {
+                    noSubs = true;
+                }
+
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            // do NOT keep anything previous
+            const d = JSON.parse(JSON.stringify(customData));
+            renderData(d);
+        }
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+/*
+option.theme = "dark"
+*/
+
+%dark {
+    background: #1e1e1e;
+
+    .tg-checkbox {
+        .tg-icon-item {
+            fill: #ababab;
+        }
+    }
+
+    .tg-header-table {
+        color: #ccc;
+        border-bottom: thin solid #333;
+    }
+
+    .tg-header-group-item::after {
+        border-bottom: 1px solid #999;
+    }
+
+    .tg-column-sorted {
+        color: #fff;
+
+        .tg-tree-icon-all .tg-icon-item {
+            fill: #fff;
+        }
+    }
+
+    /* for whole table */
+    .tg-header-sort-h {
+        .tg-sort-indicator-line {
+            border-top: thin solid #eee;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-item {
+            fill: #eee;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-item-light {
+            fill: #666;
+        }
+    }
+
+    /* for one column */
+    .tg-column-sort-v {
+        .tg-sort-indicator-icon .tg-icon-item {
+            fill: #666;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-item-light {
+            fill: #666;
+        }
+
+        &.tg-column-sorted .tg-sort-indicator-icon .tg-icon-item {
+            fill: #fff;
+        }
+
+        &.tg-column-sorted .tg-sort-indicator-icon .tg-icon-item-light {
+            fill: #666;
+        }
+    }
+
+    .tg-tree-icon .tg-icon-item {
+        fill: #fff;
+    }
+
+    .tg-tree-icon-all .tg-icon-item {
+        fill: #999;
+    }
+
+    .tg-header-item .tg-tree-icon .tg-icon-item {
+        fill: #999;
+    }
+
+    .tg-header-item .tg-column-sorted .tg-tree-icon .tg-icon-item {
+        fill: #fff;
+    }
+
+    .tg-row {
+        border-bottom: thin solid #333;
+
+        &.tg-group-line {
+            border-bottom: thin solid #666;
+        }
+
+        &.tg-clone {
+            border: 1px dashed #1e1e1e;
+            opacity: 0.1;
+        }
+    }
+
+    .tg-cell {
+        color: #eee;
+    }
+
+    .tg-body-message {
+        color: #eee;
+    }
+
+    .tg-hover.tg-row::before {
+        background: rgb(255 255 255 / 10%);
+    }
+
+    .tg-selected.tg-row::after {
+        background: rgb(255 255 255 / 20%);
+    }
+
+    /* scrollbar */
+    .tg-scrollbar-track {
+        background: #333;
+    }
+
+    .tg-scrollbar-thumb {
+        background: #bbb;
+    }
+
+    .tg-scrollbar-thumb:hover {
+        background: #ddd;
+    }
+
+    .tg-scrollbar-thumb-hold {
+        background: #eee;
+    }
+
+    .tg-scrollbar-thumb-hold:hover {
+        background: #eee;
+    }
+}

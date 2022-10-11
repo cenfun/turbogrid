@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .tg-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            margin-right: 3px;
+        }
+
+        .tg-dot.tg-dot-orangered {
+            background: orangered;
+        }
+
+        .tg-dot.tg-dot-green {
+            background: green;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid row select API:</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div class="line">
+                        <button>selectAll()</button>
+                        <button>selectAll(false)</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Event:</td>
+                <td>
+                    <div>onSelectChanged: <span class="onSelectChanged"></span></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        grid.bind('onCellUpdated onHeaderUpdated', function(e, d) {
+            const node = d.node;
+            const classList = node.classList;
+            node.addEventListener('animationend', function() {
+                classList.remove('tg-blink');
+            });
+            classList.add('tg-blink');
+        });
+        
+        grid.bind('onClick', function(e, d) {
+            const rowList = [d.rowItem].concat(d.rowItem.subs);
+            this.setRowSelected(rowList, d.e);
+        });
+
+        grid.bind('onSelectChanged', function(e, d) {
+            console.log(d);
+            document.querySelector('.onSelectChanged').innerHTML = d.length;
+        });
+
+        function render() {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                collapseAllVisible: true,
+                selectVisible: true,
+                rowHeight: 35,
+                frozenColumn: 0,
+                frozenRow: 0
+            };
+            grid.setOption(option);
+
+            grid.setFormatter({
+                iconLabelFormatter: function(value) {
+                    if (value === 'onwatch') {
+                        return '<span class="tg-dot tg-dot-orangered"></span>On Watch';
+                    } else if (value === 'approved') {
+                        return '<span class="tg-dot tg-dot-green"></span>Approved';
+                    }
+
+                    return value;
+                }
+            });
+
+            const data = {
+                columns: [{
+                    id: 'name',
+                    name: 'Shareclass Name'
+                }, {
+                    id: 'ticker',
+                    name: 'Ticker'
+                }, {
+                    id: 'secid',
+                    name: 'Sec ID'
+                }, {
+                    id: 'previous',
+                    name: 'Previous',
+                    width: 90,
+                    formatter: 'iconLabelFormatter'
+                }, {
+                    id: 'updated',
+                    name: 'Updated',
+                    width: 90,
+                    formatter: 'iconLabelFormatter'
+                }, {
+                    id: 'date',
+                    name: 'Date of Change',
+                    width: 100
+                }],
+                rows: [{
+                    name: 'American Funds',
+                    ticker: 'RWMFX',
+                    secid: '123456',
+                    selectable: true,
+                    subs: [{
+                        name: 'Empower',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }, {
+                        name: 'Fidelity',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }, {
+                        name: 'Lincoln',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }, {
+                        name: 'John Hancock',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }, {
+                        name: 'Nationwide',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }, {
+                        name: 'Voya',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }]
+                }, {
+                    name: 'DFA International',
+                    ticker: 'RWMFX',
+                    secid: '123456',
+                    selectable: true,
+                    subs: [{
+                        name: 'Empower',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }, {
+                        name: 'Lincoln',
+                        previous: 'onwatch',
+                        updated: 'approved',
+                        date: 'Dec 17, 2017'
+                    }]
+                }]
+            };
+
+            grid.setData(data);
+            grid.render();
+
+        }
+
+        ['.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

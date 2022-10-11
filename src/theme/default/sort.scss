@@ -1,0 +1,160 @@
+%sort {
+    /* one column sortable */
+    .tg-column-sortable {
+        .tg-column-name {
+            cursor: pointer;
+        }
+
+        .tg-sort-indicator {
+            cursor: pointer;
+        }
+    }
+
+    .tg-column-sorted {
+        color: #000;
+    }
+
+    /* for whole table */
+    .tg-header-sort-h {
+        .tg-column-name {
+            padding: 12px 5px 15px;
+        }
+
+        .tg-column-sort {
+            width: 100%;
+            padding: 0 5px;
+            overflow: hidden;
+            height: 15px;
+            margin-top: -15px;
+        }
+
+        .tg-sort-indicator {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .tg-column-sorted .tg-column-sort .tg-sort-indicator {
+            display: block;
+        }
+
+        .tg-sort-indicator-line {
+            position: absolute;
+            top: 1px;
+            width: 100%;
+            height: 0;
+            border-top: thin solid #1e1e1e;
+            overflow: hidden;
+        }
+
+        .tg-sort-indicator-icon {
+            position: absolute;
+            left: 0;
+            right: inherit;
+            top: 5px;
+        }
+
+        .tg-align-right .tg-sort-indicator-icon {
+            left: inherit;
+            right: 0;
+        }
+
+        .tg-align-center .tg-sort-indicator-icon {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tg-sort-indicator-icon .tg-icon-sort-h {
+            display: block;
+            width: 19px;
+            height: 6px;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-item {
+            fill: #1e1e1e;
+            display: none;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-item-light {
+            fill: #ababab;
+        }
+    }
+
+    /* for one column */
+    .tg-column-sort-v {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .tg-column-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &.tg-align-right {
+            justify-content: right;
+        }
+
+        .tg-sort-indicator {
+            position: relative;
+            width: 16px;
+            height: 16px;
+        }
+
+        .tg-sort-indicator-icon {
+            position: absolute;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-sort-v {
+            display: block;
+            width: 10px;
+            height: 16px;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-item {
+            fill: #ababab;
+        }
+
+        .tg-sort-indicator-icon .tg-icon-item-light {
+            fill: #ababab;
+        }
+
+        &.tg-column-sorted .tg-sort-indicator-icon .tg-icon-item {
+            fill: #1e1e1e;
+        }
+
+        &.tg-column-sorted .tg-sort-indicator-icon .tg-icon-item-light {
+            fill: #ababab;
+        }
+    }
+
+    .tg-sort-desc {
+        .tg-sort-indicator {
+            .tg-sort-indicator-icon {
+                .tg-desc {
+                    display: block;
+                }
+
+                .tg-asc {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .tg-sort-asc {
+        .tg-sort-indicator {
+            .tg-sort-indicator-icon {
+                .tg-desc {
+                    display: none;
+                }
+
+                .tg-asc {
+                    display: block;
+                }
+            }
+        }
+    }
+}

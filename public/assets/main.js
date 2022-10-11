@@ -92,6 +92,22 @@
         return hash;
     };
 
+    const updateHash = function(hash) {
+        const usp = new URLSearchParams(hash);
+        const hashStr = usp.toString();
+        window.location.hash = hashStr;
+
+        if (window.parent === window) {
+            return;
+        }
+
+        window.parent.postMessage({
+            type: 'hash',
+            data: hashStr
+        }, '*');
+
+    };
+
     window.setHash = function(key, value) {
         if (!key) {
             return;
@@ -101,8 +117,7 @@
             return;
         }
         hash[key] = value;
-        const usp = new URLSearchParams(hash);
-        window.location.hash = usp.toString();
+        updateHash(hash);
     };
 
     window.delHash = function(key) {
@@ -111,8 +126,7 @@
         }
         const hash = window.getHash();
         delete hash[key];
-        const usp = new URLSearchParams(hash);
-        window.location.hash = usp.toString();
+        updateHash(hash);
     };
 
     window.getNum = function(str) {

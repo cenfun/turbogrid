@@ -111,10 +111,6 @@
             background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
         }
 
-        .tg-dark .tg-gradient-top::before {
-            background-image: linear-gradient(to bottom, #000, rgb(0 0 0 / 0%));
-        }
-
         .tg-gradient-bottom::after {
             pointer-events: none;
             content: "";
@@ -126,10 +122,6 @@
             height: 30px;
             width: 100%;
             background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
-        }
-
-        .tg-dark .tg-gradient-bottom::after {
-            background-image: linear-gradient(to bottom, rgb(0 0 0 / 0%), #000);
         }
 
         @keyframes tg-cell-effect-animate {
@@ -178,27 +170,23 @@
     const container = document.querySelector('.left-container');
     const grid = new Grid(container);
 
+    window.addEventListener('message', function(e) {
+        const { type, data = '' } = e.data;
+        if (type === 'hash') {
+            window.location.hash = data;
+        }
+    });
+
     const $iframe = document.querySelector('.iframe');
     // $iframe.onload = function() {
     //     console.log('iframe loaded');
     // };
 
     const showItem = function(rowItem) {
-        const page = window.getHash().page;
-    
-        const id = rowItem.id || rowItem.name;
-        if (id === page && $iframe.src) {
-            try {
-                $iframe.contentDocument.location.reload();
-            } catch (e) {
-                //empty
-            }
-            return;
-        }
+        const id = rowItem.id;
         //console.log('iframe loading ...');
         window.setHash('page', id);
         $iframe.src = `${id}.html${window.location.hash}`;
-    
     };
 
     const changeItem = function(rowItem) {
@@ -251,11 +239,9 @@
     });
 
     let keywords = '';
-    let theme = window.getHash('theme');
 
     const render = function() {
         const option = {
-            theme: theme,
             headerVisible: false,
             selectMultiple: false,
             scrollbarSize: 10,
@@ -505,14 +491,6 @@
 
     window.addEventListener('load', function() {
         render();
-    });
-
-    window.addEventListener('hashchange', function() {
-        const t = window.getHash('theme');
-        if (t !== theme) {
-            theme = t;
-            render();
-        }
     });
 
     </script>

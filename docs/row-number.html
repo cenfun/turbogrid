@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Row Number:</div>
+            <div>
+                <input type="checkbox" id="cb_no_subs" class="cb_no_subs" />
+                <label for="cb_no_subs">no subs for random</label>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+
+                    <input type="checkbox" checked id="cb_rowNumberVisible" class="cb_rowNumberVisible" />
+                    <label for="cb_rowNumberVisible">rowNumberVisible</label>
+
+                    <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
+                    <label for="cb_selectVisible">selectVisible</label>
+
+                    <input type="checkbox" id="cb_selectAllVisible" class="cb_selectAllVisible" />
+                    <label for="cb_selectAllVisible">selectAllVisible</label>
+
+                    <input type="checkbox" id="cb_rowDragVisible" class="cb_rowDragVisible" />
+                    <label for="cb_rowDragVisible">rowDragVisible</label>
+
+                    <input type="checkbox" id="cb_collapseAllVisible" class="cb_collapseAllVisible" />
+                    <label for="cb_collapseAllVisible">collapseAllVisible</label>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const renderData = function(data) {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
+                collapseAllVisible: document.querySelector('.cb_collapseAllVisible').checked,
+                selectVisible: document.querySelector('.cb_selectVisible').checked,
+                selectAllVisible: document.querySelector('.cb_selectAllVisible').checked,
+                rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
+                frozenColumn: 0,
+                frozenRow: 1
+            };
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+
+                const noSubs = document.querySelector('.cb_no_subs').checked;
+
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+
+        ['.st_data', '.st_theme', '.cb_rowNumberVisible', '.cb_collapseAllVisible', '.cb_selectVisible', '.cb_selectAllVisible', '.cb_rowDragVisible', '.cb_no_subs'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <script src="assets/vue.global.prod.js"></script>
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .grid-container .hover-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .grid-container .hover-icon svg {
+            display: block;
+        }
+
+        .grid-container .tg-cell .hover-icon {
+            position: relative;
+            top: -2px;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Vue Component</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_5_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+    const vue = window.Vue;
+
+    //====================================================================
+    const HoverIcon = vue.defineComponent({
+        props: ['value'],
+        template: `
+        <div class="hover-icon" :title="value">
+            <svg width="100%" height="100%" pointer-events="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="red" d="M6.8 6H5.5v1h1.2v4.8h1.5V6H6.8zm0-1.5h1.5V3H6.8v1.5zM7.5 0C3.4 0 0 3.4 0 7.5S3.4 15 7.5 15 15 11.6 15 7.5 11.6 0 7.5 0zm0 14C3.9 14 1 11.1 1 7.5S3.9 1 7.5 1 14 3.9 14 7.5 11.1 14 7.5 14z"></path></svg>
+        </div>
+        `
+    });
+
+    //====================================================================
+    //vue 3
+
+    const gridData = vue.shallowReactive({
+        data: null,
+        option: null
+    });
+
+    //====================================================================
+
+    let grid;
+    const renderGrid = () => {
+        if (!grid) {
+            return;
+        }
+        grid.setData(gridData.data);
+        grid.setOption(gridData.option);
+        grid.render();
+    };
+
+    const createGrid = (container) => {
+
+        const Grid = window.turbogrid.Grid;
+        grid = new Grid(container);
+        grid.bind('onFirstUpdated', function(e, d) {
+            console.log('render-complete', d);
+        });
+
+        grid.setFormatter({
+
+            'vue-sync': function(v, r, c) {
+                const div = document.createElement('div');
+                vue.createApp(HoverIcon, {
+                    value: v
+                }).mount(div);
+                return div;
+            },
+
+            'vue-async': function(v, r, c) {
+                const id = `${this.id}-c-${c.tg_index}-r-${r.tg_index}`;
+                vue.nextTick(function() {
+                    vue.createApp(HoverIcon, {
+                        value: v
+                    }).mount(`.${id}`);
+                });
+                return `<div class="${id}"></div>`;
+            }
+
+        });
+
+        renderGrid();
+
+    };
+
+
+    const GridComponent = vue.defineComponent({
+        template: '<div ref="el" style="width:100%;height:100%;"></div>',
+        setup(props, context) {
+            const el = vue.ref();
+            vue.onMounted(() => {
+                createGrid(el.value);
+            });
+            vue.watch(gridData, () => {
+                renderGrid();
+            });
+            return {
+                el
+            };
+        }
+    });
+
+    const renderData = function(data) {
+
+        const column1 = data.columns[1];
+        column1.name = 'Sync';
+        column1.formatter = 'vue-sync';
+
+        const column2 = data.columns[2];
+        column2.name = 'Async';
+        column2.formatter = 'vue-async';
+
+        gridData.data = data;
+        gridData.option = {
+            theme: document.querySelector('.st_theme').value,
+            frozenColumn: 0,
+            frozenRow: 1
+        };
+
+    };
+
+    function render() {
+    
+        const dataStr = document.querySelector('.st_data').value;
+
+        const arr = dataStr.split('_');
+        if (arr[0] === 'random') {
+            //random_100_columns_20k_rows
+            const columns = window.getNum(arr[1]);
+            const rows = window.getNum(arr[3]);
+
+            let noSubs = false;
+            if (rows < 200) {
+                noSubs = true;
+            }
+
+            const data = window.randomData(columns, rows, noSubs);
+            renderData(data);
+            return;
+        }
+
+        renderData(window.sampleData);
+    }
+
+
+    ['.st_data', '.st_theme'].forEach(function(item) {
+        document.querySelector(item).addEventListener('change', function() {
+            render();
+        });
+    });
+
+    window.initCommonEvents(grid);
+
+    window.addEventListener('resize', function() {
+        if (grid) {
+            grid.resize();
+        }
+    });
+
+    window.addEventListener('load', function() {
+        render();
+        vue.createApp(GridComponent).mount('.grid-container');
+    });
+
+    </script>
+</body>
+
+</html>

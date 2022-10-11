@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .event-list {
+            height: 235px;
+            width: 210px;
+        }
+
+        .event-list-action {
+            text-align: center;
+        }
+
+        .event-list-action button {
+            margin: 5px;
+        }
+
+        .tg-popover-icon {
+            cursor: pointer;
+            position: absolute;
+            width: 20px;
+            height: 23px;
+            padding: 2px 0;
+            right: 0;
+            top: 0;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line">
+            <div class="line flex-row">
+                <div class="header-title flex-auto">Grid Events Example:</div>
+                <div>
+                    <select class="st_data">
+                        <option>sample-data.js</option>
+                        <option>random_3_columns_10_rows</option>
+                        <option>random_100_columns_20k_rows</option>
+                    </select>
+                    <select class="st_theme"></select>
+                    <button class="bt_source">source</button>
+                </div>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Bind Events:</td>
+                <td></td>
+                <td>Unbind Events:</td>
+                <td>Events log (open browser console (F12) for more detail)</td>
+            </tr>
+            <tr>
+                <td>
+                    <select multiple="multiple" class="event-list event-list-bind"></select>
+                </td>
+                <td class="event-list-action">
+                    <div>
+                        <button class="bt-event-add">&lt;&lt;</button>
+                    </div>
+                    <div>
+                        <button class="bt-event-remove">&gt;&gt;</button>
+                    </div>
+                </td>
+                <td>
+                    <select multiple="multiple" class="event-list event-list-unbind"></select>
+                </td>
+                <td>
+                    <button class="bt-clear">Clear Logs</button>
+                    <div class="log-container">
+                        <div class="log-content"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <button>render()</button>
+                    <button>rerender()</button>
+                    <button>addRow({"id":"id1","name":"Row"})</button>
+                    <button>deleteRow("id1")</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const bindEvents = function() {
+            grid.unbind('.tge');
+            const es = [];
+            const types = document.querySelector('.event-list-bind').querySelectorAll('option');
+            for (let i = 0; i < types.length; i++) {
+                es.push(types[i].innerHTML);
+            }
+
+            es.forEach(function(type) {
+                grid.bind(`${type}.tge`, function(e, d) {
+                    window.appendLog(type, d);
+                });
+            });
+        };
+
+        const currentBind = {
+            onScroll: true,
+            onSort: true,
+            onClick: true,
+            onUpdated: true,
+            onFirstUpdated: true,
+            onSelectChanged: true
+        };
+
+        const event_list_bind = document.querySelector('.event-list-bind');
+        const event_list_unbind = document.querySelector('.event-list-unbind');
+
+        const drawEventList = function() {
+
+            event_list_bind.innerHTML = '';
+            event_list_unbind.innerHTML = '';
+
+            const events = grid.getAllEvents();
+            console.log(events);
+            events.forEach(function(type, i) {
+                const item = document.createElement('option');
+                item.innerHTML = type;
+                if (currentBind[type]) {
+                    event_list_bind.appendChild(item);
+                } else {
+                    event_list_unbind.appendChild(item);
+                }
+            });
+
+            bindEvents();
+        };
+
+        drawEventList();
+
+        const getValues = function(select) {
+            const list = [];
+            const options = select.querySelectorAll('option');
+            for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                if (option.selected) {
+                    list.push(option.innerHTML);
+                }
+            }
+            return list;
+        };
+
+        event_list_bind.addEventListener('dblclick', function() {
+            getValues(this).forEach(function(k) {
+                currentBind[k] = false;
+            });
+            drawEventList();
+        });
+        event_list_unbind.addEventListener('dblclick', function() {
+            getValues(this).forEach(function(k) {
+                currentBind[k] = true;
+            });
+            drawEventList();
+        });
+
+        document.querySelector('.bt-event-add').addEventListener('click', function() {
+            getValues(event_list_unbind).forEach(function(k) {
+                currentBind[k] = true;
+            });
+            drawEventList();
+        });
+
+        document.querySelector('.bt-event-remove').addEventListener('click', function() {
+            getValues(event_list_bind).forEach(function(k) {
+                currentBind[k] = false;
+            });
+            drawEventList();
+        });
+
+        document.querySelector('.bt-clear').addEventListener('click', function() {
+            document.querySelector('.log-content').innerHTML = '';
+        });
+
+        const renderData = function(data) {
+
+            grid.setOption({
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+                frozenColumn: 0,
+                frozenRow: 1
+            });
+            grid.setFormatter({
+                tree: function(value, rowItem, columnItem, cellNode) {
+                    const defaultFormatter = this.getDefaultFormatter('tree');
+                    const icon_hover = '<div class="tg-cell-hover-icon tg-popover-icon"><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="400 -400 2300 2300"><path class="st0" d="M1549.5 1140.5l-480-770-80 70 560 910 560-910-80-70-480 770zm0-1440c-570 0-1050 480-1050 1050s480 1050 1050 1050 1050-480 1050-1050-480-1050-1050-1050zm0 1990c-520 0-940-420-940-940s420-940 940-940 940 420 940 940-420 940-940 940z"/></svg></div>';
+                    return defaultFormatter(value + icon_hover, rowItem, columnItem, cellNode);
+                }
+            });
+
+            data.columns[0].type = 'tree';
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const data = window.randomData(columns, rows);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

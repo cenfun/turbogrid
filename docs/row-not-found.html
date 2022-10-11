@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid no rows demo</div>
+            <div>
+                <select class="st_data">
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                    <option>random_10_columns_10k_rows</option>
+                    <option>random_10_columns_100k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Option</td>
+                <td>
+                    <div class="line">rowNotFound:
+                        <input type="text" class="ip_rowNotFound" size="45" value="No Results" />
+                    </div>
+                    <div class="line">
+                        <label>frozenColumn
+                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenColumn" />
+                        </label>
+                        <label>frozenRow
+                            <input type="number" min="-1" max="5" step="1" value="-1" class="ip-number ip_frozenRow" />
+                        </label>
+                        <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
+                        <label for="cb_frozenBottom">frozenBottom</label>
+                    </div>
+                    <div>
+                        <button>addRow("New Row")</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Search:</td>
+                <td>
+                    <input type="text" value="" placeholder="keywords" class="ip_keywords" />
+                    <button class="bt_del">delete selected rows</button>
+                    <span class="message_log"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        let keywords = '';
+        const container = document.querySelector('.grid-container');
+        const grid = new window.turbogrid.Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const renderData = function(data) {
+
+            const rowNotFound = document.querySelector('.ip_rowNotFound').value;
+
+            const option = {
+
+                rowNotFound: rowNotFound,
+
+                frozenBottom: document.querySelector('.cb_frozenBottom').checked,
+                frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
+                frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
+                theme: document.querySelector('.st_theme').value,
+
+                textSelectable: true,
+                selectVisible: true,
+                rowFilter: function(rowItem) {
+                    if (!keywords) {
+                        return true;
+                    }
+                    if (rowItem.tg_frozen) {
+                        return true;
+                    }
+                    let name = rowItem.name || rowItem.c0;
+                    if (name) {
+                        name = name.toLowerCase();
+                        if (name.indexOf(keywords) !== -1) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            };
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const data = window.randomData(columns, rows, true, true);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+
+        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            //update rows
+            grid.update();
+        });
+
+        document.querySelector('.bt_del').addEventListener('click', function() {
+            const log = document.querySelector('.message_log');
+            const selectedRows = grid.getSelectedRows();
+            if (!selectedRows.length) {
+                log.innerHTML = 'Nothing selected';
+                return;
+            }
+
+            grid.deleteRow(selectedRows);
+
+            log.innerHTML = `${selectedRows.length} row(s) be removed`;
+
+        });
+
+        ['.st_data', '.st_theme', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

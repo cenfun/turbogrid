@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Row Height API:</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    <div class="line">
+                        <label>frozenColumn
+                            <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
+                        </label>
+                        <label>frozenRow
+                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
+                        </label>
+                        <label for="cb_frozenBottom">
+                            <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
+                            frozenBottom
+                        </label>
+                    </div>
+                    <label>rowHeight
+                        <input type="number" value="23" class="ip-number ip_rowHeight" />
+                    </label>
+                    <label>rowCacheLength
+                        <input type="number" min="0" step="1" value="0" class="ip-number it_rowCacheLength" />
+                    </label>
+                    <input type="checkbox" checked="checked" id="cb_selectVisible" class="cb_selectVisible" />
+                    <label for="cb_selectVisible">selectVisible</label>
+
+                    <input type="checkbox" id="cb_rowNumberVisible" class="cb_rowNumberVisible" />
+                    <label for="cb_rowNumberVisible">rowNumberVisible</label>
+
+                    <input type="checkbox" id="cb_rowDragVisible" class="cb_rowDragVisible" />
+                    <label for="cb_rowDragVisible">rowDragVisible</label>
+
+                </td>
+            </tr>
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div class="line">
+                        <button>setRowHeight(3, 10)</button>
+                        <button>setRowHeight(3, 50)</button>
+                        <button>setRowHeight(3, 80)</button>
+                        <button>setRowHeight(3)</button>
+                    </div>
+                    <div class="line">
+                        <button>setRowHeight(3, "title")</button>
+                        <button>setRowHeight(3, "name")</button>
+                        <button>setRowHeight(10)</button>
+                        <button>setRowHeight("row15", 100)</button>
+                        <button>setRowHeight("row15")</button>
+                    </div>
+                    <div>
+                        <button>setRowHeight([3, 4], 10)</button>
+                        <button>setRowHeight([3, 4], [50, 100])</button>
+                        <button>setRowHeight([3, 4])</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <textarea class="usage-data1" style="width: 100%; height: 50px;">This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1</textarea>
+                    <textarea class="usage-data2" style="width: 100%; height: 50px;">This is text 2, This is text 2, This is text 2, This is text 2, This is text 2</textarea>
+                    <label for="cb_lazyFix">
+                        <input type="checkbox" id="cb_lazyFix" class="cb_lazyFix" />
+                        rowHeight lazyFix
+                    </label>
+                    <input class="bt_del" type="button" value="delete selected rows" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const $ = window.turbogrid.$;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        //lazy fix
+        grid.bind('onUpdated', function(e, d) {
+            if (!document.querySelector('.cb_lazyFix').checked) {
+                return;
+            }
+
+            const visibleRowList = grid.viewport.rows;
+            //console.log(visibleRowList);
+
+            const rows = [];
+            const heights = [];
+
+            visibleRowList.forEach(function(rowIndex) {
+                const row = grid.getRowItem(rowIndex);
+                if (!row.lazyFixable || row.lazyFixed) {
+                    return;
+                }
+                const cellNode = grid.getCellNode(rowIndex, 'title');
+                if (!cellNode) {
+                    return;
+                }
+                row.lazyFixed = true;
+                const div = cellNode.querySelector('.tg-lazy-fix');
+                //6px is padding top and bottom
+                let h = $(div).height() + 6;
+                if (h < grid.option.rowHeight) {
+                    h = grid.option.rowHeight;
+                }
+                rows.push(rowIndex);
+                heights.push(h);
+            });
+
+            //nothing fix
+            if (!rows.length) {
+                return;
+            }
+
+            console.log('lazy fix: ', rows);
+            grid.setRowHeight(rows, heights);
+        });
+
+        grid.bind('onColumnWidthChanged', function(e, d) {
+            if (d.id !== 'title') {
+                return;
+            }
+            //reset when column width changed
+            this.forEachRow(function(row) {
+                if (row.lazyFixable) {
+                    row.lazyFixed = false;
+                }
+            });
+        });
+
+        //=========================================================================================
+
+        function getData() {
+
+            const text1 = document.querySelector('.usage-data1').value;
+            const text2 = document.querySelector('.usage-data2').value;
+            return {
+                rows: [{
+                    name: 'Row a'
+                }, {
+                    name: 'Row b',
+                    height: 35,
+                    title: 'total text'
+                }, {
+                    name: 'Row c',
+                    lazyFixable: true,
+                    title: text1
+                }, {
+                    name: 'Row d',
+                    lazyFixable: true,
+                    title: "abcdefghijklmn opqrstuvwxyz ABCDEFGHIJKLMN OPQRSTUVWXYZ !@#$%^&*()_+-= 1234567890 ~`{}[];':\"|\\<>?,./"
+                }, {
+                    name: 'Row e',
+                    subs: [{
+                        name: 'Row ea',
+                        height: 50,
+                        lazyFixable: true,
+                        title: text1
+                    }, {
+                        name: 'Row eb',
+                        title: text2
+                    }, {
+                        name: 'Row ec',
+                        height: 50,
+                        selectable: true,
+                        subs: [{
+                            name: 'Row eca',
+                            lazyFixable: true,
+                            title: text2
+                        }, {
+                            name: 'Row ecb',
+                            height: 35
+                        }]
+                    }]
+                }, {
+                    name: 'Row f',
+                    height: 16
+                }, {
+                    name: 'Row g',
+                    height: 'title',
+                    lazyFixable: true,
+                    title: text1
+                }, {
+                    name: 'Row h',
+                    title: text2
+                }, {
+                    name: 'Row i',
+                    subs: [{
+                        name: 'Row ia',
+                        height: 50
+                    }]
+                }, {
+                    name: 'Row j'
+                }, {
+                    name: 'Row k'
+                }, {
+                    name: 'Row l'
+                }, {
+                    name: 'Row m',
+                    lazyFixable: true,
+                    title: text2
+                }, {
+                    name: 'Row n',
+                    title: text2
+                }, {
+                    name: 'Row o (id=row15)',
+                    id: 'row15'
+                }, {
+                    name: 'Row p'
+                }, {
+                    name: 'Row q'
+                }, {
+                    name: 'Row r'
+                }, {
+                    name: 'Row s'
+                }, {
+                    name: 'Row t',
+                    lazyFixable: true,
+                    title: text1 + text2
+                }],
+                columns: [{
+                    id: 'name',
+                    name: 'Name',
+                    width: 150
+                }, {
+                    id: 'tg_index',
+                    name: 'Index',
+                    type: 'number'
+                }, {
+                    id: 'tg_height',
+                    name: 'Height',
+                    type: 'number'
+                }, {
+                    id: 'title',
+                    name: 'column 1',
+                    width: 300,
+                    maxWidth: 1000,
+                    formatter: function(value, rowItem, columnItem, cellNode) {
+                        if (rowItem.lazyFixable && value) {
+                            $(cellNode).addClass('tg-multiline');
+                            return `<div class="tg-lazy-fix" index="${rowItem.tg_index}">${value}</div>`;
+                        }
+                        return value;
+                    }
+                }, {
+                    id: 'lazyFixable',
+                    name: 'lazyFixable',
+                    formatter: function(value, rowItem) {
+                        return Boolean(rowItem.lazyFixable);
+                    }
+                }, {
+                    id: 'refresh',
+                    name: 'refresh',
+                    formatter: function(v) {
+                        return Math.random().toString().substr(2, 5);
+                    }
+                }, {
+                    id: 'c2',
+                    name: 'column 2'
+                }, {
+                    id: 'c3',
+                    name: 'column 3',
+                    type: 'number'
+                }, {
+                    id: 'c4',
+                    name: 'column 4',
+                    width: 200
+                }, {
+                    id: 'c5',
+                    name: 'column 5'
+                }]
+            };
+        }
+
+        function render() {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
+                frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
+                frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
+                frozenBottom: document.querySelector('.cb_frozenBottom').checked,
+                rowCacheLength: parseInt(document.querySelector('.it_rowCacheLength').value),
+
+                selectVisible: document.querySelector('.cb_selectVisible').checked,
+                rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
+                rowDragVisible: document.querySelector('.cb_rowDragVisible').checked
+    };
+            grid.setOption(option);
+            grid.setFormatter({
+                tree: function(value, rowItem, columnItem, cellNode) {
+                    const defaultFormatter = this.getDefaultFormatter('tree');
+                    return defaultFormatter(`${value} ${rowItem.tg_index}`, rowItem, columnItem, cellNode);
+                }
+            });
+            grid.setData(getData());
+            grid.render();
+        }
+
+        document.querySelector('.bt_del').addEventListener('click', function() {
+            const selectedRows = grid.getSelectedRows();
+            if (!selectedRows.length) {
+                return;
+            }
+            grid.deleteRow(selectedRows);
+        });
+
+        [
+            '.st_theme',
+            '.usage-data1',
+            '.usage-data2',
+            '.ip_rowHeight',
+            '.ip_frozenColumn',
+            '.ip_frozenRow',
+            '.cb_frozenBottom',
+            '.it_rowCacheLength',
+            '.cb_selectVisible',
+            '.cb_rowNumberVisible',
+            '.cb_rowDragVisible',
+            '.cb_lazyFix'
+        ].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

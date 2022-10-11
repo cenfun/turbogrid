@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Row Sort API:</div>
+            <div>
+                <select class="st_data">
+                    <option value="sample-sort-data">sample-sort-data</option>
+                    <option value="sample-sort-data2">sample-sort-data2(date)</option>
+                    <option value="sample-sort-data3">sample-sort-data3(unstable test 1500 rows)</option>
+                    <option value="sample-sort-data4">sample-sort-data4(all sortable false)</option>
+                    <option value="sample-sort-data5">sample-sort-data5(sortFixed)</option>
+                    <option>random_10_columns_10_rows</option>
+                    <option>random_10_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    <div class="line">
+                        <input type="checkbox" checked="checked" id="cb_sortOnInit" class="cb_sortOnInit" />
+                        <label for="cb_sortOnInit">sortOnInit</label>
+                        <input type="checkbox" checked="checked" id="cb_sortAsc" class="cb_sortAsc" />
+                        <label for="cb_sortAsc">sortAsc</label>
+                        <input type="checkbox" checked="checked" id="cb_sortBlankValueBottom" class="cb_sortBlankValueBottom" />
+                        <label for="cb_sortBlankValueBottom">sortBlankValueBottom</label>
+                        <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
+                        <label for="cb_selectVisible">selectVisible</label>
+                        <input type="checkbox" id="cb_selectAllVisible" class="cb_selectAllVisible" />
+                        <label for="cb_selectAllVisible">selectAllVisible</label>
+                    </div>
+                    <div class="line">
+
+                        <label>sortIndicator:
+                            <select class="st_sortIndicator">
+                                <option>h</option>
+                                <option>v</option>
+                            </select>
+                        </label>
+
+                    </div>
+                    <div>
+                        <label>sortField:
+                            <input type="text" class="it_sortField" value="string_number" />
+                        </label>
+                        <select class="st_sortField">
+                            <option></option>
+                            <option selected>string_number</option>
+                            <option>name</option>
+                            <option>number</option>
+                            <option>number2</option>
+                            <option>date</option>
+                            <option>number_string</option>
+                            <option>string_null</option>
+                            <option>sortable_false</option>
+                        </select>
+                        <button class="bt_render">render</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <button>setSortColumn("index")</button>
+                    <button>removeSortColumn()</button>
+                    <button>exportData()</button>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div>
+                        <input type="checkbox" id="cb_preventDefaultOnClick" class="cb_preventDefaultOnClick" />
+                        <label for="cb_preventDefaultOnClick">preventDefault onClick</label>
+
+                        <input type="checkbox" id="cb_preventDefaultOnSort" class="cb_preventDefaultOnSort" />
+                        <label for="cb_preventDefaultOnSort">preventDefault onSort</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Event:</td>
+                <td>
+                    <div>onSort: <span class="onSort"></span></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const customData = {
+            columns: [{
+                id: 'name',
+                name: 'Name',
+                width: 160
+            }, {
+                id: 'id',
+                name: 'Id',
+                align: 'center'
+            }, {
+                id: 'index',
+                name: 'Index',
+                sortAsc: false,
+                type: 'number'
+            }, {
+                id: 'number',
+                name: 'Number',
+                type: 'number'
+            }, {
+                id: 'number2',
+                name: 'Number2',
+                type: 'number'
+            }, {
+                id: 'string_number',
+                name: 'String Number',
+                type: 'number',
+                width: 100
+            }, {
+                id: 'string_number',
+                name: 'Custom Comparer',
+                type: 'number',
+                comparer: 'custom',
+                width: 100
+            }, {
+                id: 'number_string',
+                name: 'Number & String',
+                type: 'number',
+                width: 100
+            }, {
+                id: 'date',
+                name: 'Date',
+                type: 'date',
+                width: 100
+            }, {
+                id: 'string_null',
+                name: 'String & null',
+                type: 'string',
+                width: 100
+            }, {
+                id: 'datatype_formatter',
+                name: 'Type Formatter',
+                type: 'number',
+                formatter: 'percent'
+            }, {
+                id: 'icon',
+                name: '<div>Click Icon <span class="ic-info-sm tg-tooltip-icon"></span></div>',
+                width: 100,
+                type: 'number'
+            }, {
+                id: 'sortable_false',
+                name: 'sortable false',
+                sortable: false,
+                type: 'number'
+            }],
+            rows: [{
+                id: 'id1',
+                name: 'Shenzhen',
+                index: 1,
+                number: NaN,
+                number2: 50,
+                string_number: '80.123',
+                number_string: 3,
+                date: '2003-6-10',
+                string_null: null,
+                datatype_formatter: 80,
+                icon: 10
+            }, {
+                id: 'id2',
+                name: 'Beijing',
+                index: 2,
+                number: 80,
+                number2: 20,
+                string_number: '9.3',
+                number_string: 'NaN',
+                date: '2003-6-5',
+                string_null: null,
+                datatype_formatter: 20,
+                icon: 2
+            }, {
+                id: 'id3',
+                name: 'Shanghai',
+                index: 3,
+                number: NaN,
+                number2: 50,
+                string_number: '5.3',
+                number_string: 'String',
+                date: '2012-11-1',
+                string_null: null,
+                datatype_formatter: 5
+            }, {
+                id: 'id4',
+                name: 'Changsha',
+                index: 4,
+                number: 70,
+                number2: 50,
+                string_number: '5.3',
+                number_string: NaN,
+                date: '2017-5-6',
+                string_null: 'String',
+                datatype_formatter: 112
+            }, {
+                id: 'id5',
+                name: 'Guangzhou',
+                index: 5,
+                number: 30,
+                number2: 30,
+                string_number: '15.5',
+                number_string: 13,
+                date: '2012-5-1',
+                string_null: 'Null String'
+            }, {
+                id: 'id6',
+                name: 'Hangzhou',
+                index: 6,
+                number: 30,
+                number2: 10,
+                string_number: '5.3',
+                number_string: NaN,
+                date: '',
+                string_null: '',
+                datatype_formatter: 5
+            }, {
+                id: 'id7',
+                name: 'Chengdu',
+                index: 7,
+                number2: 30,
+                string_number: '15.6',
+                date: '1979-05-10',
+                string_null: null,
+                datatype_formatter: 9
+            }, {
+                id: 'id8',
+                name: 'DaoChengYaDing',
+                index: 8,
+                number: 80,
+                number2: 30,
+                number_string: 1,
+                //date: null,
+                string_null: null,
+                datatype_formatter: 12
+            }, {
+                id: 'id9',
+                name: 'lower/upper case',
+                index: 9,
+                number: 80,
+                number2: 30,
+                string_number: null,
+                number_string: 1,
+                date: '1962-01-02',
+                string_null: null,
+                datatype_formatter: 3
+            }, {
+                id: 'id10',
+                name: 'Lower/upper case',
+                index: 10,
+                number: 80,
+                number2: 30,
+                string_number: '6.5',
+                number_string: 1,
+                date: '2006-6-5',
+                string_null: null,
+                datatype_formatter: 0.53,
+                icon: 12
+            }, {
+                id: 'id11',
+                name: 'lower/upper case',
+                index: 11,
+                number: 80,
+                number2: 30,
+                string_number: '6.5',
+                number_string: 1,
+                date: '2001-6-5',
+                string_null: null,
+                subs: [{
+                    name: 'Sub'
+                }]
+            }]
+        };
+
+        const customData2 = {
+            'columns': [{
+                'id': 'name',
+                'name': 'Name',
+                'type': 'string',
+                'formatter': 'tree',
+                'title': '',
+                'align': 'left',
+                'minWidth': 120,
+                'maxWidth': 500,
+                'sortable': true,
+                'resizable': true,
+                'headerClassMap': '',
+                'classMap': '',
+                'width': 300
+            }, {
+                'id': 'Ret10Yr',
+                'name': '10 yr',
+                'type': 'number',
+                'title': '',
+                'align': 'right',
+                'minWidth': 73,
+                'maxWidth': 300,
+                'sortable': true,
+                'resizable': true,
+                'headerClassMap': '',
+                'classMap': '',
+                'width': 73
+            }, {
+                'id': 'inceptionDate',
+                'name': 'Inception Date',
+                'type': 'date',
+                'width': 90,
+                'title': '',
+                'align': 'right',
+                'minWidth': 73,
+                'maxWidth': 300,
+                'sortable': true,
+                'resizable': true,
+                'headerClassMap': '',
+                'classMap': ''
+            }],
+            'rows': [{
+                'type': 'holding',
+                'name': 'Fidelity® Government Cash Reserves',
+                'id': 'FMUSA000A4;FM',
+                'inceptionDate': '1979-05-10',
+                'marketValue': null,
+                'Ret3Yr': 0.17563,
+                'netInvest': null,
+                'Ret1Yr': 0.4503,
+                'Ret10Yr': 0.48866,
+                'RetSinceInception': 4.81427,
+                'Ret5Yr': 0.10935,
+                'row_loaded': true
+            }, {
+                'type': 'holding',
+                'name': 'Default Cash',
+                'id': '11111111-1111-1111-1111-111111111111;CS',
+                'inceptionDate': null,
+                'marketValue': null,
+                'Ret3Yr': null,
+                'netInvest': null,
+                'Ret1Yr': null,
+                'Ret10Yr': null,
+                'RetSinceInception': null,
+                'Ret5Yr': null,
+                'row_loaded': true
+            }, {
+                'type': 'holding',
+                'name': 'General Electric Co',
+                'id': '0P000002DO;ST',
+                'inceptionDate': '1962-01-02',
+                'marketValue': null,
+                'Ret3Yr': -3.8252,
+                'netInvest': null,
+                'Ret1Yr': -27.42268,
+                'Ret10Yr': -3.66315,
+                'RetSinceInception': null,
+                'Ret5Yr': 3.1562,
+                'row_loaded': true
+            }]
+        };
+
+        const getCustomData3 = function() {
+            //1000 rows same value
+
+            const rows = [];
+            for (let i = 0; i < 1500; i++) {
+                rows.push({
+                    name: `Name ${i}`,
+                    same_number: 1500,
+                    same_string: 'string'
+                });
+            }
+
+            return {
+                columns: [{
+                    id: 'name',
+                    name: 'Name'
+                }, {
+                    id: 'same_number',
+                    name: 'Same Number',
+                    width: 100
+                }, {
+                    id: 'same_string',
+                    name: 'Same String'
+                }],
+                rows: rows
+            };
+        };
+
+        const customDataNoSort = {
+            columns: [{
+                id: 'name',
+                name: 'Name',
+                sortable: false
+            }, {
+                id: 'value',
+                name: 'Value',
+                sortable: false
+            }],
+            rows: [{
+                name: 'Row 1',
+                value: '1'
+            }, {
+                name: 'Row 2',
+                value: '2',
+                subs: [{
+                    name: 'Row 1',
+                    value: '1'
+                }, {
+                    name: 'Row 2',
+                    value: '2'
+                }]
+            }]
+        };
+
+        const customData5 = {
+            'columns': [{
+                'id': 'name',
+                'name': 'Name',
+                'width': 180,
+                'type': 'tree'
+            }, {
+                'id': 'value',
+                'name': 'Value',
+                'type': 'string'
+            }, {
+                'id': 'number',
+                'name': 'Number',
+                'type': 'number'
+            }, {
+                'id': 'icon',
+                'name': 'Icon',
+                'type': 'icon'
+            }, {
+                'id': 'date',
+                'name': 'Date',
+                'width': 100,
+                'type': 'date'
+            }],
+            'rows': [{
+                'id': 'row1',
+                'name': 'Name1',
+                'value': '1',
+                'number': '1',
+                'icon': '1',
+                'date': '2017-05-20'
+            }, {
+                'id': 'row2',
+                'name': 'Name2',
+                'value': '1',
+                'number': '2',
+                'icon': '2',
+                'date': '2017-05-21'
+            }, {
+                'id': 'row3',
+                'name': 'Name3',
+                'value': '3',
+                'number': '3',
+                'date': '1817-05-22'
+            }, {
+                'id': 'row4',
+                'name': 'Name4',
+                'value': '3',
+                'number': 4,
+                'date': '2017-05-21'
+            }, {
+                'id': 'row5',
+                'name': 'Name5',
+                'value': '3',
+                'number': 5,
+                'date': '2017-05-21'
+            }, {
+                'id': 'row6',
+                'name': 'Name6',
+                'value': '6',
+                'number': 6,
+                'date': '1917-05-21'
+            }, {
+                'name': '(sortFixed: true)',
+                'sortFixed': true
+            }, {
+                'name': '(sortFixed: top)',
+                'sortFixed': 'top'
+            }]
+        };
+
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+            //console.log("rows:", this.data.rows);
+        });
+
+        grid.bind('onClick', function(e, d) {
+            if (document.querySelector('.cb_preventDefaultOnClick').checked) {
+                d.e.preventDefault();
+                console.log('event prevented');
+            }
+        });
+
+        grid.bind('onSort', function(e, d) {
+            if (document.querySelector('.cb_preventDefaultOnSort').checked) {
+                d.e.preventDefault();
+                console.log('event prevented');
+                return;
+            }
+            const sortField = d.columnItem.id;
+            document.querySelector('.it_sortField').value = sortField;
+            document.querySelector('.onSort').innerHTML = sortField;
+        });
+
+        grid.setFormatter({
+            percent: function(v) {
+                if (v || v === 0) {
+                    return `${v}%`;
+                }
+                return '';
+            }
+        });
+
+        const renderData = function(data) {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                sortField: document.querySelector('.it_sortField').value,
+                sortAsc: document.querySelector('.cb_sortAsc').checked,
+                sortBlankValueBottom: document.querySelector('.cb_sortBlankValueBottom').checked,
+                sortOnInit: document.querySelector('.cb_sortOnInit').checked,
+                sortIndicator: document.querySelector('.st_sortIndicator').value,
+                selectVisible: document.querySelector('.cb_selectVisible').checked,
+                selectAllVisible: document.querySelector('.cb_selectAllVisible').checked,
+                collapseAllOnInit: true,
+                sortComparers: {
+                    custom: function(a, b, o) {
+                        //console.log('custom', a, b, o);
+                        const av = a[o.sortField];
+                        const bv = b[o.sortField];
+                        if (av !== bv) {
+                            return o.sortFactor * (bv - av);
+                        }
+                        return b.tg_index - a.tg_index;
+                    }
+                }
+            };
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+
+                let noSubs = false;
+                if (rows < 200) {
+                    noSubs = true;
+                }
+
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+            if (dataStr === 'sample-sort-data2') {
+                renderData(customData2);
+                return;
+            }
+            if (dataStr === 'sample-sort-data3') {
+                renderData(getCustomData3());
+                return;
+            }
+            if (dataStr === 'sample-sort-data4') {
+                renderData(customDataNoSort);
+                return;
+            }
+
+            if (dataStr === 'sample-sort-data5') {
+                renderData(customData5);
+                return;
+            }
+
+            // do NOT keep anything previous
+            const d = JSON.parse(JSON.stringify(customData));
+            renderData(d);
+        }
+
+        document.querySelector('.bt_render').addEventListener('click', function() {
+            render();
+        });
+
+        document.querySelector('.st_sortField').addEventListener('change', function() {
+            document.querySelector('.it_sortField').value = this.value;
+            render();
+        });
+
+        ['.st_data', '.st_theme', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

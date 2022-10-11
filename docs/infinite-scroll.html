@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <style>
+    @keyframes tg-loading-icon-animation {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .tg-loading-icon {
+        color: #0077cf;
+        width: 35px;
+        height: 35px;
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .tg-loading-icon svg {
+        animation: 0.5s tg-loading-icon-animation linear infinite;
+    }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Infinite Scroll</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    <label>rowHeight
+                        <input type="number" value="30" class="ip-number ip_rowHeight" />
+                    </label>
+                    <label for="cb_textSelectable">
+                        <input type="checkbox" checked id="cb_textSelectable" class="cb_textSelectable" />
+                        textSelectable
+                    </label>
+                    <label for="cb_scrollbarFade">
+                        <input type="checkbox" id="cb_scrollbarFade" class="cb_scrollbarFade" />
+                        scrollbarFade
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <label>Page Size
+                        <input type="number" value="50" class="ip-number ip_pageSize" />
+                    </label>
+                    <label for="cb_lazyFix">
+                        <input type="checkbox" checked id="cb_lazyFix" class="cb_lazyFix" />
+                        rowHeight lazyFix
+                    </label>
+                    <input class="bt_del" type="button" value="delete selected rows" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const $ = window.turbogrid.$;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        let dateGenerator = new Date();
+        const createRandomNews = function() {
+            const arr = [];
+            arr.length = 1 + Math.ceil(15 * Math.random());
+            let title = arr.join('This is news title. ');
+            const svgIcon = '<svg width="13" height="13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1500" width="100%" height="100%"><path d="M752.5 2.5c-410 0-750 340-750 750s340 750 750 750 750-340 750-750-340-750-750-750zm0 1400c-360 0-650-290-650-650s290-650 650-650 650 290 650 650-290 650-650 650zm-20-490l-290-440-80 60 370 560 380-560-80-60-300 440z"></path></svg>';
+            if (Math.random() > 0.8) {
+                title += svgIcon;
+            } else if (Math.random() > 0.7) {
+                title += '<a href="#">Link</a>';
+            } else if (Math.random() > 0.6) {
+                title = `<span style="font-size:20px;font-weight:bold;">${title}</span>`;
+            } else if (Math.random() > 0.5) {
+                title = `<span style="color:#008000;">${title}</span>`;
+            }
+            dateGenerator = new Date(dateGenerator.getTime() - Math.round(3 * 24 * 60 * 60 * 1000 * Math.random()));
+            const date = dateGenerator.getTime();
+            return {
+                title: title,
+                date: date,
+                lazyFixable: true
+            };
+        };
+
+        const lazyFix = function() {
+            if (!document.querySelector('.cb_lazyFix').checked) {
+                return;
+            }
+            const defaultHeight = grid.option.rowHeight;
+            //console.log(visibleRowList);
+            const rows = [];
+            const heights = [];
+            grid.viewport.rows.forEach(function(row) {
+                const rowItem = grid.getViewRowItem(row);
+                if (!rowItem.lazyFixable || rowItem.lazyFixed) {
+                    return;
+                }
+                const cellNode = grid.getCellNode(rowItem, 'title');
+                if (!cellNode) {
+                    return;
+                }
+                rowItem.lazyFixed = true;
+                const div = cellNode.querySelector('.tg-lazy-fix');
+                //6px is padding top and bottom
+                let h = $(div).height() + 6;
+                if (h < defaultHeight) {
+                    h = defaultHeight;
+                }
+                rows.push(rowItem);
+                heights.push(h);
+            });
+            if (!rows.length) {
+                //console.log("nothing fix")
+                return;
+            }
+            console.log('lazy fix: ', rows);
+            grid.setRowHeight(rows, heights);
+
+        };
+
+        let loading = false;
+        const loadNextPage = function() {
+            if (loading) {
+                return;
+            }
+
+            const rowsHeight = grid.getRowsHeight();
+            const scrollViewHeight = grid.getScrollViewHeight();
+            const scrollTop = grid.getScrollTop();
+            const frozenRowsHeight = grid.frozenRowsHeight;
+
+            const distance = Math.abs(rowsHeight - scrollViewHeight - scrollTop - frozenRowsHeight);
+            // console.log("rowsHeight:" + rowsHeight, "scrollViewHeight:" + scrollViewHeight, "scrollTop:" + scrollTop);
+            // console.log("distance: " + distance);
+            const hasRows = grid.getViewRows().length;
+
+            if (!hasRows || distance < 20) {
+                if (!hasRows) {
+                    grid.showLoading();
+                }
+                loading = true;
+                console.log('loading data...');
+                //mock request data delay
+                const timeout = 200 + Math.round(2000 * Math.random());
+                setTimeout(function() {
+                    const list = [];
+                    let i = 0;
+                    const pageSize = parseInt(document.querySelector('.ip_pageSize').value, 10);
+                    while (i < pageSize) {
+                        list.push(createRandomNews());
+                        i++;
+                    }
+                    list.sort(function(a, b) {
+                        return b.date - a.date;
+                    });
+
+                    list.push({
+                        id: 'loading',
+                        formatter: 'loading',
+                        height: 60,
+                        lazyFixable: false
+                    });
+
+                    //console.log(list);
+
+                    grid.deleteRow('loading');
+
+                    const parent = null;
+                    const position = null;
+                    const scrollTo = false;
+                    grid.addRow(list, parent, position, scrollTo);
+
+                    grid.hideLoading();
+
+                    loading = false;
+                }, timeout);
+            }
+        };
+
+        const updateWidth = function() {
+            const titleColumn = grid.getColumnItem('title');
+            const containerWidth = grid.containerWidth;
+            //5px padding right
+            let otherWidth = 5;
+            grid.viewColumns.forEach(function(item) {
+                if (item.id === 'title') {
+                    return;
+                }
+                otherWidth += item.width;
+            });
+            const titleWidth = containerWidth - otherWidth - grid.getScrollbarWidth();
+            //console.log(titleWidth);
+            if (titleWidth === titleColumn.width) {
+                return;
+            }
+            console.log(`updateWidth: ${titleWidth}`);
+
+            grid.setColumnWidth(titleColumn, titleWidth);
+
+        };
+
+        //load data and lazy fix
+        grid.bind('onUpdated', function(e, d) {
+            updateWidth();
+            loadNextPage();
+            lazyFix();
+        });
+
+        grid.bind('onColumnWidthChanged', function(e, d) {
+            if (d.id !== 'title') {
+                return;
+            }
+            console.log('onColumnWidthChanged');
+            //reset when column width changed
+            this.forEachRow(function(row) {
+                if (row.lazyFixable) {
+                    row.lazyFixed = false;
+                }
+            });
+        });
+
+        //=========================================================================================
+
+        function getData() {
+            return {
+                columns: [{
+                    id: 'tg_index',
+                    name: 'NO.',
+                    sortable: false,
+                    align: 'center',
+                    width: 50,
+                    formatter: function(v) {
+                        return v + 1;
+                    }
+                }, {
+                    id: 'title',
+                    name: 'Title',
+                    sortable: false,
+                    resizable: false,
+                    maxWidth: 2048,
+                    formatter: function(value, rowItem, columnItem, cellNode) {
+                        if (rowItem.lazyFixable && value) {
+                            $(cellNode).addClass('tg-multiline');
+                            return `<div class="tg-lazy-fix" index="${rowItem.tg_index}">${value}</div>`;
+                        }
+                        return value;
+                    }
+                }, {
+                    id: 'tg_height',
+                    name: 'Height',
+                    width: 60,
+                    align: 'center',
+                    sortable: false
+                }, {
+                    id: 'date',
+                    name: 'Date',
+                    type: 'date',
+                    width: 90,
+                    sortable: false,
+                    formatter: function(v) {
+                        return new Intl.DateTimeFormat('en-US', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                        }).format(v);
+                    }
+                }],
+                rows: []
+            };
+        }
+
+        function render() {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
+                textSelectable: document.querySelector('.cb_textSelectable').checked,
+                scrollbarFade: document.querySelector('.cb_scrollbarFade').checked,
+                frozenRow: 1,
+                selectVisible: true
+            };
+            grid.setOption(option);
+            grid.setFormatter({
+                loading: function(value, rowItem, columnItem, cellNode) {
+                    if (columnItem.id === 'title') {
+                        return `
+                        <div class="tg-loading-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path d="M1,8 A7 7 0 1 1 8 15" stroke-width="2" stroke-linecap="round" fill="none" stroke="currentColor"></path>
+                            </svg>
+                        </div>
+                        `;
+                    }
+                    return '';
+                }
+            });
+            grid.setData(getData());
+            grid.render();
+        }
+
+        document.querySelector('.bt_del').addEventListener('click', function() {
+            const selectedRows = grid.getSelectedRows();
+            if (!selectedRows.length) {
+                return;
+            }
+            grid.deleteRow(selectedRows);
+        });
+        
+        ['.st_theme', '.ip_pageSize', '.ip_rowHeight', '.cb_textSelectable', '.cb_scrollbarFade', '.cb_lazyFix'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

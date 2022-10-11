@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Online Render:</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>option:</td>
+                <td>
+                    <textarea class="tg_textarea tg_option" style="width: 100%; height: 100px;"></textarea>
+                    <label>
+                        <input type="checkbox" class="cb_noGroupDash" checked />
+                        No Group Dash
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>data:</td>
+                <td>
+                    <textarea class="tg_textarea tg_data" style="width: 100%; height: 100px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div>
+                        <input type="button" class="bt_render" value="render()" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const myOption = {
+            rowHeight: 23,
+            selectVisible: false,
+            sortField: '',
+            sortOnInit: false,
+            frozenColumn: -1,
+            frozenRow: -1,
+            textSelectable: false,
+            scrollbarSize: 15
+        };
+
+        const myData = {
+            columns: [{
+                id: 'name',
+                width: 180,
+                name: 'Name'
+            }, {
+                name: 'DataPoint'
+            }, {
+                name: 'DataPoint'
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }],
+
+            rows: [{
+                name: 'Total'
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }]
+        };
+
+        document.querySelector('.tg_option').value = JSON.stringify(myOption, null, 4);
+        document.querySelector('.tg_data').value = JSON.stringify(myData, null, 4);
+
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        function render() {
+            const option = JSON.parse(document.querySelector('.tg_option').value);
+
+            option.theme = document.querySelector('.st_theme').value;
+
+            if (document.querySelector('.cb_noGroupDash').checked) {
+                grid.setFormatter({
+                    null: function(value, rowItem) {
+                        const nullFormatter = this.getDefaultFormatter('null');
+                        if (rowItem.tg_group && !value) {
+                            return '';
+                        }
+                        return nullFormatter(value);
+                    }
+                });
+            }
+
+            grid.setOption(option);
+            const data = JSON.parse(document.querySelector('.tg_data').value);
+            grid.setData(data);
+            grid.render();
+        }
+        
+
+        ['.st_theme', '.tg_option', '.tg_data', '.bt_render', '.cb_noGroupDash'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

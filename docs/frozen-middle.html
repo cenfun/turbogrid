@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Frozen Middle:</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="fmg">
+            <div class="fmg-grid fmg-grid-l"></div>
+            <div class="fmg-grid fmg-grid-r"></div>
+        </div>
+    </div>
+    <style>
+        .fmg {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid #999;
+            overflow: hidden;
+        }
+
+        .fmg-grid {
+            position: absolute;
+            top: 0;
+            height: 100%;
+        }
+
+        .fmg .fmg-grid .fmg-middle-header {
+            color: #337f7f;
+        }
+
+        .fmg .fmg-grid .fmg-middle-cell {
+            background: #337f7f;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .fmg .fmg-grid .tg-column-name {
+            border-right: none;
+        }
+
+    </style>
+    <script type="text/javascript">
+        //=======================================================================================
+        //Frozen Middle Grid
+        const FMG = function(container) {
+            this.Grid = window.turbogrid.Grid;
+            this.initContainer(container);
+        };
+
+        FMG.prototype = {
+            initContainer: function(container) {
+                this.container = container;
+                this.containerL = container.querySelector('.fmg-grid-l');
+                this.containerL.innerHTML = '';
+                this.containerR = container.querySelector('.fmg-grid-r');
+                this.containerR.innerHTML = '';
+                this.createGrid();
+            },
+
+            getAllThemes() {
+                return this.gridL.getAllThemes();
+            },
+
+            setData: function(data) {
+                this.data = data;
+            },
+
+            createGrid: function() {
+
+                const self = this;
+
+                this.gridL = new this.Grid(this.containerL);
+                this.gridR = new this.Grid(this.containerR);
+
+                //sync scroll
+                this.gridL.bind('onScroll', function(e, d) {
+                    self.gridR.setScrollTop(d.scrollTop);
+                });
+                this.gridR.bind('onScroll', function(e, d) {
+                    self.gridL.setScrollTop(d.scrollTop);
+                });
+
+                //sync sort
+                this.gridL.bind('onSort', function(e, d) {
+                    this.once('onUpdated', function() {
+                        self.gridR.removeSortColumn();
+                        self.gridR.update();
+                    });
+                });
+                this.gridR.bind('onSort', function(e, d) {
+                    this.once('onUpdated', function() {
+                        self.gridL.removeSortColumn();
+                        self.gridL.update();
+                    });
+                });
+
+                //sync hover
+                this.gridL.bind('onRowMouseEnter', function(e, d) {
+                    self.gridR.setRowHover(d.rowItem, true);
+                }).bind('onRowMouseLeave', function(e, d) {
+                    self.gridR.setRowHover(d.rowItem, false);
+                });
+                this.gridR.bind('onRowMouseEnter', function(e, d) {
+                    self.gridL.setRowHover(d.rowItem, true);
+                }).bind('onRowMouseLeave', function(e, d) {
+                    self.gridL.setRowHover(d.rowItem, false);
+                });
+
+            },
+
+            initData: function() {
+
+                this.dataL = {
+                    rows: this.data.rows,
+                    columns: this.data.columnsL
+                };
+                this.dataR = {
+                    rows: this.data.rows,
+                    columns: this.data.columnsM.concat(this.data.columnsR)
+                };
+
+                let middleWidth = 0;
+                this.data.columnsM.forEach(function(item) {
+                    middleWidth += item.width;
+                });
+
+                this.middleWidth = middleWidth;
+
+                this.scrollbarSize = 10;
+
+            },
+
+            render: function() {
+
+                this.initData();
+                this.resize();
+
+                this.gridL.setOption({
+                    theme: document.querySelector('.st_theme').value,
+                    scrollbarSize: this.scrollbarSize,
+                    scrollbarSizeV: 0
+                });
+                this.gridR.setOption({
+                    theme: document.querySelector('.st_theme').value,
+                    scrollbarSize: this.scrollbarSize,
+                    frozenColumn: 0
+                });
+
+                this.gridL.setData(this.dataL);
+                this.gridL.render();
+
+                this.gridR.setData(this.dataR);
+                this.gridR.render();
+
+            },
+
+            resize: function() {
+
+                const totalWidth = this.container.offsetWidth;
+                const leftWidth = (totalWidth - this.scrollbarSize - this.middleWidth) * 0.5;
+                const rightWidth = totalWidth - leftWidth;
+                this.containerL.style.left = '0px';
+                this.containerL.style.width = `${leftWidth}px`;
+
+                this.containerR.style.left = `${leftWidth}px`;
+                this.containerR.style.width = `${rightWidth}px`;
+
+                if (this.gridL && this.gridR) {
+                    this.gridL.resize();
+                    this.gridR.resize();
+                }
+            }
+        };
+
+        //=======================================================================================
+
+        const getData = function() {
+
+            const columnsL = [{
+                id: 'calls',
+                name: 'Calls',
+                subs: [{
+                    id: 'calls_symbol',
+                    name: 'Symbol',
+                    width: 100
+                }, {
+                    id: 'calls_last',
+                    name: 'Last'
+                }, {
+                    id: 'calls_chg',
+                    name: 'Chg'
+                }, {
+                    id: 'calls_bid',
+                    name: 'Bid'
+                }, {
+                    id: 'calls_ask',
+                    name: 'Ask'
+                }, {
+                    id: 'calls_vol',
+                    name: 'Vol'
+                }]
+            }];
+            const columnsM = [{
+                id: 'strike',
+                name: 'Strike',
+                headerClassMap: 'fmg-middle-header',
+                classMap: 'fmg-middle-cell',
+                align: 'center',
+                width: 80
+            }];
+            const columnsR = [{
+                id: 'puts',
+                name: 'Puts',
+                subs: [{
+                    id: 'puts_symbol',
+                    name: 'Symbol',
+                    width: 100
+                }, {
+                    id: 'puts_last',
+                    name: 'Last'
+                }, {
+                    id: 'puts_chg',
+                    name: 'Chg'
+                }, {
+                    id: 'puts_bid',
+                    name: 'Bid'
+                }, {
+                    id: 'puts_ask',
+                    name: 'Ask'
+                }, {
+                    id: 'puts_vol',
+                    name: 'Vol'
+                }]
+            }];
+
+            const rows = [];
+
+            const addRow = function(i) {
+                const row = {};
+
+                columnsL[0].subs.forEach(function(item) {
+                    if (item.name === 'Symbol') {
+                        row[item.id] = item.name + i;
+                    } else {
+                        row[item.id] = Math.round(1000 * Math.random());
+                    }
+                });
+
+                columnsM.forEach(function(item) {
+                    row[item.id] = Math.round(1000 * Math.random());
+                });
+
+                columnsR[0].subs.forEach(function(item) {
+                    if (item.name === 'Symbol') {
+                        row[item.id] = item.name + i;
+                    } else {
+                        row[item.id] = Math.round(1000 * Math.random());
+                    }
+                });
+
+                //console.log(row);
+
+                rows.push(row);
+            };
+
+            let i = 0;
+            while (i < 100) {
+                addRow(i);
+                i += 1;
+            }
+
+            return {
+                columnsL: columnsL,
+                columnsM: columnsM,
+                columnsR: columnsR,
+                rows: rows
+            };
+        };
+
+        //=======================================================================================
+        const container = document.querySelector('.fmg');
+        const grid = new FMG(container);
+        grid.setData(getData());
+
+        const render = function() {
+            grid.render();
+        };
+
+
+        ['.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

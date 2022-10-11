@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid frozen row/column example:</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_3_columns_30_rows</option>
+                    <option>random_100_columns_20k_rows</option>
+                    <option>frozen_right</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+
+        <table class="tg-table">
+            <tr>
+                <td>Option:</td>
+                <td>
+                    <div class="line">
+                        <label>frozenColumn
+                            <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
+                        </label>
+                        <input type="checkbox" id="cb_frozenRight" class="cb_frozenRight" />
+                        <label for="cb_frozenRight">frozenRight</label>
+                        <label>frozenRow
+                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
+                        </label>
+                        <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
+                        <label for="cb_frozenBottom">frozenBottom</label>
+
+                        <input type="checkbox" id="cb_frozenRowHoverable" class="cb_frozenRowHoverable" />
+                        <label for="cb_frozenRowHoverable">frozenRowHoverable</label>
+                    </div>
+                    <div>
+                        
+                        <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
+                        <label for="cb_selectVisible">selectVisible</label>
+
+                        <input type="checkbox" id="cb_rowNumberVisible" class="cb_rowNumberVisible" />
+                        <label for="cb_rowNumberVisible">rowNumberVisible</label>
+
+                        <input type="checkbox" id="cb_rowDragVisible" class="cb_rowDragVisible" />
+                        <label for="cb_rowDragVisible">rowDragVisible</label>
+
+                        <input type="checkbox" id="cb_autoHeight" class="cb_autoHeight" />
+                        <label for="cb_autoHeight">autoHeight</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const frozenRightData = {
+            option: {
+                frozenRight: true
+            },
+            columns: [{
+                id: 'action',
+                name: 'Action',
+                width: 120,
+                formatter: function(value, rowItem, columnItem) {
+                    if (rowItem.tg_frozen) {
+                        return '';
+                    }
+                    return `
+                        <a href="#">Add</a>
+                        <a href="#">Delete</a>
+                        <a href="#">Edit</a>
+                    `;
+                }
+            }, {
+                id: 'name',
+                width: 180,
+                name: 'Name'
+            }, {
+                name: 'DataPoint'
+            }, {
+                name: 'DataPoint'
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'DataPoint'
+                }, {
+                    name: 'DataPoint'
+                }]
+            }],
+
+            rowsLength: 200
+        };
+
+        const renderData = function(data) {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: document.querySelector('.cb_selectVisible').checked,
+                rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
+                rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
+                frozenRight: document.querySelector('.cb_frozenRight').checked,
+                frozenBottom: document.querySelector('.cb_frozenBottom').checked,
+                frozenRowHoverable: document.querySelector('.cb_frozenRowHoverable').checked,
+                frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
+                frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
+                autoHeight: document.querySelector('.cb_autoHeight').checked
+            };
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const data = window.randomData(columns, rows);
+                renderData(data);
+                return;
+            }
+
+            if (dataStr === 'frozen_right') {
+                renderData(frozenRightData);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        [
+            '.st_theme',
+            '.st_data',
+            '.ip_frozenColumn',
+            '.ip_frozenRow',
+            '.cb_frozenRight',
+            '.cb_frozenBottom',
+            '.cb_selectVisible',
+            '.cb_rowNumberVisible',
+            '.cb_rowDragVisible',
+            '.cb_frozenRowHoverable',
+            '.cb_autoHeight'
+        ].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

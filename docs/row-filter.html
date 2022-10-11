@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid row filter demo</div>
+            <div>
+                <input type="checkbox" id="cb_no_subs" class="cb_no_subs" />
+                <label for="cb_no_subs">no subs</label>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                    <option>random_10_columns_10k_rows</option>
+                    <option>random_10_columns_100k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Search:</td>
+                <td>
+                    <input type="text" value="" placeholder="keywords" class="ip_keywords" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="line">
+                        <button>hideRow("total")</button>
+                        <button>showRow("total")</button>
+                        <button>hideRow("top")</button>
+                        <button>showRow("top")</button>
+                    </div>
+                    <div class="line">
+                        <button>hideRow(0)</button>
+                        <button>showRow(0)</button>
+                        <button>hideRow(1)</button>
+                        <button>showRow(1)</button>
+                    </div>
+                    <div>
+                        <button>getRowItem("total")</button>
+                        <button>getRowItem("level_1_2")</button>
+                        <button>getRowItem("level_3_2")</button>
+                        <button>getRowsLength()</button>
+                        <button>getRowsLength(true)</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        let keywords = '';
+
+        const Grid = window.turbogrid.Grid;
+
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        const renderData = function(data) {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                frozenColumn: 0,
+                frozenRow: 1,
+                selectVisible: true,
+                rowNotFound: '<div>Not Found</div>',
+                rowFilter: function(rowItem) {
+                    if (!keywords) {
+                        return true;
+                    }
+                    if (rowItem.tg_frozen) {
+                        return true;
+                    }
+                    //filter blank row
+                    if (rowItem.formatter === 'blank') {
+                        return false;
+                    }
+                    let name = rowItem.name;
+                    if (name) {
+                        name = name.toLowerCase();
+                        if (name.indexOf(keywords) !== -1) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            };
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const noSubs = document.querySelector('.cb_no_subs').checked;
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            //update rows
+            grid.update();
+        });
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

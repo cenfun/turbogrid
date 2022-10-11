@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .tg-hover-icon {
+            position: absolute;
+            right: 0;
+            display: none;
+        }
+
+        .tg-hover .tg-hover-icon {
+            display: inline-block;
+        }
+
+        .grid-container .tg-header-item {
+            border: 1px solid #080;
+        }
+
+        .grid-container .tg-header-item.tg-header-group-item::after {
+            border: none;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Header Group:</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>data:</td>
+                <td>
+                    <textarea class="tg_data" style="width: 100%; height: 100px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div>
+                        <input type="button" class="bt_render" value="render()" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const customData = {
+            columns: [{
+                id: 'name',
+                name: 'Sector Name',
+                width: 200
+            }, {
+                id: 'G1',
+                name: 'G1',
+                subs: [{
+                    id: 'C1-1',
+                    name: 'C1-1'
+                }, {
+                    id: 'G1-2',
+                    name: 'G1-2',
+                    subs: [{
+                        id: 'C1-2-1',
+                        name: 'C1-2-1'
+                    }, {
+                        id: 'G1-2-2',
+                        name: 'G1-2-2'
+                    }]
+                }, {
+                    id: 'G1-3',
+                    name: 'G1-3',
+                    subs: [{
+                        id: 'C1-3-1',
+                        name: 'C1-3-1 Long'
+                    }, {
+                        id: 'G1-3-2',
+                        name: 'G1-3-2',
+                        subs: [{
+                            id: 'C1-3-2-1',
+                            name: 'C1-3-2-1'
+                        }]
+                    }]
+                }]
+            }, {
+                id: 'c1',
+                name: 'header group',
+                type: 'number',
+                subs: [{
+                    id: 'c11',
+                    name: 'header sub 1'
+                }, {
+                    id: 'c12',
+                    name: 'header sub 2',
+                    subs: [{
+                        id: 'c121',
+                        name: 'header sub 2-1'
+                    }, {
+                        id: 'c122',
+                        name: 'header sub 2-2',
+                        subs: [{
+                            id: 'c1221',
+                            name: 'header sub 2-2-1'
+                        }, {
+                            id: 'c1222',
+                            name: 'header sub 2-2-2'
+                        }]
+                    }]
+                }]
+
+            }, {
+                'id': 'group_1',
+                'name': 'Total Return mo-end Annlzd EMPT',
+                'apiDataType': 'NUMERIC',
+                'align': 'right',
+                'width': null,
+                'sortable': true,
+                'subs': [{
+                    'align': 'right',
+                    'id': 'FACT830_2',
+                    'name': '3Y Long Name Long Name Long Name Long Name Long Name Long Name Long Name Long Name Long Name',
+                    'type': 'number'
+                }, {
+                    'align': 'right',
+                    'id': 'FACT830_3',
+                    'name': '5Y 1 Month Rolling',
+                    'subs': [{
+                        'align': 'right',
+                        'id': 'FACT830_3:window_1',
+                        'name': '12/01/2012 - 12/31/2012',
+                        'type': 'number'
+                    }, {
+                        'align': 'right',
+                        'id': 'FACT830_3:window_2',
+                        'name': '12/01/2013 - 12/31/2013',
+                        'type': 'number'
+                    }, {
+                        'align': 'right',
+                        'id': 'FACT830_3:window_3',
+                        'name': '12/01/2014 - 12/31/2014',
+                        'type': 'number'
+                    }]
+                }]
+            }],
+
+            rows: [{
+                name: 'Holding 1'
+            }, {
+                name: 'Holding 2'
+            }, {
+                name: 'Holding 3'
+            }]
+        };
+
+        document.querySelector('.tg_data').value = JSON.stringify(customData, null, 4);
+
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        function render() {
+            grid.setOption({
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+
+                frozenColumn: 0,
+                frozenRow: -1,
+
+                sortField: 'c1',
+                sortOnInit: true
+
+            });
+
+            grid.setFormatter({
+                tree: function(value, rowItem, columnItem, cellNode) {
+                    const defaultFormatter = this.getDefaultFormatter('tree');
+                    if (rowItem.type !== 'summary') {
+                        value = `${value}<span class="tg-hover-icon">hover icon</span>`;
+                    }
+                    return defaultFormatter(value, rowItem, columnItem, cellNode);
+                }
+            });
+
+            const data = JSON.parse(document.querySelector('.tg_data').value);
+            grid.setData(data);
+            grid.render();
+        }
+
+        document.querySelector('.bt_render').addEventListener('click', function() {
+            render();
+        });
+
+        ['.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

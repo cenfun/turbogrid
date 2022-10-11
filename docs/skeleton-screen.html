@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .tg-skeleton {
+            position: absolute;
+            background: rgb(194 207 214);
+            width: 80%;
+            top: 20%;
+            height: 60%;
+            transform-origin: left;
+            animation-name: tg-skeleton-keyframes;
+            animation-duration: 0.5s;
+            animation-timing-function: linear;
+            animation-delay: 0.3s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        .tg-skeleton-right {
+            right: 5px;
+            transform-origin: right;
+        }
+
+        .tg-row.tg-odd .tg-skeleton {
+            width: 70%;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes tg-skeleton-keyframes {
+            from {
+                transform: scaleX(1);
+            }
+
+            to {
+                transform: scaleX(0.8);
+            }
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid skeleton screen example:</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+
+        grid.bind('onUpdated', function(e, viewport) {
+            const visibleRowList = viewport.rows;
+
+            //generate rows which data not ready
+            const notReadyRowIndexList = [];
+            visibleRowList.forEach(function(index) {
+                const rowItem = grid.getRowItem(index);
+                if (rowItem && !rowItem.dataReady) {
+                    notReadyRowIndexList.push(index);
+                }
+            });
+            if (!notReadyRowIndexList.length) {
+                return;
+            }
+
+            //mock request data by ajax
+            clearTimeout(this.timeout_load_rows);
+            this.timeout_load_rows = setTimeout(function() {
+
+                //apply new data to each row
+                notReadyRowIndexList.forEach(function(rowIndex) {
+                    const rowItem = grid.getRowItem(rowIndex);
+                    rowItem.c1 = 'string';
+                    rowItem.c2 = Math.random().toFixed(3);
+                    rowItem.c3 = Math.random().toFixed(3);
+                    rowItem.c4 = 'string';
+                    rowItem.c5 = 'string';
+                    //data is ready
+                    rowItem.dataReady = true;
+                });
+                //flush cell which required refresh
+                grid.flushCell(notReadyRowIndexList, [1, 2, 3, 4, 5]);
+                //render again
+                grid.render();
+
+            }, 2000);
+
+
+        });
+
+        function render() {
+
+            const rows = [];
+            for (let i = 0; i < 300; i++) {
+                rows.push({
+                    name: `Row name ${i}`,
+                    dataReady: false
+                });
+            }
+
+            const data = {
+                columns: [{
+                    id: 'name',
+                    name: 'Name',
+                    width: 160
+                }, {
+                    id: 'c1',
+                    name: 'Column 1',
+                    originalFormatter: 'string',
+                    formatter: 'skeleton'
+                }, {
+                    id: 'c2',
+                    name: 'Column 2',
+                    align: 'right',
+                    originalFormatter: 'number',
+                    formatter: 'skeleton'
+                }, {
+                    id: 'c3',
+                    name: 'Column 3',
+                    align: 'right',
+                    originalFormatter: 'number',
+                    formatter: 'skeleton'
+                }, {
+                    id: 'c4',
+                    name: 'Column 4',
+                    originalFormatter: 'string',
+                    formatter: 'skeleton'
+                }, {
+                    id: 'c5',
+                    name: 'Column 5',
+                    originalFormatter: 'string',
+                    formatter: 'skeleton'
+                }],
+                rows: rows
+            };
+
+            grid.setData(data);
+
+            grid.setOption({
+                theme: document.querySelector('.st_theme').value,
+                frozenColumn: 0
+            });
+
+            grid.setFormatter({
+                skeleton: function(value, rowItem, columnItem, cellNode) {
+                    if (!rowItem.dataReady) {
+                        const align = columnItem.align ? `tg-skeleton-${columnItem.align}` : '';
+                        return `<div class="tg-skeleton ${align}"></div>`;
+                    }
+                    const originalFormatter = this.getFormatter(columnItem.originalFormatter) || this.getFormatter('string');
+                    return originalFormatter.apply(this, arguments);
+                }
+            });
+            grid.render();
+        }
+
+        ['.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

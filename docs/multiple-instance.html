@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .body {
+            padding: 0;
+        }
+
+        .div-left {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            z-index: 0;
+            background: #fff;
+        }
+
+        .div-right {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            left: 50%;
+            background: #eee;
+        }
+
+        .overlap {
+            position: absolute;
+            left: 40%;
+            top: -10px;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid multiple instance:</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_10_columns_100_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <div>
+            <button class="bt_position">position overlap</button>
+            <label>left z-index:</label>
+            <select class="st_index">
+                <option>0</option>
+                <option>100</option>
+            </select>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="div-left">
+            <div class="grid-container grid-container_1"></div>
+        </div>
+        <div class="div-right">
+            <div class="grid-container grid-container_2"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+
+        const container1 = document.querySelector('.grid-container_1');
+        const grid = new Grid(container1);
+
+        const container2 = document.querySelector('.grid-container_2');
+        const grid2 = new Grid(container2);
+
+        const renderData = function(data) {
+
+            grid.setOption({
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+                frozenColumn: 0,
+                frozenRow: -1
+            });
+            grid.setDataSnapshot(data);
+            grid.render();
+
+            grid2.setOption({
+                theme: document.querySelector('.st_theme').value,
+                height: 50,
+                selectVisible: true,
+                frozenColumn: 0,
+                frozenRow: -1
+            });
+            grid2.setDataSnapshot(data);
+            grid2.render();
+
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+
+                let noSubs = false;
+                if (rows < 200) {
+                    noSubs = true;
+                }
+
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        document.querySelector('.bt_position').addEventListener('click', function() {
+            const st_index = document.querySelector('.st_index').value;
+            document.querySelector('.div-left').style.zIndex = st_index;
+            const divR = document.querySelector('.div-right');
+            if (divR.classList.contains('overlap')) {
+                divR.classList.remove('overlap');
+            } else {
+                divR.classList.add('overlap');
+            }
+        });
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+            grid2.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

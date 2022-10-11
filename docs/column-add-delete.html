@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid column add and delete:</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                    <option>random_1k_columns_200_rows</option>
+                    <option>random_2k_columns_100_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div class="line">
+                        <button>addColumn("New Column")</button>
+                        <button>addColumn({"name":"Column id1","id":"id1"})</button>
+                        <button>addColumn(["C1", "C2"])</button>
+                    </div>
+                    <div class="line">
+                        <button>addColumn(["id1","id2"],"c2")</button>
+                        <button>addColumn("End Sub","end_group")</button>
+                    </div>
+                    <div class="line">
+                        <button>addColumn("In c1","c1")</button>
+                        <button>addColumn(["In c1 1","In c1 2"],"c1")</button>
+                    </div>
+                    <div class="line">
+                        <button>showColumn(3)</button>
+                        <button>hideColumn(3)</button>
+                    </div>
+                    <div class="line">
+                        <button>deleteColumn("id1")</button>
+                        <button>deleteColumn(0)</button>
+                        <button>deleteColumn(1)</button>
+                        <button>deleteColumn(2)</button>
+                        <button>deleteColumn(-1)</button>
+                        <button>deleteColumn(-2)</button>
+                        <button>deleteColumn([3,5,"id1"])</button>
+                    </div>
+                    <div>
+                        <button>exportData()</button>
+                    </div>
+                </td>
+                <td width="40%">
+                    <button class="log-clear">Clear Logs</button>
+                    <div class="log-container">
+                        <div class="log-content"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function(e, d) {
+            console.log('duration:', `${this.renderDuration}ms`);
+            window.appendLog(`event: ${e.type}`, d);
+        }).bind('onColumnAdded', function(e, d) {
+            window.appendLog(`event: ${e.type}`, d);
+        }).bind('onColumnRemoved', function(e, d) {
+            window.appendLog(`event: ${e.type}`, d);
+        }).bind('onSelectChanged', function(e, d) {
+            window.appendLog(`event: ${e.type}`, d);
+        });
+
+        const renderData = function(data) {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+                frozenColumn: 0
+            };
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const data = window.randomData(columns, rows);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

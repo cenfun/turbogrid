@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="assets/vue.global.prod.js"></script>
+    <script src="assets/vine-ui.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .bt-set,
+        .column-set-content button {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            line-height: 20px;
+        }
+
+        .column-set-content button,
+        .column-set-content input {
+            margin-right: 5px;
+        }
+
+        button svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+            margin-right: 3px;
+        }
+
+        .column-set-grid {
+            height: 350px;
+        }
+
+        .column-set-action {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Column Set Example:</div>
+            <div>
+                <select class="st_data">
+                    <option value="sample-data">sample-data</option>
+                    <option>random_10_columns_10_rows</option>
+                    <option>random_10_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <div class="flex-row">
+            <div class="flex-auto">Column move/add/remove/drag/drop</div>
+            <button class="bt-set">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <path d="M293.9,450H233.53a15,15,0,0,1-14.92-13.42l-4.47-42.09a152.77,152.77,0,0,1-18.25-7.56L163,413.53a15,15,0,0,1-20-1.06l-42.69-42.69a15,15,0,0,1-1.06-20l26.61-32.93a152.15,152.15,0,0,1-7.57-18.25L76.13,294.1a15,15,0,0,1-13.42-14.91V218.81A15,15,0,0,1,76.13,203.9l42.09-4.47a152.15,152.15,0,0,1,7.57-18.25L99.18,148.25a15,15,0,0,1,1.06-20l42.69-42.69a15,15,0,0,1,20-1.06l32.93,26.6a152.77,152.77,0,0,1,18.25-7.56l4.47-42.09A15,15,0,0,1,233.53,48H293.9a15,15,0,0,1,14.92,13.42l4.46,42.09a152.91,152.91,0,0,1,18.26,7.56l32.92-26.6a15,15,0,0,1,20,1.06l42.69,42.69a15,15,0,0,1,1.06,20l-26.61,32.93a153.8,153.8,0,0,1,7.57,18.25l42.09,4.47a15,15,0,0,1,13.41,14.91v60.38A15,15,0,0,1,451.3,294.1l-42.09,4.47a153.8,153.8,0,0,1-7.57,18.25l26.61,32.93a15,15,0,0,1-1.06,20L384.5,412.47a15,15,0,0,1-20,1.06l-32.92-26.6a152.91,152.91,0,0,1-18.26,7.56l-4.46,42.09A15,15,0,0,1,293.9,450ZM247,420h33.39l4.09-38.56a15,15,0,0,1,11.06-12.91A123,123,0,0,0,325.7,356a15,15,0,0,1,17,1.31l30.16,24.37,23.61-23.61L372.06,328a15,15,0,0,1-1.31-17,122.63,122.63,0,0,0,12.49-30.14,15,15,0,0,1,12.92-11.06l38.55-4.1V232.31l-38.55-4.1a15,15,0,0,1-12.92-11.06A122.63,122.63,0,0,0,370.75,187a15,15,0,0,1,1.31-17l24.37-30.16-23.61-23.61-30.16,24.37a15,15,0,0,1-17,1.31,123,123,0,0,0-30.14-12.49,15,15,0,0,1-11.06-12.91L280.41,78H247l-4.09,38.56a15,15,0,0,1-11.07,12.91A122.79,122.79,0,0,0,201.73,142a15,15,0,0,1-17-1.31L154.6,116.28,131,139.89l24.38,30.16a15,15,0,0,1,1.3,17,123.41,123.41,0,0,0-12.49,30.14,15,15,0,0,1-12.91,11.06l-38.56,4.1v33.38l38.56,4.1a15,15,0,0,1,12.91,11.06A123.41,123.41,0,0,0,156.67,311a15,15,0,0,1-1.3,17L131,358.11l23.61,23.61,30.17-24.37a15,15,0,0,1,17-1.31,122.79,122.79,0,0,0,30.13,12.49,15,15,0,0,1,11.07,12.91ZM449.71,279.19h0Z"/><path d="M263.71,340.36A91.36,91.36,0,1,1,355.08,249,91.46,91.46,0,0,1,263.71,340.36Zm0-152.72A61.36,61.36,0,1,0,325.08,249,61.43,61.43,0,0,0,263.71,187.64Z"/>
+                    </g>
+                </svg>
+                Column Set
+            </button>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const { Grid, Util } = window.turbogrid;
+        const { components } = window['vine-ui'];
+        const VuiPopover = components.VuiPopover;
+        
+        const ColumnSetContent = window.Vue.defineComponent({
+            template: `
+                    <div class="column-set-content">
+                        <div class="column-set-grid" ref="gridContainer"></div>
+                        <div class="column-set-action">
+                            <button @click="moveSelectedRowsToTop($event)">
+                                <svg
+                                    id="angle-double-up--s"
+                                    viewBox="0 0 1500 1500"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                    <path d="M60.4 1254.8l60 80 630-530 630 530 60-80-690-590-690 590zm690-960l630 530 60-80-690-580-690 590 60 80 630-540z" />
+                                </svg>
+                                Top
+                            </button>
+                            <button @click="moveSelectedRowsUp($event)">
+                                <svg
+                                    id="angle-up--s"
+                                    viewBox="0 0 1500 1500"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                    <path d="M750.4 419.7l-690 590 60 70 630-530 620 530 70-70z" />
+                                </svg>
+                                Up
+                            </button>
+                            <button @click="moveSelectedRowsDown($event)">
+                                <svg
+                                    id="angle-down--s"
+                                    viewBox="0 0 1500 1500"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                    <path d="M1370.4 420l-620 530-630-530-60 70 690 590 690-590z" />
+                                </svg>
+                                Down
+                            </button>
+                            <button @click="moveSelectedRowsToBottom($event)">
+                                <svg
+                                    id="angle-double-down--s"
+                                    viewBox="0 0 1500 1500"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                    <path d="M1440.4 244.9l-60-80-630 540-630-530-60 70 690 590 690-590zm-690 960l-630-530-60 70 690 590 690-590-60-80-630 540z" />
+                                </svg>
+                                Bottom
+                            </button>
+                        </div>
+                        <div class="column-set-action">
+                            <input ref="columnName" value="Column Name"/>
+                            <button @click="addRow()">Add</button>
+                            <button @click="removeSelected()">Remove Selected</button>
+                        </div>
+                    </div>
+                `,
+            props: {
+                list: {
+                    type: Array,
+                    default: function() {
+                        return [];
+                    }
+                }
+            },
+            mounted() {
+                this.init();
+            },
+            methods: {
+                init() {
+                    const grid = new Grid(this.$refs.gridContainer);
+                    grid.setOption({
+                        theme: document.querySelector('.st_theme').value,
+                        rowDragVisible: true,
+                        selectVisible: true,
+                        selectAllVisible: false,
+                        collapseAllVisible: false,
+                        headerVisible: false
+                    });
+
+                    grid.bind('onRowRemoved', () => {
+                        this.change();
+                    });
+                    grid.bind('onRowAdded', () => {
+                        this.change();
+                    });
+                    grid.bind('onRowMoved', () => {
+                        this.change();
+                    });
+                    grid.bind('onRowDropped', () => {
+                        this.change();
+                    });
+
+                    console.log(this.list);
+
+                    Util.forEachTree(this.list, function(item) {
+                        item.tg_bak_formatter = item.formatter;
+                        delete item.formatter;
+                        item.selectable = true;
+                    });
+
+                    const data = {
+                        columns: [{
+                            id: 'name',
+                            name: 'Column Name',
+                            width: 248,
+                            resizable: false,
+                            sortable: false
+                        }],
+                        rows: this.list
+                    };
+
+                    grid.setData(data);
+                    grid.render();
+
+                    this.grid = grid;
+                },
+
+                removeSelected() {
+                    const selectedRows = this.grid.getSelectedRows();
+                    if (!selectedRows.length) {
+                        return;
+                    }
+                    this.grid.deleteRow(selectedRows);
+                },
+
+                addRow() {
+                    const it = this.$refs.columnName;
+                    const name = it.value;
+                    if (!name) {
+                        return;
+                    }
+                    this.grid.addRow({
+                        name: name,
+                        selectable: true
+                    });
+                    it.value = '';
+                },
+
+                moveSelectedRowsToTop() {
+                    this.grid.moveSelectedRowsToTop();
+                },
+                moveSelectedRowsUp() {
+                    this.grid.moveSelectedRowsUp();
+                },
+                moveSelectedRowsDown() {
+                    this.grid.moveSelectedRowsDown();
+                },
+                moveSelectedRowsToBottom() {
+                    this.grid.moveSelectedRowsToBottom();
+                },
+
+                change() {
+                    const list = this.grid.exportData().rows;
+                    Util.forEachTree(list, function(item) {
+                        if (item.tg_bak_formatter) {
+                            item.formatter = item.tg_bak_formatter;
+                            delete item.tg_bak_formatter;
+                        }
+                    });
+                    this.$emit('change', list);
+                },
+
+                bindEvents() {
+
+
+                    // popover.querySelector('.bt_done').addEventListener('click', function(ee) {
+                    //     const columnSetData = grid.exportData();
+                    //     grid.setData({
+                    //         rows: grid.getRows(),
+                    //         columns: columnSetData.rows
+                    //     });
+                    //     grid.render();
+                    //     grid.destroy();
+                    //     grid = null;
+                    //     popover.remove();
+                    //     popover = null;
+                    // });
+
+                    // popover.querySelector('.bt_cancel').addEventListener('click', function(ee) {
+                    //     grid.destroy();
+                    //     grid = null;
+                    //     popover.parentNode.removeChild(popover);
+                    //     popover = null;
+                    // });
+
+                    //==================================================================
+                    // move position to elem
+                }
+            }
+
+        });
+
+        let popover;
+        const hidePopover = function() {
+            if (popover) {
+                popover.unmount();
+                popover = null;
+            }
+        };
+
+        const showPopover = function(e, grid) {
+
+            hidePopover();
+            const elem = e.currentTarget;
+
+            popover = VuiPopover.createComponent({
+                target: elem,
+                title: 'Column Set',
+                width: 350,
+                onClose: function() {
+                    popover = null;
+                }
+            }, (h) => {
+                return {
+                    default: () => {
+                        return h(ColumnSetContent, {
+                            list: grid.exportData().columns,
+                            onChange: function(list) {
+                                const data = grid.getData();
+                                data.columns = list;
+                                grid.setData(data);
+                                grid.render();
+                            }
+                        });
+                    }
+                };
+            });
+
+        };
+
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        
+        const renderData = function(data) {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+                frozenColumn: 0
+            };
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+
+                let noSubs = false;
+                if (rows < 200) {
+                    noSubs = true;
+                }
+
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            // do NOT keep anything previous
+            const d = JSON.parse(JSON.stringify(window.sampleData));
+            renderData(d);
+        }
+
+        document.querySelector('.bt-set').addEventListener('click', function(e) {
+            showPopover(e, grid);
+        });
+
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

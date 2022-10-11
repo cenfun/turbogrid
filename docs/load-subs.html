@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+
+    <style>
+        .tg-waiting {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Dynamic Load Subs Data</div>
+            <div>
+                <select class="st_data">
+                    <option value=""></option>
+                    <option>sample-data.js</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Search:</td>
+                <td>
+                    <input type="text" value="" placeholder="keywords" class="ip_keywords" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const testData = {
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }, {
+                id: 'id',
+                name: 'Id'
+            }, {
+                id: 'index',
+                name: 'Index'
+            }, {
+                id: 'number',
+                name: 'Number',
+                type: 'number'
+            }, {
+                id: 'number2',
+                name: 'Number2',
+                type: 'number'
+            }, {
+                id: 'string_number',
+                name: 'String Number',
+                type: 'number',
+                width: 100
+            }, {
+                id: 'number_string',
+                name: 'Number & String',
+                type: 'number',
+                width: 100
+            }, {
+                id: 'date',
+                name: 'Date',
+                type: 'date',
+                width: 100
+            }, {
+                id: 'string_null',
+                name: 'String & null',
+                type: 'string',
+                width: 100
+            }],
+            rows: [{
+                type: 'group',
+                id: 'id1',
+                name: 'Shenzhen Dynamic (subs: [])',
+                subs: [],
+                index: 1,
+                number: NaN,
+                number2: 50,
+                string_number: '80.123',
+                number_string: 3,
+                date: '2003-6-10',
+                string_null: null
+            }, {
+                type: 'group',
+                id: 'id2',
+                name: 'Beijing Dynamic (subs: [])',
+                subs: [],
+                index: 2,
+                number: 80,
+                number2: 20,
+                string_number: '9.3',
+                number_string: 'NaN',
+                date: '2003-6-5',
+                string_null: null
+            }, {
+                type: 'group',
+                id: 'id3',
+                name: 'Shanghai Dynamic (subs: [])',
+                subs: [],
+                index: 3,
+                number: 80,
+                number2: 50,
+                string_number: '5.3',
+                number_string: 'String',
+                date: '2012-11-1',
+                string_null: null
+            }, {
+                type: 'group',
+                id: 'id4',
+                name: 'Changsha Dynamic (subs: [])',
+                subs: [],
+                index: 4,
+                number: 70,
+                number2: 50,
+                string_number: '5.3',
+                number_string: NaN,
+                date: '2017-5-6',
+                string_null: 'String'
+            }, {
+                type: 'group',
+                id: 'id5',
+                name: 'Guangzhou Dynamic (subs: [])',
+                subs: [],
+                index: 5,
+                number: 30,
+                number2: 30,
+                string_number: '15.5',
+                number_string: 13,
+                date: '2012-5-1',
+                string_null: 'Null String'
+            }]
+        };
+
+        const requestSubs = function(grid, item) {
+
+            const rowIndex = item.tg_index;
+
+            //show loading and load data from server here
+            grid.setRowState(item, 'waiting');
+            grid.showLoading();
+
+            setTimeout(function() {
+
+                grid.setRowState(item, 'waiting', false);
+                grid.hideLoading();
+
+                const subs = [{
+                    id: 'r11',
+                    name: 'Row Name from server 11',
+                    c1: 'string value 11',
+                    c2: 1,
+                    c3_s1: 'value 3 - 1',
+                    c3_s2: 'value 1 - 2'
+                }, {
+                    id: 'r12',
+                    name: 'Row Name from server 12',
+                    c1: 'string value 12',
+                    c2: 'value 2',
+                    c3_s1: 'value 3 - 1',
+                    c3_s2: 'value 1 - 2',
+                    subs: [{
+                        id: 'r12',
+                        name: 'Row Name from server 11',
+                        c1: 'string value 11',
+                        c2: 1,
+                        c3_s1: 'value 3 - 1',
+                        c3_s2: 'value 1 - 2'
+                    }]
+                }];
+
+                grid.once('onUpdated', function(e, d) {
+
+                    const row = this.getRowItem(5);
+                    console.log(row);
+
+                });
+
+                grid.setRowSubs(rowIndex, subs);
+
+            }, 1000);
+        };
+
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        }).bind('onRowSubsRequest', function(e, d) {
+            console.log(d);
+            requestSubs(this, d);
+        }).bind('onClick', function(e, d) {
+            //click first column on name
+            if (d.columnItem.id !== 'name') {
+                return;
+            }
+            const rowItem = d.rowItem;
+            console.log(rowItem);
+            //click group
+            if (!rowItem.tg_group) {
+                return;
+            }
+            //already loaded
+            if (rowItem.subs) {
+                grid.toggleRow(rowItem);
+                return;
+            }
+            requestSubs(this, rowItem);
+        });
+
+        let keywords = '';
+
+        const render = function() {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                collapseAllOnInit: true,
+                frozenColumn: 0,
+                frozenRow: -1,
+                selectVisible: true,
+                rowFilter: function(rowItem) {
+                    if (!keywords) {
+                        return true;
+                    }
+                    if (rowItem.tg_frozen) {
+                        return true;
+                    }
+                    let name = rowItem.name || rowItem.c0;
+                    if (name) {
+                        name = name.toLowerCase();
+                        if (name.indexOf(keywords) !== -1) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            };
+
+            grid.setOption(option);
+
+            let data = testData;
+
+            const dataStr = document.querySelector('.st_data').value;
+            if (dataStr === 'sample-data.js') {
+                data = window.sampleData;
+            }
+
+            grid.setData(data);
+            grid.render();
+        };
+
+        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            //update rows
+            grid.update();
+        });
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

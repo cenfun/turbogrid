@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .icon-info {
+            width: 18px;
+            height: 18px;
+            margin: 3px 0 0 3px;
+        }
+
+        .grid-container .tg-header-item {
+            border: 1px solid #080;
+        }
+
+        .grid-container .tg-header-item.tg-header-group-item::after {
+            border: none;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="flex-row line">
+            <div class="header-title flex-auto">Grid Column Width API:</div>
+            <div>
+                <select class="st_data">
+                    <option value="custom-data">custom-data</option>
+                    <option>random_5_columns_10_rows</option>
+                    <option>random_10_columns_2k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div>
+                        <div class="line">
+                            <button>setColumnWidth(0, 100)</button>
+                            <button>setColumnWidth(0, 300)</button>
+                            <button>setColumnWidth(0, 500)</button>
+                        </div>
+                        <div class="line">
+                            <button>hideColumn(1)</button>
+                            <button>showColumn(1)</button>
+                        </div>
+                        <div class="line">
+                            <button>hideColumn("g1")</button>
+                            <button>showColumn("g1")</button>
+                            <button>hideColumn("c1")</button>
+                            <button>showColumn("c1")</button>
+                            <button>hideColumn("c2")</button>
+                            <button>showColumn("c2")</button>
+                        </div>
+                        <div class="line">
+                            <button>hideColumn([1, 3, 5])</button>
+                            <button>showColumn([1, 3, 5])</button>
+                        </div>
+                        <div class="line">
+                            <button>update()</button>
+                            <button>rerender()</button>
+                            <button>deleteColumn(-2)</button>
+                            <button>addColumn(["Column 1", "Column 2"])</button>
+                            <button>deleteRow(-1)</button>
+                            <button>addRow(["Row 1", "Row 2"])</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Event:</td>
+                <td>
+                    <div>onColumnWidthChanged: <span class="onColumnWidthChanged"></span></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        grid.bind('onColumnWidthChanged', function(e, d) {
+            document.querySelector('.onColumnWidthChanged').innerHTML = `${d.tg_index}, ${d.name}, ${d.tg_width}`;
+        });
+
+        grid.bind('onLayout onResize', function(e, d) {
+            console.log(e.type, d);
+        });
+
+        const customData = {
+            columns: [{
+                id: 'name',
+                width: 120,
+                name: 'Name'
+            }, {
+                name: 'Invisible',
+                invisible: true
+            }, {
+                name: 'Colum 7'
+            }, {
+                name: 'Column Name Column 7'
+            }, {
+                id: 'g1',
+                name: 'Group 1',
+                subs: [{
+                    id: 'c1',
+                    name: 'Column 1'
+                }, {
+                    id: 'c2',
+                    name: 'Column 2'
+                }]
+            }, {
+                name: 'Column 8'
+            }, {
+                name: 'Column Name Column  8'
+            }, {
+                name: 'Column C10'
+            }, {
+                name: 'Column Name Column Name  10'
+            }, {
+                name: 'Column Column 16'
+            }, {
+                name: 'Column Name Column 16'
+            }, {
+                name: 'Column Column Co 19'
+            }, {
+                name: 'Column Name Column Name  19'
+            }, {
+                name: 'Column Column Col 20'
+            }, {
+                name: 'Column Name Column Name Column  20'
+            }, {
+                name: 'Column Column Column Column 30'
+            }, {
+                name: 'Column Name Column Name Column Name Column Name 30'
+            }, {
+                name: 'Column Column Column Column Column Column Column'
+            }, {
+                name: 'Column Name Column Name Column Name Column Name Column Name Column Name Column Name '
+            }, {
+                id: 'g2',
+                name: 'Group 2',
+                subs: [{
+                    name: 'Column 5'
+                }, {
+                    name: 'Column 6'
+                }]
+            }, {
+                id: 'g3',
+                name: 'Group 3',
+                subs: [{
+                    name: 'Column 7'
+                }, {
+                    name: 'Column 8'
+                }]
+            }],
+
+            rows: [{
+                name: 'Total'
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }, {
+                name: 'Group',
+                subs: [{
+                    name: 'Holding'
+                }, {
+                    name: 'Holding'
+                }]
+            }]
+        };
+
+        function renderData(data) {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                frozenColumn: 0,
+                frozenRow: 0
+            };
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+        }
+
+        function render() {
+
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+
+                let noSubs = false;
+                if (rows < 200) {
+                    noSubs = true;
+                }
+
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            const data = JSON.parse(JSON.stringify(customData));
+            renderData(data);
+        
+        }
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

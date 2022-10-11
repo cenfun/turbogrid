@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .icon-remove {
+            width: 16px;
+            height: auto;
+            cursor: pointer;
+            position: absolute;
+            top: 4px;
+            right: 2px;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid row add and delete:</div>
+            <div>
+                <select class="st_data">
+                    <option>random_3_columns_10_rows</option>
+                    <option>random_100_columns_2k_rows</option>
+                    <option>sample-data.js</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <table class="tg-table">
+            <tr>
+                <td>Method:</td>
+                <td>
+                    <div class="line">
+                        <button>addRow("New Row")</button>
+                        <button>addRow({"name":"Row id1","id":"id1"})</button>
+                        <button>addRow({"name":"Row 50","height":50})</button>
+                    </div>
+                    <div class="line">
+                        <button>addRow(["Row 1", "Row 2"])</button>
+                        <button>addRow([{"name":"New Row 1"}, {"name":"New Row 2"}])</button>
+                    </div>
+                    <div class="line">
+                        <button>addRow("New Row Parent",2)</button>
+                        <button>addRow(["Row 1 Parent","Row 2 Parent"],2)</button>
+                    </div>
+                    <div class="line">
+                        <button>addRow("New Row position",null,2)</button>
+                        <button>addRow("New Row position",2,2)</button>
+                    </div>
+                    <div class="line">
+                        <button>deleteRow(0)</button>
+                        <button>deleteRow("id1")</button>
+                        <button>deleteRow([2,5,"id1"])</button>
+                        <button>deleteRow(-1)</button>
+                    </div>
+                    <div>
+                        <button>toggleAllRows()</button>
+                        <button>exportData()</button>
+                    </div>
+                </td>
+                <td width="40%">
+                    <button class="log-clear">Clear Logs</button>
+                    <div class="log-container">
+                        <div class="log-content"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <div>
+                        <input class="bt_del" type="button" value="delete selected rows" />
+                        <input type="text" value="" placeholder="keywords" class="ip_keywords" />
+                        test collapsed or flush rows
+                    </div>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function(e, d) {
+            console.log('duration:', `${this.renderDuration}ms`);
+            window.appendLog(`event: ${e.type}`, d);
+        }).bind('onClick', function(e, d) {
+            if (d.e.target.classList.contains('tg-cell-hover-icon')) {
+                //console.log(d);
+                this.deleteRow(d.rowItem);
+            }
+
+        }).bind('onRowMouseEnter', function(e, d) {
+            //console.log(d);
+            const cellNode = this.getCellNode(d.rowItem, 'name');
+            if (!cellNode) {
+                return;
+            }
+            let icon = cellNode.querySelector('.tg-cell-hover-icon');
+            if (!icon) {
+                icon = document.createElement('div');
+                icon.className = 'tg-cell-hover-icon icon-remove';
+                icon.innerHTML = '<svg viewBox="0 0 2300 2300" id="remove" width="100%" height="100%"><path d="M1990.5 389.5l-80-80-760 770-760-770-80 80 770 760-770 760 80 80 760-770 760 770 80-80-770-760z"></path></svg>';
+                cellNode.appendChild(icon);
+            }
+        }).bind('onRowAdded', function(e, d) {
+            window.appendLog(`event: ${e.type}`, d);
+        
+            d.forEach((rowItem) => {
+                const $nodes = this.getRowNodes(rowItem);
+                $nodes.addClass('tg-blink');
+            });
+        
+
+        }).bind('onRowRemoved', function(e, d) {
+            window.appendLog(`event: ${e.type}`, d);
+        }).bind('onSelectChanged', function(e, d) {
+            window.appendLog(`event: ${e.type}`, d);
+        });
+
+        let keywords = '';
+        const renderData = function(data) {
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+                //collapseAllOnInit: true,
+                frozenColumn: 1,
+                rowFilter: function(rowItem) {
+                    if (!keywords) {
+                        return true;
+                    }
+                    if (rowItem.tg_frozen) {
+                        return true;
+                    }
+                    let name = rowItem.name || rowItem.c0;
+                    if (name) {
+
+                        const arr = keywords.toLowerCase().split(' ');
+                        name = name.toLowerCase();
+                        for (let i = 0, l = arr.length; i < l; i++) {
+                            const item = arr[i];
+                            if (item && name.indexOf(item) !== -1) {
+                                return true;
+                            }
+                        }
+
+                    }
+                    return false;
+                }
+            };
+            grid.setFormatter({
+                string: function(value, rowItem, columnItem, cellNode) {
+                    if (columnItem.id === 'name') {
+                        if (!rowItem.tg_random) {
+                            rowItem.tg_random = Math.random().toString().substr(2, 3);
+                        }
+                        return `${value} (${rowItem.tg_random})`;
+                    }
+                    return value;
+                }
+            });
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+            console.log('turbogrid render');
+        };
+
+        function render() {
+            const dataStr = document.querySelector('.st_data').value;
+
+            const arr = dataStr.split('_');
+            if (arr[0] === 'random') {
+                //random_100_columns_20k_rows
+                const columns = window.getNum(arr[1]);
+                const rows = window.getNum(arr[3]);
+                const noSubs = true;
+                const data = window.randomData(columns, rows, noSubs);
+                renderData(data);
+                return;
+            }
+
+            renderData(window.sampleData);
+        }
+
+        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            //update rows
+            grid.update();
+        });
+
+        document.querySelector('.bt_del').addEventListener('click', function() {
+            const selectedRows = grid.getSelectedRows();
+            if (!selectedRows.length) {
+                return;
+            }
+            grid.deleteRow(selectedRows);
+        });
+
+        ['.st_data', '.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

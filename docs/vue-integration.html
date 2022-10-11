@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <script src="assets/vue.global.prod.js"></script>
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/sample-data.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .tg-name-info {
+            margin-left: 10px;
+            color: #f00;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Vue Integration</div>
+            <div>
+                <select class="st_data">
+                    <option>sample-data.js</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+    const vue = window.Vue;
+    //====================================================================
+
+    const infoData = vue.shallowReactive({
+        selected: 0
+    });
+
+    const InfoComponent = vue.defineComponent({
+        setup() {
+            return vue.toRefs(infoData);
+        },
+        template: '( Selected: {{selected}} )'
+    });
+
+    let infoApp;
+    const updateInfo = function(grid) {
+        if (!infoApp) {
+            infoApp = vue.createApp(InfoComponent).mount('.tg-name-info');
+        }
+        infoData.selected = grid.getSelectedRows().length;
+    };
+
+    //=====================================================================
+
+    const Grid = window.turbogrid.Grid;
+    const container = document.querySelector('.grid-container');
+    const grid = new Grid(container);
+    grid.bind('onFirstUpdated', function() {
+        console.log('duration:', `${this.renderDuration}ms`);
+        updateInfo(grid);
+    });
+
+    grid.bind('onSelectChanged', function(e, d) {
+        updateInfo(grid);
+    });
+
+    const renderData = function(data) {
+        grid.setOption({
+            theme: document.querySelector('.st_theme').value,
+            selectVisible: true,
+            bindWindowResize: true
+        });
+        grid.setFormatter({
+            header: function(value, rowItem, columnItem) {
+                if (columnItem.id === 'name') {
+                    return `${value}<span class="tg-name-info"></span>`;
+                }
+                return value;
+            }
+        });
+        grid.setData(data);
+        grid.render();
+    };
+
+    function render() {
+        const dataStr = document.querySelector('.st_data').value;
+
+        const arr = dataStr.split('_');
+        if (arr[0] === 'random') {
+            const columns = window.getNum(arr[1]);
+            const rows = window.getNum(arr[3]);
+
+            let noSubs = false;
+            if (rows < 200) {
+                noSubs = true;
+            }
+
+            const data = window.randomData(columns, rows, noSubs);
+            renderData(data);
+            return;
+        }
+
+        renderData(window.sampleData);
+    }
+
+
+    ['.st_data', '.st_theme'].forEach(function(item) {
+        document.querySelector(item).addEventListener('change', function() {
+            render();
+        });
+    });
+
+    window.initCommonEvents(grid);
+
+    window.addEventListener('load', function() {
+        render();
+    });
+
+    </script>
+</body>
+
+</html>

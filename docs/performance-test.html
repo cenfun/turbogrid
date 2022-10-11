@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/random-data.js"></script>
+    <style>
+        .ip-columns {
+            width: 50px;
+        }
+
+        .ip-rows {
+            width: 100px;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .orange {
+            color: orange;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .benchmark-cr {
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Performance Test:</div>
+            <div>
+                <select class="st_data">
+                    <option>random_10_columns_100_rows</option>
+                    <option>random_10_columns_1k_rows</option>
+                    <option>random_10_columns_10k_rows</option>
+                    <option selected>random_10_columns_100k_rows</option>
+                    <option>random_10_columns_1m_rows</option>
+                    <option>random_50_columns_100_rows</option>
+                    <option>random_50_columns_1k_rows</option>
+                    <option>random_50_columns_10k_rows</option>
+                    <option>random_50_columns_100k_rows</option>
+                </select>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+        <div class="line">
+
+            <label>frozenColumn:
+                <input type="number" min="-1" max="5" step="1" value="-1" class="ip-number ip_frozenColumn" />
+            </label>
+            <label>frozenRow:
+                <input type="number" min="-1" max="5" step="1" value="-1" class="ip-number ip_frozenRow" />
+            </label>
+
+            <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
+            <label for="cb_frozenBottom">frozenBottom</label>
+
+            <input type="checkbox" id="cb_rowNumberVisible" class="cb_rowNumberVisible" />
+            <label for="cb_rowNumberVisible">rowNumberVisible</label>
+
+            <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
+            <label for="cb_selectVisible">selectVisible</label>
+
+            <input type="checkbox" id="cb_sortOnInit" class="cb_sortOnInit" />
+            <label for="cb_sortOnInit">sortOnInit</label>
+
+        </div>
+        <div class="line">
+            <label for="cb_subs">
+                <input type="checkbox" id="cb_subs" class="cb_subs" />
+                Tree subs
+            </label>
+
+            <button class="bt_delete">Delete Selected Rows</button>
+
+            <span class="log_random"></span>
+        </div>
+        <table class="tg-table tg-table-sub">
+            <tr>
+                <th></th>
+                <th colspan="6">Benchmark (Intel i7-8700T 2.4GHz, 16.0GB, Win10 x64)</th>
+                <th colspan="4">
+                    <label>columns:</label>
+                    <input value="10" class="ip-columns" />
+                    <label> rows:</label>
+                    <input value="100k" class="ip-rows" />
+                    <button class="bt_start">Start Test</button>
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <th class="red">
+                    Chrome83<div class="benchmark-cr">10 x 3m</div>
+                </th>
+                <th class="orange">
+                    Chrome83<div class="benchmark-cr">10 x 2m</div>
+                </th>
+                <th class="green">
+                    Chrome83<div class="benchmark-cr">10 x 100k</div>
+                </th>
+
+                <th class="red">
+                    FireFox77<div class="benchmark-cr">10 x 5m</div>
+                </th>
+                <th class="orange">
+                    FireFox77<div class="benchmark-cr">10 x 4m</div>
+                </th>
+                <th class="green">
+                    FireFox77<div class="benchmark-cr">10 x 300k</div>
+                </th>
+
+                <th>Average</th>
+                <th>Previous2</th>
+                <th>Previous1</th>
+                <th>Current</th>
+            </tr>
+        
+            <tr>
+                <th>Total</th>
+                <th class="red">1611ms</th>
+                <th class="orange">1086ms</th>
+                <th class="green">90ms</th>
+
+                <th class="red">1335ms</th>
+                <th class="orange">957ms</th>
+                <th class="green">105ms</th>
+
+                <th class="time_result time_total_a"></th>
+                <th class="time_result time_total_3"></th>
+                <th class="time_result time_total_2"></th>
+                <th class="time_result time_total_1"></th>
+                
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+
+        const getColor = function(v) {
+            v = parseInt(`${v}`);
+            if (v <= 120) {
+                return `<span class="green">${v}ms</span>`;
+            }
+            if (v <= 1200) {
+                return `<span class="orange">${v}ms</span>`;
+            }
+            return `<span class="red">${v}ms</span>`;
+        };
+
+        let reportList = [];
+        const updateReport = function() {
+            if (reportList.length > 3) {
+                reportList.length = 3;
+            }
+
+            const nodes = document.querySelectorAll('.time_result');
+            for (let i = 0; i < nodes.length; i++) {
+                nodes[i].innerHTML = '';
+            }
+
+            let total = 0;
+            reportList.forEach(function(item, i) {
+                total += item;
+                const index = i + 1;
+                document.querySelector(`.time_total_${index}`).innerHTML = getColor(item);
+            });
+
+            const avg = total / reportList.length;
+            document.querySelector('.time_total_a').innerHTML = getColor(avg);
+
+        };
+
+        let grid = null;
+
+        const renderGrid = function(data, option) {
+
+            if (grid) {
+                grid.destroy();
+                grid = null;
+            }
+            const container = document.querySelector('.grid-container');
+            grid = new Grid(container);
+            grid.bind('onFirstUpdated', function() {
+                reportList.unshift(this.renderDuration);
+                updateReport();
+            });
+
+            grid.bind('onSelectChanged', function(e, d) {
+                console.log('onSelectChanged', d.length);
+            });
+
+            grid.setOption(option);
+            grid.setData(data);
+            grid.render();
+
+        };
+
+        let previousData;
+        const getRandomData = function(subs) {
+            const columns = window.getNum(document.querySelector('.ip-columns').value);
+            const rows = window.getNum(document.querySelector('.ip-rows').value);
+
+            const time_random = new Date();
+            const data = window.randomData(columns - 2, rows, !subs, true);
+
+            const duration = getColor(new Date() - time_random);
+            const str = `generate random data (${columns}x${rows} cached) cost: <b>${duration}</b>`;
+            document.querySelector('.log_random').innerHTML = str;
+
+            if (data !== previousData) {
+                reportList = [];
+            }
+            previousData = data;
+
+            return data;
+        };
+
+        const render = function() {
+
+            const subs = document.querySelector('.cb_subs').checked;
+            const data = getRandomData(subs);
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
+                frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
+                frozenRow: parseInt(document.querySelector('.ip_frozenRow').value),
+                frozenBottom: document.querySelector('.cb_frozenBottom').checked,
+                selectVisible: document.querySelector('.cb_selectVisible').checked,
+                bindWindowResize: true
+            };
+
+            const sortOnInit = document.querySelector('.cb_sortOnInit').checked;
+            if (sortOnInit) {
+                //test sort performance, need init rows twice
+                option.sortOnInit = true;
+                option.sortField = 'index';
+                option.sortAsc = false;
+            }
+
+            renderGrid(data, option);
+
+        };
+
+        document.querySelector('.bt_start').addEventListener('click', function() {
+            render();
+        });
+
+        document.querySelector('.bt_delete').addEventListener('click', function() {
+
+            if (!grid) {
+                return;
+            }
+
+            const now = new Date().getTime();
+            const selectedRows = grid.getSelectedRows();
+            if (!selectedRows.length) {
+                console.log('Nothing selected');
+                return;
+            }
+
+            grid.deleteRow(selectedRows);
+            console.log(`${selectedRows.length} row(s) be removed.`);
+            console.log(`delete cost:${new Date().getTime() - now}ms`);
+
+        });
+
+        document.querySelector('.st_data').addEventListener('change', function() {
+            const v = document.querySelector('.st_data').value;
+            if (v) {
+                const arr = v.split('_');
+                document.querySelector('.ip-columns').value = arr[1];
+                document.querySelector('.ip-rows').value = arr[3];
+            }
+        });
+
+        const crs = document.querySelectorAll('.benchmark-cr');
+        for (let i = 0; i < crs.length; i += 1) {
+            crs[i].addEventListener('click', function(e) {
+                const v = (`${this.innerHTML}`).trim();
+                if (v) {
+                    const arr = v.split(' x ');
+                    document.querySelector('.ip-columns').value = arr[0];
+                    let rows = `${arr[1]}`;
+                    rows = rows.replace('m', '000000');
+                    rows = rows.replace('k', '000');
+                    document.querySelector('.ip-rows').value = rows;
+                }
+            });
+        }
+
+        ['.st_theme', '.cb_selectVisible', '.cb_sortOnInit', '.cb_rowNumberVisible', '.cb_frozenBottom', '.ip_frozenRow', '.ip_frozenColumn'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+    </script>
+</body>
+
+</html>

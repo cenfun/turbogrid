@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Grid Demo</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+</head>
+
+<body class="flex-column">
+    <div class="header">
+        <div class="line flex-row">
+            <div class="header-title flex-auto">Grid Row Hover Usage:</div>
+            <div>
+                <select class="st_theme"></select>
+                <button class="bt_source">source</button>
+            </div>
+        </div>
+
+        <table class="tg-table">
+            <tr>
+                <td>
+                    <textarea class="usage-data" style="width: 100%; height: 100px;"></textarea>
+                    <div class="flex-v-5"></div>
+                    <button class="bt_render">render usage</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <button>showLoading()</button>
+                        <button>hideLoading()</button>
+                        <label>(test loading above background)</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="body flex-auto">
+        <div class="grid-container"></div>
+    </div>
+    <style>
+        /*
+        cell class for usage 2
+        */
+        .grid-container .tg-cell-bg-1 {
+            background: #c00;
+            color: #fff;
+        }
+
+        .grid-container .tg-cell-bg-2 {
+            background: #c30;
+            color: #fff;
+        }
+
+        .grid-container .tg-cell-bg-3 {
+            background: #930;
+            color: #fff;
+        }
+
+        .grid-container .tg-cell-bg-4 {
+            background: #960;
+            color: #fff;
+        }
+
+        .grid-container .tg-cell-bg-5 {
+            background: #660;
+            color: #fff;
+        }
+
+        .grid-container .tg-cell-bg-6 {
+            background: #690;
+            color: #fff;
+        }
+
+        .grid-container .tg-cell-bg-7 {
+            background: #390;
+            color: #fff;
+        }
+
+        .grid-container .tg-cell-bg-8 {
+            background: #0c0;
+            color: #fff;
+        }
+
+    </style>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        grid.bind('onRowMouseEnter', function(e, d) {
+            const cellNode = this.getCellNode(d.rowItem, 'c5');
+            cellNode.style.background = '#ff0000';
+        }).bind('onRowMouseLeave', function(e, d) {
+            const cellNode = this.getCellNode(d.rowItem, 'c5');
+            cellNode.style.background = 'none';
+        });
+
+        //=========================================================================================
+        //usage 2
+
+        const usageData = {
+            rows: [{
+                name: 'Holding 1',
+                c1: -100,
+                c1ClassMap: 'tg-cell-bg-1',
+                c2: 20,
+                c2ClassMap: 'tg-cell-bg-5',
+                c3: 120,
+                c3ClassMap: 'tg-cell-bg-8',
+                c4: -10,
+                c4ClassMap: 'tg-cell-bg-4'
+            }, {
+                name: 'Holding 2',
+                c1: -50,
+                c1ClassMap: 'tg-cell-bg-2',
+                c2: 120,
+                c2ClassMap: 'tg-cell-bg-8'
+            }, {
+                name: 'Holding 3',
+                c1: -30,
+                c1ClassMap: 'tg-cell-bg-3'
+            }, {
+                name: 'Holding 4',
+                c1: -10,
+                c1ClassMap: 'tg-cell-bg-4'
+            }, {
+                name: 'Holding 5',
+                c1: 20,
+                c1ClassMap: 'tg-cell-bg-5'
+            }, {
+                name: 'Holding 6',
+                c1: 60,
+                c1ClassMap: 'tg-cell-bg-6',
+                c2: -30,
+                c2ClassMap: 'tg-cell-bg-3',
+                c3: -10,
+                c3ClassMap: 'tg-cell-bg-4'
+            }, {
+                name: 'Holding 7',
+                c1: 90,
+                c1ClassMap: 'tg-cell-bg-7'
+            }, {
+                name: 'Holding 8',
+                c1: 120,
+                c1ClassMap: 'tg-cell-bg-8'
+            }, {
+                name: 'Holding 9'
+            }],
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }, {
+                id: 'c1',
+                name: 'column 1',
+                type: 'number'
+            }, {
+                id: 'c2',
+                name: 'column 2',
+                type: 'number'
+            }, {
+                id: 'c3',
+                name: 'column 3',
+                type: 'number'
+            }, {
+                id: 'c4',
+                name: 'column 4',
+                type: 'number'
+            }, {
+                id: 'c5',
+                name: 'column 5',
+                type: 'number'
+            }]
+        };
+
+        document.querySelector('.usage-data').value = JSON.stringify(usageData, null, 4);
+
+        function render() {
+
+            const option = {
+                theme: document.querySelector('.st_theme').value,
+                selectVisible: true,
+
+                frozenColumn: 1,
+                frozenRow: -1,
+
+                sortField: 'name',
+                sortOnInit: true
+
+            };
+            grid.setOption(option);
+
+            const data = JSON.parse(document.querySelector('.usage-data').value);
+            grid.setData(data);
+
+            grid.render();
+        }
+
+        document.querySelector('.bt_render').addEventListener('click', function() {
+            render();
+        });
+
+        ['.st_theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

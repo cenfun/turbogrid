@@ -1,17 +1,40 @@
-import $ from '../../core/query.js';
-import Util from '../../core/util.js';
-import OptionBase from '../../core/option-base.js';
-import Drag from '../../core/drag.js';
-import Motion from '../../core/motion.js';
+import $ from '../core/query.js';
+import Util from '../core/util.js';
+import OptionBase from '../core/option-base.js';
+import Drag from '../core/drag.js';
+import Motion from '../core/motion.js';
 
-const E = {
+const CONST = {
+    H: 'h',
+    V: 'v',
     CHANGE: 'change'
 };
 
+const types = {
+    h: {
+        type: 'h',
+        className: 'tg-scrollbar-h',
+        offset: 'left',
+        size: 'width',
+        page: 'pageX',
+        axis: 'x',
+        offsetName: 'offsetX'
+    },
+    v: {
+        type: 'v',
+        className: 'tg-scrollbar-v',
+        offset: 'top',
+        size: 'height',
+        page: 'pageY',
+        axis: 'y',
+        offsetName: 'offsetY'
+    }
+};
+
 export default OptionBase.extend({
-    //v, h
-    //mode: "",
-    //type: {},
+    //h, v
+    type: 'h',
+    settings: {},
 
     //final value from option
     size: 0,
@@ -28,12 +51,16 @@ export default OptionBase.extend({
     thumbPosition: 0,
     thumbScale: 0,
 
-    constructor: function(holder) {
-        this.id = Util.uid(4, `tg-scrollbar-${this.mode}-`);
+    constructor: function(type, holder) {
+        this.settings = types[type] || types.h;
+        this.type = this.settings.type;
+
+        this.id = Util.uid(4, `tg-scrollbar-${this.type}-`);
+
         this.setOption();
         this.$holder = $(holder);
         //some clean
-        this.$holder.find(`.${this.type.className}`).remove();
+        this.$holder.find(`.${this.settings.className}`).remove();
     },
 
     getDefaultOption: function() {
@@ -67,7 +94,7 @@ export default OptionBase.extend({
 
         this.$container = $(template).appendTo(this.$holder);
         this.$container.attr('id', this.id);
-        this.$container.addClass(Util.classMap(['tg-scrollbar', this.type.className, {
+        this.$container.addClass(Util.classMap(['tg-scrollbar', this.settings.className, {
             'tg-scrollbar-round': this.option.round
         }]));
 
@@ -157,7 +184,7 @@ export default OptionBase.extend({
 
     getTrackMousePos: function(e) {
         const offset = this.$track.offset();
-        return e[this.type.page] - offset[this.type.offset];
+        return e[this.settings.page] - offset[this.settings.offset];
     },
 
     //========================================================================
@@ -172,7 +199,7 @@ export default OptionBase.extend({
         }
         this.thumbPosition = thumbPosition;
         if (this.$thumb) {
-            this.$thumb.css(this.type.offset, thumbPosition);
+            this.$thumb.css(this.settings.offset, thumbPosition);
         }
         return this;
     },
@@ -280,7 +307,7 @@ export default OptionBase.extend({
     thumbDragMove: function(d) {
 
         //change thumb position
-        let thumbPosition = d.thumbPositionStart + d[this.type.offsetName];
+        let thumbPosition = d.thumbPositionStart + d[this.settings.offsetName];
         const maxThumbPosition = this.getMaxThumbPosition();
         thumbPosition = Util.clamp(thumbPosition, 0, maxThumbPosition);
         this.setThumbPosition(thumbPosition);
@@ -307,7 +334,7 @@ export default OptionBase.extend({
 
     //from inside change trigger
     triggerEvent: function() {
-        this.trigger(E.CHANGE, this.position);
+        this.trigger(CONST.CHANGE, this.position);
     },
 
     //===================================================================
@@ -365,7 +392,7 @@ export default OptionBase.extend({
         this.thumbSize = thumbSize;
         if (this.$thumb) {
             const thumbData = {};
-            if (this.mode === 'h') {
+            if (this.type === CONST.H) {
                 thumbData.height = this.size;
                 thumbData.width = this.thumbSize;
             } else {
@@ -381,7 +408,7 @@ export default OptionBase.extend({
     //container and track size
     updateTrackSize: function() {
         const trackData = {};
-        if (this.mode === 'h') {
+        if (this.type === CONST.H) {
             trackData.width = this.trackSize;
             trackData.height = this.size;
         } else {
@@ -518,4 +545,4 @@ export default OptionBase.extend({
         return this;
     }
 
-}, E);
+}, CONST);

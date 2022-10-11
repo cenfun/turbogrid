@@ -1,8 +1,7 @@
 import $ from '../core/query.js';
 import Util from '../core/util.js';
 import OptionBase from '../core/option-base.js';
-import ScrollbarV from './scrollbar/scrollbar-v.js';
-import ScrollbarH from './scrollbar/scrollbar-h.js';
+import Scrollbar from './scrollbar.js';
 
 const E = {
     CHANGE: 'change'
@@ -35,14 +34,14 @@ export default OptionBase.extend({
         this.$scrollBody = this.$scrollView.find('.tg-scroll-body');
 
         //h scrollbar bottom
-        this.scrollbarH = new ScrollbarH(this.$container);
-        this.scrollbarH.bind(ScrollbarH.CHANGE, (e, d) => {
+        this.scrollbarH = new Scrollbar(Scrollbar.H, this.$container);
+        this.scrollbarH.bind(Scrollbar.CHANGE, (e, d) => {
             this.scrollHChangeHandler();
         });
 
         //v scrollbar right
-        this.scrollbarV = new ScrollbarV(this.$container);
-        this.scrollbarV.bind(ScrollbarV.CHANGE, (e, d) => {
+        this.scrollbarV = new Scrollbar(Scrollbar.V, this.$container);
+        this.scrollbarV.bind(Scrollbar.CHANGE, (e, d) => {
             this.scrollVChangeHandler();
         });
 

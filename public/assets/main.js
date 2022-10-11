@@ -340,10 +340,10 @@
         });
 
         const content = `
-            <h3>CSS</h3>
-            ${css.join('\n')}
             <h3>JS</h3>
-            ${js.join('\n')}
+            ${js.join('')}
+            <h3>CSS</h3>
+            ${css.join('')}
         `;
 
         window.showPage(content);

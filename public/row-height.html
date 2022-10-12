@@ -96,8 +96,7 @@
         <div class="grid-container"></div>
     </div>
     <script type="text/javascript">
-        const Grid = window.turbogrid.Grid;
-        const $ = window.turbogrid.$;
+        const { Grid, $ } = window.turbogrid;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {

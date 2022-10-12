@@ -149,8 +149,8 @@
     <div class="left flex-column">
         <div class="left-header">
             <div class="flex-row">
-                <div class="left-title">TurboGrid</div> 
-                <div class="left-version"></div>
+                <a href="/" class="left-title">TurboGrid</a> 
+                <a href="https://github.com/cenfun/turbogrid" class="left-version" target="_blank"></a>
             </div>
             <div class="left-search">
                 <input value="" onfocus="this.select();" placeholder="Search Demo" class="left-keywords" />
@@ -163,11 +163,9 @@
     </div>
 
     <script>
-    const tg = window.turbogrid;
+    const { Grid, VERSION } = window.turbogrid;
 
-    const Grid = tg.Grid;
-
-    document.querySelector('.left-version').innerHTML = `v${tg.VERSION}`;
+    document.querySelector('.left-version').innerHTML = `v${VERSION}`;
 
     const container = document.querySelector('.left-container');
     const grid = new Grid(container);
@@ -297,7 +295,7 @@
                 name: 'Documentation',
                 nameClassMap: 'tg-row-top'
             }, {
-                name: 'Popular',
+                name: 'Popular Demo',
                 subs: [{
                     id: 'formatter',
                     name: 'Formatter'
@@ -411,6 +409,21 @@
                     name: 'Loading'
                 }]
             }, {
+                name: 'Integration',
+                subs: [{
+                    id: 'vue-component',
+                    name: 'Vue Component'
+                }, {
+                    id: 'vue-integration',
+                    name: 'Vue Integration'
+                }, {
+                    id: 'custom-element',
+                    name: 'Custom Element'
+                }, {
+                    id: 'shadow-dom',
+                    name: 'Shadow DOM'
+                }]
+            }, {
                 name: 'Other',
                 subs: [{
                     id: 'poc',
@@ -454,18 +467,6 @@
                 }, {
                     id: 'resize',
                     name: 'Resize'
-                }, {
-                    id: 'custom-element',
-                    name: 'Custom Element'
-                }, {
-                    id: 'shadow-dom',
-                    name: 'Shadow DOM'
-                }, {
-                    id: 'vue-component',
-                    name: 'Vue Component'
-                }, {
-                    id: 'vue-integration',
-                    name: 'Vue Integration'
                 }, {
                     id: 'conflict',
                     name: 'Conflict Test'

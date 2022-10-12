@@ -104,9 +104,8 @@
         <div class="grid-container"></div>
     </div>
     <script type="text/javascript">
-        const GridModule = window.turbogrid;
-        const container = document.querySelector('.grid-container');
-        const grid = new GridModule.Grid(container);
+        const Grid = window.turbogrid.Grid;
+        const grid = new Grid('.grid-container');
         grid.bind('onFirstUpdated', function() {
             console.log('duration:', `${this.renderDuration}ms`);
         });

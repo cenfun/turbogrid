@@ -103,8 +103,7 @@
 
             line += 1;
         };
-        const $ = window.turbogrid.$;
-        const Grid = window.turbogrid.Grid;
+        const { Grid, $ } = window.turbogrid;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {

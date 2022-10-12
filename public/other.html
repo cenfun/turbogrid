@@ -76,10 +76,8 @@
         
     </div>
     <script type="text/javascript">
-        const TG = window.turbogrid;
-        const Grid = TG.Grid;
+        const { Grid, Icon } = window.turbogrid;
         new Grid('.grid-holder');
-        const Icon = TG.Icon;
 
         Array.from(document.querySelectorAll('.tg-tree-icon')).forEach((item) => {
             item.innerHTML = Icon.getIcon('tree');

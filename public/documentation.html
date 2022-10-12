@@ -222,18 +222,18 @@
                     <td>
                         <section>
                             <a name="turbogrid">turbogrid</a>
-                            <div>turbogrid module</div>
+                            <div>turbogrid package</div>
                         </section>
                     </td>
                     <td>
                         <pre><code class="language-js">
                             // global
                             var TG = window.turbogrid;
-                            var { Grid, Util } = TG;
+                            var { Grid, Util } = window.turbogrid;
                             // cjs
                             var TG = require("turbogrid");
                             var { Grid, Util } = require("turbogrid");
-                            // es module
+                            // esm
                             import TG from "turbogrid";
                             import { Grid, Util } from "turbogrid";
                         </code></pre>

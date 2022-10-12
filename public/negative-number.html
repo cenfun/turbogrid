@@ -152,8 +152,7 @@
             }]
         };
 
-        const Grid = window.turbogrid.Grid;
-        const Util = window.turbogrid.Util;
+        const { Grid, Util } = window.turbogrid;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {

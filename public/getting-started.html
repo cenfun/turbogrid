@@ -19,7 +19,7 @@
         }
 
         .body h3 {
-            margin: 0;
+            margin: 5px 0 0;
             padding: 10px 0;
             font-size: 18px;
         }
@@ -34,6 +34,10 @@
             margin-top: 20px;
         }
 
+        .usage {
+            align-items: flex-start;
+        }
+
         .code {
             border: 1px solid #ccc;
             border-radius: 3px;
@@ -43,7 +47,7 @@
 
         .container {
             border: 1px solid #ccc;
-            margin: 10px 0;
+            margin: 0 10px;
         }
 
     </style>
@@ -51,42 +55,21 @@
 
 <body class="flex-column">
     <div class="body flex-auto">
-        <h3>Install</h3>
+        <h3>Getting Started</h3>
         <div class="code">
             <pre><code class="language-js">
                 npm i turbogrid
             </code></pre>
         </div>
-        <h3>Usage</h3>
+        <h3>In Browser</h3>
         <div class="code">
-            <pre><code class="language-js">
-                const container = document.querySelector(".container");
-                container.style.width = "500px";
-                container.style.height = "100px";
-                const grid = new Grid(container);
-                grid.setOption({
-                    sortField: "name"
-                });
-                grid.setData({
-                    columns: [{
-                        id: "name",
-                        name: "Name"
-                    }, {
-                        id: "value",
-                        name: "Value"
-                    }],
-                    rows: [{
-                        name: "Row 1",
-                        value: "1"
-                    }, {
-                        name: "Row 2",
-                        value: "2"
-                    }]
-                });
-                grid.render();
+            <pre><code class="language-html">
+                <script src="https://unpkg.com/turbogrid/dist/turbogrid.js"></script>
+                <script>
+                    console.log(window.turbogrid);
+                </script>
             </code></pre>
         </div>
-        <div class="container"></div>
         <h3>API Documentation</h3>
         <div>
             <a href="documentation.html">Documentation</a>
@@ -94,6 +77,38 @@
         <h3>Github</h3>
         <div>
             <a href="https://github.com/cenfun/turbogrid" target="_blank">https://github.com/cenfun/turbogrid</a>
+        </div>
+        <h3>Usage</h3>
+        <div class="usage flex-row">
+            <div class="code">
+                <pre><code class="language-js">
+                    const container = document.querySelector(".container");
+                    container.style.width = "500px";
+                    container.style.height = "100px";
+                    const grid = new Grid(container);
+                    grid.setOption({
+                        sortField: "name"
+                    });
+                    grid.setData({
+                        columns: [{
+                            id: "name",
+                            name: "Name"
+                        }, {
+                            id: "value",
+                            name: "Value"
+                        }],
+                        rows: [{
+                            name: "Row 1",
+                            value: "1"
+                        }, {
+                            name: "Row 2",
+                            value: "2"
+                        }]
+                    });
+                    grid.render();
+                </code></pre>
+            </div>
+            <div class="container"></div>
         </div>
         <div class="footer"></div>
     </div>

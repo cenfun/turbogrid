@@ -40,18 +40,17 @@ export const Types = [
     'onCellMouseEnter',
     'onCellMouseLeave',
 
-    //scroll
-    'onScroll',
-    'onScrollStateChanged',
-
-    'onMouseWheel',
-
     //header and body
     'onClick',
     'onDblClick',
     'onContextMenu',
     'onMouseOver',
     'onMouseOut',
+
+    //scroll
+    'onScroll',
+    'onScrollStateChanged',
+    'onMouseWheel',
 
     //resize
     'onResize',

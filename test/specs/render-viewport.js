@@ -65,7 +65,7 @@ describe('Render viewport', function() {
             const distance = 20;
 
             //from 0
-            const rowLen = Math.ceil((500 - hh + distance) / this.option.rowHeight);
+            const rowLen = Math.ceil((500 - hh + distance) / this.options.rowHeight);
             assert.equal(viewport.rows.length, rowLen);
 
             const colLen = Math.ceil((500 + distance) / colWidth);
@@ -88,7 +88,7 @@ describe('Render viewport', function() {
             const distance = 20;
 
             //not from 0
-            const rowLen = Math.ceil((distance + 500 - hh + distance) / this.option.rowHeight);
+            const rowLen = Math.ceil((distance + 500 - hh + distance) / this.options.rowHeight);
             assert.equal(viewport.rows.length, rowLen);
 
             //both left and right have distance so plus 1
@@ -118,7 +118,7 @@ describe('Render viewport', function() {
             //20 is distance for scroll render cache
             const distance = 20;
 
-            const rowLen = Math.ceil((500 - hh + distance) / this.option.rowHeight);
+            const rowLen = Math.ceil((500 - hh + distance) / this.options.rowHeight);
             assert.equal(viewport.rows.length, rowLen);
 
             const colLen = Math.ceil((500 + distance) / colWidth);
@@ -141,7 +141,7 @@ describe('Render viewport', function() {
             const distance = 20;
 
             //not from 0
-            const rowLen = Math.ceil((distance + 500 - hh + distance) / this.option.rowHeight);
+            const rowLen = Math.ceil((distance + 500 - hh + distance) / this.options.rowHeight);
             assert.equal(viewport.rows.length, rowLen);
 
             //both left and right have distance so plus 1

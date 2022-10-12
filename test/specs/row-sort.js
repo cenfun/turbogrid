@@ -335,7 +335,7 @@ describe('Row sort', function() {
             number: '3'
         }];
 
-        const Comparers = grid.option.sortComparers;
+        const Comparers = grid.options.sortComparers;
 
         list.sort(function(a, b) {
             return Comparers.number(a, b, {

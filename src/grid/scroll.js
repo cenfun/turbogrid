@@ -394,14 +394,14 @@ export default {
     },
 
     getScrollbarWidth: function() {
-        if (this.hasVScroll && !this.option.scrollbarFade) {
+        if (this.hasVScroll && !this.options.scrollbarFade) {
             return this.scrollbarSizeV;
         }
         return 0;
     },
 
     getScrollbarHeight: function() {
-        if (this.hasHScroll && !this.option.scrollbarFade) {
+        if (this.hasHScroll && !this.options.scrollbarFade) {
             return this.scrollbarSizeH;
         }
         return 0;

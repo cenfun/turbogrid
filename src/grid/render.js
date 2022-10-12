@@ -23,8 +23,8 @@ export default {
         // rerender(), setData(), setOption(), setFormatter()
         if (renderSettings.type === 'all') {
             this.flushBody();
-            //reset + init option/formatter/columns/viewColumns/rows/onInit/scrollPane/columnLine/events
-            this.initDataHandler();
+            //reset + init options/formatter/columns/viewColumns/rows/onInit/scrollPane/columnLine/events
+            this.initHandler();
             this.renderHeader();
             this.updateViewRowsAndSize();
             this.renderBody(renderSettings);

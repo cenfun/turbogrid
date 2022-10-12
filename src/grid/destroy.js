@@ -116,7 +116,7 @@ export default {
         Util.removePreProps(this, '$');
 
         //require for GC after destroy
-        this.option = null;
+        this.options = null;
         this.formatters = null;
         this.data = null;
 

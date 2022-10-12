@@ -6,7 +6,7 @@ export default {
     initBindWindowResize: function() {
         //require unbind first
         this.unbindWindowResize();
-        if (!this.option.bindWindowResize) {
+        if (!this.options.bindWindowResize) {
             return;
         }
         this.windowResizeEvents = {
@@ -28,7 +28,7 @@ export default {
 
     initBindContainerResize: function() {
         this.unbindContainerResize();
-        if (!this.option.bindContainerResize || !this.holder) {
+        if (!this.options.bindContainerResize || !this.holder) {
             return;
         }
         //failed in chrome v63

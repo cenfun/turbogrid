@@ -39,7 +39,7 @@ describe('Flush', function() {
         //total rows
         const rowLength = grid.$bodyTL.children().length;
 
-        const rl = Math.ceil((200 - grid.headerHeight) / grid.option.rowHeight);
+        const rl = Math.ceil((200 - grid.headerHeight) / grid.options.rowHeight);
 
         assert.equal(rowLength, rl);
         assert.equal(grid.viewport.rows.length, rl);

@@ -170,7 +170,7 @@ describe('ScrollPane', function() {
 
     it('Grid scrollPane with frozen resize to scrollPaneHidden', function(done) {
         //mini width 30
-        const spmw = grid.option.scrollPaneMinWidth;
+        const spmw = grid.options.scrollPaneMinWidth;
         container.width(100 + spmw - 1).height(300);
         grid.once('onUpdated', function() {
             const state = getScrollState(grid);
@@ -205,7 +205,7 @@ describe('ScrollPane', function() {
     it('Grid scrollPane with frozen resize to scrollPaneHidden and show frozen scroll, no v scroll', function(done) {
         const hh = grid.headerHeight;
 
-        const height = grid.option.rowHeight * 13;
+        const height = grid.options.rowHeight * 13;
         container.width(99).height(height + 15 + hh);
         grid.once('onUpdated', function() {
             const state = getScrollState(grid);

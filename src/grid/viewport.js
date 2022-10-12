@@ -30,7 +30,7 @@ export default {
         }
 
         // > 0 and < max row length
-        let rowCacheLength = this.option.rowCacheLength;
+        let rowCacheLength = this.options.rowCacheLength;
         rowCacheLength = Util.clamp(Util.toNum(rowCacheLength, true), 0, rowsLength);
         //console.log(rowCacheLength);
 
@@ -174,7 +174,7 @@ export default {
         const columnsLength = this.viewColumns.length;
 
         //handler cache
-        let columnCacheLength = this.option.columnCacheLength;
+        let columnCacheLength = this.options.columnCacheLength;
         columnCacheLength = Util.clamp(Util.toNum(columnCacheLength, true), 0, columnsLength);
 
         const fc = this.frozenInfo.column;

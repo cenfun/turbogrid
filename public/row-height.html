@@ -129,8 +129,8 @@
                 const div = cellNode.querySelector('.tg-lazy-fix');
                 //6px is padding top and bottom
                 let h = $(div).height() + 6;
-                if (h < grid.option.rowHeight) {
-                    h = grid.option.rowHeight;
+                if (h < grid.options.rowHeight) {
+                    h = grid.options.rowHeight;
                 }
                 rows.push(rowIndex);
                 heights.push(h);
@@ -303,7 +303,7 @@
 
         function render() {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
                 frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
@@ -315,7 +315,7 @@
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
                 rowDragVisible: document.querySelector('.cb_rowDragVisible').checked
     };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setFormatter({
                 tree: function(value, rowItem, columnItem, cellNode) {
                     const defaultFormatter = this.getDefaultFormatter('tree');

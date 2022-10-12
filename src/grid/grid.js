@@ -1,7 +1,6 @@
 
 import CONST from '../core/const.js';
 import $ from '../core/query.js';
-import OptionBase from '../core/option-base.js';
 
 import Cache from './cache.js';
 import Cells from './cells.js';
@@ -30,11 +29,11 @@ import Create from './create.js';
 
 
 import InitColumns from './init-columns.js';
-import InitData from './init-data.js';
 import InitHeader from './init-header.js';
 import InitOptions from './init-options.js';
 import InitResize from './init-resize.js';
 import InitRows from './init-rows.js';
+import Init from './init.js';
 
 import Loading from './loading.js';
 
@@ -67,11 +66,7 @@ import Viewport from './viewport.js';
 
 
 import Util from '../core/util.js';
-import defaultOptions from '../config/default-options.js';
-//test if be changed
-// setTimeout(function() {
-//     console.log(defaultOptions());
-// }, 2000);
+import EventBase from '../core/event-base.js';
 
 
 function hasOwn(obj, key) {
@@ -89,7 +84,7 @@ function extend(props, list) {
     });
 }
 
-class Grid extends OptionBase {
+class Grid extends EventBase {
 
     static $ = $;
     static getInstance = Util.getInstance;
@@ -102,56 +97,86 @@ class Grid extends OptionBase {
     VERSION = CONST.VERSION;
     TIMESTAMP = CONST.TIMESTAMP;
 
-    constructor(holder) {
+    constructor(options) {
         super();
-        this.create(holder);
+        this.create(options);
     }
 
-    getDefaultOption(option) {
-        const d = defaultOptions();
-        const t = this.getThemeOptions(option && option.theme);
-        if (t) {
-            return Util.merge(d, t);
-        }
-        return d;
-    }
-
-    setOption() {
+    // setOption(key, value)
+    // setOption(object)
+    setOption(key, value) {
         this.renderType = 'all';
-        super.setOption.apply(this, arguments);
+
+        let options = key;
+
+        //key/value, not reset options
+        if (typeof key === 'string') {
+            if (this.options) {
+                this.options[key] = value;
+                return this;
+            }
+
+            // first time
+            options = {};
+            options[key] = value;
+        }
+
+        this.customOptions = options;
+
         return this;
+    }
+
+    //require after render
+    getOption(key) {
+        const os = this.options;
+        if (arguments.length) {
+            if (os) {
+                return os[key];
+            }
+            return;
+        }
+        return os;
     }
 
     setData(data) {
         this.renderType = 'all';
 
-        //init data object
-        if (!data || typeof data !== 'object') {
-            data = {};
+        const customData = {
+            columns: [],
+            rows: []
+        };
+
+        let dataOptions;
+
+        if (data && typeof data === 'object') {
+
+            //only pick columns, rows, rowsLength
+
+            if (Array.isArray(data.columns)) {
+                customData.columns = data.columns;
+            }
+            if (Array.isArray(data.rows)) {
+                customData.rows = data.rows;
+            }
+
+            //init rows length
+            const rowsLength = data.rowsLength;
+            if (Number.isInteger(rowsLength) && rowsLength > 0) {
+                customData.rows.length = rowsLength;
+            }
+
+            dataOptions = data.options;
+
         }
 
-        //init array
-        if (!Array.isArray(data.columns)) {
-            data.columns = [];
-        }
-        if (!Array.isArray(data.rows)) {
-            data.rows = [];
-        }
-
-        //init rows length
-        const rowsLength = data.rowsLength;
-        if (Util.isNum(rowsLength)) {
-            delete data.rowsLength;
-            data.rows.length = rowsLength | 0;
-        }
-
-        this.data = data;
+        this.data = customData;
+        this.dataOptions = dataOptions;
 
         return this;
     }
 
     setDataSnapshot(data) {
-        this.setData(this.getDataSnapshot(data));
+        this.setData(this.generateDataSnapshot(data));
         return this;
     }
 
@@ -192,11 +217,11 @@ extend(Grid.prototype, [
     Create,
 
     InitColumns,
-    InitData,
     InitHeader,
     InitOptions,
     InitResize,
     InitRows,
+    Init,
 
     Loading,
 

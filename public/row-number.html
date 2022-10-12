@@ -66,7 +66,7 @@
         });
 
         const renderData = function(data) {
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
                 collapseAllVisible: document.querySelector('.cb_collapseAllVisible').checked,
@@ -77,7 +77,7 @@
                 frozenRow: 1
             };
 
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

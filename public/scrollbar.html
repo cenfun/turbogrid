@@ -150,7 +150,7 @@
 
         const renderData = function(data) {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 scrollPaneMinWidth: parseInt(document.querySelector('.ip_scrollPaneMinWidth').value, 10),
                 scrollPaneGradient: parseInt(document.querySelector('.ip_scrollPaneGradient').value, 10),
@@ -164,7 +164,7 @@
                 frozenRow: parseInt(document.querySelector('.ip_frozenRow').value)
             };
 
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

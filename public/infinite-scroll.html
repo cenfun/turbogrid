@@ -121,7 +121,7 @@
             if (!document.querySelector('.cb_lazyFix').checked) {
                 return;
             }
-            const defaultHeight = grid.option.rowHeight;
+            const defaultHeight = grid.options.rowHeight;
             //console.log(visibleRowList);
             const rows = [];
             const heights = [];
@@ -305,7 +305,7 @@
         }
 
         function render() {
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
                 textSelectable: document.querySelector('.cb_textSelectable').checked,
@@ -313,7 +313,7 @@
                 frozenRow: 1,
                 selectVisible: true
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setFormatter({
                 loading: function(value, rowItem, columnItem, cellNode) {
                     if (columnItem.id === 'title') {

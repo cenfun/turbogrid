@@ -21,7 +21,7 @@ describe('Row collapse', function() {
         container = null;
     });
 
-    it('Grid option collapseAllOnInit', async () => {
+    it('Grid options collapseAllOnInit', async () => {
         grid.setOption({
             collapseAllOnInit: true
         });

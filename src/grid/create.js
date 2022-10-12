@@ -7,16 +7,22 @@ import templateHtml from '../template.html';
 
 export default {
 
-    create: function(holder) {
+    create: function(options) {
 
         this.id = Util.uid(4, 'tg-');
 
-        this.createCache();
-        this.createView(holder);
+        if (!Util.isObject(options)) {
+            options = {
+                container: options
+            };
+        }
 
-        //default
-        this.setOption();
-        this.setFormatter();
+        this.constructorOptions = options;
+
+        //console.log(options, this.options);
+
+        this.createCache();
+        this.createView(options.container);
 
     },
 

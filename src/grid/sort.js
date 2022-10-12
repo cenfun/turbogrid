@@ -32,7 +32,7 @@ export default {
         } else {
             //set default sortAsc
             if (!Util.hasOwn(columnItem, 'sortAsc')) {
-                columnItem.sortAsc = this.option.sortAsc;
+                columnItem.sortAsc = this.options.sortAsc;
             }
         }
 
@@ -104,7 +104,7 @@ export default {
         }
 
         //string name
-        const sortComparers = this.option.sortComparers;
+        const sortComparers = this.options.sortComparers;
         const comparerName = comparer || sortColumn.type;
         const sortComparer = sortComparers[comparerName];
         if (typeof sortComparer === 'function') {
@@ -128,12 +128,12 @@ export default {
             return false;
         }
 
-        const o = this.option;
+        const o = this.options;
         const sortFactor = sortColumn.sortAsc ? -1 : 1;
         const sortBlankFactor = o.sortBlankValueBottom ? 1 : sortFactor;
         const sortComparer = this.getSortComparer(sortColumn);
 
-        const sortOption = {
+        const sortOptions = {
             ignore: function(item) {
                 //frozen always top
                 if (item.tg_frozen) {
@@ -158,7 +158,7 @@ export default {
 
         //sort handler
         let sortChanged = false;
-        const sorter = new Sorter(sortOption);
+        const sorter = new Sorter(sortOptions);
         const sortAll = function(rows) {
             const sorted = sorter.sortList(rows);
             if (sorted) {

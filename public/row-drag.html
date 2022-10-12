@@ -334,7 +334,7 @@
                 }
             };
             const rowDragCrossLevel = handlers[document.querySelector('.st_rowDragCrossLevel').value];
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 rowDragCrossLevel: rowDragCrossLevel,
                 textSelectable: document.querySelector('.cb_textSelectable').checked,
@@ -342,7 +342,7 @@
                 frozenColumn: 0,
                 frozenRow: 0
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

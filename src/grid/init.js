@@ -1,6 +1,5 @@
 import Util from '../core/util.js';
 
-
 /*
 data define:
 
@@ -19,14 +18,14 @@ viewAllColumns: \[ 1,sub1,sub2,3,2(group) \]   //for view header
 
 export default {
 
-    initDataHandler: function() {
+
+    initHandler: function() {
 
         // reset all
         this.reset();
 
-        // init option/formatter, some of options from data.option, data.rows, data.columns
-        this.initOptionHandler();
-        this.initFormatterHandler();
+        // init options/formatter, some of options from constructor,custom,data
+        this.initOptionsHandler();
 
         // create columns and viewColumns
         this.initColumnsHandler();
@@ -34,7 +33,7 @@ export default {
         this.initRowsHandler();
 
 
-        // option xxxOnInit handler, after columns and rows
+        // options xxxOnInit handler, after columns and rows
         this.initSortOnInitHandler();
         this.initSelectAllOnInitHandler();
         this.initCollapseAllOnInitHandler();
@@ -45,12 +44,14 @@ export default {
 
     },
 
+    //=============================================================================================
+
     updateViewRowsAndSize: function() {
         //before create view rows need init rows tree like rowFilter, sort ...
         this.createViewRows();
 
         //update view after render
-        //depends row number, row tree, option
+        //depends row number, row tree, options
         this.renderCollapseAllState();
         this.renderSelectAllState();
 
@@ -60,14 +61,8 @@ export default {
         return this;
     },
 
-    // global null formatter cache to this
-    initFormatterHandler: function() {
-        this.nullFormatter = this.getFormatter('null');
-    },
-
-
     initSortOnInitHandler: function() {
-        if (!this.option.sortOnInit) {
+        if (!this.options.sortOnInit) {
             return;
         }
 
@@ -80,7 +75,7 @@ export default {
         //init global order for multi selection sorting
         this.globalSelectedIndex = 0;
 
-        if (!this.option.selectMultiple) {
+        if (!this.options.selectMultiple) {
             //single select, init data only selected first one
             let selectedItem;
             this.forEachSelectableRow((rowItem) => {
@@ -95,7 +90,7 @@ export default {
             return;
         }
 
-        const selectAllOnInit = this.option.selectAllOnInit;
+        const selectAllOnInit = this.options.selectAllOnInit;
         //specified true
         if (selectAllOnInit === true) {
             this.updateAllRowsSelected(true);
@@ -115,7 +110,7 @@ export default {
     },
 
     initCollapseAllOnInitHandler: function() {
-        const collapseAllOnInit = this.option.collapseAllOnInit;
+        const collapseAllOnInit = this.options.collapseAllOnInit;
         //collapse all tree, only handle true and false
         if (collapseAllOnInit === true) {
             this.updateAllRowsCollapsed(true);
@@ -173,7 +168,7 @@ export default {
     //===============================================================================================
 
     //for input data, check exportData from output data
-    getDataSnapshot: function(data) {
+    generateDataSnapshot: function(data) {
         if (!data || typeof data !== 'object') {
             return data;
         }

@@ -219,14 +219,14 @@ export default {
     },
 
     scrollbarFadeInOutHandler: function(e, enter) {
-        if (!this.option.scrollbarFade) {
+        if (!this.options.scrollbarFade) {
             return;
         }
         if (enter) {
             this.updateScrollPaneFade(true);
             return;
         }
-        if (this.option.scrollbarFadeTimeout) {
+        if (this.options.scrollbarFadeTimeout) {
             return;
         }
         this.updateScrollPaneFade(false);
@@ -234,11 +234,11 @@ export default {
 
     updateScrollPaneFade: function(fadeIn) {
         //always check, first time will call directly
-        if (!this.option.scrollbarFade) {
+        if (!this.options.scrollbarFade) {
             return;
         }
         this.updateScrollPaneFadeSync(fadeIn);
-        const timeout = this.option.scrollbarFadeTimeout;
+        const timeout = this.options.scrollbarFadeTimeout;
         if (!timeout) {
             return;
         }
@@ -276,8 +276,8 @@ export default {
 
     updateScrollPane: function() {
 
-        const sbo = this.getScrollbarOption();
-        this.scrollPaneMap.HL.render(this.getScrollPaneOption({
+        const sbo = this.getScrollbarOptions();
+        this.scrollPaneMap.HL.render(this.getScrollPaneOptions({
             scrollPaneW: this.paneWidthL,
             scrollPaneH: this.headerHeight,
             scrollBodyW: this.bodyWidthL,
@@ -285,7 +285,7 @@ export default {
             scrollbarV: sbo.HLV,
             scrollbarH: sbo.HLH
         }));
-        this.scrollPaneMap.HR.render(this.getScrollPaneOption({
+        this.scrollPaneMap.HR.render(this.getScrollPaneOptions({
             scrollPaneW: this.paneWidthR,
             scrollPaneH: this.headerHeight,
             scrollBodyW: this.bodyWidthR,
@@ -294,7 +294,7 @@ export default {
             scrollbarH: sbo.HRH
         }));
 
-        this.scrollPaneMap.TL.render(this.getScrollPaneOption({
+        this.scrollPaneMap.TL.render(this.getScrollPaneOptions({
             scrollPaneW: this.paneWidthL,
             scrollPaneH: this.paneHeightT,
             scrollBodyW: this.bodyWidthL,
@@ -302,7 +302,7 @@ export default {
             scrollbarV: sbo.TLV,
             scrollbarH: sbo.TLH
         }));
-        this.scrollPaneMap.TR.render(this.getScrollPaneOption({
+        this.scrollPaneMap.TR.render(this.getScrollPaneOptions({
             scrollPaneW: this.paneWidthR,
             scrollPaneH: this.paneHeightT,
             scrollBodyW: this.bodyWidthR,
@@ -311,7 +311,7 @@ export default {
             scrollbarH: sbo.TRH
         }));
 
-        this.scrollPaneMap.BL.render(this.getScrollPaneOption({
+        this.scrollPaneMap.BL.render(this.getScrollPaneOptions({
             scrollPaneW: this.paneWidthL,
             scrollPaneH: this.paneHeightB,
             scrollBodyW: this.bodyWidthL,
@@ -319,7 +319,7 @@ export default {
             scrollbarV: sbo.BLV,
             scrollbarH: sbo.BLH
         }));
-        this.scrollPaneMap.BR.render(this.getScrollPaneOption({
+        this.scrollPaneMap.BR.render(this.getScrollPaneOptions({
             scrollPaneW: this.paneWidthR,
             scrollPaneH: this.paneHeightB,
             scrollBodyW: this.bodyWidthR,
@@ -333,20 +333,20 @@ export default {
         this.scrollTop = this.getScrollTop();
 
         //first time update fade after rendered
-        this.updateScrollPaneFade(Boolean(this.option.scrollbarFadeTimeout));
+        this.updateScrollPaneFade(Boolean(this.options.scrollbarFadeTimeout));
 
     },
 
-    getScrollPaneOption: function(spo) {
-        const o = this.option;
+    getScrollPaneOptions: function(spo) {
+        const o = this.options;
         spo.scrollbarFade = o.scrollbarFade;
         spo.gradient = Util.clamp(Util.toNum(o.scrollPaneGradient, true), 0, 100);
         return spo;
     },
 
-    getScrollbarOption: function() {
+    getScrollbarOptions: function() {
 
-        const round = this.option.scrollbarRound;
+        const round = this.options.scrollbarRound;
 
         //blank:
         //false: without blank (default)
@@ -374,7 +374,7 @@ export default {
         ];
 
         const sbo = {};
-        //default scrollPane option
+        //default scrollPane options
         sbs.forEach(function(k) {
             sbo[k] = {
                 size: 0,
@@ -382,12 +382,12 @@ export default {
                 blank: false
             };
         });
-        this.scrollbarOptionHandler(sbo);
+        this.scrollbarOptionsHandler(sbo);
         this.scrollbarFadeHandler(sbo);
         return sbo;
     },
 
-    scrollbarOptionHandler: function(sbo) {
+    scrollbarOptionsHandler: function(sbo) {
 
         const sizeH = this.scrollbarSizeH;
         const sizeV = this.scrollbarSizeV;
@@ -411,7 +411,7 @@ export default {
     },
 
     scrollbarFadeHandler: function(sbo) {
-        if (!this.option.scrollbarFade) {
+        if (!this.options.scrollbarFade) {
             return;
         }
         for (const k in sbo) {

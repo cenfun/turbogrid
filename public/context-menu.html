@@ -201,14 +201,14 @@
         });
 
         const renderData = function(data) {
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 autoHeight: document.querySelector('.cb_autoHeight').checked,
                 collapseAllOnInit: document.querySelector('.cb_collapseAllOnInit').checked,
                 frozenColumn: 0,
                 frozenRow: 1
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

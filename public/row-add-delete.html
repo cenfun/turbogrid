@@ -137,7 +137,7 @@
 
         let keywords = '';
         const renderData = function(data) {
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 selectVisible: true,
                 //collapseAllOnInit: true,
@@ -176,7 +176,7 @@
                     return value;
                 }
             });
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
             console.log('turbogrid render');

@@ -135,7 +135,7 @@ export default {
         this.initHeaderLayerHeight();
 
         //fix auto height before first using
-        const o = this.option;
+        const o = this.options;
         //auto close autoHeight when rows length > 5000
         if (o.autoHeight && this.viewRows.length > 5000) {
             o.autoHeight = false;

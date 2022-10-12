@@ -29,7 +29,7 @@ describe('Cache length', function() {
 
         const rows = grid.viewport.rows;
         const hh = grid.headerHeight;
-        const rowHeight = grid.option.rowHeight;
+        const rowHeight = grid.options.rowHeight;
         const len = Math.ceil((200 - hh) / rowHeight);
         assert.equal(rows.length, len);
         assert.equal(container.find('.tg-row').length, len);
@@ -47,7 +47,7 @@ describe('Cache length', function() {
 
         const rows = grid.viewport.rows;
         const hh = grid.headerHeight;
-        const rowHeight = grid.option.rowHeight;
+        const rowHeight = grid.options.rowHeight;
         const len = Math.ceil((200 - hh) / rowHeight) + 3;
         assert.equal(rows.length, len);
         assert.equal(container.find('.tg-row').length, len);
@@ -60,7 +60,7 @@ describe('Cache length', function() {
 
         const rows = grid.viewport.rows;
         const hh = grid.headerHeight;
-        const rowHeight = grid.option.rowHeight;
+        const rowHeight = grid.options.rowHeight;
         const len = Math.ceil((200 - hh) / rowHeight) + 3 + 3;
         assert.equal(rows.length, len);
         assert.equal(container.find('.tg-row').length, len);
@@ -78,7 +78,7 @@ describe('Cache length', function() {
         //last row should no scrollbar height in
         const sh = grid.getScrollbarHeight();
 
-        const rowHeight = grid.option.rowHeight;
+        const rowHeight = grid.options.rowHeight;
         const len = Math.ceil((200 - hh - sh) / rowHeight) + 3;
         assert.equal(rows.length, len);
         assert.equal(container.find('.tg-row').length, len);

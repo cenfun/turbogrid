@@ -146,13 +146,13 @@
         });
 
         const render = function() {
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 frozenColumn: 0,
                 frozenRow: 0,
                 selectVisible: true
             };
-            grid.setOption(option);
+            grid.setOption(options);
             const dynamicData = getDynamicData(100, 5000);
             grid.setData(dynamicData);
             grid.render();

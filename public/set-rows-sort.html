@@ -1316,14 +1316,14 @@
         });
 
         const renderData = function(data) {
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 frozenColumn: 0,
                 sortField: document.querySelector('.it_sortField').value,
                 sortOnInit: document.querySelector('.cb_sortOnInit').checked,
                 sortBlankValueBottom: document.querySelector('.cb_sortBlankValueBottom').checked
             };
-            grid.setOption(option);
+            grid.setOption(options);
 
             grid.setFormatter({
                 number: function(value) {

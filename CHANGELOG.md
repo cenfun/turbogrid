@@ -4,7 +4,6 @@
 - es6 class native extends
 - unit test
  - shadow dom
- - getDataSnapshot
 
 ---
 # Changelog

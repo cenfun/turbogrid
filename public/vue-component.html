@@ -69,7 +69,7 @@
 
     const gridData = vue.shallowReactive({
         data: null,
-        option: null
+        options: null
     });
 
     //====================================================================
@@ -80,7 +80,7 @@
             return;
         }
         grid.setData(gridData.data);
-        grid.setOption(gridData.option);
+        grid.setOption(gridData.options);
         grid.render();
     };
 
@@ -146,7 +146,7 @@
         column2.formatter = 'vue-async';
 
         gridData.data = data;
-        gridData.option = {
+        gridData.options = {
             theme: document.querySelector('.st_theme').value,
             frozenColumn: 0,
             frozenRow: 1

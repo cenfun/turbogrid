@@ -126,7 +126,7 @@
         let keywords = '';
         const renderData = function(data) {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 rowMoveCrossLevel: document.querySelector('.cb_rowMoveCrossLevel').checked,
                 selectMultiple: document.querySelector('.cb_selectMultiple').checked,
@@ -162,7 +162,7 @@
                     return value;
                 }
             });
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
             console.log('grid render');

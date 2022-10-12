@@ -162,7 +162,7 @@ export default {
     },
 
     getScrollPaneMinWidth: function() {
-        let scrollPaneMinWidth = this.option.scrollPaneMinWidth;
+        let scrollPaneMinWidth = this.options.scrollPaneMinWidth;
         if (!Util.isNum(scrollPaneMinWidth) || scrollPaneMinWidth < 0) {
             scrollPaneMinWidth = this.scrollbarSizeV;
         }
@@ -177,7 +177,7 @@ export default {
 
         const scrollbarH = this.getScrollbarHeight();
 
-        if (this.option.autoHeight) {
+        if (this.options.autoHeight) {
             this.hasVScroll = false;
 
             //update container height again
@@ -199,7 +199,7 @@ export default {
 
         let blankColumnWidth = this.containerWidth - this.columnsWidth;
         //when has v scrollbar
-        if (this.hasVScroll && !this.hasHScroll && !this.option.scrollbarFade) {
+        if (this.hasVScroll && !this.hasHScroll && !this.options.scrollbarFade) {
             blankColumnWidth -= this.scrollbarSizeV;
         }
 

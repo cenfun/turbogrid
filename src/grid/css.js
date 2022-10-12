@@ -257,7 +257,7 @@ const CssRules = {
     },
 
     //======================================================================================================
-    //for destroy and init option change
+    //for destroy and init options change
     removeCssRules: function() {
         this.previousCssList = null;
         this.cssList = null;

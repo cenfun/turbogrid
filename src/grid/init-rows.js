@@ -8,7 +8,7 @@ export default {
         this.rowsInfo = this.initTreeInfo(this.rows, this.frozenInfo.row);
         // depends others, can NOT create view rows here
         // do NOT create view rows here
-        // do NOT init option here
+        // do NOT init options here
     },
 
     getRows: function() {
@@ -111,7 +111,7 @@ export default {
     },
 
     getRowNumberFilter: function() {
-        const rowNumberFilter = this.option.rowNumberFilter;
+        const rowNumberFilter = this.options.rowNumberFilter;
         if (typeof rowNumberFilter === 'function') {
             return rowNumberFilter;
         }
@@ -165,7 +165,7 @@ export default {
     },
 
     getComputedRowHeight: function(rowItem, columnItem) {
-        const dh = this.option.rowHeight;
+        const dh = this.options.rowHeight;
         const str = rowItem[columnItem.id] || '';
         const len = (`${str}`).length;
         //a char average width 5px
@@ -188,7 +188,7 @@ export default {
         const heightList = Util.toList(heightInfo);
         heightList.length = rowList.length;
 
-        const defaultHeight = this.option.rowHeight;
+        const defaultHeight = this.options.rowHeight;
         rowList.forEach((rowIndex, i) => {
             const rowItem = this.getRowItem(rowIndex);
             if (!rowItem) {
@@ -211,7 +211,7 @@ export default {
 
     initRowFilterHandler: function() {
 
-        const rowFilter = this.option.rowFilter;
+        const rowFilter = this.options.rowFilter;
         if (typeof rowFilter !== 'function') {
             return;
         }

@@ -38,7 +38,7 @@ describe('Row drag', function() {
         await delay();
 
         const fromIndex = 3;
-        const rowHeight = grid.option.rowHeight;
+        const rowHeight = grid.options.rowHeight;
 
         const rowItem = grid.getRowItem(fromIndex);
         assert.equal(rowItem.tg_index, fromIndex);
@@ -66,7 +66,7 @@ describe('Row drag', function() {
     it('Grid row drag 2 row height', async () => {
 
         const fromIndex = 3;
-        const rowHeight = grid.option.rowHeight;
+        const rowHeight = grid.options.rowHeight;
 
         const rowItem = grid.getRowItem(fromIndex);
         assert.equal(rowItem.tg_index, fromIndex);
@@ -95,7 +95,7 @@ describe('Row drag', function() {
     it('Grid row touch 1 row height', async () => {
 
         const fromIndex = 3;
-        const rowHeight = grid.option.rowHeight;
+        const rowHeight = grid.options.rowHeight;
 
         const rowItem = grid.getRowItem(fromIndex);
         assert.equal(rowItem.tg_index, fromIndex);

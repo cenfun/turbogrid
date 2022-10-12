@@ -80,7 +80,7 @@
         });
 
         const renderData = function(data) {
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 frozenColumn: 0,
                 frozenRow: 1,
@@ -107,7 +107,7 @@
                     return false;
                 }
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

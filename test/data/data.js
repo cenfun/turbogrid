@@ -1,6 +1,6 @@
 const create = function() {
     return {
-        'option': {
+        'options': {
             'sortField': 'name'
         },
         'columns': [{

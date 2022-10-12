@@ -30,7 +30,7 @@ const RowList = {
         let index = focusRow.tg_sub_index + offset;
 
         const parent = focusRow.tg_parent;
-        if (parent && this.option.rowMoveCrossLevel) {
+        if (parent && this.options.rowMoveCrossLevel) {
 
             const startIndex = 0;
             const endIndex = parent.tg_subs_length - 1;

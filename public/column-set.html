@@ -317,13 +317,13 @@
         
         const renderData = function(data) {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 selectVisible: true,
                 frozenColumn: 0
             };
 
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

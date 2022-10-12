@@ -15,7 +15,7 @@ export default {
     //formatter: [String, Function]
     //headerFormatter: [String, Function]
 
-    // comparer function when sort function(a, b, option)
+    // comparer function when sort function(a, b, options)
     //comparer: [String, Function]
 
     // left (default) | center | right

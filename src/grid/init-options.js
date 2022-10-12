@@ -1,21 +1,27 @@
 import CONST from '../core/const.js';
 import Util from '../core/util.js';
 
+import defaultFormatters from '../config/default-formatters.js';
+import defaultOptions from '../config/default-options.js';
+//test if be changed
+// setTimeout(function() {
+//     console.log(defaultOptions());
+// }, 2000);
+
 export default {
 
-    initOptionHandler: function() {
+    initOptionsHandler: function() {
 
-        //merge option from data.option first
-        this.initOptionFromData();
+        //final global options before render
+        this.options = this.generateOptions();
+        //console.log(this.options);
 
-        //must be h or v
-        if (this.option.sortIndicator !== 'v') {
-            this.option.sortIndicator = 'h';
-        }
+        this.initOptionsFormatters();
 
-        this.initOptionFrozen();
-        this.initOptionScrollbar();
-        this.initOptionContainer();
+        this.initOptionsSort();
+        this.initOptionsFrozen();
+        this.initOptionsScrollbar();
+        this.initOptionsContainer();
 
         this.initBindWindowResize();
         this.initBindContainerResize();
@@ -23,21 +29,61 @@ export default {
         return this;
     },
 
-    initOptionFromData() {
-        const dataOption = this.data.option;
-        if (!dataOption) {
-            return;
-        }
-        const list = [this.option, dataOption];
-        const t = this.getThemeOptions(dataOption.theme);
-        if (t) {
-            list.push(t);
-        }
-        this.option = Util.merge.apply(Util, list);
+    generateOptions() {
+        //console.log('generateOptions');
+        //require function return to create new pure default options
+        const dos = defaultOptions();
+
+        //theme options
+        const themeOptions = this.generateThemeOptions();
+
+        //merge all options with priority
+        return Util.merge(dos, themeOptions, this.constructorOptions, this.customOptions, this.dataOptions);
     },
 
-    initOptionFrozen: function() {
-        const o = this.option;
+    generateThemeOptions() {
+        //pick last one
+        const theme = this.pickOptions('theme').pop();
+        if (!theme) {
+            return;
+        }
+        return this.getThemeOptions(theme);
+    },
+
+    // only for string or object
+    pickOptions(key) {
+        return [this.constructorOptions, this.customOptions, this.dataOptions].map((item) => {
+            return item && item[key];
+        }).filter((item) => item);
+    },
+
+    //=============================================================================================
+
+    initOptionsFormatters() {
+        //custom list
+        let optionsFormatters;
+        const formatters = this.pickOptions('formatters');
+        if (formatters.length) {
+            optionsFormatters = Util.merge.apply(null, formatters);
+        }
+
+        //final global formatters before render
+        this.formatters = Util.merge(defaultFormatters, optionsFormatters, this.customFormatters);
+        //console.log(this.formatters);
+
+        // global null formatter cache to this
+        this.nullFormatter = this.getFormatter('null');
+    },
+
+    initOptionsSort() {
+        //must be h or v
+        if (this.options.sortIndicator !== 'v') {
+            this.options.sortIndicator = 'h';
+        }
+    },
+
+    initOptionsFrozen: function() {
+        const o = this.options;
 
         this.frozenInfo = {
             //index
@@ -90,8 +136,8 @@ export default {
 
     },
 
-    initOptionScrollbar: function() {
-        const o = this.option;
+    initOptionsScrollbar: function() {
+        const o = this.options;
 
         if ((o.scrollbarType === 'auto' && Util.isMobile()) || ['mobile', 'touch'].includes(o.scrollbarType)) {
             o.scrollbarFade = true;
@@ -112,11 +158,11 @@ export default {
 
     },
 
-    initOptionContainer: function() {
+    initOptionsContainer: function() {
 
         this.$container.attr('id', this.id);
 
-        const o = this.option;
+        const o = this.options;
 
         // remove previous first
         this.$container.removeClass();

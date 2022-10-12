@@ -66,7 +66,7 @@ describe('Height', function() {
             const hh = grid.headerHeight;
             assert.equal(hh, 43);
             const ch = grid.containerHeight;
-            const h = 3 * grid.option.rowHeight;
+            const h = 3 * grid.options.rowHeight;
             assert.equal(ch, h + hh);
             done();
         });
@@ -85,7 +85,7 @@ describe('Height', function() {
             const hh = grid.headerHeight;
             assert.equal(hh, 43);
             const ch = grid.containerHeight;
-            const h = 3 * grid.option.rowHeight;
+            const h = 3 * grid.options.rowHeight;
             assert.equal(ch, h + hh);
             done();
         });

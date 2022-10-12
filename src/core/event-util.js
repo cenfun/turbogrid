@@ -2,13 +2,13 @@ import Event from './event.js';
 
 const EventUtil = {
 
-    getEventItem: function(target, context, handler, option) {
+    getEventItem: function(target, context, handler, options) {
         context = String(context);
         if (!context) {
             return;
         }
 
-        option = option || {};
+        options = options || {};
         const arr = context.split('.');
         const type = arr.shift();
         const namespace = arr.join('.');
@@ -19,15 +19,15 @@ const EventUtil = {
             context: context,
             namespace: namespace,
             handler: handler,
-            once: option.once
+            once: options.once
         };
     },
 
-    getEventListByString: function(target, types, handler, option) {
+    getEventListByString: function(target, types, handler, options) {
         const list = [];
         const arr = types.split(' ');
         arr.forEach(function(type) {
-            const eventItem = EventUtil.getEventItem(target, type, handler, option);
+            const eventItem = EventUtil.getEventItem(target, type, handler, options);
             if (eventItem) {
                 list.push(eventItem);
             }
@@ -35,11 +35,11 @@ const EventUtil = {
         return list;
     },
 
-    getEventListByObject: function(target, types, option) {
+    getEventListByObject: function(target, types, options) {
         const list = [];
         const keys = Object.keys(types);
         keys.forEach(function(type) {
-            const eventItem = EventUtil.getEventItem(target, type, types[type], option);
+            const eventItem = EventUtil.getEventItem(target, type, types[type], options);
             if (eventItem) {
                 list.push(eventItem);
             }
@@ -47,13 +47,13 @@ const EventUtil = {
         return list;
     },
 
-    getEventList: function(target, types, handler, option) {
+    getEventList: function(target, types, handler, options) {
         if (!types) {
             return [];
         }
 
         if (typeof types === 'string') {
-            return EventUtil.getEventListByString(target, types, handler, option);
+            return EventUtil.getEventListByString(target, types, handler, options);
         }
 
         if (typeof types === 'object') {

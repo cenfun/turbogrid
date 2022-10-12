@@ -451,7 +451,7 @@ export default {
             return;
         }
 
-        if (this.option.rowDragVisible) {
+        if (this.options.rowDragVisible) {
             const $rowDragIcon = this.getEventClosestNode(e.target, 'tg-row-drag-icon');
             if ($rowDragIcon) {
                 this.rowDragMouseDownHandler(e);
@@ -505,7 +505,7 @@ export default {
             return;
         }
 
-        if (this.option.rowDragVisible) {
+        if (this.options.rowDragVisible) {
             const $rowDragIcon = this.getEventClosestNode(e.target, 'tg-row-drag-icon');
             if ($rowDragIcon) {
                 this.rowDragTouchStartHandler(e);
@@ -616,7 +616,7 @@ export default {
     },
 
     containerSelectStartHandler: function(e) {
-        if (this.option.textSelectable) {
+        if (this.options.textSelectable) {
             return;
         }
         const selectable = $(e.target).is('input,textarea,code');

@@ -34,7 +34,7 @@ describe('Scroll', function() {
             const st = grid.scrollTop;
 
             const rowItem = grid.getRowItem('row2');
-            const rowTop = grid.option.rowHeight * rowItem.tg_index;
+            const rowTop = grid.options.rowHeight * rowItem.tg_index;
 
             assert.equal(st, rowTop);
 
@@ -63,7 +63,7 @@ describe('Scroll', function() {
             const st = grid.scrollTop;
 
             const rowItem = grid.getRowItem(-1);
-            const rowTop = grid.option.rowHeight * rowItem.tg_index;
+            const rowTop = grid.options.rowHeight * rowItem.tg_index;
 
             assert.ok(st < rowTop);
 
@@ -157,11 +157,11 @@ describe('Scroll', function() {
             const st = grid.scrollTop;
 
             const rowItem = grid.getRowItem('row3');
-            const rowTop = grid.option.rowHeight * rowItem.tg_index;
+            const rowTop = grid.options.rowHeight * rowItem.tg_index;
 
             const svh = grid.getScrollViewHeight();
 
-            assert.equal(st, rowTop - svh + grid.option.rowHeight);
+            assert.equal(st, rowTop - svh + grid.options.rowHeight);
 
             done();
         });
@@ -213,7 +213,7 @@ describe('Scroll', function() {
 
         const sl = grid.scrollLeft;
         const st = grid.scrollTop;
-        const rh = grid.option.rowHeight;
+        const rh = grid.options.rowHeight;
         assert.equal(sl, 300 + 81);
         assert.equal(st, 5 * rh);
 
@@ -228,7 +228,7 @@ describe('Scroll', function() {
 
         const sl = grid.scrollLeft;
         const st = grid.scrollTop;
-        const rh = grid.option.rowHeight;
+        const rh = grid.options.rowHeight;
         assert.equal(sl, 300 + 81);
         assert.equal(st, 5 * rh);
 

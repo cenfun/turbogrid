@@ -170,7 +170,7 @@ export default {
         const scrollBottom = scrollTop + scrollHeight;
         //console.log('scrollTop', scrollTop, 'dropPosition', dropPosition, 'scrollBottom', scrollBottom);
 
-        const rowHeight = this.option.rowHeight;
+        const rowHeight = this.options.rowHeight;
         const moveAreaHeight = Math.min(rowHeight * 3, scrollHeight * 0.5);
         //console.log('moveAreaHeight', moveAreaHeight);
 
@@ -308,7 +308,7 @@ export default {
     },
 
     getRowDropList: function(d) {
-        const crossLevel = this.option.rowDragCrossLevel;
+        const crossLevel = this.options.rowDragCrossLevel;
 
         //default only parent subs
         if (!crossLevel) {

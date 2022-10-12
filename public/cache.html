@@ -114,7 +114,7 @@
             const rowCacheLength = parseInt(document.querySelector('.it_rowCacheLength').value);
             const columnCacheLength = parseInt(document.querySelector('.it_columnCacheLength').value);
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 selectVisible: true,
                 frozenBottom: document.querySelector('.cb_frozenBottom').checked,
@@ -130,7 +130,7 @@
                 }
             });
 
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

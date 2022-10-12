@@ -186,7 +186,7 @@
 
         function render() {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 selectVisible: true,
 
@@ -197,7 +197,7 @@
                 sortOnInit: true
 
             };
-            grid.setOption(option);
+            grid.setOption(options);
 
             const data = JSON.parse(document.querySelector('.usage-data').value);
             grid.setData(data);

@@ -82,7 +82,7 @@ export default {
     },
 
     rowNotFoundHandler: function(info) {
-        let rowNotFound = this.option.rowNotFound;
+        let rowNotFound = this.options.rowNotFound;
         if (!rowNotFound) {
             this.hidePaneMessage();
             return;
@@ -140,7 +140,7 @@ export default {
             rowNode.style.cssText = cssText;
         }
         rowNode.style.top = `${rowTop}px`;
-        if (rowHeight !== this.option.rowHeight) {
+        if (rowHeight !== this.options.rowHeight) {
             rowNode.style.height = `${rowHeight}px`;
             rowNode.style.lineHeight = `${rowHeight}px`;
         }
@@ -279,7 +279,7 @@ export default {
         if (rowItem && Util.isNum(rowItem.tg_height)) {
             return rowItem.tg_height;
         }
-        return this.option.rowHeight;
+        return this.options.rowHeight;
     },
 
     getRowsHeight: function() {

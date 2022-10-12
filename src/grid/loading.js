@@ -3,26 +3,26 @@ import $ from '../core/query.js';
 
 export default {
 
-    setDefaultLoading: function(defaultLoading, option = {}) {
+    setDefaultLoading: function(defaultLoading, options = {}) {
         if (!defaultLoading) {
             return;
         }
 
         const loadingStyle = defaultLoading.style;
 
-        if (option.size) {
-            loadingStyle.width = option.size;
-            loadingStyle.height = option.size;
+        if (options.size) {
+            loadingStyle.width = options.size;
+            loadingStyle.height = options.size;
         }
-        if (option.color) {
-            loadingStyle.color = option.color;
+        if (options.color) {
+            loadingStyle.color = options.color;
         }
 
-        if (!option.size && !option.color) {
+        if (!options.size && !options.color) {
             defaultLoading.removeAttribute('style');
         }
 
-        if (option.fast) {
+        if (options.fast) {
             defaultLoading.classList.add('tg-loading-fast');
         } else {
             defaultLoading.classList.remove('tg-loading-fast');
@@ -30,11 +30,11 @@ export default {
 
     },
 
-    getDefaultLoading: function(option) {
+    getDefaultLoading: function(options) {
         if (!this.defaultLoading) {
             this.defaultLoading = this.$container.find('.tg-loading-default').get(0);
         }
-        this.setDefaultLoading(this.defaultLoading, option);
+        this.setDefaultLoading(this.defaultLoading, options);
         return this.defaultLoading;
     },
 

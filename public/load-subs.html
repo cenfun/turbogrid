@@ -228,7 +228,7 @@
 
         const render = function() {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 collapseAllOnInit: true,
                 frozenColumn: 0,
@@ -252,7 +252,7 @@
                 }
             };
 
-            grid.setOption(option);
+            grid.setOption(options);
 
             let data = testData;
 

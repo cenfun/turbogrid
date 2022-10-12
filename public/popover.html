@@ -259,10 +259,10 @@
      //=========================================================================================
      //usage 1
      const render1 = function() {
-         const option = getCommonOption();
+         const options = getCommonOption();
 
          //1, float right in name column.
-         grid.setOption(option);
+         grid.setOption(options);
          grid.setFormatter({
              tree: function(value, rowItem, columnItem, cellNode) {
                  const defaultFormatter = this.getDefaultFormatter('tree');
@@ -288,8 +288,8 @@
 
      const render2 = function() {
 
-         const option = getCommonOption();
-         grid.setOption(option);
+         const options = getCommonOption();
+         grid.setOption(options);
          grid.setFormatter();
 
          const data = getCommonData();

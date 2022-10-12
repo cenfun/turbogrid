@@ -133,7 +133,7 @@
             };
             selectAllOnInit = selectAllOnInitMap[selectAllOnInit];
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 selectVisible: document.querySelector('.cb_selectVisible').checked,
                 selectMultiple: document.querySelector('.cb_selectMultiple').checked,
@@ -160,7 +160,7 @@
                     return false;
                 }
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

@@ -91,7 +91,7 @@
 
         function render() {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 collapseAllVisible: true,
                 selectVisible: true,
@@ -99,7 +99,7 @@
                 frozenColumn: 0,
                 frozenRow: 0
             };
-            grid.setOption(option);
+            grid.setOption(options);
 
             grid.setFormatter({
                 iconLabelFormatter: function(value) {

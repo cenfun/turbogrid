@@ -51,7 +51,7 @@ export default {
 
         this.globalSelectedIndex = 0;
 
-        if (selected && !this.option.selectMultiple) {
+        if (selected && !this.options.selectMultiple) {
             return this;
         }
 
@@ -68,7 +68,7 @@ export default {
     //=============================================================================
 
     setRowSelected: function() {
-        const handler = this.option.selectMultiple ? this.setRowMultipleSelected : this.setRowSingleSelected;
+        const handler = this.options.selectMultiple ? this.setRowMultipleSelected : this.setRowSingleSelected;
         return handler.apply(this, arguments);
     },
 
@@ -308,7 +308,7 @@ export default {
     },
 
     isSelectAllVisible: function() {
-        const o = this.option;
+        const o = this.options;
         if (!o.selectVisible || !o.selectAllVisible || !o.selectMultiple) {
             return false;
         }

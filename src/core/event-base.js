@@ -24,8 +24,8 @@ export default class EventBase {
 
     //=======================================================
 
-    bind(types, handler, option) {
-        const eventList = EventUtil.getEventList(this, types, handler, option);
+    bind(types, handler, options) {
+        const eventList = EventUtil.getEventList(this, types, handler, options);
         if (!eventList.length) {
             return this;
         }
@@ -40,13 +40,13 @@ export default class EventBase {
         });
     }
 
-    unbind(types, handler, option) {
+    unbind(types, handler, options) {
         const eventListeners = this.getEventListeners();
         if (!arguments.length) {
             EventUtil.removeAllEvents(eventListeners);
             return this;
         }
-        const eventList = EventUtil.getEventList(this, types, handler, option);
+        const eventList = EventUtil.getEventList(this, types, handler, options);
         if (!eventList.length) {
             return this;
         }

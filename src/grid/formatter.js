@@ -6,30 +6,27 @@ import defaultFormatters from '../config/default-formatters.js';
 
 export default {
 
-    //formatter API
-    setFormatter: function() {
+    // setFormatter(key, value)
+    // setFormatter(object)
+    setFormatter: function(key, value) {
         this.renderType = 'all';
-        const args = Array.from(arguments);
-        if (args.length === 0) {
-            this.formatters = Util.merge(defaultFormatters);
-            return this;
+        let formatters = key;
+        //key/value, not reset formatters
+        if (typeof key === 'string') {
+            if (this.formatters) {
+                this.formatters[key] = value;
+                return this;
+            }
+            // first time
+            formatters = {};
+            formatters[key] = value;
         }
-        const firstArg = args[0];
-        if (args.length === 1) {
-            this.formatters = Util.merge(defaultFormatters, firstArg);
-            return this;
-        }
-        if (typeof firstArg === 'string') {
-            //keep formatters for single formatter change
-            this.formatters[firstArg] = args[1];
-            return this;
-        }
-        //multiple formatters, concat require Array type
-        const list = [defaultFormatters].concat(args);
-        this.formatters = Util.merge.apply(null, list);
+        //object, reset all options
+        this.customFormatters = formatters;
         return this;
     },
 
+    //require after render
     getFormatter: function(name) {
         if (!name) {
             return;
@@ -51,7 +48,7 @@ export default {
 
     getSelectFormatterContent: function(rowItem) {
         let type = 'radio';
-        if (this.option.selectMultiple) {
+        if (this.options.selectMultiple) {
             type = 'checkbox';
         }
 

@@ -28,28 +28,15 @@ describe('Grid', function() {
         assert.equal(grid.toString(), '[object Grid]');
     });
 
-    it('Grid setOption/getOption', function() {
-        grid.setOption({
-            option1: 'option1'
-        });
-        assert.equal(grid.getOption().option1, 'option1');
-        grid.setOption({
-            option2: 'option2'
-        });
-        assert.equal(typeof grid.getOption().option1, 'undefined');
-    });
-
     it('Grid getAllThemes/getThemeOptions', function() {
         const allThemes = grid.getAllThemes();
         assert.equal(allThemes.length, 3);
 
-        const themeOption = grid.getDefaultOption({
-            theme: 'lightblue'
-        });
+        const themeOptions = grid.getThemeOptions('lightblue');
 
-        assert.equal(themeOption.rowHeight, 35);
-        assert.equal(themeOption.scrollbarSize, 10);
-        assert.equal(themeOption.scrollbarRound, true);
+        assert.equal(themeOptions.rowHeight, 35);
+        assert.equal(themeOptions.scrollbarSize, 10);
+        assert.equal(themeOptions.scrollbarRound, true);
 
     });
 
@@ -108,7 +95,8 @@ describe('Grid', function() {
         grid.setData(data);
         grid.onNextUpdated();
         grid.onNextUpdated(function() {
-            assert.equal(this.getData(), data, 'getData');
+            assert.equal(this.getData().columns, data.columns, 'getData columns');
+            assert.equal(this.getData().rows, data.rows, 'getData rows');
 
             assert(this.getRows(), 'getRows');
             assert(this.getColumns(), 'getColumns');
@@ -216,7 +204,7 @@ describe('Grid', function() {
             const pwr = grid.paneWidthR;
             assert.equal(pwr, 200);
 
-            const rh = grid.option.rowHeight;
+            const rh = grid.options.rowHeight;
             const pht = grid.paneHeightT;
             assert.equal(pht, rh);
 
@@ -286,18 +274,6 @@ describe('Grid', function() {
         assert.equal(grid.formatters.iconInfo(), '<span class="ic-info-sm"></span>');
         assert.equal(grid.formatters.myFormatter(), 'myFormatter');
         assert.equal(grid.formatters.callback, callback);
-    });
-
-    it('Grid formatter setFormatter(objOverride)', function() {
-        const callbackOverride = function() {
-            return 'callbackOverride';
-        };
-        grid.setFormatter({
-            callback: callbackOverride
-        });
-        assert.equal(typeof grid.formatters.iconInfo, 'undefined');
-        assert.equal(typeof grid.formatters.myFormatter, 'undefined');
-        assert.equal(grid.formatters.callback, callbackOverride);
     });
 
     it('Grid cell click', async () => {

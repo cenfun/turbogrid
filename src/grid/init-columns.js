@@ -90,7 +90,7 @@ export default {
     },
 
     getPrivateColumns: function() {
-        const o = this.option;
+        const o = this.options;
 
         //own columns and remove from user columns
         this.selectColumn = o.selectColumn;
@@ -101,7 +101,7 @@ export default {
         let privateColumns = [];
 
         const appendPrivateColumns = () => {
-            //first, add select column if option selectVisible
+            //first, add select column if options selectVisible
             if (o.selectVisible) {
                 privateColumns.push(this.selectColumn);
             }
@@ -154,7 +154,7 @@ export default {
     },
 
     initColumnItemHandler: function(columnItem) {
-        //option handler
+        //options handler
         this.initColumnProps(columnItem);
         //formatter handler
         this.initColumnFormatter(columnItem);
@@ -165,7 +165,7 @@ export default {
     //=============================================================================
     initColumnProps: function(columnItem) {
 
-        const columnTypes = this.option.columnTypes;
+        const columnTypes = this.options.columnTypes;
 
         //1, id type
         if (!Util.hasOwn(columnItem, 'type')) {
@@ -176,7 +176,7 @@ export default {
         }
 
         // copy to column with default props
-        let defaultProps = this.option.columnProps;
+        let defaultProps = this.options.columnProps;
 
         //2, type props
         const typeProps = columnTypes[columnItem.type];
@@ -293,7 +293,7 @@ export default {
         //for sort on init every time
         this.sortColumn = null;
 
-        const o = this.option;
+        const o = this.options;
         const sortField = o.sortField;
         if (!sortField) {
             return;

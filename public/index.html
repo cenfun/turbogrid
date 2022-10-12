@@ -243,7 +243,7 @@
     let keywords = '';
 
     const render = function() {
-        const option = {
+        const options = {
             headerVisible: false,
             selectMultiple: false,
             scrollbarSize: 10,
@@ -272,7 +272,7 @@
                 return true;
             }
         };
-        grid.setOption(option);
+        grid.setOption(options);
 
         grid.setFormatter({
             tree: function(value, rowItem, columnItem, cellNode) {

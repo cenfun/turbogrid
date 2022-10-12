@@ -49,7 +49,7 @@ export default {
         const list = ['tg-header-table'];
         if (this.hasSortColumn) {
             list.push('tg-header-sortable');
-            list.push(`tg-header-sort-${this.option.sortIndicator}`);
+            list.push(`tg-header-sort-${this.options.sortIndicator}`);
         }
         headerTable.className = Util.classMap(list);
 
@@ -166,7 +166,7 @@ export default {
 
         const children = [];
 
-        if (this.option.collapseAllVisible) {
+        if (this.options.collapseAllVisible) {
 
             const icon = Icon.getIcon('tree');
             const treeIcon = this.createElement('div', {
@@ -211,7 +211,7 @@ export default {
         };
         let content;
         if (this.isColumnSortable(columnItem)) {
-            if (this.option.sortIndicator === 'h') {
+            if (this.options.sortIndicator === 'h') {
                 content = this.createSortIndicatorH(columnItem);
             } else {
                 content = this.createSortIndicatorV(columnItem);
@@ -292,7 +292,7 @@ export default {
         }
 
         if (this.isColumnSortable(columnItem)) {
-            list.push(`tg-column-sortable tg-column-sort-${this.option.sortIndicator}`);
+            list.push(`tg-column-sortable tg-column-sort-${this.options.sortIndicator}`);
         }
 
         if (columnItem.align) {

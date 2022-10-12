@@ -260,7 +260,7 @@ export default {
     //========================================================================================
 
     renderCollapseAllIcon: function() {
-        if (!this.option.collapseAllVisible || !this.hasTreeColumn) {
+        if (!this.options.collapseAllVisible || !this.hasTreeColumn) {
             return;
         }
         const $node = this.$header.find('.tg-tree-icon-all');

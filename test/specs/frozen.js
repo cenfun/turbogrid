@@ -43,10 +43,10 @@ describe('Frozen', function() {
         };
     };
 
-    const createItem = function(width, height, option, callback) {
+    const createItem = function(width, height, options, callback) {
         return new Promise((resolve) => {
             container.width(width).height(height);
-            grid.setOption(option);
+            grid.setOption(options);
             const totalColumns = 5;
             const totalRows = 10;
             const columnWidth = 100;
@@ -64,7 +64,7 @@ describe('Frozen', function() {
                     headerHeight: hh,
                     bodyHeight: bh,
                     bodyWidth: bw,
-                    rowHeight: grid.option.rowHeight,
+                    rowHeight: grid.options.rowHeight,
                     scrollbarWidth: grid.getScrollbarWidth(),
                     scrollbarHeight: grid.getScrollbarHeight()
                 };
@@ -93,14 +93,14 @@ describe('Frozen', function() {
     };
 
     const createGrids = async (sizeList, o, callback) => {
-        const option = {
+        const options = {
             frozenColumn: o[0] ? 0 : -1,
             frozenRow: o[1] ? 0 : -1,
             frozenRight: Boolean(o[2]),
             frozenBottom: Boolean(o[3])
         };
         for (const item of sizeList) {
-            await createItem(item[0], item[1], option, callback);
+            await createItem(item[0], item[1], options, callback);
         }
     };
 

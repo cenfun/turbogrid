@@ -198,7 +198,7 @@
         <div class="nav">
             <a href="#method">Method</a>
             <a href="#data">Data</a>
-            <a href="#option">Option</a>
+            <a href="#options">Options</a>
             <a href="#event">Event</a>
             <a href="#lifecycle">Lifecycle</a>
             <a href="#appendix">Appendix</a>
@@ -267,22 +267,22 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="setOption">setOption(option)</a>
-                            <div>Sets option (Type:Object).</div>
-                            <div>For Detailed option, check <a href="#option">default option</a></div>
+                            <a name="setOption">setOption(options)</a>
+                            <div>Sets options (Type:Object).</div>
+                            <div>For Detailed options, check <a href="#options">default options</a></div>
                         </section>
                         <section>
                             <a name="getOption">getOption([name])</a>
-                            <div>Returns current option by name or all options.</div>
+                            <div>Returns current options by name or all options.</div>
                         </section>
                     </td>
                     <td>
                         <pre><code class="language-js">
-                            var option = {
+                            var options = {
                                 frozenRow: 0
                             };
-                            grid.setOption(option);
-                            var option = grid.getOption();
+                            grid.setOption(options);
+                            var options = grid.getOption();
                         </code></pre>
                     </td>
                 </tr>
@@ -1126,30 +1126,6 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <td>
-                        <section>
-                            <a name="Grid.extend">Grid.extend(properties[, classProperties])</a>
-                            <div>[static] To create a new class of your own, extends Grid and provide instance properties, as well as optional classProperties to be attached directly to the constructor function. </div>
-                        </section>
-                    </td>
-                    <td>
-                        <pre><code class="language-js">
-                        var CustomGrid = Grid.extend({
-                            constructor: function() {
-                            },
-                            customFunction: function() {
-                            },
-                            //API override and call supper API
-                            render: function() {
-                                this.customFunction();
-                                Grid.prototype.render.apply(this, arguments);
-                            }
-                        });
-                        </code></pre>
-                    </td>
-                </tr>
-
             </tbody>
         </table>
 
@@ -1196,7 +1172,7 @@
                     <td>
                         <section>
                             <a name="data.columns">data.columns</a>
-                            <div>See column properties: <a href="#option.columnProps">option.columnProps</a></div>
+                            <div>See column properties: <a href="#options.columnProps">options.columnProps</a></div>
                         </section>
                     </td>
                     <td>
@@ -1228,7 +1204,7 @@
                     <td>}, {
                         <section>
                             <a name="data.rows">data.rows</a>
-                            <div>See row properties: <a href="#option.rowProps">option.rowProps</a></div>
+                            <div>See row properties: <a href="#options.rowProps">options.rowProps</a></div>
                         </section>
                     </td>
                     <td>
@@ -1265,14 +1241,14 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="data.option">data.option</a>
-                            <div>Sets option from data (easy way for back-end sets option, The priority is higher than "setOption")</div>
+                            <a name="data.options">data.options</a>
+                            <div>Sets options from data (easy way for back-end sets options, The priority is higher than "setOption")</div>
                         </section>
                     </td>
                     <td>
                         <pre><code class="language-js">
                                 var data = {
-                                    option : {
+                                    options : {
                                         sortField : "name"
                                     },
                                     columns : columns,
@@ -1308,14 +1284,14 @@
         <table class="api-table">
             <thead>
                 <tr>
-                    <th colspan="2"><a name="option">Option <i class="total"></i></a></th>
+                    <th colspan="2"><a name="options">Option <i class="total"></i></a></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
                         <section>
-                            <a name="option.className">option.className = "tg-turbogrid"</a>
+                            <a name="options.className">options.className = "tg-turbogrid"</a>
                             <div>Customize className (CSS namespace).</div>
                         </section>
                     </td>
@@ -1331,7 +1307,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.theme">option.theme = "[theme-name]"</a>
+                            <a name="options.theme">options.theme = "[theme-name]"</a>
                             <div>Sets theme name: (default), lightblue, dark</div>
                         </section>
                     </td>
@@ -1343,7 +1319,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowHeight">option.rowHeight = 23</a>
+                            <a name="options.rowHeight">options.rowHeight = 23</a>
                         </section>
                     </td>
                     <td>
@@ -1354,10 +1330,10 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowCacheLength">option.rowCacheLength = 0</a>
+                            <a name="options.rowCacheLength">options.rowCacheLength = 0</a>
                         </section>
                         <section>
-                            <a name="option.columnCacheLength">option.columnCacheLength = 0</a>
+                            <a name="options.columnCacheLength">options.columnCacheLength = 0</a>
                         </section>
                     </td>
                     <td>
@@ -1368,7 +1344,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.autoHeight">option.autoHeight = false</a>
+                            <a name="options.autoHeight">options.autoHeight = false</a>
                         </section>
                     </td>
                     <td>
@@ -1379,7 +1355,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.headerVisible">option.headerVisible = true</a>
+                            <a name="options.headerVisible">options.headerVisible = true</a>
                         </section>
                     </td>
                     <td>
@@ -1390,10 +1366,10 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.collapseAllVisible">option.collapseAllVisible = true</a>
+                            <a name="options.collapseAllVisible">options.collapseAllVisible = true</a>
                         </section>
                         <section>
-                            <a name="option.collapseAllOnInit">option.collapseAllOnInit = null</a>
+                            <a name="options.collapseAllOnInit">options.collapseAllOnInit = null</a>
                         </section>
                     </td>
                     <td>
@@ -1404,17 +1380,17 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.selectVisible">option.selectVisible = false</a>
+                            <a name="options.selectVisible">options.selectVisible = false</a>
                         </section>
                         <section>
-                            <a name="option.selectAllVisible">option.selectAllVisible = true</a>
+                            <a name="options.selectAllVisible">options.selectAllVisible = true</a>
                         </section>
                         <section>
-                            <a name="option.selectAllOnInit">option.selectAllOnInit = null</a>
+                            <a name="options.selectAllOnInit">options.selectAllOnInit = null</a>
                             <div>true: select all, false: unselect all, or do nothing</div>
                         </section>
                         <section>
-                            <a name="option.selectMultiple">option.selectMultiple = true</a>
+                            <a name="options.selectMultiple">options.selectMultiple = true</a>
                         </section>
                     </td>
                     <td>
@@ -1425,7 +1401,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowNumberVisible">option.rowNumberVisible = false</a>
+                            <a name="options.rowNumberVisible">options.rowNumberVisible = false</a>
                             <div>false: no number, true: show number column</div>
                         </section>
                     </td>
@@ -1437,7 +1413,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowNotFound">option.rowNotFound = ''</a>
+                            <a name="options.rowNotFound">options.rowNotFound = ''</a>
                             <div>empty; string; element; or function </div>
                         </section>
                     </td>
@@ -1449,7 +1425,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowDragCrossLevel">option.rowDragCrossLevel = true</a>
+                            <a name="options.rowDragCrossLevel">options.rowDragCrossLevel = true</a>
                             <div>boolean or a handler function, returns a specified drop list</div>
                         </section>
                     </td>
@@ -1461,7 +1437,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowMoveCrossLevel">option.rowMoveCrossLevel = true</a>
+                            <a name="options.rowMoveCrossLevel">options.rowMoveCrossLevel = true</a>
                             <div>true: multi-level move, false: single level move</div>
                         </section>
                     </td>
@@ -1473,29 +1449,29 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.sortField">option.sortField = ""</a>
+                            <a name="options.sortField">options.sortField = ""</a>
                             <div>Field for value compare</div>
                         </section>
                         <section>
-                            <a name="option.sortAsc">option.sortAsc = true</a>
+                            <a name="options.sortAsc">options.sortAsc = true</a>
                             <div>true: for ascending sort, false: for descending sort</div>
                         </section>
                         <section>
-                            <a name="option.sortBlankValueBottom">option.sortBlankValueBottom = true</a>
+                            <a name="options.sortBlankValueBottom">options.sortBlankValueBottom = true</a>
                             <div>Configuration for sort blank value logic</div>
                             <div>true: rows with blank values should always be at the bottom of the grid</div>
                             <div>false: rows with blank values sort at the bottom for descending sort and at the top for ascending sort</div>
                         </section>
                         <section>
-                            <a name="option.sortOnInit">option.sortOnInit = false</a>
+                            <a name="options.sortOnInit">options.sortOnInit = false</a>
                             <div>Sets true will sort by sortField on initialized</div>
                         </section>
                         <section>
-                            <a name="option.sortIndicator">option.sortIndicator = "h"</a>
+                            <a name="options.sortIndicator">options.sortIndicator = "h"</a>
                             <div>"h" or "v" style</div>
                         </section>
                         <section>
-                            <a name="option.sortComparers">option.sortComparers = {defaultSortComparers}</a>
+                            <a name="options.sortComparers">options.sortComparers = {defaultSortComparers}</a>
                             <div>Customize own sort comparers</div>
                         </section>
                         
@@ -1508,7 +1484,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowFilter">option.rowFilter</a>
+                            <a name="options.rowFilter">options.rowFilter</a>
                         </section>
                     </td>
                     <td>
@@ -1519,7 +1495,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.rowProps">option.rowProps = </a>
+                            <a name="options.rowProps">options.rowProps = </a>
                             <div>
                                 <pre><code class="language-js">
                                     rowProps: {
@@ -1561,7 +1537,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.columnProps">option.columnProps = </a>
+                            <a name="options.columnProps">options.columnProps = </a>
                             <div>
                                 <pre><code class="language-js">
                                     columnProps: {
@@ -1581,7 +1557,7 @@
                                         //formatter: [String, Function]
                                         //headerFormatter: [String, Function]
 
-                                        // comparer function when sort function(a, b, option)
+                                        // comparer function when sort function(a, b, options)
                                         //comparer: [String, Function]
 
                                         // left (default) | center | right
@@ -1621,13 +1597,13 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.frozenColumn">option.frozenColumn = -1</a>
+                            <a name="options.frozenColumn">options.frozenColumn = -1</a>
                         </section>
                         <section>
-                            <a name="option.frozenRow">option.frozenRow = -1</a>
+                            <a name="options.frozenRow">options.frozenRow = -1</a>
                         </section>
                         <section>
-                            <a name="option.frozenBottom">option.frozenBottom = false</a>
+                            <a name="options.frozenBottom">options.frozenBottom = false</a>
                         </section>
                     </td>
                     <td>
@@ -1638,10 +1614,10 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.frozenColumnMax">option.frozenColumnMax = 10</a>
+                            <a name="options.frozenColumnMax">options.frozenColumnMax = 10</a>
                         </section>
                         <section>
-                            <a name="option.frozenRowMax">option.frozenRowMax = 10</a>
+                            <a name="options.frozenRowMax">options.frozenRowMax = 10</a>
                         </section>
                     </td>
                     <td>
@@ -1652,7 +1628,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.frozenRowHoverable">option.frozenRowHoverable = false</a>
+                            <a name="options.frozenRowHoverable">options.frozenRowHoverable = false</a>
                             <div>Boolean, Allow hovering on frozen row</div>
                         </section>
                     </td>
@@ -1664,27 +1640,27 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.scrollbarSize">option.scrollbarSize = 12</a>
+                            <a name="options.scrollbarSize">options.scrollbarSize = 12</a>
                             <div>Sets scrollbar size</div>
                         </section>
                         <section>
-                            <a name="option.scrollbarRound">option.scrollbarRound = false</a>
+                            <a name="options.scrollbarRound">options.scrollbarRound = false</a>
                             <div>Sets scrollbar round style</div>
                         </section>
                         <section>
-                            <a name="option.scrollbarFade">option.scrollbarFade = false</a>
+                            <a name="options.scrollbarFade">options.scrollbarFade = false</a>
                             <div>Sets scrollbar fade</div>
                         </section>
                         <section>
-                            <a name="option.scrollbarFadeTimeout">option.scrollbarFadeTimeout = 1000</a>
+                            <a name="options.scrollbarFadeTimeout">options.scrollbarFadeTimeout = 1000</a>
                             <div>Sets scrollbar fade timeout</div>
                         </section>
                         <section>
-                            <a name="option.scrollbarType">option.scrollbarType = "auto"</a>
+                            <a name="options.scrollbarType">options.scrollbarType = "auto"</a>
                             <div>Sets scrollbar type: auto, mobile (fade = true and size = 6)</div>
                         </section>
                         <section>
-                            <a name="option.scrollPaneMinWidth">option.scrollPaneMinWidth = 30</a>
+                            <a name="options.scrollPaneMinWidth">options.scrollPaneMinWidth = 30</a>
                             <div>Sets scroll pane min width</div>
                         </section>
                     </td>
@@ -1696,7 +1672,7 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.textSelectable">option.textSelectable = false</a>
+                            <a name="options.textSelectable">options.textSelectable = false</a>
                             <div>Boolean, Allow select text</div>
                         </section>
                     </td>
@@ -1706,11 +1682,11 @@
                 <tr>
                     <td>
                         <section>
-                            <a name="option.bindWindowResize">option.bindWindowResize = false</a>
+                            <a name="options.bindWindowResize">options.bindWindowResize = false</a>
                             <div>Boolean, Bind window resize and call resize API</div>
                         </section>
                         <section>
-                            <a name="option.bindContainerResize">option.bindContainerResize = false</a>
+                            <a name="options.bindContainerResize">options.bindContainerResize = false</a>
                             <div>Boolean, Bind container resize and call resize API (require API ResizeObserver)</div>
                         </section>
                     </td>
@@ -2234,7 +2210,7 @@
                         <pre><code class="language-js">
                             grid.bind("[event type]", handler);
                             grid.setData(data);
-                            grid.setOption(option);
+                            grid.setOption(options);
                             grid.setFormatter(formatters);
                         </code></pre>
                     </td>

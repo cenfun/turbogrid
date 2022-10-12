@@ -86,7 +86,7 @@ describe('Row height', function() {
 
         grid.setRowHeight('total');
         await delay();
-        assert.equal(grid.getRowItem('total').tg_height, grid.option.rowHeight);
+        assert.equal(grid.getRowItem('total').tg_height, grid.options.rowHeight);
         assert.equal(container.querySelector('.tg-row[row="0"]').style.height, '');
 
         grid.setRowHeight('row2', 35);
@@ -102,7 +102,7 @@ describe('Row height', function() {
         await delay();
         assert.equal(grid.getRowItem('row2').tg_height, 30);
         assert.equal(container.querySelector('.tg-row[row="4"]').style.height, '30px');
-        assert.equal(grid.getRowItem('row3').tg_height, grid.option.rowHeight);
+        assert.equal(grid.getRowItem('row3').tg_height, grid.options.rowHeight);
         assert.equal(container.querySelector('.tg-row[row="5"]').style.height, '');
 
         grid.setRowHeight(['row2', 'row3'], [25, 26]);

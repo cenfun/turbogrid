@@ -121,14 +121,14 @@
         });
 
         grid.bind('onResize', function(e, d) {
-            if (this.option.autoHeight) {
+            if (this.options.autoHeight) {
                 $('.body').css('height', $('.grid-container').height());
             }
         });
 
         const renderData = function(data) {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
@@ -136,7 +136,7 @@
                 scrollbarSize: 10,
                 autoHeight: document.querySelector('.cb_autoHeight').checked
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };

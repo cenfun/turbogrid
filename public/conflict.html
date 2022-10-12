@@ -37,13 +37,13 @@
 
         function render() {
 
-            const option = {
+            const options = {
                 theme: document.querySelector('.st_theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
                 frozenRow: 1
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(window.sampleData);
             grid.render();
         }

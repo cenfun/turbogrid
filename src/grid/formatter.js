@@ -1,5 +1,5 @@
 import CONST from '../core/const.js';
-import Icon from '../components/icon.js';
+import Icon from '../core/icon.js';
 import Util from '../core/util.js';
 
 import defaultFormatters from '../config/default-formatters.js';

@@ -395,30 +395,6 @@ export default {
 
     //======================================================================================
 
-    cellOverOutHandler: function(e, over) {
-        const d = this.getEventData(e);
-        if (!d) {
-            return;
-        }
-        if (over) {
-            this.trigger(E.onCellMouseOver, d);
-        } else {
-            this.trigger(E.onCellMouseOut, d);
-        }
-    },
-
-    headerOverOutHandler: function(e, over) {
-        const d = this.getEventData(e);
-        if (!d) {
-            return;
-        }
-        if (over) {
-            this.trigger(E.onHeaderMouseOver, d);
-        } else {
-            this.trigger(E.onHeaderMouseOut, d);
-        }
-    },
-
     cellEnterLeaveHandler: function(e, hover) {
         const d = this.getEventData(e);
         if (!d) {
@@ -477,14 +453,20 @@ export default {
 
     containerMouseOverOutHandler: function(e, over) {
         const $cell = this.getEventClosestNode(e.target, 'tg-cell');
-        if ($cell) {
-            this.cellOverOutHandler(e, over);
-            return;
-        }
-
         const $headerItem = this.getEventClosestNode(e.target, 'tg-header-item');
-        if ($headerItem) {
-            this.headerOverOutHandler(e, over);
+
+        if ($cell || $headerItem) {
+
+            const d = this.getEventData(e);
+            if (!d) {
+                return;
+            }
+            if (over) {
+                this.trigger(E.onMouseOver, d);
+            } else {
+                this.trigger(E.onMouseOut, d);
+            }
+
         }
 
     },

@@ -93,9 +93,6 @@ describe('Events', function() {
 
         //console.log(eventTriggered);
 
-        assert.equal(eventTriggered.onCellMouseOver, 1);
-        assert.equal(eventTriggered.onCellMouseOut, 1);
-
         assert.equal(eventTriggered.onCellMouseEnter, 1);
         assert.equal(eventTriggered.onCellMouseLeave, 1);
 
@@ -105,6 +102,8 @@ describe('Events', function() {
         assert.equal(eventTriggered.onContextMenu, 1);
         assert.equal(eventTriggered.onClick, 1);
         assert.equal(eventTriggered.onDblClick, 1);
+        assert.equal(eventTriggered.onMouseOver, 1);
+        assert.equal(eventTriggered.onMouseOut, 1);
 
     });
 

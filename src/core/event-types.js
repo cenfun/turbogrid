@@ -8,9 +8,6 @@ export const Types = [
     //header
     'onHeaderUpdated',
 
-    'onHeaderMouseOver',
-    'onHeaderMouseOut',
-
     'onSort',
 
     //column
@@ -43,9 +40,6 @@ export const Types = [
     'onCellMouseEnter',
     'onCellMouseLeave',
 
-    'onCellMouseOver',
-    'onCellMouseOut',
-
     //scroll
     'onScroll',
     'onScrollStateChanged',
@@ -56,6 +50,8 @@ export const Types = [
     'onClick',
     'onDblClick',
     'onContextMenu',
+    'onMouseOver',
+    'onMouseOut',
 
     //resize
     'onResize',

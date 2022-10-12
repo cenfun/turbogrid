@@ -92,50 +92,41 @@
             if (!node) {
                 return false;
             }
-            const itemNode = node.querySelector('.tg-tree-name');
-            if (itemNode) {
-                node = itemNode;
-            }
             if (node.clientWidth < node.scrollWidth) {
                 return true;
             }
             return false;
         };
 
-        grid.bind('onCellMouseOver', function(e, d) {
+        grid.bind('onMouseOver', function(e, d) {
             //console.log(d);
-            const elem = d.cellNode;
+
 
             const target = d.e.target;
             //console.log(target);
         
             //show tooltip for info icon
             if (target.classList.contains('tg-tooltip-icon')) {
-                showTooltip(elem, `Tooltip for icon: ${d.rowItem.name}`);
+                showTooltip(target, `Tooltip for icon: ${d.rowItem.name}`);
                 return;
             }
 
             //show tooltip if cell truncated
             const value = d.rowItem[d.columnItem.id];
-            if (value && isNodeTruncated(elem)) {
-                showTooltip(elem, `Tooltip for truncated text: ${value}`);
+            if (value && isNodeTruncated(target)) {
+                showTooltip(target, `Tooltip for truncated text: ${value}`);
+                return;
             }
 
-        }).bind('onCellMouseOut', function(e, d) {
-            hideTooltip();
-        });
-
-        grid.bind('onHeaderMouseOver', function(e, d) {
-
-            const target = d.e.target;
             //show tooltip for header icon
             if (target.classList.contains('tg-header-icon')) {
                 showTooltip(target, `Tooltip for header: ${d.rowItem.name}`);
             }
 
-        }).bind('onHeaderMouseOut', function(e, d) {
+        }).bind('onMouseOut', function(e, d) {
             hideTooltip();
         });
+
 
         const customData = {
             columns: [{

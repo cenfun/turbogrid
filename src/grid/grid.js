@@ -68,22 +68,6 @@ import Viewport from './viewport.js';
 import Util from '../core/util.js';
 import EventBase from '../core/event-base.js';
 
-
-function hasOwn(obj, key) {
-    return Object.prototype.hasOwnProperty.call(obj, key);
-}
-
-function extend(props, list) {
-    list.forEach((item) => {
-        for (const k in item) {
-            if (hasOwn(props, k)) {
-                console.log(`ERROR: concat with an existing key: "${k}"`);
-            }
-            props[k] = item[k];
-        }
-    });
-}
-
 class Grid extends EventBase {
 
     static $ = $;
@@ -189,7 +173,20 @@ class Grid extends EventBase {
     }
 }
 
-extend(Grid.prototype, [
+function extendsPrototype(props, list) {
+    list.forEach((item) => {
+        for (const k in item) {
+            // for development checking
+            if (Util.hasOwn(props, k)) {
+                throw new Error(`ERROR: extends with an existing key: "${k}"`);
+            }
+            props[k] = item[k];
+        }
+    });
+}
+
+// all grid modules
+extendsPrototype(Grid.prototype, [
 
     Cache,
     Cells,

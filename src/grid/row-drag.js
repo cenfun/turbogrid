@@ -1,7 +1,7 @@
 import $ from '../core/query.js';
 import E from '../core/event-types.js';
 import Util from '../core/util.js';
-import Motion from '../core/motion.js';
+import Motion from '../components/motion.js';
 
 export default {
 

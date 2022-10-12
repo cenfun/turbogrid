@@ -1,4 +1,4 @@
-import Icon from '../core/icon.js';
+import Icon from '../components/icon.js';
 import Util from '../core/util.js';
 
 export default {

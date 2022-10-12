@@ -1,4 +1,4 @@
-import Sorter from '../core/sorter.js';
+import Sorter from '../components/sorter.js';
 import Util from '../core/util.js';
 
 export default {

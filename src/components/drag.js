@@ -1,5 +1,5 @@
-import Util from './util.js';
-import EventBase from './event-base.js';
+import Util from '../core/util.js';
+import EventBase from '../core/event-base.js';
 
 const EVENT = {
     DRAG_START: 'drag_start',

@@ -1,6 +1,13 @@
-import EventBase from './event-base.js';
-import Util from './util.js';
-import Easing from './easing.js';
+import EventBase from '../core/event-base.js';
+import Util from '../core/util.js';
+
+const Easing = {
+    Linear: {
+        None: function(k) {
+            return k;
+        }
+    }
+};
 
 const EVENT = {
     MOTION_START: 'motion_start',

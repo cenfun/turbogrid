@@ -2,8 +2,8 @@ import $ from '../core/query.js';
 import Util from '../core/util.js';
 import CONST from '../core/const.js';
 import E, { Types } from '../core/event-types.js';
-import Drag from '../core/drag.js';
-import Touch from '../core/touch.js';
+import Drag from '../components/drag.js';
+import Touch from '../components/touch.js';
 
 export default {
 

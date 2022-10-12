@@ -1,8 +1,8 @@
 import $ from '../core/query.js';
 import Util from '../core/util.js';
 import EventBase from '../core/event-base.js';
-import Drag from '../core/drag.js';
-import Motion from '../core/motion.js';
+import Drag from './drag.js';
+import Motion from './motion.js';
 
 const EVENT = {
     CHANGE: 'change'

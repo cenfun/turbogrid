@@ -1,5 +1,5 @@
 import Util from '../core/util.js';
-import ScrollPane from '../ui/scroll-pane.js';
+import ScrollPane from '../components/scroll-pane.js';
 
 export default {
 

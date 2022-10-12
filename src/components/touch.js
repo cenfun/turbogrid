@@ -1,7 +1,7 @@
-import Util from './util.js';
-import CONST from './const.js';
-import Motion from './motion.js';
-import EventBase from './event-base.js';
+import Util from '../core/util.js';
+import CONST from '../core/const.js';
+import Motion from '../components/motion.js';
+import EventBase from '../core/event-base.js';
 
 const EVENT = {
     TOUCH_START: 'touch_start',

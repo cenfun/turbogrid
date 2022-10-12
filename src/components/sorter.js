@@ -1,4 +1,4 @@
-import Util from './util.js';
+import Util from '../core/util.js';
 export default class Sorter {
 
     constructor(options) {

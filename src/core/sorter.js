@@ -1,16 +1,20 @@
 import Util from './util.js';
-export default class {
+export default class Sorter {
 
-    constructor(option) {
-        this.option = Util.merge({
+    constructor(options) {
+        this.options = this.generateOptions(options);
+    }
+
+    generateOptions(options) {
+        const defaultOptions = {
             ignore: null,
             sortField: '',
             sortFactor: 1,
             sortBlankFactor: 1,
             sortComparer: null
-        }, option);
+        };
+        return Util.merge(defaultOptions, options);
     }
-
 
     sortList(list) {
 
@@ -27,11 +31,11 @@ export default class {
 
     comparerHandler(list) {
 
-        const o = this.option;
-        const sortField = o.sortField;
-        const sortFactor = o.sortFactor;
-        const sortBlankFactor = o.sortBlankFactor;
-        const sortComparer = o.sortComparer;
+        const os = this.options;
+        const sortField = os.sortField;
+        const sortFactor = os.sortFactor;
+        const sortBlankFactor = os.sortBlankFactor;
+        const sortComparer = os.sortComparer;
 
         if (typeof sortComparer !== 'function') {
             return false;
@@ -50,7 +54,7 @@ export default class {
 
     ignoreExcludeHandler(list) {
 
-        const ignoreHandler = this.option.ignore;
+        const ignoreHandler = this.options.ignore;
 
         this.ignoreListTop = [];
         this.ignoreListBottom = [];

@@ -7,12 +7,12 @@ const EVENT = {
     DRAG_END: 'drag_end'
 };
 
-export default class extends EventBase {
+export default class Drag extends EventBase {
 
     static EVENT = EVENT;
 
-    createOption(data) {
-        return {
+    generateOptions(options) {
+        const defaultOptions = {
 
             type: 'mouse',
 
@@ -30,10 +30,10 @@ export default class extends EventBase {
 
             offsetX: 0,
             offsetY: 0,
-            changed: false,
-
-            ... data
+            changed: false
         };
+
+        return Util.merge(defaultOptions, options);
     }
 
     //============================================================================
@@ -44,7 +44,7 @@ export default class extends EventBase {
         }
         this.unbindEvents();
         this.bindEvents();
-        this.option = this.createOption(data);
+        this.options = this.generateOptions(data);
         this.startHandler(e);
     }
 
@@ -96,55 +96,55 @@ export default class extends EventBase {
     //============================================================================
 
     startHandler(e) {
-        const o = this.option;
+        const os = this.options;
         //start position
-        o.e = e;
-        o.startX = e.pageX;
-        o.startY = e.pageY;
-        o.currentX = o.startX;
-        o.currentY = o.startY;
+        os.e = e;
+        os.startX = e.pageX;
+        os.startY = e.pageY;
+        os.currentX = os.startX;
+        os.currentY = os.startY;
         this.hasMoved = false;
     }
 
     mouseMoveHandler(e) {
         Util.preventDefault(e);
 
-        const o = this.option;
-        o.e = e;
+        const os = this.options;
+        os.e = e;
         //keep previous position
-        o.previousX = o.currentX;
-        o.previousY = o.currentY;
+        os.previousX = os.currentX;
+        os.previousY = os.currentY;
         //current position
-        o.currentX = e.pageX;
-        o.currentY = e.pageY;
+        os.currentX = e.pageX;
+        os.currentY = e.pageY;
         //current move offset from previous
-        o.moveX = o.currentX - o.previousX;
-        o.moveY = o.currentY - o.previousY;
+        os.moveX = os.currentX - os.previousX;
+        os.moveY = os.currentY - os.previousY;
         //current offset from start
-        o.offsetX = o.currentX - o.startX;
-        o.offsetY = o.currentY - o.startY;
+        os.offsetX = os.currentX - os.startX;
+        os.offsetY = os.currentY - os.startY;
         //position nothing change
-        o.changed = !(o.offsetX === 0 && o.offsetY === 0);
+        os.changed = !(os.offsetX === 0 && os.offsetY === 0);
 
         //moved but no changed, because position back to start point
         if (this.hasMoved) {
-            this.trigger(EVENT.DRAG_MOVE, o);
+            this.trigger(EVENT.DRAG_MOVE, os);
             return;
         }
 
         this.hasMoved = true;
-        this.trigger(EVENT.DRAG_START, o);
+        this.trigger(EVENT.DRAG_START, os);
     }
 
     mouseUpHandler(e) {
         this.unbindEvents();
-        const o = this.option;
+        const os = this.options;
         if (!this.hasMoved) {
             return;
         }
-        o.e = e;
+        os.e = e;
         Util.preventDefault(e);
-        this.trigger(EVENT.DRAG_END, o);
+        this.trigger(EVENT.DRAG_END, os);
     }
 
     destroy() {

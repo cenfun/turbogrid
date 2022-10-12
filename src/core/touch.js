@@ -10,12 +10,12 @@ const EVENT = {
     TOUCH_INERTIA: 'touch_inertia'
 };
 
-export default class extends EventBase {
+export default class Touch extends EventBase {
 
     static EVENT = EVENT;
 
-    createOption(data) {
-        return {
+    generateOptions(options) {
+        const defaultOptions = {
 
             type: 'touch',
 
@@ -39,10 +39,11 @@ export default class extends EventBase {
             direction: '',
 
             inertia: false,
-            inertiaTime: 200,
+            inertiaTime: 200
 
-            ... data
         };
+
+        return Util.merge(defaultOptions, options);
     }
 
     //============================================================================
@@ -53,7 +54,7 @@ export default class extends EventBase {
         }
         this.unbindEvents();
         this.bindEvents();
-        this.option = this.createOption(data);
+        this.options = this.generateOptions(data);
         this.startHandler(e);
     }
 
@@ -109,19 +110,19 @@ export default class extends EventBase {
             return;
         }
 
-        const o = this.option;
-        o.e = e;
+        const os = this.options;
+        os.e = e;
         //start position
-        o.startX = touchItem.clientX;
-        o.startY = touchItem.clientY;
-        o.currentX = o.startX;
-        o.currentY = o.startY;
-        o.touchLength = touches.length;
+        os.startX = touchItem.clientX;
+        os.startY = touchItem.clientY;
+        os.currentX = os.startX;
+        os.currentY = os.startY;
+        os.touchLength = touches.length;
 
-        this.addTrackingPoint(o);
+        this.addTrackingPoint(os);
 
         //console.log(E.TOUCH_START);
-        this.trigger(EVENT.TOUCH_START, o);
+        this.trigger(EVENT.TOUCH_START, os);
     }
 
     touchMoveHandler(e) {
@@ -132,43 +133,43 @@ export default class extends EventBase {
             return;
         }
 
-        const o = this.option;
-        o.e = e;
+        const os = this.options;
+        os.e = e;
         //keep previous position
-        o.previousX = o.currentX;
-        o.previousY = o.currentY;
+        os.previousX = os.currentX;
+        os.previousY = os.currentY;
         //current position
-        o.currentX = touchItem.clientX;
-        o.currentY = touchItem.clientY;
+        os.currentX = touchItem.clientX;
+        os.currentY = touchItem.clientY;
 
         //current move offset from previous
-        o.moveX = o.currentX - o.previousX;
-        o.moveY = o.currentY - o.previousY;
+        os.moveX = os.currentX - os.previousX;
+        os.moveY = os.currentY - os.previousY;
 
         //current offset from start
-        o.offsetX = o.currentX - o.startX;
-        o.offsetY = o.currentY - o.startY;
-        o.changed = !(o.offsetX === 0 && o.offsetY === 0);
+        os.offsetX = os.currentX - os.startX;
+        os.offsetY = os.currentY - os.startY;
+        os.changed = !(os.offsetX === 0 && os.offsetY === 0);
 
-        o.touchLength = touches.length;
+        os.touchLength = touches.length;
 
-        o.direction = this.getDirection(o);
+        os.direction = this.getDirection(os);
         //console.log('direction', o.direction);
 
-        this.addTrackingPoint(o);
+        this.addTrackingPoint(os);
 
         //console.log(E.TOUCH_MOVE);
-        this.trigger(EVENT.TOUCH_MOVE, o);
+        this.trigger(EVENT.TOUCH_MOVE, os);
 
     }
 
     touchEndHandler(e) {
         this.unbindEvents();
 
-        const o = this.option;
-        o.e = e;
+        const os = this.options;
+        os.e = e;
         //console.log(E.TOUCH_END);
-        this.trigger(EVENT.TOUCH_END, o);
+        this.trigger(EVENT.TOUCH_END, os);
 
         const changedTouches = e.changedTouches;
         const touchItem = changedTouches[0];
@@ -178,17 +179,17 @@ export default class extends EventBase {
         }
 
         const touches = e.touches;
-        o.touchLength = touches.length;
+        os.touchLength = touches.length;
 
         //should no touches when leave, multiple and not all leave
-        if (o.touchLength > 0) {
+        if (os.touchLength > 0) {
             return;
         }
 
-        o.currentX = touchItem.clientX;
-        o.currentY = touchItem.clientY;
+        os.currentX = touchItem.clientX;
+        os.currentY = touchItem.clientY;
 
-        this.addTrackingPoint(o);
+        this.addTrackingPoint(os);
 
         this.motionStart();
 
@@ -196,11 +197,11 @@ export default class extends EventBase {
 
     touchCancelHandler(e) {
 
-        console.log(e.type, e);
+        //console.log(e.type, e);
 
         this.unbindEvents();
         //end for cancel
-        this.trigger(EVENT.TOUCH_END, this.option);
+        this.trigger(EVENT.TOUCH_END, this.options);
     }
 
     //============================================================================
@@ -252,8 +253,8 @@ export default class extends EventBase {
     }
 
     motionStart() {
-        const o = this.option;
-        if (!o.inertia) {
+        const os = this.options;
+        if (!os.inertia) {
             return;
         }
 
@@ -293,9 +294,9 @@ export default class extends EventBase {
 
         this.motion = new Motion();
         this.motion.bind(Motion.EVENT.MOTION_MOVE, (e, d) => {
-            o.touchInertiaX = d.x;
-            o.touchInertiaY = d.y;
-            this.trigger(EVENT.TOUCH_INERTIA, o);
+            os.touchInertiaX = d.x;
+            os.touchInertiaY = d.y;
+            this.trigger(EVENT.TOUCH_INERTIA, os);
         });
         this.motion.start({
             duration: duration,
@@ -372,7 +373,7 @@ export default class extends EventBase {
         points.reverse();
         const len = points.length;
         const t = Date.now();
-        const inertiaTime = this.option.inertiaTime;
+        const inertiaTime = this.options.inertiaTime;
         for (let i = 0; i < len; i++) {
             //remove time > inertiaTime
             if (t - points[i].t > inertiaTime) {

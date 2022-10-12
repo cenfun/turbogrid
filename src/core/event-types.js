@@ -7,6 +7,10 @@ export const Types = [
 
     //header
     'onHeaderUpdated',
+
+    'onHeaderMouseOver',
+    'onHeaderMouseOut',
+
     'onSort',
 
     //column

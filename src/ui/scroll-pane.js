@@ -1,33 +1,21 @@
 import $ from '../core/query.js';
 import Util from '../core/util.js';
-import OptionBase from '../core/option-base.js';
+import EventBase from '../core/event-base.js';
 import Scrollbar from './scrollbar.js';
 
 const EVENT = {
     CHANGE: 'change'
 };
 
-export default class extends OptionBase {
+export default class ScrollPane extends EventBase {
 
     static EVENT = EVENT;
 
     visible = true;
 
-    getDefaultOption() {
-        return {
-            scrollbarH: {},
-            scrollbarV: {},
-            scrollbarFade: false,
-            scrollSizeOnKeyPress: 20,
-            gradient: 30
-        };
-    }
-
     constructor(container, name) {
         super();
         this.id = Util.uid(4, `tg-scroll-pane-${name}-`);
-
-        this.setOption();
 
         this.gradientInfo = [];
 
@@ -48,6 +36,20 @@ export default class extends OptionBase {
             this.scrollVChangeHandler();
         });
 
+        this.options = this.generateOptions();
+
+    }
+
+    generateOptions(options) {
+        const defaultOptions = {
+            scrollbarH: {},
+            scrollbarV: {},
+            scrollbarFade: false,
+            scrollSizeOnKeyPress: 20,
+            gradient: 30
+        };
+
+        return Util.merge(defaultOptions, options);
     }
 
     //==========================================================================
@@ -76,20 +78,20 @@ export default class extends OptionBase {
 
     //==========================================================================
 
-    render(option) {
+    render(options) {
         if (!this.visible) {
             return this;
         }
-        this.setOption(option);
+        this.options = this.generateOptions(options);
         this.update();
         return this;
     }
 
     update() {
-        this.scrollPaneW = this.option.scrollPaneW;
-        this.scrollPaneH = this.option.scrollPaneH;
-        this.scrollBodyW = this.option.scrollBodyW;
-        this.scrollBodyH = this.option.scrollBodyH;
+        this.scrollPaneW = this.options.scrollPaneW;
+        this.scrollPaneH = this.options.scrollPaneH;
+        this.scrollBodyW = this.options.scrollBodyW;
+        this.scrollBodyH = this.options.scrollBodyH;
 
         this.updateScrollbar();
     }
@@ -183,9 +185,9 @@ export default class extends OptionBase {
 
     updateScrollbar() {
 
-        //set option for calculation
-        this.scrollbarH.updateOption(this.option.scrollbarH);
-        this.scrollbarV.updateOption(this.option.scrollbarV);
+        //set options for calculation
+        this.scrollbarH.updateOptions(this.options.scrollbarH);
+        this.scrollbarV.updateOptions(this.options.scrollbarV);
 
         //start to calculate state and size
         this.updateScrollState();
@@ -225,7 +227,7 @@ export default class extends OptionBase {
         const blankH = this.scrollbarH.getBlank();
         const blankV = this.scrollbarV.getBlank();
 
-        const fade = this.option.scrollbarFade;
+        const fade = this.options.scrollbarFade;
 
         //========================================
         //scrollH fixing
@@ -310,7 +312,7 @@ export default class extends OptionBase {
     updateScrollTrack() {
         this.scrollTrackW = this.scrollViewW;
         this.scrollTrackH = this.scrollViewH;
-        if (!this.option.scrollbarFade) {
+        if (!this.options.scrollbarFade) {
             return;
         }
         //only for both visible
@@ -366,11 +368,11 @@ export default class extends OptionBase {
     }
 
     updateGradient() {
-        const o = this.option;
-        if (!o.scrollbarFade) {
+        const os = this.options;
+        if (!os.scrollbarFade) {
             return;
         }
-        const gradient = o.gradient;
+        const gradient = os.gradient;
         if (!gradient) {
             return;
         }
@@ -383,7 +385,7 @@ export default class extends OptionBase {
     updateGradientSync() {
         const gradientInfo = [];
 
-        const gradient = this.option.gradient;
+        const gradient = this.options.gradient;
         const scrollLeft = this.getScrollLeft();
         const scrollTop = this.getScrollTop();
 
@@ -547,19 +549,19 @@ export default class extends OptionBase {
     //==========================================================================
 
     keyLeftHandler(e) {
-        return this.setOffsetH(-this.option.scrollSizeOnKeyPress);
+        return this.setOffsetH(-this.options.scrollSizeOnKeyPress);
     }
 
     keyUpHandler(e) {
-        return this.setOffsetV(-this.option.scrollSizeOnKeyPress);
+        return this.setOffsetV(-this.options.scrollSizeOnKeyPress);
     }
 
     keyRightHandler(e) {
-        return this.setOffsetH(this.option.scrollSizeOnKeyPress);
+        return this.setOffsetH(this.options.scrollSizeOnKeyPress);
     }
 
     keyDownHandler(e) {
-        return this.setOffsetV(this.option.scrollSizeOnKeyPress);
+        return this.setOffsetV(this.options.scrollSizeOnKeyPress);
     }
 
     //==========================================================================

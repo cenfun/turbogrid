@@ -6,7 +6,6 @@ import CONST from './core/const.js';
 import EventBase from './core/event-base.js';
 import Icon from './core/icon.js';
 import Motion from './core/motion.js';
-import OptionBase from './core/option-base.js';
 import ScrollPane from './ui/scroll-pane.js';
 import Util from './core/util.js';
 
@@ -25,7 +24,6 @@ export {
     EventBase,
     Icon,
     Motion,
-    OptionBase,
     ScrollPane,
     Util
 
@@ -43,7 +41,6 @@ export default {
     EventBase,
     Icon,
     Motion,
-    OptionBase,
     ScrollPane,
     Util
 

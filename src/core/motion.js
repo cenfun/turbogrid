@@ -21,7 +21,7 @@ export default class Motion extends EventBase {
         this.stopped = true;
     }
 
-    getOptions(options) {
+    generateOptions(options) {
         const defaultOptions = {
             //default is Easing.linear
             easing: null,
@@ -53,7 +53,7 @@ export default class Motion extends EventBase {
     start(options) {
         this.stop();
         this.stopped = false;
-        this.options = this.getOptions(options);
+        this.options = this.generateOptions(options);
 
         //ready
         this.initCalculation();

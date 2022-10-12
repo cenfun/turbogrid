@@ -1,4 +1,4 @@
-import { OptionBase } from '../../src/index.js';
+import OptionBase from '../../src/core/option-base.js';
 
 describe('Option Base', function() {
 

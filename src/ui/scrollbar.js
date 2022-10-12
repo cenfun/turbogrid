@@ -1,6 +1,6 @@
 import $ from '../core/query.js';
 import Util from '../core/util.js';
-import OptionBase from '../core/option-base.js';
+import EventBase from '../core/event-base.js';
 import Drag from '../core/drag.js';
 import Motion from '../core/motion.js';
 
@@ -29,7 +29,7 @@ const types = {
     }
 };
 
-export default class extends OptionBase {
+export default class Scrollbar extends EventBase {
 
     static EVENT = EVENT;
     static H = 'h';
@@ -39,7 +39,7 @@ export default class extends OptionBase {
     type = 'h';
     settings = {};
 
-    //final value from option
+    //final value from options
     size = 0;
     viewSize = 0;
     bodySize = 0;
@@ -61,14 +61,15 @@ export default class extends OptionBase {
 
         this.id = Util.uid(4, `tg-scrollbar-${this.type}-`);
 
-        this.setOption();
         this.$holder = $(holder);
         //some clean
         this.$holder.find(`.${this.settings.className}`).remove();
+
+        this.options = this.generateOptions();
     }
 
-    getDefaultOption() {
-        return {
+    generateOptions(options) {
+        const defaultOptions = {
             //width or height for scrollbar
             //0 means invisible
             size: 15,
@@ -88,6 +89,25 @@ export default class extends OptionBase {
             motionDuration: 200
 
         };
+
+        return Util.merge(defaultOptions, options);
+    }
+
+    //do twice: calculate size and show size
+    updateOptions(options) {
+
+        this.options = this.generateOptions(options);
+
+        //init size
+        let size = this.options.size;
+        if (!Util.isNum(size)) {
+            size = Util.toNum(size);
+        }
+        size = Math.round(size);
+        //range 0 - 30
+        size = Math.max(size, 0);
+        size = Math.min(size, 30);
+        this.size = size;
     }
 
     //========================================================================
@@ -99,7 +119,7 @@ export default class extends OptionBase {
         this.$container = $(template).appendTo(this.$holder);
         this.$container.attr('id', this.id);
         this.$container.addClass(Util.classMap(['tg-scrollbar', this.settings.className, {
-            'tg-scrollbar-round': this.option.round
+            'tg-scrollbar-round': this.options.round
         }]));
 
         this.$track = this.$container.find('.tg-scrollbar-track');
@@ -161,7 +181,7 @@ export default class extends OptionBase {
     //API
 
     getBlank() {
-        return this.option.blank;
+        return this.options.blank;
     }
 
     getSize() {
@@ -277,7 +297,7 @@ export default class extends OptionBase {
             this.motionUpdateHandler(e, d);
         });
         this.motion.start({
-            duration: this.option.motionDuration,
+            duration: this.options.motionDuration,
             from: from,
             till: till
         });
@@ -391,7 +411,7 @@ export default class extends OptionBase {
 
     scaleChangeHandler() {
         let thumbSize = Math.round(this.viewSize * this.scale);
-        thumbSize = Math.max(thumbSize, this.option.size);
+        thumbSize = Math.max(thumbSize, this.options.size);
         thumbSize = Math.min(thumbSize, this.viewSize);
         this.thumbSize = thumbSize;
         if (this.$thumb) {
@@ -434,23 +454,6 @@ export default class extends OptionBase {
     }
 
     //===================================================================
-
-    //do twice: calculate size and show size
-    updateOption(option) {
-
-        this.setOption(option);
-
-        //init size
-        let size = this.option.size;
-        if (!Util.isNum(size)) {
-            size = Util.toNum(size);
-        }
-        size = Math.round(size);
-        //range 0 - 30
-        size = Math.max(size, 0);
-        size = Math.min(size, 30);
-        this.size = size;
-    }
 
     parseSize(v) {
         v = Util.toNum(v);

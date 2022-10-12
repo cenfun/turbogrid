@@ -1,4 +1,4 @@
-import OptionBase from './option-base.js';
+import EventBase from './event-base.js';
 import Util from './util.js';
 import Easing from './easing.js';
 
@@ -10,19 +10,19 @@ const EVENT = {
 };
 
 
-export default class extends OptionBase {
+export default class Motion extends EventBase {
 
     static EVENT = EVENT;
 
-    constructor(option) {
+    constructor(options) {
         super();
-        this.constructorOption = option;
+        this.constructorOptions = options;
         //if stopped then stop everything
         this.stopped = true;
     }
 
-    getDefaultOption() {
-        return Util.merge({
+    getOptions(options) {
+        const defaultOptions = {
             //default is Easing.linear
             easing: null,
 
@@ -35,7 +35,8 @@ export default class extends OptionBase {
             till: 1,
             //current data(private)
             data: 0
-        }, this.constructorOption);
+        };
+        return Util.merge(defaultOptions, this.constructorOptions, options);
     }
 
     stop() {
@@ -49,10 +50,11 @@ export default class extends OptionBase {
         return this;
     }
 
-    start() {
+    start(options) {
         this.stop();
         this.stopped = false;
-        this.setOption.apply(this, arguments);
+        this.options = this.getOptions(options);
+
         //ready
         this.initCalculation();
         //first time move, start potion
@@ -111,16 +113,16 @@ export default class extends OptionBase {
 
     initCalculation() {
 
-        const o = this.option;
-        this.duration = Util.toNum(o.duration, true) || 100;
-        this.easing = this.getEasing(o.easing);
+        const os = this.options;
+        this.duration = Util.toNum(os.duration, true) || 100;
+        this.easing = this.getEasing(os.easing);
         //console.log(this.easing);
 
         //for object keys cache
         this.calculateKeys = null;
 
-        const from = o.from;
-        const till = o.till;
+        const from = os.from;
+        const till = os.till;
 
         if (Util.isNum(from) && Util.isNum(till)) {
             this.calculateType = this.calculateNumber;
@@ -137,8 +139,8 @@ export default class extends OptionBase {
 
     calculateHandler(k) {
         const p = this.easing(k);
-        const o = this.option;
-        return this.calculateType(p, o.from, o.till);
+        const os = this.options;
+        return this.calculateType(p, os.from, os.till);
     }
 
     calculateObject(p, from, till) {

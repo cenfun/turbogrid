@@ -1,7 +1,7 @@
 import merge from './merge.js';
 import EventBase from './event-base.js';
 
-export default class extends EventBase {
+export default class OptionBase extends EventBase {
 
     option = null;
 

@@ -1,4 +1,4 @@
-import Grid from './grid/index.js';
+import Grid from './grid/grid.js';
 
 import $ from './core/query.js';
 import CONST from './core/const.js';

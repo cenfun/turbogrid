@@ -1,5 +1,5 @@
 import EventUtil from './event-util.js';
-export default class {
+export default class EventBase {
 
     maxListeners = 10;
 

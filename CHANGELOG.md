@@ -1,9 +1,7 @@
 # Planning
 
 - column drag/drop
-- es6 class native extends
-- unit test
- - shadow dom
+- unit test: shadow dom, getDataSnapshot
 
 ---
 # Changelog
@@ -45,3 +43,4 @@
     - changed dataType to type
     - supported vue3
     - merged models and views
+    - es class native extends

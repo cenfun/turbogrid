@@ -217,8 +217,8 @@
                 <tr>
                     <td width="50%">
                         <section>
-                            <a name="Grid">Grid(container)</a>
-                            <div>Grid constructor, creates a new Grid instance with container.</div>
+                            <a name="turbogrid">turbogrid</a>
+                            <div>turbogrid module</div>
                         </section>
                     </td>
                     <td>
@@ -232,10 +232,29 @@
                             // es module
                             import TG from "turbogrid";
                             import { Grid, Util } from "turbogrid";
-                            // create grid
+                        </code></pre>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="50%">
+                        <section>
+                            <a name="Grid">Grid(container)</a>
+                            <div>Grid constructor, creates a new grid instance with container.</div>
+                        </section>
+                    </td>
+                    <td>
+                        <pre><code class="language-js">
+                            //selector
+                            var grid = new Grid(".container");
+                            //or element
                             var container = document.querySelector(".container");
                             var grid = new Grid(container);
-
+                            //or options with container
+                            var grid = Grid({
+                                container,
+                                ... other options
+                            });
                         </code></pre>
                     </td>
                 </tr>
@@ -244,12 +263,11 @@
                     <td>
                         <section>
                             <a name="setData">setData(data)</a>
-                            <div>Sets Grid data(Type:Object).</div>
                             <div>For Detailed data structure, check <a href="#data">data structure</a></div>
                         </section>
                         <section>
                             <a name="getData">getData()</a>
-                            <div>Returns current data (Type:Object).</div>
+                            <div>Returns current data.</div>
                         </section>
                     </td>
                     <td>
@@ -268,7 +286,6 @@
                     <td>
                         <section>
                             <a name="setOption">setOption(options)</a>
-                            <div>Sets options (Type:Object).</div>
                             <div>For Detailed options, check <a href="#options">default options</a></div>
                         </section>
                         <section>
@@ -278,11 +295,18 @@
                     </td>
                     <td>
                         <pre><code class="language-js">
-                            var options = {
-                                frozenRow: 0
-                            };
-                            grid.setOption(options);
+                            //multiple options
+                            grid.setOption({
+                                optionKey1: optionValue1,
+                                optionKey2: optionValue2
+                            });
+                            //single option
+                            grid.setOption(optionKey, optionValue);
+
+                            //get all options
                             var options = grid.getOption();
+                            //get single option
+                            var optionValue = grid.getOption(optionKey);
                         </code></pre>
                     </td>
                 </tr>
@@ -291,7 +315,7 @@
                     <td>
                         <section>
                             <a name="setFormatter">setFormatter(formatters)</a>
-                            <div>Set or customize Grid formatters (Type:Object).</div>
+                            <div>Set or customize Grid formatters.</div>
                             <div>default cell formatter: string, number, date, icon, blank, checkbox, tree</div>
                             <div>default header formatter: header</div>
                             <div>Formatter arguments: <a href="#FormatterArguments">Formatter Arguments</a></div>
@@ -307,18 +331,18 @@
                     </td>
                     <td>
                         <pre><code class="language-js">
-                            var formatters = {
+                            //set multiple formatters
+                            grid.setFormatter({
                                 string: function(value, rowItem, columnItem, cellNode) {
                                     return value;
                                 }
-                            };
-                            grid.setFormatter(formatters);
-                            //append formatters to current existed
-                            grid.setFormatter(formatters, true);
-                            //set single formatter
-                            grid.setFormatter("string", function(){});
+                            });
 
+                            //set single formatter
+                            grid.setFormatter("string", formatterHandler);
+                            
                             var stringFormatter = grid.getFormatter("string");
+                            var treeFormatter = grid.getDefaultFormatter("tree");
                         </code></pre>
                         <div>Demo <a href="/#page=formatter" target="_blank">Formatter</a></div>
                     </td>
@@ -1498,7 +1522,7 @@
                             <a name="options.rowProps">options.rowProps = </a>
                             <div>
                                 <pre><code class="language-js">
-                                    rowProps: {
+                                    {
 
                                         //selected: Boolean
                                         //collapsed: Boolean
@@ -1540,7 +1564,7 @@
                             <a name="options.columnProps">options.columnProps = </a>
                             <div>
                                 <pre><code class="language-js">
-                                    columnProps: {
+                                    {
 
                                         // require for showing header
                                         name: '',
@@ -2020,7 +2044,6 @@
                                 scrollTop
                             }
                         </code></pre>
-                        <div>Same as <a href="#scrollLeft">scrollLeft</a> and <a href="#scrollTop">scrollTop</a></div>
                     </td>
                     <td>
                         <div>Demo <a href="/#page=scroll" target="_blank">Scroll</a></div>
@@ -2194,31 +2217,23 @@
                     <td><b>create:</b>
                         <pre><code class="language-js">
                             var grid = new Grid(container);
-                        </code></pre>
-                    </td>
-                    <td colspan="2">
-                        <div>create global style</div>
-                        <div>create the basic structure in the container</div>
-                    </td>
-                    <td>low</td>
-                    <td rowspan="2">
-                        Loading APIs
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>config:</b>
-                        <pre><code class="language-js">
-                            grid.bind("[event type]", handler);
                             grid.setData(data);
                             grid.setOption(options);
                             grid.setFormatter(formatters);
+                            grid.bind("[event type]", handler);
                         </code></pre>
                     </td>
                     <td colspan="2">
+                        <div>create style and html in the container</div>
+                        <div>set data</div>
+                        <div>set options</div>
+                        <div>set formatters</div>
                         <div>add events</div>
-                        <div>merge custom settings with default settings</div>
                     </td>
                     <td>low</td>
+                    <td>
+                        Loading APIs
+                    </td>
                 </tr>
                 <tr>
                     <td rowspan="4"><b>render:</b>
@@ -2228,7 +2243,7 @@
                         </code></pre>
                     </td>
                     <td colspan="2">
-                        init data
+                        init options
                     </td>
                     <td>low</td>
                     <td rowspan="5">All APIs</td>

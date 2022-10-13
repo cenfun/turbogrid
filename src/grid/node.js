@@ -1,6 +1,7 @@
 import $ from '../core/query.js';
 import Util from '../core/util.js';
-const Node = {
+
+export default {
 
     //high performance render node content
     renderNodeContent: function(node, content) {
@@ -142,5 +143,3 @@ const Node = {
     }
 
 };
-
-export default Node;

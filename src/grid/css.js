@@ -1,7 +1,7 @@
 import CONST from '../core/const.js';
 import Util from '../core/util.js';
 
-const CssRules = {
+export default {
 
     //grid css rules
     updateCssRules: function() {
@@ -269,5 +269,3 @@ const CssRules = {
     }
 
 };
-
-export default CssRules;

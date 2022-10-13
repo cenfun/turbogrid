@@ -1,6 +1,6 @@
 import E from '../core/event-types.js';
 //import Util from '../core/util.js';
-const Headers = {
+export default {
 
     renderHeader: function() {
 
@@ -96,5 +96,3 @@ const Headers = {
     }
 
 };
-
-export default Headers;

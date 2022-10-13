@@ -1,6 +1,6 @@
 import E from '../core/event-types.js';
 import Util from '../core/util.js';
-const RowList = {
+export default {
 
     //private API
 
@@ -158,4 +158,3 @@ const RowList = {
     }
 
 };
-export default RowList;

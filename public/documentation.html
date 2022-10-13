@@ -2403,7 +2403,7 @@
                 }
             };
             const initSearchList = function() {
-                const as = document.querySelectorAll('a');
+                const as = document.querySelectorAll('.api-table a');
                 if (!as) {
                     return;
                 }
@@ -2432,7 +2432,7 @@
             initSearchList();
 
             const expendHandler = function() {
-                const tbodys = document.querySelectorAll('tbody');
+                const tbodys = document.querySelectorAll('.api-table tbody');
                 if (tbodys) {
                     for (let i = 0, l = tbodys.length; i < l; i++) {
                         const tbody = tbodys[i];
@@ -2621,7 +2621,7 @@
 
                 const highlightHandler = function() {
                     const v = api_search_value.value;
-                    const as = document.querySelectorAll('a');
+                    const as = document.querySelectorAll('.api-table a');
                     if (!as) {
                         return;
                     }

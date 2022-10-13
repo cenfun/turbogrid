@@ -27,6 +27,15 @@ a:visited {
     color: #333;
 }
 
+pre {
+    overflow-x: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f8f8f8;
+    padding: 5px 10px;
+    margin: 0;
+}
+
 .flex-row {
     display: flex;
     flex-direction: row;
@@ -85,7 +94,6 @@ a:visited {
 
 .nav-header {
     padding: 5px;
-    border-bottom: 1px solid #999;
     background: #f5f5f5;
 }
 
@@ -117,7 +125,8 @@ a:visited {
 }
 
 .nav-search {
-    padding: 5px;
+    padding: 0 5px 5px;
+    background: #f5f5f5;
     border-bottom: 1px solid #999;
 }
 

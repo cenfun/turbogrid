@@ -1,6 +1,8 @@
 (function(window) {
     'use strict';
 
+    const { Grid, VERSION } = window.turbogrid;
+
     const formatCode = function(code) {
 
         let html = code.innerHTML;
@@ -140,26 +142,17 @@
         return n;
     };
 
-    const initThemes = function(grid) {
+    const initThemes = function() {
 
         const $theme = document.querySelector('.st_theme');
         if (!$theme) {
             return;
         }
 
-        if (!grid) {
-            grid = window.turbogrid && window.turbogrid.Grid;
-            if (!grid) {
-                console.error('Not found defined Grid');
-                return;
-            }
-        }
-
         $theme.title = 'theme';
 
         const hash = window.getHash();
-
-        const allThemes = grid.getAllThemes();
+        const allThemes = Grid.getAllThemes();
         allThemes.forEach((theme) => {
             const $option = document.createElement('option');
             $option.setAttribute('value', theme);
@@ -276,7 +269,6 @@
 
     window.initCommonEvents = function(grid) {
         //console.log(grid);
-        initThemes(grid);
         initButtons(grid);
     };
 
@@ -349,6 +341,324 @@
         window.showPage(content);
     };
 
+    const initGrid = function() {
+        const grid = new Grid('.nav-grid');
+        grid.bind('onCellUpdated', function(e, d) {
+
+            if (this.renderSettings.type) {
+                // only for scroll
+                return;
+            }
+
+            const cellNode = d.node;
+            //console.log(d);
+            cellNode.classList.add('tg-cell-effect');
+
+        });
+
+        grid.bind('onClick', function(e, d) {
+
+            const rowItem = d.rowItem;
+
+            if (!grid.isRowSelectable(rowItem)) {
+                return;
+            }
+            grid.setRowSelected(rowItem);
+
+            const id = rowItem.id;
+            //console.log('iframe loading ...');
+            //window.setHash('page', id);
+            window.location.href = `${id}.html${window.location.hash}`;
+
+        });
+
+        let keywords = '';
+        document.querySelector('.nav-keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            //update rows
+            grid.update();
+        });
+
+        grid.setOption({
+            headerVisible: false,
+            selectMultiple: false,
+            frozenRow: 0,
+            frozenRowHoverable: true,
+            scrollbarSize: 10,
+            scrollbarFade: true,
+            scrollbarRound: true,
+            bindWindowResize: true,
+            bindContainerResize: true,
+            rowFilter: function(rowItem) {
+                if (!keywords) {
+                    return true;
+                }
+                if (rowItem.tg_frozen) {
+                    return true;
+                }
+                let name = rowItem.name;
+                if (name) {
+                    name = name.toLowerCase();
+                    if (name.indexOf(keywords) !== -1) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            rowNumberFilter: function(rowItem, i) {
+                if (rowItem.tg_group || rowItem.tg_frozen || rowItem.nameClassMap) {
+                    return false;
+                }
+                return true;
+            }
+        });
+
+        grid.setFormatter({
+            tree: function(value, rowItem, columnItem, cellNode) {
+                const defaultFormatter = this.getDefaultFormatter('tree');
+                const rn = `<div class="tg-tree-row-number">${rowItem.tg_row_number}</div>`;
+                return rn + defaultFormatter(value, rowItem, columnItem, cellNode);
+            }
+        });
+
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name',
+                width: 195
+            }],
+            rows: [{
+                id: 'documentation',
+                name: 'Documentation',
+                selectable: true,
+                nameClassMap: 'tg-row-top'
+            }, {
+                name: 'Popular Demo',
+                subs: [{
+                    id: 'formatter',
+                    name: 'Formatter'
+                }, {
+                    id: 'style',
+                    name: 'Style'
+                }, {
+                    id: 'tooltip',
+                    name: 'Tooltip'
+                }, {
+                    id: 'popover',
+                    name: 'Popover'
+                }, {
+                    id: 'scroll',
+                    name: 'Scroll'
+                }, {
+                    id: 'scrollbar',
+                    name: 'Scrollbar'
+                }, {
+                    id: 'sort',
+                    name: 'Sort'
+                }, {
+                    id: 'events',
+                    name: 'Events'
+                }, {
+                    id: 'lifecycle',
+                    name: 'Lifecycle'
+                }, {
+                    id: 'performance-test',
+                    name: 'Performance Test'
+                }]
+            }, {
+                name: 'Row',
+                subs: [{
+                    id: 'row-add-delete',
+                    name: 'Row Add/Delete'
+                }, {
+                    id: 'row-collapse',
+                    name: 'Row Collapse'
+                }, {
+                    id: 'row-filter',
+                    name: 'Row Filter'
+                }, {
+                    id: 'row-select',
+                    name: 'Row Select'
+                }, {
+                    id: 'row-select-limit',
+                    name: 'Row Select Limit'
+                }, {
+                    id: 'row-select-group',
+                    name: 'Row Select Group'
+                }, {
+                    id: 'row-number',
+                    name: 'Row Number'
+                }, {
+                    id: 'row-drag',
+                    name: 'Row Drag'
+                }, {
+                    id: 'row-move',
+                    name: 'Row Move'
+                }, {
+                    id: 'row-hover',
+                    name: 'Row Hover'
+                }, {
+                    id: 'row-height',
+                    name: 'Row Height'
+                }, {
+                    id: 'row-not-found',
+                    name: 'Row Not Found'
+                }]
+            }, {
+                name: 'Column',
+                subs: [{
+                    id: 'column-add-delete',
+                    name: 'Column Add/Delete'
+                }, {
+                    id: 'column-display',
+                    name: 'Column Display'
+                }, {
+                    id: 'column-set',
+                    name: 'Column Set'
+                }]
+            }, {
+                name: 'Data',
+                subs: [{
+                    id: 'infinite-scroll',
+                    name: 'Infinite Scroll'
+                }, {
+                    id: 'load-cells',
+                    name: 'Load Cells'
+                }, {
+                    id: 'load-rows',
+                    name: 'Load Rows'
+                }, {
+                    id: 'load-subs',
+                    name: 'Load Subs'
+                }, {
+                    id: 'set-rows-sort',
+                    name: 'Set Rows Sort'
+                }, {
+                    id: 'set-rows',
+                    name: 'Set Rows'
+                }, {
+                    id: 'skeleton-screen',
+                    name: 'Skeleton Screen'
+                }, {
+                    id: 'pagination',
+                    name: 'Pagination'
+                }, {
+                    id: 'loading',
+                    name: 'Loading'
+                }]
+            }, {
+                name: 'Integration',
+                subs: [{
+                    id: 'vue-component',
+                    name: 'Vue Component'
+                }, {
+                    id: 'vue-integration',
+                    name: 'Vue Integration'
+                }, {
+                    id: 'custom-element',
+                    name: 'Custom Element'
+                }, {
+                    id: 'shadow-dom',
+                    name: 'Shadow DOM'
+                }]
+            }, {
+                name: 'Other',
+                subs: [{
+                    id: 'poc',
+                    name: 'POC'
+                }, {
+                    id: 'auto-height',
+                    name: 'Auto Height'
+                }, {
+                    id: 'header-display',
+                    name: 'Header Display'
+                }, {
+                    id: 'header-group',
+                    name: 'Header Group'
+                }, {
+                    id: 'frozen',
+                    name: 'Frozen'
+                }, {
+                    id: 'frozen-middle',
+                    name: 'Frozen Middle'
+                }, {
+                    id: 'cache',
+                    name: 'Cache'
+                }, {
+                    id: 'negative-number',
+                    name: 'Negative Number'
+                }, {
+                    id: 'multiple-instance',
+                    name: 'Multiple Instance'
+                }, {
+                    id: 'context-menu',
+                    name: 'Context Menu'
+                }, {
+                    id: 'export',
+                    name: 'Export'
+                }, {
+                    id: 'online-render',
+                    name: 'Online Render'
+                }, {
+                    id: 'touch',
+                    name: 'Touch'
+                }, {
+                    id: 'resize',
+                    name: 'Resize'
+                }, {
+                    id: 'conflict',
+                    name: 'Conflict Test'
+                }, {
+                    id: 'snake-game',
+                    name: 'Snake Game'
+                }, {
+                    id: 'async',
+                    name: 'Async Test'
+                }, {
+                    id: 'other',
+                    name: 'Other'
+                }]
+            }]
+        });
+
+        grid.render();
+
+    };
+
+    const initNav = function() {
+        const $nav = document.createElement('div');
+        $nav.className = 'nav flex-column';
+        $nav.innerHTML = `
+            <div class="nav-header flex-row">
+                <a class="nav-title" href="/">TurboGrid</a> 
+                <a class="nav-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
+                <div class="flex-auto"></div>
+                <a class="nav-close-button" href="#">X</a>
+            </div>
+            <div class="nav-search">
+                <input class="nav-keywords" value="" onfocus="this.select();" placeholder="Search Demo" />
+            </div>
+            <div class="nav-grid flex-auto"></div>
+        `;
+        document.body.appendChild($nav);
+
+        document.querySelector('.nav-close-button').addEventListener('click', function(e) {
+            const cls = $nav.classList;
+            if (cls.contains('nav-closed')) {
+                cls.remove('nav-closed');
+            } else {
+                cls.add('nav-closed');
+            }
+        });
+
+        initGrid();
+
+    };
+
     const initSource = function() {
         const bt_source = document.querySelector('.bt_source');
         if (!bt_source) {
@@ -414,6 +724,8 @@
     };
 
     window.addEventListener('load', function() {
+        initNav();
+        initThemes();
         initSource();
         initLogs();
         initHeaderTitle();

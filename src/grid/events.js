@@ -410,7 +410,7 @@ export default {
 
     rowEnterLeaveHandler: function(e, enter) {
         const d = this.getEventData(e);
-        //console.log('row enter leave', hover, position);
+        //console.log('row enter leave', enter, d);
         if (!d) {
             return;
         }

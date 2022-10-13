@@ -13,13 +13,28 @@
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <style>
-        .header {
-            background-color: #f5f5f5;
+        a {
+            color: #333;
         }
 
-        .nav a {
-            margin-left: 15px;
+        a:hover {
+            color: #00a8e1;
+            transition: color 300ms;
+        }
+
+        .api-header {
+            padding: 5px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #999;
+        }
+
+        .api-header a {
             font-weight: bold;
+        }
+
+        .api-nav a {
+            padding: 0 5px;
+            text-decoration: underline;
         }
 
         .body {
@@ -48,10 +63,6 @@
             overflow-x: hidden;
             border: 1px solid #ccc;
             border-top: none;
-        }
-
-        .api-search-list a {
-            color: #333;
         }
 
         .api-search-info {
@@ -149,7 +160,7 @@
 
         .api-table td section a:hover {
             color: #00a8e1;
-            transition: background 300ms, color 300ms, border-color 300ms;
+            transition: color 300ms;
         }
 
         .api-table td section a.selected {
@@ -189,13 +200,14 @@
 </head>
 
 <body>
-    <div class="header flex-row">
-        <div><b>Documentation</b></div>
-        <div class="api-search flex-auto">
+    <div class="api-header flex-row">
+        <div><a href="#method">Documentation</a></div>
+        <div class="api-search">
             <input class="api-search-value" type="text" placeholder="Search API" value="" />
             <div class="api-search-list" style="display: none;"></div>
         </div>
-        <div class="nav">
+        <div class="flex-auto"></div>
+        <div class="api-nav">
             <a href="#method">Method</a>
             <a href="#data">Data</a>
             <a href="#options">Options</a>
@@ -206,7 +218,6 @@
     </div>
 
     <div class="body flex-auto">
-
         <table class="api-table">
             <colgroup>
                 <col width="50%" />

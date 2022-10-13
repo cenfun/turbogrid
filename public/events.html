@@ -25,17 +25,6 @@
         .event-list-action button {
             margin: 5px;
         }
-
-        .tg-popover-icon {
-            cursor: pointer;
-            position: absolute;
-            width: 20px;
-            height: 23px;
-            padding: 2px 0;
-            right: 0;
-            top: 0;
-        }
-
     </style>
 </head>
 
@@ -204,13 +193,6 @@
                 selectVisible: true,
                 frozenColumn: 0,
                 frozenRow: 1
-            });
-            grid.setFormatter({
-                tree: function(value, rowItem, columnItem, cellNode) {
-                    const defaultFormatter = this.getDefaultFormatter('tree');
-                    const icon_hover = '<div class="tg-cell-hover-icon tg-popover-icon"><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="400 -400 2300 2300"><path class="st0" d="M1549.5 1140.5l-480-770-80 70 560 910 560-910-80-70-480 770zm0-1440c-570 0-1050 480-1050 1050s480 1050 1050 1050 1050-480 1050-1050-480-1050-1050-1050zm0 1990c-520 0-940-420-940-940s420-940 940-940 940 420 940 940-420 940-940 940z"/></svg></div>';
-                    return defaultFormatter(value + icon_hover, rowItem, columnItem, cellNode);
-                }
             });
 
             data.columns[0].type = 'tree';

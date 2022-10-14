@@ -341,8 +341,219 @@
         window.showPage(content);
     };
 
-    const initGrid = function() {
+    const getPageId = function() {
+        const filename = window.location.pathname.split('/').pop();
+        if (filename) {
+            if (filename.endsWith('.html')) {
+                return filename.slice(0, -5);
+            }
+            return filename;
+        }
+        return 'index';
+    };
+
+    const getGridRows = function() {
+        return [{
+            id: 'index',
+            name: 'Getting Started',
+            nameClassMap: 'tg-row-top'
+        }, {
+            id: 'api',
+            name: 'API reference',
+            selectable: true,
+            nameClassMap: 'tg-row-top'
+        }, {
+            name: 'Popular Demo',
+            subs: [{
+                id: 'formatter',
+                name: 'Formatter'
+            }, {
+                id: 'style',
+                name: 'Style'
+            }, {
+                id: 'tooltip',
+                name: 'Tooltip'
+            }, {
+                id: 'popover',
+                name: 'Popover'
+            }, {
+                id: 'scroll',
+                name: 'Scroll'
+            }, {
+                id: 'scrollbar',
+                name: 'Scrollbar'
+            }, {
+                id: 'sort',
+                name: 'Sort'
+            }, {
+                id: 'events',
+                name: 'Events'
+            }, {
+                id: 'lifecycle',
+                name: 'Lifecycle'
+            }, {
+                id: 'performance-test',
+                name: 'Performance Test'
+            }]
+        }, {
+            name: 'Row',
+            subs: [{
+                id: 'row-add-delete',
+                name: 'Row Add/Delete'
+            }, {
+                id: 'row-collapse',
+                name: 'Row Collapse'
+            }, {
+                id: 'row-filter',
+                name: 'Row Filter'
+            }, {
+                id: 'row-select',
+                name: 'Row Select'
+            }, {
+                id: 'row-select-limit',
+                name: 'Row Select Limit'
+            }, {
+                id: 'row-select-group',
+                name: 'Row Select Group'
+            }, {
+                id: 'row-number',
+                name: 'Row Number'
+            }, {
+                id: 'row-drag',
+                name: 'Row Drag'
+            }, {
+                id: 'row-move',
+                name: 'Row Move'
+            }, {
+                id: 'row-hover',
+                name: 'Row Hover'
+            }, {
+                id: 'row-height',
+                name: 'Row Height'
+            }, {
+                id: 'row-not-found',
+                name: 'Row Not Found'
+            }]
+        }, {
+            name: 'Column',
+            subs: [{
+                id: 'column-add-delete',
+                name: 'Column Add/Delete'
+            }, {
+                id: 'column-display',
+                name: 'Column Display'
+            }, {
+                id: 'column-set',
+                name: 'Column Set'
+            }]
+        }, {
+            name: 'Data',
+            subs: [{
+                id: 'infinite-scroll',
+                name: 'Infinite Scroll'
+            }, {
+                id: 'load-cells',
+                name: 'Load Cells'
+            }, {
+                id: 'load-rows',
+                name: 'Load Rows'
+            }, {
+                id: 'load-subs',
+                name: 'Load Subs'
+            }, {
+                id: 'set-rows-sort',
+                name: 'Set Rows Sort'
+            }, {
+                id: 'set-rows',
+                name: 'Set Rows'
+            }, {
+                id: 'skeleton-screen',
+                name: 'Skeleton Screen'
+            }, {
+                id: 'pagination',
+                name: 'Pagination'
+            }, {
+                id: 'loading',
+                name: 'Loading'
+            }]
+        }, {
+            name: 'Integration',
+            subs: [{
+                id: 'vue-component',
+                name: 'Vue Component'
+            }, {
+                id: 'vue-integration',
+                name: 'Vue Integration'
+            }, {
+                id: 'custom-element',
+                name: 'Custom Element'
+            }, {
+                id: 'shadow-dom',
+                name: 'Shadow DOM'
+            }]
+        }, {
+            name: 'Other',
+            subs: [{
+                id: 'poc',
+                name: 'POC'
+            }, {
+                id: 'auto-height',
+                name: 'Auto Height'
+            }, {
+                id: 'header-display',
+                name: 'Header Display'
+            }, {
+                id: 'header-group',
+                name: 'Header Group'
+            }, {
+                id: 'frozen',
+                name: 'Frozen'
+            }, {
+                id: 'frozen-middle',
+                name: 'Frozen Middle'
+            }, {
+                id: 'cache',
+                name: 'Cache'
+            }, {
+                id: 'negative-number',
+                name: 'Negative Number'
+            }, {
+                id: 'multiple-instance',
+                name: 'Multiple Instance'
+            }, {
+                id: 'context-menu',
+                name: 'Context Menu'
+            }, {
+                id: 'export',
+                name: 'Export'
+            }, {
+                id: 'online-render',
+                name: 'Online Render'
+            }, {
+                id: 'touch',
+                name: 'Touch'
+            }, {
+                id: 'resize',
+                name: 'Resize'
+            }, {
+                id: 'conflict',
+                name: 'Conflict Test'
+            }, {
+                id: 'snake-game',
+                name: 'Snake Game'
+            }, {
+                id: 'async',
+                name: 'Async Test'
+            }, {
+                id: 'other',
+                name: 'Other'
+            }]
+        }];
+    };
+
+    const initNavGrid = function() {
         const grid = new Grid('.nav-grid');
+
         grid.bind('onCellUpdated', function(e, d) {
 
             if (this.renderSettings.type) {
@@ -366,6 +577,10 @@
             grid.setRowSelected(rowItem);
 
             const id = rowItem.id;
+            const pageId = getPageId();
+            if (id === pageId) {
+                return;
+            }
             //console.log('iframe loading ...');
             //window.setHash('page', id);
             window.location.href = `${id}.html${window.location.hash}`;
@@ -386,8 +601,6 @@
         grid.setOption({
             headerVisible: false,
             selectMultiple: false,
-            frozenRow: 0,
-            frozenRowHoverable: true,
             scrollbarSize: 10,
             scrollbarFade: true,
             scrollbarRound: true,
@@ -425,237 +638,93 @@
             }
         });
 
+        const rows = getGridRows();
+
+        let scrollRow;
+        const pageId = getPageId();
+
+        rows.forEach(function(row) {
+            if (!row.subs) {
+                if (row.id === pageId) {
+                    row.selected = true;
+                    scrollRow = row;
+                }
+                return;
+            }
+            row.subs.forEach(function(sub) {
+                if (sub.id === pageId) {
+                    sub.selected = true;
+                    scrollRow = sub;
+                }
+            });
+        });
+
         grid.setData({
             columns: [{
                 id: 'name',
                 name: 'Name',
                 width: 195
             }],
-            rows: [{
-                id: 'documentation',
-                name: 'Documentation',
-                selectable: true,
-                nameClassMap: 'tg-row-top'
-            }, {
-                name: 'Popular Demo',
-                subs: [{
-                    id: 'formatter',
-                    name: 'Formatter'
-                }, {
-                    id: 'style',
-                    name: 'Style'
-                }, {
-                    id: 'tooltip',
-                    name: 'Tooltip'
-                }, {
-                    id: 'popover',
-                    name: 'Popover'
-                }, {
-                    id: 'scroll',
-                    name: 'Scroll'
-                }, {
-                    id: 'scrollbar',
-                    name: 'Scrollbar'
-                }, {
-                    id: 'sort',
-                    name: 'Sort'
-                }, {
-                    id: 'events',
-                    name: 'Events'
-                }, {
-                    id: 'lifecycle',
-                    name: 'Lifecycle'
-                }, {
-                    id: 'performance-test',
-                    name: 'Performance Test'
-                }]
-            }, {
-                name: 'Row',
-                subs: [{
-                    id: 'row-add-delete',
-                    name: 'Row Add/Delete'
-                }, {
-                    id: 'row-collapse',
-                    name: 'Row Collapse'
-                }, {
-                    id: 'row-filter',
-                    name: 'Row Filter'
-                }, {
-                    id: 'row-select',
-                    name: 'Row Select'
-                }, {
-                    id: 'row-select-limit',
-                    name: 'Row Select Limit'
-                }, {
-                    id: 'row-select-group',
-                    name: 'Row Select Group'
-                }, {
-                    id: 'row-number',
-                    name: 'Row Number'
-                }, {
-                    id: 'row-drag',
-                    name: 'Row Drag'
-                }, {
-                    id: 'row-move',
-                    name: 'Row Move'
-                }, {
-                    id: 'row-hover',
-                    name: 'Row Hover'
-                }, {
-                    id: 'row-height',
-                    name: 'Row Height'
-                }, {
-                    id: 'row-not-found',
-                    name: 'Row Not Found'
-                }]
-            }, {
-                name: 'Column',
-                subs: [{
-                    id: 'column-add-delete',
-                    name: 'Column Add/Delete'
-                }, {
-                    id: 'column-display',
-                    name: 'Column Display'
-                }, {
-                    id: 'column-set',
-                    name: 'Column Set'
-                }]
-            }, {
-                name: 'Data',
-                subs: [{
-                    id: 'infinite-scroll',
-                    name: 'Infinite Scroll'
-                }, {
-                    id: 'load-cells',
-                    name: 'Load Cells'
-                }, {
-                    id: 'load-rows',
-                    name: 'Load Rows'
-                }, {
-                    id: 'load-subs',
-                    name: 'Load Subs'
-                }, {
-                    id: 'set-rows-sort',
-                    name: 'Set Rows Sort'
-                }, {
-                    id: 'set-rows',
-                    name: 'Set Rows'
-                }, {
-                    id: 'skeleton-screen',
-                    name: 'Skeleton Screen'
-                }, {
-                    id: 'pagination',
-                    name: 'Pagination'
-                }, {
-                    id: 'loading',
-                    name: 'Loading'
-                }]
-            }, {
-                name: 'Integration',
-                subs: [{
-                    id: 'vue-component',
-                    name: 'Vue Component'
-                }, {
-                    id: 'vue-integration',
-                    name: 'Vue Integration'
-                }, {
-                    id: 'custom-element',
-                    name: 'Custom Element'
-                }, {
-                    id: 'shadow-dom',
-                    name: 'Shadow DOM'
-                }]
-            }, {
-                name: 'Other',
-                subs: [{
-                    id: 'poc',
-                    name: 'POC'
-                }, {
-                    id: 'auto-height',
-                    name: 'Auto Height'
-                }, {
-                    id: 'header-display',
-                    name: 'Header Display'
-                }, {
-                    id: 'header-group',
-                    name: 'Header Group'
-                }, {
-                    id: 'frozen',
-                    name: 'Frozen'
-                }, {
-                    id: 'frozen-middle',
-                    name: 'Frozen Middle'
-                }, {
-                    id: 'cache',
-                    name: 'Cache'
-                }, {
-                    id: 'negative-number',
-                    name: 'Negative Number'
-                }, {
-                    id: 'multiple-instance',
-                    name: 'Multiple Instance'
-                }, {
-                    id: 'context-menu',
-                    name: 'Context Menu'
-                }, {
-                    id: 'export',
-                    name: 'Export'
-                }, {
-                    id: 'online-render',
-                    name: 'Online Render'
-                }, {
-                    id: 'touch',
-                    name: 'Touch'
-                }, {
-                    id: 'resize',
-                    name: 'Resize'
-                }, {
-                    id: 'conflict',
-                    name: 'Conflict Test'
-                }, {
-                    id: 'snake-game',
-                    name: 'Snake Game'
-                }, {
-                    id: 'async',
-                    name: 'Async Test'
-                }, {
-                    id: 'other',
-                    name: 'Other'
-                }]
-            }]
+            rows: rows
         });
 
-        grid.render();
+        grid.render({
+            scrollRow
+        });
 
     };
 
     const initNav = function() {
+
+        const headerTitle = `
+            <a class="header-title" href="/">TurboGrid</a> 
+            <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
+        `;
+
+        //header
+        const $header = document.querySelector('.header');
+        $header.insertAdjacentHTML('afterbegin', `
+            ${headerTitle}
+            <div class="icon icon-menu header-icon-menu"></div>
+            <div class="flex-auto"></div>
+        `);
+
+        if (document.querySelector('.grid-container')) {
+            $header.insertAdjacentHTML('beforeend', `
+            <button class="bt_source">source</button>
+        `);
+        }
+
+        //nav header
         const $nav = document.createElement('div');
         $nav.className = 'nav flex-column';
         $nav.innerHTML = `
-            <div class="nav-header flex-row">
-                <a class="nav-title" href="/">TurboGrid</a> 
-                <a class="nav-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
+            <div class="header flex-row">
+                ${headerTitle}
                 <div class="flex-auto"></div>
-                <a class="nav-close-button" href="#">X</a>
+                <div class="icon icon-close header-icon-close"></div>
             </div>
+            <div class="nav-grid flex-auto"></div>
             <div class="nav-search">
                 <input class="nav-keywords" value="" onfocus="this.select();" placeholder="Search Demo" />
             </div>
-            <div class="nav-grid flex-auto"></div>
         `;
-        document.body.appendChild($nav);
 
-        document.querySelector('.nav-close-button').addEventListener('click', function(e) {
-            const cls = $nav.classList;
-            if (cls.contains('nav-closed')) {
-                cls.remove('nav-closed');
-            } else {
-                cls.add('nav-closed');
-            }
+        const $body = document.querySelector('.body');
+        $body.insertBefore($nav, $body.firstChild);
+
+        ['.header-icon-menu', '.header-icon-close'].forEach(function(selector) {
+            document.querySelector(selector).addEventListener('click', function(e) {
+                const cls = document.body.classList;
+                if (cls.contains('nav-closed')) {
+                    cls.remove('nav-closed');
+                } else {
+                    cls.add('nav-closed');
+                }
+            });
         });
 
-        initGrid();
+        initNavGrid();
 
     };
 
@@ -678,30 +747,6 @@
                 document.querySelector('.log-content').innerHTML = '';
             });
         }
-    };
-
-    const initHeaderTitle = function() {
-        const headerTitle = document.querySelector('.header-title');
-        if (!headerTitle) {
-            return;
-        }
-        if (window.parent === window) {
-            headerTitle.classList.add('header-title-disable');
-            return;
-        }
-        headerTitle.title = 'Open in new window';
-        headerTitle.style.cursor = 'pointer';
-        headerTitle.addEventListener('click', function() {
-            let url = location.href;
-            const hash = window.getHash();
-            delete hash.page;
-            const usp = new URLSearchParams(hash);
-            const str = usp.toString();
-            if (str) {
-                url += `#${str}`;
-            }
-            window.open(url);
-        });
     };
 
     const initDataSelect = function() {
@@ -728,7 +773,6 @@
         initThemes();
         initSource();
         initLogs();
-        initHeaderTitle();
         initDataSelect();
     });
 

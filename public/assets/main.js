@@ -607,7 +607,7 @@
         grid.setOption({
             headerVisible: false,
             selectMultiple: false,
-            scrollbarSize: 10,
+            scrollbarSize: 6,
             scrollbarFade: true,
             scrollbarRound: true,
             bindWindowResize: true,

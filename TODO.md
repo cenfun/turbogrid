@@ -17,8 +17,3 @@
         <div class="grid-container flex-auto"></div>
     </div>
 </div>
-
-if (dataStr.startsWith('random')) {
-    renderData(window.randomData(dataStr));
-    return;
-}

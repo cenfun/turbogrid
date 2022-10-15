@@ -135,15 +135,61 @@ media screen
 }
 
 @media screen and (max-width: 768px) {
+    .header {
+        padding-left: 40px;
+    }
+
+    .header .header-icon-menu {
+        display: block;
+    }
+
     .body .nav {
         position: fixed;
         top: 0;
         left: 0;
         z-index: 100;
+        display: none;
     }
 
     .body .nav .header {
+        padding-left: 10px;
         display: inherit;
+    }
+}
+
+.nav.nav-opened {
+    display: inherit;
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: nav-slide-in-left;
+}
+
+@keyframes nav-slide-in-left {
+    from {
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.nav.nav-closed {
+    display: inherit;
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: nav-slide-out-left;
+}
+
+@keyframes nav-slide-out-left {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        visibility: hidden;
+        transform: translate3d(-100%, 0, 0);
     }
 }
 
@@ -186,18 +232,6 @@ nav children
 
 .nav .header {
     display: none;
-}
-
-.nav-closed .nav {
-    display: none;
-}
-
-.nav-closed .header {
-    padding-left: 40px;
-}
-
-.nav-closed .header .header-icon-menu {
-    display: block;
 }
 
 .nav-search {

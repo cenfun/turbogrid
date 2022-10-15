@@ -715,11 +715,13 @@
 
         ['.header-icon-menu', '.header-icon-close'].forEach(function(selector) {
             document.querySelector(selector).addEventListener('click', function(e) {
-                const cls = document.body.classList;
-                if (cls.contains('nav-closed')) {
-                    cls.remove('nav-closed');
-                } else {
+                const cls = $nav.classList;
+                if (cls.contains('nav-opened')) {
+                    cls.remove('nav-opened');
                     cls.add('nav-closed');
+                } else {
+                    cls.remove('nav-closed');
+                    cls.add('nav-opened');
                 }
             });
         });

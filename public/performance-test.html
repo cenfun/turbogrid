@@ -22,28 +22,29 @@
 
         .red {
             color: red;
-            border-left: 1px solid #ccc;
-            padding: 0 5px;
         }
 
         .orange {
             color: orange;
-            border-left: 1px solid #ccc;
-            padding: 0 5px;
         }
 
         .green {
             color: green;
+        }
+
+        .benchmark .red,
+        .benchmark .orange,
+        .benchmark .green {
             border-left: 1px solid #ccc;
             padding: 0 5px;
         }
 
-        .benchmark-cr {
-            cursor: pointer;
+        .benchmark-spacing {
+            width: 20px;
         }
 
-        .time-result span {
-            border: none;
+        .benchmark-cr {
+            cursor: pointer;
         }
 
     </style>
@@ -123,7 +124,7 @@
                 <div>
                     <div><b>Benchmark</b> (Intel i7-8700T 2.4GHz, 16.0GB, Win10 x64)</div>
                 </div>
-                <div>
+                <div class="benchmark">
                     <div>
                         <b>Chrome</b>
                         <div>v83</div>
@@ -140,7 +141,7 @@
                         <div class="benchmark-cr">10 x 100k</div>
                         <div>90ms</div>
                     </div>
-
+                    <div class="benchmark-spacing"></div>
                     <div>
                         <b>FireFox</b>
                         <div>v77</div>
@@ -326,6 +327,8 @@
         });
 
         window.initCommonEvents(grid);
+
+        render();
 
     </script>
 </body>

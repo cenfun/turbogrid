@@ -583,8 +583,13 @@
                 return;
             }
             //console.log('iframe loading ...');
-            //window.setHash('page', id);
-            window.location.href = `${id}.html${window.location.hash}`;
+
+            let url = `${id}.html`;
+            if (pageId !== 'api') {
+                url += window.location.hash;
+            }
+
+            window.location.href = url;
 
         });
 

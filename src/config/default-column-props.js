@@ -35,7 +35,7 @@ export default {
 
     // require for column resize
     minWidth: 81,
-    maxWidth: 302
+    maxWidth: 300
 
     //width: Number
     //height: Number

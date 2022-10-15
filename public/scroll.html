@@ -12,88 +12,86 @@
     <script src="assets/main.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid scroll API:</div>
-            <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Method:</td>
-                <td>
+<body>
+    <div class="header flex-row">
+        <select class="st_theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid scroll API:</div>
+                </div>
+                <div>
                     <button>scrollToRow(0)</button>
                     <button>scrollToRow(9)</button>
                     <button>scrollToRow("h0")</button>
                     <button>scrollToRow({"id":"total"})</button>
                     <button>scrollToFirstRow()</button>
                     <button>scrollToLastRow()</button>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>
                     <button>scrollToColumn(0)</button>
                     <button>scrollToColumn(5)</button>
                     <button>scrollToColumn("dp15")</button>
                     <button>scrollToColumn({"id":"dp_last"})</button>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>
                     <button>scrollToFirstColumn()</button>
                     <button>scrollToLastColumn()</button>
                     <button>scrollToLastColumn(true)</button>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>
                     <button>scrollToCell(0,0)</button>
                     <button>scrollToCell(3,8)</button>
                     <button>scrollToCell("h1","dp5")</button>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>
                     <button>scrollRowIntoView(20)</button>
                     <button>scrollRowIntoView("h1")</button>
                     <button>scrollRowIntoView("h_last")</button>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>
                     <button>scrollColumnIntoView("dp5")</button>
                     <button>scrollColumnIntoView("dp23")</button>
                     <button>scrollColumnIntoView("dp_last")</button>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>
                     <button>scrollCellIntoView("h1","dp5")</button>
                     <button>scrollCellIntoView("h0","dp20")</button>
                     <button>scrollCellIntoView("h0","dp_last")</button>
                     <button>scrollCellIntoView("h_last","dp12")</button>
                     <button>scrollCellIntoView("h_last","dp_last")</button>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>
                     <button>setScrollTop(300)</button>
                     <button>setScrollTop(0)</button>
                     <button>setScrollLeft(200)</button>
                     <button>setScrollLeft(0)</button>
                     <button>getScrollLeft()</button>
                     <button>getScrollTop()</button>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-
-                    <label>Sets a highlight row and check scrollToRow API when resize with container changing</label>
-                    <div class="flex-v-5"></div>
+                </div>
+                <div>Sets a highlight row and check scrollToRow API when resize with container changing</div>
+                <div>
                     <input type="button" value="change container" class="bt_change_container" />
                     <input type="button" value="change container and size" class="bt_change_container_size" />
-                    <input type="checkbox" id="cb_preventDefaultOnMouseWheel" class="cb_preventDefaultOnMouseWheel" />
-                    <label for="cb_preventDefaultOnMouseWheel">preventDefault onMouseWheel</label>
+                    
+                    <label for="cb_preventDefaultOnMouseWheel">
+                        <input type="checkbox" id="cb_preventDefaultOnMouseWheel" class="cb_preventDefaultOnMouseWheel" />
+                        preventDefault onMouseWheel
+                    </label>
                     <label for="cb_appendRandomRows">
                         <input type="checkbox" id="cb_appendRandomRows" class="cb_appendRandomRows" />
                         append random rows
                         <input type="number" min="0" value="2000" class="ip-rows" />
                     </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Event:</td>
-                <td>
+                </div>
+                <div>
                     <div>onScroll: <span class="onScroll"></span></div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const customData = {
@@ -340,24 +338,22 @@
 
         document.querySelector('.bt_change_container').addEventListener('click', function() {
             const c = document.querySelector('.grid-container');
-            document.querySelector('.body').appendChild(c);
+            document.querySelector('.main').appendChild(c);
             if (grid) {
                 grid.resize();
             }
         });
 
-        let zoomin = false;
+        let zoomIn = false;
         document.querySelector('.bt_change_container_size').addEventListener('click', function() {
             const c = document.querySelector('.grid-container');
-            if (zoomin) {
-                c.style.right = '5px';
-                c.style.bottom = '5px';
+            if (zoomIn) {
+                c.style.margin = '5px';
             } else {
-                c.style.right = '205px';
-                c.style.bottom = '105px';
+                c.style.margin = '5px 205px 105px 5px';
             }
-            zoomin = !zoomin;
-            document.querySelector('.body').appendChild(c);
+            zoomIn = !zoomIn;
+            document.querySelector('.main').appendChild(c);
             if (grid) {
                 grid.resize();
             }

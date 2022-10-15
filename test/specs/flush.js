@@ -30,7 +30,7 @@ describe('Flush', function() {
         //total columns
         const columnLength = container.querySelector('.tg-row[row="0"]').children.length;
 
-        const cl = Math.ceil((500 - 300) / 81) + 1;
+        const cl = Math.ceil((500 - 230) / 81) + 1;
 
         assert.equal(columnLength, cl);
         assert.equal(grid.viewport.columns.length, cl);
@@ -49,7 +49,7 @@ describe('Flush', function() {
 
     it('Grid row flush cell', async () => {
 
-        const cl = Math.ceil((500 - 300) / 81) + 1;
+        const cl = Math.ceil((500 - 230) / 81) + 1;
 
         grid.flushCell([0, 1], [1]);
         assert.equal(container.querySelector('.tg-row[row="0"]').children.length, cl - 1);
@@ -80,7 +80,7 @@ describe('Flush', function() {
 
     it('Grid row flush columns', async () => {
 
-        const cl = Math.ceil((500 - 300) / 81) + 1;
+        const cl = Math.ceil((500 - 230) / 81) + 1;
 
         grid.flushColumnFrom(2);
         assert.equal(container.querySelector('.tg-row[row="0"]').children.length, 2);

@@ -133,20 +133,16 @@ describe('Scroll', function() {
 
     });
 
-    it('Grid scroll to cell', function(done) {
-
-        grid.once('onUpdated', function() {
-
-            const sl = grid.scrollLeft;
-            const st = grid.scrollTop;
-
-            assert.equal(sl, 0);
-            assert.equal(st, 0);
-
-            done();
-        });
+    it('Grid scroll to cell 0,0', async () => {
 
         grid.scrollToCell(0, 0);
+        await delay();
+
+        const sl = grid.scrollLeft;
+        const st = grid.scrollTop;
+
+        assert.equal(sl, 0);
+        assert.equal(st, 0);
 
     });
 
@@ -214,7 +210,7 @@ describe('Scroll', function() {
         const sl = grid.scrollLeft;
         const st = grid.scrollTop;
         const rh = grid.options.rowHeight;
-        assert.equal(sl, 300 + 81);
+        assert.equal(sl, 230 + 81);
         assert.equal(st, 5 * rh);
 
     });
@@ -229,10 +225,10 @@ describe('Scroll', function() {
         const sl = grid.scrollLeft;
         const st = grid.scrollTop;
         const rh = grid.options.rowHeight;
-        assert.equal(sl, 300 + 81);
+        assert.equal(sl, 230 + 81);
         assert.equal(st, 5 * rh);
 
-        assert.equal(container.find('.tg-body-top-left').css('left'), '-381px');
+        assert.equal(container.find('.tg-body-top-left').css('left'), '-311px');
         assert.equal(container.find('.tg-body-top-left').css('top'), `-${5 * rh}px`);
 
         //check css rule
@@ -241,7 +237,7 @@ describe('Scroll', function() {
         const w = window.getComputedStyle(cell).width;
         assert.equal(w, '81px');
         const l = window.getComputedStyle(cell).left;
-        assert.equal(l, '705px');
+        assert.equal(l, '635px');
 
 
     });

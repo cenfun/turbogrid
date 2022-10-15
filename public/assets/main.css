@@ -333,7 +333,7 @@ main
 .controller {
     padding: 5px;
     border-bottom: 1px solid #999;
-    max-height: 50%;
+    max-height: 38%;
     overflow-y: auto;
 
     --flex-spacing: 10px;
@@ -347,6 +347,10 @@ main
     flex-direction: row;
     align-items: center;
     overflow-x: auto;
+}
+
+.main .controller button {
+    font-size: 12px;
 }
 
 .main .controller > * > * {
@@ -409,7 +413,7 @@ form
 */
 
 .ip-number {
-    width: 50px;
+    width: 60px;
 }
 
 .ip-columns,

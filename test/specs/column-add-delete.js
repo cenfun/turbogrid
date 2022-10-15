@@ -37,7 +37,7 @@ describe('Column add/delete', function() {
         await delay();
         const columns = grid.getColumns();
         assert.equal(columns.length, prevLen + 1);
-        assert.equal(grid.getScrollLeft(), 622);
+        assert.equal(grid.getScrollLeft(), 552);
     });
 
     it('Grid column addColumn empty', async () => {
@@ -46,7 +46,7 @@ describe('Column add/delete', function() {
         await delay();
         const columnsAddNothing = grid.getColumns();
         assert.equal(columnsAddNothing.length, prevLen);
-        assert.equal(grid.getScrollLeft(), 622);
+        assert.equal(grid.getScrollLeft(), 552);
     });
 
     it('Grid column addColumn string', async () => {
@@ -56,7 +56,7 @@ describe('Column add/delete', function() {
         const columnsAddNothing = grid.getColumns();
         assert.equal(columnsAddNothing.length, prevLen + 1);
         //column width 81 + 622 = 630
-        assert.equal(grid.getScrollLeft(), 703);
+        assert.equal(grid.getScrollLeft(), 633);
     });
 
     it('Grid column addColumn null and 0', async () => {

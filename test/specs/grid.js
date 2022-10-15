@@ -200,9 +200,9 @@ describe('Grid', function() {
         });
         grid.once('onFirstUpdated', function() {
             const pwl = grid.paneWidthL;
-            assert.equal(pwl, 300);
+            assert.equal(pwl, 230);
             const pwr = grid.paneWidthR;
-            assert.equal(pwr, 200);
+            assert.equal(pwr, 500 - 230);
 
             const rh = grid.options.rowHeight;
             const pht = grid.paneHeightT;

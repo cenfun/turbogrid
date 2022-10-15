@@ -67,78 +67,90 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid customize scrollbar:</div>
-            <div>
-                <select class="st_data">
-                    <option>sample-data.js</option>
+<body>
+    <div class="header flex-row">
+        <select class="st_theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid customize scrollbar:</div>
+                    <select class="st_data">
+                        <option>sample-data.js</option>
                     <option>random_5_columns_20_rows</option>
                     <option>random_100_columns_20k_rows</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Options:</td>
-                <td>
-                    <div class="line">
-                        <label for="cb_frozenBottom">
-                            <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                            frozenBottom
-                        </label>
-                        <label>
-                            <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                            frozenColumn
-                        </label>
-                        <label>
-                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                            frozenRow
-                        </label>
+                    </select>
+                </div>
+                <div>
+                    <label for="cb_frozenBottom">
+                        <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
+                        frozenBottom
+                    </label>
+                    <label>
+                        frozenColumn
+                        <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
+                    </label>
+                    <label>
+                        frozenRow
+                        <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
+                    </label>
+                </div>
 
-                    </div>
+                <div>
 
-                    <div class="line">
-
+                    
+                    <label>
+                        scrollPaneMinWidth
                         <input type="number" value="30" class="ip-number ip_scrollPaneMinWidth" />
-                        <label>scrollPaneMinWidth</label>
+                    </label>
 
+                    <label>
+                        scrollPaneGradient
                         <input type="number" value="30" class="ip-number ip_scrollPaneGradient" />
-                        <label>scrollPaneGradient (depends scrollbarFade: true)</label>
+                        (depends scrollbarFade: true)
+                    </label>
 
-                    </div>
+                </div>
 
-                    <div>
+                <div>
+                    <label>scrollbarType
                         <select class="st_scrollbarType">
                             <option>auto</option>
                             <option>mobile</option>
                             <option></option>
                         </select>
-                        <label>scrollbarType</label>
+                    </label>
 
+                    <label>scrollbarSize
                         <input type="number" value="12" class="ip-number ip_scrollbarSize" />
-                        <label>scrollbarSize</label>
+                    </label>
 
+                    
+                    <label for="cb_scrollbarRound">
                         <input type="checkbox" id="cb_scrollbarRound" class="cb_scrollbarRound" />
-                        <label for="cb_scrollbarRound">scrollbarRound</label>
+                        scrollbarRound
+                    </label>
+                </div>
 
+                <div>
+                    
+                    <label for="cb_scrollbarFade">
                         <input type="checkbox" id="cb_scrollbarFade" class="cb_scrollbarFade" />
-                        <label for="cb_scrollbarFade">scrollbarFade</label>
+                        scrollbarFade
+                    </label>
 
+                    
+                    <label>
+                        scrollbarFadeTimeout
                         <input type="number" value="1000" class="ip-number ip_scrollbarFadeTimeout" />
-                        <label>scrollbarFadeTimeout</label>
+                    </label>
 
-                    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                </div>
+    
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;

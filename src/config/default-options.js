@@ -38,7 +38,7 @@ export default function() {
             tree: {
                 type: 'tree',
                 formatter: 'tree',
-                width: 300,
+                width: 230,
                 minWidth: 120,
                 maxWidth: 810
             },
@@ -149,7 +149,7 @@ export default function() {
             classMap: 'tg-cell-blank',
             width: 0,
             minWidth: 0,
-            maxWidth: 4000,
+            maxWidth: 1024 * 4,
             resizable: false,
             sortable: false,
             exportable: false

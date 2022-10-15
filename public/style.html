@@ -54,67 +54,63 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Customize column/row CSS style:</div>
-            <div>
-                <select class="st_data">
-                    <option>random_10_columns_100_rows</option>
-                    <option>random_100_columns_2k_rows</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table line">
-            <tr>
-                <td>
-                    row item:
-                </td>
-                <td>
-                    column item:
-                </td>
-                <td>
-                    global class:
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <pre><code class="language-js">
-                        {
-                            classMap: "row-class",
-                            styleMap: "background:#ddd;",
-                            [columnId]ClassMap: "cell-class",
-                            [columnId]StyleMap: "background:#ddd;" 
-                        }
-                    </code></pre>
-                </td>
-                <td>
-                    <pre><code class="language-js">
-                        {
-                            classMap: "column-class",
-                            styleMap: "background:#ddd;",
-                            headerClassMap: "header-class",
-                            headerStyleMap: "background:#ddd;" 
-                        }
-                    </code></pre>
-                </td>
-                <td>
-                    <pre><code class="language-css">
-                        .tg-even {}
-                        .tg-odd {}
-                    </code></pre>
-                </td>
-            </tr>
-        </table>
-        <div>
-            <button class="setErrorRow">setErrorRow</button>
-            <button class="clearErrorRow">clearErrorRow</button>
-        </div>
+<body>
+    <div class="header flex-row">
+        <select class="st_theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Customize column/row CSS style:</div>
+                    <select class="st_data">
+                        <option>random_10_columns_100_rows</option>
+                        <option>random_100_columns_2k_rows</option>
+                    </select>
+                </div>
+                <div>
+                    <div>row item props:
+                        <pre><code class="language-js">
+                            {
+                                classMap: "row-class",
+                                styleMap: "background:#ddd;",
+                                [columnId]ClassMap: "cell-class",
+                                [columnId]StyleMap: "background:#ddd;" 
+                            }
+                        </code></pre>
+                    </div>
+
+                    <div>
+                        column item props:
+                        <pre><code class="language-js">
+                            {
+                                classMap: "column-class",
+                                styleMap: "background:#ddd;",
+                                headerClassMap: "header-class",
+                                headerStyleMap: "background:#ddd;" 
+                            }
+                        </code></pre>
+                    </div>
+
+                    <div>
+                        global row class:
+                        <pre><code class="language-css">
+                            .tg-even {}
+                            .tg-odd {}
+                            .tg-selected {}
+                            .tg-hover {}
+                        </code></pre>
+                    </div>
+
+                </div>
+
+                <div>
+                    <button class="setErrorRow">setErrorRow</button>
+                    <button class="clearErrorRow">clearErrorRow</button>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         window.formatCodes();

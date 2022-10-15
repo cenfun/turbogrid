@@ -579,6 +579,7 @@
             const id = rowItem.id;
             const pageId = getPageId();
             if (id === pageId) {
+                window.location.reload();
                 return;
             }
             //console.log('iframe loading ...');

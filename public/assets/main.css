@@ -105,6 +105,10 @@ icon
     background-image: url("./images/close.svg");
 }
 
+.icon-github {
+    background-image: url("./images/github.svg");
+}
+
 /*
 media screen
 */
@@ -329,6 +333,8 @@ main
 .controller {
     padding: 5px;
     border-bottom: 1px solid #999;
+    max-height: 50%;
+    overflow-y: auto;
 
     --flex-spacing: 10px;
 }
@@ -340,6 +346,7 @@ main
     display: flex;
     flex-direction: row;
     align-items: center;
+    overflow-x: auto;
 }
 
 .main .controller > * > * {

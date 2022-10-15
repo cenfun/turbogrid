@@ -40,14 +40,15 @@
 
         .container {
             border: 1px solid #ccc;
-            margin: 10px 0;
         }
 
     </style>
 </head>
 
 <body>
-    <div class="header flex-row"></div>
+    <div class="header flex-row">
+        <a class="icon icon-github" href="https://github.com/cenfun/turbogrid" target="_blank"></a>
+    </div>
     <div class="body flex-auto flex-row">
         <div class="main flex-auto flex-column">
             <div class="readme">
@@ -62,16 +63,11 @@
                         console.log(window.turbogrid);
                     </script>
                 </code></pre>
-                <h3>Github</h3>
-                <div>
-                    <a href="https://github.com/cenfun/turbogrid" target="_blank">https://github.com/cenfun/turbogrid</a>
-                </div>
                 <h3>Usage</h3>
                 <div class="usage-code">
                     <pre><code class="language-js">
                         const Grid = window.turbogrid.Grid;
                         const container = document.querySelector(".container");
-                        container.style.width = "100%";
                         container.style.height = "120px";
                         const grid = new Grid(container);
                         grid.setOption({
@@ -99,18 +95,20 @@
                         grid.render();
                     </code></pre>
                 </div>
+                <h3>Preview</h3>
                 <div class="container"></div>
             </div>
         </div>
     </div>
 
     <script>
-    const code = document.querySelector('.usage-code code');
-    const str = code.innerHTML;
+    window.onload = function() {
+        const code = document.querySelector('.usage-code code');
+        const str = code.innerHTML;
+        new Function(str)();
 
-    new Function(str)();
-
-    window.formatCodes();
+        window.formatCodes();
+    };
 
     </script>
 </body>

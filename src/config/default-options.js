@@ -40,7 +40,7 @@ export default function() {
                 formatter: 'tree',
                 width: 300,
                 minWidth: 120,
-                maxWidth: 500
+                maxWidth: 810
             },
             number: {
                 type: 'number',

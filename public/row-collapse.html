@@ -50,10 +50,6 @@
                         rowNumberVisible
                     </label>
                     
-                    <label>
-                        <input type="checkbox" class="cb_no_subs" />
-                        no subs
-                    </label>
                 </div>
                 <div>
                     <button>expandAllRows()</button>
@@ -114,18 +110,12 @@
         function render() {
             const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-
-                const noSubs = document.querySelector('.cb_no_subs').checked;
-
-                const data = window.randomData(columns, rows, noSubs);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
-            } else if (dataStr === 'collapsed_specified_group') {
+            }
+
+            if (dataStr === 'collapsed_specified_group') {
 
                 const collapsedData = {
                     columns: [{
@@ -167,7 +157,7 @@
         }
         
 
-        ['.st-data', '.st-theme', '.st_collapseAllOnInit', '.cb_collapseAllVisible', '.cb_rowNumberVisible', '.cb_no_subs'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.st_collapseAllOnInit', '.cb_collapseAllVisible', '.cb_rowNumberVisible'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

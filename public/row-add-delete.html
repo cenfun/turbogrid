@@ -127,7 +127,7 @@
                 theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 //collapseAllOnInit: true,
-                frozenColumn: 1,
+                frozenColumn: 0,
                 rowFilter: function(rowItem) {
                     if (!keywords) {
                         return true;
@@ -171,14 +171,8 @@
         function render() {
             const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const noSubs = true;
-                const data = window.randomData(columns, rows, noSubs);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 

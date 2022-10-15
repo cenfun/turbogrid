@@ -14,59 +14,49 @@
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid row filter demo</div>
-            <div>
-                <input type="checkbox" id="cb_no_subs" class="cb_no_subs" />
-                <label for="cb_no_subs">no subs</label>
-                <select class="st-data">
-                    <option>sample-data.js</option>
-                    <option>random_3_columns_10_rows</option>
-                    <option>random_100_columns_2k_rows</option>
-                    <option>random_10_columns_10k_rows</option>
-                    <option>random_10_columns_100k_rows</option>
-                </select>
-                <select class="st-theme"></select>
-                
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Search:</td>
-                <td>
-                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <div>
-                        <button>hideRow("total")</button>
-                        <button>showRow("total")</button>
-                        <button>hideRow("top")</button>
-                        <button>showRow("top")</button>
-                    </div>
-                    <div>
-                        <button>hideRow(0)</button>
-                        <button>showRow(0)</button>
-                        <button>hideRow(1)</button>
-                        <button>showRow(1)</button>
-                    </div>
-                    <div>
-                        <button>getRowItem("total")</button>
-                        <button>getRowItem("level_1_2")</button>
-                        <button>getRowItem("level_3_2")</button>
-                        <button>getRowsLength()</button>
-                        <button>getRowsLength(true)</button>
-                    </div>
-                </td>
-            </tr>
-        </table>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid row filter</div>
+                    <select class="st-data">
+                        <option>sample-data.js</option>
+                        <option>random_3_columns_10_rows</option>
+                        <option>random_100_columns_2k_rows</option>
+                        <option>random_10_columns_10k_rows</option>
+                        <option>random_10_columns_100k_rows</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
+                </div>
+                <div>
+                    <button>hideRow("total")</button>
+                    <button>showRow("total")</button>
+
+                    <button>hideRow("top")</button>
+                    <button>showRow("top")</button>
+
+                    <button>hideRow(0)</button>
+                    <button>showRow(0)</button>
+
+                    <button>hideRow(1)</button>
+                    <button>showRow(1)</button>
+                </div>
+                <div>
+                    <button>getRowItem("total")</button>
+                    <button>getRowItem("level_1_2")</button>
+                    <button>getRowItem("level_3_2")</button>
+                    <button>getRowsLength()</button>
+                    <button>getRowsLength(true)</button>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         let keywords = '';
@@ -115,14 +105,8 @@
         function render() {
             const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const noSubs = document.querySelector('.cb_no_subs').checked;
-                const data = window.randomData(columns, rows, noSubs);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 

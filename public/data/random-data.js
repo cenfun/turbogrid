@@ -1,35 +1,51 @@
 
-let rdCache;
-let rdKey;
+const dataCache = new Map();
 
-window.randomData = function(totalColumns, totalRows, noSubs, cache) {
+window.randomData = function(dataStr = '') {
 
+    const cache = dataCache.get(dataStr);
     if (cache) {
-        const key = `${totalColumns}_${totalRows}_${noSubs}`;
-        if (key === rdKey && rdCache) {
-            return rdCache;
-        }
-        rdKey = key;
+        return cache;
+    }
+
+    const list = dataStr.match(/\d+[k]?x\d+[km]?/g);
+    if (!list) {
+        return;
+    }
+
+    let str = list.shift().toLowerCase();
+    str = str.split('k').join('000');
+    str = str.split('m').join('000000');
+    const [totalColumns = 10, totalRows = 100] = str.split('x').map((it) => Number(it));
+
+    let hasSubs;
+    if (dataStr.indexOf('no-subs') !== -1) {
+        hasSubs = false;
+    } else if (dataStr.indexOf('subs') !== -1) {
+        hasSubs = true;
+    }
+    if (typeof hasSubs !== 'boolean') {
+        hasSubs = totalRows > 200;
     }
 
     const columns = [];
-    const appendColumns = function(parent) {
+    const appendColumns = function() {
         for (let i = 0; i < totalColumns; i++) {
             const column = {
                 id: `c${i}`,
-                name: `Str ${i}`
+                name: `Str ${i.toLocaleString()}`
             };
 
             if (Math.random() > 0.6) {
                 column.type = 'number';
-                column.name = `Num ${i}`;
+                column.name = `Num ${i.toLocaleString()}`;
             }
 
             columns.push(column);
         }
     };
 
-    appendColumns(columns);
+    appendColumns();
 
     const rows = [];
     let index = 0;
@@ -37,16 +53,16 @@ window.randomData = function(totalColumns, totalRows, noSubs, cache) {
     const getRow = function() {
         const row = {
             id: `r_${index}`,
-            name: `This Is Row Name ${index}`,
+            name: `Row Name ${index.toLocaleString()}`,
             index: index
         };
         columns.forEach(function(column) {
             const id = column.id;
 
             if (column.type === 'number') {
-                row[id] = Math.round(Math.random() * 1000);
+                row[id] = `Num ${index.toLocaleString()}`;
             } else {
-                row[id] = `str_${index}`;
+                row[id] = `Str ${index.toLocaleString()}`;
             }
 
         });
@@ -54,7 +70,7 @@ window.randomData = function(totalColumns, totalRows, noSubs, cache) {
     };
 
     const appendSubRows = function(row) {
-        if (!noSubs && Math.random() > 0.8) {
+        if (hasSubs && Math.random() > 0.8) {
             row.subs = [];
             const numSubs = Math.round(10 * Math.random());
             for (let i = 0; i < numSubs; i++) {
@@ -79,15 +95,12 @@ window.randomData = function(totalColumns, totalRows, noSubs, cache) {
     if (totalColumns > 2) {
         columns.unshift({
             id: 'index',
-            name: 'Index',
-            type: 'number'
+            name: 'Index'
         });
 
         columns.unshift({
             id: 'name',
-            name: 'Name',
-            type: 'tree',
-            width: 200
+            name: 'Name'
         });
     }
 
@@ -96,9 +109,7 @@ window.randomData = function(totalColumns, totalRows, noSubs, cache) {
         rows: rows
     };
 
-    if (cache) {
-        rdCache = data;
-    }
+    dataCache.set(dataStr, data);
 
     return data;
 };

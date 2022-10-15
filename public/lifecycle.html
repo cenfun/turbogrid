@@ -127,13 +127,8 @@
         function render() {
             const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const data = window.randomData(columns, rows);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
@@ -144,7 +139,7 @@
             if (!grid) {
                 return;
             }
-            const data = window.randomData(20, 100);
+            const data = window.randomData('20x100');
             grid.setData(data);
             grid.render();
         });

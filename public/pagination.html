@@ -123,12 +123,7 @@
                 return _totalData;
             }
 
-            const arr = dataStr.split('_');
-            //random_100_columns_20k_rows
-            const columns = window.getNum(arr[1]);
-            const rows = window.getNum(arr[3]);
-            const noSubs = true;
-            _totalData = window.randomData(columns, rows, noSubs);
+            _totalData = window.randomData(dataStr);
 
             return _totalData;
         };

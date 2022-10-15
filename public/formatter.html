@@ -59,9 +59,9 @@
                         <option>custom_data</option>
                         <option>tg_style</option>
                         <option>sample-data.js</option>
-                        <option>random_10_columns_200_rows</option>
-                        <option>random_10_columns_10_rows</option>
-                        <option>random_100_columns_20k_rows</option>
+                        <option>random-10x200</option>
+                        <option>random-10x10</option>
+                        <option>random-100x20k</option>
                     </select>
                 </div>
                 <div>
@@ -515,27 +515,16 @@
         function render() {
             const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-
-                let noSubs = false;
-                if (rows < 200) {
-                    noSubs = true;
-                }
-
-                const data = window.randomData(columns, rows, noSubs);
-                renderData(data, true);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
-            if (arr[0] === 'tg') {
+            if (dataStr.startsWith('tg')) {
                 renderData(tgData);
                 return;
             }
-            if (arr[0] === 'custom') {
+            if (dataStr.startsWith('custom')) {
                 renderData(customData);
                 return;
             }

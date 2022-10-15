@@ -28,7 +28,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid resize example:</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>sample-data.js</option>
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_20k_rows</option>
@@ -130,7 +130,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -174,7 +174,7 @@
             document.querySelector('.body').style.display = this.checked ? 'none' : 'block';
         });
 
-        ['.st_data', '.st_theme', '.cb_bindWindowResize', '.cb_bindContainerResize', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.cb_bindWindowResize', '.cb_bindContainerResize', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

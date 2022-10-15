@@ -19,7 +19,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid column add and delete:</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>sample-data.js</option>
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
@@ -34,24 +34,24 @@
             <tr>
                 <td>Method:</td>
                 <td>
-                    <div class="line">
+                    <div>
                         <button>addColumn("New Column")</button>
                         <button>addColumn({"name":"Column id1","id":"id1"})</button>
                         <button>addColumn(["C1", "C2"])</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>addColumn(["id1","id2"],"c2")</button>
                         <button>addColumn("End Sub","end_group")</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>addColumn("In c1","c1")</button>
                         <button>addColumn(["In c1 1","In c1 2"],"c1")</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>showColumn(3)</button>
                         <button>hideColumn(3)</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>deleteColumn("id1")</button>
                         <button>deleteColumn(0)</button>
                         <button>deleteColumn(1)</button>
@@ -103,7 +103,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -118,7 +118,7 @@
             renderData(window.sampleData);
         }
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

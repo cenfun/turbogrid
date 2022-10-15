@@ -19,7 +19,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid row select limit:</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>random_20_columns_100_rows</option>
                     <option>random_20_columns_3k_rows</option>
                 </select>
@@ -112,7 +112,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -133,7 +133,7 @@
             renderData(window.sampleData);
         }
 
-        ['.st_data', '.st_theme', '.cb_selectMultiple'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.cb_selectMultiple'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

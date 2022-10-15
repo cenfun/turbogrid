@@ -44,12 +44,20 @@ flex
     --flex-spacing: 0;
 }
 
+.flex-row-5 {
+    --flex-spacing: 5px;
+}
+
 .flex-column {
     display: flex;
     flex-direction: column;
     position: relative;
 
     --flex-spacing: 0;
+}
+
+.flex-column-5 {
+    --flex-spacing: 5px;
 }
 
 .flex-row > * {
@@ -331,34 +339,36 @@ main
 }
 
 .controller {
-    padding: 5px;
+    padding: 5px 5px 0;
     border-bottom: 1px solid #999;
     max-height: 38%;
     overflow-y: auto;
-
-    --flex-spacing: 10px;
-}
-
-.main .controller > * {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
 }
 
 .main .controller button {
     font-size: 12px;
 }
 
-.main .controller > * > * {
-    margin-left: var(--flex-spacing);
+.main .controller .st-data {
+    float: right;
+    margin-right: 0;
 }
 
-.main .controller > * > *:first-child {
-    margin-left: 0;
+.main .controller > * {
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.main .controller > *::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.main .controller > * > * {
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .main .controller > *:last-child {
@@ -368,9 +378,7 @@ main
 }
 
 .controller-title {
-    position: relative;
     font-weight: bold;
-    flex: 1 1 0%;
 }
 
 .grid-container {
@@ -384,27 +392,21 @@ log
 */
 
 .log-container {
-    margin-top: 5px;
-    width: 100%;
-    height: 200px;
+    height: 66px;
     border: 1px solid #999;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.log-content {
-    padding: 5px;
-}
-
 .log-content div {
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
-    margin-top: 5px;
+    padding: 2px 5px;
 }
 
 .log-content div span {
     font-size: 12px;
-    color: #666;
+    color: gray;
     word-break: break-all;
 }
 

@@ -18,7 +18,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid no rows demo</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
                     <option>random_10_columns_10k_rows</option>
@@ -32,10 +32,10 @@
             <tr>
                 <td>Option</td>
                 <td>
-                    <div class="line">rowNotFound:
+                    <div>rowNotFound:
                         <input type="text" class="ip_rowNotFound" size="45" value="No Results" />
                     </div>
-                    <div class="line">
+                    <div>
                         <label>frozenColumn
                             <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenColumn" />
                         </label>
@@ -111,7 +111,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -151,7 +151,7 @@
 
         });
 
-        ['.st_data', '.st_theme', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -45,7 +45,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid pagination example</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>random_20_columns_1k_rows</option>
                     <option>random_20_columns_5k_rows</option>
                 </select>
@@ -114,7 +114,7 @@
         let _totalData;
         let _dataStr;
         const getRandomData = function() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
             if (dataStr !== _dataStr) {
                 _totalData = null;
             }
@@ -218,7 +218,7 @@
             };
         };
 
-        ['.st_data', '.st_theme', '.st_pageSize', '.st_page'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.st_pageSize', '.st_page'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

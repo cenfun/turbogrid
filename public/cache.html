@@ -32,7 +32,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid Cache Length Test</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>random_20_columns_100_rows</option>
                     <option>sample-data.js</option>
                 </select>
@@ -68,7 +68,7 @@
             <tr>
                 <td>Method:</td>
                 <td>
-                    <div class="line">
+                    <div>
                         <button>hideColumn(1)</button>
                         <button>hideColumn(2)</button>
                         <button>hideColumn(3)</button>
@@ -136,7 +136,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -152,7 +152,7 @@
         }
         
 
-        ['.st_data', '.st_theme', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

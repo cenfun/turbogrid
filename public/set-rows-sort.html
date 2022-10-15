@@ -18,7 +18,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid set rows without destroy columns</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>sample</option>
                     <option>random_20_columns_100_rows</option>
                     <option>random_20_columns_200_rows</option>
@@ -1339,7 +1339,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -1362,7 +1362,7 @@
             renderData(customData);
         }
 
-        ['.st_data', '.st_theme', '.cb_sortOnInit', '.cb_sortBlankValueBottom', '.it_sortField'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.cb_sortOnInit', '.cb_sortBlankValueBottom', '.it_sortField'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

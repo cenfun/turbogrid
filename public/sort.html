@@ -14,99 +14,100 @@
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Row Sort API:</div>
-            <div>
-                <select class="st_data">
-                    <option value="sample-sort-data">sample-sort-data</option>
-                    <option value="sample-sort-data2">sample-sort-data2(date)</option>
-                    <option value="sample-sort-data3">sample-sort-data3(unstable test 1500 rows)</option>
-                    <option value="sample-sort-data4">sample-sort-data4(all sortable false)</option>
-                    <option value="sample-sort-data5">sample-sort-data5(sortFixed)</option>
-                    <option>random_10_columns_10_rows</option>
-                    <option>random_10_columns_2k_rows</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Options:</td>
-                <td>
-                    <div class="line">
-                        <input type="checkbox" checked="checked" id="cb_sortOnInit" class="cb_sortOnInit" />
-                        <label for="cb_sortOnInit">sortOnInit</label>
-                        <input type="checkbox" checked="checked" id="cb_sortAsc" class="cb_sortAsc" />
-                        <label for="cb_sortAsc">sortAsc</label>
-                        <input type="checkbox" checked="checked" id="cb_sortBlankValueBottom" class="cb_sortBlankValueBottom" />
-                        <label for="cb_sortBlankValueBottom">sortBlankValueBottom</label>
+<body>
+    <div class="header flex-row">
+        <select class="st_theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Row Sort API:</div>
+                    <select class="st-data">
+                        <option value="sample-sort-data">sample-sort-data</option>
+                        <option value="sample-sort-data2">sample-sort-data2(date)</option>
+                        <option value="sample-sort-data3">sample-sort-data3(unstable test 1500 rows)</option>
+                        <option value="sample-sort-data4">sample-sort-data4(all sortable false)</option>
+                        <option value="sample-sort-data5">sample-sort-data5(sortFixed)</option>
+                        <option>random_10_columns_10_rows</option>
+                        <option>random_10_columns_2k_rows</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="cb_selectVisible">
                         <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
-                        <label for="cb_selectVisible">selectVisible</label>
+                        selectVisible
+                    </label>
+                    
+                    <label for="cb_selectAllVisible">
                         <input type="checkbox" id="cb_selectAllVisible" class="cb_selectAllVisible" />
-                        <label for="cb_selectAllVisible">selectAllVisible</label>
-                    </div>
-                    <div class="line">
-
-                        <label>sortIndicator:
-                            <select class="st_sortIndicator">
-                                <option>h</option>
-                                <option>v</option>
-                            </select>
-                        </label>
-
-                    </div>
-                    <div>
-                        <label>sortField:
-                            <input type="text" class="it_sortField" value="string_number" />
-                        </label>
-                        <select class="st_sortField">
-                            <option></option>
-                            <option selected>string_number</option>
-                            <option>name</option>
-                            <option>number</option>
-                            <option>number2</option>
-                            <option>date</option>
-                            <option>number_string</option>
-                            <option>string_null</option>
-                            <option>sortable_false</option>
+                        selectAllVisible
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        sortIndicator:
+                        <select class="st_sortIndicator">
+                            <option>h</option>
+                            <option>v</option>
                         </select>
-                        <button class="bt_render">render</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>Method:</td>
-                <td>
+                    </label>
+                    
+                    <label for="cb_sortOnInit">
+                        <input type="checkbox" checked="checked" id="cb_sortOnInit" class="cb_sortOnInit" />
+                        sortOnInit
+                    </label>
+                    
+                    <label for="cb_sortAsc">
+                        <input type="checkbox" checked="checked" id="cb_sortAsc" class="cb_sortAsc" />
+                        sortAsc
+                    </label>
+                    
+                    <label for="cb_sortBlankValueBottom">
+                        <input type="checkbox" checked="checked" id="cb_sortBlankValueBottom" class="cb_sortBlankValueBottom" />
+                        sortBlankValueBottom
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        sortField:
+                        <input type="text" class="it_sortField" value="string_number" />
+                    </label>
+                    <select class="st_sortField">
+                        <option></option>
+                        <option selected>string_number</option>
+                        <option>name</option>
+                        <option>number</option>
+                        <option>number2</option>
+                        <option>date</option>
+                        <option>number_string</option>
+                        <option>string_null</option>
+                        <option>sortable_false</option>
+                    </select>
+                    <button class="bt_render">render</button>
+                </div>
+                <div>
                     <button>setSortColumn("index")</button>
                     <button>removeSortColumn()</button>
                     <button>exportData()</button>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <div>
+                </div>
+                <div>
+                    <label for="cb_preventDefaultOnClick">
                         <input type="checkbox" id="cb_preventDefaultOnClick" class="cb_preventDefaultOnClick" />
-                        <label for="cb_preventDefaultOnClick">preventDefault onClick</label>
+                        preventDefault onClick
+                    </label>
 
+                    <label for="cb_preventDefaultOnSort">
                         <input type="checkbox" id="cb_preventDefaultOnSort" class="cb_preventDefaultOnSort" />
-                        <label for="cb_preventDefaultOnSort">preventDefault onSort</label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>Event:</td>
-                <td>
+                        preventDefault onSort
+                    </label>
+                </div>
+                <div>
                     <div>onSort: <span class="onSort"></span></div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const customData = {
@@ -573,7 +574,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -622,7 +623,7 @@
             render();
         });
 
-        ['.st_data', '.st_theme', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

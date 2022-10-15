@@ -47,7 +47,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid multiple instance:</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>sample-data.js</option>
                     <option>random_3_columns_10_rows</option>
                     <option>random_10_columns_100_rows</option>
@@ -106,7 +106,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -138,7 +138,7 @@
             }
         });
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

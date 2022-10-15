@@ -27,7 +27,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Custom Element demo (require Chrome)</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>sample-data.js</option>
                     <option>random_5_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
@@ -97,7 +97,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -119,7 +119,7 @@
         }
 
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

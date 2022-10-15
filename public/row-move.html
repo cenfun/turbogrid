@@ -27,7 +27,7 @@
             <div>
                 <input type="checkbox" id="cb_no_subs" checked class="cb_no_subs" />
                 <label for="cb_no_subs">no subs</label>
-                <select class="st_data">
+                <select class="st-data">
                     <option>sample-data.js</option>
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
@@ -51,19 +51,19 @@
             <tr>
                 <td>Method:</td>
                 <td>
-                    <div class="line">
+                    <div>
                         <button>moveRows(["level_0"], -1)</button>
                         <button>moveRows(["level_0"], 1)</button>
                         <button>moveRows(["level_0"], -10)</button>
                         <button>moveRows(["level_0"], 10)</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>moveRows("level_3_3", -2)</button>
                         <button>moveRows("level_3_3", 2)</button>
                         <button>moveRows("level_3_3", -3)</button>
                         <button>moveRows("level_3_3", 3)</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>moveRowsToTop(["level_0"])</button>
                         <button>moveRowsUp(["level_0"])</button>
                         <button>moveRowsDown(["level_0"])</button>
@@ -169,7 +169,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -195,7 +195,7 @@
             grid.update();
         });
 
-        ['.st_data', '.st_theme', '.cb_rowMoveCrossLevel', '.cb_selectMultiple', '.cb_no_subs'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.cb_rowMoveCrossLevel', '.cb_selectMultiple', '.cb_no_subs'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

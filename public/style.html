@@ -63,7 +63,7 @@
             <div class="controller">
                 <div>
                     <div class="controller-title">Customize column/row CSS style:</div>
-                    <select class="st_data">
+                    <select class="st-data">
                         <option>random_10_columns_100_rows</option>
                         <option>random_100_columns_2k_rows</option>
                     </select>
@@ -174,7 +174,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -214,7 +214,7 @@
         });
 
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

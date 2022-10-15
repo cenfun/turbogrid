@@ -55,7 +55,7 @@
             <div class="controller">
                 <div>
                     <div class="controller-title">Grid customize formatter example:</div>
-                    <select class="st_data">
+                    <select class="st-data">
                         <option>custom_data</option>
                         <option>tg_style</option>
                         <option>sample-data.js</option>
@@ -65,35 +65,37 @@
                     </select>
                 </div>
                 <div>
-                    <label>Number Decimal:</label>
-                    <select class="st_decimal">
-                        <option></option>
-                        <option>0</option>
-                        <option>1</option>
-                        <option selected>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                    <label>Date Format:</label>
-                    <select class="st_dateFilter">
-                        <option></option>
-                        <option selected>mm/dd/yyyy</option>
-                        <option>dd/mm/yyyy</option>
-                        <option>dd-mm-yyyy</option>
-                        <option>yyyy-mm-dd</option>
-                        <option>yyyy/mm/dd</option>
-                    </select>
-                </div>
-                <div>
-                    <div>Options:</div>
-                    <div>
-                        <label>sortIndicator:</label>
+                    <label>
+                        Number Decimal
+                        <select class="st_decimal">
+                            <option></option>
+                            <option>0</option>
+                            <option>1</option>
+                            <option selected>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Date Format
+                        <select class="st_dateFilter">
+                            <option></option>
+                            <option selected>mm/dd/yyyy</option>
+                            <option>dd/mm/yyyy</option>
+                            <option>dd-mm-yyyy</option>
+                            <option>yyyy-mm-dd</option>
+                            <option>yyyy/mm/dd</option>
+                        </select>
+                    </label>
+                    <label>
+                        sortIndicator
                         <select class="st_sortIndicator">
                             <option>h</option>
                             <option>v</option>
                         </select>
-                    </div>
+                    </label>
                 </div>
             </div>
             <div class="grid-container flex-auto"></div>
@@ -511,7 +513,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -541,7 +543,7 @@
             renderData(JSON.parse(JSON.stringify(window.sampleData)));
         }
 
-        ['.st_data', '.st_theme', '.st_decimal', '.st_dateFilter', '.st_sortIndicator'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.st_decimal', '.st_dateFilter', '.st_sortIndicator'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

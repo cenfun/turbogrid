@@ -31,7 +31,7 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid row add and delete:</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
                     <option>sample-data.js</option>
@@ -44,24 +44,24 @@
             <tr>
                 <td>Method:</td>
                 <td>
-                    <div class="line">
+                    <div>
                         <button>addRow("New Row")</button>
                         <button>addRow({"name":"Row id1","id":"id1"})</button>
                         <button>addRow({"name":"Row 50","height":50})</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>addRow(["Row 1", "Row 2"])</button>
                         <button>addRow([{"name":"New Row 1"}, {"name":"New Row 2"}])</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>addRow("New Row Parent",2)</button>
                         <button>addRow(["Row 1 Parent","Row 2 Parent"],2)</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>addRow("New Row position",null,2)</button>
                         <button>addRow("New Row position",2,2)</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>deleteRow(0)</button>
                         <button>deleteRow("id1")</button>
                         <button>deleteRow([2,5,"id1"])</button>
@@ -184,7 +184,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -218,7 +218,7 @@
             grid.deleteRow(selectedRows);
         });
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

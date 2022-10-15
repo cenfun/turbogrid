@@ -759,7 +759,7 @@
     };
 
     const initDataSelect = function() {
-        const dataSelect = document.querySelector('.st_data');
+        const dataSelect = document.querySelector('.st-data');
         if (!dataSelect) {
             return;
         }

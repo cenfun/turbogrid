@@ -34,7 +34,7 @@
         <div class="flex-row line">
             <div class="header-title flex-auto">Grid Column Width API:</div>
             <div>
-                <select class="st_data">
+                <select class="st-data">
                     <option value="custom-data">custom-data</option>
                     <option>random_5_columns_10_rows</option>
                     <option>random_10_columns_2k_rows</option>
@@ -48,16 +48,16 @@
                 <td>Method:</td>
                 <td>
                     <div>
-                        <div class="line">
+                        <div>
                             <button>setColumnWidth(0, 100)</button>
                             <button>setColumnWidth(0, 300)</button>
                             <button>setColumnWidth(0, 500)</button>
                         </div>
-                        <div class="line">
+                        <div>
                             <button>hideColumn(1)</button>
                             <button>showColumn(1)</button>
                         </div>
-                        <div class="line">
+                        <div>
                             <button>hideColumn("g1")</button>
                             <button>showColumn("g1")</button>
                             <button>hideColumn("c1")</button>
@@ -65,11 +65,11 @@
                             <button>hideColumn("c2")</button>
                             <button>showColumn("c2")</button>
                         </div>
-                        <div class="line">
+                        <div>
                             <button>hideColumn([1, 3, 5])</button>
                             <button>showColumn([1, 3, 5])</button>
                         </div>
-                        <div class="line">
+                        <div>
                             <button>update()</button>
                             <button>rerender()</button>
                             <button>deleteColumn(-2)</button>
@@ -222,7 +222,7 @@
 
         function render() {
 
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -245,7 +245,7 @@
         
         }
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

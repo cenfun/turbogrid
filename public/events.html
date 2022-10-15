@@ -12,79 +12,48 @@
     <script src="assets/main.js"></script>
     <script src="data/sample-data.js"></script>
     <script src="data/random-data.js"></script>
-    <style>
-        .event-list {
-            height: 235px;
-            width: 210px;
-        }
-
-        .event-list-action {
-            text-align: center;
-        }
-
-        .event-list-action button {
-            margin: 5px;
-        }
-    </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line">
-            <div class="line flex-row">
-                <div class="header-title flex-auto">Grid Events Example:</div>
+<body>
+    <div class="header flex-row">
+        <select class="st_theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
                 <div>
-                    <select class="st_data">
+                    <div class="controller-title">Grid Events Example:</div>
+                    <select class="st-data">
                         <option>sample-data.js</option>
                         <option>random_3_columns_10_rows</option>
                         <option>random_100_columns_20k_rows</option>
                     </select>
-                    <select class="st_theme"></select>
-                    <button class="bt_source">source</button>
                 </div>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Bind Events:</td>
-                <td></td>
-                <td>Unbind Events:</td>
-                <td>Events log (open browser console (F12) for more detail)</td>
-            </tr>
-            <tr>
-                <td>
-                    <select multiple="multiple" class="event-list event-list-bind"></select>
-                </td>
-                <td class="event-list-action">
-                    <div>
-                        <button class="bt-event-add">&lt;&lt;</button>
+                <div>
+                    <div class="flex-column flex-column-5">
+                        <div>Bind Events: <button title="remove" class="bt-event-remove">&gt;&gt;</button></div>
+                        <select multiple="multiple" class="event-list event-list-bind"></select>
                     </div>
-                    <div>
-                        <button class="bt-event-remove">&gt;&gt;</button>
+                    <div class="flex-column flex-column-5">
+                        <div>Unbind Events: <button title="add" class="bt-event-add">&lt;&lt;</button></div>
+                        <select multiple="multiple" class="event-list event-list-unbind"></select>
                     </div>
-                </td>
-                <td>
-                    <select multiple="multiple" class="event-list event-list-unbind"></select>
-                </td>
-                <td>
-                    <button class="bt-clear">Clear Logs</button>
-                    <div class="log-container">
-                        <div class="log-content"></div>
+                    <div class="flex-auto flex-column flex-column-5">
+                        <div>Event logs (open devtool detail) <button class="bt-clear">Clear Logs</button></div>
+                        <div class="log-container">
+                            <div class="log-content"></div>
+                        </div>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
+                </div>
+                <div>
                     <button>render()</button>
                     <button>rerender()</button>
                     <button>addRow({"id":"id1","name":"Row"})</button>
                     <button>deleteRow("id1")</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
@@ -201,7 +170,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -216,7 +185,7 @@
             renderData(window.sampleData);
         }
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st_theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

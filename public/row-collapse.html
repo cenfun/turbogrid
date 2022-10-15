@@ -21,7 +21,7 @@
             <div>
                 <input type="checkbox" id="cb_no_subs" class="cb_no_subs" />
                 <label for="cb_no_subs">no subs</label>
-                <select class="st_data">
+                <select class="st-data">
                     <option>sample-data.js</option>
                     <option>collapsed_specified_group</option>
                     <option>random_3_columns_10_rows</option>
@@ -50,12 +50,12 @@
             <tr>
                 <td>Method:</td>
                 <td>
-                    <div class="line">
+                    <div>
                         <button>expandAllRows()</button>
                         <button>collapseAllRows()</button>
                         <button>toggleAllRows()</button>
                     </div>
-                    <div class="line">
+                    <div>
                         <button>expandRow("level_0")</button>
                         <button>collapseRow("level_0")</button>
                         <button>toggleRow("level_0")</button>
@@ -110,7 +110,7 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
             const arr = dataStr.split('_');
             if (arr[0] === 'random') {
@@ -165,7 +165,7 @@
         }
         
 
-        ['.st_data', '.st_theme', '.st_collapseAllOnInit', '.cb_collapseAllVisible', '.cb_rowNumberVisible', '.cb_no_subs'].forEach(function(item) {
+        ['.st-data', '.st_theme', '.st_collapseAllOnInit', '.cb_collapseAllVisible', '.cb_rowNumberVisible', '.cb_no_subs'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

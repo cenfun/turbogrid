@@ -719,6 +719,12 @@
                 if (cls.contains('nav-opened')) {
                     cls.remove('nav-opened');
                     cls.add('nav-closed');
+                    $nav.addEventListener('animationend', function() {
+                        $nav.classList.remove('nav-closed');
+                        console.log('animationend');
+                    }, {
+                        once: true
+                    });
                 } else {
                     cls.remove('nav-closed');
                     cls.add('nav-opened');

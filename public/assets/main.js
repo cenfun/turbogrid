@@ -144,7 +144,7 @@
 
     const initThemes = function() {
 
-        const $theme = document.querySelector('.st_theme');
+        const $theme = document.querySelector('.st-theme');
         if (!$theme) {
             return;
         }
@@ -680,6 +680,20 @@
 
     };
 
+    const initSource = function($header) {
+        if (!document.querySelector('.grid-container')) {
+            return;
+        }
+
+        $header.insertAdjacentHTML('beforeend', '<button class="bt-source">source</button>');
+        const btSource = document.querySelector('.bt-source');
+        btSource.title = 'Check demo source codes';
+        btSource.addEventListener('click', function() {
+            showSource();
+        });
+
+    };
+
     const initNav = function() {
 
         const headerTitle = `
@@ -695,11 +709,7 @@
             <div class="flex-auto"></div>
         `);
 
-        if (document.querySelector('.grid-container')) {
-            $header.insertAdjacentHTML('beforeend', `
-            <button class="bt_source">source</button>
-        `);
-        }
+        initSource($header);
 
         //nav header
         const $nav = document.createElement('div');
@@ -742,18 +752,6 @@
 
     };
 
-    const initSource = function() {
-        const bt_source = document.querySelector('.bt_source');
-        if (!bt_source) {
-            return;
-        }
-        bt_source.title = 'Check source codes';
-        bt_source.addEventListener('click', function() {
-            showSource();
-        });
-
-    };
-
     const initLogs = function() {
         const logClear = document.querySelector('.log-clear');
         if (logClear) {
@@ -785,7 +783,6 @@
     window.addEventListener('load', function() {
         initNav();
         initThemes();
-        initSource();
         initLogs();
         initDataSelect();
     });

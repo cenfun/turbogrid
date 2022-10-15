@@ -44,7 +44,7 @@
 
 <body>
     <div class="header flex-row">
-        <select class="st_theme"></select>
+        <select class="st-theme"></select>
     </div>
     <div class="body flex-auto flex-row">
         <div class="main flex-auto flex-column">
@@ -244,7 +244,7 @@
 
      const getCommonOption = function() {
          return {
-             theme: document.querySelector('.st_theme').value,
+             theme: document.querySelector('.st-theme').value,
              rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
              selectVisible: document.querySelector('.cb_selectVisible').checked,
              frozenColumn: 0,
@@ -321,7 +321,7 @@
 
      //=========================================================================================
 
-     ['.st_theme', '.cb_selectVisible', '.cb_rowNumberVisible'].forEach(function(item) {
+     ['.st-theme', '.cb_selectVisible', '.cb_rowNumberVisible'].forEach(function(item) {
          document.querySelector(item).addEventListener('change', function() {
              const checked = document.querySelector('#rd-1').checked;
              if (checked) {

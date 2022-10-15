@@ -393,6 +393,7 @@ log
 
 .log-container {
     height: 66px;
+    width: 100%;
     border: 1px solid #999;
     overflow-x: hidden;
     overflow-y: auto;

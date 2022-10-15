@@ -23,8 +23,8 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_20k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -335,7 +335,7 @@
             };
             const rowDragCrossLevel = handlers[document.querySelector('.st_rowDragCrossLevel').value];
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 rowDragCrossLevel: rowDragCrossLevel,
                 textSelectable: document.querySelector('.cb_textSelectable').checked,
                 rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
@@ -369,7 +369,7 @@
             renderData(customData);
         }
 
-        ['.st-data', '.st_theme', '.st_rowDragCrossLevel', '.cb_rowDragVisible', '.cb_textSelectable'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.st_rowDragCrossLevel', '.cb_rowDragVisible', '.cb_textSelectable'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

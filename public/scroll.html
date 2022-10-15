@@ -14,7 +14,7 @@
 
 <body>
     <div class="header flex-row">
-        <select class="st_theme"></select>
+        <select class="st-theme"></select>
     </div>
     <div class="body flex-auto flex-row">
         <div class="main flex-auto flex-column">
@@ -68,8 +68,8 @@
                     <button>getScrollTop()</button>
                 </div>
                 <div>
-                    <input type="button" value="change container" class="bt_change_container" />
-                    <input type="button" value="change container and size" class="bt_change_container_size" />
+                    <input type="button" value="change container" class="bt-change_container" />
+                    <input type="button" value="change container and size" class="bt-change_container_size" />
                     <div>Sets a highlight row and check scrollToRow API when resize with container changing</div>
                 </div>
                 <div>
@@ -306,7 +306,7 @@
 
         const render = function() {
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 frozenColumn: 0,
                 frozenRow: 0
             });
@@ -333,7 +333,7 @@
             grid.render();
         };
 
-        document.querySelector('.bt_change_container').addEventListener('click', function() {
+        document.querySelector('.bt-change_container').addEventListener('click', function() {
             const c = document.querySelector('.grid-container');
             document.querySelector('.main').appendChild(c);
             if (grid) {
@@ -342,7 +342,7 @@
         });
 
         let zoomIn = false;
-        document.querySelector('.bt_change_container_size').addEventListener('click', function() {
+        document.querySelector('.bt-change_container_size').addEventListener('click', function() {
             const c = document.querySelector('.grid-container');
             if (zoomIn) {
                 c.style.margin = '5px';
@@ -356,7 +356,7 @@
             }
         });
 
-        ['.st_theme', '.cb_appendRandomRows', '.ip-rows'].forEach(function(item) {
+        ['.st-theme', '.cb_appendRandomRows', '.ip-rows'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -26,8 +26,8 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -67,7 +67,7 @@
 
         const renderData = function(data) {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
                 collapseAllVisible: document.querySelector('.cb_collapseAllVisible').checked,
                 selectVisible: document.querySelector('.cb_selectVisible').checked,
@@ -102,7 +102,7 @@
         }
 
 
-        ['.st-data', '.st_theme', '.cb_rowNumberVisible', '.cb_collapseAllVisible', '.cb_selectVisible', '.cb_selectAllVisible', '.cb_rowDragVisible', '.cb_no_subs'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_rowNumberVisible', '.cb_collapseAllVisible', '.cb_selectVisible', '.cb_selectAllVisible', '.cb_rowDragVisible', '.cb_no_subs'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

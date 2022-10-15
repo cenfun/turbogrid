@@ -44,8 +44,8 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid Infinite Scroll</div>
             <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
 
@@ -76,7 +76,7 @@
                         <input type="checkbox" checked id="cb_lazyFix" class="cb_lazyFix" />
                         rowHeight lazyFix
                     </label>
-                    <input class="bt_del" type="button" value="delete selected rows" />
+                    <input class="bt-del" type="button" value="delete selected rows" />
                 </td>
             </tr>
         </table>
@@ -305,7 +305,7 @@
 
         function render() {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
                 textSelectable: document.querySelector('.cb_textSelectable').checked,
                 scrollbarFade: document.querySelector('.cb_scrollbarFade').checked,
@@ -331,7 +331,7 @@
             grid.render();
         }
 
-        document.querySelector('.bt_del').addEventListener('click', function() {
+        document.querySelector('.bt-del').addEventListener('click', function() {
             const selectedRows = grid.getSelectedRows();
             if (!selectedRows.length) {
                 return;
@@ -339,7 +339,7 @@
             grid.deleteRow(selectedRows);
         });
         
-        ['.st_theme', '.ip_pageSize', '.ip_rowHeight', '.cb_textSelectable', '.cb_scrollbarFade', '.cb_lazyFix'].forEach(function(item) {
+        ['.st-theme', '.ip_pageSize', '.ip_rowHeight', '.cb_textSelectable', '.cb_scrollbarFade', '.cb_lazyFix'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

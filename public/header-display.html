@@ -30,8 +30,8 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_20k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -57,7 +57,7 @@
 
         const renderData = function(data) {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 headerVisible: document.querySelector('.cb_headerVisible').checked,
                 frozenColumn: 0,
                 frozenRow: -1
@@ -89,7 +89,7 @@
             renderData(window.sampleData);
         }
 
-        ['.st-data', '.st_theme', '.cb_headerVisible'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_headerVisible'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -16,7 +16,7 @@
 
 <body>
     <div class="header flex-row">
-        <select class="st_theme"></select>
+        <select class="st-theme"></select>
     </div>
     <div class="body flex-auto flex-row">
         <div class="main flex-auto flex-column">
@@ -84,7 +84,7 @@
                         <option>string_null</option>
                         <option>sortable_false</option>
                     </select>
-                    <button class="bt_render">render</button>
+                    <button class="bt-render">render</button>
                 </div>
                 <div>
                     <button>setSortColumn("index")</button>
@@ -546,7 +546,7 @@
         const renderData = function(data) {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 sortField: document.querySelector('.it_sortField').value,
                 sortAsc: document.querySelector('.cb_sortAsc').checked,
                 sortBlankValueBottom: document.querySelector('.cb_sortBlankValueBottom').checked,
@@ -614,7 +614,7 @@
             renderData(d);
         }
 
-        document.querySelector('.bt_render').addEventListener('click', function() {
+        document.querySelector('.bt-render').addEventListener('click', function() {
             render();
         });
 
@@ -623,7 +623,7 @@
             render();
         });
 
-        ['.st-data', '.st_theme', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

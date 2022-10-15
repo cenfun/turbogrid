@@ -16,7 +16,7 @@
 
 <body>
     <div class="header flex-row">
-        <select class="st_theme"></select>
+        <select class="st-theme"></select>
     </div>
     <div class="body flex-auto flex-row">
         <div class="main flex-auto flex-column">
@@ -95,7 +95,7 @@
 
         const renderData = function(data) {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectMultiple: document.querySelector('.cb_selectMultiple').checked,
                 selectVisible: true,
                 frozenColumn: 0,
@@ -154,7 +154,7 @@
                 return;
             }
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 rowHeight: 26
             });
@@ -182,7 +182,7 @@
             grid.render();
         });
 
-        ['.st-data', '.st_theme', '.cb_selectMultiple'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_selectMultiple'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

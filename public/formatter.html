@@ -48,7 +48,7 @@
 
 <body>
     <div class="header flex-row">
-        <select class="st_theme"></select>
+        <select class="st-theme"></select>
     </div>
     <div class="body flex-auto flex-row">
         <div class="main flex-auto flex-column">
@@ -355,7 +355,7 @@
 
         const renderData = function(data, changeColumn) {
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
                 //frozenRow: 1,
@@ -543,7 +543,7 @@
             renderData(JSON.parse(JSON.stringify(window.sampleData)));
         }
 
-        ['.st-data', '.st_theme', '.st_decimal', '.st_dateFilter', '.st_sortIndicator'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.st_decimal', '.st_dateFilter', '.st_sortIndicator'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

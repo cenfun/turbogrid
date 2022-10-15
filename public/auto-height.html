@@ -24,8 +24,8 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_10_columns_100_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -56,7 +56,7 @@
             container.style.height = '';
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 autoHeight: document.querySelector('.cb_autoHeight').checked,
                 collapseAllOnInit: document.querySelector('.cb_collapseAllOnInit').checked,
                 frozenColumn: 0,
@@ -90,7 +90,7 @@
         }
 
 
-        ['.st-data', '.st_theme', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -57,8 +57,8 @@
                     <option>random_10_columns_10_rows</option>
                     <option>random_10_columns_2k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <div class="flex-row">
@@ -149,7 +149,7 @@
                 init() {
                     const grid = new Grid(this.$refs.gridContainer);
                     grid.setOption({
-                        theme: document.querySelector('.st_theme').value,
+                        theme: document.querySelector('.st-theme').value,
                         rowDragVisible: true,
                         selectVisible: true,
                         selectAllVisible: false,
@@ -243,7 +243,7 @@
                 bindEvents() {
 
 
-                    // popover.querySelector('.bt_done').addEventListener('click', function(ee) {
+                    // popover.querySelector('.bt-done').addEventListener('click', function(ee) {
                     //     const columnSetData = grid.exportData();
                     //     grid.setData({
                     //         rows: grid.getRows(),
@@ -256,7 +256,7 @@
                     //     popover = null;
                     // });
 
-                    // popover.querySelector('.bt_cancel').addEventListener('click', function(ee) {
+                    // popover.querySelector('.bt-cancel').addEventListener('click', function(ee) {
                     //     grid.destroy();
                     //     grid = null;
                     //     popover.parentNode.removeChild(popover);
@@ -318,7 +318,7 @@
         const renderData = function(data) {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0
             };
@@ -357,7 +357,7 @@
         });
 
 
-        ['.st-data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

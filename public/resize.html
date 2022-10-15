@@ -33,8 +33,8 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_20k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -119,7 +119,7 @@
 
         const renderData = function(data) {
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 bindWindowResize: document.querySelector('.cb_bindWindowResize').checked,
                 bindContainerResize: document.querySelector('.cb_bindContainerResize').checked,
                 autoHeight: document.querySelector('.cb_autoHeight').checked,
@@ -174,7 +174,7 @@
             document.querySelector('.body').style.display = this.checked ? 'none' : 'block';
         });
 
-        ['.st-data', '.st_theme', '.cb_bindWindowResize', '.cb_bindContainerResize', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_bindWindowResize', '.cb_bindContainerResize', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

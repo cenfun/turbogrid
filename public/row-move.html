@@ -32,8 +32,8 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -97,7 +97,7 @@
                 <td>&nbsp;</td>
                 <td>
                     <div>
-                        <input type="text" value="" placeholder="keywords" class="ip_keywords" />
+                        <input type="text" value="" placeholder="keywords" class="ip-keywords" />
                     </div>
                 </td>
             </tr>
@@ -127,7 +127,7 @@
         const renderData = function(data) {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 rowMoveCrossLevel: document.querySelector('.cb_rowMoveCrossLevel').checked,
                 selectMultiple: document.querySelector('.cb_selectMultiple').checked,
                 bindWindowResize: true,
@@ -185,7 +185,7 @@
             renderData(window.sampleData);
         }
 
-        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
             const k = this.value;
             if (k === keywords) {
                 return;
@@ -195,7 +195,7 @@
             grid.update();
         });
 
-        ['.st-data', '.st_theme', '.cb_rowMoveCrossLevel', '.cb_selectMultiple', '.cb_no_subs'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_rowMoveCrossLevel', '.cb_selectMultiple', '.cb_no_subs'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

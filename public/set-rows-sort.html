@@ -23,8 +23,8 @@
                     <option>random_20_columns_100_rows</option>
                     <option>random_20_columns_200_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
 
@@ -1317,7 +1317,7 @@
 
         const renderData = function(data) {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 frozenColumn: 0,
                 sortField: document.querySelector('.it_sortField').value,
                 sortOnInit: document.querySelector('.cb_sortOnInit').checked,
@@ -1362,7 +1362,7 @@
             renderData(customData);
         }
 
-        ['.st-data', '.st_theme', '.cb_sortOnInit', '.cb_sortBlankValueBottom', '.it_sortField'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_sortOnInit', '.cb_sortBlankValueBottom', '.it_sortField'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

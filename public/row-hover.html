@@ -17,8 +17,8 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid Row Hover Usage:</div>
             <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
 
@@ -27,7 +27,7 @@
                 <td>
                     <textarea class="usage-data" style="width: 100%; height: 100px;"></textarea>
                     <div class="flex-v-5"></div>
-                    <button class="bt_render">render usage</button>
+                    <button class="bt-render">render usage</button>
                 </td>
             </tr>
             <tr>
@@ -187,7 +187,7 @@
         function render() {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
 
                 frozenColumn: 1,
@@ -205,11 +205,11 @@
             grid.render();
         }
 
-        document.querySelector('.bt_render').addEventListener('click', function() {
+        document.querySelector('.bt-render').addEventListener('click', function() {
             render();
         });
 
-        ['.st_theme'].forEach(function(item) {
+        ['.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

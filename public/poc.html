@@ -23,8 +23,8 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_10_columns_100_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
     </div>
@@ -107,7 +107,7 @@
         const renderData = function(data) {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 //collapseAllOnInit: true,
 
                 //collapseAllVisible: false,
@@ -142,7 +142,7 @@
             renderData(dpData);
         }
 
-        ['.st-data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

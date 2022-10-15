@@ -32,8 +32,8 @@
                     <option>random_5_columns_10_rows</option>
                     <option>random_100_columns_2k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
     </div>
@@ -91,7 +91,7 @@
 
         const renderData = function(data) {
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 frozenColumn: 0,
                 frozenRow: 1
             });
@@ -122,7 +122,7 @@
         }
 
 
-        ['.st-data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -19,8 +19,8 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Dynamic Load Rows Data (request by row index)</div>
             <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -147,7 +147,7 @@
 
         const render = function() {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 frozenColumn: 0,
                 frozenRow: 0,
                 selectVisible: true
@@ -158,7 +158,7 @@
             grid.render();
         };
 
-        ['.st_theme'].forEach(function(item) {
+        ['.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

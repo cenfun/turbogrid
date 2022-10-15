@@ -52,12 +52,12 @@
                     <option>random_3_columns_10_rows</option>
                     <option>random_10_columns_100_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <div>
-            <button class="bt_position">position overlap</button>
+            <button class="bt-position">position overlap</button>
             <label>left z-index:</label>
             <select class="st_index">
                 <option>0</option>
@@ -85,7 +85,7 @@
         const renderData = function(data) {
 
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
                 frozenRow: -1
@@ -94,7 +94,7 @@
             grid.render();
 
             grid2.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 height: 50,
                 selectVisible: true,
                 frozenColumn: 0,
@@ -127,7 +127,7 @@
             renderData(window.sampleData);
         }
 
-        document.querySelector('.bt_position').addEventListener('click', function() {
+        document.querySelector('.bt-position').addEventListener('click', function() {
             const st_index = document.querySelector('.st_index').value;
             document.querySelector('.div-left').style.zIndex = st_index;
             const divR = document.querySelector('.div-right');
@@ -138,7 +138,7 @@
             }
         });
 
-        ['.st-data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -36,8 +36,8 @@
                     <option>random_20_columns_100_rows</option>
                     <option>sample-data.js</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -115,7 +115,7 @@
             const columnCacheLength = parseInt(document.querySelector('.it_columnCacheLength').value);
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenBottom: document.querySelector('.cb_frozenBottom').checked,
                 frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
@@ -152,7 +152,7 @@
         }
         
 
-        ['.st-data', '.st_theme', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

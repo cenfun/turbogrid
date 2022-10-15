@@ -24,8 +24,8 @@
                     <option>random_10_columns_10k_rows</option>
                     <option>random_10_columns_100k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -53,8 +53,8 @@
             <tr>
                 <td>Search:</td>
                 <td>
-                    <input type="text" value="" placeholder="keywords" class="ip_keywords" />
-                    <button class="bt_del">delete selected rows</button>
+                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
+                    <button class="bt-del">delete selected rows</button>
                     <span class="message_log"></span>
                 </td>
             </tr>
@@ -83,7 +83,7 @@
                 frozenBottom: document.querySelector('.cb_frozenBottom').checked,
                 frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
                 frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
 
                 textSelectable: true,
                 selectVisible: true,
@@ -127,7 +127,7 @@
         }
 
 
-        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
             const k = this.value;
             if (k === keywords) {
                 return;
@@ -137,7 +137,7 @@
             grid.update();
         });
 
-        document.querySelector('.bt_del').addEventListener('click', function() {
+        document.querySelector('.bt-del').addEventListener('click', function() {
             const log = document.querySelector('.message_log');
             const selectedRows = grid.getSelectedRows();
             if (!selectedRows.length) {
@@ -151,7 +151,7 @@
 
         });
 
-        ['.st-data', '.st_theme', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

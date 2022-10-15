@@ -17,8 +17,8 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid Row Height API:</div>
             <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
 
@@ -87,7 +87,7 @@
                         <input type="checkbox" id="cb_lazyFix" class="cb_lazyFix" />
                         rowHeight lazyFix
                     </label>
-                    <input class="bt_del" type="button" value="delete selected rows" />
+                    <input class="bt-del" type="button" value="delete selected rows" />
                 </td>
             </tr>
         </table>
@@ -303,7 +303,7 @@
         function render() {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
                 frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
                 frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
@@ -325,7 +325,7 @@
             grid.render();
         }
 
-        document.querySelector('.bt_del').addEventListener('click', function() {
+        document.querySelector('.bt-del').addEventListener('click', function() {
             const selectedRows = grid.getSelectedRows();
             if (!selectedRows.length) {
                 return;
@@ -334,7 +334,7 @@
         });
 
         [
-            '.st_theme',
+            '.st-theme',
             '.usage-data1',
             '.usage-data2',
             '.ip_rowHeight',

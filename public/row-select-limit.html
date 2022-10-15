@@ -23,8 +23,8 @@
                     <option>random_20_columns_100_rows</option>
                     <option>random_20_columns_3k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -101,7 +101,7 @@
         //===============================================================================
         const renderData = function(data) {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectMultiple: document.querySelector('.cb_selectMultiple').checked,
                 selectVisible: true,
                 frozenColumn: 0
@@ -133,7 +133,7 @@
             renderData(window.sampleData);
         }
 
-        ['.st-data', '.st_theme', '.cb_selectMultiple'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_selectMultiple'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -31,8 +31,8 @@
                 <select class="st-data">
                     <option>sample-data.js</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
     </div>
@@ -78,7 +78,7 @@
 
     const renderData = function(data) {
         grid.setOption({
-            theme: document.querySelector('.st_theme').value,
+            theme: document.querySelector('.st-theme').value,
             selectVisible: true,
             bindWindowResize: true
         });
@@ -116,7 +116,7 @@
     }
 
 
-    ['.st-data', '.st_theme'].forEach(function(item) {
+    ['.st-data', '.st-theme'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

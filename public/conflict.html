@@ -19,8 +19,8 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">version conflict test:</div>
             <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
         function render() {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
                 frozenRow: 1
@@ -48,7 +48,7 @@
             grid.render();
         }
         
-        ['.st_theme'].forEach(function(item) {
+        ['.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

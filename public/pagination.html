@@ -49,8 +49,8 @@
                     <option>random_20_columns_1k_rows</option>
                     <option>random_20_columns_5k_rows</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -137,7 +137,7 @@
         function render() {
         
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 frozenColumn: 0,
                 frozenRow: -1
             };
@@ -218,7 +218,7 @@
             };
         };
 
-        ['.st-data', '.st_theme', '.st_pageSize', '.st_page'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.st_pageSize', '.st_page'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

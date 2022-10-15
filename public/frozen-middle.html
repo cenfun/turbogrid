@@ -19,8 +19,8 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Frozen Middle:</div>
             <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
     </div>
@@ -159,12 +159,12 @@
                 this.resize();
 
                 this.gridL.setOption({
-                    theme: document.querySelector('.st_theme').value,
+                    theme: document.querySelector('.st-theme').value,
                     scrollbarSize: this.scrollbarSize,
                     scrollbarSizeV: 0
                 });
                 this.gridR.setOption({
-                    theme: document.querySelector('.st_theme').value,
+                    theme: document.querySelector('.st-theme').value,
                     scrollbarSize: this.scrollbarSize,
                     frozenColumn: 0
                 });
@@ -310,7 +310,7 @@
         };
 
 
-        ['.st_theme'].forEach(function(item) {
+        ['.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -26,75 +26,60 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid row add and delete:</div>
-            <div>
-                <select class="st-data">
-                    <option>random_3_columns_10_rows</option>
-                    <option>random_100_columns_2k_rows</option>
-                    <option>sample-data.js</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid row add and delete:</div>
+                    <select class="st-data">
+                        <option>random_3_columns_10_rows</option>
+                        <option>random_100_columns_2k_rows</option>
+                        <option>sample-data.js</option>
+                    </select>
+                </div>
+                <div>
+                    <button>addRow("New Row")</button>
+                    <button>addRow({"name":"Row id1","id":"id1"})</button>
+                    <button>addRow({"name":"Row 50","height":50})</button>
+                    <button>addRow(["Row 1", "Row 2"])</button>
+                    <button>addRow([{"name":"New Row 1"}, {"name":"New Row 2"}])</button>
+                    <button>addRow("New Row Parent",2)</button>
+                    <button>addRow(["Row 1 Parent","Row 2 Parent"],2)</button>
+                    <button>addRow("New Row position",null,2)</button>
+                    <button>addRow("New Row position",2,2)</button>
+                </div>
+                <div>
+                    <button>deleteRow(0)</button>
+                    <button>deleteRow("id1")</button>
+                    <button>deleteRow([2,5,"id1"])</button>
+                    <button>deleteRow(-1)</button>
+                </div>
+                <div>
+                    <button>toggleAllRows()</button>
+                    <button>exportData()</button>
+                </div>
+                <div>
+                    <input class="bt-del" type="button" value="delete selected rows" />
+                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
+                    test collapsed or flush rows
+                </div>
+                <div>
+                    <div class="flex-auto flex-column flex-column-5">
+                        <div>Event logs <button class="bt-clear">Clear Logs</button></div>
+                        <div class="log-container">
+                            <div class="log-content"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="grid-container flex-auto"></div>
         </div>
-        <table class="tg-table">
-            <tr>
-                <td>Method:</td>
-                <td>
-                    <div>
-                        <button>addRow("New Row")</button>
-                        <button>addRow({"name":"Row id1","id":"id1"})</button>
-                        <button>addRow({"name":"Row 50","height":50})</button>
-                    </div>
-                    <div>
-                        <button>addRow(["Row 1", "Row 2"])</button>
-                        <button>addRow([{"name":"New Row 1"}, {"name":"New Row 2"}])</button>
-                    </div>
-                    <div>
-                        <button>addRow("New Row Parent",2)</button>
-                        <button>addRow(["Row 1 Parent","Row 2 Parent"],2)</button>
-                    </div>
-                    <div>
-                        <button>addRow("New Row position",null,2)</button>
-                        <button>addRow("New Row position",2,2)</button>
-                    </div>
-                    <div>
-                        <button>deleteRow(0)</button>
-                        <button>deleteRow("id1")</button>
-                        <button>deleteRow([2,5,"id1"])</button>
-                        <button>deleteRow(-1)</button>
-                    </div>
-                    <div>
-                        <button>toggleAllRows()</button>
-                        <button>exportData()</button>
-                    </div>
-                </td>
-                <td width="40%">
-                    <button class="log-clear">Clear Logs</button>
-                    <div class="log-container">
-                        <div class="log-content"></div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <div>
-                        <input class="bt_del" type="button" value="delete selected rows" />
-                        <input type="text" value="" placeholder="keywords" class="ip_keywords" />
-                        test collapsed or flush rows
-                    </div>
-                </td>
-                <td>&nbsp;</td>
-            </tr>
-        </table>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
-    </div>
+
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
         const container = document.querySelector('.grid-container');
@@ -139,7 +124,7 @@
         let keywords = '';
         const renderData = function(data) {
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 //collapseAllOnInit: true,
                 frozenColumn: 1,
@@ -180,7 +165,7 @@
             grid.setOption(options);
             grid.setData(data);
             grid.render();
-            console.log('turbogrid render');
+            console.log('render');
         };
 
         function render() {
@@ -200,7 +185,7 @@
             renderData(window.sampleData);
         }
 
-        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
             const k = this.value;
             if (k === keywords) {
                 return;
@@ -210,7 +195,7 @@
             grid.update();
         });
 
-        document.querySelector('.bt_del').addEventListener('click', function() {
+        document.querySelector('.bt-del').addEventListener('click', function() {
             const selectedRows = grid.getSelectedRows();
             if (!selectedRows.length) {
                 return;
@@ -218,7 +203,11 @@
             grid.deleteRow(selectedRows);
         });
 
-        ['.st-data', '.st_theme'].forEach(function(item) {
+        document.querySelector('.bt-clear').addEventListener('click', function() {
+            document.querySelector('.log-content').innerHTML = '';
+        });
+
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

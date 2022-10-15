@@ -17,8 +17,8 @@
         <div class="line flex-row">
             <div class="header-title flex-auto">Grid Online Render:</div>
             <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
@@ -42,7 +42,7 @@
                 <td>Method:</td>
                 <td>
                     <div>
-                        <input type="button" class="bt_render" value="render()" />
+                        <input type="button" class="bt-render" value="render()" />
                     </div>
                 </td>
             </tr>
@@ -141,7 +141,7 @@
         function render() {
             const options = JSON.parse(document.querySelector('.tg_options').value);
 
-            options.theme = document.querySelector('.st_theme').value;
+            options.theme = document.querySelector('.st-theme').value;
 
             if (document.querySelector('.cb_noGroupDash').checked) {
                 grid.setFormatter({
@@ -162,7 +162,7 @@
         }
         
 
-        ['.st_theme', '.tg_options', '.tg_data', '.bt_render', '.cb_noGroupDash'].forEach(function(item) {
+        ['.st-theme', '.tg_options', '.tg_data', '.bt-render', '.cb_noGroupDash'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

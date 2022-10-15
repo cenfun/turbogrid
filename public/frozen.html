@@ -26,8 +26,8 @@
                     <option>random_100_columns_20k_rows</option>
                     <option>frozen_right</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
 
@@ -149,7 +149,7 @@
         const renderData = function(data) {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: document.querySelector('.cb_selectVisible').checked,
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
                 rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
@@ -187,7 +187,7 @@
         }
 
         [
-            '.st_theme',
+            '.st-theme',
             '.st-data',
             '.ip_frozenColumn',
             '.ip_frozenRow',

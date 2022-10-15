@@ -29,15 +29,15 @@
                     <option value=""></option>
                     <option>sample-data.js</option>
                 </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+                <select class="st-theme"></select>
+                
             </div>
         </div>
         <table class="tg-table">
             <tr>
                 <td>Search:</td>
                 <td>
-                    <input type="text" value="" placeholder="keywords" class="ip_keywords" />
+                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
                 </td>
             </tr>
         </table>
@@ -229,7 +229,7 @@
         const render = function() {
 
             const options = {
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 collapseAllOnInit: true,
                 frozenColumn: 0,
                 frozenRow: -1,
@@ -265,7 +265,7 @@
             grid.render();
         };
 
-        document.querySelector('.ip_keywords').addEventListener('keyup', function() {
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
             const k = this.value;
             if (k === keywords) {
                 return;
@@ -275,7 +275,7 @@
             grid.update();
         });
 
-        ['.st-data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

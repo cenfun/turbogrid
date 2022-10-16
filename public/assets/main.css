@@ -105,6 +105,10 @@ icon
     opacity: 1;
 }
 
+.icon-info {
+    background-image: url("./images/info.svg");
+}
+
 .icon-menu {
     background-image: url("./images/menu.svg");
 }

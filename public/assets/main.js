@@ -485,9 +485,6 @@
             }, {
                 id: 'custom-element',
                 name: 'Custom Element'
-            }, {
-                id: 'shadow-dom',
-                name: 'Shadow DOM'
             }]
         }, {
             name: 'Other',

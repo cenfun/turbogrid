@@ -15,83 +15,70 @@
     <style>
         .column-list,
         .row-list {
-            font-size: 14px;
             color: #666;
-            height: 14px;
-            margin-top: 5px;
-            word-break: break-all;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Cache Length Test</div>
-            <div>
-                <select class="st-data">
-                    <option>random-20x100</option>
-                    <option>sample-data.js</option>
-                </select>
-                <select class="st-theme"></select>
-                
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Options:</td>
-                <td>
-                    <label>rowCacheLength
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Cache Length Test</div>
+                    <select class="st-data">
+                        <option>random-20x100</option>
+                        <option>sample-data</option>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        rowCacheLength
                         <input type="number" min="0" step="1" value="0" class="ip-number it_rowCacheLength" />
                     </label>
-                    <label>columnCacheLength
+                    <label>
+                        columnCacheLength
                         <input type="number" min="0" step="1" value="0" class="ip-number it_columnCacheLength" />
                     </label>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <label>frozenColumn
+                    
+                </div>
+                <div>
+                    <label>
+                        frozenColumn
                         <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
                     </label>
-                    <label>frozenRow
+
+                    <label>
+                        frozenRow
                         <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
                     </label>
-                    <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                    <label for="cb_frozenBottom">frozenBottom</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Method:</td>
-                <td>
-                    <div>
-                        <button>hideColumn(1)</button>
-                        <button>hideColumn(2)</button>
-                        <button>hideColumn(3)</button>
-                        <button>hideColumn(4)</button>
-                    </div>
-                    <div>
-                        <button>showColumn([1, 2, 3, 4])</button>
-                        <button>hideColumn([1, 2, 3, 4])</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>Event:</td>
-                <td>
+
+                    <label>
+                        <input type="checkbox" class="cb_frozenBottom" />
+                        frozenBottom
+                    </label>
+                </div>
+                <div>
+                    <button>hideColumn(1)</button>
+                    <button>hideColumn(2)</button>
+                    <button>hideColumn(3)</button>
+                    <button>hideColumn(4)</button>
+
+                    <button>showColumn([1, 2, 3, 4])</button>
+                    <button>hideColumn([1, 2, 3, 4])</button>
+                </div>
+                <div>
                     <div>onUpdated: (viewport)</div>
-                    <div class="column-list"> </div>
-                    <div class="row-list"> </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                    <div class="column-list"></div>
+                    <div class="row-list"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         'use strict';
@@ -102,8 +89,8 @@
         grid.bind('onUpdated', function(e, viewport) {
             //console.log(viewport);
 
-            document.querySelector('.column-list').innerHTML = `column list: ${viewport.columns}`;
-            document.querySelector('.row-list').innerHTML = `row list: ${viewport.rows}`;
+            document.querySelector('.column-list').innerHTML = `columns: ${viewport.columns}`;
+            document.querySelector('.row-list').innerHTML = `rows: ${viewport.rows}`;
 
         }).bind('onFirstUpdated', function() {
             console.log('duration:', `${this.renderDuration}ms`);

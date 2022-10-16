@@ -306,9 +306,8 @@
 
 
     const showSource = () => {
-        const listCss = [].concat(Array.from(document.querySelectorAll('style')));
-
-        const listJs = [].concat(Array.from(document.querySelectorAll('script')));
+        const listCss = Array.from(document.querySelectorAll('style'));
+        const listJs = Array.from(document.querySelectorAll('script'));
 
         const css = listCss.map(function(elem) {
             if (elem.getAttribute('context')) {

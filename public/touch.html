@@ -13,29 +13,34 @@
     <script src="data/sample-data.js"></script>
     <script src="data/random-data.js"></script>
     <style>
+        .main {
+            overflow-y: auto;
+            display: block;
+        }
+
+        .something-up {
+            margin: 5px;
+        }
+
         .output {
             height: 90px;
-            width: 100%;
             border: 1px solid #ccc;
             overflow-x: hidden;
             overflow-y: scroll;
+            background-color: #f5f5f5;
+            margin-bottom: 5px;
         }
 
         .output div {
             font-size: 12px;
-            margin-bottom: 5px;
+            padding: 3px 5px;
         }
 
-        html,
-        body {
-            height: auto;
-        }
-
-        .body {
+        .grid-container {
             height: 500px;
         }
 
-        .something {
+        .something-down {
             margin: 5px;
             padding: 5px;
             border: 1px solid #ccc;
@@ -46,42 +51,42 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Touch:</div>
-            <div>
-                <select class="st-data">
-                    <option value=""></option>
-                    <option>random-1x3</option>
-                    <option>random-1x30</option>
-                    <option>random-10x3</option>
-                    <option>random-30x100</option>
-                    <option>random-50x1k</option>
-                </select>
-                <select class="st-theme"></select>
-                
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Options:</td>
-                <td>
-                    <label for="cb_autoHeight">
-                        <input type="checkbox" id="cb_autoHeight" class="cb_autoHeight" />
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Touch:</div>
+                    <select class="st-data">
+                        <option></option>
+                        <option>random-1x3</option>
+                        <option>random-1x30</option>
+                        <option>random-10x3</option>
+                        <option>random-30x100</option>
+                        <option>random-50x1k</option>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" class="cb_autoHeight" />
                         autoHeight
                     </label>
+                </div>
+            </div>
+            <div class="something-up">
+                <div class="output"></div>
+                <div>
                     <button class="bt-outputHeightMinus">-</button>
                     <button class="bt-outputHeightPlus">+</button>
-                </td>
-            </tr>
-        </table>
-        <div class="output"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+            <div class="something-down">something else</div>
+        </div>
     </div>
-    <div class="body">
-        <div class="grid-container"></div>
-    </div>
-    <div class="something">something else</div>
     <script type="text/javascript">
         //log for mobile
         const $output = document.querySelector('.output');
@@ -103,7 +108,9 @@
 
             line += 1;
         };
-        const { Grid, $ } = window.turbogrid;
+
+        const { Grid } = window.turbogrid;
+
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
@@ -119,13 +126,12 @@
             console.log('onClick', `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`);
         });
 
-        grid.bind('onResize', function(e, d) {
-            if (this.options.autoHeight) {
-                $('.body').css('height', $('.grid-container').height());
-            }
-        });
-
         const renderData = function(data) {
+
+            const autoHeight = document.querySelector('.cb_autoHeight').checked;
+            if (!autoHeight) {
+                container.style.height = '500px';
+            }
 
             const options = {
                 theme: document.querySelector('.st-theme').value,
@@ -133,7 +139,7 @@
                 frozenColumn: 0,
                 frozenRow: 0,
                 scrollbarSize: 10,
-                autoHeight: document.querySelector('.cb_autoHeight').checked
+                autoHeight
             };
             grid.setOption(options);
             grid.setData(data);
@@ -151,25 +157,17 @@
             renderData(window.sampleData);
         }
 
-        document.querySelector('.cb_autoHeight').addEventListener('change', function() {
-            if (!this.checked) {
-                $('.body').css('height', 500);
-                $('.grid-container').height('');
-            }
-            render();
-        });
-
-
         document.querySelector('.bt-outputHeightMinus').addEventListener('click', function() {
             $output.style.height = `${$output.clientHeight - 100}px`;
             grid.resize();
         });
+
         document.querySelector('.bt-outputHeightPlus').addEventListener('click', function() {
             $output.style.height = `${$output.clientHeight + 100}px`;
             grid.resize();
         });
 
-        ['.st-data', '.st-theme'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_autoHeight'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

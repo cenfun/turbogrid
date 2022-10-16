@@ -13,11 +13,12 @@
     <script src="data/sample-data.js"></script>
     <script src="data/random-data.js"></script>
     <style>
-        .body {
-            padding: 0;
+        .container {
+            position: relative;
+            overflow: visible;
         }
 
-        .div-left {
+        .container-left {
             position: absolute;
             width: 50%;
             height: 100%;
@@ -25,7 +26,7 @@
             background: #fff;
         }
 
-        .div-right {
+        .container-right {
             position: absolute;
             width: 50%;
             height: 100%;
@@ -33,53 +34,62 @@
             background: #eee;
         }
 
+        .container .grid-container {
+            height: calc(100% - 10px);
+        }
+
         .overlap {
             position: absolute;
-            left: 40%;
-            top: -10px;
+            left: 30%;
+            top: -50px;
         }
 
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid multiple instance:</div>
-            <div>
-                <select class="st-data">
-                    <option>sample-data.js</option>
-                    <option>random-3x10</option>
-                    <option>random-10x100</option>
-                </select>
-                <select class="st-theme"></select>
-                
-            </div>
-        </div>
-        <div>
-            <button class="bt-position">position overlap</button>
-            <label>left z-index:</label>
-            <select class="st_index">
-                <option>0</option>
-                <option>100</option>
-            </select>
-        </div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="div-left">
-            <div class="grid-container grid-container_1"></div>
-        </div>
-        <div class="div-right">
-            <div class="grid-container grid-container_2"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid multiple instance:</div>
+                    <select class="st-data">
+                        <option>sample-data</option>
+                        <option>random-3x10</option>
+                        <option>random-10x100</option>
+                    </select>
+                </div>
+                <div>
+                    <div>
+                        <button class="bt-position">position overlap</button>
+                        <label>left z-index:</label>
+                        <select class="st_index">
+                            <option>0</option>
+                            <option>100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="container flex-auto">
+                <div class="container-left">
+                    <div class="grid-container grid-container-1"></div>
+                </div>
+                <div class="container-right">
+                    <div class="grid-container grid-container-2"></div>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
 
-        const container1 = document.querySelector('.grid-container_1');
+        const container1 = document.querySelector('.grid-container-1');
         const grid = new Grid(container1);
 
-        const container2 = document.querySelector('.grid-container_2');
+        const container2 = document.querySelector('.grid-container-2');
         const grid2 = new Grid(container2);
 
         const renderData = function(data) {
@@ -118,8 +128,8 @@
 
         document.querySelector('.bt-position').addEventListener('click', function() {
             const st_index = document.querySelector('.st_index').value;
-            document.querySelector('.div-left').style.zIndex = st_index;
-            const divR = document.querySelector('.div-right');
+            document.querySelector('.container-left').style.zIndex = st_index;
+            const divR = document.querySelector('.container-right');
             if (divR.classList.contains('overlap')) {
                 divR.classList.remove('overlap');
             } else {

@@ -28,14 +28,6 @@ export default {
     },
 
     number: function(value, rowItem, columnItem, cellNode) {
-        //for Negative Number Align
-        if (value) {
-            const reg = /^\(.*\)$/g;
-            const isNegative = reg.test(`${value}`);
-            if (isNegative && cellNode) {
-                cellNode.className += ' tg-cell-negative';
-            }
-        }
         return value;
     },
 

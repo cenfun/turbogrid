@@ -29,67 +29,56 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="flex-row line">
-            <div class="header-title flex-auto">Grid Column Width API:</div>
-            <div>
-                <select class="st-data">
-                    <option value="custom-data">custom-data</option>
-                    <option>random-5x10</option>
-                    <option>random-10x2k</option>
-                </select>
-                <select class="st-theme"></select>
-                
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Method:</td>
-                <td>
-                    <div>
-                        <div>
-                            <button>setColumnWidth(0, 100)</button>
-                            <button>setColumnWidth(0, 300)</button>
-                            <button>setColumnWidth(0, 500)</button>
-                        </div>
-                        <div>
-                            <button>hideColumn(1)</button>
-                            <button>showColumn(1)</button>
-                        </div>
-                        <div>
-                            <button>hideColumn("g1")</button>
-                            <button>showColumn("g1")</button>
-                            <button>hideColumn("c1")</button>
-                            <button>showColumn("c1")</button>
-                            <button>hideColumn("c2")</button>
-                            <button>showColumn("c2")</button>
-                        </div>
-                        <div>
-                            <button>hideColumn([1, 3, 5])</button>
-                            <button>showColumn([1, 3, 5])</button>
-                        </div>
-                        <div>
-                            <button>update()</button>
-                            <button>rerender()</button>
-                            <button>deleteColumn(-2)</button>
-                            <button>addColumn(["Column 1", "Column 2"])</button>
-                            <button>deleteRow(-1)</button>
-                            <button>addRow(["Row 1", "Row 2"])</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>Event:</td>
-                <td>
-                    <div>onColumnWidthChanged: <span class="onColumnWidthChanged"></span></div>
-                </td>
-            </tr>
-        </table>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Column Width API:</div>
+                    <select class="st-data">
+                        <option>custom-data</option>
+                        <option>random-5x10</option>
+                        <option>random-10x2k</option>
+                    </select>
+                </div>
+                <div>
+                    <button>setColumnWidth(0, 100)</button>
+                    <button>setColumnWidth(0, 300)</button>
+                    <button>setColumnWidth(0, 500)</button>
+                </div>
+                <div>
+                    <button>hideColumn(1)</button>
+                    <button>showColumn(1)</button>
+                </div>
+                <div>
+                    <button>hideColumn("g1")</button>
+                    <button>showColumn("g1")</button>
+                    <button>hideColumn("c1")</button>
+                    <button>showColumn("c1")</button>
+                    <button>hideColumn("c2")</button>
+                    <button>showColumn("c2")</button>
+                </div>
+                <div>
+                    <button>hideColumn([1, 3, 5])</button>
+                    <button>showColumn([1, 3, 5])</button>
+                </div>
+                <div>
+                    <button>update()</button>
+                    <button>rerender()</button>
+                    <button>deleteColumn(-2)</button>
+                    <button>addColumn(["Column 1", "Column 2"])</button>
+                    <button>deleteRow(-1)</button>
+                    <button>addRow(["Row 1", "Row 2"])</button>
+                </div>
+                <div>
+                    <div>onColumnWidthChanged: <span class="onColumnWidthChanged"></span></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;

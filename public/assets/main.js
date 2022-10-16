@@ -462,9 +462,6 @@
                 id: 'load-subs',
                 name: 'Load Subs'
             }, {
-                id: 'set-rows-sort',
-                name: 'Set Rows Sort'
-            }, {
                 id: 'set-rows',
                 name: 'Set Rows'
             }, {

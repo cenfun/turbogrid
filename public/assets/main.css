@@ -117,6 +117,26 @@ icon
     background-image: url("./images/github.svg");
 }
 
+.icon-setting {
+    background-image: url("./images/setting.svg");
+}
+
+.icon-double-up {
+    background-image: url("./images/double-up.svg");
+}
+
+.icon-up {
+    background-image: url("./images/up.svg");
+}
+
+.icon-double-down {
+    background-image: url("./images/double-down.svg");
+}
+
+.icon-down {
+    background-image: url("./images/down.svg");
+}
+
 /*
 media screen
 */

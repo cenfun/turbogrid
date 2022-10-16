@@ -279,6 +279,7 @@ export default {
             this.scrollIntoViewChanged = true;
         }
 
+        //for add/delete columns/rows auto scroll to
         if (scrollColumn) {
             this.scrollColumnIntoViewHandler(scrollColumn);
         }

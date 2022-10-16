@@ -60,8 +60,8 @@ describe('Grid', function() {
         assert.equal(container.querySelector('.tg-loading').innerHTML, 'function loading');
 
         grid.setLoading();
-        const defaultLoading = container.querySelector('.tg-loading').querySelector('.tg-loading-default');
-        assert(defaultLoading);
+        const $defaultLoading = container.querySelector('.tg-loading').querySelector('.tg-loading-default');
+        assert($defaultLoading);
 
         grid.setLoading({
             size: '50px',
@@ -69,14 +69,14 @@ describe('Grid', function() {
             fast: true
         });
 
-        assert.equal(defaultLoading.style.width, '50px');
-        assert.equal(defaultLoading.style.height, '50px');
-        assert.equal(defaultLoading.style.color, 'green');
-        assert.equal(defaultLoading.classList.contains('tg-loading-fast'), true);
+        assert.equal($defaultLoading.style.width, '50px');
+        assert.equal($defaultLoading.style.height, '50px');
+        assert.equal($defaultLoading.style.color, 'green');
+        assert.equal($defaultLoading.classList.contains('tg-loading-fast'), true);
 
         grid.setLoading();
-        assert.equal(defaultLoading.getAttribute('style'), '');
-        assert.equal(defaultLoading.classList.contains('tg-loading-fast'), false);
+        assert.equal($defaultLoading.getAttribute('style'), '');
+        assert.equal($defaultLoading.classList.contains('tg-loading-fast'), false);
 
         grid.showLoading();
         grid.hideLoading();

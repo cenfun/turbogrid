@@ -21,8 +21,9 @@ export default {
         };
 
         const frozenHandler = (item, i) => {
-            if (i <= frozenIndex && !item.tg_invisible) {
+            if (frozenIndex >= 0 && !item.tg_invisible) {
                 item.tg_frozen = true;
+                frozenIndex -= 1;
                 return;
             }
             if (item.tg_frozen) {

@@ -14,31 +14,25 @@
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Frozen Middle:</div>
-            <div>
-                <select class="st-theme"></select>
-                
-            </div>
-        </div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="fmg">
-            <div class="fmg-grid fmg-grid-l"></div>
-            <div class="fmg-grid fmg-grid-r"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Frozen Middle:</div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
         </div>
     </div>
     <style>
         .fmg {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
-            border: 1px solid #999;
-            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
         .fmg-grid {
@@ -63,10 +57,18 @@
 
     </style>
     <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+
         //=======================================================================================
         //Frozen Middle Grid
         const FMG = function(container) {
-            this.Grid = window.turbogrid.Grid;
+            container.innerHTML = `
+                <div class="fmg">
+                    <div class="fmg-grid fmg-grid-l"></div>
+                    <div class="fmg-grid fmg-grid-r"></div>
+                </div>
+            `;
+
             this.initContainer(container);
         };
 
@@ -90,43 +92,41 @@
 
             createGrid: function() {
 
-                const self = this;
-
-                this.gridL = new this.Grid(this.containerL);
-                this.gridR = new this.Grid(this.containerR);
+                this.gridL = new Grid(this.containerL);
+                this.gridR = new Grid(this.containerR);
 
                 //sync scroll
-                this.gridL.bind('onScroll', function(e, d) {
-                    self.gridR.setScrollTop(d.scrollTop);
+                this.gridL.bind('onScroll', (e, d) => {
+                    this.gridR.setScrollTop(d.scrollTop);
                 });
-                this.gridR.bind('onScroll', function(e, d) {
-                    self.gridL.setScrollTop(d.scrollTop);
+                this.gridR.bind('onScroll', (e, d) => {
+                    this.gridL.setScrollTop(d.scrollTop);
                 });
 
                 //sync sort
-                this.gridL.bind('onSort', function(e, d) {
-                    this.once('onUpdated', function() {
-                        self.gridR.removeSortColumn();
-                        self.gridR.update();
+                this.gridL.bind('onSort', (e, d) => {
+                    this.gridL.once('onUpdated', () => {
+                        this.gridR.removeSortColumn();
+                        this.gridR.update();
                     });
                 });
-                this.gridR.bind('onSort', function(e, d) {
-                    this.once('onUpdated', function() {
-                        self.gridL.removeSortColumn();
-                        self.gridL.update();
+                this.gridR.bind('onSort', (e, d) => {
+                    this.gridR.once('onUpdated', () => {
+                        this.gridL.removeSortColumn();
+                        this.gridL.update();
                     });
                 });
 
                 //sync hover
-                this.gridL.bind('onRowMouseEnter', function(e, d) {
-                    self.gridR.setRowHover(d.rowItem, true);
-                }).bind('onRowMouseLeave', function(e, d) {
-                    self.gridR.setRowHover(d.rowItem, false);
+                this.gridL.bind('onRowMouseEnter', (e, d) => {
+                    this.gridR.setRowHover(d.rowItem, true);
+                }).bind('onRowMouseLeave', (e, d) => {
+                    this.gridR.setRowHover(d.rowItem, false);
                 });
-                this.gridR.bind('onRowMouseEnter', function(e, d) {
-                    self.gridL.setRowHover(d.rowItem, true);
-                }).bind('onRowMouseLeave', function(e, d) {
-                    self.gridL.setRowHover(d.rowItem, false);
+                this.gridR.bind('onRowMouseEnter', (e, d) => {
+                    this.gridL.setRowHover(d.rowItem, true);
+                }).bind('onRowMouseLeave', (e, d) => {
+                    this.gridL.setRowHover(d.rowItem, false);
                 });
 
             },
@@ -179,8 +179,8 @@
 
             resize: function() {
 
-                const totalWidth = this.container.offsetWidth;
-                const leftWidth = (totalWidth - this.scrollbarSize - this.middleWidth) * 0.5;
+                const totalWidth = this.container.clientWidth;
+                const leftWidth = Math.floor((totalWidth - this.scrollbarSize - this.middleWidth) * 0.5);
                 const rightWidth = totalWidth - leftWidth;
                 this.containerL.style.left = '0px';
                 this.containerL.style.width = `${leftWidth}px`;
@@ -301,7 +301,7 @@
         };
 
         //=======================================================================================
-        const container = document.querySelector('.fmg');
+        const container = document.querySelector('.grid-container');
         const grid = new FMG(container);
         grid.setData(getData());
 

@@ -14,63 +14,74 @@
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid frozen row/column example:</div>
-            <div>
-                <select class="st-data">
-                    <option>sample-data.js</option>
-                    <option>random-3x10</option>
-                    <option>random-3x30</option>
-                    <option>random-100x20k</option>
-                    <option>frozen_right</option>
-                </select>
-                <select class="st-theme"></select>
-                
-            </div>
-        </div>
-
-        <table class="tg-table">
-            <tr>
-                <td>Options:</td>
-                <td>
-                    <div>
-                        <label>frozenColumn
-                            <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                        </label>
-                        <input type="checkbox" id="cb_frozenRight" class="cb_frozenRight" />
-                        <label for="cb_frozenRight">frozenRight</label>
-                        <label>frozenRow
-                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                        </label>
-                        <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                        <label for="cb_frozenBottom">frozenBottom</label>
-
-                        <input type="checkbox" id="cb_frozenRowHoverable" class="cb_frozenRowHoverable" />
-                        <label for="cb_frozenRowHoverable">frozenRowHoverable</label>
-                    </div>
-                    <div>
-                        
-                        <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
-                        <label for="cb_selectVisible">selectVisible</label>
-
-                        <input type="checkbox" id="cb_rowNumberVisible" class="cb_rowNumberVisible" />
-                        <label for="cb_rowNumberVisible">rowNumberVisible</label>
-
-                        <input type="checkbox" id="cb_rowDragVisible" class="cb_rowDragVisible" />
-                        <label for="cb_rowDragVisible">rowDragVisible</label>
-
-                        <input type="checkbox" id="cb_autoHeight" class="cb_autoHeight" />
-                        <label for="cb_autoHeight">autoHeight</label>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid frozen row/column example:</div>
+                    <select class="st-data">
+                        <option>sample-data</option>
+                        <option>random-3x10</option>
+                        <option>random-3x30</option>
+                        <option>random-100x20k</option>
+                        <option>frozen_right</option>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        frozenColumn
+                        <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
+                    </label>
+                   
+                    <label>
+                        <input type="checkbox" class="cb_frozenRight" />
+                        frozenRight
+                    </label>
+
+                    <label>
+                        frozenRow
+                        <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
+                    </label>
+                    
+                    <label>
+                        <input type="checkbox" class="cb_frozenBottom" />
+                        frozenBottom
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_frozenRowHoverable" />
+                        frozenRowHoverable
+                    </label>
+                </div>
+                <div>
+                    
+                    <label>
+                        <input type="checkbox" class="cb_selectVisible" />
+                        selectVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_rowNumberVisible" />
+                        rowNumberVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_rowDragVisible" />
+                        rowDragVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_autoHeight" />
+                        autoHeight
+                    </label>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;

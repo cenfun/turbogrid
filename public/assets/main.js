@@ -448,6 +448,15 @@
                 name: 'Column Set'
             }]
         }, {
+            name: 'Header',
+            subs: [{
+                id: 'header-display',
+                name: 'Header Display'
+            }, {
+                id: 'header-group',
+                name: 'Header Group'
+            }]
+        }, {
             name: 'Data',
             subs: [{
                 id: 'infinite-scroll',
@@ -473,6 +482,9 @@
             }, {
                 id: 'loading',
                 name: 'Loading'
+            }, {
+                id: 'export',
+                name: 'Export'
             }]
         }, {
             name: 'Integration',
@@ -487,6 +499,15 @@
                 name: 'Custom Element'
             }]
         }, {
+            name: 'Frozen',
+            subs: [{
+                id: 'frozen',
+                name: 'Frozen'
+            }, {
+                id: 'frozen-middle',
+                name: 'Frozen Middle'
+            }]
+        }, {
             name: 'Other',
             subs: [{
                 id: 'poc',
@@ -494,18 +515,6 @@
             }, {
                 id: 'auto-height',
                 name: 'Auto Height'
-            }, {
-                id: 'header-display',
-                name: 'Header Display'
-            }, {
-                id: 'header-group',
-                name: 'Header Group'
-            }, {
-                id: 'frozen',
-                name: 'Frozen'
-            }, {
-                id: 'frozen-middle',
-                name: 'Frozen Middle'
             }, {
                 id: 'cache',
                 name: 'Cache'
@@ -518,9 +527,6 @@
             }, {
                 id: 'context-menu',
                 name: 'Context Menu'
-            }, {
-                id: 'export',
-                name: 'Export'
             }, {
                 id: 'online-render',
                 name: 'Online Render'

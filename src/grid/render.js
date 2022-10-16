@@ -14,10 +14,10 @@ export default {
 
         this.renderStartedTimestamp = Date.now();
 
-        const renderSettings = this.getRenderSettings.apply(this, arguments);
-        // the render type determines the scope
-        this.renderSettings = renderSettings;
+        const renderSettings = this.generateRenderSettings.apply(this, arguments);
         //console.log('renderSettings', renderSettings);
+
+        // the render type determines the scope
 
         // rerender header and body
         // rerender(), setData(), setOption(), setFormatter()
@@ -69,16 +69,15 @@ export default {
         return this;
     },
 
-    getRenderSettings: function(settings) {
+    generateRenderSettings: function(settings) {
 
         const renderSettings = {
             type: this.renderType,
-            scrollRow: null,
-            scrollColumn: null
+            scrollLeft: null,
+            scrollTop: null,
+            scrollColumn: null,
+            scrollRow: null
         };
-
-        // reset to default nothing
-        this.renderType = '';
 
         if (typeof settings === 'string') {
             renderSettings.type = settings;
@@ -93,23 +92,12 @@ export default {
         return renderSettings;
     },
 
-    renderPositionHandler: function(scrollRow, scrollColumn) {
-        //console.log(scrollRow, scrollColumn);
-        this.scrollIntoViewChanged = false;
-        if (scrollRow) {
-            this.scrollRowIntoViewHandler(scrollRow);
-        }
-        if (scrollColumn) {
-            this.scrollColumnIntoViewHandler(scrollColumn);
-        }
-        if (this.scrollIntoViewChanged) {
-            this.scrollPane.setPosition(this.scrollLeft, this.scrollTop);
-        }
-    },
-
     renderBody: function(renderSettings) {
 
-        this.renderPositionHandler(renderSettings.scrollRow, renderSettings.scrollColumn);
+        //keep in render process
+        this.renderSettings = renderSettings;
+
+        this.scrollOnInit(renderSettings);
 
         //update row offset first
         this.scrollTopOffset = this.scrollPane.getScrollTopOffset();
@@ -149,6 +137,10 @@ export default {
         //update internal layout and outside size if changed
         this.layoutEventHandler();
         this.resizeEventHandler();
+
+        // destroy render settings
+        this.renderSettings = null;
+        this.renderType = null;
 
         return this;
     },

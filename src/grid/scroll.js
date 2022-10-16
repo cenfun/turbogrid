@@ -256,9 +256,39 @@ export default {
             const left = columnPosition - (scrollViewWidth - columnWidth);
             this.scrollLeft = left;
             this.scrollIntoViewChanged = true;
-
         }
 
+    },
+
+    // render viewport position on init
+    scrollOnInit: function(renderSettings) {
+
+        const {
+            scrollLeft, scrollTop, scrollColumn, scrollRow
+        } = renderSettings;
+
+        //console.log(scrollRow, scrollColumn);
+        this.scrollIntoViewChanged = false;
+
+        if (Number.isInteger(scrollLeft) && scrollLeft !== this.scrollLeft) {
+            this.scrollLeft = scrollLeft;
+            this.scrollIntoViewChanged = true;
+        }
+        if (Number.isInteger(scrollTop) && scrollTop !== this.scrollTop) {
+            this.scrollTop = scrollTop;
+            this.scrollIntoViewChanged = true;
+        }
+
+        if (scrollColumn) {
+            this.scrollColumnIntoViewHandler(scrollColumn);
+        }
+        if (scrollRow) {
+            this.scrollRowIntoViewHandler(scrollRow);
+        }
+
+        if (this.scrollIntoViewChanged) {
+            this.scrollPane.setPosition(this.scrollLeft, this.scrollTop);
+        }
     },
 
     //========================================================================================

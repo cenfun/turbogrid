@@ -356,6 +356,7 @@
         return [{
             id: 'index',
             name: 'Getting Started',
+            selectable: true,
             nameClassMap: 'tg-row-top'
         }, {
             id: 'api',
@@ -567,16 +568,26 @@
 
         });
 
+        let scrollTimeId;
+        grid.bind('onScroll', function(e, d) {
+            clearTimeout(scrollTimeId);
+            scrollTimeId = setTimeout(function() {
+                localStorage.setItem('tg-scroll-top', d.scrollTop);
+            }, 500);
+        });
+
         grid.bind('onClick', function(e, d) {
 
             const rowItem = d.rowItem;
+            const id = rowItem.id;
 
-            if (!grid.isRowSelectable(rowItem)) {
+            if (!id) {
+                grid.toggleRow(rowItem);
                 return;
             }
+
             grid.setRowSelected(rowItem);
 
-            const id = rowItem.id;
             const pageId = getPageId();
             if (id === pageId) {
                 window.location.reload();
@@ -612,6 +623,8 @@
             scrollbarRound: true,
             bindWindowResize: true,
             bindContainerResize: true,
+            frozenRow: 1,
+            frozenRowHoverable: true,
             rowFilter: function(rowItem) {
                 if (!keywords) {
                     return true;
@@ -646,21 +659,18 @@
 
         const rows = getGridRows();
 
-        let scrollRow;
         const pageId = getPageId();
 
         rows.forEach(function(row) {
             if (!row.subs) {
                 if (row.id === pageId) {
                     row.selected = true;
-                    scrollRow = row;
                 }
                 return;
             }
             row.subs.forEach(function(sub) {
                 if (sub.id === pageId) {
                     sub.selected = true;
-                    scrollRow = sub;
                 }
             });
         });
@@ -674,8 +684,13 @@
             rows: rows
         });
 
+        let scrollTop = localStorage.getItem('tg-scroll-top');
+        if (scrollTop) {
+            scrollTop = parseInt(scrollTop);
+        }
+
         grid.render({
-            scrollRow
+            scrollTop
         });
 
     };

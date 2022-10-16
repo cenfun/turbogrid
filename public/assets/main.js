@@ -509,14 +509,17 @@
         }, {
             name: 'Other',
             subs: [{
-                id: 'poc',
-                name: 'POC'
+                id: 'touch',
+                name: 'Touch'
             }, {
-                id: 'auto-height',
-                name: 'Auto Height'
+                id: 'resize',
+                name: 'Resize'
             }, {
                 id: 'cache',
                 name: 'Cache'
+            }, {
+                id: 'auto-height',
+                name: 'Auto Height'
             }, {
                 id: 'negative-number',
                 name: 'Negative Number'
@@ -530,11 +533,8 @@
                 id: 'online-render',
                 name: 'Online Render'
             }, {
-                id: 'touch',
-                name: 'Touch'
-            }, {
-                id: 'resize',
-                name: 'Resize'
+                id: 'poc',
+                name: 'POC'
             }, {
                 id: 'conflict',
                 name: 'Conflict Test'

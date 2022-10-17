@@ -6,41 +6,76 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <script src="data/sample-data.js"></script>
     <script src="data/random-data.js"></script>
     <style>
+        .grid-holder {
+            margin: 5px;
+            width: calc(100% - 12px);
+            height: calc(100% - 12px);
+        }
+
         .grid-container {
+            margin: 0;
+            width: 100%;
+            height: 100%;
             border: 1px solid #333;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
 
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid resize example:</div>
-            <div>
-                <select class="st_data">
-                    <option>sample-data.js</option>
-                    <option>random_3_columns_10_rows</option>
-                    <option>random_100_columns_20k_rows</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Option:</td>
-                <td>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid resize example:</div>
+                    <select class="st-data">
+                        <option>sample-data</option>
+                        <option>random-3x10</option>
+                        <option>random-100x20k</option>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        width:
+                        <input class="it_width" value="100%" />
+                        <select class="st_width">
+                            <option>100%</option>
+                            <option>500px</option>
+                            <option>800px</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        height:
+                        <input class="it_height" value="100%" />
+                        <select class="st_height">
+                            <option>100%</option>
+                            <option>300px</option>
+                            <option>600px</option>
+                            <option>0</option>
+                        </select>
+                    </label>
+
+                    <button>resize()</button>
+                </div>
+                <div>
+                    <button>resize(600, 400)</button>
+                    <button>resize(800)</button>
+                    <button>resize({"width":1024, "height":768})</button>
+                    <button>resize("100%", "100%")</button>
+                    <button>resize(0, 0)</button>
+                </div>
+                <div>
                     <label for="cb_bindWindowResize">
                         <input type="checkbox" id="cb_bindWindowResize" class="cb_bindWindowResize" checked />
                         bindWindowResize
@@ -49,60 +84,24 @@
                         <input type="checkbox" id="cb_bindContainerResize" class="cb_bindContainerResize" checked />
                         bindContainerResize
                     </label>
-                    <label for="cb_autoHeight">
-                        <input type="checkbox" id="cb_autoHeight" class="cb_autoHeight" />
-                        autoHeight
-                    </label>
-                    <label for="cb_collapseAllOnInit">
-                        <input type="checkbox" id="cb_collapseAllOnInit" class="cb_collapseAllOnInit" />
-                        collapseAllOnInit
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Method:</td>
-                <td>
-                    <label>width:</label>
-                    <input class="it_width" value="100%" />
-                    <select class="st_width">
-                        <option>100%</option>
-                        <option>500px</option>
-                        <option>800px</option>
-                    </select>
-                    <label>height:</label>
-                    <input class="it_height" value="100%" />
-                    <select class="st_height">
-                        <option>100%</option>
-                        <option>300px</option>
-                        <option>600px</option>
-                        <option>0</option>
-                    </select>
-                    <div class="flex-v-5"></div>
-                    <button>resize()</button>
-                    <button>resize(600, 400)</button>
-                    <button>resize(800)</button>
-                    <button>resize({"width":1024, "height":768})</button>
-                    <button>resize("100%", "100%")</button>
-                    <button>resize(0, 0)</button>
-                </td>
-            </tr>
 
-            <tr>
-                <td></td>
-                <td>
-                    <label for="cb_containerHidden">
-                        <input type="checkbox" id="cb_containerHidden" class="cb_containerHidden" />
+                    <label>
+                        <input type="checkbox" class="cb_containerHidden" />
                         container hidden 
                     </label>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+            <div class="flex-auto">
+                <div class="grid-holder">
+                    <div class="grid-container"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container" style="width: 100%; height: 100%;"></div>
-    </div>
+
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
+
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
@@ -119,26 +118,19 @@
 
         const renderData = function(data) {
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 bindWindowResize: document.querySelector('.cb_bindWindowResize').checked,
-                bindContainerResize: document.querySelector('.cb_bindContainerResize').checked,
-                autoHeight: document.querySelector('.cb_autoHeight').checked,
-                collapseAllOnInit: document.querySelector('.cb_collapseAllOnInit').checked
+                bindContainerResize: document.querySelector('.cb_bindContainerResize').checked
             });
             grid.setData(data);
             grid.render();
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const data = window.randomData(columns, rows);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
@@ -171,10 +163,10 @@
         });
 
         document.querySelector('.cb_containerHidden').addEventListener('click', function(e) {
-            document.querySelector('.body').style.display = this.checked ? 'none' : 'block';
+            container.style.display = this.checked ? 'none' : 'block';
         });
 
-        ['.st_data', '.st_theme', '.cb_bindWindowResize', '.cb_bindContainerResize', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_bindWindowResize', '.cb_bindContainerResize'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

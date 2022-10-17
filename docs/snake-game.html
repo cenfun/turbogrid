@@ -6,21 +6,29 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <style>
         .grid-container {
-            border: 1px solid #ccc;
-            border-right: none;
+            position: relative;
+            border: none;
         }
 
-        .grid-container .tg-body-frame .tg-body .tg-row.tg-hover {
+        .grid-container .tg-row.tg-list-first {
+            border-top: 1px solid #ccc;
+        }
+
+        .grid-container .tg-cell.tg-list-first {
+            border-left: 1px solid #ccc;
+        }
+
+        .grid-container .tg-body .tg-row.tg-hover::before {
             background: none;
         }
 
-        .grid-container .tg-body-frame .tg-body .tg-row .tg-cell {
+        .grid-container .tg-row .tg-cell {
             border-right: 1px solid #ccc;
             padding: 0;
         }
@@ -34,10 +42,6 @@
         .grid-container .tg-cell .outer .inner {
             width: 100%;
             height: 100%;
-        }
-
-        .grid-container .tg-body .tg-row.last {
-            border-bottom: none;
         }
 
         .grid-container .tg-body .tg-row .tg-cell.last {
@@ -91,38 +95,45 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Snake Game:</div>
-            <div>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <div>
-            Size:
-            <select class="st-size">
-                <option>10</option>
-                <option selected>20</option>
-            </select> Level:
-            <select class="st-level">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-            </select>
-            <button class="bt-start">Start</button>
-            <button class="bt-stop">Stop</button> (Press key ↑ ↓ ← →)
-        </div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Snake Game:</div>
+                </div>
+                <div>
+                    <label>
+                        Size:
+                        <select class="st-size">
+                            <option>10</option>
+                            <option selected>20</option>
+                        </select>
+                    </label>
+                    <label>
+                        Level:
+                        <select class="st-level">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </label>
+                    <button class="bt-start">Start</button>
+                    <button class="bt-stop">Stop</button> (Press key ↑ ↓ ← →)
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
 
-        const SHEGrid = Grid.extend({
+        class SHEGrid extends Grid {
 
-            createData: function(size, columnWidth) {
+            createData(size, columnWidth) {
 
                 const columns = [];
                 const rows = [];
@@ -149,18 +160,18 @@
                     rows: rows
                 };
 
-            },
+            }
 
-            createFood: function() {
+            createFood() {
                 clearTimeout(this.timeout_food);
                 const self = this;
                 this.timeout_food = setTimeout(function() {
                     self.createFoodNow();
                 }, 500);
 
-            },
+            }
 
-            createFoodNow: function() {
+            createFoodNow() {
 
                 if (this.food.length >= this.levelFood) {
                     return;
@@ -183,30 +194,30 @@
 
                 this.createFood();
 
-            },
+            }
 
-            runSnake: function() {
+            runSnake() {
                 clearTimeout(this.timeout_run);
                 const self = this;
                 this.timeout_run = setTimeout(function() {
                     self.runSnakeNow();
                 }, this.speed);
 
-            },
+            }
 
-            stop: function() {
+            stop() {
                 clearTimeout(this.timeout_run);
                 clearTimeout(this.timeout_food);
                 this.running = false;
-            },
+            }
 
-            fail: function() {
+            fail() {
                 this.stop();
                 this.$holder.addClass('fail');
                 this.failed = true;
-            },
+            }
 
-            moveSnake: function(item) {
+            moveSnake(item) {
 
                 const self = this;
                 const handlers = {
@@ -258,25 +269,25 @@
                     return true;
                 }
                 return false;
-            },
+            }
 
-            initItemPos: function(item) {
+            initItemPos(item) {
                 if (item) {
                     item.px = item.x;
                     item.py = item.y;
                 }
                 return item;
-            },
+            }
 
-            flushItem: function(item) {
+            flushItem(item) {
                 if (item) {
                     this.updateCell(item.py, item.px);
                     this.updateCell(item.y, item.x);
                 }
                 return item;
-            },
+            }
 
-            runSnakeNow: function() {
+            runSnakeNow() {
 
                 //more quickly
                 if (this.speed > 100) {
@@ -324,9 +335,9 @@
 
                 this.runSnake();
 
-            },
+            }
 
-            getSnakeIndex: function(x, y, noHead) {
+            getSnakeIndex(x, y, noHead) {
                 const l = this.snake.length;
                 if (l) {
 
@@ -343,9 +354,9 @@
                     }
                 }
                 return null;
-            },
+            }
 
-            getFoodIndex: function(x, y, remove) {
+            getFoodIndex(x, y, remove) {
                 if (this.food.length) {
                     for (let i = 0, l = this.food.length; i < l; i++) {
                         const item = this.food[i];
@@ -360,42 +371,42 @@
                     }
                 }
                 return null;
-            },
+            }
 
-            navigateLeft: function() {
+            navigateLeft() {
                 const head = this.snake[0];
                 if (this.snake.length > 1 && head.to === 'R') {
                     return;
                 }
                 head.to = 'L';
-            },
+            }
 
-            navigateRight: function() {
+            navigateRight() {
                 const head = this.snake[0];
                 if (this.snake.length > 1 && head.to === 'L') {
                     return;
                 }
                 head.to = 'R';
 
-            },
+            }
 
-            navigateUp: function() {
+            navigateUp() {
                 const head = this.snake[0];
                 if (this.snake.length > 1 && head.to === 'B') {
                     return;
                 }
                 head.to = 'T';
-            },
+            }
 
-            navigateDown: function() {
+            navigateDown() {
                 const head = this.snake[0];
                 if (this.snake.length > 1 && head.to === 'T') {
                     return;
                 }
                 head.to = 'B';
-            },
+            }
 
-            start: function() {
+            start() {
 
                 this.container.focus();
 
@@ -431,9 +442,9 @@
                 this.running = true;
                 this.runSnake();
 
-            },
+            }
 
-            init: function(size, level) {
+            init(size, level) {
                 this.stop();
                 this.snake = [];
                 this.food = [];
@@ -531,7 +542,7 @@
 
             }
 
-        });
+        }
 
         const container = document.querySelector('.grid-container');
         const she = new SHEGrid(container);
@@ -548,7 +559,6 @@
         document.querySelector('.st-level').addEventListener('change', function() {
             init();
         });
-        init();
 
         document.querySelector('.bt-start').addEventListener('click', function() {
             she.start();
@@ -561,6 +571,10 @@
         window.addEventListener('resize', function() {
             container.style.width = '';
             container.style.height = '';
+            init();
+        });
+
+        window.addEventListener('load', function() {
             init();
         });
 

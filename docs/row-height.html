@@ -6,98 +6,93 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Row Height API:</div>
-            <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Row Height API:</div>
+                </div>
+                <div>
+                    <button>setRowHeight(3, 10)</button>
+                    <button>setRowHeight(3, 50)</button>
+                    <button>setRowHeight(3, 80)</button>
+                    <button>setRowHeight(3)</button>
 
-        <table class="tg-table">
-            <tr>
-                <td>Option:</td>
-                <td>
-                    <div class="line">
-                        <label>frozenColumn
-                            <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                        </label>
-                        <label>frozenRow
-                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                        </label>
-                        <label for="cb_frozenBottom">
-                            <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                            frozenBottom
-                        </label>
-                    </div>
-                    <label>rowHeight
+                    <button>setRowHeight(3, "title")</button>
+                    <button>setRowHeight(3, "name")</button>
+                    <button>setRowHeight(10)</button>
+                    <button>setRowHeight("row15", 100)</button>
+                    <button>setRowHeight("row15")</button>
+
+                    <button>setRowHeight([3, 4], 10)</button>
+                    <button>setRowHeight([3, 4], [50, 100])</button>
+                    <button>setRowHeight([3, 4])</button>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" checked class="cb_selectVisible" />
+                        selectVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_rowNumberVisible" />
+                        rowNumberVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_rowDragVisible" />
+                        rowDragVisible
+                    </label>
+
+                    <label>
+                        frozenColumn
+                        <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
+                    </label>
+                    <label>
+                        frozenRow
+                        <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
+                    </label>
+                    <label for="cb_frozenBottom">
+                        <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
+                        frozenBottom
+                    </label>
+                    <label>
+                        rowHeight
                         <input type="number" value="23" class="ip-number ip_rowHeight" />
                     </label>
-                    <label>rowCacheLength
+                    <label>
+                        rowCacheLength
                         <input type="number" min="0" step="1" value="0" class="ip-number it_rowCacheLength" />
                     </label>
-                    <input type="checkbox" checked="checked" id="cb_selectVisible" class="cb_selectVisible" />
-                    <label for="cb_selectVisible">selectVisible</label>
 
-                    <input type="checkbox" id="cb_rowNumberVisible" class="cb_rowNumberVisible" />
-                    <label for="cb_rowNumberVisible">rowNumberVisible</label>
-
-                    <input type="checkbox" id="cb_rowDragVisible" class="cb_rowDragVisible" />
-                    <label for="cb_rowDragVisible">rowDragVisible</label>
-
-                </td>
-            </tr>
-            <tr>
-                <td>Method:</td>
-                <td>
-                    <div class="line">
-                        <button>setRowHeight(3, 10)</button>
-                        <button>setRowHeight(3, 50)</button>
-                        <button>setRowHeight(3, 80)</button>
-                        <button>setRowHeight(3)</button>
-                    </div>
-                    <div class="line">
-                        <button>setRowHeight(3, "title")</button>
-                        <button>setRowHeight(3, "name")</button>
-                        <button>setRowHeight(10)</button>
-                        <button>setRowHeight("row15", 100)</button>
-                        <button>setRowHeight("row15")</button>
-                    </div>
-                    <div>
-                        <button>setRowHeight([3, 4], 10)</button>
-                        <button>setRowHeight([3, 4], [50, 100])</button>
-                        <button>setRowHeight([3, 4])</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <textarea class="usage-data1" style="width: 100%; height: 50px;">This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1</textarea>
-                    <textarea class="usage-data2" style="width: 100%; height: 50px;">This is text 2, This is text 2, This is text 2, This is text 2, This is text 2</textarea>
-                    <label for="cb_lazyFix">
-                        <input type="checkbox" id="cb_lazyFix" class="cb_lazyFix" />
+                </div>
+                <div>
+                    <textarea class="usage-data1" style="width: 100%; height: 38px;">This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1</textarea>
+                    <textarea class="usage-data2" style="width: 100%; height: 38px;">This is text 2, This is text 2, This is text 2, This is text 2, This is text 2</textarea>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" class="cb_lazyFix" />
                         rowHeight lazyFix
                     </label>
-                    <input class="bt_del" type="button" value="delete selected rows" />
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                    <input class="bt-del" type="button" value="delete selected rows" />
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
-        const Grid = window.turbogrid.Grid;
-        const $ = window.turbogrid.$;
+        const { Grid, $ } = window.turbogrid;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
@@ -129,8 +124,8 @@
                 const div = cellNode.querySelector('.tg-lazy-fix');
                 //6px is padding top and bottom
                 let h = $(div).height() + 6;
-                if (h < grid.option.rowHeight) {
-                    h = grid.option.rowHeight;
+                if (h < grid.options.rowHeight) {
+                    h = grid.options.rowHeight;
                 }
                 rows.push(rowIndex);
                 heights.push(h);
@@ -303,8 +298,8 @@
 
         function render() {
 
-            const option = {
-                theme: document.querySelector('.st_theme').value,
+            const options = {
+                theme: document.querySelector('.st-theme').value,
                 rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
                 frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
                 frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
@@ -314,8 +309,8 @@
                 selectVisible: document.querySelector('.cb_selectVisible').checked,
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
                 rowDragVisible: document.querySelector('.cb_rowDragVisible').checked
-    };
-            grid.setOption(option);
+            };
+            grid.setOption(options);
             grid.setFormatter({
                 tree: function(value, rowItem, columnItem, cellNode) {
                     const defaultFormatter = this.getDefaultFormatter('tree');
@@ -326,7 +321,7 @@
             grid.render();
         }
 
-        document.querySelector('.bt_del').addEventListener('click', function() {
+        document.querySelector('.bt-del').addEventListener('click', function() {
             const selectedRows = grid.getSelectedRows();
             if (!selectedRows.length) {
                 return;
@@ -335,7 +330,7 @@
         });
 
         [
-            '.st_theme',
+            '.st-theme',
             '.usage-data1',
             '.usage-data2',
             '.ip_rowHeight',

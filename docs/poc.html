@@ -6,30 +6,31 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid POC:</div>
-            <div>
-                <select class="st_data">
-                    <option value=""></option>
-                    <option>random_3_columns_10_rows</option>
-                    <option>random_10_columns_100_rows</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid POC:</div>
+                    <select class="st-data">
+                        <option>test-data</option>
+                        <option>random-3x10</option>
+                        <option>random-10x100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
@@ -39,7 +40,7 @@
             console.log('duration:', `${this.renderDuration}ms`);
         });
 
-        const dpData = {
+        const testData = {
             columns: [{
                 id: 'name',
                 width: 180,
@@ -106,8 +107,8 @@
 
         const renderData = function(data) {
 
-            const option = {
-                theme: document.querySelector('.st_theme').value,
+            const options = {
+                theme: document.querySelector('.st-theme').value,
                 //collapseAllOnInit: true,
 
                 //collapseAllVisible: false,
@@ -115,34 +116,23 @@
                 frozenColumn: 0,
                 frozenRow: 0
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-
-                let noSubs = false;
-                if (rows < 200) {
-                    noSubs = true;
-                }
-
-                const data = window.randomData(columns, rows, noSubs);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
-            renderData(dpData);
+            renderData(testData);
         }
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

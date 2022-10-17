@@ -2,498 +2,113 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>TurboGrid</title>
-    <link rel="icon" href="data:,">
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
+    <link href="assets/prism.css" rel="stylesheet" />
+    <script src="assets/prism.js" data-manual></script>
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <style>
-        .left {
-            width: 200px;
-            height: 100%;
-            overflow: hidden;
-            border-right: 1px solid #999;
+        .main {
+            overflow-y: auto;
         }
 
-        .right {
-            height: 100%;
-            overflow: hidden;
-            position: relative;
+        .readme {
+            padding: 10px;
+            margin-bottom: 20px;
         }
 
-        .left-header {
-            padding: 5px;
-            border-bottom: 1px solid #999;
-            background: #f5f5f5;
+        .readme h3 {
+            margin: 5px 0 0;
+            padding: 10px 0;
+            font-size: 18px;
         }
 
-        .left-title {
-            font-weight: bold;
-            padding: 5px;
-            background-repeat: no-repeat;
-            background-position: 5px center;
-            background-image: url("./assets/logo.svg");
-            background-size: 16px;
-            padding-left: 26px;
+        .readme h3:first-child {
+            padding-top: 0;
         }
 
-        .left-version {
-            color: #555;
-            margin-left: 5px;
-        }
-
-        .left-search {
-            margin-top: 5px;
-        }
-
-        .left-search input {
-            width: 100%;
-            height: 28px;
-            line-height: 28px;
-            background-repeat: no-repeat;
-            background-position: 97% center;
-            background-image: url("./assets/search.svg");
-            background-size: 16px;
-            padding-left: 5px;
-            padding-right: 23px;
-            border: 1px solid #555;
-            border-radius: 5px;
-        }
-
-        .left-container {
-            position: relative;
-        }
-
-        .iframe {
+        .readme p {
             margin: 0;
             padding: 0;
-            border: none;
-            height: 100%;
-            width: 100%;
-            position: absolute;
+            font-size: 16px;
         }
 
-        .tg-row-top {
-            font-weight: bold;
-            position: relative;
-        }
-
-        .tg-row-top::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 5px;
-            height: 30px;
-            width: 16px;
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-image: url("./assets/arrow-top.svg");
-        }
-
-        .tg-tree-row-number {
-            position: absolute;
-            text-align: center;
-            width: 20px;
-        }
-
-        .tg-gradient-top::before {
-            pointer-events: none;
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: 10;
-            display: block;
-            height: 30px;
-            width: 100%;
-            background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
-        }
-
-        .tg-gradient-bottom::after {
-            pointer-events: none;
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            z-index: 10;
-            display: block;
-            height: 30px;
-            width: 100%;
-            background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
-        }
-
-        @keyframes tg-cell-effect-animate {
-            from {
-                transform: scale(0.5) translateX(-90%);
-            }
-
-            to {
-                transform: translateX(0);
-            }
-        }
-
-        .tg-cell-effect {
-            animation-name: tg-cell-effect-animate;
-            animation-duration: 0.3s;
-            animation-timing-function: cubic-bezier(0.26, 0.86, 0.44, 0.985);
+        .container {
+            border: 1px solid #ccc;
         }
 
     </style>
 </head>
 
-<body class="body flex-row">
-    <div class="left flex-column">
-        <div class="left-header">
-            <div class="flex-row">
-                <div class="left-title">TurboGrid</div> 
-                <div class="left-version"></div>
-            </div>
-            <div class="left-search">
-                <input value="" onfocus="this.select();" placeholder="Search Demo" class="left-keywords" />
+<body>
+    <div class="header flex-row">
+        <a class="icon icon-github" href="https://github.com/cenfun/turbogrid" target="_blank"></a>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="readme">
+                <h3>Getting Started</h3>
+                <pre><code class="language-js">
+                    npm i turbogrid
+                </code></pre>
+                <h3>In Browser</h3>
+                <pre><code class="language-html">
+                    <script src="https://unpkg.com/turbogrid/dist/turbogrid.js"></script>
+                    <script>
+                        console.log(window.turbogrid);
+                    </script>
+                </code></pre>
+                <h3>Usage</h3>
+                <div class="usage-code">
+                    <pre><code class="language-js">
+                        const Grid = window.turbogrid.Grid;
+                        const container = document.querySelector(".container");
+                        container.style.height = "120px";
+                        const grid = new Grid(container);
+                        grid.setOption({
+                            sortField: "name"
+                        });
+                        grid.setData({
+                            columns: [{
+                                id: "name",
+                                name: "Name"
+                            }, {
+                                id: "value",
+                                name: "Value"
+                            }],
+                            rows: [{
+                                name: "Row 1",
+                                value: "1"
+                            }, {
+                                name: "Row 2",
+                                value: "2"
+                            }, {
+                                name: 'Row 3',
+                                value: '3'
+                            }]
+                        });
+                        grid.render();
+                    </code></pre>
+                </div>
+                <h3>Preview</h3>
+                <div class="container"></div>
             </div>
         </div>
-        <div class="left-container flex-auto"></div>
-    </div>
-    <div class="right flex-auto">
-        <iframe class="iframe"></iframe>
     </div>
 
     <script>
-    const tg = window.turbogrid;
+    window.onload = function() {
+        const code = document.querySelector('.usage-code code');
+        const str = code.innerHTML;
+        new Function(str)();
 
-    const Grid = tg.Grid;
-
-    document.querySelector('.left-version').innerHTML = `v${tg.VERSION}`;
-
-    const container = document.querySelector('.left-container');
-    const grid = new Grid(container);
-
-    window.addEventListener('message', function(e) {
-        const { type, data = '' } = e.data;
-        if (type === 'hash') {
-            window.location.hash = data;
-        }
-    });
-
-    const $iframe = document.querySelector('.iframe');
-    // $iframe.onload = function() {
-    //     console.log('iframe loaded');
-    // };
-
-    const showItem = function(rowItem) {
-        const id = rowItem.id;
-        //console.log('iframe loading ...');
-        window.setHash('page', id);
-        $iframe.src = `${id}.html${window.location.hash}`;
+        window.formatCodes();
     };
-
-    const changeItem = function(rowItem) {
-        if (!grid.isRowSelectable(rowItem)) {
-            if (rowItem.tg_frozen) {
-                grid.setRowSelected(false);
-                showItem(rowItem);
-            }
-            return;
-        }
-        grid.setRowSelected(rowItem);
-        showItem(rowItem);
-    };
-
-    grid.bind('onCellUpdated', function(e, d) {
-
-        if (this.renderSettings.type) {
-            // only for scroll
-            return;
-        }
-    
-        const cellNode = d.node;
-        //console.log(d);
-        cellNode.classList.add('tg-cell-effect');
-
-    }).bind('onFirstUpdated', function() {
-        let page = window.getHash().page;
-        if (!page) {
-            page = 'getting-started';
-        }
-        const rowItem = grid.getRowItemBy('id', page);
-        this.scrollRowIntoView(rowItem);
-        if (rowItem) {
-            changeItem(rowItem);
-        }
-    });
-
-    grid.bind('onClick', function(e, d) {
-        changeItem(d.rowItem);
-    });
-
-    document.querySelector('.left-keywords').addEventListener('keyup', function() {
-        const k = this.value;
-        if (k === keywords) {
-            return;
-        }
-        keywords = k;
-        //update rows
-        grid.update();
-    });
-
-    let keywords = '';
-
-    const render = function() {
-        const option = {
-            headerVisible: false,
-            selectMultiple: false,
-            scrollbarSize: 10,
-            scrollbarFade: true,
-            scrollbarRound: true,
-            rowFilter: function(rowItem) {
-                if (!keywords) {
-                    return true;
-                }
-                if (rowItem.tg_frozen) {
-                    return true;
-                }
-                let name = rowItem.name;
-                if (name) {
-                    name = name.toLowerCase();
-                    if (name.indexOf(keywords) !== -1) {
-                        return true;
-                    }
-                }
-                return false;
-            },
-            rowNumberFilter: function(rowItem, i) {
-                if (rowItem.tg_group || rowItem.tg_frozen || rowItem.nameClassMap) {
-                    return false;
-                }
-                return true;
-            }
-        };
-        grid.setOption(option);
-
-        grid.setFormatter({
-            tree: function(value, rowItem, columnItem, cellNode) {
-                const defaultFormatter = this.getDefaultFormatter('tree');
-                const rn = `<div class="tg-tree-row-number">${rowItem.tg_row_number}</div>`;
-                return rn + defaultFormatter(value, rowItem, columnItem, cellNode);
-            }
-        });
-
-        const data = {
-            columns: [{
-                id: 'name',
-                name: 'Name',
-                width: 195
-            }],
-            rows: [{
-                id: 'getting-started',
-                name: 'Getting Started',
-                nameClassMap: 'tg-row-top'
-            }, {
-                id: 'documentation',
-                name: 'Documentation',
-                nameClassMap: 'tg-row-top'
-            }, {
-                name: 'Popular',
-                subs: [{
-                    id: 'formatter',
-                    name: 'Formatter'
-                }, {
-                    id: 'style',
-                    name: 'Style'
-                }, {
-                    id: 'tooltip',
-                    name: 'Tooltip'
-                }, {
-                    id: 'popover',
-                    name: 'Popover'
-                }, {
-                    id: 'scroll',
-                    name: 'Scroll'
-                }, {
-                    id: 'scrollbar',
-                    name: 'Scrollbar'
-                }, {
-                    id: 'sort',
-                    name: 'Sort'
-                }, {
-                    id: 'events',
-                    name: 'Events'
-                }, {
-                    id: 'lifecycle',
-                    name: 'Lifecycle'
-                }, {
-                    id: 'performance-test',
-                    name: 'Performance Test'
-                }]
-            }, {
-                name: 'Row',
-                subs: [{
-                    id: 'row-add-delete',
-                    name: 'Row Add/Delete'
-                }, {
-                    id: 'row-collapse',
-                    name: 'Row Collapse'
-                }, {
-                    id: 'row-filter',
-                    name: 'Row Filter'
-                }, {
-                    id: 'row-select',
-                    name: 'Row Select'
-                }, {
-                    id: 'row-select-limit',
-                    name: 'Row Select Limit'
-                }, {
-                    id: 'row-select-group',
-                    name: 'Row Select Group'
-                }, {
-                    id: 'row-number',
-                    name: 'Row Number'
-                }, {
-                    id: 'row-drag',
-                    name: 'Row Drag'
-                }, {
-                    id: 'row-move',
-                    name: 'Row Move'
-                }, {
-                    id: 'row-hover',
-                    name: 'Row Hover'
-                }, {
-                    id: 'row-height',
-                    name: 'Row Height'
-                }, {
-                    id: 'row-not-found',
-                    name: 'Row Not Found'
-                }]
-            }, {
-                name: 'Column',
-                subs: [{
-                    id: 'column-add-delete',
-                    name: 'Column Add/Delete'
-                }, {
-                    id: 'column-display',
-                    name: 'Column Display'
-                }, {
-                    id: 'column-set',
-                    name: 'Column Set'
-                }]
-            }, {
-                name: 'Data',
-                subs: [{
-                    id: 'infinite-scroll',
-                    name: 'Infinite Scroll'
-                }, {
-                    id: 'load-cells',
-                    name: 'Load Cells'
-                }, {
-                    id: 'load-rows',
-                    name: 'Load Rows'
-                }, {
-                    id: 'load-subs',
-                    name: 'Load Subs'
-                }, {
-                    id: 'set-rows-sort',
-                    name: 'Set Rows Sort'
-                }, {
-                    id: 'set-rows',
-                    name: 'Set Rows'
-                }, {
-                    id: 'skeleton-screen',
-                    name: 'Skeleton Screen'
-                }, {
-                    id: 'pagination',
-                    name: 'Pagination'
-                }, {
-                    id: 'loading',
-                    name: 'Loading'
-                }]
-            }, {
-                name: 'Other',
-                subs: [{
-                    id: 'poc',
-                    name: 'POC'
-                }, {
-                    id: 'auto-height',
-                    name: 'Auto Height'
-                }, {
-                    id: 'header-display',
-                    name: 'Header Display'
-                }, {
-                    id: 'header-group',
-                    name: 'Header Group'
-                }, {
-                    id: 'frozen',
-                    name: 'Frozen'
-                }, {
-                    id: 'frozen-middle',
-                    name: 'Frozen Middle'
-                }, {
-                    id: 'cache',
-                    name: 'Cache'
-                }, {
-                    id: 'negative-number',
-                    name: 'Negative Number'
-                }, {
-                    id: 'multiple-instance',
-                    name: 'Multiple Instance'
-                }, {
-                    id: 'context-menu',
-                    name: 'Context Menu'
-                }, {
-                    id: 'export',
-                    name: 'Export'
-                }, {
-                    id: 'online-render',
-                    name: 'Online Render'
-                }, {
-                    id: 'touch',
-                    name: 'Touch'
-                }, {
-                    id: 'resize',
-                    name: 'Resize'
-                }, {
-                    id: 'custom-element',
-                    name: 'Custom Element'
-                }, {
-                    id: 'shadow-dom',
-                    name: 'Shadow DOM'
-                }, {
-                    id: 'vue-component',
-                    name: 'Vue Component'
-                }, {
-                    id: 'vue-integration',
-                    name: 'Vue Integration'
-                }, {
-                    id: 'conflict',
-                    name: 'Conflict Test'
-                }, {
-                    id: 'snake-game',
-                    name: 'Snake Game'
-                }, {
-                    id: 'async',
-                    name: 'Async Test'
-                }, {
-                    id: 'other',
-                    name: 'Other'
-                }]
-            }]
-        };
-
-        grid.setData(data);
-        grid.render();
-
-    };
-
-    window.addEventListener('resize', function() {
-        grid.resize();
-    });
-
-    window.addEventListener('load', function() {
-        render();
-    });
 
     </script>
 </body>

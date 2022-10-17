@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -14,63 +14,74 @@
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid frozen row/column example:</div>
-            <div>
-                <select class="st_data">
-                    <option>sample-data.js</option>
-                    <option>random_3_columns_10_rows</option>
-                    <option>random_3_columns_30_rows</option>
-                    <option>random_100_columns_20k_rows</option>
-                    <option>frozen_right</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-
-        <table class="tg-table">
-            <tr>
-                <td>Option:</td>
-                <td>
-                    <div class="line">
-                        <label>frozenColumn
-                            <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                        </label>
-                        <input type="checkbox" id="cb_frozenRight" class="cb_frozenRight" />
-                        <label for="cb_frozenRight">frozenRight</label>
-                        <label>frozenRow
-                            <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                        </label>
-                        <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                        <label for="cb_frozenBottom">frozenBottom</label>
-
-                        <input type="checkbox" id="cb_frozenRowHoverable" class="cb_frozenRowHoverable" />
-                        <label for="cb_frozenRowHoverable">frozenRowHoverable</label>
-                    </div>
-                    <div>
-                        
-                        <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
-                        <label for="cb_selectVisible">selectVisible</label>
-
-                        <input type="checkbox" id="cb_rowNumberVisible" class="cb_rowNumberVisible" />
-                        <label for="cb_rowNumberVisible">rowNumberVisible</label>
-
-                        <input type="checkbox" id="cb_rowDragVisible" class="cb_rowDragVisible" />
-                        <label for="cb_rowDragVisible">rowDragVisible</label>
-
-                        <input type="checkbox" id="cb_autoHeight" class="cb_autoHeight" />
-                        <label for="cb_autoHeight">autoHeight</label>
-                    </div>
-                </td>
-            </tr>
-        </table>
-
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid frozen row/column example:</div>
+                    <select class="st-data">
+                        <option>sample-data</option>
+                        <option>random-3x10</option>
+                        <option>random-3x30</option>
+                        <option>random-100x20k</option>
+                        <option>frozen_right</option>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        frozenColumn
+                        <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
+                    </label>
+                   
+                    <label>
+                        <input type="checkbox" class="cb_frozenRight" />
+                        frozenRight
+                    </label>
+
+                    <label>
+                        frozenRow
+                        <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
+                    </label>
+                    
+                    <label>
+                        <input type="checkbox" class="cb_frozenBottom" />
+                        frozenBottom
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_frozenRowHoverable" />
+                        frozenRowHoverable
+                    </label>
+                </div>
+                <div>
+                    
+                    <label>
+                        <input type="checkbox" class="cb_selectVisible" />
+                        selectVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_rowNumberVisible" />
+                        rowNumberVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_rowDragVisible" />
+                        rowDragVisible
+                    </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_autoHeight" />
+                        autoHeight
+                    </label>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
@@ -81,7 +92,7 @@
         });
 
         const frozenRightData = {
-            option: {
+            options: {
                 frozenRight: true
             },
             columns: [{
@@ -148,8 +159,8 @@
 
         const renderData = function(data) {
 
-            const option = {
-                theme: document.querySelector('.st_theme').value,
+            const options = {
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: document.querySelector('.cb_selectVisible').checked,
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
                 rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
@@ -161,20 +172,16 @@
                 autoHeight: document.querySelector('.cb_autoHeight').checked
             };
 
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const data = window.randomData(columns, rows);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
@@ -187,8 +194,8 @@
         }
 
         [
-            '.st_theme',
-            '.st_data',
+            '.st-theme',
+            '.st-data',
             '.ip_frozenColumn',
             '.ip_frozenRow',
             '.cb_frozenRight',

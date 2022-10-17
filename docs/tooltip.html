@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -24,9 +24,11 @@
 
         .tg-tooltip-icon {
             cursor: pointer;
-            width: 15px;
-            height: 15px;
-            margin-top: 3px;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
         }
 
         .tg-tooltip .tg-tooltip-text {
@@ -39,19 +41,21 @@
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Tooltip Usage:</div>
-            <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Tooltip Usage:</div>
+                </div>
             </div>
+            <div class="grid-container flex-auto"></div>
         </div>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
-    </div>
+
     <script type="text/javascript">
         const { components } = window['vine-ui'];
         const VuiTooltip = components.VuiTooltip;
@@ -92,35 +96,41 @@
             if (!node) {
                 return false;
             }
-            const itemNode = node.querySelector('.tg-tree-item');
-            if (itemNode) {
-                node = itemNode;
-            }
             if (node.clientWidth < node.scrollWidth) {
                 return true;
             }
             return false;
         };
 
-        grid.bind('onCellMouseOver', function(e, d) {
+        grid.bind('onMouseOver', function(e, d) {
             //console.log(d);
-            const elem = d.cellNode;
+
+
+            const target = d.e.target;
+            //console.log(target);
         
             //show tooltip for info icon
-            if (d.e.target.classList.contains('tg-tooltip-icon')) {
-                showTooltip(elem, `Tooltip for Info Icon: ${d.rowItem.name}`);
+            if (target.classList.contains('tg-tooltip-icon')) {
+                showTooltip(target, `Tooltip for icon: ${d.rowItem.name}`);
                 return;
             }
 
             //show tooltip if cell truncated
             const value = d.rowItem[d.columnItem.id];
-            if (value && isNodeTruncated(elem)) {
-                showTooltip(elem, `Tooltip for Truncated Text: ${value}`);
+            if (value && isNodeTruncated(target)) {
+                showTooltip(target, `Tooltip for truncated text: ${value}`);
+                return;
             }
 
-        }).bind('onCellMouseOut', function(e, d) {
+            //show tooltip for header icon
+            if (target.classList.contains('tg-header-icon')) {
+                showTooltip(target, `Tooltip for header: ${d.rowItem.name}`);
+            }
+
+        }).bind('onMouseOut', function(e, d) {
             hideTooltip();
         });
+
 
         const customData = {
             columns: [{
@@ -278,7 +288,7 @@
         const render = function() {
 
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 1,
                 frozenRow: 1
@@ -287,7 +297,7 @@
             grid.setFormatter({
 
                 header: function(value, rowItem, columnItem, cellNode) {
-                    if (columnItem.id === 'name' || columnItem.id === 'dp3' || columnItem.id === 'dp8') {
+                    if (columnItem.id === 'name') {
                         return `${value}<div class="tg-header-icon">${svgIcon}</div>`;
                     }
                     return value;
@@ -304,7 +314,7 @@
 
         };
 
-        ['.st_theme'].forEach(function(item) {
+        ['.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

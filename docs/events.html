@@ -6,96 +6,54 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
     <script src="data/sample-data.js"></script>
     <script src="data/random-data.js"></script>
-    <style>
-        .event-list {
-            height: 235px;
-            width: 210px;
-        }
-
-        .event-list-action {
-            text-align: center;
-        }
-
-        .event-list-action button {
-            margin: 5px;
-        }
-
-        .tg-popover-icon {
-            cursor: pointer;
-            position: absolute;
-            width: 20px;
-            height: 23px;
-            padding: 2px 0;
-            right: 0;
-            top: 0;
-        }
-
-    </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line">
-            <div class="line flex-row">
-                <div class="header-title flex-auto">Grid Events Example:</div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
                 <div>
-                    <select class="st_data">
-                        <option>sample-data.js</option>
-                        <option>random_3_columns_10_rows</option>
-                        <option>random_100_columns_20k_rows</option>
+                    <div class="controller-title">Grid Events Example:</div>
+                    <select class="st-data">
+                        <option>sample-data</option>
+                        <option>random-3x10</option>
+                        <option>random-100x20k</option>
                     </select>
-                    <select class="st_theme"></select>
-                    <button class="bt_source">source</button>
                 </div>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Bind Events:</td>
-                <td></td>
-                <td>Unbind Events:</td>
-                <td>Events log (open browser console (F12) for more detail)</td>
-            </tr>
-            <tr>
-                <td>
-                    <select multiple="multiple" class="event-list event-list-bind"></select>
-                </td>
-                <td class="event-list-action">
-                    <div>
-                        <button class="bt-event-add">&lt;&lt;</button>
+                <div>
+                    <div class="flex-column flex-column-5">
+                        <div>Bind Events: <button title="remove" class="bt-event-remove">&gt;&gt;</button></div>
+                        <select multiple="multiple" class="event-list event-list-bind"></select>
                     </div>
-                    <div>
-                        <button class="bt-event-remove">&gt;&gt;</button>
+                    <div class="flex-column flex-column-5">
+                        <div>Unbind Events: <button title="add" class="bt-event-add">&lt;&lt;</button></div>
+                        <select multiple="multiple" class="event-list event-list-unbind"></select>
                     </div>
-                </td>
-                <td>
-                    <select multiple="multiple" class="event-list event-list-unbind"></select>
-                </td>
-                <td>
-                    <button class="bt-clear">Clear Logs</button>
-                    <div class="log-container">
-                        <div class="log-content"></div>
+                    <div class="flex-auto flex-column flex-column-5">
+                        <div>Event logs <button class="bt-clear">Clear Logs</button></div>
+                        <div class="log-container">
+                            <div class="log-content"></div>
+                        </div>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
+                </div>
+                <div>
                     <button>render()</button>
                     <button>rerender()</button>
                     <button>addRow({"id":"id1","name":"Row"})</button>
                     <button>deleteRow("id1")</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
@@ -200,17 +158,10 @@
         const renderData = function(data) {
 
             grid.setOption({
-                theme: document.querySelector('.st_theme').value,
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
                 frozenRow: 1
-            });
-            grid.setFormatter({
-                tree: function(value, rowItem, columnItem, cellNode) {
-                    const defaultFormatter = this.getDefaultFormatter('tree');
-                    const icon_hover = '<div class="tg-cell-hover-icon tg-popover-icon"><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" viewBox="400 -400 2300 2300"><path class="st0" d="M1549.5 1140.5l-480-770-80 70 560 910 560-910-80-70-480 770zm0-1440c-570 0-1050 480-1050 1050s480 1050 1050 1050 1050-480 1050-1050-480-1050-1050-1050zm0 1990c-520 0-940-420-940-940s420-940 940-940 940 420 940 940-420 940-940 940z"/></svg></div>';
-                    return defaultFormatter(value + icon_hover, rowItem, columnItem, cellNode);
-                }
             });
 
             data.columns[0].type = 'tree';
@@ -219,22 +170,17 @@
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const data = window.randomData(columns, rows);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
             renderData(window.sampleData);
         }
 
-        ['.st_data', '.st_theme'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

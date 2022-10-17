@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -14,46 +14,37 @@
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid row select limit:</div>
-            <div>
-                <select class="st_data">
-                    <option>random_20_columns_100_rows</option>
-                    <option>random_20_columns_3k_rows</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td></td>
-                <td>
-                    <label>Select Limit
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid row select limit:</div>
+                    <select class="st-data">
+                        <option>random-20x100</option>
+                        <option>random-20x3k</option>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" checked class="cb_selectMultiple" />
+                        selectMultiple
+                    </label>
+                    <label>
+                        Select Limit
                         <input type="number" min="1" value="10" class="ip_limit" />
                     </label>
                     <span class="limitMessage" style="color: red;"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Option:</td>
-                <td>
-                    <input type="checkbox" checked="checked" id="cb_selectMultiple" class="cb_selectMultiple" />
-                    <label for="cb_selectMultiple">selectMultiple</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Event:</td>
-                <td>
+                </div>
+                <div>
                     <div>onSelectChanged: <span class="onSelectChanged"></span></div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
@@ -100,40 +91,29 @@
 
         //===============================================================================
         const renderData = function(data) {
-            const option = {
-                theme: document.querySelector('.st_theme').value,
+            const options = {
+                theme: document.querySelector('.st-theme').value,
                 selectMultiple: document.querySelector('.cb_selectMultiple').checked,
                 selectVisible: true,
                 frozenColumn: 0
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-
-                let noSubs = false;
-                if (rows < 200) {
-                    noSubs = true;
-                }
-
-                const data = window.randomData(columns, rows, noSubs);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
             renderData(window.sampleData);
         }
 
-        ['.st_data', '.st_theme', '.cb_selectMultiple'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.cb_selectMultiple'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -14,34 +14,24 @@
     <script src="data/random-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Context Menu example (Right click)</div>
-            <div>
-                <select class="st_data">
-                    <option>sample-data.js</option>
-                    <option>random_3_columns_10_rows</option>
-                    <option>random_100_columns_20k_rows</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Option:</td>
-                <td>
-                    <input type="checkbox" id="cb_autoHeight" class="cb_autoHeight" />
-                    <label for="cb_autoHeight">autoHeight</label>
-                    <input type="checkbox" id="cb_collapseAllOnInit" class="cb_collapseAllOnInit" />
-                    <label for="cb_collapseAllOnInit">collapseAllOnInit</label>
-                </td>
-            </tr>
-        </table>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Context Menu example (Right click)</div>
+                    <select class="st-data">
+                        <option>sample-data</option>
+                        <option>random-3x10</option>
+                        <option>random-100x2k</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <style>
         .tg-context-menu {
@@ -49,6 +39,7 @@
             background: #fff;
             z-index: 10;
             border: 1px solid #ccc;
+            filter: drop-shadow(1px 2px 2px rgb(0 0 0 / 30%));
         }
 
         .tg-context-menu-item {
@@ -201,35 +192,28 @@
         });
 
         const renderData = function(data) {
-            const option = {
-                theme: document.querySelector('.st_theme').value,
-                autoHeight: document.querySelector('.cb_autoHeight').checked,
-                collapseAllOnInit: document.querySelector('.cb_collapseAllOnInit').checked,
+            const options = {
+                theme: document.querySelector('.st-theme').value,
                 frozenColumn: 0,
                 frozenRow: 1
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
+            const dataStr = document.querySelector('.st-data').value;
 
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const data = window.randomData(columns, rows);
-                renderData(data);
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
             renderData(window.sampleData);
         }
 
-        ['.st_data', '.st_theme', '.cb_autoHeight', '.cb_collapseAllOnInit'].forEach(function(item) {
+        ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

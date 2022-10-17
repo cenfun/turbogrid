@@ -6,26 +6,26 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
-    <script src="../dist/turbogrid.js"></script>
     <script src="assets/main.js"></script>
     <script src="data/sample-data.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">version conflict test:</div>
-            <div>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">version conflict test:</div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
@@ -36,23 +36,37 @@
         });
 
         function render() {
-
-            const option = {
-                theme: document.querySelector('.st_theme').value,
+            const options = {
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
                 frozenRow: 1
             };
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(window.sampleData);
             grid.render();
         }
         
-        ['.st_theme'].forEach(function(item) {
+        ['.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });
         });
+
+        const loadAgain = function() {
+            //load double script
+            Array.from(document.querySelectorAll('script')).forEach(function(elem) {
+                const src = elem.getAttribute('src');
+                if (src && src.indexOf('turbogrid.js') !== -1) {
+                    const script = document.createElement('script');
+                    script.src = `${src}?rd=${Math.random()}`;
+                    script.onload = function() {
+                        console.log(`loaded: ${src}`);
+                    };
+                    document.body.appendChild(script);
+                }
+            });
+        };
 
         window.initCommonEvents(grid);
 
@@ -61,6 +75,7 @@
         });
 
         window.addEventListener('load', function() {
+            loadAgain();
             render();
         });
 

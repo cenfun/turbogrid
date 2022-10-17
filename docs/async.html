@@ -6,19 +6,26 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="header-title flex-auto">Async test</div>
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
     </div>
-    <div class="body flex-auto">
-        <div class="grid-container">
-            <canvas class="canvas"></canvas>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Async test</div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto">
+                <canvas class="canvas"></canvas>
+            </div>
         </div>
     </div>
     <script type="text/javascript">

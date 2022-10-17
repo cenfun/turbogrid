@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>TurboGrid</title>
+    <!--inject:start-->
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
+    <!--inject:end-->
+    <link href="assets/prism.css" rel="stylesheet" />
+    <script src="assets/prism.js" data-manual></script>
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <style>
+        ul,
+        ol {
+            padding-left: 20px;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        ul li,
+        ol li {
+            padding: 2px 0;
+        }
+
+        details {
+            padding: 0 5px 5px;
+            border-bottom: 1px solid #999;
+            margin-bottom: 5px;
+            overflow-x: auto;
+        }
+
+        details summary {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 0;
+        }
+
+        details summary span {
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        details section {
+            margin-bottom: 10px;
+        }
+
+        details section > div {
+            margin: 0;
+            padding: 5px 0;
+        }
+
+        details section > a {
+            position: relative;
+            font-weight: bold;
+            padding: 5px;
+            display: block;
+        }
+
+        a:link,
+        a:visited {
+            color: #333;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            color: #00a8e1;
+            transition: color 300ms;
+        }
+
+        a.selected {
+            color: #00a8e1;
+        }
+
+        details.turbogrid section > a {
+            padding-left: 18px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 0 center;
+            background-image: url("./assets/images/function.svg");
+        }
+
+        details.methods section > a {
+            padding-left: 18px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 0 center;
+            background-image: url("./assets/images/method.svg");
+        }
+
+        details.data section > a {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 0 center;
+            background-image: url("./assets/images/data.svg");
+        }
+
+        details.options section > a {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 0 center;
+            background-image: url("./assets/images/setting.svg");
+        }
+
+        details.events section > a {
+            padding-left: 16px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 0 center;
+            background-image: url("./assets/images/event.svg");
+        }
+
+        .api-header {
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .api-nav a:link,
+        .api-nav a:visited {
+            font-weight: bold;
+            padding: 0 5px;
+            text-decoration: underline;
+        }
+
+        .api-search {
+            position: relative;
+        }
+
+        .api-search-value {
+            width: 200px;
+            height: 25px;
+            line-height: 25px;
+            background-repeat: no-repeat;
+            background-position: 97% center;
+            background-image: url("./assets/images/search.svg");
+            background-size: 16px;
+            padding: 5px 23px 5px 5px;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+
+        .api-search-list {
+            width: 200px;
+            position: absolute;
+            z-index: 999;
+            background: #fff;
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .api-search-info {
+            padding: 10px;
+            color: gray;
+        }
+
+        .api-search-item {
+            display: block;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .api-search-item:hover {
+            background: #f5f5f5;
+        }
+
+        .api-search-item.selected {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .api-search-item.turbogrid {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/function.svg");
+        }
+
+        .api-search-item.methods {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/method.svg");
+        }
+
+        .api-search-item.data {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/data.svg");
+        }
+
+        .api-search-item.options {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/setting.svg");
+        }
+
+        .api-search-item.events {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/event.svg");
+        }
+
+        .api-search-item.lifecycle {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/cycle.svg");
+        }
+
+        .api-search-item.tg {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/namespace.svg");
+        }
+
+        .api-container {
+            position: relative;
+            padding: 5px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .api-table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            box-sizing: border-box;
+        }
+
+        .api-table-zebra tr:nth-child(even) {
+            background: #fff;
+        }
+
+        .api-table-zebra tr:nth-child(odd) {
+            background: #f8f8f8;
+        }
+
+        .api-table th {
+            background: #eee;
+            padding: 8px 5px;
+            font-weight: bold;
+            position: relative;
+            text-align: left;
+        }
+
+        .api-table td {
+            border: 1px solid #ccc;
+            padding: 5px;
+            position: relative;
+            vertical-align: top;
+        }
+
+        .api-table pre {
+            background: none;
+            border: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header flex-row">
+        <a class="icon icon-github" href="https://github.com/cenfun/turbogrid" target="_blank"></a>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="api-header flex-row">
+                <div class="api-search">
+                    <input class="api-search-value" type="text" placeholder="Search API" value="" />
+                    <div class="api-search-list" style="display: none;"></div>
+                </div>
+                <div class="flex-auto"></div>
+                <div class="api-nav">
+                    <a href="#methods">Methods</a>
+                    <a href="#data">Data</a>
+                    <a href="#options">Options</a>
+                    <a href="#events">Events</a>
+                    <a href="#lifecycle">Lifecycle</a>
+                </div>
+            </div>
+            <div class="api-container flex-auto">
+
+                <details open class="turbogrid">
+                    <summary>
+                        <a name="turbogrid">turbogrid</a>
+                    </summary>
+
+                    <section>
+                        <pre><code class="language-js">
+                            // global
+                            var TG = window.turbogrid;
+                            var { Grid, Util } = window.turbogrid;
+                            // cjs
+                            var TG = require("turbogrid");
+                            var { Grid, Util } = require("turbogrid");
+                            // esm
+                            import TG from "turbogrid";
+                            import { Grid, Util } from "turbogrid";
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="Grid">Grid(container)</a>
+                        <div>Grid constructor, creates a new grid instance with container.</div>
+                        <pre><code class="language-js">
+                            //selector
+                            var grid = new Grid(".container");
+                            //or element
+                            var container = document.querySelector(".container");
+                            var grid = new Grid(container);
+                            //or options with container
+                            var grid = Grid({
+                                container,
+                                ... other options
+                            });
+                        </code></pre>
+                    </section>
+
+                </details>
+
+                <details open class="methods">
+                    <summary>
+                        <a name="methods">Methods</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <section>
+                        <a name="setData">setData(data)</a>
+                        <div>For Detailed data structure, check <a href="#data">data structure</a></div>
+                        <pre><code class="language-js">
+                            grid.setData({
+                                columns: [],
+                                rows: []
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getData">getData()</a>
+                        <div>Returns current data.</div>
+                        <pre><code class="language-js">
+                            var data = grid.getData();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="setOption">setOption(options)</a>
+                        <div>For Detailed options, check <a href="#options">default options</a></div>
+                        <pre><code class="language-js">
+                            //set multiple options
+                            grid.setOption({
+                                optionKey1: optionValue1,
+                                optionKey2: optionValue2
+                            });
+                            //set single option
+                            grid.setOption(optionKey, optionValue);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getOption">getOption([name])</a>
+                        <div>Returns current options by name or all options.</div>
+                        <pre><code class="language-js">
+                            //get all options
+                            var options = grid.getOption();
+                            //get single option
+                            var optionValue = grid.getOption(optionKey);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="setFormatter">setFormatter(formatters)</a>
+                        <div>Set or customize Grid formatters.</div>
+                        <pre><code class="language-js">
+                            //set multiple formatters
+                            grid.setFormatter({
+                                string: function(value, rowItem, columnItem, cellNode) {
+                                    return value;
+                                }
+                            });
+
+                            //set single formatter
+                            grid.setFormatter("string", formatterHandler);
+                        </code></pre>
+                        <div>default cell formatter: string, number, date, icon, blank, checkbox, tree, null</div>
+                        <div>default header formatter: header</div>
+                        <div>Formatter arguments:</div>
+                        <pre><code class="language-js">
+                            function(value, rowItem, columnItem, cellNode) { 
+                                // value is formatted by null formatter
+                                // get original value:
+                                var originalValue = rowItem[columnItem.id];
+                                var rowIndex = rowItem.tg_index;
+                                var columnIndex = columnItem.tg_index;
+                                // using default formatter returns:
+                                var defaultFormatter = this.getDefaultFormatter("[formatter-name]");
+                                return defaultFormatter(value + " new text", rowItem, columnItem, cellNode)
+                            } 
+                        </code></pre>
+                        <div>Demo <a href="/formatter.html" target="_blank">Formatter</a></div>
+                    </section>
+
+                    <section>
+                        <a name="getFormatter">getFormatter(type)</a>
+                        <div>Returns type specified formatter(Function).</div>
+                        <pre><code class="language-js">
+                            var stringFormatter = grid.getFormatter("string");
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getDefaultFormatter">getDefaultFormatter([type])</a>
+                        <div>Returns type specified default formatter(Function).</div>
+                        <pre><code class="language-js">
+                            var treeFormatter = grid.getDefaultFormatter("tree");
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="bind">bind(eventType, handler)</a>
+                        <div>Attach a handler to an event for Grid. See all <a href="#event">event types</a>.</div>
+                        <pre><code class="language-js">
+                            grid.bind("onUpdated", function(e, d){
+                                //console.log(d);
+                            });
+                        </code></pre>
+                        <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="once">once(eventType, handler)</a>
+                        <div>Attach a handler to an event. The handler is executed at most once per event type. It will be removed once it triggers for the first time.</div>
+                        <pre><code class="language-js">
+                            grid.once("onUpdated", function(e, eventData){
+                                //console.log(eventData);
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="unbind">unbind([eventType][, handler])</a>
+                        <div>Remove a previously-attached event handler from Grid.</div>
+                        <pre><code class="language-js">
+                            grid.unbind();
+                            grid.unbind("onUpdated");
+                            grid.unbind("onUpdated", handler);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="trigger">trigger(eventType, eventData)</a>
+                        <div>Execute all handlers attached to Grid for an event.</div>
+                        <pre><code class="language-js">
+                            this.trigger(eventType, eventData);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getAllEvents">getAllEvents()</a>
+                        <div>Returns all <a href="#event">event types</a>.</div>
+                        <pre><code class="language-js">
+                            var allEventTypes = grid.getAllEvents();
+                        </code></pre>
+                        <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                    </section>
+
+                    <section>
+                        <a name="render">render()</a>
+                        <pre><code class="language-js">
+                            grid.render();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="resize">resize([w, [h]])</a>
+                        <pre><code class="language-js">
+                            grid.resize();
+                            grid.resize(600, 400);
+                        </code></pre>
+                        <div>Demo <a href="/resize.html" target="_blank">Resize</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="destroy">destroy()</a>
+                        <pre><code class="language-js">
+                            grid.destroy();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getColumnItem">getColumnItem(columnIndex)</a>
+                        <a name="getRowItem">getRowItem(rowIndex)</a>
+                        <div>Different data types of the rowIndex/columnIndex parameter are supported :</div>
+                        <ol>
+                            <li>If parameter type is Number, grid will search the row/column item by index. (recommend, highest performance)</li>
+                            <li>If parameter type is String, grid will iterates all items to match the row/column id.</li>
+                            <li>If parameter type is Object, grid will look at the object properties: </li>
+                            <ul>
+                                <li>If there is a tg_index property inside the object, grid will search the row/column item by index. (higher priority)</li>
+                                <li>if there is an id property (type of string), grid will iterates all items to match the row/column id.</li>
+                            </ul>
+                        </ol>
+                        <pre><code class="language-js">
+                            var columnItem = grid.getColumnItem(columnIndex);
+                            var rowItem = grid.getRowItem(rowIndex);
+                            var rowItem = grid.getRowItem(123);
+                            var rowItem = grid.getRowItem("id_123");
+                            var rowItem = grid.getRowItem({
+                                tg_index: 123
+                            });
+                            var rowItem = grid.getRowItem({
+                                id: "id_123"
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="showLoading">showLoading()</a>
+                        <a name="hideLoading">hideLoading()</a>
+                        <a name="setLoading">setLoading(loading)</a>
+                        <pre><code class="language-js">
+                            grid.showLoading();
+                            grid.hideLoading();
+                            grid.setLoading("Loading ...");
+                            grid.setLoading(function(container) {
+                                return document.createElement("div");
+                            });
+                        </code></pre>
+                        <div>Demo <a href="/loading.html" target="_blank">Show/Hide Loading</a></div>
+                    </section>
+
+                    <section>
+                        <a name="expandAllRows">expandAllRows()</a>
+                        <a name="collapseAllRows">collapseAllRows()</a>
+                        <a name="toggleAllRows">toggleAllRows()</a>
+                        <pre><code class="language-js">
+                            grid.expandAllRows();
+                            grid.collapseAllRows();
+                            grid.toggleAllRows();
+                        </code></pre>
+                        <div>Demo <a href="/row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="expandRow">expandRow(rowIndex)</a>
+                        <a name="collapseRow">collapseRow(rowIndex)</a>
+                        <a name="toggleRow">toggleRow(rowIndex)</a>
+                        <pre><code class="language-js">
+                            grid.expandRow(rowIndex);
+                            grid.collapseRow(rowIndex);
+                            grid.toggleRow(rowIndex);
+                        </code></pre>
+                        <div>Demo <a href="/row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+
+                    <section>
+                        <a name="expandRowLevel">expandRowLevel(level)</a>
+                        <pre><code class="language-js">
+                            grid.expandRowLevel(level);
+                        </code></pre>
+                        <div>Demo <a href="/row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+
+                    <section>
+                        <a name="exportData">exportData([keysSettings])</a>
+                        <div>Returns all columns and rows data without private properties or by keysSettings.</div>
+                        <pre><code class="language-js">
+                            var exportedData = grid.exportData();
+                            var exportedData = grid.exportData({
+                                the_key_need: true,
+                                key_key_no_need: false
+                            });
+                        </code></pre>
+                        <div>Demo <a href="/export.html" target="_blank">Export</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setRowHeight">setRowHeight(rowIndex, height)</a>
+                        <div>Dynamic set row(s) height</div>
+                        <pre><code class="language-js">
+                            grid.setRowHeight(rowIndex, height);
+                            grid.setRowHeight([rowIndex1, rowIndex2], height);
+                            grid.setRowHeight([rowIndex1, rowIndex2], [height1, height2]);
+                        </code></pre>
+                        <div>Demo <a href="/row-height.html" target="_blank">Row Height</a> and <a href="/infinite-scroll.html" target="_blank">Infinite Scroll</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="setRowSubs">setRowSubs(rowIndex, subs)</a>
+                        <pre><code class="language-js">
+                            var subs = [{name:"row1"},{name:"row2"}];
+                            grid.setRowSubs(rowIndex, subs);
+                        </code></pre>
+                        <div>Demo <a href="/load-subs.html" target="_blank">Dynamic Load Subs</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="setRows">setRows(rowList)</a>
+                        <pre><code class="language-js">
+                            var rows = [{name:"row1"},{name:"row2"}];
+                            grid.setRows(rows);
+                        </code></pre>
+                        <div>Demo <a href="/set-rows.html" target="_blank">Dynamic Set Rows</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="addRow">addRow(rowInfo[, parent, position, scrollTo = true])</a>
+                        <a name="deleteRow">deleteRow(rowIndex)</a>
+                        <pre><code class="language-js">
+                            grid.addRow({
+                                id: "id1",
+                                name: "row item"
+                            });
+                            grid.addRow(["Row 1", "Row 2"]);
+                            grid.addRow(["Row 1", "Row 2"], parentIndex);
+                            grid.addRow("Row Before","level_0", 0);
+                            grid.deleteRow(2);
+                            grid.deleteRow([1, 2]);
+                        </code></pre>
+                        <div>Demo <a href="/row-add-delete.html" target="_blank">Row Add/Delete</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="moveRowsToTop">moveRowsToTop(rowList)</a>
+                        <a name="moveRowsUp">moveRowsUp(rowList)</a>
+                        <a name="moveRowsDown">moveRowsDown(rowList)</a>
+                        <a name="moveRowsToBottom">moveRowsToBottom(rowList)</a>
+                        <a name="moveSelectedRowsToTop">moveSelectedRowsToTop()</a>
+                        <a name="moveSelectedRowsUp">moveSelectedRowsUp()</a>
+                        <a name="moveSelectedRowsDown">moveSelectedRowsDown()</a>
+                        <a name="moveSelectedRowsToBottom">moveSelectedRowsToBottom()</a>
+                        <a name="moveRows">moveRows(rowList, offset)</a>
+                        <div>offset: if &lt; 0 move up; if &gt; 0 move down </div>
+                        <pre><code class="language-js">
+                            grid.moveRowsToTop(["row_id1", "row_id2"]);
+                            grid.moveRowsUp(["row_id1", "row_id2"]);
+                            grid.moveRowsDown(["row_id1", "row_id2"]);
+                            grid.moveRowsToBottom(["row_id1", "row_id2"]);
+    
+                            grid.moveSelectedRowsToTop();
+                            grid.moveSelectedRowsUp();
+                            grid.moveSelectedRowsDown();
+                            grid.moveSelectedRowsToBottom();
+
+                            grid.moveRows(["row_id"], -1);
+                            grid.moveRows(["row_id"], -2);
+                            grid.moveRows("row_id", 1);
+                        </code></pre>
+                        <div>Demo <a href="/row-move.html" target="_blank">Row Move</a></div>
+                    </section>
+
+                    <section>
+                        <a name="selectAll">selectAll()</a>
+                        <pre><code class="language-js">
+                            grid.selectAll();
+                            grid.selectAll(false);
+                        </code></pre>
+                        <div>Demo <a href="/row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setRowSelected">setRowSelected(rowIndex)</a>
+                        <pre><code class="language-js">
+                            grid.setRowSelected(rowIndex);
+                            grid.setRowSelected(rowIndex, false);
+                            grid.setRowSelected();
+                        </code></pre>
+                        <div>Demo <a href="/row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+
+                    <section>
+                        <a name="getSelectedRow">getSelectedRow()</a>
+                        <a name="getSelectedRows">getSelectedRows()</a>
+                        <div>Returns a list for multiple selection</div>
+                        <pre><code class="language-js">
+                            var selectedRow = grid.getSelectedRow();
+                            var selectedRows = grid.getSelectedRows();
+                        </code></pre>
+                        <div>Demo <a href="/row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="setRowHover">setRowHover(rowIndex, hover)</a>
+                        <div>hover: true or false</div>
+                        <pre><code class="language-js">
+                            grid.setRowHover(rowIndex, true);
+                            grid.setRowHover(rowIndex, false);
+                        </code></pre>
+                        <div>Demo <a href="/frozen-middle.html" target="_blank">Frozen Middle</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setSortColumn">setSortColumn(sortColumn)</a>
+                        <a name="removeSortColumn">removeSortColumn()</a>
+                        <div>Remove sort state if data changed</div>
+                        <pre><code class="language-js">
+                            grid.setSortColumn(sortColumn);
+                            grid.removeSortColumn();
+                        </code></pre>
+                        <div>Demo <a href="/sort.html" target="_blank">Row Sort</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setColumnWidth">setColumnWidth(columnIndex, width)</a>
+                        <div>Dynamic set column width, minWidth/maxWidth could be updated</div>
+                        <pre><code class="language-js">
+                            grid.setColumnWidth(columnIndex, width);
+                        </code></pre>
+                        <div>Demo <a href="/column-display.html" target="_blank">Column Width Resize</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="showColumn">showColumn(columnIndex)</a>
+                        <a name="hideColumn">hideColumn(columnIndex)</a>
+                        <pre><code class="language-js">
+                            grid.showColumn(columnIndex);
+                            grid.hideColumn(columnIndex);
+                            grid.showColumn([1, 3]);
+                            grid.hideColumn([1, 3]);
+                        </code></pre>
+                        <div>Demo <a href="/column-width.html" target="_blank">Show/Hide Column</a></div>
+                    </section>
+
+                    <section>
+                        <a name="addColumn">addColumn(columnInfo[, parent, position, scrollTo = true])</a>
+                        <a name="deleteColumn">deleteColumn(columnIndex)</a>
+                        <pre><code class="language-js">
+                            grid.addColumn({
+                                id: "id1",
+                                name: "column item"
+                            });
+                            grid.addColumn(["Column 1", "Column 2"]);
+                            grid.addColumn(["Column 1", "Column 2"], parentIndex);
+                            grid.addColumn("Column Before","level_0",0);
+                            grid.deleteColumn(2);
+                            grid.deleteColumn([1, 2]);
+                        </code></pre>
+                        <div>Demo <a href="/column-add-delete.html" target="_blank">Column Add/Delete</a></div>
+                    </section>
+
+                    <section>
+                        <a name="scrollToRow">scrollToRow(rowIndex)</a>
+                        <a name="scrollToFirstRow">scrollToFirstRow()</a>
+                        <a name="scrollToLastRow">scrollToLastRow()</a>
+                        <a name="scrollToColumn">scrollToColumn(columnIndex)</a>
+                        <a name="scrollToFirstColumn">scrollToFirstColumn()</a>
+                        <a name="scrollToLastColumn">scrollToLastColumn(end)</a>
+                        <a name="scrollToCell">scrollToCell(rowIndex, columnIndex)</a>
+                        <pre><code class="language-js">
+                            grid.scrollToRow(rowIndex);
+                            grid.scrollToColumn(columnIndex);
+                            grid.scrollToCell(rowIndex, columnIndex);
+                        </code></pre>
+                        <div>Demo <a href="/scroll.html" target="_blank">Scroll</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="scrollRowIntoView">scrollRowIntoView(rowIndex)</a>
+                        <a name="scrollColumnIntoView">scrollColumnIntoView(columnIndex)</a>
+                        <a name="scrollCellIntoView">scrollCellIntoView(rowIndex, columnIndex)</a>
+                        <pre><code class="language-js">
+                            grid.scrollRowIntoView(rowIndex);
+                            grid.scrollColumnIntoView(columnIndex);
+                            grid.scrollCellIntoView(rowIndex, columnIndex);
+                        </code></pre>
+                        <div>Demo <a href="/scroll.html" target="_blank">Scroll</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setScrollTop">setScrollTop(top)</a>
+                        <a name="setScrollLeft">setScrollLeft(left)</a>
+                        <a name="getScrollTop">getScrollTop()</a>
+                        <a name="getScrollLeft">getScrollLeft()</a>
+                        <pre><code class="language-js">
+                            grid.setScrollTop(200);
+                            grid.setScrollLeft(200);
+                            var st = grid.getScrollTop();
+                            var sl = grid.getScrollLeft();
+                        </code></pre>
+                        <div>Demo <a href="/scroll.html" target="_blank">Scroll</a></div>
+                    </section>
+
+                    <section>
+                        <a name="updateRow">updateRow(rowIndex[, rowData])</a>
+                        <a name="updateCell">updateCell(rowIndex, columnIndex[, cellValue])</a>
+                        <pre><code class="language-js">
+                            grid.updateRow(rowIndex);
+                            grid.updateRow(rowIndex, rowData);
+                            grid.updateCell(rowIndex, columnIndex);
+                            grid.updateCell(rowIndex, columnIndex, cellValue);
+                        </code></pre>
+                        <div>Demo <a href="/flush.html" target="_blank">Flush</a></div>
+                    </section>
+
+                    <section>
+                        <a name="getScrollbarWidth">getScrollbarWidth()</a>
+                        <div>Returns 0 or <a href="#scrollbarSize">scrollbarSize</a> if has vertical scrollbar (<a href="#hasVScroll">hasVScroll</a>)</div>
+                        <a name="getScrollbarHeight">getScrollbarHeight()</a>
+                        <div>Returns 0 or <a href="#scrollbarSize">scrollbarSize</a> if has horizontal scrollbar (<a href="#hasHScroll">hasHScroll</a>)</div>
+                        <pre><code class="language-js">
+                            var sbw = grid.getScrollbarWidth();
+                            var sbh = grid.getScrollbarHeight();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getScrollViewWidth">getScrollViewWidth()</a>
+                        <a name="getScrollViewHeight">getScrollViewHeight()</a>
+                        <div>Scroll View size = Scroll Pane size - Scrollbar size</div>
+                        <pre><code class="language-js">
+                            var svw = grid.getScrollViewWidth();
+                            var svh = grid.getScrollViewHeight();
+                        </code></pre>
+                    </section>
+                    
+
+                    <section>
+                        <a name="getScrollPaneWidth">getScrollPaneWidth()</a>
+                        <a name="getScrollPaneHeight">getScrollPaneHeight()</a>
+                        <div>Scroll Pane size = Scroll View size + Scrollbar size</div>
+                        <pre><code class="language-js">
+                            var spw = grid.getScrollPaneWidth();
+                            var sph = grid.getScrollPaneHeight();
+                        </code></pre>
+                    </section>
+                    
+                    <section>
+                        <a name="getRowsLength">getRowsLength(total)</a>
+                        <div>Total rows length. default total is false; total is true means including collapsed/filtered rows;</div>
+                        <pre><code class="language-js">
+                            var len = grid.getRowsLength();
+                            var totalLen = grid.getRowsLength(true);
+                        </code></pre>
+                    </section>
+                    
+                    <section>
+                        <a name="getRowsHeight">getRowsHeight()</a>
+                        <div>Total rows height</div>
+                        <pre><code class="language-js">
+                            var totalHeight = grid.getRowsHeight();
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getRowHeight">getRowHeight(rowIndex)</a>
+                        <pre><code class="language-js">
+                            var rowHeight = grid.getRowHeight(rowIndex);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getViewport">getViewport()</a>
+                        <div>Returns current the index list of visible rows and columns.</div>
+                        <pre><code class="language-js">
+                            var viewport = grid.getViewport();
+                            // { rows, columns }
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="find">find(selector)</a>
+                        <pre><code class="language-js">
+                            var nodes = grid.find(".selector-name");
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
+                        <pre><code class="language-js">
+                            var cellNode = grid.getCellNode(rowIndex, columnIndex);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getHeaderItemNode">getHeaderItemNode(columnIndex)</a>
+                        <pre><code class="language-js">
+                            var headerItemNode = grid.getHeaderItemNode(columnIndex);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getColumnHeaderNode">getColumnHeaderNode(columnIndex)</a>
+                        <pre><code class="language-js">
+                            var columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
+                        </code></pre>
+                    </section>
+                    
+
+                    <section>
+                        <a name="forEachColumn">forEachColumn(callback)</a>
+                        <a name="forEachRow">forEachRow(callback)</a>
+                        <div>Executing a function for each column/row.</div>
+                        <pre><code class="language-js">
+                            grid.forEachColumn(function(column, index, parent) {
+                                //
+                            });
+                            grid.forEachRow(function(row, index, parent) {
+                                //
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="isRowSelectable">isRowSelectable(rowItem)</a>
+                        <pre><code class="language-js">
+                            var rowItem = grid.getRowItem(rowIndex);
+                            if (grid.isRowSelectable(rowItem)) {
+                                console.log("selectable");
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="isRowLeaf">isRowLeaf(rowItem)</a>
+                        <div>Returns true or false.</div>
+                    </section>
+
+                    <section>
+                        <a name="onNextUpdated">onNextUpdated(handler)</a>
+                        <div>Attach a handler to onUpdated event and the handler is executed at most once.</div>
+                        <pre><code class="language-js">
+                            grid.onNextUpdated(function(e, eventData){
+                                //console.log(eventData);
+                            });
+                        </code></pre>
+                    </section> 
+                    
+
+                </details>
+
+                <details open class="data">
+                    <summary>
+                        <a name="data">Data</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <section>
+                        Both columns and rows are same data structure (JSON/Tree-like):
+                        <div>
+                            <pre><code class="language-js">
+                                    [{
+                                        name: "item 1",
+                                        subs: [{
+                                            name : "item 2",
+                                            subs: [{
+                                                name : "item 3",
+                                                subs: [{
+                                                    ...
+                                                }]
+                                            }, ...]
+                                        }, ...]
+                                    }, ...]
+                            </code></pre>
+                        </div>
+                        <pre><code class="language-js">
+                            var data = {
+                                columns : [...],
+                                rows : [...]
+                            };
+                            grid.setData(data);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="data.columns">columns</a>
+                        <div>See column available properties: <a href="#options.columnProps">columnProps</a></div>
+                        <pre><code class="language-js">
+                            var columns = [{
+                                id:"c1",
+                                type : "string",
+                                name:"Column Name 1"
+                            }, {
+                                id : "c2",
+                                type : "number",
+                                name : "Column Name 2"
+                            }, {
+                                id: "c3",
+                                name: "Column Name 3",
+                                subs: [{
+                                    id: "c3_s1",
+                                    name: "Column Name 3-1"
+                                }, {
+                                    id: "c3_s2",
+                                    name: "Column Name 3-2"
+                                }]
+                            }];
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="data.rows">rows</a>
+                        <div>See row available properties: <a href="#options.rowProps">rowProps</a></div>
+                        <pre><code class="language-js">
+                            var rows = [{
+                                id : "r1",
+                                name : "Row Name 1",
+                                c1 : "string value 1",
+                                c2 : 1,
+                                c3_s1 : "value 3 - 1",
+                                c3_s2 : "value 1 - 2"
+                            }, {
+                                id : "r2",
+                                type : "group",
+                                name : "Row Name 2",
+                                c1 : "string value 2",
+                                c2 : "value 2",
+                                c3_s1 : "value 3 - 1",
+                                c3_s2 : "value 1 - 2",
+                                subs : [{
+                                    id : "r3",
+                                    type : "holding",
+                                    name : "Row Name 3",
+                                    c1 : "string value 3",
+                                    c2 : 3,
+                                    c3_s1 : "value 3 - 1",
+                                    c3_s2 : "value 1 - 2"
+                                }]
+                            }];
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="data.options">options</a>
+                        <div>Sets options from data (The priority is higher than "setOption")</div>
+                        <pre><code class="language-js">
+                            var data = {
+                                options : {
+                                    sortField : "name"
+                                },
+                                columns : columns,
+                                rows : rows
+                            };
+                            grid.setData(data);
+                        </code></pre>
+                    </section>
+                    
+                    <section>
+                        <a name="data.rowsLength">rowsLength</a>
+                        <div>Dynamic load rows data. No rows data but require total length of rows.</div>
+                        <pre><code class="language-js">
+                                var data = {
+                                    columns: columns,
+                                    rowsLength: 50000
+                                };
+                                grid.setData(data);
+                        </code></pre>
+                        <div>Demo <a href="/load-rows.html" target="_blank">Dynamic Load Rows</a></div>
+                    </section>
+
+
+                </details>
+
+                <details open class="options">
+                    <summary>
+                        <a name="options">Options</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <section>
+                        <a name="options.className">className = "tg-turbogrid"</a>
+                        <div>Customize className (CSS namespace).</div>
+                        <pre><code class="language-js">
+                        grid.setOption({
+                            className: "my-grid-class-name"
+                        });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="options.theme">theme = "[theme-name]"</a>
+                        <div>Sets theme name: (default), lightblue, dark</div>
+                        <div>Demo <a href="/theme.html" target="_blank">Theme</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="options.rowHeight">rowHeight = 23</a>
+                        <div>Demo <a href="/multiple-instance.html" target="_blank">Row Height</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="options.rowCacheLength">rowCacheLength = 0</a>
+                        <a name="options.columnCacheLength">columnCacheLength = 0</a>
+                        <div>Demo <a href="/cache.html" target="_blank">Row/Column Cache</a></div>
+                    </section>
+                    
+
+
+                    <section>
+                        <a name="options.autoHeight">autoHeight = false</a>
+                        <div>Demo <a href="/auto-height.html" target="_blank">Auto Height</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.headerVisible">headerVisible = true</a>
+                        <div>Demo <a href="/no-header.html" target="_blank">Show/Hide Header</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.collapseAllVisible">collapseAllVisible = true</a>
+                        <a name="options.collapseAllOnInit">collapseAllOnInit = null</a>
+                        <div>Demo <a href="/row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.selectVisible">selectVisible = false</a>
+
+                        <a name="options.selectAllVisible">selectAllVisible = true</a>
+                    </section>
+
+                        <a name="options.selectAllOnInit">selectAllOnInit = null</a>
+                        <div>true: select all, false: unselect all, or do nothing</div>
+
+                        <a name="options.selectMultiple">selectMultiple = true</a>
+                        <div>Demo <a href="/row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowNumberVisible">rowNumberVisible = false</a>
+                        <div>false: no number, true: show number column</div>
+                        <div>Demo <a href="/row-number.html" target="_blank">Row Number</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.rowNotFound">rowNotFound = ''</a>
+                        <div>empty; string; element; or function </div>
+                        <div>Demo <a href="/row-not-found.html" target="_blank">Row Not Found</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowDragCrossLevel">rowDragCrossLevel = true</a>
+                        <div>boolean or a handler function, returns a specified drop list</div>
+                        <div>Demo <a href="/row-drag.html" target="_blank">Row Drag</a></div>
+                    </section>
+                    
+
+
+                    <section>
+                        <a name="options.rowMoveCrossLevel">rowMoveCrossLevel = true</a>
+                        <div>true: multi-level move, false: single level move</div>
+                        <div>Demo <a href="/row-move.html" target="_blank">Row Move</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.sortField">sortField = ""</a>
+                        <div>Field for value compare</div>
+
+                        <a name="options.sortAsc">sortAsc = true</a>
+                        <div>true: for ascending sort, false: for descending sort</div>
+
+                        <a name="options.sortBlankValueBottom">sortBlankValueBottom = true</a>
+                        <div>Configuration for sort blank value logic</div>
+                        <div>true: rows with blank values should always be at the bottom of the grid</div>
+                        <div>false: rows with blank values sort at the bottom for descending sort and at the top for ascending sort</div>
+
+                        <a name="options.sortOnInit">sortOnInit = false</a>
+                        <div>Sets true will sort by sortField on initialized</div>
+
+                        <a name="options.sortIndicator">sortIndicator = "h"</a>
+                        <div>"h" or "v" style</div>
+
+                        <a name="options.sortComparers">sortComparers = {defaultSortComparers}</a>
+                        <div>Customize own sort comparers</div>
+                        <div>Demo <a href="/sort.html" target="_blank">Row Sort</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowFilter">rowFilter</a>
+                        <div>Demo <a href="/row-filter.html" target="_blank">Row Filter</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowProps">rowProps = </a>
+                        <pre><code class="language-js">
+                                {
+
+                                    //selected: Boolean
+                                    //collapsed: Boolean
+                                
+                                    //selectable : true
+                                    //exportable: true
+                                
+                                    //sortFixed: [Boolean, String "top"]
+                                
+                                    // customize row style
+                                    //classMap : [String, Array, Object]
+                                    //styleMap : [String, Array, Object]
+                                    //[columnId]ClassMap: [String, Array, Object]
+                                    //[columnId]StyleMap: [String, Array, Object]
+                                
+                                    // row type for class name: group
+                                    //type: String
+                                
+                                    //formatter: [String, Function]
+                                
+                                    //height: Number
+                                
+                                    //subs: Array
+                                }
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="options.columnProps">columnProps = </a>
+                        <pre><code class="language-js">
+                                {
+
+                                    // require for showing header
+                                    name: '',
+
+                                    // for getting row value
+                                    //id: String
+
+                                    // expect to be a string, for example: "string", "number", "date" etc.
+                                    //type: String
+
+                                    // formatter expect to be a function, but also can be a string like type
+                                    // priority is higher than type
+                                    // be used for cell formatting
+                                    //formatter: [String, Function]
+                                    //headerFormatter: [String, Function]
+
+                                    // comparer function when sort function(a, b, options)
+                                    //comparer: [String, Function]
+
+                                    // left (default) | center | right
+                                    //align: String
+
+                                    // customize column style
+                                    //classMap: [String, Array, Object]
+                                    //styleMap: [String, Array, Object]
+                                    //headerClassMap: [String, Array, Object]
+                                    //headerStyleMap: [String, Array, Object]
+
+                                    //sortable: true
+                                    //resizable: true
+                                    //exportable: true
+
+                                    //private: false
+
+                                    // require for column resize
+                                    minWidth: 81,
+                                    maxWidth: 300
+
+                                    //width: Number
+                                    //height: Number
+
+                                    //subs: Array
+                                    
+                                }
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="options.frozenColumn">frozenColumn = -1</a>
+                        <a name="options.frozenRow">frozenRow = -1</a>
+                        <a name="options.frozenBottom">frozenBottom = false</a>
+                        <a name="options.frozenColumnMax">frozenColumnMax = 10</a>
+                        <a name="options.frozenRowMax">frozenRowMax = 10</a>
+                        <a name="options.frozenRowHoverable">frozenRowHoverable = false</a>
+                        <div>Boolean, Allow hovering on frozen row</div>
+                        <div>Demo <a href="/frozen.html" target="_blank">Frozen</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.scrollbarSize">scrollbarSize = 12</a>
+                        <div>Sets scrollbar size</div>
+
+                        <a name="options.scrollbarRound">scrollbarRound = false</a>
+                        <div>Sets scrollbar round style</div>
+
+                        <a name="options.scrollbarFade">scrollbarFade = false</a>
+                        <div>Sets scrollbar fade</div>
+
+                        <a name="options.scrollbarFadeTimeout">scrollbarFadeTimeout = 1000</a>
+                        <div>Sets scrollbar fade timeout</div>
+
+                        <a name="options.scrollbarType">scrollbarType = "auto"</a>
+                        <div>Sets scrollbar type: auto, mobile (fade = true and size = 6)</div>
+
+                        <a name="options.scrollPaneMinWidth">scrollPaneMinWidth = 30</a>
+                        <div>Sets scroll pane min width</div>
+                        <div>Demo <a href="/scrollbar.html" target="_blank">Scrollbar</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.textSelectable">textSelectable = false</a>
+                        <div>Boolean, Allow select text</div>
+                    </section>
+
+                    <section>
+                        <a name="options.bindWindowResize">bindWindowResize = false</a>
+                        <div>Boolean, Bind window resize and call resize API</div>
+                        <a name="options.bindContainerResize">bindContainerResize = false</a>
+                        <div>Boolean, Bind container resize and call resize API (require API ResizeObserver)</div>
+                        <div>Demo <a href="/resize.html" target="_blank">Resize</a></div>
+                    </section>
+
+                </details>
+
+                <details open class="events">
+                    <summary>
+                        <a name="events">Events</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <table class="api-table api-table-zebra">
+                        <tr>
+                            <th>Event Type</th>
+                            <th>Event Data</th>
+                            <th>Example</th>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onUpdated">onUpdated</a>
+                                </section>
+                                <section>
+                                    <a name="onFirstUpdated">onFirstUpdated</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: viewport
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onHeaderUpdated">onHeaderUpdated</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        node: headerNode
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onSort">onSort</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                Object: {
+                                    e,
+                                    columnItem,
+                                    node: headerItemNode
+                                }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/sort.html" target="_blank">Sort</a></div>
+                            </td>
+                        </tr>
+        
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onColumnAdded">onColumnAdded</a>
+                                </section>
+                                <section>
+                                    <a name="onColumnRemoved">onColumnRemoved</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Array: [columnItem ...]
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/column-add-delete.html" target="_blank">Column Add/Delete</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onColumnWidthChanged">onColumnWidthChanged</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: columnItem
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onRowAdded">onRowAdded</a>
+                                </section>
+                                <section>
+                                    <a name="onRowRemoved">onRowRemoved</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Array: [rowItem ...]
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/row-add-delete.html" target="_blank">Row Add/Delete</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onRowExpanded">onRowExpanded</a>
+                                </section>
+                                <section>
+                                    <a name="onRowCollapsed">onRowCollapsed</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: rowItem
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onRowSubsRequest">onRowSubsRequest</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: rowItem
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/load-subs.html" target="_blank">Dynamic Load Subs</a></div>
+                            </td>
+                        </tr>
+        
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onRowDragged">onRowDragged</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        e,
+                                        rowItem
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/row-drag.html" target="_blank">Row Drag</a></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onRowDropped">onRowDropped</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        rowItem,
+                                        dragFrom,
+                                        dragIndex,
+                                        dropInto,
+                                        dropIndex
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/row-drag.html" target="_blank">Row Drag</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onRowMoved">onRowMoved</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Array: [rowItem ...]
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/row-move.html" target="_blank">Row Move</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onRowMouseEnter">onRowMouseEnter</a>
+                                </section>
+                                <section>
+                                    <a name="onRowMouseLeave">onRowMouseLeave</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        e,
+                                        rowItem
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onSelectChanged">onSelectChanged</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Array [rowItem ...]
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/row-select.html" target="_blank">Row Select</a></div>
+                            </td>
+                        </tr>
+        
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onCellUpdated">onCellUpdated</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        value,
+                                        rowItem,
+                                        columnItem,
+                                        node: cellNode
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onCellMouseEnter">onCellMouseEnter</a>
+                                </section>
+                                <section>
+                                    <a name="onCellMouseLeave">onCellMouseLeave</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        e,
+                                        rowItem,
+                                        columnItem,
+                                        rowNode,
+                                        cellNode
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onClick">onClick</a>
+                                </section>
+                                <section>
+                                    <a name="onDblClick">onDblClick</a>
+                                </section>
+                                <section>
+                                    <a name="onContextMenu">onContextMenu</a>
+                                </section>
+                                <section>
+                                    <a name="onMouseOver">onMouseOver</a>
+                                </section>
+                                <section>
+                                    <a name="onMouseOut">onMouseOut</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    //on header
+                                    Object: {
+                                        e,
+                                        columnItem,
+                                        headerNode
+                                    }
+                                    //on body
+                                    Object: {
+                                        e,
+                                        rowItem,
+                                        columnItem,
+                                        rowNode,
+                                        cellNode
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onScroll">onScroll</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        scrollLeft,
+                                        scrollTop
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/scroll.html" target="_blank">Scroll</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onScrollStateChanged">onScrollStateChanged</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                Object: {
+                                    hasHScroll,
+                                    hasVScroll
+                                }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onMouseWheel">onMouseWheel</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                Object: {
+                                    e,
+                                    deltaX,
+                                    deltaY
+                                }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/scroll.html" target="_blank">Scroll</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onResize">onResize</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        previous: Object,
+                                        width: Number, 
+                                        height: Number
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/resize.html" target="_blank">Resize</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onLayout">onLayout</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        previous: Object,
+                                        headerWidth: Number, 
+                                        headerHeight: Number, 
+                                        bodyWidth: Number, 
+                                        bodyHeight: Number
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/resize.html" target="_blank">Resize</a></div>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onKeyDown">onKeyDown</a>
+                                </section>
+                            </td>
+                            <td>
+                                <pre><code class="language-js">
+                                    Object: {
+                                        e
+                                    }
+                                </code></pre>
+                            </td>
+                            <td>
+                                <div>Demo <a href="/events.html" target="_blank">Events</a></div>
+                            </td>
+                        </tr>
+        
+        
+                        <tr>
+                            <td>
+                                <section>
+                                    <a name="onDestroy">onDestroy</a>
+                                </section>
+                            </td>
+                            <td>N/A</td>
+                            <td>
+                                <div>Demo <a href="/flush.html" target="_blank">Flush</a></div>
+                            </td>
+                        </tr>
+        
+                    </table>
+           
+                </details>
+
+                <details open class="lifecycle">
+                    <summary>
+                        <a name="lifecycle">Lifecycle</a>
+                    </summary>
+
+                    <table class="api-table">
+                        <tr>
+                            <th>Phases</th>
+                            <th colspan="2">Sub Phases</th>
+                            <th>Payload</th>
+                            <th>Capacity</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>create</td>
+                            <td colspan="2">
+                                <div>create style and html in the container</div>
+                                <div>set data</div>
+                                <div>set options</div>
+                                <div>set formatters</div>
+                                <div>add events</div>
+                            </td>
+                            <td>low</td>
+                            <td>loading APIs</td>
+                            <td>
+                                <pre><code class="language-js">
+                                    var grid = new Grid(container);
+                                    grid.setData(data);
+                                    grid.setOption(options);
+                                    grid.setFormatter(formatters);
+                                    grid.bind("[event type]", handler);
+                                </code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4">render</td>
+                            <td colspan="2">init options</td>
+                            <td>low</td>
+                            <td rowspan="5">all APIs</td>
+                            <td rowspan="4">
+                                <pre><code class="language-js">
+                                    grid.render();
+                                    grid.rerender();
+                                </code></pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">render header</td>
+                            <td>middle</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">render body</td>
+                            <td>render rows</td>
+                            <td>middle</td>
+                        </tr>
+                        <tr>
+                            <td>render cells</td>
+                            <td>high</td>
+                        </tr>
+        
+                        <tr>
+                            <td>update</td>
+                            <td colspan="2">
+                                <div>update body</div>
+                                <div>update row(s)</div>
+                                <div>update cell(s)</div>
+                            </td>
+                            <td></td>
+                            <td>
+                                <pre><code class="language-js">
+                                    grid.update();
+                                    grid.updateRow(rowIndex, rowData);
+                                    grid.updateCell(rowIndex, columnIndex, cellValue);
+                                </code></pre>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>destroy</td>
+                            <td colspan="2">remove all</td>
+                            <td>low</td>
+                            <td>none</td>
+                            <td>
+                                <pre><code class="language-js">
+                                    grid.destroy();
+                                </code></pre>
+                            </td>
+                        </tr>
+                    </table>
+
+                </details>
+
+                <details open class="tg">
+                    <summary>
+                        <a name="tg">tg</a>
+                    </summary>
+
+                    <section>
+                        <div>The "tg" is Grid prefix or namespace.</div>
+                        <div>CSS className:</div>
+                        <pre><code class="language-css">
+                            .tg-pane {}
+                            .tg-body{}
+                            .tg-row{}
+                            .tg-cell{}
+                        </code></pre>
+                        <div>Private property:</div>
+                        <pre><code class="language-js">
+                            //rowItem.tg_index
+                            //rowItem.tg_level
+                            //rowItem.tg_group
+                        </code></pre>
+                        <div>The private properties will be removed when <a href="#exportData">exportData()</a></div>
+                    </section>
+                </details>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        const addSearchItem = function(searchMap, node) {
+            const aName = node.getAttribute('name');
+            while (node.parentNode) {
+                node = node.parentNode;
+                if (node.nodeName.toLowerCase() === 'details') {
+                    const $summary = node.querySelector('summary');
+                    const $a = $summary.querySelector('a');
+                    const name = $a.innerText.toLowerCase();
+                    if (!searchMap[name]) {
+                        searchMap[name] = {
+                            node: $summary,
+                            value: -1
+                        };
+                    }
+                    searchMap[name].value += 1;
+                    return name;
+                }
+            }
+            return aName;
+        };
+
+        const updateSearchTotal = function(searchMap) {
+            for (const k in searchMap) {
+                const item = searchMap[k];
+                const $total = item.node.querySelector('.total');
+                if ($total) {
+                    $total.innerHTML = `(Total: ${item.value})`;
+                }
+            }
+        };
+
+        const generateSearchList = function(as) {
+
+            const searchMap = {};
+            const searchList = [];
+        
+            as.forEach((a) => {
+                if (a.name) {
+                    const type = addSearchItem(searchMap, a);
+                    searchList.push({
+                        name: a.name,
+                        type
+                    });
+                }
+            });
+
+            //console.log(searchList);
+
+            updateSearchTotal(searchMap);
+
+            return searchList;
+        };
+
+        const getFilterList = function(list, k) {
+            const filterList = list.filter((item) => {
+                const kl = item.name.toLowerCase();
+                if (kl.indexOf(k) !== -1) {
+                    return true;
+                }
+            });
+            filterList.sort((a, b) => {
+                const an = a.name.toLowerCase();
+                const bn = b.name.toLowerCase();
+                return an > bn ? 1 : -1;
+            });
+            return filterList;
+        };
+
+        const searchHandler = function() {
+
+            const $searchValue = document.querySelector('.api-search-value');
+            const $searchList = document.querySelector('.api-search-list');
+            const as = Array.from(document.querySelectorAll('.api-container a'));
+
+            const searchList = generateSearchList(as);
+            //console.log(searchList);
+
+            const highlight = function(v) {
+                as.forEach((a) => {
+                    if (v && a.name === v) {
+                        a.className = 'selected';
+                    } else {
+                        a.className = '';
+                    }
+                });
+            };
+
+            const goto = function(v) {
+                $searchValue.value = v;
+                window.location.hash = v;
+                highlight(v);
+            };
+
+            $searchList.onclick = function(e) {
+                goto(e.target.innerText);
+                $searchList.style.display = 'none';
+            };
+
+            document.body.onclick = function(e) {
+                if (e.target === $searchValue) {
+                    return;
+                }
+                $searchList.style.display = 'none';
+            };
+
+            let previousKeywords;
+
+            const handleNow = function() {
+                const v = $searchValue.value.trim().toLowerCase();
+
+                if (v === previousKeywords) {
+                    return;
+                }
+                previousKeywords = v;
+
+                const filterList = v ? getFilterList(searchList, v) : searchList;
+
+                $searchList.innerHTML = '';
+
+                filterList.forEach(function(item, index) {
+
+                    let k = item.name;
+                    if (v) {
+                        k = k.split(v).join(`<strong>${v}</strong>`);
+                    }
+
+                    const elem = document.createElement('div');
+                    elem.className = `api-search-item ${item.type}`;
+                    elem.innerHTML = k;
+                    $searchList.appendChild(elem);
+
+                });
+
+                const first = $searchList.firstChild;
+                if (first) {
+                    first.classList.add('selected');
+                }
+
+                if (!$searchList.innerHTML) {
+                    $searchList.innerHTML = '<div class="api-search-info">No Results</div>';
+                }
+
+                $searchList.style.display = 'block';
+
+            };
+
+
+            let timeout_handle;
+            const handle = function() {
+                clearTimeout(timeout_handle);
+                timeout_handle = setTimeout(function() {
+                    handleNow();
+                }, 100);
+            };
+
+            $searchValue.onfocus = function(e) {
+                this.select();
+                previousKeywords = null;
+                handle();
+            };
+
+            const scrollItemHandler = function(e, target) {
+
+                e.preventDefault();
+
+                const tt = target.offsetTop;
+                const th = target.clientHeight;
+
+                const lt = $searchList.scrollTop;
+                const lh = $searchList.clientHeight;
+
+                if (tt < lt) {
+                    $searchList.scrollTop = tt;
+                    return;
+                }
+
+                if (tt + th > lt + lh) {
+                    $searchList.scrollTop = tt + th - lh;
+                }
+
+            };
+
+            const enterHandler = function(e, selected) {
+                if (selected) {
+                    goto(selected.innerText);
+                    $searchList.style.display = 'none';
+                }
+            };
+
+            const moveUpHandler = function(e, selected) {
+                if (selected) {
+                    selected.classList.remove('selected');
+                    const prev = selected.previousSibling;
+                    if (prev) {
+                        prev.classList.add('selected');
+                        scrollItemHandler(e, prev);
+                        return;
+                    }
+                }
+                const first = $searchList.firstChild;
+                if (first) {
+                    first.classList.add('selected');
+                    scrollItemHandler(e, first);
+                }
+            };
+
+            const moveDownHandler = function(e, selected) {
+                if (selected) {
+                    selected.classList.remove('selected');
+                    const next = selected.nextSibling;
+                    if (next) {
+                        next.classList.add('selected');
+                        scrollItemHandler(e, next);
+                        return;
+                    }
+                }
+                const last = $searchList.lastChild;
+                if (last) {
+                    last.classList.add('selected');
+                    scrollItemHandler(e, last);
+                }
+            };
+
+
+            $searchValue.onkeydown = function(e) {
+                const keyCode = e.keyCode;
+                const selected = $searchList.querySelector('.selected');
+                if (keyCode === 13) {
+                    enterHandler(e, selected);
+                    return;
+                }
+
+                if (keyCode === 38) {
+                    moveUpHandler(e, selected);
+                    return;
+                }
+
+                if (keyCode === 40) {
+                    moveDownHandler(e, selected);
+                }
+            };
+
+            $searchValue.onkeyup = handle;
+
+            $searchValue.onchange = function() {
+                goto(this.value);
+            };
+
+        };
+
+        searchHandler();
+
+        window.formatCodes();
+
+    </script>
+</body>
+
+</html>

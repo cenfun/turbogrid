@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.2"></script>
+    <script src="dist/turbogrid.js?v=3.0.3"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -15,83 +15,70 @@
     <style>
         .column-list,
         .row-list {
-            font-size: 14px;
             color: #666;
-            height: 14px;
-            margin-top: 5px;
-            word-break: break-all;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
     </style>
 </head>
 
-<body class="flex-column">
-    <div class="header">
-        <div class="line flex-row">
-            <div class="header-title flex-auto">Grid Cache Length Test</div>
-            <div>
-                <select class="st_data">
-                    <option>random_20_columns_100_rows</option>
-                    <option>sample-data.js</option>
-                </select>
-                <select class="st_theme"></select>
-                <button class="bt_source">source</button>
-            </div>
-        </div>
-        <table class="tg-table">
-            <tr>
-                <td>Option:</td>
-                <td>
-                    <label>rowCacheLength
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid Cache Length Test</div>
+                    <select class="st-data">
+                        <option>random-20x100</option>
+                        <option>sample-data</option>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        rowCacheLength
                         <input type="number" min="0" step="1" value="0" class="ip-number it_rowCacheLength" />
                     </label>
-                    <label>columnCacheLength
+                    <label>
+                        columnCacheLength
                         <input type="number" min="0" step="1" value="0" class="ip-number it_columnCacheLength" />
                     </label>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <label>frozenColumn
+                    
+                </div>
+                <div>
+                    <label>
+                        frozenColumn
                         <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
                     </label>
-                    <label>frozenRow
+
+                    <label>
+                        frozenRow
                         <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
                     </label>
-                    <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                    <label for="cb_frozenBottom">frozenBottom</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Method:</td>
-                <td>
-                    <div class="line">
-                        <button>hideColumn(1)</button>
-                        <button>hideColumn(2)</button>
-                        <button>hideColumn(3)</button>
-                        <button>hideColumn(4)</button>
-                    </div>
-                    <div>
-                        <button>showColumn([1, 2, 3, 4])</button>
-                        <button>hideColumn([1, 2, 3, 4])</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>Event:</td>
-                <td>
+
+                    <label>
+                        <input type="checkbox" class="cb_frozenBottom" />
+                        frozenBottom
+                    </label>
+                </div>
+                <div>
+                    <button>hideColumn(1)</button>
+                    <button>hideColumn(2)</button>
+                    <button>hideColumn(3)</button>
+                    <button>hideColumn(4)</button>
+
+                    <button>showColumn([1, 2, 3, 4])</button>
+                    <button>hideColumn([1, 2, 3, 4])</button>
+                </div>
+                <div>
                     <div>onUpdated: (viewport)</div>
-                    <div class="column-list"> </div>
-                    <div class="row-list"> </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="body flex-auto">
-        <div class="grid-container"></div>
+                    <div class="column-list"></div>
+                    <div class="row-list"></div>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
     </div>
     <script type="text/javascript">
         'use strict';
@@ -102,8 +89,8 @@
         grid.bind('onUpdated', function(e, viewport) {
             //console.log(viewport);
 
-            document.querySelector('.column-list').innerHTML = `column list: ${viewport.columns}`;
-            document.querySelector('.row-list').innerHTML = `row list: ${viewport.rows}`;
+            document.querySelector('.column-list').innerHTML = `columns: ${viewport.columns}`;
+            document.querySelector('.row-list').innerHTML = `rows: ${viewport.rows}`;
 
         }).bind('onFirstUpdated', function() {
             console.log('duration:', `${this.renderDuration}ms`);
@@ -114,8 +101,8 @@
             const rowCacheLength = parseInt(document.querySelector('.it_rowCacheLength').value);
             const columnCacheLength = parseInt(document.querySelector('.it_columnCacheLength').value);
 
-            const option = {
-                theme: document.querySelector('.st_theme').value,
+            const options = {
+                theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenBottom: document.querySelector('.cb_frozenBottom').checked,
                 frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
@@ -130,21 +117,15 @@
                 }
             });
 
-            grid.setOption(option);
+            grid.setOption(options);
             grid.setData(data);
             grid.render();
         };
 
         function render() {
-            const dataStr = document.querySelector('.st_data').value;
-
-            const arr = dataStr.split('_');
-            if (arr[0] === 'random') {
-                //random_100_columns_20k_rows
-                const columns = window.getNum(arr[1]);
-                const rows = window.getNum(arr[3]);
-                const data = window.randomData(columns, rows, true);
-                renderData(data);
+            const dataStr = document.querySelector('.st-data').value;
+            if (dataStr.startsWith('random')) {
+                renderData(window.randomData(dataStr));
                 return;
             }
 
@@ -152,7 +133,7 @@
         }
         
 
-        ['.st_data', '.st_theme', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

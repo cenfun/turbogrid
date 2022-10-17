@@ -10,6 +10,7 @@ module.exports = {
     rules: {
         "at-rule-no-unknown": null,
         "font-family-no-missing-generic-family-keyword": null,
+        "import-notation": null,
         "indentation": 4
     }
 };

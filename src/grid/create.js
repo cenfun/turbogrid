@@ -19,7 +19,7 @@ export default {
 
         this.constructorOptions = options;
 
-        //console.log(options, this.options);
+        // console.log(options, this.options);
 
         this.createCache();
         this.createView(options.container);
@@ -45,11 +45,11 @@ export default {
         this.$holder.empty();
         this.holder = this.$holder.get(0);
 
-        //created in shadow DOM
-        //https://developer.mozilla.org/en-US/docs/Web/API/Node/getRootNode
+        // created in shadow DOM
+        // https://developer.mozilla.org/en-US/docs/Web/API/Node/getRootNode
         const rootNode = this.holder.getRootNode();
         this.shadowRoot = null;
-        //in shadow dom
+        // in shadow dom
         if (rootNode && rootNode.host) {
             this.shadowRoot = rootNode;
         }
@@ -59,13 +59,13 @@ export default {
     createGlobalStyle: function() {
         const root = this.shadowRoot || document.head;
 
-        //already appended
+        // already appended
         const prevStyle = root.querySelector(`style[context="${CONST.ID}"]`);
         if (prevStyle) {
             return;
         }
 
-        //append global css to shadow root
+        // append global css to shadow root
         const $style = document.createElement('style');
         $style.setAttribute('context', CONST.ID);
         $style.innerHTML = globalStyle.toString();
@@ -77,20 +77,20 @@ export default {
 
         this.$container = $(templateHtml).appendTo(this.$holder);
 
-        //init id for container in order to keep instance, do NOT remove by gc
+        // init id for container in order to keep instance, do NOT remove by gc
         this.$container.attr('id', this.id);
         this.$container.addClass(`${CONST.NS} ${this.id}`);
 
-        //cache instance for automation test
+        // cache instance for automation test
         this.container = this.$container.get(0);
         Util.setInstance(this.container, this);
 
-        //===============================================================
+        // ===============================================================
 
         this.$headerFrame = this.$container.find('.tg-header-frame');
 
-        //===============================================================
-        //for header scrollPane container
+        // ===============================================================
+        // for header scrollPane container
         this.$paneHL = this.$headerFrame.find('.tg-pane-header-left');
         this.$paneHR = this.$headerFrame.find('.tg-pane-header-right');
 
@@ -101,18 +101,18 @@ export default {
         // Cache the header columns
         this.$header = $().add(this.$headerL).add(this.$headerR);
 
-        //===============================================================
+        // ===============================================================
 
         this.$bodyFrame = this.$container.find('.tg-body-frame');
 
-        //===============================================================
-        //for body scrollPane container
+        // ===============================================================
+        // for body scrollPane container
         this.$paneTL = this.$bodyFrame.find('.tg-pane-top-left');
         this.$paneTR = this.$bodyFrame.find('.tg-pane-top-right');
         this.$paneBL = this.$bodyFrame.find('.tg-pane-bottom-left');
         this.$paneBR = this.$bodyFrame.find('.tg-pane-bottom-right');
 
-        //===============================================================
+        // ===============================================================
         this.$bodyTL = this.$paneTL.find('.tg-body-top-left');
         this.$bodyTR = this.$paneTR.find('.tg-body-top-right');
         this.$bodyBL = this.$paneBL.find('.tg-body-bottom-left');
@@ -120,7 +120,7 @@ export default {
 
         this.$body = $().add(this.$bodyTL).add(this.$bodyTR).add(this.$bodyBL).add(this.$bodyBR);
 
-        //===============================================================
+        // ===============================================================
 
         this.$columnLineContainer = this.$container.find('.tg-column-line');
         this.$columnLineItem = this.$columnLineContainer.find('.tg-column-line-item');

@@ -15,7 +15,7 @@ export default {
         this.renderStartedTimestamp = Date.now();
 
         const renderSettings = this.generateRenderSettings.apply(this, arguments);
-        //console.log('renderSettings', renderSettings);
+        // console.log('renderSettings', renderSettings);
 
         // the render type determines the scope
 
@@ -23,7 +23,7 @@ export default {
         // rerender(), setData(), setOption(), setFormatter()
         if (renderSettings.type === 'all') {
             this.flushBody();
-            //reset + init options/formatter/columns/viewColumns/rows/onInit/scrollPane/columnLine/events
+            // reset + init options/formatter/columns/viewColumns/rows/onInit/scrollPane/columnLine/events
             this.initHandler();
             this.renderHeader();
             this.updateViewRowsAndSize();
@@ -94,47 +94,47 @@ export default {
 
     renderBody: function(renderSettings) {
 
-        //keep in render process
+        // keep in render process
         this.renderSettings = renderSettings;
 
         this.scrollOnInit(renderSettings);
 
-        //update row offset first
+        // update row offset first
         this.scrollTopOffset = this.scrollPane.getScrollTopOffset();
 
         const viewport = this.getViewport();
 
-        //keep for current viewport property
+        // keep for current viewport property
         this.viewport = viewport;
 
-        //clean out of viewport
+        // clean out of viewport
         this.flushWithViewport();
 
-        //update top after clear row cache
+        // update top after clear row cache
         if (this.previousScrollTopOffset !== this.scrollTopOffset) {
             this.previousScrollTopOffset = this.scrollTopOffset;
             this.updateRowCacheTopOffset();
         }
 
-        //console.log('viewport rows/columns:', viewport.rows, viewport.columns);
+        // console.log('viewport rows/columns:', viewport.rows, viewport.columns);
         this.renderRows(viewport.rows);
         this.renderCells(viewport.rows, viewport.columns);
 
         this.renderUpdatedTimestamp = Date.now();
         this.renderDuration = this.renderUpdatedTimestamp - this.renderStartedTimestamp;
-        //console.log(this.renderDuration);
+        // console.log(this.renderDuration);
 
         // updated every time
         // first triggered, because onNextUpdated could be in next events with side effects
         this.trigger(E.onUpdated, viewport);
 
-        //complete only one time
+        // complete only one time
         if (!this.firstUpdated) {
             this.firstUpdated = true;
             this.trigger(E.onFirstUpdated, viewport);
         }
 
-        //update internal layout and outside size if changed
+        // update internal layout and outside size if changed
         this.layoutEventHandler();
         this.resizeEventHandler();
 

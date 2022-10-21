@@ -28,8 +28,8 @@ describe('Resize', function() {
 
         const test_width = grid.containerWidth;
         const test_height = grid.containerHeight;
-        //1260 900
-        //console.log(test_width, test_height);
+        // 1260 900
+        // console.log(test_width, test_height);
         assert(test_width);
         assert(test_height);
 
@@ -71,7 +71,7 @@ describe('Resize', function() {
         });
         assert.equal(callResize, 0);
 
-        //let previous resize stop
+        // let previous resize stop
         await delay(200);
 
         grid.resize(100);
@@ -83,18 +83,18 @@ describe('Resize', function() {
         await delay(200);
         assert.equal(callResize, 1);
 
-        //reset another leading
+        // reset another leading
         grid.resize(200);
         await delay();
         assert.equal(callResize, 2);
 
         await delay();
-        //add trailing
+        // add trailing
         grid.resize(300);
         await delay();
         assert.equal(callResize, 2);
 
-        //delay for trailing
+        // delay for trailing
         await delay(200);
         assert.equal(callResize, 3);
 
@@ -114,7 +114,7 @@ describe('Resize', function() {
 
         container.width(500).height(300);
 
-        //there are 2 microtask: ResizeObserver and resize/resizeSync
+        // there are 2 microtask: ResizeObserver and resize/resizeSync
         await delay(10);
         assert(callResize);
 

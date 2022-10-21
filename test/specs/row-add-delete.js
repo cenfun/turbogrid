@@ -126,7 +126,7 @@ describe('Row add/delete', function() {
         assert.equal(rows.length, prevLen);
     });
 
-    //=================================================================================
+    // =================================================================================
 
     it('Grid row deleteRow', async () => {
         const prevLen = grid.getRows().length;
@@ -155,9 +155,9 @@ describe('Row add/delete', function() {
     it('Grid row deleteRow invisible or collapsed', async () => {
         const prevLen = grid.getRowsLength();
         const prevTotalLen = grid.getRowsLength(true);
-        //no invisible equal
+        // no invisible equal
         assert.equal(prevLen, prevTotalLen);
-        //add invisible row
+        // add invisible row
         grid.addRow({
             id: 'parent_row',
             name: 'parent_row',
@@ -173,18 +173,18 @@ describe('Row add/delete', function() {
                 name: 'sub_row_collapsed'
             }]
         });
-        //add 4 but 1 invisible
+        // add 4 but 1 invisible
         await delay();
         assert.equal(grid.getRowsLength(true), prevTotalLen + 4);
         assert.equal(grid.getRowsLength(), prevLen + 3);
 
-        //remove a sub row
+        // remove a sub row
         grid.deleteRow('sub_row');
         await delay();
         assert.equal(grid.getRowsLength(true), prevTotalLen + 3);
         assert.equal(grid.getRowsLength(), prevLen + 2);
 
-        //collapsed and remove a sub row
+        // collapsed and remove a sub row
         grid.collapseRow('parent_row');
         await delay();
         assert.equal(grid.getRowsLength(), prevLen + 1);
@@ -195,7 +195,7 @@ describe('Row add/delete', function() {
         assert.equal(grid.getRowsLength(true), prevTotalLen + 2);
         assert.equal(grid.getRowsLength(), prevLen + 1);
 
-        //collapsed and remove a sub invisible row
+        // collapsed and remove a sub invisible row
         grid.deleteRow('sub_row_invisible');
         await delay();
         assert.equal(grid.getRowsLength(true), prevTotalLen + 1);
@@ -203,7 +203,7 @@ describe('Row add/delete', function() {
 
     });
 
-    //=================================================================================
+    // =================================================================================
 
     it('Grid row onRowAdded', function(done) {
         const id = Math.round(Math.random() * 100);

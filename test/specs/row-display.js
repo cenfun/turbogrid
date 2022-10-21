@@ -26,17 +26,17 @@ describe('Row display', function() {
     });
 
     it('Grid hideRow', function(done) {
-        //can not hide group if subs has visible
+        // can not hide group if subs has visible
         const row = grid.getRowItem('row11');
         assert.equal(Boolean(row.tg_invisible), false);
         grid.onNextUpdated(function() {
             assert.equal(row.tg_invisible, true);
             done();
         });
-        //empty
+        // empty
         grid.hideRow();
         grid.hideRow('row11');
-        //same
+        // same
         grid.hideRow('row11');
     });
 

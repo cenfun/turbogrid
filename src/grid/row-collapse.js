@@ -29,7 +29,7 @@ export default {
 
     },
 
-    //========================================================================================
+    // ========================================================================================
 
 
     checkCollapseAllState: function(collapsed) {
@@ -37,7 +37,7 @@ export default {
             return;
         }
 
-        //for rows first level check all group collapsed
+        // for rows first level check all group collapsed
         if (collapsed) {
             let i = 0;
             const l = this.rows.length;
@@ -67,8 +67,8 @@ export default {
 
     },
 
-    //========================================================================================
-    //tree handler collapsed
+    // ========================================================================================
+    // tree handler collapsed
 
     expandAllRows: function() {
         return this.renderAllRowsCollapsed(false);
@@ -85,7 +85,7 @@ export default {
         return this.collapseAllRows();
     },
 
-    //========================================================================================
+    // ========================================================================================
 
     renderAllRowsCollapsed: function(collapsed) {
 
@@ -127,7 +127,7 @@ export default {
         return toBeCollapsedList;
     },
 
-    //========================================================================================
+    // ========================================================================================
 
     expandRow: function(rowIndex) {
         const rowItem = this.getRowItem(rowIndex);
@@ -135,7 +135,7 @@ export default {
             return this;
         }
 
-        //empty group
+        // empty group
         if (this.isEmptyGroup(rowItem)) {
             this.trigger(E.onRowSubsRequest, rowItem);
             return this;
@@ -167,7 +167,7 @@ export default {
             return this;
         }
 
-        //has subs but length = 0
+        // has subs but length = 0
         if (!rowItem.subs || !rowItem.tg_subs_length) {
             return this;
         }
@@ -205,7 +205,7 @@ export default {
         return this;
     },
 
-    //========================================================================================
+    // ========================================================================================
 
     expandRowLevel: function(level) {
 
@@ -234,7 +234,7 @@ export default {
             }
         });
 
-        //console.log(collapsedList, expandedList);
+        // console.log(collapsedList, expandedList);
 
         if (!collapsedList.length && !expandedList.length) {
             return this;
@@ -257,7 +257,7 @@ export default {
     },
 
 
-    //========================================================================================
+    // ========================================================================================
 
     renderCollapseAllIcon: function() {
         if (!this.options.collapseAllVisible || !this.hasTreeColumn) {

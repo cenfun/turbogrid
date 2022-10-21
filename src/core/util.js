@@ -23,9 +23,9 @@ const Util = {
         return str;
     },
 
-    //=================================================================================
-    //number
-    //if is valid number
+    // =================================================================================
+    // number
+    // if is valid number
     isNum: function(num) {
         if (typeof num !== 'number' || isNaN(num)) {
             return false;
@@ -55,10 +55,10 @@ const Util = {
         return num;
     },
 
-    //try to convert number if it is a string number
+    // try to convert number if it is a string number
     convertNum: function(str) {
         if (typeof str === 'string') {
-            //keep string if can not be converted
+            // keep string if can not be converted
             const reg = /^[-+]?\d+(\.\d+)?$/ig;
             if (reg.test(str)) {
                 return parseFloat(str);
@@ -77,7 +77,7 @@ const Util = {
         return num;
     },
 
-    //string replace {name}
+    // string replace {name}
     replace: function(str, obj) {
         str = `${str}`;
         if (!obj) {
@@ -92,7 +92,7 @@ const Util = {
         return str;
     },
 
-    //whether data is array with length
+    // whether data is array with length
     isArray: function(data) {
         if (data && data instanceof Array) {
             return true;
@@ -107,7 +107,7 @@ const Util = {
         if (typeof data === 'undefined') {
             return [];
         }
-        //string has length, must be first
+        // string has length, must be first
         if (typeof data === 'string') {
             return [data];
         }
@@ -123,7 +123,7 @@ const Util = {
         }
         return false;
     },
-    //whether item in list
+    // whether item in list
     inList: function(item, list) {
         if (!Util.isList(list)) {
             return false;
@@ -142,7 +142,7 @@ const Util = {
         if (!date || !(date instanceof Date)) {
             return false;
         }
-        //is Date Object but Date {Invalid Date}
+        // is Date Object but Date {Invalid Date}
         if (isNaN(date.getTime())) {
             return false;
         }
@@ -153,7 +153,7 @@ const Util = {
         return Boolean(obj) && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
     },
 
-    //getValue({a:{b:1}}, "a.b", 0)
+    // getValue({a:{b:1}}, "a.b", 0)
     getValue: function(data, path, defaultValue) {
         if (!path) {
             return defaultValue;
@@ -238,8 +238,8 @@ const Util = {
         return false;
     },
 
-    /*eslint-disable complexity */
-    //https://github.com/mysticatea/eaw
+    /* eslint-disable complexity */
+    // https://github.com/mysticatea/eaw
     isNarrowCharacter: function(character) {
         const cp = character.codePointAt(0);
         return (
@@ -262,7 +262,7 @@ const Util = {
             || (cp >= 0xFFE8 && cp <= 0xFFEE)
         );
     },
-    /*eslint-enable */
+    /* eslint-enable */
 
     getCharLen: function(text) {
         let len = 0;
@@ -395,7 +395,7 @@ const Util = {
         });
     },
 
-    //prevent native events default
+    // prevent native events default
     preventDefault: function(e) {
         if (e && typeof e.preventDefault === 'function' && e.cancelable) {
             e.preventDefault();

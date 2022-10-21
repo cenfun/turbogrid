@@ -153,7 +153,7 @@ describe('Util', function() {
         assert.equal(list.length, 1);
         assert.equal(list[0], 0);
 
-        //string
+        // string
         list = Util.toList('');
         assert.equal(list.length, 1);
         assert.equal(list[0], '');
@@ -168,7 +168,7 @@ describe('Util', function() {
         assert.equal(list[0], o);
 
 
-        //array like
+        // array like
         const al = {
             length: 10
         };
@@ -291,7 +291,7 @@ describe('Util', function() {
 
     it('Util isMobile', function() {
         assert.equal(Util.isMobile(), false);
-        //assert.equal(Util.isMobile(), true);
+        // assert.equal(Util.isMobile(), true);
     });
 
     it('Util contains', function() {
@@ -411,7 +411,7 @@ describe('Util', function() {
 
     it('Util preventDefault', () => {
 
-        //document cancelable = false
+        // document cancelable = false
         let defaultPrevented = false;
         Util.bindEvents({
             click: {
@@ -426,7 +426,7 @@ describe('Util', function() {
         assert.equal(defaultPrevented, false);
 
 
-        //div cancelable = true
+        // div cancelable = true
         const div = document.createElement('div');
         document.body.appendChild(div);
 
@@ -435,7 +435,7 @@ describe('Util', function() {
             wheel: {
                 handler: (e) => {
                     Util.preventDefault(e);
-                    //console.log(e);
+                    // console.log(e);
                     defaultPrevented = e.defaultPrevented;
                 }
             }
@@ -496,14 +496,14 @@ describe('Util', function() {
         const asyncHandler = Util.throttle(callback);
         assert.equal(called, 0);
         asyncHandler();
-        //first execute
+        // first execute
         assert.equal(called, 1);
 
-        //start timeout
+        // start timeout
         asyncHandler();
         assert.equal(called, 1);
 
-        //timeout
+        // timeout
         await delay(150);
         assert.equal(called, 2);
 
@@ -513,7 +513,7 @@ describe('Util', function() {
         asyncHandler();
         assert.equal(called, 3);
 
-        //cancel
+        // cancel
         asyncHandler();
         asyncHandler.cancel();
         assert.equal(called, 3);
@@ -583,10 +583,10 @@ describe('Util', function() {
 
         await delay(150);
 
-        //debounce 1
-        //throttle 2
-        //microtask 1
-        //timeout 1
+        // debounce 1
+        // throttle 2
+        // microtask 1
+        // timeout 1
         assert.equal(called, 5);
 
         Object.values(obj).forEach((item) => {
@@ -604,7 +604,7 @@ describe('Util', function() {
 
         Util.cancelAsync(obj);
 
-        //throttle 1
+        // throttle 1
         assert.equal(called, 5 + 1);
 
 

@@ -17,7 +17,7 @@ export default {
         this.$columnLineContainer.hide();
     },
 
-    //blue color
+    // blue color
     setColumnLineActive: function(active) {
         if (active === this.previousColumnLineActive) {
             return;
@@ -30,7 +30,7 @@ export default {
         }
     },
 
-    //======================================================================================
+    // ======================================================================================
 
     getColumnLineLeft: function(columnItem) {
         let left = columnItem.tg_left;
@@ -54,7 +54,7 @@ export default {
 
         const width = columnItem.tg_width;
         const left = this.getColumnLineLeft(columnItem);
-        //console.log(left);
+        // console.log(left);
 
         this.$columnLineItemL.css({
             top: top,
@@ -66,14 +66,14 @@ export default {
             left: left + width - 1
         });
 
-        //hide handler
+        // hide handler
         if (this.frozenInfo.right) {
-            //nothing to do, maybe need handle frozen right later
+            // nothing to do, maybe need handle frozen right later
             return;
         }
 
         if (this.frozenInfo.columns && !columnItem.tg_frozen && left < this.paneWidthL) {
-            //hide left line if has scroll left less than frozen left
+            // hide left line if has scroll left less than frozen left
             this.$columnLineItemL.hide();
         } else {
             this.$columnLineItemL.show();
@@ -82,8 +82,8 @@ export default {
 
     },
 
-    //======================================================================================
-    //drag
+    // ======================================================================================
+    // drag
 
     columnWidthDragStartHandler: function(e, d) {
         const columnItem = d.columnItem;
@@ -100,7 +100,7 @@ export default {
         if (columnItem.tg_width === newWidth) {
             return;
         }
-        //width changed by user, force to update width
+        // width changed by user, force to update width
         columnItem.width = newWidth;
         this.updateViewColumnWidth(columnItem);
         this.renderColumnLine(columnItem);
@@ -126,8 +126,8 @@ export default {
     },
 
 
-    //======================================================================================
-    //touch
+    // ======================================================================================
+    // touch
 
     columnWidthTouchStartHandler: function(e, d) {
         Util.preventDefault(d.e);
@@ -137,7 +137,7 @@ export default {
         d.index = columnItem.tg_index;
         const node = this.getColumnHeaderNode(columnItem);
         d.width = node.clientWidth;
-        //console.log("touch start", d);
+        // console.log("touch start", d);
     },
 
     columnWidthTouchMoveHandler: function(e, d) {
@@ -148,7 +148,7 @@ export default {
         if (columnItem.tg_width === newWidth) {
             return;
         }
-        //width changed by user, force to update width
+        // width changed by user, force to update width
         columnItem.width = newWidth;
         this.updateViewColumnWidth(columnItem);
         this.renderColumnLine(columnItem);
@@ -156,7 +156,7 @@ export default {
 
     columnWidthTouchEndHandler: function(e, d) {
         Util.preventDefault(d.e);
-        //console.log("touch end", d);
+        // console.log("touch end", d);
         this.setColumnLineActive(false);
         this.hideColumnLine();
         this.resize();

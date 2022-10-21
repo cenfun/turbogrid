@@ -38,7 +38,7 @@ describe('Rows', function() {
         const rowsData = grid.getRows();
         assert.equal(rowsData.length, len);
 
-        //only one group left
+        // only one group left
         const rows = grid.getViewRows();
         assert.equal(rows.length, 1);
 
@@ -54,7 +54,7 @@ describe('Rows', function() {
 
     it('Grid row hover', async () => {
 
-        //remove previous
+        // remove previous
         grid.destroy();
 
         grid = new Grid(container);
@@ -64,7 +64,7 @@ describe('Rows', function() {
 
         await delay();
 
-        //only one row, because row filter group
+        // only one row, because row filter group
         const node = container.querySelector('.tg-row[row="0"]');
 
         node.dispatchEvent(new MouseEvent('mouseenter'));

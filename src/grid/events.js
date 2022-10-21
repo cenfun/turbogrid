@@ -112,9 +112,9 @@ export default {
 
         Util.bindEvents(this.containerEvents, this.container);
 
-        //==============================================================
+        // ==============================================================
 
-        //column drag events
+        // column drag events
         this.columnWidthDrag = new Drag();
         this.columnWidthDrag.bind(Drag.EVENT.DRAG_START, (e, d) => {
             this.columnWidthDragStartHandler(e, d);
@@ -124,7 +124,7 @@ export default {
             this.columnWidthDragEndHandler(e, d);
         });
 
-        //column width touch
+        // column width touch
         this.columnWidthTouch = new Touch();
         this.columnWidthTouch.bind(Touch.EVENT.TOUCH_START, (e, d) => {
             this.columnWidthTouchStartHandler(e, d);
@@ -134,7 +134,7 @@ export default {
             this.columnWidthTouchEndHandler(e, d);
         });
 
-        //row drag events
+        // row drag events
         this.rowDrag = new Drag();
         this.rowDrag.bind(Drag.EVENT.DRAG_START, (e, d) => {
             this.rowDragStartHandler(e, d);
@@ -153,7 +153,7 @@ export default {
             this.rowDragEndHandler(e, d);
         });
 
-        //scroll touch events
+        // scroll touch events
         this.scrollTouch = new Touch();
         this.scrollTouch.bind(Touch.EVENT.TOUCH_START, (e, d) => {
             this.scrollTouchStartHandler(e, d);
@@ -167,10 +167,10 @@ export default {
 
     },
 
-    //=============================================================================================
-    //event api
+    // =============================================================================================
+    // event api
 
-    //check native event
+    // check native event
     isDefaultPrevented: function(e) {
         if (e) {
             return e.defaultPrevented;
@@ -209,12 +209,12 @@ export default {
 
     getWheelDelta: function(e, lineHeight, pageHeight) {
 
-        //New wheel delta (wheel event)
+        // New wheel delta (wheel event)
         let deltaX = e.deltaX;
         let deltaY = e.deltaY;
 
 
-        //wheelDeltaX/wheelDeltaY is old property
+        // wheelDeltaX/wheelDeltaY is old property
         if (!Util.isNum(deltaX)) {
             deltaX = Util.toNum(e.wheelDeltaX);
         }
@@ -223,7 +223,7 @@ export default {
             deltaY = Util.toNum(e.wheelDeltaY || e.wheelDelta);
         }
 
-        //deltaMode fixing to px
+        // deltaMode fixing to px
         // 0 is by pixel, nothing to do
         // 1 is by line
         // 2 is by page
@@ -272,7 +272,7 @@ export default {
         }
     },
 
-    //======================================================================================
+    // ======================================================================================
 
     columnResizingMouseDownHandler: function(e) {
         const d = this.getEventData(e);
@@ -319,7 +319,7 @@ export default {
     rowDragTouchStartHandler: function(e) {
         const d = this.getEventData(e);
 
-        //required touch row
+        // required touch row
         if (!d) {
             return;
         }
@@ -331,33 +331,33 @@ export default {
         });
     },
 
-    //======================================================================================
+    // ======================================================================================
 
     scrollPaneTouchStartHandler: function(e) {
-        //just for touch scroll pane, separate with header touchstart
+        // just for touch scroll pane, separate with header touchstart
         if (!this.hasHScroll && !this.hasVScroll) {
-            //console.log('no need touch scroll');
+            // console.log('no need touch scroll');
             return;
         }
 
-        //keep touched row and column for viewport
-        //do NOT remove touching element, otherwise will NOT dispatch touchmove and touchend events
+        // keep touched row and column for viewport
+        // do NOT remove touching element, otherwise will NOT dispatch touchmove and touchend events
         const d = this.getEventData(e);
 
-        //not required, can touch header scroll
+        // not required, can touch header scroll
         // if (!d) {
         //     return;
         // }
 
         this.protectedItem = d;
 
-        //require in pane because body maybe not full height
+        // require in pane because body maybe not full height
         this.scrollTouch.start(e, {
             inertia: true
         });
     },
 
-    //======================================================================================
+    // ======================================================================================
 
     sortHandler: function(e, d) {
 
@@ -384,7 +384,7 @@ export default {
 
     selectIconAllClickHandler: function(node) {
         const $electIconAll = $(node);
-        //toggle selected state
+        // toggle selected state
         let selected = false;
         if ($electIconAll.hasClass('tg-selected') || $electIconAll.hasClass('tg-mixed')) {
             selected = true;
@@ -393,7 +393,7 @@ export default {
         this.selectAll(selected);
     },
 
-    //======================================================================================
+    // ======================================================================================
 
     cellEnterLeaveHandler: function(e, hover) {
         const d = this.getEventData(e);
@@ -410,7 +410,7 @@ export default {
 
     rowEnterLeaveHandler: function(e, enter) {
         const d = this.getEventData(e);
-        //console.log('row enter leave', enter, d);
+        // console.log('row enter leave', enter, d);
         if (!d) {
             return;
         }
@@ -422,14 +422,14 @@ export default {
         if (this.isDefaultPrevented(e)) {
             return;
         }
-        //row class handler
+        // row class handler
         this.renderRowHover(d.rowItem, enter);
 
         return this;
     },
 
-    //=============================================================================================
-    //container handlers
+    // =============================================================================================
+    // container handlers
 
     containerMouseDownHandler: function(e) {
 
@@ -483,21 +483,21 @@ export default {
 
         const $cell = $(e.target).hasClass('tg-cell');
         if ($cell) {
-            //console.log(e.type, 'cell');
+            // console.log(e.type, 'cell');
             this.cellEnterLeaveHandler(e, enter);
             return;
         }
 
         const $row = $(e.target).hasClass('tg-row');
         if ($row) {
-            //console.log(e.type, 'row');
+            // console.log(e.type, 'row');
             this.rowEnterLeaveHandler(e, enter);
         }
 
     },
 
     containerTouchStartHandler: function(e) {
-        //stop motion if have
+        // stop motion if have
         this.scrollTouch.motionStop();
 
         const $columnResizing = this.getEventClosestNode(e.target, 'tg-column-resizing');
@@ -519,13 +519,13 @@ export default {
     },
 
     containerWheelHandler: function(e) {
-        //init mouse wheel data
+        // init mouse wheel data
         const lineHeight = this.getRowHeight();
         const pageHeight = this.bodyHeight;
         const wd = this.getWheelDelta(e, lineHeight, pageHeight);
 
-        //e.deltaMode = 0;
-        //console.log('delta', wd);
+        // e.deltaMode = 0;
+        // console.log('delta', wd);
 
         this.trigger(E.onMouseWheel, {
             e: e,
@@ -545,8 +545,8 @@ export default {
 
         const handled = this.scrollPane.mouseWheelHandler(wd);
         if (handled || handledFrozen) {
-            //require to prevent default for MAC OS
-            //it's very different default handler between windows and Mac
+            // require to prevent default for MAC OS
+            // it's very different default handler between windows and Mac
             Util.preventDefault(e);
         }
 
@@ -554,14 +554,14 @@ export default {
 
     containerClickHandler: function(e) {
 
-        //tree icon all
+        // tree icon all
         const $treeIconAll = this.getEventClosestNode(e.target, 'tg-tree-icon-all');
         if ($treeIconAll) {
             this.toggleAllRows();
             return;
         }
 
-        //select icon all
+        // select icon all
         const $electIconAll = this.getEventClosestNode(e.target, 'tg-select-icon-all');
         if ($electIconAll) {
             this.selectIconAllClickHandler($electIconAll);
@@ -583,14 +583,14 @@ export default {
             return;
         }
 
-        //tree icon
+        // tree icon
         const $treeIcon = this.getEventClosestNode(e.target, 'tg-tree-icon');
         if ($treeIcon) {
             this.toggleRow(d.rowItem);
             return;
         }
 
-        //select icon
+        // select icon
         const $electIcon = this.getEventClosestNode(e.target, 'tg-select-icon');
         if ($electIcon) {
             this.setRowSelected(d.rowItem, e);
@@ -629,7 +629,7 @@ export default {
 
     containerKeyDownHandler: function(e) {
 
-        //console.log('onKeyDown', this.id, e.keyCode);
+        // console.log('onKeyDown', this.id, e.keyCode);
 
         this.trigger(E.onKeyDown, {
             e: e
@@ -639,13 +639,13 @@ export default {
         }
 
         const keyCode = e.keyCode;
-        //console.log(keyCode);
-        //9: tab
-        //13: enter
-        //27: esc
-        //33,34: page up,page down
-        //35,36: end,home
-        //37,38,39,40: left,up,right,down
+        // console.log(keyCode);
+        // 9: tab
+        // 13: enter
+        // 27: esc
+        // 33,34: page up,page down
+        // 35,36: end,home
+        // 37,38,39,40: left,up,right,down
         const keyCodeList = {
             '9': this.keyTabHandler,
             '13': this.keyEnterHandler,
@@ -673,7 +673,7 @@ export default {
         }
     },
 
-    //=============================================================================================
+    // =============================================================================================
 
     unbindEvents: function() {
 
@@ -705,7 +705,7 @@ export default {
             this.scrollTouch = null;
         }
 
-        //for all touch
+        // for all touch
         this.protectedItem = null;
 
     }

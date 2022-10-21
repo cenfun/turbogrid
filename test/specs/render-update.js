@@ -107,7 +107,7 @@ describe('Render update', function() {
 
     it('update', async () => {
 
-        //cache DOMs
+        // cache DOMs
         const headerNode = document.querySelector(".tg-header-item[column='0']");
         const rowNode = document.querySelector(".tg-row[row='0']");
 
@@ -130,7 +130,7 @@ describe('Render update', function() {
 
     it('rerender', async () => {
 
-        //cache DOMs
+        // cache DOMs
         const headerNode = document.querySelector(".tg-header-item[column='0']");
         const rowNode = document.querySelector(".tg-row[row='0']");
 

@@ -63,10 +63,10 @@ const getElementDimension = function(node, dimension) {
         node = node.body;
     }
 
-    //when container width is 0
-    //clientWidth 0, offsetWidth 0, but scrollWidth may not be 0
+    // when container width is 0
+    // clientWidth 0, offsetWidth 0, but scrollWidth may not be 0
 
-    //node[`offset${dimension}`] || node[`scroll${dimension}`]
+    // node[`offset${dimension}`] || node[`scroll${dimension}`]
     return node[`client${dimension}`];
 };
 
@@ -127,7 +127,7 @@ Query.prototype = {
         return this;
     },
 
-    //====================================================================================
+    // ====================================================================================
 
     get: function(i) {
         return this.list[i];
@@ -307,7 +307,7 @@ Query.prototype = {
         }
 
         if (arguments.length === 1) {
-            //set obj
+            // set obj
             if (typeof key === 'object') {
                 Object.keys(key).forEach((k) => {
                     this.attr(k, key[k]);
@@ -315,16 +315,16 @@ Query.prototype = {
                 return this;
             }
 
-            //get key
+            // get key
             const node = this.get(0);
             if (node) {
                 return node.getAttribute(key);
             }
-            //if no attribute
+            // if no attribute
             return;
         }
 
-        //set key value
+        // set key value
         this.each(function(node) {
             node.setAttribute(key, value);
         });
@@ -345,7 +345,7 @@ Query.prototype = {
 
     removeClass: function(str) {
         if (!arguments.length) {
-            //remove all
+            // remove all
             this.each(function(node) {
                 node.className = '';
             });
@@ -480,7 +480,7 @@ Query.prototype = {
         const arr = str.split(',');
         let res = true;
         this.each(function(node) {
-            //window no nodeName
+            // window no nodeName
             if (!node.nodeName) {
                 res = false;
                 return false;

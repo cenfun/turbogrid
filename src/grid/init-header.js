@@ -2,21 +2,21 @@ import Util from '../core/util.js';
 
 export default {
 
-    //grid column header
-    //after initColumnItemHandler
+    // grid column header
+    // after initColumnItemHandler
     initHeaderHandler: function(privateColumns) {
 
         this.initHeaderRowItem();
-        //from last to first, for best performance
+        // from last to first, for best performance
         this.viewGroupColumns.reverse();
 
-        //update width and layer
+        // update width and layer
         this.initGroupColumnsWidth();
         this.initGroupColumnsLayer(privateColumns);
     },
 
     initHeaderRowItem: function() {
-        //for header formatter rowItem argument
+        // for header formatter rowItem argument
         this.headerRowItem = {
             tg_index: -1,
             tg_view_index: -1
@@ -28,13 +28,13 @@ export default {
         });
     },
 
-    //==============================================================================
+    // ==============================================================================
 
     initGroupColumnsWidth: function() {
         this.viewGroupColumns.forEach((groupColumn) => {
             let w = 0;
             groupColumn.subs.forEach((item) => {
-                //do not include invisible column
+                // do not include invisible column
                 if (this.isInvisible(item)) {
                     return;
                 }
@@ -44,17 +44,17 @@ export default {
         });
     },
 
-    //==============================================================================
+    // ==============================================================================
 
     initGroupColumnsLayer: function(privateColumns) {
 
-        //tg_layer: reverse level, tg-h-3
-        //tg_combination: multiple layer, tg-h-3210
+        // tg_layer: reverse level, tg-h-3
+        // tg_combination: multiple layer, tg-h-3210
 
         const maxLevel = this.columnsInfo.maxLevel;
-        //console.log(`maxLevel：${maxLevel}`);
+        // console.log(`maxLevel：${maxLevel}`);
 
-        //init column
+        // init column
         this.viewColumns.forEach(function(columnItem) {
             columnItem.tg_layer = maxLevel;
             if (columnItem.tg_parent) {
@@ -62,7 +62,7 @@ export default {
             }
         });
 
-        //sort from last to first
+        // sort from last to first
         this.viewGroupColumns.forEach(function(groupColumn) {
             const groupLayer = groupColumn.tg_layer;
             const groupParent = groupColumn.tg_parent;
@@ -75,7 +75,7 @@ export default {
             }
         });
 
-        //console.log(this.viewColumns, this.viewGroupColumns);
+        // console.log(this.viewColumns, this.viewGroupColumns);
 
         this.initColumnRowspanHandler(privateColumns, 0);
 
@@ -97,11 +97,11 @@ export default {
             list.push(minLayer);
             minLayer += 1;
         }
-        //tg-h-3210
+        // tg-h-3210
         list.reverse();
         const rowspan = list.length;
 
-        //combination must be string
+        // combination must be string
         let combination = '';
         if (rowspan > 1) {
             combination = list.join('');

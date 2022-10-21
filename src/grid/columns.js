@@ -41,7 +41,7 @@ export default {
         return this.viewAllColumns[columnIndex];
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
 
     isColumnSortable: function(columnItem) {
@@ -64,18 +64,18 @@ export default {
         if (columnItem.tg_group) {
             return false;
         }
-        //default is true
+        // default is true
         if (!Util.hasOwn(columnItem, 'resizable')) {
             return true;
         }
         return Boolean(columnItem.resizable);
     },
 
-    //==========================================================================================
-    //only single column
+    // ==========================================================================================
+    // only single column
     updateViewColumnWidth: function(columnItem) {
 
-        //sync width to tg_width
+        // sync width to tg_width
         columnItem.tg_width = columnItem.width;
 
         this.updateColumnHeaderSize(columnItem);
@@ -85,29 +85,29 @@ export default {
         this.cssRulesInvalid = true;
         this.resizeBodyHandler();
 
-        //console.log('onColumnWidthChanged', columnItem.name);
+        // console.log('onColumnWidthChanged', columnItem.name);
         this.trigger(E.onColumnWidthChanged, columnItem);
 
         return true;
     },
 
-    //depends columns changed: add/delete/show/hide/invisible
+    // depends columns changed: add/delete/show/hide/invisible
     // frozenColumn/frozenRight changed
     updateTotalColumnsWidth: function() {
 
-        //reset blank column
+        // reset blank column
         this.blankColumn.tg_width = 0;
 
         const columns = this.viewColumns;
 
-        //update left right total width
+        // update left right total width
         let columnsWidthL = 0;
         let columnsWidthR = 0;
 
         const fcs = this.frozenInfo.columns;
 
         const len = columns.length;
-        //x position
+        // x position
         let left = 0;
         for (let i = 0; i < len; i++) {
             const column = columns[i];
@@ -133,15 +133,15 @@ export default {
         this.columnsWidthL = columnsWidthL;
         this.columnsWidthR = columnsWidthR;
 
-        //total width
+        // total width
         this.columnsWidth = columnsWidthL + columnsWidthR;
 
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
     updateColumnHeaderSize: function(columnItem) {
-        //change width for column elements, both for all parent container
+        // change width for column elements, both for all parent container
         this.updateColumnHeaderWidth(columnItem);
         this.updateColumnHeaderHeight(columnItem, true);
         this.updateColumnGroupWidth(columnItem);
@@ -159,20 +159,20 @@ export default {
             node.style.display = 'none';
         } else {
             node.style.display = '';
-            //do NOT use $node.width(width), it has column border issue
+            // do NOT use $node.width(width), it has column border issue
             node.style.width = `${w}px`;
         }
 
     },
 
-    //update height depends width and display state
-    //because width could be 0, then column is hidden
+    // update height depends width and display state
+    // because width could be 0, then column is hidden
     updateColumnHeaderHeight: function(columnItem, force) {
 
-        //default to 0
+        // default to 0
         columnItem.tg_height = 0;
 
-        //no width column
+        // no width column
         if (columnItem.tg_width <= 0) {
             return;
         }
@@ -181,12 +181,12 @@ export default {
             return;
         }
 
-        //force means force update, remove cache
+        // force means force update, remove cache
         if (force) {
             columnItem.tg_element_height = 0;
         }
 
-        //use cache if exist
+        // use cache if exist
         const eh = columnItem.tg_element_height;
         if (eh) {
             columnItem.tg_height = eh;
@@ -194,9 +194,9 @@ export default {
         }
 
         const ch = this.getColumnHeaderHeight(columnItem);
-        //console.log(ch);
+        // console.log(ch);
         columnItem.tg_height = ch;
-        //cache element height
+        // cache element height
         columnItem.tg_element_height = ch;
 
     },
@@ -206,7 +206,7 @@ export default {
         if (!node) {
             return 0;
         }
-        //get real height
+        // get real height
         return node.clientHeight;
     },
 

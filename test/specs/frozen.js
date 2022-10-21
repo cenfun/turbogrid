@@ -105,9 +105,9 @@ describe('Frozen', function() {
     };
 
     const sizeList = [
-        //no scrollbar
+        // no scrollbar
         [600, 500],
-        //has h/v scrollbar both
+        // has h/v scrollbar both
         [400, 300]
     ];
 

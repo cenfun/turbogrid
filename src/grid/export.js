@@ -2,7 +2,7 @@ import Util from '../core/util.js';
 
 export default {
 
-    //data snapshot for export excel
+    // data snapshot for export excel
     exportData: function(keysSettings) {
         const data = this.getData();
 
@@ -52,7 +52,7 @@ export default {
     getItemSnapshot: function(item, keysSettings = {}) {
         const newItem = {};
         Object.keys(item).forEach((k) => {
-            //user custom keys settings
+            // user custom keys settings
             if (keysSettings[k] === true) {
                 newItem[k] = item[k];
                 return;
@@ -61,7 +61,7 @@ export default {
                 return;
             }
 
-            //ignore subs and all tg_ properties
+            // ignore subs and all tg_ properties
             if (k === 'subs' || k.indexOf('tg_') === 0) {
                 return;
             }

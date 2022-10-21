@@ -61,10 +61,10 @@ describe('Render viewport', function() {
             const viewport = this.getViewport();
             const hh = this.headerHeight;
 
-            //20 is distance for scroll render cache
+            // 20 is distance for scroll render cache
             const distance = 20;
 
-            //from 0
+            // from 0
             const rowLen = Math.ceil((500 - hh + distance) / this.options.rowHeight);
             assert.equal(viewport.rows.length, rowLen);
 
@@ -84,14 +84,14 @@ describe('Render viewport', function() {
             const viewport = this.getViewport();
             const hh = this.headerHeight;
 
-            //20 is distance for scroll render cache
+            // 20 is distance for scroll render cache
             const distance = 20;
 
-            //not from 0
+            // not from 0
             const rowLen = Math.ceil((distance + 500 - hh + distance) / this.options.rowHeight);
             assert.equal(viewport.rows.length, rowLen);
 
-            //both left and right have distance so plus 1
+            // both left and right have distance so plus 1
             const colLen = Math.ceil((distance + 500 + distance) / colWidth) + 1;
             assert.equal(viewport.columns.length, colLen);
 
@@ -115,7 +115,7 @@ describe('Render viewport', function() {
             const viewport = this.getViewport();
             const hh = this.headerHeight;
 
-            //20 is distance for scroll render cache
+            // 20 is distance for scroll render cache
             const distance = 20;
 
             const rowLen = Math.ceil((500 - hh + distance) / this.options.rowHeight);
@@ -137,14 +137,14 @@ describe('Render viewport', function() {
             const viewport = this.getViewport();
             const hh = this.headerHeight;
 
-            //20 is distance for scroll render cache
+            // 20 is distance for scroll render cache
             const distance = 20;
 
-            //not from 0
+            // not from 0
             const rowLen = Math.ceil((distance + 500 - hh + distance) / this.options.rowHeight);
             assert.equal(viewport.rows.length, rowLen);
 
-            //both left and right have distance so plus 1
+            // both left and right have distance so plus 1
             const colLen = Math.ceil((distance + 500 + distance) / colWidth) + 1;
             assert.equal(viewport.columns.length, colLen);
 

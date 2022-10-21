@@ -2,7 +2,7 @@ import Util from '../core/util.js';
 
 export default {
 
-    //all using tg_view_index
+    // all using tg_view_index
 
     flushRow: function(rowInfo) {
         const rowList = Util.toList(rowInfo);
@@ -28,7 +28,7 @@ export default {
 
     },
 
-    //=============================================================================
+    // =============================================================================
 
     flushBody: function() {
         this.forEachBodyCache((row, rowNodes, cellNodes) => {
@@ -44,7 +44,7 @@ export default {
         }
     },
 
-    //=============================================================================
+    // =============================================================================
 
     flushColumn: function(columnInfo) {
         const columnList = Util.toList(columnInfo);
@@ -68,7 +68,7 @@ export default {
         });
     },
 
-    //=============================================================================
+    // =============================================================================
 
     flushCell: function(rowInfo, columnInfo) {
         const rowList = Util.toList(rowInfo);
@@ -85,19 +85,19 @@ export default {
         });
     },
 
-    //=============================================================================
+    // =============================================================================
 
 
-    //clean handler, remove out of viewport
+    // clean handler, remove out of viewport
     flushWithViewport: function() {
         const { rows, columns } = this.viewport;
         this.forEachBodyCache((row, rowNodes, cellNodes) => {
             if (!rows.includes(row)) {
-                //remove out of rows (include all columns)
+                // remove out of rows (include all columns)
                 this.deleteRowCache(row);
                 return;
             }
-            //remove out of columns
+            // remove out of columns
             cellNodes.forEach((cellNode, column) => {
                 if (!columns.includes(column)) {
                     this.deleteCellCache(cellNodes, column);

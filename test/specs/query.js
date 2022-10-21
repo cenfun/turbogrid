@@ -6,7 +6,7 @@ describe('Query', function() {
     myDiv.className = 'my-div';
     document.body.appendChild(myDiv);
 
-    //require window focus to test blur
+    // require window focus to test blur
     window.focus();
 
     it('query length', function() {
@@ -189,7 +189,7 @@ describe('Query', function() {
         let callBlue = false;
 
         input.addEventListener('blur', (e) => {
-            //console.log('query blur triggered');
+            // console.log('query blur triggered');
             callBlue = true;
         });
 

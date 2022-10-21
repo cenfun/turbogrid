@@ -1,13 +1,13 @@
 import E from '../core/event-types.js';
-//import Util from '../core/util.js';
+// import Util from '../core/util.js';
 export default {
 
     renderHeader: function() {
 
-        //update css always
+        // update css always
         this.cssRulesInvalid = true;
 
-        //remove header table
+        // remove header table
         this.$headerL.empty();
         this.$headerR.empty();
 
@@ -15,21 +15,21 @@ export default {
 
         this.renderHeaderTables();
 
-        //header sort and resize
+        // header sort and resize
         this.renderHeaderSort();
 
-        //header created
+        // header created
         this.headerCreated = true;
-        //console.log('headerCreated');
+        // console.log('headerCreated');
 
-        //column rendered
+        // column rendered
         this.trigger(E.onHeaderUpdated, {
             node: this.$headerFrame.get(0)
         });
 
     },
 
-    //call from resize
+    // call from resize
     initHeaderLayerHeight: function() {
 
         this.updateScrollPaneHiddenState();
@@ -46,8 +46,8 @@ export default {
 
     },
 
-    //use max height column as layer height
-    //combination column need handler
+    // use max height column as layer height
+    // combination column need handler
     updateHeaderLayerHeight: function() {
         const headerLayerHeight = {};
         const maxLevel = this.columnsInfo.maxLevel;
@@ -67,10 +67,10 @@ export default {
             }
         });
 
-        //last layer
+        // last layer
         combinationList.forEach(function(column) {
             let ch = column.tg_height;
-            //210
+            // 210
             const combination = column.tg_combination;
             const list = combination.split('');
             const layer = list.pop();
@@ -82,7 +82,7 @@ export default {
         });
 
         const str = JSON.stringify(headerLayerHeight);
-        //console.log(`headerLayerHeight: ${str}`);
+        // console.log(`headerLayerHeight: ${str}`);
 
         if (this.previousHeaderLayerHeight === str) {
             return;

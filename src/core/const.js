@@ -12,7 +12,7 @@ export default {
     LEFT: 'left',
     RIGHT: 'right',
 
-    //indent each level, and tree icon width
+    // indent each level, and tree icon width
     TREE_INDENT: 15
 
 };

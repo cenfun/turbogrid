@@ -39,7 +39,7 @@ describe('Row select', function() {
 
         await delay();
 
-        //do NOT use 0, 0 is group, not selectable by default
+        // do NOT use 0, 0 is group, not selectable by default
 
         grid.setRowSelected(1);
         assert.equal(grid.getSelectedRows().length, 1);
@@ -100,14 +100,14 @@ describe('Row select', function() {
         $checkboxAll.click();
         await delay(10);
         assert.equal(grid.getSelectedRows().length, total);
-        //assert.equal(checkboxAll.hasClass("tg-selected"), true);
+        // assert.equal(checkboxAll.hasClass("tg-selected"), true);
 
-        //will be recreated
+        // will be recreated
         $checkboxAll = container.querySelector('.tg-select-icon-all');
         $checkboxAll.click();
         await delay(10);
         assert.equal(grid.getSelectedRows().length, 0);
-        //assert.equal(checkboxAll.hasClass("tg-selected"), false);
+        // assert.equal(checkboxAll.hasClass("tg-selected"), false);
 
         grid.setRowSelected(1);
         await delay(10);

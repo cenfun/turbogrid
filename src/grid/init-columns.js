@@ -2,7 +2,7 @@ import Util from '../core/util.js';
 
 export default {
 
-    //create columns and viewColumns
+    // create columns and viewColumns
     initColumnsHandler: function() {
         this.columns = this.data.columns;
         // init data columns, need check null and undefined before concat
@@ -13,12 +13,12 @@ export default {
             }
         });
 
-        //need cache own columns too, but any column related change should be data columns
+        // need cache own columns too, but any column related change should be data columns
         const privateColumns = this.getPrivateColumns();
         this.columnsInfo = this.initTreeInfo(privateColumns, this.frozenInfo.column);
 
         // no dependence, so create view columns directly
-        //view columns
+        // view columns
         const viewColumns = [];
         const viewGroupColumns = [];
 
@@ -37,7 +37,7 @@ export default {
 
                 if (columnItem.tg_group) {
 
-                    //no empty for column, can not resize width
+                    // no empty for column, can not resize width
                     if (this.isEmptyGroup(columnItem)) {
                         return;
                     }
@@ -47,7 +47,7 @@ export default {
 
                 } else {
 
-                    //update list index, not for column group (not in list)
+                    // update list index, not for column group (not in list)
                     columnItem.tg_list_index = list_index;
                     list_index += 1;
 
@@ -68,7 +68,7 @@ export default {
 
         digList(privateColumns);
 
-        //init item
+        // init item
         viewColumns.forEach((columnItem) => {
             this.initColumnItemHandler(columnItem);
         });
@@ -76,14 +76,14 @@ export default {
         this.viewColumns = viewColumns;
         this.viewGroupColumns = viewGroupColumns;
 
-        //grid column list include all columns and groups
+        // grid column list include all columns and groups
         this.viewAllColumns = [].concat(viewColumns).concat(viewGroupColumns);
 
         this.initViewList(this.viewAllColumns, (item, i) => {
 
         });
 
-        //init column header data
+        // init column header data
         this.initHeaderHandler(privateColumns);
 
         this.initSortColumn();
@@ -92,7 +92,7 @@ export default {
     getPrivateColumns: function() {
         const o = this.options;
 
-        //own columns and remove from user columns
+        // own columns and remove from user columns
         this.selectColumn = o.selectColumn;
         this.rowDragColumn = o.rowDragColumn;
         this.rowNumberColumn = o.rowNumberColumn;
@@ -101,7 +101,7 @@ export default {
         let privateColumns = [];
 
         const appendPrivateColumns = () => {
-            //first, add select column if options selectVisible
+            // first, add select column if options selectVisible
             if (o.selectVisible) {
                 privateColumns.push(this.selectColumn);
             }
@@ -116,7 +116,7 @@ export default {
             }
         };
 
-        //do not move private columns to right, should after frozen column
+        // do not move private columns to right, should after frozen column
         if (this.frozenInfo.right) {
             const fc = this.frozenInfo.column;
             this.columns.forEach((item, i) => {
@@ -130,7 +130,7 @@ export default {
             privateColumns = privateColumns.concat(this.columns);
         }
 
-        //last, add blank column always
+        // last, add blank column always
         privateColumns.push(this.blankColumn);
 
         return privateColumns;
@@ -154,20 +154,20 @@ export default {
     },
 
     initColumnItemHandler: function(columnItem) {
-        //options handler
+        // options handler
         this.initColumnProps(columnItem);
-        //formatter handler
+        // formatter handler
         this.initColumnFormatter(columnItem);
-        //width handler
+        // width handler
         this.initColumnWidth(columnItem);
     },
 
-    //=============================================================================
+    // =============================================================================
     initColumnProps: function(columnItem) {
 
         const columnTypes = this.options.columnTypes;
 
-        //1, id type
+        // 1, id type
         if (!Util.hasOwn(columnItem, 'type')) {
             const idType = columnTypes[columnItem.id];
             if (typeof idType === 'string') {
@@ -178,13 +178,13 @@ export default {
         // copy to column with default props
         let defaultProps = this.options.columnProps;
 
-        //2, type props
+        // 2, type props
         const typeProps = columnTypes[columnItem.type];
         if (typeProps && typeof typeProps === 'object') {
             defaultProps = Util.merge(defaultProps, typeProps);
         }
 
-        //update column with default props
+        // update column with default props
         for (const k in defaultProps) {
             if (!Util.hasOwn(columnItem, k)) {
                 columnItem[k] = defaultProps[k];
@@ -192,15 +192,15 @@ export default {
         }
     },
 
-    //=============================================================================
-    //formatter handler
+    // =============================================================================
+    // formatter handler
     initColumnFormatter: function(columnItem) {
 
-        //header formatter, name is header
+        // header formatter, name is header
         this.initColumnFormatterByName(columnItem, 'headerFormatter', 'header');
 
-        //cell formatter, user custom name
-        //using formatter string first, then type
+        // cell formatter, user custom name
+        // using formatter string first, then type
         let formatterName = columnItem.type;
         const formatter = columnItem.formatter;
         if (typeof formatter === 'string') {
@@ -214,7 +214,7 @@ export default {
     initColumnFormatterByName: function(columnItem, key, formatterName) {
 
         let formatter = columnItem[key];
-        //already is function
+        // already is function
         if (typeof formatter === 'function') {
             columnItem[`tg_${key}`] = formatter.bind(this);
             return;
@@ -222,35 +222,35 @@ export default {
 
         formatter = this.getFormatter(formatterName);
         if (formatter) {
-            //already bind this
+            // already bind this
             columnItem[`tg_${key}`] = formatter;
             return;
         }
 
-        //default string formatter
+        // default string formatter
         columnItem[`tg_${key}`] = this.getFormatter('string');
 
     },
 
-    //=============================================================================
+    // =============================================================================
 
     initColumnWidth: function(columnItem) {
-        //do NOT change blank column width
+        // do NOT change blank column width
         if (columnItem === this.blankColumn) {
             columnItem.tg_width = 0;
             return;
         }
 
-        //read custom width
+        // read custom width
         if (Util.isNum(columnItem.width) && columnItem.width >= 0) {
             columnItem.tg_width = columnItem.width;
-            //fix min and max width
+            // fix min and max width
             columnItem.minWidth = Math.min(columnItem.minWidth, columnItem.tg_width);
             columnItem.maxWidth = Math.max(columnItem.maxWidth, columnItem.tg_width);
             return;
         }
 
-        //calculate width by text
+        // calculate width by text
         this.initColumnWidthByName(columnItem);
 
     },
@@ -266,31 +266,31 @@ export default {
     getComputedColumnWidth: function(columnItem) {
         const str = columnItem.name || '';
         const len = Util.getCharLen(str);
-        //font size: 14px, single char width:
+        // font size: 14px, single char width:
         const charWidth = 10;
         let width = Math.round(len * charWidth);
-        //min width: 73
+        // min width: 73
         if (width > 103) {
-            //2 lines
+            // 2 lines
             width = Math.max(103, Math.round(len * charWidth / 2));
             if (width > 133) {
-                //3 lines
+                // 3 lines
                 width = Math.max(133, Math.round(len * charWidth / 3));
                 if (width > 163) {
-                    //4 lines
+                    // 4 lines
                     width = Math.max(163, Math.round(len * charWidth / 4));
-                    //max width: 300
+                    // max width: 300
                 }
             }
         }
         return Util.clamp(width, columnItem.minWidth, columnItem.maxWidth);
     },
 
-    //=============================================================================
+    // =============================================================================
 
     initSortColumn: function() {
 
-        //for sort on init every time
+        // for sort on init every time
         this.sortColumn = null;
 
         const o = this.options;
@@ -312,7 +312,7 @@ export default {
             columnItem.sortAsc = o.sortAsc;
         }
 
-        //for sort data every time
+        // for sort data every time
         this.sortColumn = columnItem;
 
         return this;

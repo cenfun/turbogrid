@@ -19,16 +19,16 @@ export default {
 
         let content = value;
 
-        //1, null formatter only for value
+        // 1, null formatter only for value
         if (this.nullFormatter) {
             content = this.nullFormatter.call(this, content, rowItem, columnItem, cellNode);
         }
 
-        //2, row formatter, high priority
-        //3, column formatter
+        // 2, row formatter, high priority
+        // 3, column formatter
         const formatter = rowItem.tg_formatter || columnItem.tg_formatter;
 
-        //column formatter
+        // column formatter
         if (typeof formatter === 'function') {
             content = formatter.call(this, content, rowItem, columnItem, cellNode);
         }
@@ -66,7 +66,7 @@ export default {
             return;
         }
 
-        //console.log(columns, list);
+        // console.log(columns, list);
 
         list.forEach((column) => {
             this.createCellNode(row, column);
@@ -85,7 +85,7 @@ export default {
             list.push(`tg-align-${columnItem.align}`);
         }
 
-        //list index first
+        // list index first
         if (columnItem.tg_list_index === 0) {
             list.push('tg-list-first');
         }
@@ -106,7 +106,7 @@ export default {
             return;
         }
 
-        //from view list
+        // from view list
         const rowItem = this.getViewRowItem(row);
         const columnItem = this.getViewColumnItem(column);
         if (!rowItem || !columnItem) {
@@ -114,7 +114,7 @@ export default {
         }
 
         const cellNode = document.createElement('div');
-        //for event position
+        // for event position
         cellNode.setAttribute('column', column);
         const classMap = this.getCellClass(rowItem, columnItem);
         cellNode.className = classMap;
@@ -131,7 +131,7 @@ export default {
 
         this.renderCell(rowItem, columnItem, cellNode);
 
-        //node and data cache
+        // node and data cache
         rowCache.cellNodes.set(column, cellNode);
         this.setNodeDataCache(cellNode, {
             row,

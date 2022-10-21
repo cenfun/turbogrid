@@ -36,7 +36,7 @@ export default class Drag extends EventBase {
         return Util.merge(defaultOptions, options);
     }
 
-    //============================================================================
+    // ============================================================================
 
     start(e, data) {
         if (!e) {
@@ -93,11 +93,11 @@ export default class Drag extends EventBase {
         this.previousIframe = target;
     }
 
-    //============================================================================
+    // ============================================================================
 
     startHandler(e) {
         const os = this.options;
-        //start position
+        // start position
         os.e = e;
         os.startX = e.pageX;
         os.startY = e.pageY;
@@ -111,22 +111,22 @@ export default class Drag extends EventBase {
 
         const os = this.options;
         os.e = e;
-        //keep previous position
+        // keep previous position
         os.previousX = os.currentX;
         os.previousY = os.currentY;
-        //current position
+        // current position
         os.currentX = e.pageX;
         os.currentY = e.pageY;
-        //current move offset from previous
+        // current move offset from previous
         os.moveX = os.currentX - os.previousX;
         os.moveY = os.currentY - os.previousY;
-        //current offset from start
+        // current offset from start
         os.offsetX = os.currentX - os.startX;
         os.offsetY = os.currentY - os.startY;
-        //position nothing change
+        // position nothing change
         os.changed = !(os.offsetX === 0 && os.offsetY === 0);
 
-        //moved but no changed, because position back to start point
+        // moved but no changed, because position back to start point
         if (this.hasMoved) {
             this.trigger(EVENT.DRAG_MOVE, os);
             return;

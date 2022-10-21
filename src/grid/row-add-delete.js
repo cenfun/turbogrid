@@ -22,7 +22,7 @@ export default {
         const subs = this.getToBeAddedParentSubs(parentItem, this.rows);
         const positionIndex = this.getToBeAddedPositionIndex(position, subs);
 
-        //console.log('addRow', parentItem, positionIndex);
+        // console.log('addRow', parentItem, positionIndex);
 
         const args = [positionIndex, 0].concat(rowList);
         subs.splice.apply(subs, args);
@@ -30,11 +30,11 @@ export default {
         this.initRowsHandler();
 
         if (parentItem) {
-            //force to open for scroll to render
+            // force to open for scroll to render
             parentItem.collapsed = false;
             this.flushRowFrom(parentItem.tg_view_index + positionIndex);
         } else {
-            //do not from 0, frozen row can not flush
+            // do not from 0, frozen row can not flush
             this.flushRowFrom(positionIndex);
         }
 
@@ -55,7 +55,7 @@ export default {
         return true;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     deleteRow: function(rowInfo) {
         const rowList = Util.toList(rowInfo);
@@ -91,7 +91,7 @@ export default {
     },
 
     getRemovedMinIndex: function(sortedRows) {
-        //choose min index to flush
+        // choose min index to flush
         let minIndex = 0;
 
         const item = sortedRows[sortedRows.length - 1];
@@ -101,17 +101,17 @@ export default {
         }
 
         minIndex = item.tg_view_index;
-        //refresh for neighbor tg-list-first and tg-list-last
+        // refresh for neighbor tg-list-first and tg-list-last
         if (minIndex > 0) {
             minIndex -= 1;
         }
 
-        //if parent collapsed
+        // if parent collapsed
         let parent = item.tg_parent;
         while (parent) {
             if (parent.collapsed) {
                 minIndex = parent.tg_view_index;
-                //no need refresh for neighbor if collapsed
+                // no need refresh for neighbor if collapsed
             }
             parent = parent.tg_parent;
         }
@@ -120,13 +120,13 @@ export default {
     },
 
     removeRowsHandler: function(deletedRowsList) {
-        //remove with high performance, desc index
+        // remove with high performance, desc index
         const list = [].concat(deletedRowsList);
         list.sort(function(a, b) {
             return b.tg_index - a.tg_index;
         });
 
-        //console.log(list);
+        // console.log(list);
         const results = [];
         list.forEach((row) => {
             const parentSubs = this.getRowParentSubs(row);

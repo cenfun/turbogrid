@@ -19,8 +19,8 @@ describe('Cache length', function() {
 
     it('Grid row cache length 0', async () => {
         grid.setOption({
-            //default
-            //rowCacheLength: 0
+            // default
+            // rowCacheLength: 0
         });
         grid.setData(data);
         grid.render();
@@ -75,7 +75,7 @@ describe('Cache length', function() {
         const rows = grid.viewport.rows;
         const hh = grid.headerHeight;
 
-        //last row should no scrollbar height in
+        // last row should no scrollbar height in
         const sh = grid.getScrollbarHeight();
 
         const rowHeight = grid.options.rowHeight;
@@ -88,8 +88,8 @@ describe('Cache length', function() {
 
     it('Grid column cache length 0', async () => {
         grid.setOption({
-            //default
-            //columnCacheLength: 0
+            // default
+            // columnCacheLength: 0
         });
         grid.setData(data);
         grid.render();
@@ -98,7 +98,7 @@ describe('Cache length', function() {
 
         const columns = grid.viewport.columns;
 
-        //first column width is 230
+        // first column width is 230
         const len = Math.ceil((500 - 230) / 81) + 1;
         assert.equal(columns.length, len);
         const firstRow = $(container.find('.tg-row').get(0));
@@ -118,7 +118,7 @@ describe('Cache length', function() {
 
         const columns = grid.viewport.columns;
 
-        //first column width is 230, left cache 1 right
+        // first column width is 230, left cache 1 right
         const len = Math.ceil((500 - 230) / 81) + 1 + 1;
 
         assert.equal(columns.length, len);
@@ -129,7 +129,7 @@ describe('Cache length', function() {
 
 
     it('Grid column cache length 1, scrollLeft (middle)', async () => {
-        //first column + 1 column + distance
+        // first column + 1 column + distance
         const left = 230 + 81 + 20;
 
         grid.setScrollLeft(left);
@@ -138,7 +138,7 @@ describe('Cache length', function() {
 
         const columns = grid.viewport.columns;
 
-        //all column width are 81, middle cache 2 left and right
+        // all column width are 81, middle cache 2 left and right
         const len = Math.ceil(500 / 81) + 2;
 
         assert.equal(columns.length, len);
@@ -149,14 +149,14 @@ describe('Cache length', function() {
 
     it('Grid column cache length 1, scroll to right (last column)', async () => {
 
-        //last blank column
+        // last blank column
         grid.scrollToColumn(data.columns.length - 1);
 
         await delay();
 
         const columns = grid.viewport.columns;
 
-        //blank width is 0, right cache 1 left
+        // blank width is 0, right cache 1 left
         const len = Math.ceil((500 - 0) / 81) + 1 + 1;
 
         assert.equal(columns.length, len);

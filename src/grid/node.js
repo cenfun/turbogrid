@@ -3,20 +3,20 @@ import Util from '../core/util.js';
 
 export default {
 
-    //high performance render node content
+    // high performance render node content
     renderNodeContent: function(node, content) {
         if (!node) {
             return;
         }
 
-        //support DOM
+        // support DOM
         if (content && content.nodeType) {
             this.emptyNode(node);
             node.appendChild(content);
             return;
         }
 
-        //support array DOM
+        // support array DOM
         if (Array.isArray(content)) {
             this.emptyNode(node);
             content.forEach((item) => {
@@ -31,7 +31,7 @@ export default {
             content = '';
         }
 
-        //fast render html
+        // fast render html
         node.innerHTML = content;
 
     },
@@ -40,7 +40,7 @@ export default {
         if (!node) {
             return;
         }
-        //fast empty children, 400 times faster than innerHTML = ''
+        // fast empty children, 400 times faster than innerHTML = ''
         while (node.firstChild) {
             node.removeChild(node.firstChild);
         }
@@ -74,16 +74,16 @@ export default {
             children = [children];
         }
 
-        //must be same type in list
+        // must be same type in list
         let html = '';
         children.forEach(function(child) {
-            //append DOM
+            // append DOM
             if (child && child.nodeType) {
                 elem.appendChild(child);
                 return;
             }
 
-            //append string, number, 0, true/false, null
+            // append string, number, 0, true/false, null
             if (typeof child !== 'undefined') {
                 html += child;
             }
@@ -97,14 +97,14 @@ export default {
         return elem;
     },
 
-    //=========================================================================================================
-    //node api
+    // =========================================================================================================
+    // node api
 
     find: function(context, container) {
         return $(container || this.$container).find(context);
     },
 
-    //return Query
+    // return Query
     getRowNodes: function(rowIndex) {
         const item = this.getRowItem(rowIndex);
         if (!item) {
@@ -113,7 +113,7 @@ export default {
         return this.getRowNodesByIndex(item.tg_view_index);
     },
 
-    //return Element
+    // return Element
     getCellNode: function(rowIndex, columnIndex) {
         const rowItem = this.getRowItem(rowIndex);
         if (!rowItem) {

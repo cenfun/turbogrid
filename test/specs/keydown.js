@@ -24,15 +24,15 @@ describe('keydown', function() {
 
         await delay();
 
-        //9: tab
+        // 9: tab
         grid.container.dispatchEvent(new KeyboardEvent('keydown', {
             keyCode: 9
         }));
-        //13: enter
+        // 13: enter
         grid.container.dispatchEvent(new KeyboardEvent('keydown', {
             keyCode: 13
         }));
-        //27: esc
+        // 27: esc
         grid.container.dispatchEvent(new KeyboardEvent('keydown', {
             keyCode: 27
         }));
@@ -40,7 +40,7 @@ describe('keydown', function() {
         assert.equal(grid.scrollTop, 0);
         assert.equal(grid.scrollLeft, 0);
 
-        //33,34: page up,page down
+        // 33,34: page up,page down
         grid.container.dispatchEvent(new KeyboardEvent('keydown', {
             keyCode: 34
         }));
@@ -55,7 +55,7 @@ describe('keydown', function() {
         assert.equal(grid.scrollTop, 0);
         assert.equal(grid.scrollLeft, 0);
 
-        //35,36: end,home
+        // 35,36: end,home
         grid.container.dispatchEvent(new KeyboardEvent('keydown', {
             keyCode: 35
         }));
@@ -70,7 +70,7 @@ describe('keydown', function() {
         assert.equal(grid.scrollTop, 0);
         assert.equal(grid.scrollLeft, 0);
 
-        //37,38,39,40: left,up,right,down
+        // 37,38,39,40: left,up,right,down
         grid.container.dispatchEvent(new KeyboardEvent('keydown', {
             keyCode: 39
         }));

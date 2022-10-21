@@ -2,7 +2,7 @@ import Util from '../core/util.js';
 
 export default {
 
-    //only create rows, diff with init columns
+    // only create rows, diff with init columns
     initRowsHandler: function() {
         this.rows = this.data.rows;
         this.rowsInfo = this.initTreeInfo(this.rows, this.frozenInfo.row);
@@ -25,7 +25,7 @@ export default {
 
         const viewRows = [];
 
-        //update row index
+        // update row index
         const rowNumberFilter = this.getRowNumberFilter();
 
         let rowNumber = 1;
@@ -51,17 +51,17 @@ export default {
                     return;
                 }
 
-                //update list index, both and group (in list)
+                // update list index, both and group (in list)
                 rowItem.tg_list_index = list_index;
                 list_index += 1;
 
                 rowItem.tg_list_last = false;
                 list_item = rowItem;
 
-                //only row formatter
+                // only row formatter
                 this.gridRowItemHandler(rowItem);
 
-                //need row number even collapsed, and need frozen info first too
+                // need row number even collapsed, and need frozen info first too
                 rowNumberHandler(rowItem, list_index);
 
                 if (!collapsed) {
@@ -82,7 +82,7 @@ export default {
         digList(this.rows);
 
         this.viewRows = viewRows;
-        //console.log(this.viewRows, rows);
+        // console.log(this.viewRows, rows);
 
         let top = 0;
         let lastItem;
@@ -91,7 +91,7 @@ export default {
             this.initRowHeight(rowItem);
             top += this.getRowHeight(rowItem);
 
-            //fix group line
+            // fix group line
             rowItem.tg_group_line = false;
             if (rowItem.collapsed) {
                 rowItem.tg_group_line = true;
@@ -123,7 +123,7 @@ export default {
         };
     },
 
-    //current for formatter
+    // current for formatter
     gridRowItemHandler: function(row) {
 
         let formatter = row.formatter;
@@ -143,7 +143,7 @@ export default {
 
     },
 
-    //========================================================================================
+    // ========================================================================================
 
     initRowHeight: function(item) {
         if (!Util.hasOwn(item, 'height')) {
@@ -153,8 +153,8 @@ export default {
             item.tg_height = item.height | 0;
             return;
         }
-        //console.log('item.height', item.height);
-        //height is column id, using this column value to compute height
+        // console.log('item.height', item.height);
+        // height is column id, using this column value to compute height
         const column = this.getColumnItem(item.height);
         if (column) {
             const h = this.getComputedRowHeight(item, column);
@@ -168,13 +168,13 @@ export default {
         const dh = this.options.rowHeight;
         const str = rowItem[columnItem.id] || '';
         const len = (`${str}`).length;
-        //a char average width 5px
+        // a char average width 5px
         const width = len * 5;
         if (width <= columnItem.tg_width) {
             return dh;
         }
-        //text line height is 16 when font size is 14px
-        //padding top and bottom is 6
+        // text line height is 16 when font size is 14px
+        // padding top and bottom is 6
         return Math.ceil(width / columnItem.tg_width) * 16 + 6;
     },
 
@@ -206,8 +206,8 @@ export default {
         return this;
     },
 
-    //=============================================================================
-    //filter handler
+    // =============================================================================
+    // filter handler
 
     initRowFilterHandler: function() {
 
@@ -215,19 +215,19 @@ export default {
         if (typeof rowFilter !== 'function') {
             return;
         }
-        //return true:visible or false:invisible
+        // return true:visible or false:invisible
         this.forEachRow(function(rowItem, i, parent) {
 
-            //already invisible
+            // already invisible
             if (rowItem.tg_invisible) {
                 return;
             }
 
-            //visible rows for filter only
+            // visible rows for filter only
             const filtered = !rowFilter.call(this, rowItem, i, parent);
             rowItem.tg_filtered = filtered;
 
-            //parent should be visible if any sub is visible
+            // parent should be visible if any sub is visible
             if (!filtered) {
                 let current = rowItem;
                 while (current.tg_parent) {
@@ -241,28 +241,28 @@ export default {
 
     },
 
-    //=============================================================================
+    // =============================================================================
 
-    //row subs
+    // row subs
     setRowSubs: function(rowIndex, subs) {
         const item = this.getRowItem(rowIndex);
         if (!item) {
             return this;
         }
-        //update data
+        // update data
         if (Util.isList(subs)) {
-            //open subs default
+            // open subs default
             item.collapsed = false;
         }
         item.subs = subs;
         this.initRowsHandler();
-        //render
+        // render
         this.flushRowFrom(item.tg_view_index);
         this.render('rows');
         return this;
     },
 
-    //dynamic set new row list
+    // dynamic set new row list
     setRows: function(rows) {
         this.data.rows = Util.toList(rows);
         this.initRowsHandler();
@@ -270,7 +270,7 @@ export default {
         this.render('rows');
     },
 
-    //=============================================================================
+    // =============================================================================
 
     getRowParentSubs: function(rowItem) {
         return rowItem.tg_parent ? rowItem.tg_parent.subs : this.rows;

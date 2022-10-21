@@ -3,7 +3,7 @@ import Util from '../core/util.js';
 
 export default {
 
-    //for reset all
+    // for reset all
     reset: function() {
 
         this.firstUpdated = false;
@@ -14,7 +14,7 @@ export default {
 
         this.removeSortColumn();
 
-        //init
+        // init
         this.columns = null;
         this.columnsInfo = null;
 
@@ -30,7 +30,7 @@ export default {
         this.headerRowItem = null;
         this.protectedItem = null;
 
-        //column cache
+        // column cache
         this.selectColumn = null;
         this.rowDragColumn = null;
         this.rowNumberColumn = null;
@@ -44,11 +44,11 @@ export default {
         this.totalRowsHeight = 0;
         this.scrollRowsHeight = 0;
 
-        //to rebuild css rules
+        // to rebuild css rules
         this.bodyWidthL = 0;
         this.bodyWidthR = 0;
 
-        //to clean size cache
+        // to clean size cache
         this.bodyHeightT = 0;
         this.bodyHeightB = 0;
 
@@ -57,7 +57,7 @@ export default {
         this.paneHeightT = 0;
         this.paneHeightB = 0;
 
-        //reset scroll state
+        // reset scroll state
         this.scrollLeft = 0;
         this.scrollTop = 0;
         this.scrollTopOffset = 0;
@@ -73,28 +73,28 @@ export default {
         }
         this.destroyed = true;
 
-        //before destroy
+        // before destroy
         this.trigger(E.onDestroy);
 
         this.reset();
 
-        //resize events
+        // resize events
         this.unbindWindowResize();
         this.unbindContainerResize();
 
-        //inner events
+        // inner events
         this.unbindEvents();
-        //outer events
+        // outer events
         this.unbind();
-        //remove all
+        // remove all
         this.delEventListeners();
 
-        //style elements
+        // style elements
         this.removeCssRules();
 
         this.removeScrollPane();
 
-        //remove inner container
+        // remove inner container
         this.container = null;
         if (this.$container) {
             this.$container.remove();
@@ -102,20 +102,20 @@ export default {
         }
 
 
-        //just empty outer holder, but do NOT remove it
+        // just empty outer holder, but do NOT remove it
         this.holder = null;
         if (this.$holder) {
             this.$holder.empty();
             this.$holder = null;
         }
 
-        //global cache
+        // global cache
         this.removeCache();
 
         // starts with $
         Util.removePreProps(this, '$');
 
-        //require for GC after destroy
+        // require for GC after destroy
         this.options = null;
         this.formatters = null;
         this.data = null;

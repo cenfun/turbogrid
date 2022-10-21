@@ -3,17 +3,17 @@ import Util from '../core/util.js';
 
 export default {
 
-    //remove sort state
+    // remove sort state
     removeSortColumn: function() {
         this.sortColumn = null;
-        //remove column sorted
+        // remove column sorted
         if (this.$header) {
             this.$header.find('.tg-column-sorted').removeClass('tg-column-sorted');
         }
         return this;
     },
 
-    //sort API
+    // sort API
     setSortColumn: function(columnItem) {
 
         columnItem = this.getColumnItem(columnItem);
@@ -25,18 +25,18 @@ export default {
             return;
         }
 
-        //same sort column
+        // same sort column
         if (columnItem === this.sortColumn) {
-            //change sortAsc if click same column
+            // change sortAsc if click same column
             columnItem.sortAsc = !columnItem.sortAsc;
         } else {
-            //set default sortAsc
+            // set default sortAsc
             if (!Util.hasOwn(columnItem, 'sortAsc')) {
                 columnItem.sortAsc = this.options.sortAsc;
             }
         }
 
-        //new sort column
+        // new sort column
         this.sortColumn = columnItem;
 
         const rowsLength = this.getRowsLength();
@@ -55,10 +55,10 @@ export default {
 
         this.renderHeaderSort();
 
-        //sort without frozen rows
+        // sort without frozen rows
         this.flushSort();
 
-        //not need update index (init rows)
+        // not need update index (init rows)
 
         this.render('rows');
 
@@ -76,13 +76,13 @@ export default {
 
         this.$header.find('.tg-column-sorted').removeClass('tg-column-sorted');
 
-        //add new column sorted
+        // add new column sorted
         const column = sortColumn.tg_view_index;
         const $headerItem = this.$header.find(`.tg-header-item[column='${column}']`);
 
         const $columnHeader = $headerItem.find('.tg-column-header').addClass('tg-column-sorted');
 
-        //sort asc
+        // sort asc
         if (sortColumn.sortAsc) {
             $columnHeader.removeClass('tg-sort-desc').addClass('tg-sort-asc');
         } else {
@@ -92,18 +92,18 @@ export default {
         return this;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     // just use type, do NOT use formatter, this is only for sorting
     getSortComparer: function(sortColumn) {
 
-        //function
+        // function
         const comparer = sortColumn.comparer;
         if (typeof comparer === 'function') {
             return comparer;
         }
 
-        //string name
+        // string name
         const sortComparers = this.options.sortComparers;
         const comparerName = comparer || sortColumn.type;
         const sortComparer = sortComparers[comparerName];
@@ -111,11 +111,11 @@ export default {
             return sortComparer;
         }
 
-        //default to string, can be override may not function
+        // default to string, can be override may not function
         return sortComparers.string;
     },
 
-    //just sort data
+    // just sort data
     updateRowsSort: function() {
 
         const sortColumn = this.sortColumn;
@@ -135,7 +135,7 @@ export default {
 
         const sortOptions = {
             ignore: function(item) {
-                //frozen always top
+                // frozen always top
                 if (item.tg_frozen) {
                     return {
                         item: item,
@@ -156,7 +156,7 @@ export default {
             sortComparer
         };
 
-        //sort handler
+        // sort handler
         let sortChanged = false;
         const sorter = new Sorter(sortOptions);
         const sortAll = function(rows) {

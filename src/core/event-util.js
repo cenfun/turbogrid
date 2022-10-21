@@ -63,7 +63,7 @@ const EventUtil = {
         return [];
     },
 
-    //=================================================================================================
+    // =================================================================================================
 
     addEvent: function(eventListener, event, maxListeners) {
         if (eventListener.events.length >= maxListeners) {
@@ -93,7 +93,7 @@ const EventUtil = {
         });
     },
 
-    //=================================================================================================
+    // =================================================================================================
 
     removeEventByNamespace: function(eventListeners, namespace) {
         const types = Object.keys(eventListeners);
@@ -159,18 +159,18 @@ const EventUtil = {
         });
     },
 
-    //=================================================================================================
+    // =================================================================================================
 
     sendEventList: function(target, eventListener, event, data) {
-        //call each handler if not stopped
+        // call each handler if not stopped
         const events = eventListener.events;
         for (let i = 0; i < events.length; i++) {
             const item = events[i];
-            //skip once called, not removed but called
+            // skip once called, not removed but called
             if (item.onceCalled) {
                 continue;
             }
-            //tag before call handler, because in handler may trigger once again
+            // tag before call handler, because in handler may trigger once again
             if (item.once) {
                 item.onceCalled = true;
             }
@@ -183,7 +183,7 @@ const EventUtil = {
             }
         }
 
-        //remove all onceCalled
+        // remove all onceCalled
         eventListener.events = events.filter((it) => !it.onceCalled);
 
     },

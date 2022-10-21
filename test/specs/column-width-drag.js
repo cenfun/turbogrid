@@ -28,7 +28,7 @@ describe('Column width drag', function() {
 
         await delay();
 
-        //drag column 1
+        // drag column 1
         const columnItem = grid.getColumnItem(1);
         const headerNode = grid.getHeaderItemNode(columnItem);
         const node = headerNode.querySelector('.tg-column-resizing');
@@ -48,14 +48,14 @@ describe('Column width drag', function() {
 
         await page.mouse.move(x + 10, y);
 
-        //active
+        // active
         assert.equal(lineItem.hasClass('tg-active'), true);
 
         await page.mouse.move(x + 20, y);
 
         await page.mouse.up();
 
-        //81 + 20
+        // 81 + 20
         assert.equal(columnItem.tg_width, 101);
 
     });
@@ -73,7 +73,7 @@ describe('Column width drag', function() {
         const y = rect.top + rect.height / 2;
         await page.mouse.move(x, y);
 
-        //column line visible
+        // column line visible
         const containerColumnLine = container.find('.tg-column-line');
         assert.equal(containerColumnLine.css('display'), 'block');
 

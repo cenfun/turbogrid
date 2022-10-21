@@ -74,6 +74,14 @@
             color: #00a8e1;
         }
 
+        a[target="_blank"] {
+            padding-left: 20px;
+            background-size: 16px 16px;
+            background-repeat: no-repeat;
+            background-position: 2px center;
+            background-image: url("./assets/images/link.svg");
+        }
+
         details.turbogrid section > a {
             padding-left: 18px;
             background-size: 16px 16px;
@@ -435,7 +443,7 @@
 
                     <section>
                         <a name="bind">bind(eventType, handler)</a>
-                        <div>Attach a handler to an event for Grid. See all <a href="#event">event types</a>.</div>
+                        <div>Attach a handler to an event for Grid. See all <a href="#events">event types</a>.</div>
                         <pre><code class="language-js">
                             grid.bind("onUpdated", function(e, d){
                                 //console.log(d);
@@ -474,7 +482,7 @@
 
                     <section>
                         <a name="getAllEvents">getAllEvents()</a>
-                        <div>Returns all <a href="#event">event types</a>.</div>
+                        <div>Returns all <a href="#events">event types</a>.</div>
                         <pre><code class="language-js">
                             var allEventTypes = grid.getAllEvents();
                         </code></pre>
@@ -811,9 +819,9 @@
 
                     <section>
                         <a name="getScrollbarWidth">getScrollbarWidth()</a>
-                        <div>Returns 0 or <a href="#scrollbarSize">scrollbarSize</a> if has vertical scrollbar (<a href="#hasVScroll">hasVScroll</a>)</div>
+                        <div>Returns 0 or <a href="#options.scrollbarSize">scrollbarSize</a> if has vertical scrollbar (<a href="#onScrollStateChanged">hasVScroll</a>)</div>
                         <a name="getScrollbarHeight">getScrollbarHeight()</a>
-                        <div>Returns 0 or <a href="#scrollbarSize">scrollbarSize</a> if has horizontal scrollbar (<a href="#hasHScroll">hasHScroll</a>)</div>
+                        <div>Returns 0 or <a href="#options.scrollbarSize">scrollbarSize</a> if has horizontal scrollbar (<a href="#onScrollStateChanged">hasHScroll</a>)</div>
                         <pre><code class="language-js">
                             var sbw = grid.getScrollbarWidth();
                             var sbh = grid.getScrollbarHeight();

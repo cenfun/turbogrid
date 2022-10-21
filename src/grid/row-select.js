@@ -4,20 +4,20 @@ import Util from '../core/util.js';
 
 export default {
 
-    //get single/first selected row (no order, need order should call getSelectedRows()[0])
+    // get single/first selected row (no order, need order should call getSelectedRows()[0])
     getSelectedRow: function() {
         let selectedRow = null;
         this.forEachSelectableRow(function(rowItem) {
             if (rowItem.selected) {
                 selectedRow = rowItem;
-                //break forEach
+                // break forEach
                 return false;
             }
         });
         return selectedRow;
     },
 
-    //get all selected rows
+    // get all selected rows
     getSelectedRows: function() {
         const selectedRows = [];
         this.forEachSelectableRow(function(rowItem) {
@@ -26,7 +26,7 @@ export default {
             }
         });
         if (selectedRows.length > 1) {
-            //sort by order
+            // sort by order
             selectedRows.sort(function(a, b) {
                 const av = a.tg_selected_index;
                 const bv = b.tg_selected_index;
@@ -43,9 +43,9 @@ export default {
     },
 
 
-    //=============================================================================
+    // =============================================================================
 
-    //select/unselect all
+    // select/unselect all
     selectAll: function(selected = true) {
         selected = Boolean(selected);
 
@@ -65,14 +65,14 @@ export default {
         return this;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     setRowSelected: function() {
         const handler = this.options.selectMultiple ? this.setRowMultipleSelected : this.setRowSingleSelected;
         return handler.apply(this, arguments);
     },
 
-    //=============================================================================
+    // =============================================================================
 
     // radio single select
     setRowSingleSelected: function(rowInfo) {
@@ -90,7 +90,7 @@ export default {
         }
 
         const changedList = [];
-        //unselected
+        // unselected
         const previousRow = this.getSelectedRow();
         if (previousRow && previousRow.selected) {
             changedList.push(previousRow);
@@ -108,7 +108,7 @@ export default {
         return this;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     // checkbox multiple select
     // (rowIndex)
@@ -130,13 +130,13 @@ export default {
             return this;
         }
 
-        //unselected
+        // unselected
         if (settings === false) {
             this.setRowListUnselected(rowList);
             return this;
         }
 
-        //selected
+        // selected
         if (Util.hasShiftKey(settings) && rowList.length === 1) {
             this.setRowBetweenListSelected(rowList[0]);
             return this;
@@ -167,7 +167,7 @@ export default {
         this.updateRowsSelectedState([rowItem]);
     },
 
-    //=============================================================================
+    // =============================================================================
 
     getAllSelectedChangedList: function(selected) {
         const changedList = [];
@@ -206,14 +206,14 @@ export default {
                 j--;
             }
         }
-        //console.log(indexList);
+        // console.log(indexList);
         return this.toRowItemList(indexList, (it) => this.isRowSelectable(it) && !it.selected);
     },
 
     updateRowsSelectedState: function(changedList, shiftKey) {
         let lastSelectedRow;
         changedList.forEach((rowItem) => {
-            //toggle selected
+            // toggle selected
             const selected = !rowItem.selected;
             rowItem.selected = selected;
             if (selected) {
@@ -243,13 +243,13 @@ export default {
         if (!this.viewport.rows.includes(row)) {
             return;
         }
-        //row tg-selected
+        // row tg-selected
         this.renderRowState(rowItem, 'selected');
-        //select column: checkbox or radio
+        // select column: checkbox or radio
         this.flushCell(row, this.selectColumn.tg_view_index);
     },
 
-    //=============================================================================
+    // =============================================================================
 
     // async update for checkbox all
     renderSelectAllState: function() {
@@ -294,11 +294,11 @@ export default {
         const selectedRows = this.getSelectedRows();
         const selectedLength = selectedRows.length;
 
-        //empty means mixed
+        // empty means mixed
         let selectAllState = 'mixed';
         if (selectedLength === 0) {
             selectAllState = '';
-            //remove state if noting selected
+            // remove state if noting selected
             this.previousSelectedRow = null;
         } else if (selectedLength === total) {
             selectAllState = 'selected';

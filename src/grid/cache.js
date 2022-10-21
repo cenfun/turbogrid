@@ -7,7 +7,7 @@ export default {
         this.dataCache = new WeakMap();
     },
 
-    //=============================================================================
+    // =============================================================================
 
     setHeaderCache: function(column, headerNode) {
         this.headerCache.set(column, headerNode);
@@ -18,12 +18,12 @@ export default {
     },
 
     clearHeaderCache: function() {
-        //console.log('clearHeaderCache', this.id);
-        //nodes already removed by $header.empty()
+        // console.log('clearHeaderCache', this.id);
+        // nodes already removed by $header.empty()
         this.headerCache.clear();
     },
 
-    //=============================================================================
+    // =============================================================================
 
     setRowCache: function(row, rowNodes) {
         this.bodyCache.set(row, {
@@ -54,9 +54,9 @@ export default {
         cellNodes.delete(column);
     },
 
-    //=============================================================================
+    // =============================================================================
 
-    //there are 2 rows if frozenInfo.rows (left and right)
+    // there are 2 rows if frozenInfo.rows (left and right)
     getRowNodesByIndex: function(row) {
         const bodyCache = this.getRowCache(row);
         if (bodyCache) {
@@ -71,23 +71,23 @@ export default {
         }
     },
 
-    //=============================================================================
+    // =============================================================================
 
-    //callback(row, rowNodes, cellNodes)
+    // callback(row, rowNodes, cellNodes)
     forEachBodyCache: function(callback) {
         this.bodyCache.forEach((bodyCache, row) => {
             callback.call(this, row, bodyCache.rowNodes, bodyCache.cellNodes);
         });
     },
 
-    //=============================================================================
+    // =============================================================================
 
-    //max height fixing
+    // max height fixing
     updateRowCacheTopOffset: function() {
-        //console.log("updateRowCacheTopOffset", this.scrollTopOffset);
+        // console.log("updateRowCacheTopOffset", this.scrollTopOffset);
         const fr = this.frozenInfo.row;
         this.forEachBodyCache((row, rowNodes, cellNodes) => {
-            //do NOT update frozen row
+            // do NOT update frozen row
             if (row <= fr) {
                 return;
             }
@@ -99,7 +99,7 @@ export default {
         });
     },
 
-    //=============================================================================
+    // =============================================================================
 
     setNodeDataCache: function(node, data) {
         if (node) {
@@ -113,7 +113,7 @@ export default {
         }
     },
 
-    //=============================================================================
+    // =============================================================================
 
     removeCache: function() {
         this.headerCache = null;

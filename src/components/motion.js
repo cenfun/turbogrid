@@ -24,23 +24,23 @@ export default class Motion extends EventBase {
     constructor(options) {
         super();
         this.constructorOptions = options;
-        //if stopped then stop everything
+        // if stopped then stop everything
         this.stopped = true;
     }
 
     generateOptions(options) {
         const defaultOptions = {
-            //default is Easing.linear
+            // default is Easing.linear
             easing: null,
 
-            //total time
+            // total time
             duration: 100,
 
-            //from data
+            // from data
             from: 0,
-            //till data
+            // till data
             till: 1,
-            //current data(private)
+            // current data(private)
             data: 0
         };
         return Util.merge(defaultOptions, this.constructorOptions, options);
@@ -50,7 +50,7 @@ export default class Motion extends EventBase {
         if (this.stopped) {
             return this;
         }
-        //stop everything now
+        // stop everything now
         this.stopped = true;
         this.cancelAnimationFrame();
         this.trigger(EVENT.MOTION_STOP, this.data);
@@ -62,16 +62,16 @@ export default class Motion extends EventBase {
         this.stopped = false;
         this.options = this.generateOptions(options);
 
-        //ready
+        // ready
         this.initCalculation();
-        //first time move, start potion
+        // first time move, start potion
         this.data = this.calculateHandler(0);
         this.trigger(EVENT.MOTION_START, this.data);
-        //if call stop in start callback
+        // if call stop in start callback
         if (this.stopped) {
             return this;
         }
-        //init start time
+        // init start time
         this.time = Date.now();
         this.requestAnimationFrame(this.moveHandler);
         return this;
@@ -95,7 +95,7 @@ export default class Motion extends EventBase {
     }
 
     moveHandler() {
-        //move
+        // move
         const now = Date.now();
         const t = now - this.time;
         const d = this.duration;
@@ -106,26 +106,26 @@ export default class Motion extends EventBase {
             this.requestAnimationFrame(this.moveHandler);
             return;
         }
-        //====================================
-        //end
+        // ====================================
+        // end
         this.cancelAnimationFrame();
-        //require last time move
+        // require last time move
         this.data = this.calculateHandler(1);
         this.trigger(EVENT.MOTION_MOVE, this.data);
-        //end
+        // end
         this.trigger(EVENT.MOTION_END, this.data);
     }
 
-    //================================================================================
+    // ================================================================================
 
     initCalculation() {
 
         const os = this.options;
         this.duration = Util.toNum(os.duration, true) || 100;
         this.easing = this.getEasing(os.easing);
-        //console.log(this.easing);
+        // console.log(this.easing);
 
-        //for object keys cache
+        // for object keys cache
         this.calculateKeys = null;
 
         const from = os.from;
@@ -158,12 +158,12 @@ export default class Motion extends EventBase {
             });
             return d;
         }
-        //first time cache calculate keys
+        // first time cache calculate keys
         this.calculateKeys = [];
         Object.keys(from).forEach((k) => {
             const fv = from[k];
             const tv = till[k];
-            //first time number checking
+            // first time number checking
             if (Util.isNum(fv) && Util.isNum(tv)) {
                 d[k] = this.calculateNumber(p, fv, tv);
                 this.calculateKeys.push(k);
@@ -180,7 +180,7 @@ export default class Motion extends EventBase {
         return from;
     }
 
-    //================================================================================
+    // ================================================================================
 
     destroy() {
         this.stop();

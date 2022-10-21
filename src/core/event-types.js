@@ -1,22 +1,22 @@
-//All Events
+// All Events
 export const Types = [
 
-    //render
+    // render
     'onUpdated',
     'onFirstUpdated',
 
-    //header
+    // header
     'onHeaderUpdated',
 
     'onSort',
 
-    //column
+    // column
     'onColumnAdded',
     'onColumnRemoved',
 
     'onColumnWidthChanged',
 
-    //row
+    // row
     'onRowAdded',
     'onRowRemoved',
 
@@ -34,29 +34,29 @@ export const Types = [
 
     'onSelectChanged',
 
-    //cell
+    // cell
     'onCellUpdated',
 
     'onCellMouseEnter',
     'onCellMouseLeave',
 
-    //header and body
+    // header and body
     'onClick',
     'onDblClick',
     'onContextMenu',
     'onMouseOver',
     'onMouseOut',
 
-    //scroll
+    // scroll
     'onScroll',
     'onScrollStateChanged',
     'onMouseWheel',
 
-    //resize
+    // resize
     'onResize',
     'onLayout',
 
-    //other
+    // other
     'onKeyDown',
     'onDestroy'
 

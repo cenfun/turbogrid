@@ -62,19 +62,19 @@ describe('Data', function() {
         assert.equal(grid.getData().rows.length, 10000);
         assert.equal(grid.scrollTopOffset, 0);
 
-        //frozen row
+        // frozen row
         let top = 0;
         assert.equal(container.find('.tg-row[row="0"]').get(0).style.top, `${top}px`);
-        //first row
+        // first row
         assert.equal(container.find('.tg-row[row="1"]').get(0).style.top, `${top}px`);
 
-        //top position need reduce one rowHeight
-        //scrollTopOffset = scrollTop - (scrollTop % 10000);
+        // top position need reduce one rowHeight
+        // scrollTopOffset = scrollTop - (scrollTop % 10000);
         grid.scrollToRow(334);
         await delay();
         assert.equal(grid.scrollTopOffset, 0);
 
-        //339 in cache
+        // 339 in cache
         top = rowHeight * 339 - rowHeight;
         assert.equal(container.find('.tg-row[row="339"]').get(0).style.top, `${top}px`);
 
@@ -82,7 +82,7 @@ describe('Data', function() {
         await delay();
         assert.equal(grid.scrollTopOffset, 10000);
 
-        //cache need update top
+        // cache need update top
         top = rowHeight * 339 - grid.scrollTopOffset - rowHeight;
         assert.equal(container.find('.tg-row[row="339"]').get(0).style.top, `${top}px`);
 

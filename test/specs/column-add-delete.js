@@ -55,7 +55,7 @@ describe('Column add/delete', function() {
         await delay();
         const columnsAddNothing = grid.getColumns();
         assert.equal(columnsAddNothing.length, prevLen + 1);
-        //column width 81 + 622 = 630
+        // column width 81 + 622 = 630
         assert.equal(grid.getScrollLeft(), 633);
     });
 
@@ -100,9 +100,9 @@ describe('Column add/delete', function() {
         }, 0);
         await delay();
         const columns = grid.getColumns();
-        //console.log(columns);
+        // console.log(columns);
         assert.equal(columns.length, prevLen);
-        //index 0 is name, but change to group, the index not 0 anymore
+        // index 0 is name, but change to group, the index not 0 anymore
         assert.equal(grid.getColumnItem('name').subs.length, 1);
     });
 
@@ -131,7 +131,7 @@ describe('Column add/delete', function() {
         assert.equal(columns.length, prevLen);
     });
 
-    //=================================================================================
+    // =================================================================================
 
     it('Grid column deleteColumn', async () => {
         const prevLen = grid.getColumns().length;
@@ -157,7 +157,7 @@ describe('Column add/delete', function() {
         assert.equal(columnsDel.length, prevLen);
     });
 
-    //=================================================================================
+    // =================================================================================
 
     it('Grid column onColumnAdded', function(done) {
         const id = Math.round(Math.random() * 100).toString();

@@ -34,10 +34,10 @@ export default class Microtask {
         }
         this.started = false;
         const callback = this.callback;
-        //must be removed first
+        // must be removed first
         this.callback = null;
-        //then execute
-        //because it could start another callback in executing, do not remove next callback
+        // then execute
+        // because it could start another callback in executing, do not remove next callback
         if (typeof callback === 'function') {
             callback.call(this);
         }

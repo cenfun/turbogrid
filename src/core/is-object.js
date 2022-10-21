@@ -1,4 +1,4 @@
-//if is plain object or array
+// if is plain object or array
 const isObject = function(obj) {
     if (!obj || typeof obj !== 'object') {
         return false;
@@ -9,7 +9,7 @@ const isObject = function(obj) {
         return false;
     }
 
-    //Object.create(null)
+    // Object.create(null)
     if (!obj.constructor) {
         return true;
     }

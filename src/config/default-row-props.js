@@ -1,28 +1,28 @@
 export default {
 
-    //selected: Boolean
+    // selected: Boolean
 
     // for group only
-    //collapsed: Boolean
+    // collapsed: Boolean
 
-    //selectable : true
-    //exportable: true
+    // selectable : true
+    // exportable: true
 
-    //sortFixed: [Boolean, String "top"]
+    // sortFixed: [Boolean, String "top"]
 
     // customize row style
-    //classMap: [String, Array, Object]
-    //styleMap: [String, Array, Object]
-    //[columnId]ClassMap: [String, Array, Object]
-    //[columnId]StyleMap: [String, Array, Object]
+    // classMap: [String, Array, Object]
+    // styleMap: [String, Array, Object]
+    // [columnId]ClassMap: [String, Array, Object]
+    // [columnId]StyleMap: [String, Array, Object]
 
     // row type for class name
-    //type: String
+    // type: String
 
-    //formatter: [String, Function]
+    // formatter: [String, Function]
 
-    //height: Number
+    // height: Number
 
-    //subs: Array
+    // subs: Array
 
 };

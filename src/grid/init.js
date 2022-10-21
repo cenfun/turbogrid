@@ -44,18 +44,18 @@ export default {
 
     },
 
-    //=============================================================================================
+    // =============================================================================================
 
     updateViewRowsAndSize: function() {
-        //before create view rows need init rows tree like rowFilter, sort ...
+        // before create view rows need init rows tree like rowFilter, sort ...
         this.createViewRows();
 
-        //update view after render
-        //depends row number, row tree, options
+        // update view after render
+        // depends row number, row tree, options
         this.renderCollapseAllState();
         this.renderSelectAllState();
 
-        //view rows changed alway resize for scrollPane
+        // view rows changed alway resize for scrollPane
         this.resizeHandler();
 
         return this;
@@ -72,11 +72,11 @@ export default {
 
     initSelectAllOnInitHandler: function() {
 
-        //init global order for multi selection sorting
+        // init global order for multi selection sorting
         this.globalSelectedIndex = 0;
 
         if (!this.options.selectMultiple) {
-            //single select, init data only selected first one
+            // single select, init data only selected first one
             let selectedItem;
             this.forEachSelectableRow((rowItem) => {
                 if (rowItem.selected) {
@@ -91,12 +91,12 @@ export default {
         }
 
         const selectAllOnInit = this.options.selectAllOnInit;
-        //specified true
+        // specified true
         if (selectAllOnInit === true) {
             this.updateAllRowsSelected(true);
             return;
         }
-        //specified false
+        // specified false
         if (selectAllOnInit === false) {
             this.updateAllRowsSelected(false);
         }
@@ -111,7 +111,7 @@ export default {
 
     initCollapseAllOnInitHandler: function() {
         const collapseAllOnInit = this.options.collapseAllOnInit;
-        //collapse all tree, only handle true and false
+        // collapse all tree, only handle true and false
         if (collapseAllOnInit === true) {
             this.updateAllRowsCollapsed(true);
             return;
@@ -121,19 +121,19 @@ export default {
         }
     },
 
-    //===============================================================================================
+    // ===============================================================================================
 
     getToBeAddedItemList: function(rowInfo) {
         const list = [];
         const rowList = Util.toList(rowInfo);
         rowList.forEach((rowItem) => {
-            //object
+            // object
             if (rowItem && typeof rowItem === 'object') {
                 // TODO should create snapshot ?
                 list.push(rowItem);
                 return;
             }
-            //string, number, boolean
+            // string, number, boolean
             if (typeof rowItem !== 'undefined') {
                 list.push({
                     name: rowItem
@@ -145,13 +145,13 @@ export default {
 
     getToBeAddedParentSubs: function(parentItem, rootList) {
         if (parentItem) {
-            //update row to group
+            // update row to group
             if (!parentItem.subs) {
                 parentItem.subs = [];
             }
             return parentItem.subs;
         }
-        //root
+        // root
         return rootList;
     },
 
@@ -165,9 +165,9 @@ export default {
         return len;
     },
 
-    //===============================================================================================
+    // ===============================================================================================
 
-    //for input data, check exportData from output data
+    // for input data, check exportData from output data
     generateDataSnapshot: function(data) {
         if (!data || typeof data !== 'object') {
             return data;
@@ -176,7 +176,7 @@ export default {
         const rows = this.cleanTreeList(data.rows);
         const columns = this.cleanTreeList(data.columns);
 
-        //convert number type
+        // convert number type
         this.convertNumberType(rows, columns);
 
         data.rows = rows;

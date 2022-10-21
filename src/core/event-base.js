@@ -22,7 +22,7 @@ export default class EventBase {
         this.eventListeners = null;
     }
 
-    //=======================================================
+    // =======================================================
 
     bind(types, handler, options) {
         const eventList = EventUtil.getEventList(this, types, handler, options);

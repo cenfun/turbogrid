@@ -11,7 +11,7 @@ export default {
     setFormatter: function(key, value) {
         this.renderType = 'all';
         let formatters = key;
-        //key/value, not reset formatters
+        // key/value, not reset formatters
         if (typeof key === 'string') {
             if (this.formatters) {
                 this.formatters[key] = value;
@@ -21,12 +21,12 @@ export default {
             formatters = {};
             formatters[key] = value;
         }
-        //object, reset all options
+        // object, reset all options
         this.customFormatters = formatters;
         return this;
     },
 
-    //require after render
+    // require after render
     getFormatter: function(name) {
         if (!name) {
             return;
@@ -43,8 +43,8 @@ export default {
         return formatter.bind(this);
     },
 
-    //======================================================================================
-    //checkbox and radio
+    // ======================================================================================
+    // checkbox and radio
 
     getSelectFormatterContent: function(rowItem) {
         let type = 'radio';
@@ -70,8 +70,8 @@ export default {
         return `<div class="tg-row-drag-icon">${icon}</div>`;
     },
 
-    //======================================================================================
-    //tree
+    // ======================================================================================
+    // tree
 
     getTreeIndentWidth: function(isTree, isGroup, rowLevel) {
 
@@ -82,7 +82,7 @@ export default {
         // 15 + 5 = 20px first indent
         let indentWidth = 5;
 
-        //first level fix, group tree icon is 15px
+        // first level fix, group tree icon is 15px
         if (!isGroup) {
             indentWidth += CONST.TREE_INDENT;
         }
@@ -103,7 +103,7 @@ export default {
         const rowLevel = Util.toNum(rowItem.tg_level);
         const indentWidth = this.getTreeIndentWidth(isTree, isGroup, rowLevel);
 
-        //console.log('isGroup', isGroup, 'isEmptyGroup', isEmptyGroup, 'isCollapsed', isCollapsed);
+        // console.log('isGroup', isGroup, 'isEmptyGroup', isEmptyGroup, 'isCollapsed', isCollapsed);
 
         const list = [];
 

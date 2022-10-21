@@ -16,7 +16,7 @@ describe('Grid', function() {
         grid = new Grid(container);
     });
     after(function() {
-        //console.log('after');
+        // console.log('after');
         grid.destroy();
         grid = null;
         container.remove();
@@ -86,7 +86,7 @@ describe('Grid', function() {
         grid.destroy();
         grid.resize();
 
-        //after destroy call api without error
+        // after destroy call api without error
 
     });
 
@@ -118,7 +118,7 @@ describe('Grid', function() {
     });
 
     it('Grid getColumnItem', function() {
-        //-1 is tg-column-blank
+        // -1 is tg-column-blank
         let c = grid.getColumnItem(-2);
         assert.equal(c.id, 'c5');
         c = grid.getColumnItem(-3);
@@ -132,7 +132,7 @@ describe('Grid', function() {
         grid.onNextUpdated(function() {
 
             const rowItem = grid.getRowItem(0);
-            //console.log(rowItem);
+            // console.log(rowItem);
             assert.equal(rowItem.tg_index, 0);
             const eItem = grid.getItemSnapshot(rowItem);
             assert.equal(typeof eItem.tg_index, 'undefined');
@@ -174,24 +174,24 @@ describe('Grid', function() {
             assert.equal(gridContainer.classList.contains(id), true);
             assert.equal(gridContainer.getAttribute('id'), id);
 
-            //console.log('onFirstUpdated before destroy');
+            // console.log('onFirstUpdated before destroy');
             grid.destroy();
 
             assert.equal(document.querySelector(selector), null);
             assert.equal(container.innerHTML, '');
 
-            //console.log('onFirstUpdated before done');
+            // console.log('onFirstUpdated before done');
 
             done();
 
-            //console.log('onFirstUpdated after done');
+            // console.log('onFirstUpdated after done');
         });
         grid.render();
     });
 
     it('Grid frozen check', function(done) {
 
-        //create new
+        // create new
         grid = new Grid(container);
         grid.setData(data);
         grid.setOption({

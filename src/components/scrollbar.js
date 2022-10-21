@@ -35,20 +35,20 @@ export default class Scrollbar extends EventBase {
     static H = 'h';
     static V = 'v';
 
-    //h, v
+    // h, v
     type = 'h';
     settings = {};
 
-    //final value from options
+    // final value from options
     size = 0;
     viewSize = 0;
     bodySize = 0;
     trackSize = 0;
 
-    //scroll position
+    // scroll position
     position = 0;
 
-    //thumb scale: thumb size / track size
+    // thumb scale: thumb size / track size
     scale = 0;
 
     thumbPosition = 0;
@@ -62,7 +62,7 @@ export default class Scrollbar extends EventBase {
         this.id = Util.uid(4, `tg-scrollbar-${this.type}-`);
 
         this.$holder = $(holder);
-        //some clean
+        // some clean
         this.$holder.find(`.${this.settings.className}`).remove();
 
         this.options = this.generateOptions();
@@ -70,22 +70,22 @@ export default class Scrollbar extends EventBase {
 
     generateOptions(options) {
         const defaultOptions = {
-            //width or height for scrollbar
-            //0 means invisible
+            // width or height for scrollbar
+            // 0 means invisible
             size: 15,
 
             round: false,
 
-            //for invisible but takes up space
-            //false: without blank (default)
-            //true: with blank, without scroll view extension
-            //1: with blank, with scroll view extension
+            // for invisible but takes up space
+            // false: without blank (default)
+            // true: with blank, without scroll view extension
+            // 1: with blank, with scroll view extension
             blank: false,
 
-            //disable event and hover
-            //disabled: false,
+            // disable event and hover
+            // disabled: false,
 
-            //motion
+            // motion
             motionDuration: 200
 
         };
@@ -93,24 +93,24 @@ export default class Scrollbar extends EventBase {
         return Util.merge(defaultOptions, options);
     }
 
-    //do twice: calculate size and show size
+    // do twice: calculate size and show size
     updateOptions(options) {
 
         this.options = this.generateOptions(options);
 
-        //init size
+        // init size
         let size = this.options.size;
         if (!Util.isNum(size)) {
             size = Util.toNum(size);
         }
         size = Math.round(size);
-        //range 0 - 30
+        // range 0 - 30
         size = Math.max(size, 0);
         size = Math.min(size, 30);
         this.size = size;
     }
 
-    //========================================================================
+    // ========================================================================
 
     create() {
 
@@ -125,7 +125,7 @@ export default class Scrollbar extends EventBase {
         this.$track = this.$container.find('.tg-scrollbar-track');
         this.$thumb = this.$container.find('.tg-scrollbar-thumb');
 
-        //thumb drag events
+        // thumb drag events
         this.thumbDrag = new Drag();
         this.thumbDrag.bind(Drag.EVENT.DRAG_START, (e, d) => {
             this.thumbDragStart(d);
@@ -141,7 +141,7 @@ export default class Scrollbar extends EventBase {
             mousedown: {
                 handler: (e) => {
 
-                    //click on thumb
+                    // click on thumb
                     if (e.target.classList.contains('tg-scrollbar-thumb')) {
                         this.thumbMouseDownHandler(e);
                         return;
@@ -177,8 +177,8 @@ export default class Scrollbar extends EventBase {
         return this;
     }
 
-    //========================================================================
-    //API
+    // ========================================================================
+    // API
 
     getBlank() {
         return this.options.blank;
@@ -196,7 +196,7 @@ export default class Scrollbar extends EventBase {
         return this.bodySize;
     }
 
-    //========================================================================
+    // ========================================================================
 
     getTrackMouseDirection() {
         let direction = 1;
@@ -211,7 +211,7 @@ export default class Scrollbar extends EventBase {
         return e[this.settings.page] - offset[this.settings.offset];
     }
 
-    //========================================================================
+    // ========================================================================
 
     getMaxThumbPosition() {
         return this.trackSize - this.thumbSize;
@@ -228,7 +228,7 @@ export default class Scrollbar extends EventBase {
         return this;
     }
 
-    //update thumb pos
+    // update thumb pos
     updateThumbPosition() {
         let thumbPosition = 0;
         const maxPosition = this.getMaxPosition();
@@ -241,8 +241,8 @@ export default class Scrollbar extends EventBase {
         return this;
     }
 
-    //=====================================================================
-    //track
+    // =====================================================================
+    // track
 
     trackMousedownHandler(e) {
         this.motionStop();
@@ -258,7 +258,7 @@ export default class Scrollbar extends EventBase {
             return this;
         }
         this.trackMousePosition = this.getTrackMousePos(e);
-        //track click scroll
+        // track click scroll
         this.trackScrollHandler();
         this.triggerEvent();
         return this;
@@ -266,15 +266,15 @@ export default class Scrollbar extends EventBase {
 
     trackScrollHandler() {
         const viewSize = Math.max(0, this.viewSize - 20);
-        //thumb current position
+        // thumb current position
         const direction = this.getTrackMouseDirection();
         const offset = viewSize * direction;
         this.setOffset(offset);
         return this;
     }
 
-    //===================================================================
-    //motion
+    // ===================================================================
+    // motion
 
     motionStop() {
         if (this.motion) {
@@ -305,7 +305,7 @@ export default class Scrollbar extends EventBase {
     }
 
     motionUpdateHandler(e, pos) {
-        //update position, change thumb, trigger event
+        // update position, change thumb, trigger event
         if (pos === this.position) {
             return;
         }
@@ -313,8 +313,8 @@ export default class Scrollbar extends EventBase {
         this.triggerEvent();
     }
 
-    //=====================================================================
-    //thumb drag
+    // =====================================================================
+    // thumb drag
 
     thumbMouseDownHandler(e) {
         this.$thumb.addClass('tg-scrollbar-thumb-hold');
@@ -330,39 +330,39 @@ export default class Scrollbar extends EventBase {
 
     thumbDragMove(d) {
 
-        //change thumb position
+        // change thumb position
         let thumbPosition = d.thumbPositionStart + d[this.settings.offsetName];
         const maxThumbPosition = this.getMaxThumbPosition();
         thumbPosition = Util.clamp(thumbPosition, 0, maxThumbPosition);
         this.setThumbPosition(thumbPosition);
 
-        //new position
+        // new position
         let newPosition = 0;
         if (maxThumbPosition > 0) {
             newPosition = Util.per(thumbPosition / maxThumbPosition) * this.getMaxPosition();
             newPosition = Math.round(newPosition);
         }
         this.position = newPosition;
-        //update position and event change
+        // update position and event change
         this.triggerEvent();
     }
 
     thumbDragEnd(d) {
-        //no matter if d.valid always remove, because added on init not start
+        // no matter if d.valid always remove, because added on init not start
         if (this.$thumb) {
             this.$thumb.removeClass('tg-scrollbar-thumb-hold');
         }
     }
 
-    //===================================================================
+    // ===================================================================
 
-    //from inside change trigger
+    // from inside change trigger
     triggerEvent() {
         this.trigger(EVENT.CHANGE, this.position);
     }
 
-    //===================================================================
-    //px position
+    // ===================================================================
+    // px position
 
     getPosition() {
         return this.position;
@@ -372,7 +372,7 @@ export default class Scrollbar extends EventBase {
         position = Util.toNum(position, true);
         const maxPosition = this.getMaxPosition();
         position = Util.clamp(position, 0, maxPosition);
-        //console.log(this.position, position);
+        // console.log(this.position, position);
         this.position = position;
         this.updateThumbPosition();
     }
@@ -387,7 +387,7 @@ export default class Scrollbar extends EventBase {
         this.position = position;
     }
 
-    //offset position +/-
+    // offset position +/-
     setOffset(offset) {
         offset = Util.toNum(offset);
         const position = this.position + offset;
@@ -395,8 +395,8 @@ export default class Scrollbar extends EventBase {
         return this;
     }
 
-    //===================================================================
-    //scale for thumb
+    // ===================================================================
+    // scale for thumb
 
     getScale() {
         return this.scale;
@@ -427,9 +427,9 @@ export default class Scrollbar extends EventBase {
         }
     }
 
-    //===================================================================
+    // ===================================================================
 
-    //container and track size
+    // container and track size
     updateTrackSize() {
         const trackData = {};
         if (this.type === 'h') {
@@ -443,7 +443,7 @@ export default class Scrollbar extends EventBase {
         return this;
     }
 
-    //thumb size
+    // thumb size
     updateThumbSize() {
         let scale = 0;
         if (this.bodySize) {
@@ -453,7 +453,7 @@ export default class Scrollbar extends EventBase {
         return this;
     }
 
-    //===================================================================
+    // ===================================================================
 
     parseSize(v) {
         v = Util.toNum(v);
@@ -462,8 +462,8 @@ export default class Scrollbar extends EventBase {
         return v;
     }
 
-    //for view size and body size
-    //track size for fade
+    // for view size and body size
+    // track size for fade
     updateSize(viewSize, bodySize, trackSize) {
         viewSize = this.parseSize(viewSize);
         this.viewSize = viewSize;
@@ -475,7 +475,7 @@ export default class Scrollbar extends EventBase {
             trackSize = viewSize;
         }
         this.trackSize = trackSize;
-        //reset fade state
+        // reset fade state
         this.previousFadeIn = null;
     }
 
@@ -543,7 +543,7 @@ export default class Scrollbar extends EventBase {
         this.$container = null;
     }
 
-    //===================================================================
+    // ===================================================================
 
     destroy() {
         this.remove();

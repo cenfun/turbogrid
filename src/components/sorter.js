@@ -72,7 +72,7 @@ export default class Sorter {
                 indexList.push(i);
             }
         }
-        //remove from old list
+        // remove from old list
         indexList.reverse();
         indexList.forEach(function(index) {
             list.splice(index, 1);

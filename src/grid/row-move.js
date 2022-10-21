@@ -2,12 +2,12 @@ import E from '../core/event-types.js';
 import Util from '../core/util.js';
 export default {
 
-    //private API
+    // private API
 
     getMoveFocusRow: function(moveList, offset) {
-        //-1 move up, first one
+        // -1 move up, first one
         let focusRow = moveList[0];
-        //+1 move down, last one
+        // +1 move down, last one
         if (offset > 0) {
             focusRow = moveList[moveList.length - 1];
         }
@@ -35,14 +35,14 @@ export default {
             const startIndex = 0;
             const endIndex = parent.tg_subs_length - 1;
 
-            //up to parent
+            // up to parent
             if (index < startIndex) {
-                //offset 0 = insert before
+                // offset 0 = insert before
                 const parentUpOffset = index + 1;
                 return this.getMoveInfo(moveList, parentUpOffset, parent);
             }
 
-            //down to parent
+            // down to parent
             if (index > endIndex) {
                 const parentDownOffset = index - endIndex;
                 return this.getMoveInfo(moveList, parentDownOffset, parent);
@@ -50,8 +50,8 @@ export default {
 
         }
 
-        //fix multiple selections if move down
-        //reduce the number if exist in current list
+        // fix multiple selections if move down
+        // reduce the number if exist in current list
         if (offset > 0) {
             const lengthInList = this.getMoveLengthInList(moveList, list);
             index -= lengthInList - 1;
@@ -67,37 +67,37 @@ export default {
 
     moveRowsHandler: function(moveList, offset) {
 
-        //remove rows by desc
+        // remove rows by desc
         moveList = this.removeRowsHandler(moveList);
-        //sort by asc
+        // sort by asc
         moveList.reverse();
 
         const focusRow = this.getMoveFocusRow(moveList, offset);
-        //insert rows
+        // insert rows
         const info = this.getMoveInfo(moveList, offset, focusRow);
-        //console.log("focus row: " + focusRow.name, info);
+        // console.log("focus row: " + focusRow.name, info);
 
         const args = [info.index, 0].concat(moveList);
         info.list.splice.apply(info.list, args);
 
-        //remove cache
+        // remove cache
         this.initRowsHandler();
 
-        //scroll and event
+        // scroll and event
         this.onNextUpdated(function() {
             this.scrollRowIntoView(focusRow);
             this.trigger(E.onRowMoved, moveList);
         });
 
-        //remove sort state
+        // remove sort state
         this.removeSortColumn();
-        //flush all rows
+        // flush all rows
         this.update();
 
         return true;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     moveRows: function(rowList, offset) {
         rowList = Util.toList(rowList);
@@ -109,16 +109,16 @@ export default {
             }
             moveList.push(rowItem);
         });
-        //no rows
+        // no rows
         if (!moveList.length) {
             return false;
         }
-        //select all
+        // select all
         if (moveList.length >= this.getRowsLength()) {
             return false;
         }
         offset = Util.toNum(offset, true);
-        //no move
+        // no move
         if (offset === 0) {
             return false;
         }

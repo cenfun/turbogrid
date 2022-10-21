@@ -26,11 +26,11 @@ describe('Row number', function() {
 
         await delay();
 
-        //group row
+        // group row
         let cellNode = grid.getCellNode(0, 0);
         assert.equal(cellNode.innerHTML, '');
 
-        //first row number
+        // first row number
         cellNode = grid.getCellNode(1, 0);
         assert.equal(cellNode.innerHTML, '1');
         cellNode = grid.getCellNode(2, 0);

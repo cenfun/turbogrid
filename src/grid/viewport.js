@@ -4,7 +4,7 @@ export default {
 
     getViewport: function() {
 
-        //update scroll position
+        // update scroll position
         this.scrollLeft = this.getScrollLeft();
         this.scrollTop = this.getScrollTop();
 
@@ -17,7 +17,7 @@ export default {
         };
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
     getViewportRows: function() {
 
@@ -32,7 +32,7 @@ export default {
         // > 0 and < max row length
         let rowCacheLength = this.options.rowCacheLength;
         rowCacheLength = Util.clamp(Util.toNum(rowCacheLength, true), 0, rowsLength);
-        //console.log(rowCacheLength);
+        // console.log(rowCacheLength);
 
         const start = this.frozenInfo.rows;
         if (start) {
@@ -44,7 +44,7 @@ export default {
         }
         const end = rowsLength - 1;
 
-        //get from and till index
+        // get from and till index
         const topPosition = this.scrollTop;
         let from = this.getRowByPosition(rows, start, end, topPosition);
         from -= rowCacheLength;
@@ -60,10 +60,10 @@ export default {
             from += 1;
         }
 
-        //do NOT remove touching row
+        // do NOT remove touching row
         this.protectedItemHandler(list, 'row');
 
-        //console.log('visible row list:', list);
+        // console.log('visible row list:', list);
 
         return list;
     },
@@ -85,7 +85,7 @@ export default {
             }
             return i;
         }
-        //last two rows, less than end top is start
+        // last two rows, less than end top is start
         const endRow = rows[end];
         const endTop = this.getRowTop(endRow);
         if (position < endTop) {
@@ -94,16 +94,16 @@ export default {
         return end;
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
     getViewportColumns: function() {
 
         const listFrozen = this.getColumnListFromFrozen();
 
-        //normal case, no frozen list
+        // normal case, no frozen list
         let from = this.scrollLeft;
         from = Math.max(from, 0);
-        //from frozen left
+        // from frozen left
         if (this.frozenInfo.columns) {
             if (this.frozenInfo.right) {
                 from += this.columnsWidthR;
@@ -115,29 +115,29 @@ export default {
         let till = this.scrollLeft + this.bodyWidth;
         till = Math.min(till, this.columnsWidth);
 
-        //console.log('from', from, 'till', till, 'columnsWidth', this.columnsWidth);
+        // console.log('from', from, 'till', till, 'columnsWidth', this.columnsWidth);
 
         const listRange = this.getColumnListFromRange(from, till);
 
-        //console.log('listRange', listRange);
+        // console.log('listRange', listRange);
 
         const list = [].concat(listFrozen).concat(listRange);
 
-        //do NOT remove touching column
+        // do NOT remove touching column
         this.protectedItemHandler(list, 'column');
 
-        //console.log('visible column list', list);
+        // console.log('visible column list', list);
 
         return list;
     },
 
     getColumnListFromFrozen: function() {
         const columns = this.frozenInfo.columns;
-        //no frozen list
+        // no frozen list
         if (!columns) {
             return [];
         }
-        //all frozen column should be visible
+        // all frozen column should be visible
         const list = [];
         let index = 0;
         while (index < columns) {
@@ -160,9 +160,9 @@ export default {
                 list.push(i);
             }
         }
-        //console.log('before add cache', list.join(','));
+        // console.log('before add cache', list.join(','));
         this.updateColumnListFromCache(list);
-        //console.log(list);
+        // console.log(list);
         return list;
     },
 
@@ -173,18 +173,18 @@ export default {
 
         const columnsLength = this.viewColumns.length;
 
-        //handler cache
+        // handler cache
         let columnCacheLength = this.options.columnCacheLength;
         columnCacheLength = Util.clamp(Util.toNum(columnCacheLength, true), 0, columnsLength);
 
         const fc = this.frozenInfo.column;
         while (columnCacheLength > 0) {
-            //unshift to left
+            // unshift to left
             const cl = list[0] - 1;
             if (cl > fc) {
                 list.unshift(cl);
             }
-            //push to right
+            // push to right
             const cr = list[list.length - 1] + 1;
             if (cr < columnsLength) {
                 list.push(cr);
@@ -197,7 +197,7 @@ export default {
 
     isColumnInRange: function(columnItem, from, till) {
 
-        //remove invisible column
+        // remove invisible column
         if (this.isInvisible(columnItem)) {
             return false;
         }
@@ -205,9 +205,9 @@ export default {
         const left = columnItem.tg_left;
         const right = left + columnItem.tg_width;
 
-        //console.log(`from: ${from}`, `till: ${till}`, `left: ${left}`, `right: ${right}`);
+        // console.log(`from: ${from}`, `till: ${till}`, `left: ${left}`, `right: ${right}`);
 
-        //out of range
+        // out of range
         if (left > till) {
             return false;
         }
@@ -215,12 +215,12 @@ export default {
             return false;
         }
 
-        //in range
+        // in range
         return true;
 
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
     protectedItemHandler: function(list, type) {
         if (!this.protectedItem) {

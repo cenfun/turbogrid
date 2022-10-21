@@ -18,16 +18,16 @@ describe('Row height', function() {
         height: 30
     });
 
-    //row1
+    // row1
     data.rows[1].height = 35;
-    //row2
+    // row2
     data.rows[2].height = 50;
-    //row3
+    // row3
     data.rows[3].height = 'name';
     data.rows[3].name = 'This is long text. This is long text. This is long text. This is long text.';
-    //row21
+    // row21
     data.rows[4].height = 'no-define-key';
-    //row22
+    // row22
     data.rows[5].height = null;
 
 
@@ -58,7 +58,7 @@ describe('Row height', function() {
             assert.equal(container.querySelector('.tg-row[row="1"]').style.height, '35px');
 
             assert.equal(typeof grid.getRowItem('row11').tg_height, 'undefined');
-            //if default row height will be empty
+            // if default row height will be empty
             assert.equal(container.querySelector('.tg-row[row="2"]').style.height, '');
 
             assert.equal(grid.getRowItem('row2').tg_height, 50);

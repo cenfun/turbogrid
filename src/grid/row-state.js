@@ -1,7 +1,7 @@
 export default {
 
-    //=============================================================================
-    //hover single row, by API, no need keep
+    // =============================================================================
+    // hover single row, by API, no need keep
 
     setRowHover: function(rowIndex, hover) {
         const item = this.getRowItem(rowIndex);
@@ -15,7 +15,7 @@ export default {
     // API or from events
     renderRowHover: function(rowItem, hover) {
 
-        //remove previous hover row, both for left and right pane
+        // remove previous hover row, both for left and right pane
         if (this.previousHover) {
             this.previousHover.removeClass('tg-hover');
             this.previousHover = null;
@@ -25,12 +25,12 @@ export default {
             return this;
         }
 
-        //add hover row not frozen, both for left and right pane
+        // add hover row not frozen, both for left and right pane
         if (rowItem.tg_frozen && !this.options.frozenRowHoverable) {
             return this;
         }
 
-        //can not do previous cache, because frozen column need keep hover state
+        // can not do previous cache, because frozen column need keep hover state
 
         const row = rowItem.tg_view_index;
         this.previousHover = this.$body.find(`.tg-row[row='${row}']`).addClass('tg-hover');
@@ -38,16 +38,16 @@ export default {
         return this;
     },
 
-    //=============================================================================
-    //change row state, the state will be add/remove as className
-    //current support: selected
+    // =============================================================================
+    // change row state, the state will be add/remove as className
+    // current support: selected
 
     setRowState: function(rowIndex, state, value = true) {
         const rowItem = this.getRowItem(rowIndex);
         if (!rowItem) {
             return this;
         }
-        //keep state names (may from user) for getRowClass
+        // keep state names (may from user) for getRowClass
         if (!rowItem.tg_state_names) {
             rowItem.tg_state_names = new Set();
         }

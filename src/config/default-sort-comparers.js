@@ -24,7 +24,7 @@ const emptyComparer = function(av, bv, options) {
 
 };
 
-//=======================================================================
+// =======================================================================
 
 const isNull = function(value) {
     if (value === null || typeof value === 'undefined') {
@@ -53,12 +53,12 @@ const blankComparer = function(av, bv, options) {
 
 };
 
-//=======================================================================
+// =======================================================================
 
 const stringComparer = function(av, bv, options) {
     const ai = typeof av === 'string';
     const bi = typeof bv === 'string';
-    //both are string
+    // both are string
     if (ai && bi) {
         // ignore case sort
         const au = av.toUpperCase();
@@ -83,7 +83,7 @@ const diffTypeComparer = function(ai, bi, av, bv, options) {
 const numberComparer = function(av, bv, options) {
     const ai = typeof av === 'number';
     const bi = typeof bv === 'number';
-    //both are number
+    // both are number
     if (ai && bi) {
         return av > bv ? -1 : 1;
     }
@@ -95,7 +95,7 @@ const dateComparer = function(av, bv, options) {
     const bd = new Date(bv);
     const ai = Util.isDate(ad);
     const bi = Util.isDate(bd);
-    //both are date
+    // both are date
     if (ai && bi) {
         const am = ad.getTime();
         const bm = bd.getTime();
@@ -108,7 +108,7 @@ const dateComparer = function(av, bv, options) {
     return diffTypeComparer(ai, bi, av, bv, options);
 };
 
-//=======================================================================
+// =======================================================================
 
 // tg_index is require be created every time
 const indexComparer = function(a, b, options) {
@@ -120,7 +120,7 @@ const equalComparer = function(a, b, options) {
     return indexComparer(a, b, options);
 };
 
-//=======================================================================
+// =======================================================================
 
 export default {
 

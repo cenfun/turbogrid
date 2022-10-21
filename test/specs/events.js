@@ -39,7 +39,7 @@ describe('Events', function() {
 
         headerNode.dispatchEvent(new MouseEvent('click'));
 
-        //console.log(eventTriggered);
+        // console.log(eventTriggered);
 
         assert.equal(eventTriggered.onClick, 1);
 
@@ -58,7 +58,7 @@ describe('Events', function() {
         node.dispatchEvent(new MouseEvent('mouseenter'));
         node.dispatchEvent(new MouseEvent('mouseleave'));
 
-        //console.log(eventTriggered);
+        // console.log(eventTriggered);
 
         assert.equal(eventTriggered.onRowMouseEnter, 1);
         assert.equal(eventTriggered.onRowMouseLeave, 1);
@@ -91,7 +91,7 @@ describe('Events', function() {
         node.dispatchEvent(new MouseEvent('click'));
         node.dispatchEvent(new MouseEvent('dblclick'));
 
-        //console.log(eventTriggered);
+        // console.log(eventTriggered);
 
         assert.equal(eventTriggered.onCellMouseEnter, 1);
         assert.equal(eventTriggered.onCellMouseLeave, 1);

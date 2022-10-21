@@ -134,7 +134,7 @@ describe('Scrollbar', function() {
 
         const $track = scrollbarV.find('.tg-scrollbar-track');
 
-        //click track
+        // click track
         const offset = $track.offset();
 
         const x = offset.left + 10;
@@ -169,7 +169,7 @@ describe('Scrollbar', function() {
 
         const track = scrollbarV.find('.tg-scrollbar-track');
 
-        //back to top 0px
+        // back to top 0px
         const offset = track.offset();
         const x = offset.left + 10;
         const y = offset.top;
@@ -303,7 +303,7 @@ describe('Scrollbar', function() {
         assert.equal(pane.find('.tg-scrollbar-h').hasClass('tg-fade-out'), false);
         assert.equal(pane.find('.tg-scrollbar-v').hasClass('tg-fade-out'), false);
 
-        //x out of container
+        // x out of container
         await page.mouse.move(x + fadeContainer.width(), y);
 
         assert.equal(pane.find('.tg-scrollbar-h').hasClass('tg-fade-in'), false);

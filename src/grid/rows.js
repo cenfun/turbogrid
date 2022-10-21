@@ -41,7 +41,7 @@ export default {
         return this.viewRows[rowIndex];
     },
 
-    //==========================================================================
+    // ==========================================================================
 
     getPreRenderRowInfo: function(rows) {
         const info = {
@@ -120,9 +120,9 @@ export default {
             return;
         }
 
-        //benchmark for prepend or append
+        // benchmark for prepend or append
 
-        //console.log(info);
+        // console.log(info);
         info.rows.forEach((row) => {
 
             this.renderRowNodes(row, info.benchmark);
@@ -133,7 +133,7 @@ export default {
 
     createRowNode: function(row, rowItem, className, cssText, rowTop, rowHeight) {
         const rowNode = document.createElement('div');
-        //for event position
+        // for event position
         rowNode.setAttribute('row', row);
         rowNode.className = className;
         if (cssText) {
@@ -164,7 +164,7 @@ export default {
 
     renderRowNodes: function(row, benchmark) {
 
-        //from view list
+        // from view list
         const rowItem = this.getViewRowItem(row);
         if (!rowItem) {
             return;
@@ -178,13 +178,13 @@ export default {
         const rowTop = this.getViewRowTop(rowItem);
         const rowHeight = this.getRowHeight(rowItem);
 
-        //left
+        // left
         const rowNodeL = this.createRowNode(row, rowItem, className, cssText, rowTop, rowHeight);
         const $bodyL = this.getRowCanvas(vPos, 'left');
         this.appendRowNode($bodyL, rowNodeL, row, benchmark);
         rowNodes = rowNodes.add(rowNodeL);
 
-        //right
+        // right
         if (this.frozenInfo.columns) {
             const rowNodeR = this.createRowNode(row, rowItem, className, cssText, rowTop, rowHeight);
             const $bodyR = this.getRowCanvas(vPos, 'right');
@@ -196,7 +196,7 @@ export default {
 
     },
 
-    //==========================================================================
+    // ==========================================================================
     isGroupLine: function(rowItem) {
         return rowItem && rowItem.tg_group_line && rowItem.tg_view_index !== this.frozenInfo.row;
     },
@@ -205,14 +205,14 @@ export default {
 
         const isBottom = this.frozenInfo.bottom;
 
-        //last row
+        // last row
         if (row === this.viewRows.length - 1 && this.hasVScroll) {
             if (isBottom || !this.hasHScroll) {
                 return true;
             }
         }
 
-        //frozen last row
+        // frozen last row
         if (row === this.frozenInfo.row && isBottom && !this.hasHScroll) {
             return true;
         }
@@ -236,15 +236,15 @@ export default {
         const odd = row % 2 === 1;
 
         list.push({
-            //odd/even line, can NOT use :nth-child(even/odd), because not all rows are rendered
+            // odd/even line, can NOT use :nth-child(even/odd), because not all rows are rendered
             'tg-odd': odd,
             'tg-even': !odd,
 
-            //list index first and last
+            // list index first and last
             'tg-list-first': rowItem.tg_list_index === 0,
             'tg-list-last': rowItem.tg_list_last,
 
-            //group line
+            // group line
             'tg-group-line': this.isGroupLine(rowItem),
             'tg-none-line': this.isNoneLine(row),
             'tg-top-line': this.isTopLine(row),
@@ -254,12 +254,12 @@ export default {
 
         });
 
-        //custom type class name
+        // custom type class name
         if (rowItem.type) {
             list.push(`tg-${rowItem.type}`);
         }
 
-        //row state from user (not include selected)
+        // row state from user (not include selected)
         const rowState = rowItem.tg_state_names;
         if (rowState) {
             rowState.forEach(function(state) {
@@ -269,7 +269,7 @@ export default {
             });
         }
 
-        //custom class name
+        // custom class name
         list.push(Util.classMap(rowItem.classMap));
 
         return Util.classMap(list);
@@ -300,9 +300,9 @@ export default {
         return h;
     },
 
-    //init tg_top from the beginning
+    // init tg_top from the beginning
 
-    //with scroll top offset
+    // with scroll top offset
     getViewRowTop: function(rowItem) {
         let top = rowItem.tg_top;
         const row = rowItem.tg_view_index;
@@ -310,11 +310,11 @@ export default {
             if (row > this.frozenInfo.row) {
                 top -= this.frozenRowsHeight;
             } else {
-                //frozen row no scroll top offset
+                // frozen row no scroll top offset
                 return top;
             }
         }
-        //update scroll top offset
+        // update scroll top offset
         top -= this.scrollTopOffset;
         return top;
     },
@@ -332,9 +332,9 @@ export default {
         const isBottom = this.frozenInfo.bottom;
         const fc = this.frozenInfo.row;
         let vPos = 'top';
-        //frozen rows
+        // frozen rows
         if (this.frozenInfo.rows) {
-            //frozen
+            // frozen
             if (row <= fc) {
                 if (isBottom) {
                     vPos = 'bottom';

@@ -5,14 +5,14 @@ import Motion from '../components/motion.js';
 
 export default {
 
-    //row drag handler
+    // row drag handler
     rowDragStartHandler: function(e, d) {
 
-        //console.log(e.type, d);
+        // console.log(e.type, d);
         const rowItem = d.rowItem;
-        //console.log(row);
+        // console.log(row);
         if (!rowItem) {
-            //console.log('no row item');
+            // console.log('no row item');
             return;
         }
 
@@ -23,7 +23,7 @@ export default {
         d.dragCloneNodes = this.getRowDragCloneNodes(dragNodes);
         d.dropPlaceholder = this.getRowDropPlaceholder(dragNodes);
 
-        //for clone row top
+        // for clone row top
         d.dragStartTop = this.getRowTop(rowItem);
         d.dragRowHeight = this.getRowHeight(rowItem);
 
@@ -60,7 +60,7 @@ export default {
 
     rowDragEndHandler: function(e, d) {
         if (d.type === 'touch') {
-            //clean touch anyway
+            // clean touch anyway
             this.protectedItem = null;
             Util.preventDefault(d.e);
         }
@@ -85,16 +85,16 @@ export default {
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updateDragCloneRowPosition: function(d) {
         const scrollOffset = this.scrollTop - d.dragStartScrollTop;
         const currentTop = d.dragStartTop + d.offsetY + scrollOffset;
 
         const cloneRowTop = currentTop - this.scrollTopOffset;
-        //console.log('cloneRowTop', cloneRowTop, 'currentTop', currentTop);
+        // console.log('cloneRowTop', cloneRowTop, 'currentTop', currentTop);
 
-        //out of viewport will be removed
+        // out of viewport will be removed
         if (d.dragCloneNodes) {
             d.dragCloneNodes.css('top', cloneRowTop).show();
         }
@@ -120,7 +120,7 @@ export default {
             const node = $(elem);
             const holder = $('<div/>').addClass('tg-row-placeholder').hide();
             const container = node.parent();
-            //remove previous first
+            // remove previous first
             container.find('.tg-row-placeholder').remove();
             holder.appendTo(container);
             dropPlaceholder.add(holder);
@@ -128,7 +128,7 @@ export default {
         return dropPlaceholder;
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updateDragPlaceholderPosition: function(d) {
 
@@ -136,11 +136,11 @@ export default {
 
         const dropItem = d.dropItem;
         if (!dropItem) {
-            //console.log('no drop item');
+            // console.log('no drop item');
             return;
         }
 
-        //border fix
+        // border fix
         let top = d.dropPosition - 1;
         if (d.dropBottom) {
             if (dropItem.tg_view_last) {
@@ -153,11 +153,11 @@ export default {
         }
         const placeholderTop = top - this.scrollTopOffset;
 
-        //out of viewport will be removed
+        // out of viewport will be removed
         if (d.dropPlaceholder) {
             d.dropPlaceholder.css('top', placeholderTop).show();
         }
-        //console.log('placeholder', placeholderTop);
+        // console.log('placeholder', placeholderTop);
 
     },
 
@@ -168,21 +168,21 @@ export default {
         const scrollTop = this.scrollTop;
         const scrollHeight = this.bodyHeight - this.frozenRowsHeight;
         const scrollBottom = scrollTop + scrollHeight;
-        //console.log('scrollTop', scrollTop, 'dropPosition', dropPosition, 'scrollBottom', scrollBottom);
+        // console.log('scrollTop', scrollTop, 'dropPosition', dropPosition, 'scrollBottom', scrollBottom);
 
         const rowHeight = this.options.rowHeight;
         const moveAreaHeight = Math.min(rowHeight * 3, scrollHeight * 0.5);
-        //console.log('moveAreaHeight', moveAreaHeight);
+        // console.log('moveAreaHeight', moveAreaHeight);
 
-        //not enough area
+        // not enough area
         if (moveAreaHeight < rowHeight) {
             return;
         }
 
-        //move up
+        // move up
         if (d.offsetY < 0) {
             if (currentPos < scrollTop + moveAreaHeight) {
-                //console.log('auto scroll up');
+                // console.log('auto scroll up');
                 const posUp = currentPos - (scrollTop + moveAreaHeight);
                 const offsetUp = this.getAutoScrollOffset(posUp, moveAreaHeight);
                 this.autoScrollStart(offsetUp, d);
@@ -192,9 +192,9 @@ export default {
             return;
         }
 
-        //move down
+        // move down
         if (currentPos > scrollBottom - moveAreaHeight) {
-            //console.log('auto scroll down');
+            // console.log('auto scroll down');
             const posDown = currentPos - (scrollBottom - moveAreaHeight);
             const offsetDown = this.getAutoScrollOffset(posDown, moveAreaHeight);
             this.autoScrollStart(offsetDown, d);
@@ -204,7 +204,7 @@ export default {
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     getAutoScrollOffset: function(pos, height) {
         return Math.floor(pos / height * 20);
@@ -231,10 +231,10 @@ export default {
                 return;
             }
 
-            //console.log('scrollTop', newTop);
+            // console.log('scrollTop', newTop);
 
             this.setScrollTop(newTop);
-            //update position
+            // update position
             this.updateDragCloneRowPosition(d);
             this.updateDragPlaceholderPosition(d);
 
@@ -248,11 +248,11 @@ export default {
     },
 
 
-    //=======================================================================================
+    // =======================================================================================
 
     rowDropListHandler: function(d) {
         const list = this.getRowDropList(d);
-        //console.log(rows);
+        // console.log(rows);
         if (!Util.isList(list)) {
             return;
         }
@@ -263,12 +263,12 @@ export default {
                 return false;
             }
 
-            //no frozen drag
+            // no frozen drag
             if (item.tg_frozen) {
                 return false;
             }
 
-            //filter children
+            // filter children
             let parent = item.tg_parent;
             while (parent) {
                 if (parent === rowItem) {
@@ -287,7 +287,7 @@ export default {
         const dropList = [];
         drops.forEach((item) => {
 
-            //for position, using data list top
+            // for position, using data list top
             const rowTop = this.getRowTop(item);
             const rowHeight = this.getRowHeight(item);
             dropList.push({
@@ -295,7 +295,7 @@ export default {
                 position: rowTop
             });
 
-            //-1 for less than next top, not equal next top
+            // -1 for less than next top, not equal next top
             dropList.push({
                 rowItem: item,
                 position: rowTop + rowHeight - 1,
@@ -310,17 +310,17 @@ export default {
     getRowDropList: function(d) {
         const crossLevel = this.options.rowDragCrossLevel;
 
-        //default only parent subs
+        // default only parent subs
         if (!crossLevel) {
             return this.getRowParentSubs(d.rowItem);
         }
 
-        //custom filter
+        // custom filter
         if (typeof crossLevel === 'function') {
             return crossLevel.call(this, d);
         }
 
-        //all rows
+        // all rows
         return this.viewRows;
     },
 
@@ -328,19 +328,19 @@ export default {
 
         const dropList = d.dropList;
         if (!dropList) {
-            //console.log('no drop list');
+            // console.log('no drop list');
             return;
         }
 
         const currentPos = d.dragCurrentPosition;
 
-        //find best position
+        // find best position
         let distance = Number.MAX_VALUE;
 
         for (let i = 0, l = dropList.length; i < l; i++) {
             const item = dropList[i];
             const currentDis = Math.abs(currentPos - item.position);
-            //console.log('dTop', dTop, item.rowItem.name);
+            // console.log('dTop', dTop, item.rowItem.name);
             if (currentDis > distance) {
                 break;
             }
@@ -351,7 +351,7 @@ export default {
 
         }
 
-        //console.log(d.rowItem, d.dropItem, d.dropBottom, distance);
+        // console.log(d.rowItem, d.dropItem, d.dropBottom, distance);
 
     },
 
@@ -363,14 +363,14 @@ export default {
 
         let dropInto;
         let dropIndex;
-        //add below group first
+        // add below group first
         if (this.isDropIntoGroupFirstChild(dropItem, dropBottom)) {
             dropInto = dropItem.subs;
             dropIndex = 0;
         } else {
             dropInto = this.getRowParentSubs(dropItem);
             dropIndex = dropItem.tg_sub_index;
-            //if remove one before, fix one position
+            // if remove one before, fix one position
             if (dragFrom === dropInto && dragIndex < dropIndex) {
                 dropIndex -= 1;
             }
@@ -391,7 +391,7 @@ export default {
             return false;
         }
         if (this.isEmptyGroup(dropItem)) {
-            //expend it
+            // expend it
             dropItem.collapsed = false;
             return true;
         }
@@ -403,17 +403,17 @@ export default {
 
     updateDragDropPosition: function(dragFrom, dropInto, dragIndex, dropIndex, rowItem) {
 
-        //console.log(dragIndex, dropIndex, dragFrom, dropInto);
+        // console.log(dragIndex, dropIndex, dragFrom, dropInto);
 
         if (dragFrom === dropInto && dragIndex === dropIndex) {
-            //console.log('drag drop no change');
+            // console.log('drag drop no change');
             return;
         }
 
-        //remove from drag subs
+        // remove from drag subs
         dragFrom.splice(dragIndex, 1);
 
-        //insert to drop subs
+        // insert to drop subs
         dropInto.splice(dropIndex, 0, rowItem);
 
         return {
@@ -428,35 +428,35 @@ export default {
     rowDropHandler: function(d) {
 
         const dropItem = d.dropItem;
-        //no change
+        // no change
         if (!dropItem) {
-            //console.log('no drop item');
+            // console.log('no drop item');
             return;
         }
 
         const rowItem = d.rowItem;
         const dropBottom = d.dropBottom;
 
-        //console.log('dropItem/dropBottom', dropItem.name, dropBottom);
+        // console.log('dropItem/dropBottom', dropItem.name, dropBottom);
 
         const droppedInfo = this.rowDragDropPositionHandler(rowItem, dropItem, dropBottom);
         if (!droppedInfo) {
-            //console.log('no change');
+            // console.log('no change');
             return;
         }
 
-        //delete and add need init again
+        // delete and add need init again
         this.initRowsHandler();
 
-        //flush
+        // flush
         let minIndex = Math.min(rowItem.tg_view_index, dropItem.tg_view_index);
         if (minIndex) {
-            //flush up row group line
+            // flush up row group line
             minIndex -= 1;
         }
         this.flushRowFrom(minIndex);
 
-        //fresh data index
+        // fresh data index
         this.removeSortColumn();
 
         this.onNextUpdated(() => {

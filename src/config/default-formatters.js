@@ -1,12 +1,12 @@
 export default {
 
-    //header formatter
+    // header formatter
     header: function(value, rowItem, columnItem, cellNode) {
         return value;
     },
 
-    //====================================================================================
-    //cell formatter by type
+    // ====================================================================================
+    // cell formatter by type
 
     null: function(value, rowItem, columnItem, cellNode) {
         if (rowItem && rowItem.tg_group) {
@@ -22,7 +22,7 @@ export default {
         return '';
     },
 
-    //default
+    // default
     string: function(value, rowItem, columnItem, cellNode) {
         return value;
     },
@@ -31,12 +31,12 @@ export default {
         return value;
     },
 
-    //default to font-family:Webdings;
+    // default to font-family:Webdings;
     icon: function(value, rowItem, columnItem, cellNode) {
         return `<span class="tg-symbols">${value}</span>`;
     },
 
-    //====================================================================================
+    // ====================================================================================
 
     select: function(value, rowItem, columnItem, cellNode) {
         if (!this.isRowSelectable(rowItem)) {
@@ -53,7 +53,7 @@ export default {
         return rowItem.tg_row_number || '';
     },
 
-    //====================================================================================
+    // ====================================================================================
 
     tree: function(value, rowItem, columnItem, cellNode) {
         return this.getTreeFormatterContent(value, rowItem);

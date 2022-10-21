@@ -3,7 +3,7 @@ import Util from '../core/util.js';
 
 export default {
 
-    //grid css rules
+    // grid css rules
     updateCssRules: function() {
 
         if (!this.cssRulesInvalid) {
@@ -23,10 +23,10 @@ export default {
     initCssRules: function() {
 
         this.cssList = {};
-        //cache for display none, calculate column height
+        // cache for display none, calculate column height
         this.cssDisplayCache = {};
 
-        //init row height
+        // init row height
         const h = this.getRowHeight();
         const rule = this.createCssRule('.tg-row');
         rule.height = `${h}px`;
@@ -34,7 +34,7 @@ export default {
 
     },
 
-    //remove display = none
+    // remove display = none
     resetCssDisplay: function(v) {
         if (!this.cssDisplayCache) {
             return;
@@ -49,12 +49,12 @@ export default {
     },
 
 
-    //==========================================================================================
+    // ==========================================================================================
 
     updateColumnsCssRules: function() {
         const columns = this.viewColumns;
         const fc = this.frozenInfo.column;
-        //console.log(fc);
+        // console.log(fc);
         const groups = {};
         let left = 0;
         for (let i = 0, l = columns.length; i < l; i++) {
@@ -84,12 +84,12 @@ export default {
         this.updateCssRuleItem(index, left, parent.tg_width);
         groups[index] = parent;
 
-        //parent's parent
+        // parent's parent
         this.updateParentCssRules(parent, left, groups);
 
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
     updateHeadersCssRules: function() {
 
@@ -111,21 +111,21 @@ export default {
                 h += this.headerLayerHeight[i] || 0;
             });
             rule.height = `${h}px`;
-            //console.log("combination: " + k + " " + h + "px");
+            // console.log("combination: " + k + " " + h + "px");
         });
 
     },
 
     getLayerCombinations: function(maxIndex) {
-        //for test
-        //maxIndex = 1;
+        // for test
+        // maxIndex = 1;
 
         let seeds = '';
         while (maxIndex >= 0) {
             seeds += maxIndex;
             maxIndex--;
         }
-        //console.log(seeds);
+        // console.log(seeds);
         if (seeds.length < 2) {
             return [];
         }
@@ -146,7 +146,7 @@ export default {
         return list;
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
     updateCssRuleItem: function(i, left, width) {
         const rule = this.createCssRule(`.tg-c-${i}`);
@@ -175,11 +175,11 @@ export default {
         return width;
     },
 
-    //==========================================================================================
+    // ==========================================================================================
 
     updateStyleElement: function() {
 
-        //create style element
+        // create style element
         if (!this.styleElement) {
             this.createStyleElement();
         }
@@ -198,8 +198,8 @@ export default {
     },
 
     createStyleElement: function() {
-        //append to head is because sometimes container could be appended to another element again
-        //like golden layout full size window, and style will be lose
+        // append to head is because sometimes container could be appended to another element again
+        // like golden layout full size window, and style will be lose
         const root = this.shadowRoot || document.head;
 
         this.styleElement = document.createElement('style');
@@ -256,8 +256,8 @@ export default {
         }
     },
 
-    //======================================================================================================
-    //for destroy and init options change
+    // ======================================================================================================
+    // for destroy and init options change
     removeCssRules: function() {
         this.previousCssList = null;
         this.cssList = null;

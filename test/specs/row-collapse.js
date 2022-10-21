@@ -26,7 +26,7 @@ describe('Row collapse', function() {
             collapseAllOnInit: true
         });
 
-        //more level data
+        // more level data
         data.rows[0].subs[0].subs = JSON.parse(JSON.stringify(data.rows[0].subs));
 
 

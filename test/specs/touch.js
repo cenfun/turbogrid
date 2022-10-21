@@ -72,7 +72,7 @@ describe('Touch', function() {
 
     it('Grid touch column width', async () => {
 
-        //back scroll to 0
+        // back scroll to 0
         grid.scrollToFirstColumn();
 
         assert.equal(grid.getScrollLeft(), 0);

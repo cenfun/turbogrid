@@ -72,7 +72,7 @@ describe('Row move', function() {
         grid.render();
     });
 
-    //move row list
+    // move row list
     it('Grid move flat rows, single, moveRowsUp', function(done) {
         grid.once('onRowMoved', function(e, d) {
             assert.equal(d.length, 1);
@@ -123,7 +123,7 @@ describe('Row move', function() {
         grid.moveRowsUp('8');
     });
 
-    //move selected
+    // move selected
     it('Grid move flat rows, single, moveSelectedRowsUp', function(done) {
         grid.once('onRowMoved', function(e, d) {
             assert.equal(d.length, 1);
@@ -176,7 +176,7 @@ describe('Row move', function() {
         grid.moveSelectedRowsUp();
     });
 
-    //move with offset
+    // move with offset
     it('Grid move flat rows, single, invalid moveRows', function() {
         let res = grid.moveRows();
         assert.equal(res, false);
@@ -188,7 +188,7 @@ describe('Row move', function() {
         assert.equal(res, false);
     });
 
-    //move multiple rows
+    // move multiple rows
     it('Grid move flat rows, multiple rows, up', function(done) {
         grid.once('onRowMoved', function(e, d) {
             assert.equal(d.length, 2);
@@ -222,7 +222,7 @@ describe('Row move', function() {
         grid.moveRows(['7', '8'], 1);
     });
 
-    //move tree
+    // move tree
     it('Grid move tree rows, init', function(done) {
         grid.setOption({
             rowMoveCrossLevel: true,

@@ -25,13 +25,13 @@ describe('Export', function() {
         grid.once('onFirstUpdated', function() {
             const exportData = grid.exportData();
 
-            //console.log("exportData.rows.length: " + exportData.rows.length);
-            //console.log("data.rows.length: " + data.rows.length);
+            // console.log("exportData.rows.length: " + exportData.rows.length);
+            // console.log("data.rows.length: " + data.rows.length);
             assert.equal(exportData.rows.length, data.rows.length);
 
-            //console.log("exportData.columns.length: " + exportData.columns.length);
-            //console.log("data.columns.length: " + data.columns.length);
-            //exported columns without "tg-cell-blank" so add 1
+            // console.log("exportData.columns.length: " + exportData.columns.length);
+            // console.log("data.columns.length: " + data.columns.length);
+            // exported columns without "tg-cell-blank" so add 1
             assert.equal(exportData.columns.length, data.columns.length);
 
             done();
@@ -41,12 +41,12 @@ describe('Export', function() {
 
     it('exportData() with exportable false', function(done) {
         const data = Data.create();
-        //not for exportable false but true
+        // not for exportable false but true
         data.rows[2].exportable = false;
         data.rows[3].exportable = true;
         data.columns[2].exportable = false;
         data.columns[3].exportable = false;
-        //for null
+        // for null
         data.rows[4] = null;
         grid.setDataSnapshot(data);
         grid.setOption({
@@ -55,7 +55,7 @@ describe('Export', function() {
         grid.once('onFirstUpdated', function() {
             const exportData = grid.exportData();
             assert.equal(exportData.rows.length, data.rows.length - 1);
-            //exported columns without "tg-cell-blank" so add 1
+            // exported columns without "tg-cell-blank" so add 1
             assert.equal(exportData.columns.length, data.columns.length - 2);
             done();
         });

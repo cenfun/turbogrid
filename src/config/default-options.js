@@ -13,28 +13,28 @@ export default function() {
 
         headerVisible: true,
 
-        //==========================================================
-        //row
+        // ==========================================================
+        // row
 
         rowHeight: 32,
 
-        //null or function (return true: visible or false: invisible)
+        // null or function (return true: visible or false: invisible)
         rowFilter: null,
 
-        //handler for row not found
+        // handler for row not found
         rowNotFound: '',
 
-        //boolean
+        // boolean
         rowMoveCrossLevel: true,
 
         rowCacheLength: 0,
         rowProps: defaultRowProps,
 
-        //==========================================================
-        //column
+        // ==========================================================
+        // column
 
         columnTypes: {
-            //type : props
+            // type : props
             tree: {
                 type: 'tree',
                 formatter: 'tree',
@@ -50,22 +50,22 @@ export default function() {
                 type: 'date',
                 align: 'right'
             },
-            //id : type
+            // id : type
             name: 'tree'
         },
 
         columnCacheLength: 0,
         columnProps: defaultColumnProps,
 
-        //==========================================================
+        // ==========================================================
         // collapse all only for row
 
-        //true/false/null
+        // true/false/null
         collapseAllOnInit: null,
         // true/false
         collapseAllVisible: true,
 
-        //==========================================================
+        // ==========================================================
         // select
 
         // true: select all, false: unselect all, or do nothing
@@ -84,9 +84,9 @@ export default function() {
             formatter: 'select',
             headerClassMap: 'tg-header-select',
             classMap: 'tg-cell-select',
-            //padding 5px * 2
-            //icon width 18px
-            //border left/right 2px (when zoom out no cut)
+            // padding 5px * 2
+            // icon width 18px
+            // border left/right 2px (when zoom out no cut)
             width: 36,
             align: 'center',
             resizable: false,
@@ -94,14 +94,14 @@ export default function() {
             exportable: false
         },
 
-        //==========================================================
+        // ==========================================================
 
-        //boolean or function
+        // boolean or function
         rowDragCrossLevel: true,
 
         rowDragVisible: false,
 
-        //rowDragRight: false,
+        // rowDragRight: false,
 
         rowDragColumn: {
             private: true,
@@ -117,7 +117,7 @@ export default function() {
             exportable: false
         },
 
-        //==========================================================
+        // ==========================================================
 
         rowNumberWidth: 36,
 
@@ -133,12 +133,12 @@ export default function() {
             classMap: 'tg-cell-row-number',
             align: 'center',
             maxWidth: 100,
-            //resizable: false,
+            // resizable: false,
             sortable: false,
             exportable: false
         },
 
-        //==========================================================
+        // ==========================================================
         // blank
         blankColumn: {
             private: true,
@@ -155,28 +155,28 @@ export default function() {
             exportable: false
         },
 
-        //==========================================================
+        // ==========================================================
         // sort
 
         // single field, or a list for multiple compare
         sortField: '',
         sortAsc: true,
 
-        //Configuration for Sort Blank Value Logic
-        //true: Rows with blank values should always be at the bottom of the grid
-        //false: Rows with blank values sort at the bottom for Descending Sort and at the Top for Ascending Sort
+        // Configuration for Sort Blank Value Logic
+        // true: Rows with blank values should always be at the bottom of the grid
+        // false: Rows with blank values sort at the bottom for Descending Sort and at the Top for Ascending Sort
         sortBlankValueBottom: true,
 
         sortOnInit: false,
 
-        //h or v style
+        // h or v style
         sortIndicator: 'h',
 
-        //customize own sort comparers, default comparers
+        // customize own sort comparers, default comparers
         sortComparers: defaultSortComparers,
 
-        //==========================================================
-        //frozen
+        // ==========================================================
+        // frozen
         frozenRow: -1,
         frozenRowMax: 10,
         frozenRowHoverable: false,
@@ -186,8 +186,8 @@ export default function() {
         frozenColumnMax: 10,
         frozenRight: false,
 
-        //==========================================================
-        //scrollbar
+        // ==========================================================
+        // scrollbar
 
         scrollbarSize: 12,
         scrollbarSizeH: null,
@@ -201,28 +201,28 @@ export default function() {
         // auto, touch, classic
         scrollbarType: 'auto',
 
-        //==========================================================
-        //scroll pane
+        // ==========================================================
+        // scroll pane
 
-        //min width and will be auto hide, two scrollbarSize
+        // min width and will be auto hide, two scrollbarSize
         scrollPaneMinWidth: 30,
 
-        //depends scrollbarFade true
+        // depends scrollbarFade true
         scrollPaneGradient: 30,
 
-        //==========================================================
-        //other
+        // ==========================================================
+        // other
 
         autoHeight: false,
 
-        //user can select text in grid
+        // user can select text in grid
         textSelectable: false,
 
-        //==========================================================
-        //auto resize when window resize
+        // ==========================================================
+        // auto resize when window resize
         bindWindowResize: false,
 
-        //auto resize when container resize with ResizeObserver
+        // auto resize when container resize with ResizeObserver
         bindContainerResize: false
 
     };

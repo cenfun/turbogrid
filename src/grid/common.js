@@ -47,7 +47,7 @@ export default {
         };
 
         const parentAndLevelHandler = (item, parent) => {
-            //root tg_parent = undefined and tg_level = 0
+            // root tg_parent = undefined and tg_level = 0
             item.tg_parent = parent;
             let tg_level = 0;
             if (parent) {
@@ -69,20 +69,20 @@ export default {
 
             parentAndLevelHandler(item, parent);
 
-            //for delete invisible or collapsed rows
+            // for delete invisible or collapsed rows
             item.tg_index = index;
             // for subs.splice()
             item.tg_sub_index = i;
 
-            //add to cache
+            // add to cache
             indexCache.push(item);
 
-            //next frozen index
+            // next frozen index
             index += 1;
         };
 
         const initTree = function(list, parent) {
-            //do NOT use forEach, because it doesn't support [].length = num
+            // do NOT use forEach, because it doesn't support [].length = num
             let i = 0;
             const l = list.length;
             while (i < l) {
@@ -95,7 +95,7 @@ export default {
 
                 initItem(item, i, parent);
 
-                //subs already init by initItem
+                // subs already init by initItem
                 if (item.subs) {
                     initTree(item.subs, item);
                 }
@@ -109,7 +109,7 @@ export default {
         return {
             indexCache,
             isTree,
-            //for render column header
+            // for render column header
             maxLevel: level,
             length: index
         };
@@ -134,7 +134,7 @@ export default {
         return this;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     forEachRow: function(callback) {
         Util.forEachTree(this.rows, callback);
@@ -174,7 +174,7 @@ export default {
         return columnList;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     isRowLeaf: function(rowItem) {
         if (!rowItem) {
@@ -201,7 +201,7 @@ export default {
         return this.isRowLeaf(rowItem);
     },
 
-    //=============================================================================
+    // =============================================================================
 
     isEmptyGroup: function(item) {
         if (item && item.tg_group && item.tg_subs_length === 0) {
@@ -214,8 +214,8 @@ export default {
         if (!item) {
             return false;
         }
-        //filtered: temporary state
-        //invisible: from user
+        // filtered: temporary state
+        // invisible: from user
         if (item.tg_filtered || item.tg_invisible) {
             return true;
         }

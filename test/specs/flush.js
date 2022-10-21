@@ -27,7 +27,7 @@ describe('Flush', function() {
         grid.render();
         await delay();
 
-        //total columns
+        // total columns
         const columnLength = container.querySelector('.tg-row[row="0"]').children.length;
 
         const cl = Math.ceil((500 - 230) / 81) + 1;
@@ -36,7 +36,7 @@ describe('Flush', function() {
         assert.equal(grid.viewport.columns.length, cl);
 
 
-        //total rows
+        // total rows
         const rowLength = grid.$bodyTL.children().length;
 
         const rl = Math.ceil((200 - grid.headerHeight) / grid.options.rowHeight);

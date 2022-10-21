@@ -3,7 +3,7 @@ import Util from '../core/util.js';
 
 import defaultFormatters from '../config/default-formatters.js';
 import defaultOptions from '../config/default-options.js';
-//test if be changed
+// test if be changed
 // setTimeout(function() {
 //     console.log(defaultOptions());
 // }, 2000);
@@ -12,9 +12,9 @@ export default {
 
     initOptionsHandler: function() {
 
-        //final global options before render
+        // final global options before render
         this.options = this.generateOptions();
-        //console.log(this.options);
+        // console.log(this.options);
 
         this.initOptionsFormatters();
 
@@ -30,19 +30,19 @@ export default {
     },
 
     generateOptions() {
-        //console.log('generateOptions');
-        //require function return to create new pure default options
+        // console.log('generateOptions');
+        // require function return to create new pure default options
         const dos = defaultOptions();
 
-        //theme options
+        // theme options
         const themeOptions = this.generateThemeOptions();
 
-        //merge all options with priority
+        // merge all options with priority
         return Util.merge(dos, themeOptions, this.constructorOptions, this.customOptions, this.dataOptions);
     },
 
     generateThemeOptions() {
-        //pick last one
+        // pick last one
         const theme = this.pickOptions('theme').pop();
         if (!theme) {
             return;
@@ -57,26 +57,26 @@ export default {
         }).filter((item) => item);
     },
 
-    //=============================================================================================
+    // =============================================================================================
 
     initOptionsFormatters() {
-        //custom list
+        // custom list
         let optionsFormatters;
         const formatters = this.pickOptions('formatters');
         if (formatters.length) {
             optionsFormatters = Util.merge.apply(null, formatters);
         }
 
-        //final global formatters before render
+        // final global formatters before render
         this.formatters = Util.merge(defaultFormatters, optionsFormatters, this.customFormatters);
-        //console.log(this.formatters);
+        // console.log(this.formatters);
 
         // global null formatter cache to this
         this.nullFormatter = this.getFormatter('null');
     },
 
     initOptionsSort() {
-        //must be h or v
+        // must be h or v
         if (this.options.sortIndicator !== 'v') {
             this.options.sortIndicator = 'h';
         }
@@ -86,21 +86,21 @@ export default {
         const o = this.options;
 
         this.frozenInfo = {
-            //index
+            // index
             column: -1,
             row: -1,
-            //length
+            // length
             columns: 0,
             rows: 0,
-            //position
+            // position
             bottom: Boolean(o.frozenBottom),
             right: Boolean(o.frozenRight)
         };
 
-        //init frozen column
+        // init frozen column
         let fc = Util.toNum(o.frozenColumn, true);
         fc = Util.clamp(fc, -1, o.frozenColumnMax);
-        //left private columns fixing, not for right
+        // left private columns fixing, not for right
         if (fc > -1 && !this.frozenInfo.right) {
             if (o.selectVisible) {
                 fc += 1;
@@ -122,7 +122,7 @@ export default {
         }
 
 
-        //init frozen row
+        // init frozen row
         let fr = Util.toNum(o.frozenRow, true);
         fr = Util.clamp(fr, -1, o.frozenRowMax);
         this.frozenInfo.row = fr;
@@ -173,7 +173,7 @@ export default {
             list.push('tg-text-unselectable');
         }
 
-        //console.log(list);
+        // console.log(list);
         this.$container.addClass(Util.classMap(list));
 
     }

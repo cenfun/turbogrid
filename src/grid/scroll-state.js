@@ -3,19 +3,19 @@ import Util from '../core/util.js';
 
 export default {
 
-    //update all scroll bar state first
-    //h scroll depends on blank column
-    //v scroll depends on rows num
+    // update all scroll bar state first
+    // h scroll depends on blank column
+    // v scroll depends on rows num
     updateScrollState: function() {
 
-        //global info, reset blank column
+        // global info, reset blank column
         this.updateGlobalScrollInfo();
 
-        //update scroll state
+        // update scroll state
         this.updateHScrollState();
         this.updateVScrollState();
 
-        //h scroll fix again if has v scroll
+        // h scroll fix again if has v scroll
         this.updateBlankColumnWidth();
 
         this.scrollStateChanged = false;
@@ -33,38 +33,38 @@ export default {
 
         }
 
-        //console.log("scrollStateChanged", this.scrollStateChanged);
+        // console.log("scrollStateChanged", this.scrollStateChanged);
 
-        //all for update those 3 state
-        //console.log("hasHScroll: " + this.hasHScroll, "hasVScroll: " + this.hasVScroll, "scrollPaneHidden: " + this.scrollPaneHidden);
+        // all for update those 3 state
+        // console.log("hasHScroll: " + this.hasHScroll, "hasVScroll: " + this.hasVScroll, "scrollPaneHidden: " + this.scrollPaneHidden);
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updateGlobalScrollInfo: function() {
 
-        //all rows height
+        // all rows height
         this.totalRowsLength = this.getRowsLength();
         this.totalRowsHeight = this.getRowsHeight();
         this.frozenRowsHeight = this.getFrozenRowsHeight();
 
-        //scroll rows height, require frozenRowsHeight on init pane
+        // scroll rows height, require frozenRowsHeight on init pane
         this.scrollRowsHeight = this.totalRowsHeight - this.frozenRowsHeight;
 
-        //zero height fixing
+        // zero height fixing
         this.totalRowsHeight = Math.max(this.totalRowsHeight, 1);
         this.scrollRowsHeight = Math.max(this.scrollRowsHeight, 1);
 
-        //clean if outside of the data
+        // clean if outside of the data
         this.flushRowFrom(this.totalRowsLength);
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updateHScrollState: function() {
-        //h scroll state (include left frozen scroll)
+        // h scroll state (include left frozen scroll)
         this.hasHScroll = true;
 
         this.updateScrollPaneHiddenState();
@@ -74,11 +74,11 @@ export default {
             return;
         }
 
-        //console.log("containerWidth: " + this.containerWidth, "columnsWidth: " + this.columnsWidth);
+        // console.log("containerWidth: " + this.containerWidth, "columnsWidth: " + this.columnsWidth);
 
         const blankColumnWidth = this.containerWidth - this.columnsWidth;
 
-        //console.log("blankColumnWidth: " + blankColumnWidth, "blankColumn.tg_width: " + this.blankColumn.tg_width);
+        // console.log("blankColumnWidth: " + blankColumnWidth, "blankColumn.tg_width: " + this.blankColumn.tg_width);
 
         if (blankColumnWidth >= 0) {
             this.hasHScroll = false;
@@ -99,7 +99,7 @@ export default {
             const scrollPaneWidth = this.getScrollPaneCurrentWidth();
             const scrollbarW = this.getScrollbarWidth();
             if (scrollPaneWidth < scrollbarW) {
-                //has left h scroll
+                // has left h scroll
                 this.hasHScroll = true;
             }
         }
@@ -110,17 +110,17 @@ export default {
         this.scrollPaneHidden = false;
 
         if (this.frozenInfo.columns) {
-            //has frozen pane
+            // has frozen pane
             const scrollPaneWidth = this.getScrollPaneCurrentWidth();
             const scrollPaneMinWidth = this.getScrollPaneMinWidth();
-            //console.log("scrollPaneWidth:" + scrollPaneWidth, "scrollPaneMinWidth: " + scrollPaneMinWidth);
+            // console.log("scrollPaneWidth:" + scrollPaneWidth, "scrollPaneMinWidth: " + scrollPaneMinWidth);
             if (scrollPaneWidth < scrollPaneMinWidth) {
-                //hide right scrollPane
+                // hide right scrollPane
                 this.scrollPaneHidden = true;
             }
         }
 
-        //update header columns visibility
+        // update header columns visibility
         this.updateScrollHeaderVisibility();
 
     },
@@ -131,7 +131,7 @@ export default {
         }
         this.previousHasScrollHeader = this.scrollPaneHidden;
 
-        //update visibility for right header pane
+        // update visibility for right header pane
         let headerScrollPane = this.$headerR.get(0);
         if (this.frozenInfo.right) {
             headerScrollPane = this.$headerL.get(0);
@@ -142,18 +142,18 @@ export default {
             headerScrollPane.style.visibility = '';
         }
 
-        //update hidden columns
+        // update hidden columns
         this.updateScrollPaneColumnsHidden(this.scrollPaneHidden);
 
-        //always changed if hide/show scroll header
+        // always changed if hide/show scroll header
         this.cssRulesInvalid = true;
 
     },
 
-    //update for setting display to none in css rule
+    // update for setting display to none in css rule
     updateScrollPaneColumnsHidden: function(hidden) {
         const fcs = this.frozenInfo.columns;
-        //use all columns for group columns too
+        // use all columns for group columns too
         const columns = this.viewAllColumns;
         for (let i = fcs, l = columns.length - 1; i < l; i++) {
             const column = columns[i];
@@ -169,10 +169,10 @@ export default {
         return scrollPaneMinWidth;
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updateVScrollState: function() {
-        //v scroll state
+        // v scroll state
         this.hasVScroll = true;
 
         const scrollbarH = this.getScrollbarHeight();
@@ -180,7 +180,7 @@ export default {
         if (this.options.autoHeight) {
             this.hasVScroll = false;
 
-            //update container height again
+            // update container height again
             this.containerHeight = this.headerHeight + this.totalRowsHeight + scrollbarH;
             this.$holder.height(this.containerHeight);
 
@@ -198,7 +198,7 @@ export default {
     updateBlankColumnWidth: function() {
 
         let blankColumnWidth = this.containerWidth - this.columnsWidth;
-        //when has v scrollbar
+        // when has v scrollbar
         if (this.hasVScroll && !this.hasHScroll && !this.options.scrollbarFade) {
             blankColumnWidth -= this.scrollbarSizeV;
         }
@@ -207,14 +207,14 @@ export default {
             blankColumnWidth = 0;
         }
 
-        //console.log(blankColumnWidth);
+        // console.log(blankColumnWidth);
 
-        //fix h scroll state again, and fix columns width
+        // fix h scroll state again, and fix columns width
         if (!this.hasHScroll) {
 
             if (blankColumnWidth >= 0) {
 
-                //no h scroll, has blank or blank = 0
+                // no h scroll, has blank or blank = 0
                 if (this.frozenInfo.columns) {
                     this.columnsWidthR += blankColumnWidth;
                 } else {
@@ -223,13 +223,13 @@ export default {
                 this.blankColumn.tg_width = blankColumnWidth;
 
             } else {
-                //has h scroll, fix state again
+                // has h scroll, fix state again
                 this.hasHScroll = true;
             }
 
         }
 
-        //console.log("columnsWidthL: " + this.columnsWidthL, "columnsWidthR: " + this.columnsWidthR);
+        // console.log("columnsWidthL: " + this.columnsWidthL, "columnsWidthR: " + this.columnsWidthR);
 
     }
 

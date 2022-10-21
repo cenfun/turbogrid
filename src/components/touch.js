@@ -46,7 +46,7 @@ export default class Touch extends EventBase {
         return Util.merge(defaultOptions, options);
     }
 
-    //============================================================================
+    // ============================================================================
 
     start(e, data) {
         if (!e) {
@@ -87,7 +87,7 @@ export default class Touch extends EventBase {
                 }
             }
         };
-        //safari use window has issue
+        // safari use window has issue
         Util.bindEvents(this.touchEvents, document.body);
     }
 
@@ -97,7 +97,7 @@ export default class Touch extends EventBase {
         this.touchEvents = null;
     }
 
-    //============================================================================
+    // ============================================================================
 
     startHandler(e) {
 
@@ -106,13 +106,13 @@ export default class Touch extends EventBase {
         const touches = e.touches;
         const touchItem = touches[0];
         if (!touchItem) {
-            //console.log('Not found touch item');
+            // console.log('Not found touch item');
             return;
         }
 
         const os = this.options;
         os.e = e;
-        //start position
+        // start position
         os.startX = touchItem.clientX;
         os.startY = touchItem.clientY;
         os.currentX = os.startX;
@@ -121,7 +121,7 @@ export default class Touch extends EventBase {
 
         this.addTrackingPoint(os);
 
-        //console.log(E.TOUCH_START);
+        // console.log(E.TOUCH_START);
         this.trigger(EVENT.TOUCH_START, os);
     }
 
@@ -129,24 +129,24 @@ export default class Touch extends EventBase {
         const touches = e.touches;
         const touchItem = touches[0];
         if (!touchItem) {
-            //console.log('Not found touch item');
+            // console.log('Not found touch item');
             return;
         }
 
         const os = this.options;
         os.e = e;
-        //keep previous position
+        // keep previous position
         os.previousX = os.currentX;
         os.previousY = os.currentY;
-        //current position
+        // current position
         os.currentX = touchItem.clientX;
         os.currentY = touchItem.clientY;
 
-        //current move offset from previous
+        // current move offset from previous
         os.moveX = os.currentX - os.previousX;
         os.moveY = os.currentY - os.previousY;
 
-        //current offset from start
+        // current offset from start
         os.offsetX = os.currentX - os.startX;
         os.offsetY = os.currentY - os.startY;
         os.changed = !(os.offsetX === 0 && os.offsetY === 0);
@@ -154,11 +154,11 @@ export default class Touch extends EventBase {
         os.touchLength = touches.length;
 
         os.direction = this.getDirection(os);
-        //console.log('direction', o.direction);
+        // console.log('direction', o.direction);
 
         this.addTrackingPoint(os);
 
-        //console.log(E.TOUCH_MOVE);
+        // console.log(E.TOUCH_MOVE);
         this.trigger(EVENT.TOUCH_MOVE, os);
 
     }
@@ -168,20 +168,20 @@ export default class Touch extends EventBase {
 
         const os = this.options;
         os.e = e;
-        //console.log(E.TOUCH_END);
+        // console.log(E.TOUCH_END);
         this.trigger(EVENT.TOUCH_END, os);
 
         const changedTouches = e.changedTouches;
         const touchItem = changedTouches[0];
         if (!touchItem) {
-            //console.log('Not found touch item');
+            // console.log('Not found touch item');
             return;
         }
 
         const touches = e.touches;
         os.touchLength = touches.length;
 
-        //should no touches when leave, multiple and not all leave
+        // should no touches when leave, multiple and not all leave
         if (os.touchLength > 0) {
             return;
         }
@@ -197,14 +197,14 @@ export default class Touch extends EventBase {
 
     touchCancelHandler(e) {
 
-        //console.log(e.type, e);
+        // console.log(e.type, e);
 
         this.unbindEvents();
-        //end for cancel
+        // end for cancel
         this.trigger(EVENT.TOUCH_END, this.options);
     }
 
-    //============================================================================
+    // ============================================================================
 
     getMotionInfo() {
         const points = this.trackingPoints;
@@ -225,7 +225,7 @@ export default class Touch extends EventBase {
             return;
         }
 
-        //calculate inertia
+        // calculate inertia
 
         let offsetX = lp.x - fp.x;
         let offsetY = lp.y - fp.y;
@@ -233,14 +233,14 @@ export default class Touch extends EventBase {
         const ax = Math.abs(offsetX);
         const ay = Math.abs(offsetY);
 
-        //inertia only for one direction
+        // inertia only for one direction
         if (ax > ay) {
             offsetY = 0;
         } else {
             offsetX = 0;
         }
 
-        //max offset distance
+        // max offset distance
         const offsetDistance = Math.max(ax, ay);
 
         return {
@@ -263,7 +263,7 @@ export default class Touch extends EventBase {
             return;
         }
 
-        //one time avg touch distance
+        // one time avg touch distance
         const baseDistance = 50;
         const baseDuration = 500;
         const expectDuration = baseDuration * motionInfo.offsetDistance / baseDistance;
@@ -272,17 +272,17 @@ export default class Touch extends EventBase {
         const maxDuration = 2000;
         const duration = Util.clamp(expectDuration, minDuration, maxDuration);
 
-        //speed, px/ms
+        // speed, px/ms
         const speedX = motionInfo.offsetX / motionInfo.offsetTime;
         const speedY = motionInfo.offsetY / motionInfo.offsetTime;
 
-        //console.log('sx', sx, 'sy', sy, 'duration', duration);
+        // console.log('sx', sx, 'sy', sy, 'duration', duration);
 
-        //fps 60/s = 1000/60 = 16.7ms / frame
-        //fps 50/s = 20ms / frame
+        // fps 60/s = 1000/60 = 16.7ms / frame
+        // fps 50/s = 20ms / frame
         const s = 20;
 
-        //one frame offset
+        // one frame offset
         const from = {
             x: speedX * s,
             y: speedY * s
@@ -312,7 +312,7 @@ export default class Touch extends EventBase {
         }
     }
 
-    //============================================================================
+    // ============================================================================
 
     getDirection(o) {
         const ox = o.offsetX;
@@ -324,7 +324,7 @@ export default class Touch extends EventBase {
         const minV = Math.min(ax, ay);
         const maxV = Math.max(ax, ay);
 
-        //the direction slope
+        // the direction slope
         const getSlope = function() {
             if (maxV < 5) {
                 return 0.5;
@@ -338,17 +338,17 @@ export default class Touch extends EventBase {
             return 0.2;
         };
         const slope = getSlope();
-        //console.log(slope);
+        // console.log(slope);
 
         const s = minV / maxV;
-        //console.log(s);
+        // console.log(s);
 
-        //mixing direction
+        // mixing direction
         if (s > slope) {
             return '';
         }
 
-        //single direction
+        // single direction
         if (ax < ay) {
             if (oy > 0) {
                 return CONST.UP;
@@ -375,14 +375,14 @@ export default class Touch extends EventBase {
         const t = Date.now();
         const inertiaTime = this.options.inertiaTime;
         for (let i = 0; i < len; i++) {
-            //remove time > inertiaTime
+            // remove time > inertiaTime
             if (t - points[i].t > inertiaTime) {
                 points.length = i;
                 break;
             }
         }
         points.reverse();
-        //console.log(points.length, points.map((it) => `${it.t - t}`));
+        // console.log(points.length, points.map((it) => `${it.t - t}`));
     }
 
     addTrackingPoint(o) {
@@ -401,14 +401,14 @@ export default class Touch extends EventBase {
             x, y, t
         });
 
-        //cache 100 points
+        // cache 100 points
         if (points.length > 100) {
             this.filterTrackingPoints(points);
         }
 
     }
 
-    //============================================================================
+    // ============================================================================
 
     destroy() {
         this.unbindEvents();

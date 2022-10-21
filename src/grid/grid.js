@@ -93,7 +93,7 @@ class Grid extends EventBase {
 
         let options = key;
 
-        //key/value, not reset options
+        // key/value, not reset options
         if (typeof key === 'string') {
             if (this.options) {
                 this.options[key] = value;
@@ -110,7 +110,7 @@ class Grid extends EventBase {
         return this;
     }
 
-    //require after render
+    // require after render
     getOption(key) {
         const os = this.options;
         if (arguments.length) {
@@ -134,7 +134,7 @@ class Grid extends EventBase {
 
         if (data && typeof data === 'object') {
 
-            //only pick columns, rows, rowsLength
+            // only pick columns, rows, rowsLength
 
             if (Array.isArray(data.columns)) {
                 customData.columns = data.columns;
@@ -143,7 +143,7 @@ class Grid extends EventBase {
                 customData.rows = data.rows;
             }
 
-            //init rows length
+            // init rows length
             const rowsLength = data.rowsLength;
             if (Number.isInteger(rowsLength) && rowsLength > 0) {
                 customData.rows.length = rowsLength;

@@ -7,13 +7,13 @@ export default {
         if (!changed) {
             return this;
         }
-        //sync
+        // sync
         this.resize();
         return this;
     },
 
-    //=============================================================================
-    //for set column width and adjust column width
+    // =============================================================================
+    // for set column width and adjust column width
     updateColumnWidth: function(columnIndex, width) {
         const column = this.getColumnItem(columnIndex);
         if (!column) {
@@ -31,7 +31,7 @@ export default {
         }
 
         column.width = width;
-        //force to update width range
+        // force to update width range
         column.minWidth = Math.min(column.minWidth, width);
         column.maxWidth = Math.max(column.maxWidth, width);
 
@@ -40,7 +40,7 @@ export default {
         return true;
     },
 
-    //=============================================================================
+    // =============================================================================
 
     showColumn: function(columnInfo) {
         return this.updateColumnsInvisible(this.toColumnItemList(columnInfo), false);

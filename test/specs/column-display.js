@@ -61,7 +61,7 @@ describe('Column display', function() {
 
         await delay();
 
-        //view_index 10 out of list length
+        // view_index 10 out of list length
         assert(!grid.getHeaderItemNode('subs'));
 
         ['number', 'icon', 'date'].forEach((id) => {
@@ -93,7 +93,7 @@ describe('Column display', function() {
     });
 
     it('Grid column 1 invisible=true', async () => {
-        //remove previous
+        // remove previous
         grid.destroy();
         grid = new Grid(container);
         const column1 = data.columns[1];
@@ -119,7 +119,7 @@ describe('Column display', function() {
             width: 100
         }, {
             id: 'c1',
-            //103
+            // 103
             name: '1234567890 '
         }, {
             id: 'c2',

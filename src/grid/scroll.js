@@ -3,8 +3,8 @@ import Util from '../core/util.js';
 
 export default {
 
-    //=============================================================================
-    //scroll to row/column/cell
+    // =============================================================================
+    // scroll to row/column/cell
 
     scrollToRow: function(row) {
         const rowItem = this.getRowItem(row);
@@ -25,7 +25,7 @@ export default {
         return this;
     },
 
-    //=============================================================================
+    // =============================================================================
     scrollToFirstRow: function() {
         this.setScrollTop(0);
         return this;
@@ -49,7 +49,7 @@ export default {
 
     scrollToLastColumn: function(end) {
         const columns = this.getViewColumns();
-        //last column is blank
+        // last column is blank
         let lastColumn = columns[columns.length - 2];
         if (end) {
             lastColumn = columns[columns.length - 1];
@@ -62,8 +62,8 @@ export default {
         return this;
     },
 
-    //=============================================================================
-    //scroll row/column/cell into view
+    // =============================================================================
+    // scroll row/column/cell into view
 
     scrollRowIntoView: function(row) {
         const rowItem = this.getRowItem(row);
@@ -84,10 +84,10 @@ export default {
         return this;
     },
 
-    //scroll public API
+    // scroll public API
 
-    //========================================================================================
-    //set scroll by position
+    // ========================================================================================
+    // set scroll by position
 
     setScroll: function(x, y) {
         if (x === this.scrollLeft && y === this.scrollTop) {
@@ -117,8 +117,8 @@ export default {
         return this;
     },
 
-    //========================================================================================
-    //get scroll position
+    // ========================================================================================
+    // get scroll position
 
     getScrollRowPosition: function(rowItem) {
         if (!rowItem) {
@@ -141,14 +141,14 @@ export default {
         if (this.frozenInfo.columns) {
             x -= this.bodyWidthL;
         }
-        //console.log(columnItem);
+        // console.log(columnItem);
         if (x >= 0) {
             return x;
         }
     },
 
-    //========================================================================================
-    //scroll to item
+    // ========================================================================================
+    // scroll to item
 
     scrollToItem: function(rowItem, columnItem) {
         this.scrollToChanged = false;
@@ -191,8 +191,8 @@ export default {
         this.scrollToChanged = true;
     },
 
-    //========================================================================================
-    //scroll item into view
+    // ========================================================================================
+    // scroll item into view
 
     scrollItemIntoView: function(rowItem, columnItem) {
         this.scrollIntoViewChanged = false;
@@ -214,14 +214,14 @@ export default {
             return;
         }
 
-        //top in view
+        // top in view
         if (rowPosition < this.scrollTop) {
             this.scrollTop = rowPosition;
             this.scrollIntoViewChanged = true;
             return;
         }
 
-        //bottom in view
+        // bottom in view
         const h = this.getRowHeight(rowItem);
         const scrollViewHeight = this.getScrollViewHeight();
 
@@ -242,14 +242,14 @@ export default {
             return;
         }
 
-        //left in view
+        // left in view
         if (columnPosition < this.scrollLeft) {
             this.scrollLeft = columnPosition;
             this.scrollIntoViewChanged = true;
             return;
         }
 
-        //right in view
+        // right in view
         const columnWidth = columnItem.tg_width;
         const scrollViewWidth = this.getScrollViewWidth();
         if (columnPosition + columnWidth > this.scrollLeft + scrollViewWidth) {
@@ -267,7 +267,7 @@ export default {
             scrollLeft, scrollTop, scrollColumn, scrollRow
         } = renderSettings;
 
-        //console.log(scrollRow, scrollColumn);
+        // console.log(scrollRow, scrollColumn);
         this.scrollIntoViewChanged = false;
 
         if (Number.isInteger(scrollLeft) && scrollLeft !== this.scrollLeft) {
@@ -279,7 +279,7 @@ export default {
             this.scrollIntoViewChanged = true;
         }
 
-        //for add/delete columns/rows auto scroll to
+        // for add/delete columns/rows auto scroll to
         if (scrollColumn) {
             this.scrollColumnIntoViewHandler(scrollColumn);
         }
@@ -292,11 +292,11 @@ export default {
         }
     },
 
-    //========================================================================================
-    //scroll handler by scrollLeft and scrollTop
+    // ========================================================================================
+    // scroll handler by scrollLeft and scrollTop
 
     scrollHandler: function() {
-        //sets new position with team sync
+        // sets new position with team sync
         this.scrollPane.setPosition(this.scrollLeft, this.scrollTop);
         this.scrollRenderHandler();
     },
@@ -310,7 +310,7 @@ export default {
         this.previousScrollTop = this.scrollTop;
 
         this.onNextUpdated(() => {
-            //show fade scrollbar when scrolling
+            // show fade scrollbar when scrolling
             this.updateScrollPaneFade(true);
 
             this.trigger(E.onScroll, {
@@ -319,18 +319,18 @@ export default {
             });
         });
 
-        //scroll render
+        // scroll render
         this.render();
 
     },
 
-    //====================================================================================
-    //scroll touch
+    // ====================================================================================
+    // scroll touch
 
     scrollTouchStartHandler: function(e, d) {
-        //hide column line when starting touch scroll
+        // hide column line when starting touch scroll
         this.hideColumnLine();
-        //start position
+        // start position
         this.scrollTouchLeft = this.getScrollLeft();
         this.scrollTouchTop = this.getScrollTop();
 
@@ -341,9 +341,9 @@ export default {
 
     scrollTouchMoveHandler: function(e, d) {
 
-        //multiple touches not move
+        // multiple touches not move
         if (d.touchLength > 1) {
-            //console.log('multiple touches');
+            // console.log('multiple touches');
             return;
         }
 
@@ -351,11 +351,11 @@ export default {
         let oy = d.offsetY;
 
         if (this.stabilizeTouchX(d)) {
-            //console.log('stabilize x');
+            // console.log('stabilize x');
             ox = 0;
         }
         if (this.stabilizeTouchY(d)) {
-            //console.log('stabilize y');
+            // console.log('stabilize y');
             oy = 0;
         }
 
@@ -363,7 +363,7 @@ export default {
         let tsl = this.scrollTouchLeft - ox;
         let tst = this.scrollTouchTop - oy;
 
-        //clamp range
+        // clamp range
         tsl = Util.clamp(tsl, 0, this.scrollMaxTouchLeft);
         tst = Util.clamp(tst, 0, this.scrollMaxTouchTop);
 
@@ -375,12 +375,12 @@ export default {
 
         const cl = this.getScrollLeft();
         const ct = this.getScrollTop();
-        //console.log('scroll position', pl, pt, 'new:', tsl, tst);
-        //not same means moving, need stop default scroll
+        // console.log('scroll position', pl, pt, 'new:', tsl, tst);
+        // not same means moving, need stop default scroll
         if (tsl !== cl || tst !== ct || handledFrozen) {
 
             Util.preventDefault(d.e);
-            //console.log('x', tsl, 'y', tst);
+            // console.log('x', tsl, 'y', tst);
             this.setScroll(tsl, tst);
         }
 
@@ -398,7 +398,7 @@ export default {
         this.setScroll(tsl, tst);
     },
 
-    //====================================================================================
+    // ====================================================================================
 
     getScrollViewWidth: function() {
         let scrollViewWidth = this.getScrollPaneWidth();

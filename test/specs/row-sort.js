@@ -100,13 +100,13 @@ describe('Row sort', function() {
         grid.render();
 
         await delay();
-        //check header sort bar
+        // check header sort bar
         const columnItem = grid.getColumnItem('number');
         const $node = $(grid.getColumnHeaderNode(columnItem));
         const hasClass = $node.hasClass('tg-sort-desc');
         assert.equal(hasClass, true);
 
-        //0 for sort fixed top
+        // 0 for sort fixed top
         const numbers = grid.getViewRows().map((it) => it.number).join(',');
         assert.equal(numbers, ',6,5,4,3,2,1,');
     });
@@ -118,9 +118,9 @@ describe('Row sort', function() {
             onSort = true;
         });
 
-        //check header sort bar
+        // check header sort bar
         const columnItem = grid.getColumnItem('number');
-        //click name to sort
+        // click name to sort
         const $node = $(grid.getColumnHeaderNode(columnItem));
         $node.find('.tg-column-name').click();
 
@@ -128,7 +128,7 @@ describe('Row sort', function() {
 
         assert.equal(onSort, true);
 
-        //check header sort bar
+        // check header sort bar
         const hasClass = $node.hasClass('tg-sort-asc');
         assert.equal(hasClass, true);
 
@@ -144,9 +144,9 @@ describe('Row sort', function() {
             onSort = true;
         });
 
-        //check header sort bar
+        // check header sort bar
         const columnItem = grid.getColumnItem('value');
-        //click name to sort
+        // click name to sort
         const $node = $(grid.getColumnHeaderNode(columnItem));
         $node.find('.tg-column-name').click();
 
@@ -173,9 +173,9 @@ describe('Row sort', function() {
             onSort = true;
         });
 
-        //check header sort bar
+        // check header sort bar
         const columnItem = grid.getColumnItem('date');
-        //click name to sort
+        // click name to sort
         const $node = $(grid.getColumnHeaderNode(columnItem));
         $node.find('.tg-column-name').click();
 
@@ -183,7 +183,7 @@ describe('Row sort', function() {
 
         assert.equal(onSort, true);
 
-        //check header sort bar
+        // check header sort bar
         const hasClass = $node.hasClass('tg-sort-desc');
         assert.equal(hasClass, true);
 
@@ -204,7 +204,7 @@ describe('Row sort', function() {
             onSort = true;
         });
 
-        //reset order
+        // reset order
         grid.setData(getData());
         grid.setOption({
             collapseAllOnInit: true
@@ -223,7 +223,7 @@ describe('Row sort', function() {
 
         assert.equal(onSort, true);
 
-        //check header sort bar
+        // check header sort bar
         const hasClass = $node.hasClass('tg-sort-asc');
         assert.equal(hasClass, true);
 
@@ -244,7 +244,7 @@ describe('Row sort', function() {
             onSort = true;
         });
 
-        //reset order
+        // reset order
         grid.setData(getData());
         grid.setOption({
             sortBlankValueBottom: false,
@@ -255,9 +255,9 @@ describe('Row sort', function() {
 
         await delay();
 
-        //check header sort bar
+        // check header sort bar
         const columnItem = grid.getColumnItem('icon');
-        //click name to sort
+        // click name to sort
         const $node = $(grid.getColumnHeaderNode(columnItem));
         $node.find('.tg-column-name').click();
 
@@ -268,7 +268,7 @@ describe('Row sort', function() {
         const hasClass = $node.hasClass('tg-sort-asc');
         assert.equal(hasClass, true);
 
-        //check row order
+        // check row order
 
         const icons = grid.getViewRows().map((it) => it.icon).join(',');
         assert.equal(icons, ',,,,,1,2,');
@@ -286,9 +286,9 @@ describe('Row sort', function() {
             onSort = true;
         });
 
-        //check header sort bar
+        // check header sort bar
         const columnItem = grid.getColumnItem('icon');
-        //click name to sort
+        // click name to sort
         const $node = $(grid.getColumnHeaderNode(columnItem));
         $node.find('.tg-column-name').click();
 

@@ -231,7 +231,7 @@ describe('Scroll', function() {
         assert.equal(container.find('.tg-body-top-left').css('left'), '-311px');
         assert.equal(container.find('.tg-body-top-left').css('top'), `-${5 * rh}px`);
 
-        //check css rule
+        // check css rule
         const cell = grid.getCellNode(6, 'c2');
         assert.equal(cell.innerHTML, '—');
         const w = window.getComputedStyle(cell).width;

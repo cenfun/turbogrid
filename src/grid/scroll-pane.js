@@ -67,7 +67,7 @@ export default {
 
         }
 
-        //console.log(map);
+        // console.log(map);
 
         const selectorFrozen = 'tg-frozen';
         const selectorAll = [selectorFrozen, selectorFrozenH, selectorFrozenV, selectorFrozenLineV].join(' ');
@@ -80,23 +80,23 @@ export default {
             if (!cls.length) {
                 return;
             }
-            //frozen row style
+            // frozen row style
             const selectorNew = [selectorFrozen].concat(cls).join(' ');
             container.addClass(selectorNew);
-            //console.log("new", selectorNew);
+            // console.log("new", selectorNew);
         });
 
     },
 
-    //=============================================================================================
+    // =============================================================================================
 
-    //init all scrollPane
+    // init all scrollPane
     createScrollPane: function() {
 
-        //remove previous scrollPane
+        // remove previous scrollPane
         this.removeScrollPane();
 
-        //create new scrollPane
+        // create new scrollPane
         this.scrollPaneMap = {
             HL: new ScrollPane(this.$paneHL, 'header-left'),
             HR: new ScrollPane(this.$paneHR, 'header-right'),
@@ -106,20 +106,20 @@ export default {
             BR: new ScrollPane(this.$paneBR, 'bottom-right')
         };
 
-        //sync scrollPane team
-        //h sync handler, with header
-        //for right
+        // sync scrollPane team
+        // h sync handler, with header
+        // for right
         this.scrollPaneMap.BR.setGroupH([this.scrollPaneMap.HR, this.scrollPaneMap.TR]);
         this.scrollPaneMap.TR.setGroupH([this.scrollPaneMap.HR, this.scrollPaneMap.BR]);
-        //for left
+        // for left
         this.scrollPaneMap.BL.setGroupH([this.scrollPaneMap.HL, this.scrollPaneMap.TL]);
         this.scrollPaneMap.TL.setGroupH([this.scrollPaneMap.HL, this.scrollPaneMap.BL]);
 
-        //v sync handler
-        //for bottom
+        // v sync handler
+        // for bottom
         this.scrollPaneMap.BR.setGroupV(this.scrollPaneMap.BL);
         this.scrollPaneMap.BL.setGroupV(this.scrollPaneMap.BR);
-        //for top frozen bottom case
+        // for top frozen bottom case
         this.scrollPaneMap.TR.setGroupV(this.scrollPaneMap.TL);
         this.scrollPaneMap.TL.setGroupV(this.scrollPaneMap.TR);
 
@@ -128,14 +128,14 @@ export default {
 
     },
 
-    //active scrollPane and frozen scrollPane (for scrollPaneHidden key left/right handler)
+    // active scrollPane and frozen scrollPane (for scrollPaneHidden key left/right handler)
     initActiveScrollPane: function() {
         const vp = this.getScrollPaneVP();
         const hp = this.getScrollPaneHP();
 
-        //scrollPane.BR, scrollPane.BL, scrollPane.TR, scrollPane.TL
+        // scrollPane.BR, scrollPane.BL, scrollPane.TR, scrollPane.TL
 
-        //scrollPane
+        // scrollPane
         const key = `${vp}${hp}`;
 
         this.scrollPane = this.scrollPaneMap[key];
@@ -143,7 +143,7 @@ export default {
             this.scrollPaneChangeHandler(e, d);
         });
 
-        //scrollPaneFrozen
+        // scrollPaneFrozen
         let map = {
             L: 'L',
             R: 'L'
@@ -159,7 +159,7 @@ export default {
 
     },
 
-    //======================================================================================
+    // ======================================================================================
 
     getScrollPaneVP: function() {
         if (this.frozenInfo.rows && !this.frozenInfo.bottom) {
@@ -207,10 +207,10 @@ export default {
 
     },
 
-    //=============================================================================================
+    // =============================================================================================
 
     scrollPaneChangeHandler: function(e, d) {
-        //hide column line when starting touch scroll
+        // hide column line when starting touch scroll
         this.hideColumnLine();
 
         this.scrollLeft = d.scrollLeft;
@@ -233,7 +233,7 @@ export default {
     },
 
     updateScrollPaneFade: function(fadeIn) {
-        //always check, first time will call directly
+        // always check, first time will call directly
         if (!this.options.scrollbarFade) {
             return;
         }
@@ -271,8 +271,8 @@ export default {
         });
     },
 
-    //=============================================================================================
-    //update
+    // =============================================================================================
+    // update
 
     updateScrollPane: function() {
 
@@ -328,11 +328,11 @@ export default {
             scrollbarH: sbo.BRH
         }));
 
-        //update scroll position if column resize and scroll position is max right or bottom
+        // update scroll position if column resize and scroll position is max right or bottom
         this.scrollLeft = this.getScrollLeft();
         this.scrollTop = this.getScrollTop();
 
-        //first time update fade after rendered
+        // first time update fade after rendered
         this.updateScrollPaneFade(Boolean(this.options.scrollbarFadeTimeout));
 
     },
@@ -348,25 +348,25 @@ export default {
 
         const round = this.options.scrollbarRound;
 
-        //blank:
-        //false: without blank (default)
-        //true: with blank, without scroll view extension
-        //1: with blank, with scroll view extension
+        // blank:
+        // false: without blank (default)
+        // true: with blank, without scroll view extension
+        // 1: with blank, with scroll view extension
 
         const sbs = [
-            //header
+            // header
             'HLH',
             'HLV',
             'HRH',
             'HRV',
 
-            //top
+            // top
             'TLH',
             'TLV',
             'TRH',
             'TRV',
 
-            //bottom
+            // bottom
             'BLH',
             'BLV',
             'BRH',
@@ -374,7 +374,7 @@ export default {
         ];
 
         const sbo = {};
-        //default scrollPane options
+        // default scrollPane options
         sbs.forEach(function(k) {
             sbo[k] = {
                 size: 0,
@@ -392,7 +392,7 @@ export default {
         const sizeH = this.scrollbarSizeH;
         const sizeV = this.scrollbarSizeV;
 
-        //always handle header
+        // always handle header
         this.scrollbarHeaderHandler(sbo, sizeH, sizeV);
 
         if (this.frozenInfo.columns) {
@@ -426,8 +426,8 @@ export default {
         }
     },
 
-    //===============================================
-    //header
+    // ===============================================
+    // header
     scrollbarHeaderHandler: function(sbo, sizeH, sizeV) {
         if (this.hasVScroll) {
             if (this.frozenInfo.columns) {
@@ -440,15 +440,15 @@ export default {
         }
     },
 
-    //===============================================
-    //frozen column 0, frozen row 0
+    // ===============================================
+    // frozen column 0, frozen row 0
     scrollbarC0R0Handler: function(sbo, sizeH, sizeV) {
         sbo.TLH.size = sizeH;
         sbo.TLV.size = sizeV;
     },
 
-    //===============================================
-    //frozen column 0, frozen row 1
+    // ===============================================
+    // frozen column 0, frozen row 1
     scrollbarC0R1Handler: function(sbo, sizeH, sizeV) {
         if (this.frozenInfo.bottom) {
             this.scrollbarC0R1B1Handler(sbo, sizeH, sizeV);
@@ -457,11 +457,11 @@ export default {
         }
     },
 
-    //frozen column 0, frozen row 1, bottom
+    // frozen column 0, frozen row 1, bottom
     scrollbarC0R1B1Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         sbo.BLH.size = sizeH;
-        //v
+        // v
         sbo.TLV.size = sizeV;
         if (this.hasVScroll) {
             sbo.BLV.size = sizeV;
@@ -469,11 +469,11 @@ export default {
         }
     },
 
-    //frozen column 0, frozen row 1, top
+    // frozen column 0, frozen row 1, top
     scrollbarC0R1B0Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         sbo.BLH.size = sizeH;
-        //v
+        // v
         sbo.BLV.size = sizeV;
         if (this.hasVScroll) {
             sbo.TLV.size = sizeV;
@@ -481,7 +481,7 @@ export default {
         }
     },
 
-    //===============================================
+    // ===============================================
     scrollbarC1R0Handler: function(sbo, sizeH, sizeV) {
         if (this.frozenInfo.right) {
             this.scrollbarC1R0R1Handler(sbo, sizeH, sizeV);
@@ -490,9 +490,9 @@ export default {
         }
     },
 
-    //frozen column 1, frozen row 0, right 1
+    // frozen column 1, frozen row 0, right 1
     scrollbarC1R0R1Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         if (this.hasHScroll) {
             sbo.TLH.size = sizeH;
             if (this.scrollPaneHidden) {
@@ -503,13 +503,13 @@ export default {
                 sbo.TRH.blank = true;
             }
         }
-        //v
+        // v
         sbo.TRV.size = sizeV;
     },
 
-    //frozen column 1, frozen row 0, right 0
+    // frozen column 1, frozen row 0, right 0
     scrollbarC1R0R0Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         if (this.hasHScroll) {
             sbo.TRH.size = sizeH;
             if (this.scrollPaneHidden) {
@@ -520,12 +520,12 @@ export default {
                 sbo.TLH.blank = true;
             }
         }
-        //v
+        // v
         sbo.TRV.size = sizeV;
     },
 
-    //===============================================
-    //frozen column 1, frozen row 1
+    // ===============================================
+    // frozen column 1, frozen row 1
     scrollbarC1R1Handler: function(sbo, sizeH, sizeV) {
         if (this.frozenInfo.right) {
             if (this.frozenInfo.bottom) {
@@ -542,9 +542,9 @@ export default {
         }
     },
 
-    //frozen column 1, frozen row 1, right 1, bottom 1
+    // frozen column 1, frozen row 1, right 1, bottom 1
     scrollbarC1R1R1B1Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         if (this.hasHScroll) {
             sbo.BLH.size = sizeH;
             if (this.scrollPaneHidden) {
@@ -552,7 +552,7 @@ export default {
                 sbo.BLH.blank = true;
             }
         }
-        //v
+        // v
         sbo.TRV.size = sizeV;
         if (this.hasVScroll) {
             sbo.BRV.size = sizeV;
@@ -560,9 +560,9 @@ export default {
         }
     },
 
-    //frozen column 1, frozen row 1, right 1, bottom 0
+    // frozen column 1, frozen row 1, right 1, bottom 0
     scrollbarC1R1R1B0Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         if (this.hasHScroll) {
             sbo.BLH.size = sizeH;
             if (this.scrollPaneHidden) {
@@ -573,7 +573,7 @@ export default {
                 sbo.BRH.blank = true;
             }
         }
-        //v
+        // v
         sbo.BRV.size = sizeV;
         if (this.hasVScroll) {
             sbo.TRV.size = sizeV;
@@ -581,9 +581,9 @@ export default {
         }
     },
 
-    //frozen column 1, frozen row 1, right 0, bottom 1
+    // frozen column 1, frozen row 1, right 0, bottom 1
     scrollbarC1R1R0B1Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         if (this.hasHScroll) {
             sbo.BRH.size = sizeH;
             if (this.scrollPaneHidden) {
@@ -591,7 +591,7 @@ export default {
                 sbo.BRH.blank = true;
             }
         }
-        //v
+        // v
         sbo.TRV.size = sizeV;
         if (this.hasVScroll) {
             sbo.BRV.size = sizeV;
@@ -599,9 +599,9 @@ export default {
         }
     },
 
-    //frozen column 1, frozen row 1, right 0, bottom 0
+    // frozen column 1, frozen row 1, right 0, bottom 0
     scrollbarC1R1R0B0Handler: function(sbo, sizeH, sizeV) {
-        //h
+        // h
         if (this.hasHScroll) {
             sbo.BRH.size = sizeH;
             if (this.scrollPaneHidden) {
@@ -612,7 +612,7 @@ export default {
                 sbo.BLH.blank = true;
             }
         }
-        //v
+        // v
         sbo.BRV.size = sizeV;
         if (this.hasVScroll) {
             sbo.TRV.size = sizeV;
@@ -620,7 +620,7 @@ export default {
         }
     },
 
-    //============================================================================================
+    // ============================================================================================
 
     removeScrollPane: function() {
         clearTimeout(this.timeout_fade);

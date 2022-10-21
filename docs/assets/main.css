@@ -232,7 +232,7 @@ media screen
 header children
 */
 
-.header-title {
+.header .header-title {
     font-weight: bold;
     background-repeat: no-repeat;
     background-position: left center;
@@ -243,19 +243,19 @@ header children
     font-size: 16px;
 }
 
-.header-version {
+.header .header-version {
     color: #555;
     margin-left: 5px;
     text-decoration: underline;
     font-size: 14px;
 }
 
-.header-api {
+.header .header-api {
     font-weight: bold;
     margin-left: 10px;
 }
 
-.header-icon-menu {
+.header .header-icon-menu {
     position: fixed;
     left: 5px;
     display: none;

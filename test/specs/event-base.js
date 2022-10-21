@@ -18,7 +18,7 @@ describe('Event base', function() {
 
         let result = null;
         e.bind('array_data', function(ee, arr) {
-        //console.log(arr);
+        // console.log(arr);
             result = arr;
             assert.equal(arr.length, 3);
             assert.equal(arr[0], 1);

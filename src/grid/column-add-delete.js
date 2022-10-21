@@ -21,7 +21,7 @@ export default {
         const subs = this.getToBeAddedParentSubs(parentItem, this.columns);
         const positionIndex = this.getToBeAddedPositionIndex(position, subs);
 
-        //console.log('addColumn', parentItem, positionIndex);
+        // console.log('addColumn', parentItem, positionIndex);
 
         const args = [positionIndex, 0].concat(columnList);
         subs.splice.apply(subs, args);
@@ -44,7 +44,7 @@ export default {
     },
 
 
-    //=============================================================================
+    // =============================================================================
 
     deleteColumn: function(columnInfo) {
 
@@ -66,7 +66,7 @@ export default {
 
     removeColumnsHandler: function(deletedColumnsList) {
 
-        //remove with high performance, desc index
+        // remove with high performance, desc index
         const list = [].concat(deletedColumnsList);
         list.sort(function(a, b) {
             return b.tg_index - a.tg_index;
@@ -74,15 +74,15 @@ export default {
 
         list.forEach((columnItem) => {
 
-            //remove sort state if column sorted
+            // remove sort state if column sorted
             if (columnItem === this.sortColumn) {
                 this.removeSortColumn();
             }
 
             let parentSubs;
-            //two ways to delete column
+            // two ways to delete column
             if (columnItem.tg_parent) {
-                //quick delete by sub index
+                // quick delete by sub index
                 parentSubs = columnItem.tg_parent.subs;
                 parentSubs.splice(columnItem.tg_sub_index, 1);
             } else {
@@ -95,7 +95,7 @@ export default {
                 }
             }
 
-            //remove subs if subs is empty
+            // remove subs if subs is empty
             if (!parentSubs.length && columnItem.tg_parent) {
                 columnItem.tg_parent.subs = null;
             }

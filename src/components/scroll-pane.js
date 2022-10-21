@@ -24,13 +24,13 @@ export default class ScrollPane extends EventBase {
         this.$scrollView = this.$container.find('.tg-scroll-view');
         this.$scrollBody = this.$scrollView.find('.tg-scroll-body');
 
-        //h scrollbar bottom
+        // h scrollbar bottom
         this.scrollbarH = new Scrollbar(Scrollbar.H, this.$container);
         this.scrollbarH.bind(Scrollbar.EVENT.CHANGE, (e, d) => {
             this.scrollHChangeHandler();
         });
 
-        //v scrollbar right
+        // v scrollbar right
         this.scrollbarV = new Scrollbar(Scrollbar.V, this.$container);
         this.scrollbarV.bind(Scrollbar.EVENT.CHANGE, (e, d) => {
             this.scrollVChangeHandler();
@@ -52,7 +52,7 @@ export default class ScrollPane extends EventBase {
         return Util.merge(defaultOptions, options);
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     show() {
         this.$container.show();
@@ -66,7 +66,7 @@ export default class ScrollPane extends EventBase {
         return this;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     width() {
         return this.scrollPaneW;
@@ -76,7 +76,7 @@ export default class ScrollPane extends EventBase {
         return this.scrollPaneH;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     render(options) {
         if (!this.visible) {
@@ -96,8 +96,8 @@ export default class ScrollPane extends EventBase {
         this.updateScrollbar();
     }
 
-    //==========================================================================
-    //set sync group list
+    // ==========================================================================
+    // set sync group list
 
     setGroupH(list) {
         this.groupH = Util.toList(list);
@@ -107,8 +107,8 @@ export default class ScrollPane extends EventBase {
         this.groupV = Util.toList(list);
     }
 
-    //==========================================================================
-    //sync to list
+    // ==========================================================================
+    // sync to list
 
     updateGroupH() {
         if (!Util.isList(this.groupH)) {
@@ -143,8 +143,8 @@ export default class ScrollPane extends EventBase {
         this.updateGroupV();
     }
 
-    //==========================================================================
-    //sync from group scrollPane
+    // ==========================================================================
+    // sync from group scrollPane
 
     updateScrollHFromGroup(positionH) {
         const posH = this.scrollbarH.getPosition();
@@ -166,9 +166,9 @@ export default class ScrollPane extends EventBase {
         this.triggerEvent();
     }
 
-    //==========================================================================
+    // ==========================================================================
 
-    //set position from outside
+    // set position from outside
     setPosition(scrollLeft, scrollTop) {
         this.scrollbarH.setPosition(scrollLeft);
         this.scrollbarV.setPosition(scrollTop);
@@ -181,24 +181,24 @@ export default class ScrollPane extends EventBase {
         return this;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     updateScrollbar() {
 
-        //set options for calculation
+        // set options for calculation
         this.scrollbarH.updateOptions(this.options.scrollbarH);
         this.scrollbarV.updateOptions(this.options.scrollbarV);
 
-        //start to calculate state and size
+        // start to calculate state and size
         this.updateScrollState();
         this.updateScrollView();
         this.updateScrollTrack();
 
-        //update new size
+        // update new size
         this.scrollbarH.updateSize(this.scrollViewW, this.scrollBodyW, this.scrollTrackW);
         this.scrollbarV.updateSize(this.scrollViewH, this.scrollBodyH, this.scrollTrackH);
 
-        //update visible and set with last position
+        // update visible and set with last position
         if (this.hasScrollH) {
             this.scrollbarH.show();
             this.scrollbarH.setPosition(this.scrollbarH.getPosition());
@@ -229,8 +229,8 @@ export default class ScrollPane extends EventBase {
 
         const fade = this.options.scrollbarFade;
 
-        //========================================
-        //scrollH fixing
+        // ========================================
+        // scrollH fixing
         let hasScrollH = false;
         let scrollSizeH = 0;
         const scrollHHandler = function() {
@@ -244,8 +244,8 @@ export default class ScrollPane extends EventBase {
         };
         scrollHHandler.call(this);
 
-        //========================================
-        //scrollV fixing
+        // ========================================
+        // scrollV fixing
         let hasScrollV = false;
         let scrollSizeV = 0;
         const scrollVHandler = function() {
@@ -255,7 +255,7 @@ export default class ScrollPane extends EventBase {
                 if (fade) {
                     scrollSizeV = 0;
                 }
-                //scrollH fixing again for scrollSizeV change
+                // scrollH fixing again for scrollSizeV change
                 if (!hasScrollH && this.scrollPaneW < this.scrollBodyW + scrollSizeV) {
                     hasScrollH = true;
                     scrollSizeH = scrollbarSizeH;
@@ -267,7 +267,7 @@ export default class ScrollPane extends EventBase {
         };
         scrollVHandler.call(this);
 
-        //========================================
+        // ========================================
         this.hasScrollH = hasScrollH;
         this.hasScrollV = hasScrollV;
 
@@ -290,7 +290,7 @@ export default class ScrollPane extends EventBase {
         const blankH = this.scrollbarH.getBlank();
         const blankV = this.scrollbarV.getBlank();
 
-        //blank type fixing
+        // blank type fixing
         let width = this.scrollViewW;
         if (blankV && blankV !== true) {
             width = this.scrollPaneW;
@@ -315,19 +315,19 @@ export default class ScrollPane extends EventBase {
         if (!this.options.scrollbarFade) {
             return;
         }
-        //only for both visible
+        // only for both visible
         if (this.hasScrollH && this.hasScrollV) {
             this.scrollTrackW -= this.scrollbarV.getSize();
             this.scrollTrackH -= this.scrollbarH.getSize();
         }
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     fade(fadeIn) {
         const doneH = this.scrollbarH.fade(fadeIn);
         const doneV = this.scrollbarV.fade(fadeIn);
-        //all need call
+        // all need call
         return doneH || doneV;
     }
 
@@ -344,7 +344,7 @@ export default class ScrollPane extends EventBase {
         return true;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     updateScrollLeft() {
         const scrollLeft = this.getScrollLeft();
@@ -415,7 +415,7 @@ export default class ScrollPane extends EventBase {
         }
         this.gradientInfo = gradientInfo;
 
-        //remove and add tg-gradient class
+        // remove and add tg-gradient class
         ['left', 'right', 'top', 'bottom'].forEach((item) => {
             const className = `tg-gradient-${item}`;
             if (gradientInfo.includes(item)) {
@@ -447,7 +447,7 @@ export default class ScrollPane extends EventBase {
     getScrollTopOffset() {
         const scrollTop = this.getScrollTop();
 
-        //max size, bigger than 8K screen
+        // max size, bigger than 8K screen
         const top = scrollTop % 10000;
         return scrollTop - top;
     }
@@ -459,7 +459,7 @@ export default class ScrollPane extends EventBase {
         });
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     scrollHChangeHandler() {
         this.updateScrollLeft();
@@ -473,8 +473,8 @@ export default class ScrollPane extends EventBase {
         this.triggerEvent();
     }
 
-    //==========================================================================
-    //set offset from mouse wheel, key up/down/left/right, page up/page down/home/end
+    // ==========================================================================
+    // set offset from mouse wheel, key up/down/left/right, page up/page down/home/end
     setOffsetH(offset) {
         const scrollLeft = this.getScrollLeft();
         this.scrollbarH.setOffset(offset);
@@ -501,7 +501,7 @@ export default class ScrollPane extends EventBase {
         return true;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     mouseWheelHandler(e) {
 
@@ -511,7 +511,7 @@ export default class ScrollPane extends EventBase {
         const dx = Math.abs(deltaX);
         const dy = Math.abs(deltaY);
 
-        //only choose one direction
+        // only choose one direction
         if (dx > dy) {
             if (this.hasScrollH) {
                 return this.setOffsetH(deltaX);
@@ -528,7 +528,7 @@ export default class ScrollPane extends EventBase {
         return false;
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     keyPageUpHandler(e) {
         return this.setOffsetV(-this.scrollViewH);
@@ -546,7 +546,7 @@ export default class ScrollPane extends EventBase {
         return this.setOffsetV(-this.scrollBodyH);
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     keyLeftHandler(e) {
         return this.setOffsetH(-this.options.scrollSizeOnKeyPress);
@@ -564,7 +564,7 @@ export default class ScrollPane extends EventBase {
         return this.setOffsetV(this.options.scrollSizeOnKeyPress);
     }
 
-    //==========================================================================
+    // ==========================================================================
 
     destroy() {
         this.visible = false;

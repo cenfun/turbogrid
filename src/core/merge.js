@@ -1,7 +1,7 @@
 import isObject from './is-object.js';
 
 const mergeArray = function(base, item, deep) {
-    //merge array to base
+    // merge array to base
     const len = item.length;
     for (let i = 0; i < len; i++) {
         const v = item[i];
@@ -11,14 +11,14 @@ const mergeArray = function(base, item, deep) {
             base[i] = v;
         }
     }
-    //length fixing for array
+    // length fixing for array
     if (base instanceof Array) {
         base.length = len;
     }
 };
 
 const mergeObject = function(base, item, deep) {
-    //merge object to base
+    // merge object to base
     Object.keys(item).forEach(function(k) {
         const v = item[k];
         if (deep && isObject(v) && Object.prototype.hasOwnProperty.call(base, k)) {
@@ -32,15 +32,15 @@ const mergeObject = function(base, item, deep) {
 const mergeList = function(args, deep) {
     let base;
     args.forEach((item) => {
-        //only for valid object or array
+        // only for valid object or array
         if (!isObject(item)) {
             return;
         }
-        //base type depend on first parameter
+        // base type depend on first parameter
         if (!base) {
             base = (item instanceof Array) ? [] : {};
         }
-        //merge to base
+        // merge to base
         if (item instanceof Array) {
             mergeArray(base, item, deep);
         } else {
@@ -50,15 +50,15 @@ const mergeList = function(args, deep) {
     return base || {};
 };
 
-//merge JSON
+// merge JSON
 const merge = function() {
     const args = Array.from(arguments);
     const len = args.length;
-    //no parameters
+    // no parameters
     if (!len) {
         return {};
     }
-    //deep merge depend on last parameter
+    // deep merge depend on last parameter
     let deep = true;
     if (args[len - 1] === false) {
         deep = false;

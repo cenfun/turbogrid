@@ -4,7 +4,7 @@ import Util from '../core/util.js';
 export default {
 
     initBindWindowResize: function() {
-        //require unbind first
+        // require unbind first
         this.unbindWindowResize();
         if (!this.options.bindWindowResize) {
             return;
@@ -15,7 +15,7 @@ export default {
                     this.resize();
                 }
             }
-            //no options for resize
+            // no options for resize
         };
         Util.bindEvents(this.windowResizeEvents, window);
     },
@@ -24,14 +24,14 @@ export default {
         Util.unbindEvents(this.windowResizeEvents);
     },
 
-    //=============================================================================
+    // =============================================================================
 
     initBindContainerResize: function() {
         this.unbindContainerResize();
         if (!this.options.bindContainerResize || !this.holder) {
             return;
         }
-        //failed in chrome v63
+        // failed in chrome v63
         if (typeof ResizeObserver === 'undefined') {
             return;
         }
@@ -39,7 +39,7 @@ export default {
             return Boolean(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
         };
         this.resizeObserver = new ResizeObserver((entries) => {
-            //console.log(entries);
+            // console.log(entries);
             if (!isVisible(this.holder)) {
                 return;
             }

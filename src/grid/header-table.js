@@ -3,10 +3,10 @@ import Util from '../core/util.js';
 
 export default {
 
-    //render headers
+    // render headers
     renderHeaderTables: function() {
 
-        //remove header items only
+        // remove header items only
         this.clearHeaderCache();
 
         const columns = this.viewColumns;
@@ -29,7 +29,7 @@ export default {
             }
         }
 
-        //console.log(this.hasSortColumn);
+        // console.log(this.hasSortColumn);
 
         if (this.frozenInfo.right) {
             const columnsTemp = columnsL;
@@ -92,7 +92,7 @@ export default {
         const headerNode = this.createElement('div', attr, children);
         container.appendChild(headerNode);
 
-        //cache
+        // cache
         this.setHeaderCache(column, headerNode);
         this.setNodeDataCache(headerNode, {
             rowItem: this.headerRowItem,
@@ -101,7 +101,7 @@ export default {
             headerNode
         });
 
-        //render group
+        // render group
         if (columnItem.tg_parent) {
             this.renderHeaderItem(columnItem.tg_parent, container);
         }
@@ -145,9 +145,9 @@ export default {
         let content = value;
 
         const formatter = columnItem.tg_headerFormatter;
-        //formatter
+        // formatter
         if (typeof formatter === 'function') {
-            //value, rowItem, columnItem, cellNode
+            // value, rowItem, columnItem, cellNode
             content = formatter.call(this, content, this.headerRowItem, columnItem);
         }
 
@@ -160,7 +160,7 @@ export default {
         return this.createElement('div', attr, content);
     },
 
-    //created tree no matter isTree
+    // created tree no matter isTree
     createHeaderTreeName: function(content) {
         this.hasTreeColumn = true;
 
@@ -203,7 +203,7 @@ export default {
         return this.createElement('div', attr, icon);
     },
 
-    //================================================================================================
+    // ================================================================================================
 
     createColumnSort: function(columnItem) {
         const attr = {
@@ -249,7 +249,7 @@ export default {
         return this.createElement('div', attr, children);
     },
 
-    //=================================================================================================
+    // =================================================================================================
 
     createColumnResizing: function() {
         const attr = {
@@ -258,7 +258,7 @@ export default {
         return this.createElement('div', attr);
     },
 
-    //=================================================================================================
+    // =================================================================================================
     getHeaderItemClass: function(columnItem) {
 
         const list = ['tg-header-item'];
@@ -272,13 +272,13 @@ export default {
             list.push(`tg-h-${columnItem.tg_combination}`);
         }
 
-        //custom class, last append
+        // custom class, last append
         list.push(Util.classMap(columnItem.headerClassMap));
 
         return Util.classMap(list);
     },
 
-    //=================================================================================================
+    // =================================================================================================
 
     getHeaderClass: function(columnItem) {
 

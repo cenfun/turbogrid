@@ -50,9 +50,9 @@ describe('ScrollPane', function() {
         };
     };
 
-    //container: 500 x 500
-    //width = 100 * 4 = 400
-    //headerHeight: 49
+    // container: 500 x 500
+    // width = 100 * 4 = 400
+    // headerHeight: 49
 
     const getScrollState = function(g) {
         const hhs = g.hasHScroll;
@@ -169,7 +169,7 @@ describe('ScrollPane', function() {
     });
 
     it('Grid scrollPane with frozen resize to scrollPaneHidden', function(done) {
-        //mini width 30
+        // mini width 30
         const spmw = grid.options.scrollPaneMinWidth;
         container.width(100 + spmw - 1).height(300);
         grid.once('onUpdated', function() {

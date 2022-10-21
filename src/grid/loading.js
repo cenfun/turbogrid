@@ -47,7 +47,7 @@ export default {
             return this;
         }
 
-        //keep default loading
+        // keep default loading
         if (!this.$defaultLoading) {
             this.$defaultLoading = this.$container.find('.tg-loading-default').get(0);
         }

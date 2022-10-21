@@ -24,13 +24,13 @@ export default {
             return this;
         }
 
-        //console.log('resize');
+        // console.log('resize');
 
         this.resizeHolderHandler.apply(this, arguments);
 
-        //do not check if render not complete,
+        // do not check if render not complete,
         if (this.firstUpdated && this.isHolderInvisible()) {
-            //console.log('holder size 0, ignore resize');
+            // console.log('holder size 0, ignore resize');
             return this;
         }
 
@@ -69,26 +69,26 @@ export default {
     },
 
 
-    //===================================================================================
+    // ===================================================================================
 
     resizeHandler: function() {
         // update global container size
         this.containerWidth = this.$container.width();
         this.containerHeight = this.$container.height();
-        //same width
+        // same width
         this.headerWidth = this.containerWidth;
         this.bodyWidth = this.containerWidth;
 
-        //reset column width and update width for both header and body size
+        // reset column width and update width for both header and body size
         this.updateTotalColumnsWidth();
 
-        //then update DOM size
+        // then update DOM size
         this.resizeHeaderHandler();
         this.resizeBodyHandler();
 
     },
 
-    //===================================================================================
+    // ===================================================================================
 
     layoutEventHandler: function() {
         const previousLayout = this.previousLayout || {};
@@ -128,27 +128,27 @@ export default {
 
     },
 
-    //==========================================================================================
-    //only height need update, width is same as container always
+    // ==========================================================================================
+    // only height need update, width is same as container always
     resizeHeaderHandler: function() {
 
         this.initHeaderLayerHeight();
 
-        //fix auto height before first using
+        // fix auto height before first using
         const o = this.options;
-        //auto close autoHeight when rows length > 5000
+        // auto close autoHeight when rows length > 5000
         if (o.autoHeight && this.viewRows.length > 5000) {
             o.autoHeight = false;
         }
 
-        //update height
+        // update height
         this.headerHeight = 0;
-        //require a valid container height
+        // require a valid container height
         if (o.headerVisible && (this.containerHeight > 0 || o.autoHeight)) {
             this.updateHeaderTableHeight();
         }
 
-        //update width/height
+        // update width/height
         this.$headerFrame.css({
             width: this.headerWidth,
             height: this.headerHeight
@@ -176,24 +176,24 @@ export default {
         this.headerHeight = totalLayerHeight;
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     // update pane height for all rows
     // for collapse and expand too
     resizeBodyHandler: function() {
 
-        //update 3 state: h/v scrollbar and hide scrollPane
+        // update 3 state: h/v scrollbar and hide scrollPane
         this.updateScrollState();
 
-        //update body size
-        //body height depends on header height and auto height
+        // update body size
+        // body height depends on header height and auto height
         this.bodyHeight = this.containerHeight - this.headerHeight;
         this.$bodyFrame.css({
             width: this.bodyWidth,
             height: this.bodyHeight
         });
 
-        //update pane size
+        // update pane size
         this.updatePaneWidth();
         this.updatePaneHeight();
 
@@ -209,15 +209,15 @@ export default {
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updatePaneWidth: function() {
 
-        //no frozen pane
+        // no frozen pane
         let paneWidthL = this.bodyWidth;
         let paneWidthR = 0;
 
-        //has frozen pane
+        // has frozen pane
         if (this.frozenInfo.columns) {
 
             const scrollbarW = this.getScrollbarWidth();
@@ -247,7 +247,7 @@ export default {
         this.paneWidthL = paneWidthL;
         this.paneWidthR = paneWidthR;
 
-        //console.log("paneWidthL: " + paneWidthL, "paneWidthR: " + paneWidthR);
+        // console.log("paneWidthL: " + paneWidthL, "paneWidthR: " + paneWidthR);
 
         this.$paneHL.css({
             left: 0,
@@ -278,7 +278,7 @@ export default {
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updatePaneHeight: function() {
 
@@ -299,7 +299,7 @@ export default {
         this.paneHeightT = paneHeightT;
         this.paneHeightB = paneHeightB;
 
-        //resize pane
+        // resize pane
         this.$paneTL.css({
             top: 0,
             height: this.paneHeightT
@@ -319,11 +319,11 @@ export default {
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updateCanvasWidth: function() {
 
-        //new width
+        // new width
         const bodyWidthL = this.columnsWidthL;
         const bodyWidthR = this.columnsWidthR;
 
@@ -335,9 +335,9 @@ export default {
             this.cssRulesInvalid = true;
         }
 
-        //console.log("bodyWidthL: " + this.bodyWidthL, "bodyWidthR: " + this.bodyWidthR);
+        // console.log("bodyWidthL: " + this.bodyWidthL, "bodyWidthR: " + this.bodyWidthR);
 
-        //scrollStateChanged to fix frozen row right blank
+        // scrollStateChanged to fix frozen row right blank
         if (this.bodyWidthChanged || this.scrollStateChanged) {
             this.updateHeaderCanvasWidth();
             this.updateBodyCanvasWidth();
@@ -347,7 +347,7 @@ export default {
 
     updateCanvasHeight: function() {
 
-        //new height
+        // new height
         let bodyHeightT;
         let bodyHeightB;
 
@@ -371,12 +371,12 @@ export default {
 
     },
 
-    //=======================================================================================
+    // =======================================================================================
 
     updateHeaderCanvasWidth: function() {
         const l = this.maxLimitSize(this.bodyWidthL);
         const r = this.maxLimitSize(this.bodyWidthR);
-        //always add scroll bar width
+        // always add scroll bar width
         this.$headerL.width(l);
         this.$headerR.width(r);
     },
@@ -400,12 +400,12 @@ export default {
     },
 
     maxLimitSize: function(size) {
-        //Browser Max size limitation
-        //IE 1,533,917px
-        //Chrome 33,554,428px
-        //Firefox 17,895,000px
+        // Browser Max size limitation
+        // IE 1,533,917px
+        // Chrome 33,554,428px
+        // Firefox 17,895,000px
         const maxSize = 1533000;
-        //max height fixing, IE will be blank if height is great than max size
+        // max height fixing, IE will be blank if height is great than max size
         size = Math.min(size, maxSize);
         return size;
     }

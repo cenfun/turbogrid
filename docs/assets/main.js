@@ -711,7 +711,7 @@
     const initNav = function() {
 
         const headerTitle = `
-            <a class="header-title" href="/">TurboGrid</a> 
+            <a class="header-title" href="./">TurboGrid</a> 
             <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
         `;
 
@@ -794,7 +794,16 @@
 
     };
 
+    const initFavicon = function() {
+        const link = document.createElement('link');
+        link.rel = 'shortcut icon';
+        link.type = 'image/svg';
+        link.href = 'assets/images/logo.svg';
+        document.head.appendChild(link);
+    };
+
     window.addEventListener('load', function() {
+        initFavicon();
         initNav();
         initThemes();
         initLogs();

@@ -711,7 +711,7 @@
     const initNav = function() {
 
         const headerTitle = `
-            <a class="header-title" href="/">TurboGrid</a> 
+            <a class="header-title" href="./">TurboGrid</a> 
             <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
         `;
 

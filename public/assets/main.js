@@ -246,7 +246,7 @@
                 }
 
                 const params = arr[1].split(')')[0];
-                //console.log(params);
+                // console.log(params);
                 const args = getArgs(params);
 
                 const res = fun.apply(grid, args);
@@ -268,7 +268,7 @@
     };
 
     window.initCommonEvents = function(grid) {
-        //console.log(grid);
+        // console.log(grid);
         initButtons(grid);
     };
 
@@ -562,7 +562,7 @@
             }
 
             const cellNode = d.node;
-            //console.log(d);
+            // console.log(d);
             cellNode.classList.add('tg-cell-effect');
 
         });
@@ -592,7 +592,7 @@
                 window.location.reload();
                 return;
             }
-            //console.log('iframe loading ...');
+            // console.log('iframe loading ...');
 
             let url = `${id}.html`;
             if (pageId !== 'api') {
@@ -610,7 +610,7 @@
                 return;
             }
             keywords = k;
-            //update rows
+            // update rows
             grid.update();
         });
 
@@ -715,7 +715,7 @@
             <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
         `;
 
-        //header
+        // header
         const $header = document.querySelector('.header');
         $header.insertAdjacentHTML('afterbegin', `
             ${headerTitle}
@@ -725,7 +725,7 @@
 
         initSource($header);
 
-        //nav header
+        // nav header
         const $nav = document.createElement('div');
         $nav.className = 'nav flex-column';
         $nav.innerHTML = `

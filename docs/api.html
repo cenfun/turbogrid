@@ -1361,8 +1361,6 @@
                                 <td>
                                     <section>
                                         <a name="onUpdated">onUpdated</a>
-                                    </section>
-                                    <section>
                                         <a name="onFirstUpdated">onFirstUpdated</a>
                                     </section>
                                 </td>
@@ -1419,8 +1417,6 @@
                                 <td>
                                     <section>
                                         <a name="onColumnAdded">onColumnAdded</a>
-                                    </section>
-                                    <section>
                                         <a name="onColumnRemoved">onColumnRemoved</a>
                                     </section>
                                 </td>
@@ -1454,8 +1450,6 @@
                                 <td>
                                     <section>
                                         <a name="onRowAdded">onRowAdded</a>
-                                    </section>
-                                    <section>
                                         <a name="onRowRemoved">onRowRemoved</a>
                                     </section>
                                 </td>
@@ -1473,8 +1467,6 @@
                                 <td>
                                     <section>
                                         <a name="onRowExpanded">onRowExpanded</a>
-                                    </section>
-                                    <section>
                                         <a name="onRowCollapsed">onRowCollapsed</a>
                                     </section>
                                 </td>
@@ -1565,8 +1557,6 @@
                                 <td>
                                     <section>
                                         <a name="onRowMouseEnter">onRowMouseEnter</a>
-                                    </section>
-                                    <section>
                                         <a name="onRowMouseLeave">onRowMouseLeave</a>
                                     </section>
                                 </td>
@@ -1625,8 +1615,6 @@
                                 <td>
                                     <section>
                                         <a name="onCellMouseEnter">onCellMouseEnter</a>
-                                    </section>
-                                    <section>
                                         <a name="onCellMouseLeave">onCellMouseLeave</a>
                                     </section>
                                 </td>
@@ -1650,17 +1638,9 @@
                                 <td>
                                     <section>
                                         <a name="onClick">onClick</a>
-                                    </section>
-                                    <section>
                                         <a name="onDblClick">onDblClick</a>
-                                    </section>
-                                    <section>
                                         <a name="onContextMenu">onContextMenu</a>
-                                    </section>
-                                    <section>
                                         <a name="onMouseOver">onMouseOver</a>
-                                    </section>
-                                    <section>
                                         <a name="onMouseOut">onMouseOut</a>
                                     </section>
                                 </td>
@@ -2026,6 +2006,7 @@
                 as.forEach((a) => {
                     if (v && a.name === v) {
                         a.className = 'selected';
+                        a.scrollIntoView();
                     } else {
                         a.className = '';
                     }
@@ -2033,14 +2014,16 @@
             };
 
             const goto = function(v) {
+                $searchList.style.display = 'none';
                 $searchValue.value = v;
                 window.location.hash = v;
-                highlight(v);
+                setTimeout(() => {
+                    highlight(v);
+                }, 100);
             };
 
             $searchList.onclick = function(e) {
                 goto(e.target.innerText);
-                $searchList.style.display = 'none';
             };
 
             document.body.onclick = function(e) {
@@ -2130,7 +2113,6 @@
             const enterHandler = function(e, selected) {
                 if (selected) {
                     goto(selected.innerText);
-                    $searchList.style.display = 'none';
                 }
             };
 
@@ -2188,10 +2170,6 @@
             };
 
             $searchValue.onkeyup = handle;
-
-            $searchValue.onchange = function() {
-                goto(this.value);
-            };
 
         };
 

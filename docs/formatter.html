@@ -58,10 +58,9 @@
                     <select class="st-data">
                         <option>custom_data</option>
                         <option>tg_style</option>
-                        <option>sample-data</option>
-                        <option>random-10x200</option>
                         <option>random-10x10</option>
-                        <option>random-100x20k</option>
+                        <option>random-10x200</option>
+                        <option>random-20x2k</option>
                     </select>
                 </div>
                 <div>
@@ -82,11 +81,11 @@
                         Date Format
                         <select class="st_dateFilter">
                             <option></option>
-                            <option selected>mm/dd/yyyy</option>
+                            <option selected>yyyy-mm-dd</option>
+                            <option>yyyy/mm/dd</option>
+                            <option>mm/dd/yyyy</option>
                             <option>dd/mm/yyyy</option>
                             <option>dd-mm-yyyy</option>
-                            <option>yyyy-mm-dd</option>
-                            <option>yyyy/mm/dd</option>
                         </select>
                     </label>
                     <label>
@@ -126,7 +125,7 @@
             columns: [{
                 id: 'name',
                 name: 'Name',
-                width: 150
+                width: 130
             }, {
                 id: 'index',
                 name: 'Index',
@@ -134,30 +133,37 @@
             }, {
                 id: 'number',
                 name: 'Number',
-                type: 'number',
-                width: 100
+                type: 'number'
             }, {
                 id: 'number2',
                 name: 'Number Two',
-                type: 'number',
-                width: 150
+                type: 'number'
             }, {
                 id: 'date',
                 name: 'Date Formatter',
-                type: 'date',
-                width: 100
+                type: 'date'
             }, {
                 id: 'icon',
-                name: 'Icon Formatter',
-                width: 100,
+                name: 'Icon Font',
                 type: 'icon'
             }, {
-                id: 'id',
-                name: 'Id'
+                id: 'image',
+                name: 'Image',
+                formatter: 'imageFormatter'
             }, {
                 id: 'boolean',
-                name: 'Boolean'
+                name: 'Checkbox',
+                formatter: 'checkboxFormatter'
+            }, {
+                id: 'button',
+                name: 'Button',
+                formatter: 'buttonFormatter'
+            }, {
+                id: 'html',
+                name: 'HTML',
+                formatter: 'htmlFormatter'
             }],
+        
             rows: [{
                 id: 'id1',
                 name: 'Shenzhen',
@@ -312,13 +318,13 @@
 
         const dateFormatterHandler = function(date, format) {
 
-            //only month now, no need minutes
+            // only month now, no need minutes
             format = format.replace('mm', 'MM');
 
-            //default format
+            // default format
             format = format || 'yyyy-MM-dd';
 
-            //year
+            // year
             if ((/([Y|y]+)/).test(format)) {
                 const yyyy = `${date.getFullYear()}`;
                 format = format.replace(RegExp.$1, yyyy.substr(4 - RegExp.$1.length));
@@ -353,19 +359,19 @@
         };
 
 
-        const renderData = function(data, changeColumn) {
+        const renderData = function(data) {
             grid.setOption({
                 theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
-                //frozenRow: 1,
+                // frozenRow: 1,
                 sortIndicator: document.querySelector('.st_sortIndicator').value
             });
 
             grid.setFormatter({
 
                 header: function(value, rowItem, columnItem, cellNode) {
-                    if (columnItem.tg_index === 4) {
+                    if (columnItem.id === 'index') {
                         return `
                         <div class="tg-header-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" id="info-circle" width="100%" height="100%"><path d="M10.6 10H9v1h1.6v6.1h1.7V10h-1.7zm.9-8C6.3 2 2 6.3 2 11.5S6.3 21 11.5 21s9.5-4.3 9.5-9.5S16.7 2 11.5 2zm0 18C6.8 20 3 16.2 3 11.5S6.8 3 11.5 3 20 6.8 20 11.5 16.2 20 11.5 20zm-.9-12.5h1.7V6h-1.7v1.5z"></path></svg>
@@ -376,7 +382,7 @@
                     return value;
                 },
 
-                //number format
+                // number format
                 number: function(value) {
                     if (typeof value !== 'number') {
                         return value;
@@ -388,7 +394,7 @@
                     return value.toFixed(Number(decimal), 10);
                 },
 
-                //date format
+                // date format
                 date: function(value, rowItem) {
                     if (!rowItem.date) {
                         return value;
@@ -421,7 +427,7 @@
                 },
 
                 htmlFormatter: function(value, rowItem, columnItem, cellNode) {
-                    return '<i>i</i> <s>s</s> <u>u</u> <b>b</b> <a href="a" target="_blank">a</a>';
+                    return '<a href="a" target="_blank">a</a> <b>b</b> <i>i</i> <s>s</s> <u>u</u>';
                 },
 
                 imageFormatter: function(value, rowItem, columnItem, cellNode) {
@@ -446,77 +452,71 @@
                     a.target = '_blank';
                     a.href = rowItem.link_url;
                     return a;
+                },
+
+                buttonFormatter: function(value, rowItem, columnItem, cellNode) {
+                    return '<button style="padding:4px 10px;" class="tg-button tg-button--small">Button</button>';
+                },
+
+                iconFormatter: function(value, rowItem, columnItem, cellNode) {
+                    const icon = '<svg class="tg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" id="style-box-top-right" width="100%" height="100%"><path d="M15 2H2v19h19V2h-6zm-1 12H9V9h5v5zm0-11v5H9V3h5zM3 3h5v5H3V3zm0 6h5v5H3V9zm0 11v-5h5v5H3zm6 0v-5h5v5H9zm11 0h-5v-5h5v5zm0-6h-5V9h5v5z"></path></svg>';
+                    return `<div style="height:23px;width:23px;">${icon}</div>`;
+                },
+
+                checkboxFormatter: function(value, rowItem, columnItem, cellNode) {
+                    return `<input type="checkbox" ${value === true ? 'checked' : ''} />`;
                 }
 
             });
 
-            //append formatter
-            grid.setFormatter('buttonFormatter', function(value, rowItem, columnItem, cellNode) {
-                return '<button style="padding:4px 10px;" class="tg-button tg-button--small">Button</button>';
-            });
-
-            //set single formatter
-            grid.setFormatter('iconFormatter', function(value, rowItem, columnItem, cellNode) {
-                const icon = '<svg class="tg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" id="style-box-top-right" width="100%" height="100%"><path d="M15 2H2v19h19V2h-6zm-1 12H9V9h5v5zm0-11v5H9V3h5zM3 3h5v5H3V3zm0 6h5v5H3V9zm0 11v-5h5v5H3zm6 0v-5h5v5H9zm11 0h-5v-5h5v5zm0-6h-5V9h5v5z"></path></svg>';
-                return `<div style="height:23px;width:23px;">${icon}</div>`;
-            });
-
-            const getCheckbox = function() {
-                return '<input type="checkbox" />';
-            };
-
-            grid.setFormatter('checkboxFormatter', function(value, rowItem, columnItem, cellNode) {
-                return getCheckbox();
-            });
-
-            if (changeColumn) {
-
-                //set type or formatter for columns
-                data.columns[1].name = 'Type';
-                data.columns[1].formatter = 'typeFormatter';
-
-                data.columns[2].name = 'Position';
-                data.columns[2].formatter = 'positionFormatter';
-
-                data.columns[3].width = 80;
-                data.columns[3].name = 'HTML';
-                data.columns[3].align = 'center';
-                data.columns[3].formatter = 'htmlFormatter';
-
-                data.columns[4].width = 60;
-                data.columns[4].name = 'Image';
-                data.columns[4].align = 'center';
-                data.columns[4].formatter = 'imageFormatter';
-
-                data.columns[5].width = 80;
-                data.columns[5].name = 'Input';
-                data.columns[5].formatter = 'formFormatter';
-
-                data.columns[6].name = 'Button';
-                data.columns[6].formatter = 'buttonFormatter';
-
-                data.columns[7].width = 28;
-                data.columns[7].align = 'center';
-                data.columns[7].sortable = false;
-                data.columns[7].name = getCheckbox();
-                data.columns[7].formatter = 'checkboxFormatter';
-
-                data.columns[8].width = 45;
-                data.columns[8].name = 'Icon';
-                data.columns[8].align = 'center';
-                data.columns[8].formatter = 'iconFormatter';
-
-            }
-
             grid.setDataSnapshot(data);
             grid.render();
+        };
+
+        const renderRadomData = function(data) {
+            // set type or formatter for columns
+            data.columns[1].name = 'Type';
+            data.columns[1].formatter = 'typeFormatter';
+
+            data.columns[2].name = 'Position';
+            data.columns[2].formatter = 'positionFormatter';
+
+            data.columns[3].width = 80;
+            data.columns[3].name = 'HTML';
+            data.columns[3].align = 'center';
+            data.columns[3].formatter = 'htmlFormatter';
+
+            data.columns[4].width = 60;
+            data.columns[4].name = 'Image';
+            data.columns[4].align = 'center';
+            data.columns[4].formatter = 'imageFormatter';
+
+            data.columns[5].width = 80;
+            data.columns[5].name = 'Input';
+            data.columns[5].formatter = 'formFormatter';
+
+            data.columns[6].name = 'Button';
+            data.columns[6].formatter = 'buttonFormatter';
+
+            data.columns[7].width = 28;
+            data.columns[7].align = 'center';
+            data.columns[7].sortable = false;
+            data.columns[7].name = '<input type="checkbox" />';
+            data.columns[7].formatter = 'checkboxFormatter';
+
+            data.columns[8].width = 45;
+            data.columns[8].name = 'Icon';
+            data.columns[8].align = 'center';
+            data.columns[8].formatter = 'iconFormatter';
+
+            renderData(data);
         };
 
         function render() {
             const dataStr = document.querySelector('.st-data').value;
 
             if (dataStr.startsWith('random')) {
-                renderData(window.randomData(dataStr));
+                renderRadomData(window.randomData(dataStr));
                 return;
             }
 
@@ -524,6 +524,7 @@
                 renderData(tgData);
                 return;
             }
+        
             if (dataStr.startsWith('custom')) {
                 renderData(customData);
                 return;

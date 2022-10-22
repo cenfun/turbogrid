@@ -33,12 +33,12 @@ window.randomData = function(dataStr = '') {
         for (let i = 0; i < totalColumns; i++) {
             const column = {
                 id: `c${i}`,
-                name: `Str ${i.toLocaleString()}`
+                name: `Str ${i}`
             };
 
             if (Math.random() > 0.6) {
                 column.type = 'number';
-                column.name = `Num ${i.toLocaleString()}`;
+                column.name = `Num ${i}`;
             }
 
             columns.push(column);
@@ -60,7 +60,7 @@ window.randomData = function(dataStr = '') {
             const id = column.id;
 
             if (column.type === 'number') {
-                row[id] = `Num ${index.toLocaleString()}`;
+                row[id] = index;
             } else {
                 row[id] = `Str ${index.toLocaleString()}`;
             }

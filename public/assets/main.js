@@ -743,21 +743,43 @@
         const $body = document.querySelector('.body');
         $body.insertBefore($nav, $body.firstChild);
 
+        const cls = $nav.classList;
+
+        const closeHandler = (e) => {
+            if ($nav === e.target || $nav.contains(e.target)) {
+                return;
+            }
+            close();
+        };
+
+        const close = () => {
+            document.removeEventListener('click', closeHandler);
+            cls.remove('nav-opened');
+            cls.add('nav-closed');
+            $nav.addEventListener('animationend', function() {
+                cls.remove('nav-closed');
+            }, {
+                once: true
+            });
+        };
+
+        const open = () => {
+            cls.remove('nav-closed');
+            cls.add('nav-opened');
+            $nav.addEventListener('animationend', function() {
+                document.addEventListener('click', closeHandler);
+            }, {
+                once: true
+            });
+
+        };
+
         ['.header-icon-menu', '.header-icon-close'].forEach(function(selector) {
             document.querySelector(selector).addEventListener('click', function(e) {
-                const cls = $nav.classList;
                 if (cls.contains('nav-opened')) {
-                    cls.remove('nav-opened');
-                    cls.add('nav-closed');
-                    $nav.addEventListener('animationend', function() {
-                        $nav.classList.remove('nav-closed');
-                        console.log('animationend');
-                    }, {
-                        once: true
-                    });
+                    close();
                 } else {
-                    cls.remove('nav-closed');
-                    cls.add('nav-opened');
+                    open();
                 }
             });
         });

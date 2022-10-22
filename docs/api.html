@@ -26,25 +26,31 @@
         }
 
         details {
-            padding: 0 5px 5px;
             border-bottom: 1px solid #999;
-            margin-bottom: 5px;
             overflow-x: auto;
         }
 
         details summary {
             font-size: 16px;
             font-weight: bold;
-            padding: 5px 0;
+            padding: 10px;
+            background-color: #eee;
+            cursor: pointer;
+        }
+
+        /*
+        for scroll position, same with summary
+        */
+        details summary a {
+            padding: 10px;
         }
 
         details summary span {
-            font-size: 14px;
-            font-weight: normal;
+            color: gray;
         }
 
         details section {
-            margin-bottom: 10px;
+            padding: 10px;
         }
 
         details section > div {
@@ -127,11 +133,24 @@
             border-bottom: 1px solid #ccc;
         }
 
+        .api-nav {
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
+
         .api-nav a:link,
         .api-nav a:visited {
             font-weight: bold;
-            padding: 0 5px;
             text-decoration: underline;
+            position: relative;
+            border-right: 1px solid #333;
+            padding-right: 8px;
+            margin-right: 8px;
+        }
+
+        .api-nav a:last-child {
+            border: none;
         }
 
         .api-search {
@@ -241,9 +260,9 @@
 
         .api-container {
             position: relative;
-            padding: 5px;
             overflow-x: hidden;
             overflow-y: auto;
+            scroll-behavior: smooth;
         }
 
         .api-table {
@@ -289,12 +308,7 @@
     </div>
     <div class="body flex-auto flex-row">
         <div class="main flex-auto flex-column">
-            <div class="api-header flex-row">
-                <div class="api-search">
-                    <input class="api-search-value" type="text" placeholder="Search API" value="" />
-                    <div class="api-search-list" style="display: none;"></div>
-                </div>
-                <div class="flex-auto"></div>
+            <div class="api-header">
                 <div class="api-nav">
                     <a href="#methods">Methods</a>
                     <a href="#data">Data</a>
@@ -302,6 +316,11 @@
                     <a href="#events">Events</a>
                     <a href="#lifecycle">Lifecycle</a>
                 </div>
+                <div class="api-search">
+                    <input class="api-search-value" type="text" placeholder="Search API" value="" />
+                    <div class="api-search-list" style="display: none;"></div>
+                </div>
+                
             </div>
             <div class="api-container flex-auto">
 
@@ -1128,7 +1147,6 @@
                         <a name="options.selectVisible">selectVisible = false</a>
 
                         <a name="options.selectAllVisible">selectAllVisible = true</a>
-                    </section>
 
                         <a name="options.selectAllOnInit">selectAllOnInit = null</a>
                         <div>true: select all, false: unselect all, or do nothing</div>
@@ -1331,475 +1349,477 @@
                         <span class="total"></span>
                     </summary>
 
-                    <table class="api-table api-table-zebra">
-                        <tr>
-                            <th>Event Type</th>
-                            <th>Event Data</th>
-                            <th>Example</th>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onUpdated">onUpdated</a>
-                                </section>
-                                <section>
-                                    <a name="onFirstUpdated">onFirstUpdated</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: viewport
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onHeaderUpdated">onHeaderUpdated</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        node: headerNode
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onSort">onSort</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                Object: {
-                                    e,
-                                    columnItem,
-                                    node: headerItemNode
-                                }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="sort.html" target="_blank">Sort</a></div>
-                            </td>
-                        </tr>
-        
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onColumnAdded">onColumnAdded</a>
-                                </section>
-                                <section>
-                                    <a name="onColumnRemoved">onColumnRemoved</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Array: [columnItem ...]
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="column-add-delete.html" target="_blank">Column Add/Delete</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onColumnWidthChanged">onColumnWidthChanged</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: columnItem
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onRowAdded">onRowAdded</a>
-                                </section>
-                                <section>
-                                    <a name="onRowRemoved">onRowRemoved</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Array: [rowItem ...]
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="row-add-delete.html" target="_blank">Row Add/Delete</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onRowExpanded">onRowExpanded</a>
-                                </section>
-                                <section>
-                                    <a name="onRowCollapsed">onRowCollapsed</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: rowItem
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onRowSubsRequest">onRowSubsRequest</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: rowItem
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="load-subs.html" target="_blank">Dynamic Load Subs</a></div>
-                            </td>
-                        </tr>
-        
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onRowDragged">onRowDragged</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        e,
-                                        rowItem
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onRowDropped">onRowDropped</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        rowItem,
-                                        dragFrom,
-                                        dragIndex,
-                                        dropInto,
-                                        dropIndex
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onRowMoved">onRowMoved</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Array: [rowItem ...]
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onRowMouseEnter">onRowMouseEnter</a>
-                                </section>
-                                <section>
-                                    <a name="onRowMouseLeave">onRowMouseLeave</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        e,
-                                        rowItem
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onSelectChanged">onSelectChanged</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Array [rowItem ...]
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
-                            </td>
-                        </tr>
-        
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onCellUpdated">onCellUpdated</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        value,
-                                        rowItem,
-                                        columnItem,
-                                        node: cellNode
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onCellMouseEnter">onCellMouseEnter</a>
-                                </section>
-                                <section>
-                                    <a name="onCellMouseLeave">onCellMouseLeave</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        e,
-                                        rowItem,
-                                        columnItem,
-                                        rowNode,
-                                        cellNode
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onClick">onClick</a>
-                                </section>
-                                <section>
-                                    <a name="onDblClick">onDblClick</a>
-                                </section>
-                                <section>
-                                    <a name="onContextMenu">onContextMenu</a>
-                                </section>
-                                <section>
-                                    <a name="onMouseOver">onMouseOver</a>
-                                </section>
-                                <section>
-                                    <a name="onMouseOut">onMouseOut</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    //on header
+                    <section>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>Event Type</th>
+                                <th>Event Data</th>
+                                <th>Example</th>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onUpdated">onUpdated</a>
+                                    </section>
+                                    <section>
+                                        <a name="onFirstUpdated">onFirstUpdated</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: viewport
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onHeaderUpdated">onHeaderUpdated</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            node: headerNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onSort">onSort</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
                                     Object: {
                                         e,
                                         columnItem,
-                                        headerNode
+                                        node: headerItemNode
                                     }
-                                    //on body
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="sort.html" target="_blank">Sort</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onColumnAdded">onColumnAdded</a>
+                                    </section>
+                                    <section>
+                                        <a name="onColumnRemoved">onColumnRemoved</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array: [columnItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="column-add-delete.html" target="_blank">Column Add/Delete</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onColumnWidthChanged">onColumnWidthChanged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: columnItem
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowAdded">onRowAdded</a>
+                                    </section>
+                                    <section>
+                                        <a name="onRowRemoved">onRowRemoved</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array: [rowItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-add-delete.html" target="_blank">Row Add/Delete</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowExpanded">onRowExpanded</a>
+                                    </section>
+                                    <section>
+                                        <a name="onRowCollapsed">onRowCollapsed</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: rowItem
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowSubsRequest">onRowSubsRequest</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: rowItem
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="load-subs.html" target="_blank">Dynamic Load Subs</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowDragged">onRowDragged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e,
+                                            rowItem
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowDropped">onRowDropped</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            rowItem,
+                                            dragFrom,
+                                            dragIndex,
+                                            dropInto,
+                                            dropIndex
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowMoved">onRowMoved</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array: [rowItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowMouseEnter">onRowMouseEnter</a>
+                                    </section>
+                                    <section>
+                                        <a name="onRowMouseLeave">onRowMouseLeave</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e,
+                                            rowItem
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onSelectChanged">onSelectChanged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array [rowItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onCellUpdated">onCellUpdated</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            value,
+                                            rowItem,
+                                            columnItem,
+                                            node: cellNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onCellMouseEnter">onCellMouseEnter</a>
+                                    </section>
+                                    <section>
+                                        <a name="onCellMouseLeave">onCellMouseLeave</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e,
+                                            rowItem,
+                                            columnItem,
+                                            rowNode,
+                                            cellNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onClick">onClick</a>
+                                    </section>
+                                    <section>
+                                        <a name="onDblClick">onDblClick</a>
+                                    </section>
+                                    <section>
+                                        <a name="onContextMenu">onContextMenu</a>
+                                    </section>
+                                    <section>
+                                        <a name="onMouseOver">onMouseOver</a>
+                                    </section>
+                                    <section>
+                                        <a name="onMouseOut">onMouseOut</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        //on header
+                                        Object: {
+                                            e,
+                                            columnItem,
+                                            headerNode
+                                        }
+                                        //on body
+                                        Object: {
+                                            e,
+                                            rowItem,
+                                            columnItem,
+                                            rowNode,
+                                            cellNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onScroll">onScroll</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            scrollLeft,
+                                            scrollTop
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onScrollStateChanged">onScrollStateChanged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                    Object: {
+                                        hasHScroll,
+                                        hasVScroll
+                                    }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onMouseWheel">onMouseWheel</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
                                     Object: {
                                         e,
-                                        rowItem,
-                                        columnItem,
-                                        rowNode,
-                                        cellNode
+                                        deltaX,
+                                        deltaY
                                     }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onScroll">onScroll</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        scrollLeft,
-                                        scrollTop
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onScrollStateChanged">onScrollStateChanged</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                Object: {
-                                    hasHScroll,
-                                    hasVScroll
-                                }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onMouseWheel">onMouseWheel</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                Object: {
-                                    e,
-                                    deltaX,
-                                    deltaY
-                                }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onResize">onResize</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        previous: Object,
-                                        width: Number, 
-                                        height: Number
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onLayout">onLayout</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        previous: Object,
-                                        headerWidth: Number, 
-                                        headerHeight: Number, 
-                                        bodyWidth: Number, 
-                                        bodyHeight: Number
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onKeyDown">onKeyDown</a>
-                                </section>
-                            </td>
-                            <td>
-                                <pre><code class="language-js">
-                                    Object: {
-                                        e
-                                    }
-                                </code></pre>
-                            </td>
-                            <td>
-                                <div>Demo <a href="events.html" target="_blank">Events</a></div>
-                            </td>
-                        </tr>
-        
-        
-                        <tr>
-                            <td>
-                                <section>
-                                    <a name="onDestroy">onDestroy</a>
-                                </section>
-                            </td>
-                            <td>N/A</td>
-                            <td>
-                                <div>Demo <a href="flush.html" target="_blank">Flush</a></div>
-                            </td>
-                        </tr>
-        
-                    </table>
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onResize">onResize</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            previous: Object,
+                                            width: Number, 
+                                            height: Number
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onLayout">onLayout</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            previous: Object,
+                                            headerWidth: Number, 
+                                            headerHeight: Number, 
+                                            bodyWidth: Number, 
+                                            bodyHeight: Number
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onKeyDown">onKeyDown</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onDestroy">onDestroy</a>
+                                    </section>
+                                </td>
+                                <td>N/A</td>
+                                <td>
+                                    <div>Demo <a href="flush.html" target="_blank">Flush</a></div>
+                                </td>
+                            </tr>
+            
+                        </table>
+                    </section>
            
                 </details>
 
@@ -1808,90 +1828,92 @@
                         <a name="lifecycle">Lifecycle</a>
                     </summary>
 
-                    <table class="api-table">
-                        <tr>
-                            <th>Phases</th>
-                            <th colspan="2">Sub Phases</th>
-                            <th>Payload</th>
-                            <th>Capacity</th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td>create</td>
-                            <td colspan="2">
-                                <div>create style and html in the container</div>
-                                <div>set data</div>
-                                <div>set options</div>
-                                <div>set formatters</div>
-                                <div>add events</div>
-                            </td>
-                            <td>low</td>
-                            <td>loading APIs</td>
-                            <td>
-                                <pre><code class="language-js">
-                                    var grid = new Grid(container);
-                                    grid.setData(data);
-                                    grid.setOption(options);
-                                    grid.setFormatter(formatters);
-                                    grid.bind("[event type]", handler);
-                                </code></pre>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4">render</td>
-                            <td colspan="2">init options</td>
-                            <td>low</td>
-                            <td rowspan="5">all APIs</td>
-                            <td rowspan="4">
-                                <pre><code class="language-js">
-                                    grid.render();
-                                    grid.rerender();
-                                </code></pre>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">render header</td>
-                            <td>middle</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2">render body</td>
-                            <td>render rows</td>
-                            <td>middle</td>
-                        </tr>
-                        <tr>
-                            <td>render cells</td>
-                            <td>high</td>
-                        </tr>
-        
-                        <tr>
-                            <td>update</td>
-                            <td colspan="2">
-                                <div>update body</div>
-                                <div>update row(s)</div>
-                                <div>update cell(s)</div>
-                            </td>
-                            <td></td>
-                            <td>
-                                <pre><code class="language-js">
-                                    grid.update();
-                                    grid.updateRow(rowIndex, rowData);
-                                    grid.updateCell(rowIndex, columnIndex, cellValue);
-                                </code></pre>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>destroy</td>
-                            <td colspan="2">remove all</td>
-                            <td>low</td>
-                            <td>none</td>
-                            <td>
-                                <pre><code class="language-js">
-                                    grid.destroy();
-                                </code></pre>
-                            </td>
-                        </tr>
-                    </table>
+                    <section>
+                        <table class="api-table">
+                            <tr>
+                                <th>Phases</th>
+                                <th colspan="2">Sub Phases</th>
+                                <th>Payload</th>
+                                <th>Capacity</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>create</td>
+                                <td colspan="2">
+                                    <div>create style and html in the container</div>
+                                    <div>set data</div>
+                                    <div>set options</div>
+                                    <div>set formatters</div>
+                                    <div>add events</div>
+                                </td>
+                                <td>low</td>
+                                <td>loading APIs</td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        var grid = new Grid(container);
+                                        grid.setData(data);
+                                        grid.setOption(options);
+                                        grid.setFormatter(formatters);
+                                        grid.bind("[event type]", handler);
+                                    </code></pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">render</td>
+                                <td colspan="2">init options</td>
+                                <td>low</td>
+                                <td rowspan="5">all APIs</td>
+                                <td rowspan="4">
+                                    <pre><code class="language-js">
+                                        grid.render();
+                                        grid.rerender();
+                                    </code></pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">render header</td>
+                                <td>middle</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">render body</td>
+                                <td>render rows</td>
+                                <td>middle</td>
+                            </tr>
+                            <tr>
+                                <td>render cells</td>
+                                <td>high</td>
+                            </tr>
+            
+                            <tr>
+                                <td>update</td>
+                                <td colspan="2">
+                                    <div>update body</div>
+                                    <div>update row(s)</div>
+                                    <div>update cell(s)</div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        grid.update();
+                                        grid.updateRow(rowIndex, rowData);
+                                        grid.updateCell(rowIndex, columnIndex, cellValue);
+                                    </code></pre>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>destroy</td>
+                                <td colspan="2">remove all</td>
+                                <td>low</td>
+                                <td>none</td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        grid.destroy();
+                                    </code></pre>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
 
                 </details>
 

@@ -1,7 +1,7 @@
 (function(window) {
     'use strict';
 
-    const { Grid, VERSION } = window.turbogrid;
+    const TG = window.turbogrid;
 
     const formatCode = function(code) {
 
@@ -152,7 +152,7 @@
         $theme.title = 'theme';
 
         const hash = window.getHash();
-        const allThemes = Grid.getAllThemes();
+        const allThemes = TG.Grid.getAllThemes();
         allThemes.forEach((theme) => {
             const $option = document.createElement('option');
             $option.setAttribute('value', theme);
@@ -183,6 +183,12 @@
             <style>
             body {
                 padding: 10px 10px;
+            }
+            pre {
+                border: none;
+                max-width: none;
+                border-radius: unset;
+                overflow-x: unset;
             }
             </style>
         </head>
@@ -306,15 +312,10 @@
 
 
     const showSource = () => {
-        const listCss = Array.from(document.querySelectorAll('style'));
         const listJs = Array.from(document.querySelectorAll('script'));
+        const listCss = Array.from(document.querySelectorAll('style'));
 
-        const css = listCss.map(function(elem) {
-            if (elem.getAttribute('context')) {
-                return '';
-            }
-            return `<pre><code class="language-css">${elem.innerHTML}</code></pre>`;
-        });
+        const list = [];
 
         const js = listJs.map(function(elem) {
             const src = elem.getAttribute('src');
@@ -328,15 +329,26 @@
 
             return `<pre><code class="language-js">${elem.innerHTML}</code></pre>`;
 
-        });
+        }).join('');
 
-        const content = `
-            <h3>JS</h3>
-            ${js.join('')}
-            <h3>CSS</h3>
-            ${css.join('')}
-        `;
+        if (js) {
+            list.push('<h3>JS</h3>');
+            list.push(js);
+        }
 
+        const css = listCss.map(function(elem) {
+            if (elem.getAttribute('context')) {
+                return '';
+            }
+            return `<pre><code class="language-css">${elem.innerHTML}</code></pre>`;
+        }).join('');
+
+        if (css) {
+            list.push('<h3>CSS</h3>');
+            list.push(css);
+        }
+
+        const content = list.join('');
         window.showPage(content);
     };
 
@@ -552,7 +564,7 @@
     };
 
     const initNavGrid = function() {
-        const grid = new Grid('.nav-grid');
+        const grid = new TG.Grid('.nav-grid');
 
         grid.bind('onCellUpdated', function(e, d) {
 
@@ -710,13 +722,17 @@
 
     const initNav = function() {
 
-        const headerTitle = `
-            <a class="header-title" href="./">TurboGrid</a> 
-            <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
-        `;
-
         // header
         const $header = document.querySelector('.header');
+        if (!$header) {
+            return;
+        }
+
+        const headerTitle = `
+            <a class="header-title" href="./">TurboGrid</a> 
+            <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${TG.VERSION}</a>
+        `;
+
         $header.insertAdjacentHTML('afterbegin', `
             ${headerTitle}
             <div class="icon icon-menu header-icon-menu"></div>

@@ -150,7 +150,7 @@ export default {
             return;
         }
         if (Util.isNum(item.height)) {
-            item.tg_height = item.height | 0;
+            item.tg_height = Math.round(item.height);
             return;
         }
         // console.log('item.height', item.height);

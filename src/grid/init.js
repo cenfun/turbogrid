@@ -159,7 +159,7 @@ export default {
         const len = subs.length;
 
         if (Util.isNum(position) && position >= 0 && position <= len) {
-            return position | 0;
+            return Math.round(position);
         }
 
         return len;

@@ -1,14 +1,14 @@
 %scroll {
     .tg-scrollbar {
-        user-select: none;
         position: absolute;
-        overflow: hidden;
         z-index: 100;
+        overflow: hidden;
+        user-select: none;
     }
 
     .tg-scrollbar-v {
-        right: 0;
         top: 0;
+        right: 0;
     }
 
     .tg-scrollbar-h {
@@ -17,22 +17,22 @@
     }
 
     .tg-scrollbar-track {
-        user-select: none;
         position: relative;
-        overflow: hidden;
-        background: #f9f9f9;
         width: 100%;
         height: 100%;
+        background: #f9f9f9;
+        overflow: hidden;
+        user-select: none;
     }
 
     .tg-scrollbar-thumb {
-        user-select: none;
         position: absolute;
-        overflow: hidden;
         top: 0;
         left: 0;
-        background: #999;
         border-radius: 1px;
+        background: #999;
+        overflow: hidden;
+        user-select: none;
     }
 
     .tg-scrollbar-thumb:hover {
@@ -59,21 +59,21 @@
 
     .tg-scroll-pane {
         position: relative;
-        overflow: hidden;
-        outline: none;
         margin: 0;
         padding: 0;
         border: none;
+        outline: none;
+        overflow: hidden;
     }
 
     .tg-scroll-view {
         position: relative;
-        overflow: hidden;
         width: 100%;
         height: 100%;
         margin: 0;
         padding: 0;
         border: none;
+        overflow: hidden;
     }
 
     .tg-scroll-body {

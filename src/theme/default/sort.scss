@@ -22,17 +22,17 @@
 
         .tg-column-sort {
             width: 100%;
-            padding: 0 5px;
-            overflow: hidden;
             height: 15px;
             margin-top: -15px;
+            padding: 0 5px;
+            overflow: hidden;
         }
 
         .tg-sort-indicator {
             position: relative;
+            display: none;
             width: 100%;
             height: 100%;
-            display: none;
         }
 
         .tg-column-sorted .tg-column-sort .tg-sort-indicator {
@@ -50,9 +50,9 @@
 
         .tg-sort-indicator-icon {
             position: absolute;
+            top: 5px;
             left: 0;
             right: inherit;
-            top: 5px;
         }
 
         .tg-align-right .tg-sort-indicator-icon {
@@ -72,8 +72,8 @@
         }
 
         .tg-sort-indicator-icon .tg-icon-item {
-            fill: #1e1e1e;
             display: none;
+            fill: #1e1e1e;
         }
 
         .tg-sort-indicator-icon .tg-icon-item-light {
@@ -88,9 +88,9 @@
         align-items: center;
 
         .tg-column-name {
-            overflow: hidden;
-            text-overflow: ellipsis;
             white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         &.tg-align-right {

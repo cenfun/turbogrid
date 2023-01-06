@@ -15,8 +15,8 @@ $text-color: #304265;
     }
 
     .tg-column-name {
-        color: $text-color;
         padding: 5px;
+        color: $text-color;
     }
 
     .tg-header-group-item::after {
@@ -48,8 +48,8 @@ $text-color: #304265;
     }
 
     .tg-cell {
-        border-right: thin solid $border-color;
         color: $text-color;
+        border-right: thin solid $border-color;
 
         &.tg-multiline {
             padding: 0;

@@ -9,14 +9,14 @@
 
     .tg-cell-row-drag {
         .tg-row-drag-icon {
-            width: 24px;
-            height: 24px;
-            cursor: move;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            cursor: move;
             opacity: 0.8;
+            transform: translate(-50%, -50%);
         }
 
         .tg-row-drag-icon:hover {
@@ -26,15 +26,15 @@
 
     .tg-cell {
         position: absolute;
-        overflow: hidden;
+        z-index: 1;
+        height: 100%;
+        margin: 0;
+        padding: 0 5px;
+        color: #1e1e1e;
+        white-space: nowrap;
         text-overflow: ellipsis;
         vertical-align: middle;
-        z-index: 1;
-        margin: 0;
-        white-space: nowrap;
-        padding: 0 5px;
-        height: 100%;
-        color: #1e1e1e;
+        overflow: hidden;
 
         &:focus {
             outline: none;

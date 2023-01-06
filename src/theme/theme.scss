@@ -1,6 +1,6 @@
-@import "./default/default.scss";
-@import "./lightblue/lightblue.scss";
-@import "./dark/dark.scss";
+@use "./default/default.scss";
+@use "./lightblue/lightblue.scss";
+@use "./dark/dark.scss";
 
 .tg-turbogrid {
     @extend %default;

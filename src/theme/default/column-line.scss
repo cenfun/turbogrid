@@ -1,20 +1,20 @@
 %column-line {
     .tg-column-line {
         position: absolute;
-        pointer-events: none;
-        z-index: 100;
         top: 0;
         left: 0;
-        height: 100%;
+        z-index: 100;
         display: none;
+        height: 100%;
+        pointer-events: none;
     }
 
     .tg-column-line-item {
         position: absolute;
-        display: block;
-        width: 0;
         top: 0;
         bottom: 0;
+        display: block;
+        width: 0;
         height: 100%;
         border-left: thin solid #ccc;
 

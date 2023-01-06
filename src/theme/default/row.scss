@@ -1,8 +1,8 @@
 %row {
     .tg-row {
         position: absolute;
-        border: 0;
         width: 100%;
+        border: 0;
         border-bottom: thin solid #e5e5e5;
 
         &.tg-group-line {
@@ -18,8 +18,8 @@
         }
 
         &.tg-group {
-            overflow: hidden;
             font-weight: bold;
+            overflow: hidden;
 
             .tg-cell {
                 &.tg-align-left {
@@ -49,13 +49,13 @@
         }
 
         &.tg-clone {
-            border: 1px dashed #ccc;
-            border-left: none;
-            border-right: none;
-            background: #fff;
             z-index: 1000;
-            opacity: 0.5;
+            border: 1px dashed #ccc;
+            border-right: none;
+            border-left: none;
+            background: #fff;
             cursor: move;
+            opacity: 0.5;
 
             * {
                 cursor: move;
@@ -69,33 +69,33 @@
     }
 
     .tg-row-placeholder {
-        pointer-events: none;
         position: absolute;
+        z-index: 9999;
         width: 100%;
         border-top: 2px solid #00a8e1;
-        z-index: 9999;
+        pointer-events: none;
     }
 
     .tg-row::before,
     .tg-row::after {
-        display: none;
-        width: 100%;
-        height: 100%;
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 100;
-        pointer-events: none;
         content: "";
+        z-index: 100;
+        display: none;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
     }
 
     .tg-hover.tg-row::before {
-        background: rgb(0 0 0 / 8%);
         display: block;
+        background: rgb(0 0 0 / 8%);
     }
 
     .tg-selected.tg-row::after {
-        background: rgb(0 0 0 / 13%);
         display: block;
+        background: rgb(0 0 0 / 13%);
     }
 }

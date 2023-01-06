@@ -1,14 +1,4 @@
 %loading {
-    .tg-loading {
-        display: none;
-        pointer-events: none;
-        position: absolute;
-        z-index: 100;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
-
     @keyframes tg-loading-animation {
         0% {
             transform: rotate(0deg);
@@ -17,6 +7,16 @@
         100% {
             transform: rotate(360deg);
         }
+    }
+
+    .tg-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 100;
+        display: none;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
     }
 
     .tg-loading-default {

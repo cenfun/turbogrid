@@ -1,19 +1,19 @@
 %header {
     .tg-header {
-        border-left: 0;
-        overflow: hidden;
         position: relative;
         width: 10000px;
+        border-left: 0;
+        overflow: hidden;
     }
 
     .tg-header-table {
         position: relative;
-        overflow: hidden;
-        font-size: 14px;
-        font-weight: bold;
-        line-height: 16px;
         color: #5e5e5e;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 16px;
         border-bottom: thin solid #e5e5e5;
+        overflow: hidden;
     }
 
     .tg-header-item {
@@ -26,42 +26,42 @@
     }
 
     .tg-header-group-item::after {
-        border-bottom: thin solid #ccc;
-        content: "";
-        display: block;
         position: absolute;
         left: 5px;
         bottom: 0;
+        content: "";
+        display: block;
         width: calc(100% - 10px);
         height: 1px;
+        border-bottom: thin solid #ccc;
     }
 
     .tg-column-header {
         position: absolute;
-        overflow: hidden;
         bottom: 0;
+        overflow: hidden;
 
         .tg-column-name {
-            overflow: hidden;
-            text-overflow: ellipsis;
             padding: 10px 5px;
+            text-overflow: ellipsis;
+            overflow: hidden;
 
             &.tg-header-group-name {
-                padding: 5px 0;
                 margin: 0 5px;
+                padding: 5px 0;
             }
         }
     }
 
     .tg-column-resizing {
         position: absolute;
-        z-index: 100;
-        right: -5px;
         top: 0;
-        height: 100%;
+        right: -5px;
+        z-index: 100;
         width: 10px;
+        height: 100%;
         background: #ccc;
-        opacity: 0;
         cursor: ew-resize;
+        opacity: 0;
     }
 }

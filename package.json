@@ -1,6 +1,6 @@
 {
     "name": "turbogrid",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "description": "TurboGrid",
     "main": "dist/turbogrid.js",
     "scripts": {

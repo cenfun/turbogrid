@@ -289,9 +289,9 @@ describe('Util', function() {
         }), true);
     });
 
-    it('Util isMobile', function() {
-        assert.equal(Util.isMobile(), false);
-        // assert.equal(Util.isMobile(), true);
+    it('Util isTouchDevice', function() {
+        assert.equal(Util.isTouchDevice(), false);
+        // assert.equal(Util.isTouchDevice(), true);
     });
 
     it('Util contains', function() {

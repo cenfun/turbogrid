@@ -214,8 +214,8 @@ const Util = {
         return shiftKey;
     },
 
-    isMobile: function() {
-        return 'ontouchstart' in window;
+    isTouchDevice: function() {
+        return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
     },
 
     contains: function(container, target) {

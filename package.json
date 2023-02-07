@@ -12,12 +12,13 @@
     "files": [
         "dist"
     ],
+    "dependencies": {},
     "devDependencies": {
-        "eslint": "^8.28.0",
-        "eslint-config-plus": "^1.0.5",
+        "eslint": "^8.33.0",
+        "eslint-config-plus": "^1.0.6",
         "eslint-plugin-html": "^7.1.0",
-        "eslint-plugin-sonarjs": "^0.16.0",
-        "stylelint": "^14.15.0",
+        "eslint-plugin-sonarjs": "^0.18.0",
+        "stylelint": "^14.16.1",
         "stylelint-config-plus": "^1.0.0",
         "vine-ui": "^3.0.14"
     }

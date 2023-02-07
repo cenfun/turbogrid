@@ -139,7 +139,7 @@ export default {
     initOptionsScrollbar: function() {
         const o = this.options;
 
-        if ((o.scrollbarType === 'auto' && Util.isMobile()) || ['mobile', 'touch'].includes(o.scrollbarType)) {
+        if ((o.scrollbarType === 'auto' && Util.isTouchDevice()) || ['touch', 'mobile'].includes(o.scrollbarType)) {
             o.scrollbarFade = true;
             o.scrollbarSize = 6;
             o.scrollbarRound = true;
@@ -171,6 +171,10 @@ export default {
 
         if (!o.textSelectable) {
             list.push('tg-text-unselectable');
+        }
+
+        if (Util.isTouchDevice()) {
+            list.push('tg-touch-device');
         }
 
         // console.log(list);

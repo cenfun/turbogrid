@@ -3,6 +3,10 @@
         display: none;
     }
 
+    &.tg-touch-device .tg-cell-hover-icon {
+        display: inherit;
+    }
+
     .tg-cell-row-number {
         font-weight: normal;
     }

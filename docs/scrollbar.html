@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.3"></script>
+    <script src="dist/turbogrid.js?v=3.0.4"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -14,55 +14,55 @@
     <script src="data/random-data.js"></script>
     <style>
         .tg-gradient-top::before {
-            pointer-events: none;
-            content: "";
             position: absolute;
-            left: 0;
             top: 0;
+            left: 0;
+            content: "";
             z-index: 10;
             display: block;
-            height: 50px;
             width: 100%;
+            height: 50px;
             background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
+            pointer-events: none;
         }
 
         .tg-gradient-bottom::after {
-            pointer-events: none;
-            content: "";
             position: absolute;
             left: 0;
             bottom: 0;
+            content: "";
             z-index: 10;
             display: block;
-            height: 50px;
             width: 100%;
+            height: 50px;
             background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
+            pointer-events: none;
         }
 
         .tg-gradient-left .tg-scroll-view::before {
-            pointer-events: none;
-            content: "";
             position: absolute;
-            left: 0;
             top: 0;
+            left: 0;
+            content: "";
             z-index: 10;
             display: block;
-            height: 100%;
             width: 50px;
+            height: 100%;
             background-image: linear-gradient(to right, #fff, rgb(255 255 255 / 0%));
+            pointer-events: none;
         }
 
         .tg-gradient-right .tg-scroll-view::after {
-            pointer-events: none;
-            content: "";
             position: absolute;
-            right: 0;
             top: 0;
+            right: 0;
+            content: "";
             z-index: 10;
             display: block;
-            height: 100%;
             width: 50px;
+            height: 100%;
             background-image: linear-gradient(to right, rgb(255 255 255 / 0%), #fff);
+            pointer-events: none;
         }
     </style>
 </head>
@@ -106,6 +106,7 @@
                     <label>scrollbarType
                         <select class="st_scrollbarType">
                             <option>auto</option>
+                            <option>touch</option>
                             <option>mobile</option>
                             <option></option>
                         </select>

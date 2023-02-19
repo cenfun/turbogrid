@@ -73,15 +73,16 @@ export default {
             this.initColumnItemHandler(columnItem);
         });
 
-        this.viewColumns = viewColumns;
-        this.viewGroupColumns = viewGroupColumns;
-
         // grid column list include all columns and groups
-        this.viewAllColumns = [].concat(viewColumns).concat(viewGroupColumns);
+        const viewAllColumns = [].concat(viewColumns).concat(viewGroupColumns);
 
-        this.initViewList(this.viewAllColumns, (item, i) => {
+        this.initViewList(viewAllColumns, (item, i) => {
 
         });
+
+        this.viewColumns = viewColumns;
+        this.viewGroupColumns = viewGroupColumns;
+        this.viewAllColumns = viewAllColumns;
 
         // init column header data
         this.initHeaderHandler(privateColumns);

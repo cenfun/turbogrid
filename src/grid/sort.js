@@ -128,12 +128,18 @@ export default {
             return false;
         }
 
-        const o = this.options;
-        const sortFactor = sortColumn.sortAsc ? -1 : 1;
-        const sortBlankFactor = o.sortBlankValueBottom ? 1 : sortFactor;
-        const sortComparer = this.getSortComparer(sortColumn);
+        return this.sortRows(sortField, sortColumn);
+    },
 
-        const sortOptions = {
+    sortRows: function(sortField, sortOptions = {}) {
+
+        const sortFactor = sortOptions.sortAsc ? -1 : 1;
+        const sortBlankFactor = this.options.sortBlankValueBottom ? 1 : sortFactor;
+        const sortComparer = this.getSortComparer(sortOptions);
+
+        // sort handler
+        let sortChanged = false;
+        const sorter = new Sorter({
             ignore: function(item) {
                 // frozen always top
                 if (item.tg_frozen) {
@@ -154,11 +160,7 @@ export default {
             sortFactor,
             sortBlankFactor,
             sortComparer
-        };
-
-        // sort handler
-        let sortChanged = false;
-        const sorter = new Sorter(sortOptions);
+        });
         const sortAll = function(rows) {
             const sorted = sorter.sortList(rows);
             if (sorted) {
@@ -174,7 +176,6 @@ export default {
         sortAll(this.rows);
 
         return sortChanged;
-
     }
 
 };

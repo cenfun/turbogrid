@@ -20,6 +20,11 @@ export default function() {
 
         // null or function (return true: visible or false: invisible)
         rowFilter: null,
+        // sort options after rowFilter if no sortColumn set by user (for fuzzy search)
+        // String: sortField or column id
+        // Object: sort options or column item
+        // Function: return null, String or Object
+        rowFilteredSort: null,
 
         // handler for row not found
         rowNotFound: '',
@@ -167,13 +172,13 @@ export default function() {
         // false: Rows with blank values sort at the bottom for Descending Sort and at the Top for Ascending Sort
         sortBlankValueBottom: true,
 
+        // customize own sort comparers, default comparers
+        sortComparers: defaultSortComparers,
+
         sortOnInit: false,
 
         // h or v style
         sortIndicator: 'h',
-
-        // customize own sort comparers, default comparers
-        sortComparers: defaultSortComparers,
 
         // ==========================================================
         // frozen

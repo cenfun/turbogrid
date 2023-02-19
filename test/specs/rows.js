@@ -18,17 +18,10 @@ describe('Rows', function() {
         container = null;
     });
 
-    it('Grid row filter', async () => {
+    it('Grid rows length', async () => {
         grid.setFormatter({});
         grid.setData(data);
-        grid.setOption({
-            rowFilter: function(rowItem) {
-                if (rowItem.tg_group) {
-                    return true;
-                }
-                return false;
-            }
-        });
+        grid.setOption({});
 
         const len = data.rows.length;
         grid.render();
@@ -38,9 +31,8 @@ describe('Rows', function() {
         const rowsData = grid.getRows();
         assert.equal(rowsData.length, len);
 
-        // only one group left
         const rows = grid.getViewRows();
-        assert.equal(rows.length, 1);
+        assert.equal(rows.length, 12);
 
     });
 

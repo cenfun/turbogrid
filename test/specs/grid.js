@@ -37,7 +37,6 @@ describe('Grid', function() {
         assert.equal(themeOptions.rowHeight, 35);
         assert.equal(themeOptions.scrollbarSize, 10);
         assert.equal(themeOptions.scrollbarRound, true);
-
     });
 
     it('Grid loading', function() {
@@ -162,6 +161,15 @@ describe('Grid', function() {
         grid.render();
     });
 
+    it('Grid setOption/getOption', function() {
+
+        grid.setOption('key1', 'value1');
+
+        assert.equal(grid.getOption('key1'), 'value1');
+        assert.equal(grid.getOption().key1, 'value1');
+
+    });
+
     it('Grid destroy()', function(done) {
         grid.setOption({});
         grid.setData(data);
@@ -240,6 +248,7 @@ describe('Grid', function() {
         });
         grid.render();
     });
+
 
     it('Grid formatter setFormatter(obj)', function(done) {
         grid.setFormatter({

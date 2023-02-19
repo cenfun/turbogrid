@@ -81,12 +81,9 @@ export default {
 
         digList(this.rows);
 
-        this.viewRows = viewRows;
-        // console.log(this.viewRows, rows);
-
         let top = 0;
         let lastItem;
-        this.initViewList(this.viewRows, (rowItem, i) => {
+        this.initViewList(viewRows, (rowItem, i) => {
             rowItem.tg_top = top;
             this.initRowHeight(rowItem);
             top += this.getRowHeight(rowItem);
@@ -106,6 +103,9 @@ export default {
             lastItem = rowItem;
 
         });
+
+        this.viewRows = viewRows;
+        // console.log(this.viewRows, rows);
 
         return this;
     },
@@ -215,8 +215,9 @@ export default {
         if (typeof rowFilter !== 'function') {
             return;
         }
+
         // return true:visible or false:invisible
-        this.forEachRow(function(rowItem, i, parent) {
+        this.forEachRow((rowItem, i, parent) => {
 
             // already invisible
             if (rowItem.tg_invisible) {
@@ -236,8 +237,41 @@ export default {
                 }
             }
 
-
         });
+
+        // if user set owner sortColumn, (can call removeSortColumn before)
+        if (this.sortColumn) {
+            return;
+        }
+
+        let rowFilteredSort = this.options.rowFilteredSort;
+
+        // return null, String, Object
+        if (typeof rowFilteredSort === 'function') {
+            rowFilteredSort = rowFilteredSort.call(this);
+        }
+
+        if (!rowFilteredSort) {
+            return;
+        }
+
+        // String
+        if (typeof rowFilteredSort === 'string') {
+            rowFilteredSort = {
+                sortField: rowFilteredSort,
+                sortAsc: this.options.sortAsc
+            };
+        }
+
+        // Object
+        const sortField = rowFilteredSort.sortField || rowFilteredSort.id;
+        if (!sortField) {
+            return;
+        }
+
+        // console.log('rowFilteredSort', rowFilteredSort);
+
+        this.sortRows(sortField, rowFilteredSort);
 
     },
 

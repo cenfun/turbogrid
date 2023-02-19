@@ -18,13 +18,11 @@ module.exports = {
     },
 
     'plugins': [
-        'sonarjs',
         'html'
     ],
 
     'extends': [
-        'plus',
-        'plugin:sonarjs/recommended'
+        'plus'
     ],
 
     'parserOptions': {
@@ -33,13 +31,6 @@ module.exports = {
     },
 
     'rules': {
-        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-        'no-prototype-builtins': 'warn',
-        'sonarjs/cognitive-complexity': 'off',
-        'sonarjs/no-collapsible-if': 'off',
-        'sonarjs/no-duplicate-string': 'off',
-        'sonarjs/no-identical-functions': 'off',
-        'sonarjs/no-nested-template-literals': 'warn',
-        'sonarjs/prefer-single-boolean-return': 'off'
+        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn'
     }
 };

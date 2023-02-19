@@ -8,9 +8,6 @@ export default {
     },
 
     getThemeOptions: function(theme) {
-        if (!theme || theme === 'default') {
-            return;
-        }
         return themeOptions[theme];
     }
 

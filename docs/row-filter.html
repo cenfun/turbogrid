@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.4"></script>
+    <script src="dist/turbogrid.js?v=3.0.5"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -32,7 +32,24 @@
                     </select>
                 </div>
                 <div>
-                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
+                    <label>rowFilter: 
+                        <input type="text" value="" placeholder="keywords" class="ip-keywords" onfocus="this.select()" />
+                    </label>
+                    
+                    <label>rowFilteredSort: 
+                        <select class="st-rowFilteredSort">
+                            <option></option>
+                            <option>name</option>
+                            <option>{"sortField": "name", "sortAsc": false}</option>
+                        </select>
+                    </label>
+
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" class="cb-removeSortColumn" />
+                        removeSortColumn on rowFilter
+                    </label>
                 </div>
                 <div>
                     <button>hideRow("total")</button>
@@ -70,6 +87,13 @@
         });
 
         const renderData = function(data) {
+
+
+            let rowFilteredSort = document.querySelector('.st-rowFilteredSort').value;
+            if (rowFilteredSort.startsWith('{')) {
+                rowFilteredSort = JSON.parse(rowFilteredSort);
+            }
+
             const options = {
                 theme: document.querySelector('.st-theme').value,
                 frozenColumn: 0,
@@ -83,7 +107,7 @@
                     if (rowItem.tg_frozen) {
                         return true;
                     }
-                    //filter blank row
+                    // filter blank row
                     if (rowItem.formatter === 'blank') {
                         return false;
                     }
@@ -95,7 +119,8 @@
                         }
                     }
                     return false;
-                }
+                },
+                rowFilteredSort
             };
             grid.setOption(options);
             grid.setData(data);
@@ -119,11 +144,17 @@
                 return;
             }
             keywords = k;
-            //update rows
+
+            const removeSortColumn = document.querySelector('.cb-removeSortColumn').checked;
+            if (removeSortColumn) {
+                grid.removeSortColumn();
+            }
+
+            // update rows
             grid.update();
         });
 
-        ['.st-data', '.st-theme'].forEach(function(item) {
+        ['.st-rowFilteredSort', '.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

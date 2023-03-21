@@ -139,9 +139,9 @@
                 width: 100
             }, {
                 id: 'string_number',
-                name: 'Custom Comparer',
+                name: 'Custom (inverted)',
                 type: 'number',
-                comparer: 'custom',
+                comparer: 'custom_comparer',
                 width: 100
             }, {
                 id: 'number_string',
@@ -257,7 +257,7 @@
                 number: 80,
                 number2: 30,
                 number_string: 1,
-                //date: null,
+                // date: null,
                 string_null: null,
                 datatype_formatter: 12
             }, {
@@ -384,7 +384,7 @@
         };
 
         const getCustomData3 = function() {
-            //1000 rows same value
+            // 1000 rows same value
 
             const rows = [];
             for (let i = 0; i < 1500; i++) {
@@ -513,7 +513,7 @@
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
             console.log('duration:', `${this.renderDuration}ms`);
-            //console.log("rows:", this.data.rows);
+            // console.log("rows:", this.data.rows);
         });
 
         grid.bind('onClick', function(e, d) {
@@ -556,14 +556,12 @@
                 selectAllVisible: document.querySelector('.cb_selectAllVisible').checked,
                 collapseAllOnInit: true,
                 sortComparers: {
-                    custom: function(a, b, o) {
-                        //console.log('custom', a, b, o);
-                        const av = a[o.sortField];
-                        const bv = b[o.sortField];
-                        if (av !== bv) {
-                            return o.sortFactor * (bv - av);
-                        }
-                        return b.tg_index - a.tg_index;
+                    custom_comparer: function(a, b, o) {
+                        // console.log('custom', a, b, o);
+                        const valueComparer = this.getDefaultComparer('value');
+                        return valueComparer(a, b, o, function(av, bv) {
+                            return av - bv;
+                        });
                     }
                 }
             };

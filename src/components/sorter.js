@@ -1,4 +1,5 @@
 import Util from '../core/util.js';
+import defaultSortComparers from '../config/default-sort-comparers.js';
 export default class Sorter {
 
     constructor(options) {
@@ -27,6 +28,12 @@ export default class Sorter {
         this.ignoreIncludeHandler(list);
 
         return sortChanged;
+    }
+
+    // API for custom sort comparer
+    getDefaultComparer(name) {
+        const sortComparer = defaultSortComparers[name] || defaultSortComparers.string;
+        return sortComparer.bind(this);
     }
 
     comparerHandler(list) {

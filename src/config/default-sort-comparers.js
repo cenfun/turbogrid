@@ -55,6 +55,18 @@ const blankComparer = function(av, bv, options) {
 
 // =======================================================================
 
+// tg_index is require be created every time
+const indexComparer = function(a, b, options) {
+    return a.tg_index > b.tg_index ? 1 : -1;
+};
+
+// index comparer if value equal
+const equalComparer = function(a, b, options) {
+    return indexComparer(a, b, options);
+};
+
+// =======================================================================
+
 const stringComparer = function(av, bv, options) {
     const ai = typeof av === 'string';
     const bi = typeof bv === 'string';
@@ -110,75 +122,48 @@ const dateComparer = function(av, bv, options) {
 
 // =======================================================================
 
-// tg_index is require be created every time
-const indexComparer = function(a, b, options) {
-    return a.tg_index > b.tg_index ? 1 : -1;
+const valueComparer = function(a, b, options, diffValueComparer) {
+    const av = a[options.sortField];
+    const bv = b[options.sortField];
+    const bc = blankComparer(av, bv, options);
+    // 1, -1
+    if (bc) {
+        return options.sortBlankFactor * bc;
+    }
+    // undefined, 0
+    if (bc !== 0 && av !== bv && typeof diffValueComparer === 'function') {
+        const dvc = diffValueComparer.call(this, av, bv, options);
+        if (Util.isNum(dvc)) {
+            return options.sortFactor * dvc;
+        }
+    }
+    return equalComparer(a, b, options);
 };
-
-// index comparer if value equal
-const equalComparer = function(a, b, options) {
-    return indexComparer(a, b, options);
-};
-
-// =======================================================================
 
 export default {
+    // value: empty string
+    empty: emptyComparer,
+
+    // value: null undefined, empty string
+    blank: blankComparer,
+
+    // object: index is alias of equal
+    equal: equalComparer,
+    index: indexComparer,
+
+    // object: diff value
+    value: valueComparer,
 
     string: function(a, b, options) {
-        const av = a[options.sortField];
-        const bv = b[options.sortField];
-
-        const cb = blankComparer(av, bv, options);
-        if (cb) {
-            return options.sortBlankFactor * cb;
-        }
-
-        if (cb !== 0 && av !== bv) {
-            const cs = stringComparer(av, bv, options);
-            if (typeof cs === 'number') {
-                return options.sortFactor * cs;
-            }
-        }
-
-        return equalComparer(a, b, options);
+        return valueComparer(a, b, options, stringComparer);
     },
 
     number: function(a, b, options) {
-        const av = a[options.sortField];
-        const bv = b[options.sortField];
-
-        const cb = blankComparer(av, bv, options);
-        if (cb) {
-            return options.sortBlankFactor * cb;
-        }
-
-        if (cb !== 0 && av !== bv) {
-            const cn = numberComparer(av, bv, options);
-            if (typeof cn === 'number') {
-                return options.sortFactor * cn;
-            }
-        }
-
-        return equalComparer(a, b, options);
+        return valueComparer(a, b, options, numberComparer);
     },
 
     date: function(a, b, options) {
-        const av = a[options.sortField];
-        const bv = b[options.sortField];
-
-        const cb = blankComparer(av, bv, options);
-        if (cb) {
-            return options.sortBlankFactor * cb;
-        }
-
-        if (cb !== 0 && av !== bv) {
-            const cd = dateComparer(av, bv, options);
-            if (typeof cd === 'number') {
-                return options.sortFactor * cd;
-            }
-        }
-
-        return equalComparer(a, b, options);
+        return valueComparer(a, b, options, dateComparer);
     }
 
 };

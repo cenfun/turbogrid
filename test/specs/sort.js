@@ -29,6 +29,10 @@ describe('Row sort', function() {
                 'name': 'Date',
                 'width': 100,
                 'type': 'date'
+            }, {
+                'id': 'custom',
+                'name': 'Custom',
+                'comparer': 'custom_comparer'
             }],
             'rows': [{
                 'id': 'row1',
@@ -55,7 +59,7 @@ describe('Row sort', function() {
                 'name': 'Name4',
                 'value': '3',
                 'number': 4,
-                'date': '2017-05-21'
+                'date': 'invalid date'
             }, {
                 'id': 'row5',
                 'name': 'Name5',
@@ -188,10 +192,10 @@ describe('Row sort', function() {
         assert.equal(hasClass, true);
 
         const dates = grid.getViewRows().map((it) => it.date).join(',');
-        assert.equal(dates, ',2017-05-21,2017-05-21,2017-05-21,2017-05-20,1917-05-21,1817-05-22,');
+        assert.equal(dates, ',2017-05-21,2017-05-21,2017-05-20,1917-05-21,1817-05-22,invalid date,');
 
         const numbers = grid.getViewRows().map((it) => it.number).join(',');
-        assert.equal(numbers, ',2,4,5,1,6,3,');
+        assert.equal(numbers, ',2,5,1,6,3,4,');
 
 
     });
@@ -308,6 +312,55 @@ describe('Row sort', function() {
 
     });
 
+    it('Grid click to sort custom comparer (inverted)', async () => {
+
+        let onSort = false;
+        grid.once('onSort', function() {
+            onSort = true;
+        });
+
+        // reset order
+        grid.setData(getData());
+        grid.setOption({
+            sortComparers: {
+                custom_comparer: function(a, b, o) {
+                    // console.log('custom', a, b, o);
+                    o.sortField = 'number';
+                    const valueComparer = this.getDefaultComparer('value');
+                    return valueComparer(a, b, o, function(av, bv) {
+                        return av - bv;
+                    });
+                }
+            }
+        });
+
+        grid.render();
+
+        await delay();
+
+        // check header sort bar
+        const columnItem = grid.getColumnItem('custom');
+
+        grid.scrollToColumn(columnItem);
+
+        // click name to sort
+        const $node = $(grid.getColumnHeaderNode(columnItem));
+        $node.find('.tg-column-name').click();
+
+        await delay();
+
+        assert.equal(onSort, true);
+
+        // check header sort bar
+        const hasClass = $node.hasClass('tg-sort-asc');
+        assert.equal(hasClass, true);
+
+        const numbers = grid.getViewRows().map((it) => it.number).join(',');
+        // console.log(numbers);
+        assert.equal(numbers, ',6,5,4,3,2,1,');
+
+    });
+
 
     it('Grid Comparers', function(done) {
 
@@ -346,7 +399,7 @@ describe('Row sort', function() {
         });
 
         const str = list.map((item) => item.name).join('');
-        console.log(str);
+        // console.log(str);
         assert.equal(str, '38265471');
 
         done();

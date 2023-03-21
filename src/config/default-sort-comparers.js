@@ -1,32 +1,6 @@
 import Util from '../core/util.js';
-const isEmpty = function(value) {
-    if (value === '') {
-        return true;
-    }
-    return false;
-};
 
-const emptyComparer = function(av, bv) {
-    const ae = isEmpty(av);
-    const be = isEmpty(bv);
-
-    if (ae && be) {
-        return 0;
-    }
-
-    if (ae) {
-        return 1;
-    }
-
-    if (be) {
-        return -1;
-    }
-
-};
-
-// =======================================================================
-
-const isNull = function(value) {
+const isBlank = function(value) {
     if (value === null || typeof value === 'undefined') {
         return true;
     }
@@ -34,28 +8,22 @@ const isNull = function(value) {
 };
 
 const blankComparer = function(av, bv) {
-    const an = isNull(av);
-    const bn = isNull(bv);
-
-    if (an && bn) {
+    const ab = isBlank(av);
+    const bb = isBlank(bv);
+    if (ab && bb) {
         return 0;
     }
-
-    if (an) {
+    if (ab) {
         return 1;
     }
-
-    if (bn) {
+    if (bb) {
         return -1;
     }
-
-    return emptyComparer(av, bv);
-
 };
 
 // =======================================================================
 
-// tg_index is require be created every time
+// tg_index is require be created every time, no need sortFactor, always 0->9
 const indexComparer = function(a, b) {
     return a.tg_index > b.tg_index ? 1 : -1;
 };
@@ -111,6 +79,7 @@ const dateComparer = function(av, bv) {
     if (ai && bi) {
         const am = ad.getTime();
         const bm = bd.getTime();
+        // date string "2017-05-21" === number 1495324800000
         if (am === bm) {
             return;
         }
@@ -135,14 +104,16 @@ const booleanComparer = function(av, bv) {
 const valueComparer = function(a, b, options, diffValueComparer) {
     const av = a[options.sortField];
     const bv = b[options.sortField];
-    const bc = blankComparer(av, bv);
-    // 1, -1
-    if (bc) {
-        return options.sortBlankFactor * bc;
+    const bcv = blankComparer(av, bv);
+    // has number result: 0, 1, -1
+    if (typeof bcv === 'number') {
+        if (bcv === 0) {
+            return equalComparer(a, b);
+        }
+        return options.sortBlankFactor * bcv;
     }
-    // undefined, 0
-    if (bc !== 0 && av !== bv && typeof diffValueComparer === 'function') {
-        const dvc = diffValueComparer.call(this, av, bv, options);
+    if (av !== bv && typeof diffValueComparer === 'function') {
+        const dvc = diffValueComparer(av, bv);
         if (Util.isNum(dvc)) {
             return options.sortFactor * dvc;
         }
@@ -151,13 +122,11 @@ const valueComparer = function(a, b, options, diffValueComparer) {
 };
 
 export default {
-    // value: empty string
-    emptyValue: emptyComparer,
 
-    // value: null undefined, empty string
+    // null/undefined
     blankValue: blankComparer,
 
-    // object: index is alias of equal
+    // index is alias of equal
     equal: equalComparer,
     index: indexComparer,
 

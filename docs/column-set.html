@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.5"></script>
+    <script src="dist/turbogrid.js"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -17,10 +17,10 @@
     <style>
         .bt-set,
         .column-set-content button {
-            cursor: pointer;
             display: flex;
             flex-direction: row;
             align-items: center;
+            cursor: pointer;
         }
 
         .bt-set .icon {
@@ -28,10 +28,10 @@
         }
 
         .column-set-content button .icon {
-            background-size: 12px 12px;
             width: 12px;
             height: 12px;
             margin-right: 5px;
+            background-size: 12px 12px;
         }
 
         .column-set-content button,
@@ -40,9 +40,9 @@
         }
 
         button svg {
+            display: block;
             width: 20px;
             height: 20px;
-            display: block;
             margin-right: 3px;
         }
 
@@ -51,9 +51,9 @@
         }
 
         .column-set-action {
-            margin-top: 10px;
             display: flex;
             flex-direction: row;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -83,8 +83,12 @@
             <div class="grid-container flex-auto"></div>
         </div>
     </div>
+    <div class="popover"></div>
     <script type="text/javascript">
         const { Grid, Util } = window.turbogrid;
+        const {
+            createApp, h, reactive
+        } = window.Vue;
         const { components } = window['vine-ui'];
         const VuiPopover = components.VuiPopover;
         
@@ -127,6 +131,11 @@
             },
             mounted() {
                 this.init();
+            },
+            watch: {
+                list: function() {
+                    this.init();
+                }
             },
             methods: {
                 init() {
@@ -224,8 +233,6 @@
                 },
 
                 bindEvents() {
-
-
                     // popover.querySelector('.bt-done').addEventListener('click', function(ee) {
                     //     const columnSetData = grid.exportData();
                     //     grid.setData({
@@ -246,38 +253,34 @@
                     //     popover = null;
                     // });
 
-                    //==================================================================
+                    // ==================================================================
                     // move position to elem
                 }
             }
 
         });
 
-        let popover;
-        const hidePopover = function() {
-            if (popover) {
-                popover.unmount();
-                popover = null;
-            }
-        };
+        const state = reactive({
+            visible: false,
+            target: null,
+            list: null
+        });
 
-        const showPopover = function(e, grid) {
-
-            hidePopover();
-            const elem = e.currentTarget;
-
-            popover = VuiPopover.createComponent({
-                target: elem,
-                title: 'Column Set',
-                width: 350,
-                onClose: function() {
-                    popover = null;
-                }
-            }, (h) => {
-                return {
+        const app = createApp({
+            render() {
+                return h(VuiPopover, {
+                    title: 'Column Set',
+                    width: 350,
+                    visible: state.visible,
+                    target: state.target,
+                    onClose: function() {
+                        console.log('close');
+                        state.visible = false;
+                    }
+                }, {
                     default: () => {
                         return h(ColumnSetContent, {
-                            list: grid.exportData().columns,
+                            list: state.list,
                             onChange: function(list) {
                                 const data = grid.getData();
                                 data.columns = list;
@@ -286,8 +289,22 @@
                             }
                         });
                     }
-                };
-            });
+                });
+            }
+        });
+        
+        app.mount('.popover');
+
+        const showPopover = function(e, grid) {
+
+            if (state.visible) {
+                state.visible = false;
+                return;
+            }
+
+            state.visible = true;
+            state.target = e.currentTarget;
+            state.list = grid.exportData().columns;
 
         };
 

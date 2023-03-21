@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.5"></script>
+    <script src="dist/turbogrid.js"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -14,28 +14,28 @@
     <script src="assets/vine-ui.js"></script>
     <style>
         .tg-header-icon {
-            cursor: pointer;
-            padding: 0 5px;
+            display: inline-block;
             width: 25px;
             height: 15px;
-            display: inline-block;
+            padding: 0 5px;
             vertical-align: middle;
+            cursor: pointer;
         }
 
         .tg-tooltip-icon {
-            cursor: pointer;
-            width: 16px;
-            height: 16px;
             position: absolute;
             top: 50%;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
             transform: translate(0, -50%);
         }
 
         .tg-tooltip .tg-tooltip-text {
-            padding: 5px;
-            pointer-events: none;
-            color: #000;
             position: relative;
+            padding: 5px;
+            color: #000;
+            pointer-events: none;
         }
 
     </style>
@@ -55,33 +55,53 @@
             <div class="grid-container flex-auto"></div>
         </div>
     </div>
-
+    <div class="tooltip"></div>
     <script type="text/javascript">
+        const {
+            createApp, h, reactive
+        } = window.Vue;
         const { components } = window['vine-ui'];
         const VuiTooltip = components.VuiTooltip;
 
-        let tooltip = null;
+        const state = reactive({
+            visible: false,
+            target: null,
+            message: ''
+        });
+
+        const app = createApp({
+            render() {
+                return h(VuiTooltip, {
+                    text: state.message,
+                    target: state.target,
+                    visible: state.visible,
+                    onClose: function() {
+                        console.log('close');
+                    }
+                }, {
+                    default: () => {
+                        return state.title;
+                    }
+                });
+            }
+        });
+        
+        app.mount('.tooltip');
 
         const hideTooltip = function() {
-            if (tooltip) {
-                tooltip.unmount();
-                tooltip = null;
-            }
+            state.visible = false;
         };
 
         const showTooltip = function(elem, message) {
 
-            //remove previous
-            hideTooltip();
-
             if (!message) {
+                hideTooltip();
                 return;
             }
 
-            tooltip = VuiTooltip.createComponent({
-                target: elem,
-                text: message
-            });
+            state.target = elem;
+            state.message = message;
+            state.visible = true;
 
         };
 
@@ -103,26 +123,26 @@
         };
 
         grid.bind('onMouseOver', function(e, d) {
-            //console.log(d);
+            // console.log(d);
 
 
             const target = d.e.target;
-            //console.log(target);
+            // console.log(target);
         
-            //show tooltip for info icon
+            // show tooltip for info icon
             if (target.classList.contains('tg-tooltip-icon')) {
                 showTooltip(target, `Tooltip for icon: ${d.rowItem.name}`);
                 return;
             }
 
-            //show tooltip if cell truncated
+            // show tooltip if cell truncated
             const value = d.rowItem[d.columnItem.id];
             if (value && isNodeTruncated(target)) {
                 showTooltip(target, `Tooltip for truncated text: ${value}`);
                 return;
             }
 
-            //show tooltip for header icon
+            // show tooltip for header icon
             if (target.classList.contains('tg-header-icon')) {
                 showTooltip(target, `Tooltip for header: ${d.rowItem.name}`);
             }

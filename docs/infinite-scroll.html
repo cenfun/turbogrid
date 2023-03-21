@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>TurboGrid</title>
     <!--inject:start-->
-    <script src="dist/turbogrid.js?v=3.0.5"></script>
+    <script src="dist/turbogrid.js"></script>
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
@@ -22,13 +22,13 @@
     }
 
     .tg-loading-icon {
-        color: #0077cf;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
         width: 35px;
         height: 35px;
-        display: block;
-        position: absolute;
-        left: 50%;
-        top: 50%;
+        color: #0077cf;
         transform: translate(-50%, -50%);
     }
 
@@ -115,7 +115,7 @@
                 return;
             }
             const defaultHeight = grid.options.rowHeight;
-            //console.log(visibleRowList);
+            // console.log(visibleRowList);
             const rows = [];
             const heights = [];
             grid.viewport.rows.forEach(function(row) {
@@ -129,7 +129,7 @@
                 }
                 rowItem.lazyFixed = true;
                 const div = cellNode.querySelector('.tg-lazy-fix');
-                //6px is padding top and bottom
+                // 6px is padding top and bottom
                 let h = $(div).height() + 6;
                 if (h < defaultHeight) {
                     h = defaultHeight;
@@ -138,7 +138,7 @@
                 heights.push(h);
             });
             if (!rows.length) {
-                //console.log("nothing fix")
+                // console.log("nothing fix")
                 return;
             }
             console.log('lazy fix: ', rows);
@@ -168,7 +168,7 @@
                 }
                 loading = true;
                 console.log('loading data...');
-                //mock request data delay
+                // mock request data delay
                 const timeout = 200 + Math.round(2000 * Math.random());
                 setTimeout(function() {
                     const list = [];
@@ -189,7 +189,7 @@
                         lazyFixable: false
                     });
 
-                    //console.log(list);
+                    // console.log(list);
 
                     grid.deleteRow('loading');
 
@@ -208,7 +208,7 @@
         const updateWidth = function() {
             const titleColumn = grid.getColumnItem('title');
             const containerWidth = grid.containerWidth;
-            //5px padding right
+            // 5px padding right
             let otherWidth = 5;
             grid.viewColumns.forEach(function(item) {
                 if (item.id === 'title') {
@@ -217,7 +217,7 @@
                 otherWidth += item.width;
             });
             const titleWidth = containerWidth - otherWidth - grid.getScrollbarWidth();
-            //console.log(titleWidth);
+            // console.log(titleWidth);
             if (titleWidth === titleColumn.width) {
                 return;
             }
@@ -227,7 +227,7 @@
 
         };
 
-        //load data and lazy fix
+        // load data and lazy fix
         grid.bind('onUpdated', function(e, d) {
             updateWidth();
             loadNextPage();
@@ -239,7 +239,7 @@
                 return;
             }
             console.log('onColumnWidthChanged');
-            //reset when column width changed
+            // reset when column width changed
             this.forEachRow(function(row) {
                 if (row.lazyFixable) {
                     row.lazyFixed = false;
@@ -247,7 +247,7 @@
             });
         });
 
-        //=========================================================================================
+        // =========================================================================================
 
         function getData() {
             return {

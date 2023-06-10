@@ -53,15 +53,24 @@ export default {
         }
         headerTable.className = Util.classMap(list);
 
-        columns.forEach((columnItem) => {
-            this.renderHeaderItem(columnItem, headerTable);
-        });
+        const len = columns.length;
+        if (len) {
+
+            let lastColumn = columns[len - 1];
+            if (lastColumn && lastColumn.id === 'tg-column-blank') {
+                lastColumn = columns[len - 2];
+            }
+
+            columns.forEach((columnItem) => {
+                this.renderHeaderItem(columnItem, headerTable, lastColumn);
+            });
+        }
 
         container.append(headerTable);
 
     },
 
-    renderHeaderItem: function(columnItem, container) {
+    renderHeaderItem: function(columnItem, container, lastColumn) {
 
         const column = columnItem.tg_view_index;
         const hasHeaderNode = this.getHeaderCache(column);
@@ -69,7 +78,7 @@ export default {
             return;
         }
 
-        const className = this.getHeaderItemClass(columnItem);
+        const className = this.getHeaderItemClass(columnItem, lastColumn);
         const cssText = Util.styleMap(columnItem.headerStyleMap);
 
         const attr = {
@@ -259,11 +268,15 @@ export default {
     },
 
     // =================================================================================================
-    getHeaderItemClass: function(columnItem) {
+    getHeaderItemClass: function(columnItem, lastColumn) {
 
         const list = ['tg-header-item'];
         if (columnItem.tg_group) {
             list.push('tg-header-group-item');
+        }
+
+        if (columnItem === lastColumn) {
+            list.push('tg-header-column-last');
         }
 
         list.push(`tg-c-${columnItem.tg_view_index}`);

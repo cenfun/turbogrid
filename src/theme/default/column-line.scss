@@ -26,12 +26,11 @@
     .tg-column-dragging {
         cursor: ew-resize;
 
-        *,
         .tg-column-name {
             cursor: ew-resize;
         }
 
-        .tg-column-resizing {
+        .tg-column-resizing:not(.tg-resizing-active) {
             display: none;
         }
     }

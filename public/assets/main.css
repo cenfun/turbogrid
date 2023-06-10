@@ -6,15 +6,15 @@
 
 html,
 body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
     position: relative;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 a:link,
@@ -23,13 +23,13 @@ a:visited {
 }
 
 pre {
-    overflow-x: auto;
+    max-width: 810px;
+    margin: 0;
+    padding: 5px 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background: #f8f8f8;
-    padding: 5px 10px;
-    margin: 0;
-    max-width: 810px;
+    overflow-x: auto;
 }
 
 /*
@@ -37,12 +37,12 @@ flex
 */
 
 .flex-row {
+    --flex-spacing: 0;
+
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
-    position: relative;
-
-    --flex-spacing: 0;
 }
 
 .flex-row-5 {
@@ -50,11 +50,11 @@ flex
 }
 
 .flex-column {
+    --flex-spacing: 0;
+
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
-
-    --flex-spacing: 0;
 }
 
 .flex-column-5 {
@@ -92,14 +92,14 @@ icon
 
 .icon {
     display: block;
-    overflow: hidden;
     width: 20px;
     height: 20px;
-    background-size: 20px 20px;
-    background-position: center center;
     background-repeat: no-repeat;
-    opacity: 0.8;
+    background-position: center center;
+    background-size: 20px 20px;
     cursor: pointer;
+    opacity: 0.8;
+    overflow: hidden;
 }
 
 .icon:hover {
@@ -147,16 +147,16 @@ media screen
 */
 
 .header {
+    --flex-spacing: 5px;
+
     position: relative;
-    height: 38px;
-    padding: 0 10px;
-    background: #f5f5f5;
-    border-bottom: 1px solid #999;
     display: flex;
     flex-direction: row;
     align-items: center;
-
-    --flex-spacing: 5px;
+    height: 38px;
+    padding: 0 10px;
+    border-bottom: 1px solid #999;
+    background: #f5f5f5;
 }
 
 .body {
@@ -167,8 +167,8 @@ media screen
     position: relative;
     width: 200px;
     height: 100%;
-    background: #fff;
     border-right: 1px solid #999;
+    background: #fff;
 }
 
 @media screen and (max-width: 768px) {
@@ -188,22 +188,22 @@ media screen
     }
 
     .body .nav .header {
-        padding-left: 10px;
         display: inherit;
+        padding-left: 10px;
     }
 }
 
 .nav.nav-opened {
     left: 0;
+    animation-name: nav-slide-in-left;
     animation-duration: 0.2s;
     animation-fill-mode: both;
-    animation-name: nav-slide-in-left;
 }
 
 @keyframes nav-slide-in-left {
     from {
-        transform: translate3d(-100%, 0, 0);
         visibility: visible;
+        transform: translate3d(-100%, 0, 0);
     }
 
     to {
@@ -213,9 +213,9 @@ media screen
 
 .nav.nav-closed {
     left: 0;
+    animation-name: nav-slide-out-left;
     animation-duration: 0.2s;
     animation-fill-mode: both;
-    animation-name: nav-slide-out-left;
 }
 
 @keyframes nav-slide-out-left {
@@ -234,13 +234,13 @@ header children
 */
 
 .header-title {
+    padding-left: 20px;
     font-weight: bold;
+    font-size: 16px;
+    background-image: url("./images/logo.svg");
     background-repeat: no-repeat;
     background-position: left center;
-    background-image: url("./images/logo.svg");
     background-size: 16px;
-    padding-left: 20px;
-    font-size: 16px;
 }
 
 .header .header-title {
@@ -248,15 +248,15 @@ header children
 }
 
 .header-version {
-    color: #555;
     margin-left: 5px;
-    text-decoration: underline;
+    color: #555;
     font-size: 14px;
+    text-decoration: underline;
 }
 
 .header-api {
-    font-weight: bold;
     margin-left: 10px;
+    font-weight: bold;
 }
 
 .header-icon-menu {
@@ -281,64 +281,64 @@ nav children
 .nav-search input {
     width: 100%;
     height: 25px;
-    line-height: 25px;
-    background-repeat: no-repeat;
-    background-position: 97% center;
-    background-image: url("./images/search.svg");
-    background-size: 16px;
-    padding-left: 5px;
     padding-right: 23px;
+    padding-left: 5px;
+    line-height: 25px;
     border: 1px solid #555;
     border-radius: 5px;
+    background-image: url("./images/search.svg");
+    background-repeat: no-repeat;
+    background-position: 97% center;
+    background-size: 16px;
 }
 
 .nav-grid .tg-row-top {
-    font-weight: bold;
     position: relative;
+    font-weight: bold;
 }
 
 .nav-grid .tg-row-top::after {
-    content: "";
     position: absolute;
     top: 0;
     left: 5px;
-    height: 30px;
+    content: "";
     width: 16px;
+    height: 30px;
+    background-image: url("./images/double-right.svg");
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("./images/double-right.svg");
 }
 
 .nav-grid .tg-tree-row-number {
     position: absolute;
-    text-align: center;
     width: 20px;
+    text-align: center;
 }
 
 .nav-grid .tg-gradient-top::before {
-    pointer-events: none;
-    content: "";
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    content: "";
     z-index: 10;
     display: block;
-    height: 30px;
     width: 100%;
+    height: 30px;
     background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
+    pointer-events: none;
 }
 
 .nav-grid .tg-gradient-bottom::after {
-    pointer-events: none;
-    content: "";
     position: absolute;
     left: 0;
     bottom: 0;
+    content: "";
     z-index: 10;
     display: block;
-    height: 30px;
     width: 100%;
+    height: 30px;
     background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
+    pointer-events: none;
 }
 
 @keyframes tg-cell-effect-animate {
@@ -367,9 +367,9 @@ main
 }
 
 .controller {
+    max-height: 38%;
     padding: 5px 5px 0;
     border-bottom: 1px solid #999;
-    max-height: 38%;
     overflow-y: auto;
 }
 
@@ -414,9 +414,9 @@ main
 */
 .grid-container {
     margin: 5px;
-    overflow: hidden;
-    border: 1px solid #999;
     box-sizing: content-box;
+    border: 1px solid #999;
+    overflow: hidden;
 }
 
 /*
@@ -424,22 +424,22 @@ log
 */
 
 .log-container {
-    height: 66px;
     width: 100%;
+    height: 66px;
     border: 1px solid #999;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
 .log-content div {
-    font-size: 12px;
-    color: #000;
     padding: 2px 5px;
+    color: #000;
+    font-size: 12px;
 }
 
 .log-content div span {
-    font-size: 12px;
     color: gray;
+    font-size: 12px;
     word-break: break-all;
 }
 
@@ -470,8 +470,8 @@ form
 }
 
 .tg-table tr th {
-    text-align: left;
     padding: 5px;
+    text-align: left;
 }
 
 .tg-table tr td {
@@ -488,8 +488,8 @@ form
 
 @keyframes tg-blink-fade-in {
     from {
-        opacity: 0;
         background: gray;
+        opacity: 0;
     }
 
     to {

@@ -1,4 +1,5 @@
-import Util from '../core/util';
+import $ from '../core/query.js';
+import Util from '../core/util.js';
 
 export default {
 
@@ -85,10 +86,31 @@ export default {
     // ======================================================================================
     // drag
 
+    setColumnWidthDragStatus: function(columnItem, dragging) {
+        if (dragging) {
+            this.$headerFrame.addClass('tg-column-dragging');
+        } else {
+            this.$headerFrame.removeClass('tg-column-dragging');
+        }
+
+        const headerItemNode = this.getHeaderItemNode(columnItem);
+        if (!headerItemNode) {
+            return;
+        }
+
+        const $resizing = $(headerItemNode).find('.tg-column-resizing');
+        if (dragging) {
+            $resizing.addClass('tg-resizing-active');
+        } else {
+            $resizing.removeClass('tg-resizing-active');
+        }
+
+    },
+
     columnWidthDragStartHandler: function(e, d) {
         const columnItem = d.columnItem;
-        this.$headerFrame.addClass('tg-column-dragging');
         this.setColumnLineActive(true);
+        this.setColumnWidthDragStatus(columnItem, true);
         const node = this.getColumnHeaderNode(columnItem);
         d.tg_width = node.clientWidth;
     },
@@ -110,10 +132,13 @@ export default {
         if (!d.changed) {
             return;
         }
-        this.$headerFrame.removeClass('tg-column-dragging');
+
+        const columnItem = d.columnItem;
+        this.setColumnWidthDragStatus(columnItem, false);
         this.setColumnLineActive(false);
 
-        if (e.target.className !== 'tg-column-resizing') {
+        const target = d.e && d.e.target;
+        if (target && target.className !== 'tg-column-resizing') {
             this.hideColumnLine();
         }
 

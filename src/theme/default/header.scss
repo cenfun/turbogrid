@@ -64,4 +64,10 @@
         cursor: ew-resize;
         opacity: 0;
     }
+
+    .tg-header-column-last {
+        .tg-column-resizing {
+            right: 0;
+        }
+    }
 }

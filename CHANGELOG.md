@@ -6,6 +6,9 @@
 ---
 # Changelog
 
++ 3.0.8
+    - fixed column resize issue
+
 + 3.0.1
     - removed column collapse
     - renamed VisibleRange to Viewport

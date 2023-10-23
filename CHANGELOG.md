@@ -6,6 +6,10 @@
 ---
 # Changelog
 
+
++ 3.0.9
+    - added touch events
+
 + 3.0.8
     - fixed column resize issue
 

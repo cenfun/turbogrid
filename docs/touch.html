@@ -73,6 +73,11 @@
                         <input type="checkbox" class="cb_autoHeight" />
                         autoHeight
                     </label>
+
+                    <label>
+                        <input type="checkbox" class="cb_preventDefault" />
+                        prevent default onTouchStart
+                    </label>
                 </div>
             </div>
             <div class="something-up">
@@ -126,7 +131,33 @@
         });
 
         grid.bind('onTouchStart', function(e, d) {
-            console.log('onTouchStart', `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`);
+
+            const preventDefault = document.querySelector('.cb_preventDefault').checked;
+            if (preventDefault) {
+                d.e.preventDefault();
+            }
+
+            let info = '';
+            if (d.rowItem) {
+                info = `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`;
+            }
+            console.log('onTouchStart', info);
+        });
+
+        grid.bind('onTouchMove', function(e, d) {
+            let info = '';
+            if (d.rowItem) {
+                info = `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`;
+            }
+            console.log('onTouchMove', info);
+        });
+
+        grid.bind('onTouchEnd', function(e, d) {
+            let info = '';
+            if (d.rowItem) {
+                info = `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`;
+            }
+            console.log('onTouchEnd', info);
         });
 
         const renderData = function(data) {

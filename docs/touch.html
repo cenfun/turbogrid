@@ -14,8 +14,8 @@
     <script src="data/random-data.js"></script>
     <style>
         .main {
-            overflow-y: auto;
             display: block;
+            overflow-y: auto;
         }
 
         .something-up {
@@ -24,16 +24,15 @@
 
         .output {
             height: 90px;
-            border: 1px solid #ccc;
-            overflow-x: hidden;
-            overflow-y: scroll;
-            background-color: #f5f5f5;
             margin-bottom: 5px;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+            overflow: hidden scroll;
         }
 
         .output div {
-            font-size: 12px;
             padding: 3px 5px;
+            font-size: 12px;
         }
 
         .grid-container {
@@ -41,10 +40,10 @@
         }
 
         .something-down {
+            height: 800px;
             margin: 5px;
             padding: 5px;
             border: 1px solid #ccc;
-            height: 800px;
             background: #f5f5f5;
         }
 
@@ -88,7 +87,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        //log for mobile
+        // log for mobile
         const $output = document.querySelector('.output');
         const log = console.log;
         let line = 0;
@@ -124,6 +123,10 @@
 
         grid.bind('onClick', function(e, d) {
             console.log('onClick', `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`);
+        });
+
+        grid.bind('onTouchStart', function(e, d) {
+            console.log('onTouchStart', `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`);
         });
 
         const renderData = function(data) {

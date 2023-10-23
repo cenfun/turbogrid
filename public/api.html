@@ -15,8 +15,8 @@
     <style>
         ul,
         ol {
-            padding-left: 20px;
             margin: 0;
+            padding-left: 20px;
             font-size: 13px;
         }
 
@@ -31,9 +31,9 @@
         }
 
         details summary {
-            font-size: 16px;
-            font-weight: bold;
             padding: 10px;
+            font-weight: bold;
+            font-size: 16px;
             background-color: #eee;
             cursor: pointer;
         }
@@ -60,9 +60,9 @@
 
         details section > a {
             position: relative;
-            font-weight: bold;
-            padding: 5px;
             display: block;
+            padding: 5px;
+            font-weight: bold;
         }
 
         a:link,
@@ -82,50 +82,50 @@
 
         details.turbogrid section > a {
             padding-left: 18px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/function.svg");
             background-repeat: no-repeat;
             background-position: 0 center;
-            background-image: url("./assets/images/function.svg");
+            background-size: 16px 16px;
         }
 
         details.methods section > a {
             padding-left: 18px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/method.svg");
             background-repeat: no-repeat;
             background-position: 0 center;
-            background-image: url("./assets/images/method.svg");
+            background-size: 16px 16px;
         }
 
         details.data section > a {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/data.svg");
             background-repeat: no-repeat;
             background-position: 0 center;
-            background-image: url("./assets/images/data.svg");
+            background-size: 16px 16px;
         }
 
         details.options section > a {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/setting.svg");
             background-repeat: no-repeat;
             background-position: 0 center;
-            background-image: url("./assets/images/setting.svg");
+            background-size: 16px 16px;
         }
 
         details.events section > a {
             padding-left: 16px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/event.svg");
             background-repeat: no-repeat;
             background-position: 0 center;
-            background-image: url("./assets/images/event.svg");
+            background-size: 16px 16px;
         }
 
         details section a[target="_blank"] {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/link.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/link.svg");
+            background-size: 16px 16px;
         }
 
         .api-header {
@@ -134,19 +134,19 @@
         }
 
         .api-nav {
+            margin-bottom: 5px;
             padding-bottom: 5px;
             border-bottom: 1px solid #ccc;
-            margin-bottom: 5px;
         }
 
         .api-nav a:link,
         .api-nav a:visited {
+            position: relative;
+            margin-right: 8px;
+            padding-right: 8px;
             font-weight: bold;
             text-decoration: underline;
-            position: relative;
             border-right: 1px solid #333;
-            padding-right: 8px;
-            margin-right: 8px;
         }
 
         .api-nav a:last-child {
@@ -160,26 +160,25 @@
         .api-search-value {
             width: 200px;
             height: 25px;
-            line-height: 25px;
-            background-repeat: no-repeat;
-            background-position: 97% center;
-            background-image: url("./assets/images/search.svg");
-            background-size: 16px;
             padding: 5px 23px 5px 5px;
+            line-height: 25px;
             border: 1px solid #555;
             border-radius: 5px;
+            background-image: url("./assets/images/search.svg");
+            background-repeat: no-repeat;
+            background-position: 97% center;
+            background-size: 16px;
         }
 
         .api-search-list {
-            width: 200px;
             position: absolute;
             z-index: 999;
-            background: #fff;
+            width: 200px;
             max-height: 300px;
-            overflow-y: auto;
-            overflow-x: hidden;
             border: 1px solid #ccc;
             border-top: none;
+            background: #fff;
+            overflow: hidden auto;
         }
 
         .api-search-info {
@@ -198,77 +197,76 @@
         }
 
         .api-search-item.selected {
-            background: #f5f5f5;
             font-weight: bold;
+            background: #f5f5f5;
         }
 
         .api-search-item.turbogrid {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/function.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/function.svg");
+            background-size: 16px 16px;
         }
 
         .api-search-item.methods {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/method.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/method.svg");
+            background-size: 16px 16px;
         }
 
         .api-search-item.data {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/data.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/data.svg");
+            background-size: 16px 16px;
         }
 
         .api-search-item.options {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/setting.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/setting.svg");
+            background-size: 16px 16px;
         }
 
         .api-search-item.events {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/event.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/event.svg");
+            background-size: 16px 16px;
         }
 
         .api-search-item.lifecycle {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/cycle.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/cycle.svg");
+            background-size: 16px 16px;
         }
 
         .api-search-item.tg {
             padding-left: 20px;
-            background-size: 16px 16px;
+            background-image: url("./assets/images/namespace.svg");
             background-repeat: no-repeat;
             background-position: 2px center;
-            background-image: url("./assets/images/namespace.svg");
+            background-size: 16px 16px;
         }
 
         .api-container {
             position: relative;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: hidden auto;
             scroll-behavior: smooth;
         }
 
         .api-table {
+            box-sizing: border-box;
             border: 1px solid #ccc;
             border-collapse: collapse;
-            box-sizing: border-box;
         }
 
         .api-table-zebra tr:nth-child(even) {
@@ -280,23 +278,23 @@
         }
 
         .api-table th {
-            background: #eee;
+            position: relative;
             padding: 8px 5px;
             font-weight: bold;
-            position: relative;
             text-align: left;
+            background: #eee;
         }
 
         .api-table td {
-            border: 1px solid #ccc;
-            padding: 5px;
             position: relative;
+            padding: 5px;
             vertical-align: top;
+            border: 1px solid #ccc;
         }
 
         .api-table pre {
-            background: none;
             border: none;
+            background: none;
         }
 
     </style>
@@ -1664,6 +1662,37 @@
                                 </td>
                                 <td>
                                     <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onTouchStart">onTouchStart</a>
+                                        <a name="onTouchMove">onTouchMove</a>
+                                        <a name="onTouchEnd">onTouchEnd</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        //on header
+                                        Object: {
+                                            e,
+                                            columnItem?,
+                                            headerNode?
+                                        }
+                                        //on body
+                                        Object: {
+                                            e,
+                                            rowItem?,
+                                            columnItem?,
+                                            rowNode?,
+                                            cellNode?
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="touch.html" target="_blank">Touch</a></div>
                                 </td>
                             </tr>
             

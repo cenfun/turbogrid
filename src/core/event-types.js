@@ -47,6 +47,11 @@ export const Types = [
     'onMouseOver',
     'onMouseOut',
 
+    // touch
+    'onTouchStart',
+    'onTouchMove',
+    'onTouchEnd',
+
     // scroll
     'onScroll',
     'onScrollStateChanged',

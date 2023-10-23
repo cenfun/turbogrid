@@ -64,6 +64,33 @@ export default {
                 }
             },
 
+            touchmove: {
+                handler: (e) => {
+                    this.containerTouchMoveHandler(e);
+                },
+                options: {
+                    passive: false
+                }
+            },
+
+            touchend: {
+                handler: (e) => {
+                    this.containerTouchEndHandler(e);
+                },
+                options: {
+                    passive: false
+                }
+            },
+
+            touchcancel: {
+                handler: (e) => {
+                    this.containerTouchCancelHandler(e);
+                },
+                options: {
+                    passive: false
+                }
+            },
+
             wheel: {
                 handler: (e) => {
                     this.containerWheelHandler(e);
@@ -514,8 +541,37 @@ export default {
             }
         }
 
+        const d = this.getEventData(e);
+        if (d) {
+            this.trigger(E.onTouchStart, d);
+            if (this.isDefaultPrevented(e)) {
+                return;
+            }
+        }
+
+        // default scroll event
         this.scrollPaneTouchStartHandler(e);
 
+    },
+
+    containerTouchMoveHandler: function(e) {
+        const d = this.getEventData(e);
+        if (d) {
+            this.trigger(E.onTouchMove, d);
+        }
+    },
+
+    containerTouchEndHandler: function(e) {
+        const d = this.getEventData(e);
+        if (d) {
+            this.trigger(E.onTouchEnd, d);
+        }
+    },
+
+    containerTouchCancelHandler: function(e) {
+        this.trigger(E.onTouchEnd, {
+            e
+        });
     },
 
     containerWheelHandler: function(e) {

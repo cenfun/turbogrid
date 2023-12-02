@@ -167,6 +167,10 @@ export default {
                 sortChanged = true;
             }
             rows.forEach(function(row, i) {
+
+                // update tg_sub_index after sort
+                row.tg_sub_index = i;
+
                 if (row.subs) {
                     sortAll(row.subs);
                 }

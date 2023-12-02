@@ -3,6 +3,12 @@ import Util from '../core/util.js';
 export default {
 
     // init tree data, frozen, group, level, parent, subs_length
+
+    // tg_index global index
+    // tg_view_index for view index
+    // tg_sub_index  includes invisible, for subs.splice()
+    // tg_list_index sub view index, only visible
+
     initTreeInfo: function(treeList, frozenIndex) {
 
         const indexCache = [];

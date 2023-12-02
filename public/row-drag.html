@@ -296,8 +296,25 @@
         });
 
 
+        // tg_index global index
+        // tg_view_index for view index
+        // tg_sub_index  includes invisible, for subs.splice()
+        // tg_list_index sub view index, only visible
+
         grid.bind('onRowDragged', function(e, d) {
-            console.log('onRowDragged:', d);
+
+            const {
+                tg_index, tg_view_index, tg_sub_index, tg_list_index
+            } = d.rowItem;
+
+            const indexes = {
+                tg_index,
+                tg_view_index,
+                tg_sub_index,
+                tg_list_index
+            };
+
+            console.log('onRowDragged:', indexes, d);
 
             if (document.querySelector('.cb_preventDefaultOnRowDragged').checked) {
                 d.e.preventDefault();
@@ -310,7 +327,15 @@
         });
 
         grid.bind('onRowDropped', function(e, d) {
-            console.log('onRowDropped:', d);
+
+            const { dragIndex, dropIndex } = d;
+
+            const indexes = {
+                dragIndex,
+                dropIndex
+            };
+
+            console.log('onRowDropped:', indexes, d);
             document.querySelector('.onRowDropped').innerHTML = `${d.rowItem.name} (${d.rowItem.tg_view_index})`;
             const $nodes = this.getRowNodes(d.rowItem);
             $nodes.addClass('tg-blink');

@@ -8,6 +8,9 @@ export default {
     // row drag handler
     rowDragStartHandler: function(e, d) {
 
+        // remove sort status before drag
+        this.removeSortColumn();
+
         // console.log(e.type, d);
         const rowItem = d.rowItem;
         // console.log(row);

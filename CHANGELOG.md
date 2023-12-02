@@ -6,6 +6,8 @@
 ---
 # Changelog
 
++ 3.0.10
+    - fixed drag/drop after sorted
 
 + 3.0.9
     - added touch events

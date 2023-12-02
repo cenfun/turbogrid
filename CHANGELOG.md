@@ -1,9 +1,3 @@
-# Planning
-
-- column drag/drop
-- unit test: shadow dom, getDataSnapshot
-
----
 # Changelog
 
 + 3.0.10

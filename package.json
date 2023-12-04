@@ -7,7 +7,7 @@
         "dev": "sf dev",
         "test": "sf test",
         "build": "sf lint && sf b -p",
-        "patch": "npm run build && sf publish patch",
+        "patch": "sf lint && sf b -p patch && sf publish patch",
         "pack": "sf pack -o docs"
     },
     "files": [

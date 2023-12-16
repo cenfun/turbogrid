@@ -6,6 +6,8 @@ export default {
     // grid css rules
     updateCssRules: function() {
 
+        // console.log('updateCssRules', this.cssRulesInvalid);
+
         if (!this.cssRulesInvalid) {
             return;
         }
@@ -21,6 +23,9 @@ export default {
     },
 
     initCssRules: function() {
+
+        // force to reset css for Edge
+        this.removeCssRules();
 
         this.cssList = {};
         // cache for display none, calculate column height

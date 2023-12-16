@@ -6,8 +6,8 @@
     "scripts": {
         "dev": "sf dev",
         "test": "sf test",
-        "build": "sf lint && sf b -p",
-        "patch": "sf lint && sf b -p patch && sf publish patch",
+        "build": "sf lint && sf b -p patch",
+        "patch": "npm run build && sf publish patch",
         "pack": "sf pack -o docs"
     },
     "files": [
@@ -16,7 +16,7 @@
     "license": "MIT",
     "dependencies": {},
     "devDependencies": {
-        "eslint": "^8.55.0",
+        "eslint": "^8.56.0",
         "eslint-config-plus": "^1.0.6",
         "eslint-plugin-html": "^7.1.0",
         "stylelint": "^15.11.0",

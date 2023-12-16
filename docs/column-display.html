@@ -52,16 +52,14 @@
                 <div>
                     <button>hideColumn(1)</button>
                     <button>showColumn(1)</button>
-
-                    <button>hideColumn("g1")</button>
-                    <button>showColumn("g1")</button>
-                    <button>hideColumn("c1")</button>
-                    <button>showColumn("c1")</button>
-                    <button>hideColumn("c2")</button>
-                    <button>showColumn("c2")</button>
-
                     <button>hideColumn([1, 3, 5])</button>
                     <button>showColumn([1, 3, 5])</button>
+                </div>
+                <div>
+                    <button>hideColumn("two")</button>
+                    <button>showColumn("two")</button>
+                    <button>hideColumn("two_center")</button>
+                    <button>showColumn("two_center")</button>
                 </div>
                 <div>
                     <button>deleteColumn(-2)</button>
@@ -112,17 +110,18 @@
                 name: 'Colum 3'
             }, {
                 name: 'Column Name Column 4'
-            }, {
-                id: 'g1',
-                name: 'Group 1',
-                subs: [{
-                    id: 'c1',
-                    name: 'Column g1'
-                }, {
-                    id: 'c2',
-                    name: 'Column g2'
-                }]
-            }, {
+            }, ... ['one', 'two', 'three'].map((id) => {
+                return {
+                    id,
+                    name: id,
+                    subs: ['left', 'center', 'right'].map((k) => {
+                        return {
+                            id: `${id}_${k}`,
+                            name: `${id} ${k}`
+                        };
+                    })
+                };
+            }), {
                 name: 'Column 8'
             }, {
                 name: 'Column Name Column  8'
@@ -151,20 +150,20 @@
             }, {
                 name: 'Column Name Column Name Column Name Column Name Column Name Column Name Column Name '
             }, {
-                id: 'g2',
-                name: 'Group 2',
+                id: 'g1',
+                name: 'Group g1',
                 subs: [{
-                    name: 'Column 5'
+                    name: 'Column g1 c1'
                 }, {
-                    name: 'Column 6'
+                    name: 'Column g1 c2'
                 }]
             }, {
-                id: 'g3',
-                name: 'Group 3',
+                id: 'g2',
+                name: 'Group g2',
                 subs: [{
-                    name: 'Column 7'
+                    name: 'Column g2 c1'
                 }, {
-                    name: 'Column 8'
+                    name: 'Column g2 c2'
                 }]
             }],
 

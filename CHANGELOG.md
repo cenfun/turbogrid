@@ -1,5 +1,8 @@
 # Changelog
 
++ 3.0.11
+    - fixed css issue for Edge
+
 + 3.0.10
     - fixed drag/drop after sorted
 

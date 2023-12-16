@@ -15,9 +15,9 @@
     <style>
         .tg-hover-icon {
             position: absolute;
+            top: 50%;
             right: 0;
             display: none;
-            top: 50%;
             transform: translate(0, -50%);
         }
 
@@ -186,6 +186,12 @@
             });
 
             grid.setFormatter({
+                header: function(value, rowItem, columnItem, cellNode) {
+                    if (columnItem.tg_group) {
+                        console.log('header-formatter', value);
+                    }
+                    return value;
+                },
                 tree: function(value, rowItem, columnItem, cellNode) {
                     const defaultFormatter = this.getDefaultFormatter('tree');
                     if (rowItem.type !== 'summary') {

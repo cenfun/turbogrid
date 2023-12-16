@@ -1,5 +1,8 @@
 # Changelog
 
++ 3.0.12
+    - fixed formatter issue for header group
+
 + 3.0.11
     - fixed css issue for Edge
 

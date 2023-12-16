@@ -73,6 +73,10 @@ export default {
             this.initColumnItemHandler(columnItem);
         });
 
+        viewGroupColumns.forEach((columnItem) => {
+            this.initColumnGroupHandler(columnItem);
+        });
+
         // grid column list include all columns and groups
         const viewAllColumns = [].concat(viewColumns).concat(viewGroupColumns);
 
@@ -161,6 +165,12 @@ export default {
         this.initColumnFormatter(columnItem);
         // width handler
         this.initColumnWidth(columnItem);
+    },
+
+    // add header formatter for group column header
+    initColumnGroupHandler: function(columnItem) {
+        // header formatter, name is header
+        this.initColumnFormatterByName(columnItem, 'headerFormatter', 'header');
     },
 
     // =============================================================================

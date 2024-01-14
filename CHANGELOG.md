@@ -1,5 +1,8 @@
 # Changelog
 
++ 3.0.13
+    - fixed touch orientation issue
+
 + 3.0.12
     - fixed formatter issue for header group
 

@@ -52,7 +52,7 @@ describe('Touch', function() {
         triggerTouch(node, 'touchmove', x - 10, y - 20);
         triggerTouch(node, 'touchend', x - 10, y - 20);
 
-        assert.equal(grid.getScrollLeft(), 10);
+        assert.equal(grid.getScrollLeft(), 0);
         assert.equal(grid.getScrollTop(), 20);
 
         triggerTouch(node, 'touchstart', x, y);
@@ -64,7 +64,7 @@ describe('Touch', function() {
 
         await delay(500);
 
-        assert.equal(grid.getScrollLeft() > 30, true);
+        assert.equal(grid.getScrollLeft(), 30);
         assert.equal(grid.getScrollTop(), 20);
 
     });

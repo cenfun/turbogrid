@@ -321,33 +321,6 @@ export default class Touch extends EventBase {
         const ax = Math.abs(ox);
         const ay = Math.abs(oy);
 
-        const minV = Math.min(ax, ay);
-        const maxV = Math.max(ax, ay);
-
-        // the direction slope
-        const getSlope = function() {
-            if (maxV < 5) {
-                return 0.5;
-            }
-            if (maxV < 10) {
-                return 0.4;
-            }
-            if (maxV < 20) {
-                return 0.3;
-            }
-            return 0.2;
-        };
-        const slope = getSlope();
-        // console.log(slope);
-
-        const s = minV / maxV;
-        // console.log(s);
-
-        // mixing direction
-        if (s > slope) {
-            return '';
-        }
-
         // single direction
         if (ax < ay) {
             if (oy > 0) {
@@ -367,6 +340,7 @@ export default class Touch extends EventBase {
             }
         }
 
+        return '';
     }
 
     filterTrackingPoints(points) {

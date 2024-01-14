@@ -1,5 +1,6 @@
 import E from '../core/event-types.js';
 import Util from '../core/util.js';
+import CONST from '../core/const.js';
 
 export default {
 
@@ -339,6 +340,26 @@ export default {
 
     },
 
+    getTouchOrientation: function(d) {
+        if (d.orientation) {
+            return d.orientation;
+        }
+
+        if ([CONST.LEFT, CONST.RIGHT].includes(d.direction)) {
+            if (!d.orientation) {
+                d.orientation = 'Y';
+            }
+            return d.orientation;
+        }
+
+        if ([CONST.UP, CONST.DOWN].includes(d.direction)) {
+            if (!d.orientation) {
+                d.orientation = 'X';
+            }
+            return d.orientation;
+        }
+    },
+
     scrollTouchMoveHandler: function(e, d) {
 
         // multiple touches not move
@@ -350,11 +371,11 @@ export default {
         let ox = d.offsetX;
         let oy = d.offsetY;
 
-        if (this.stabilizeTouchX(d)) {
+        const orientation = this.getTouchOrientation(d);
+        if (orientation === 'X') {
             // console.log('stabilize x');
             ox = 0;
-        }
-        if (this.stabilizeTouchY(d)) {
+        } else if (orientation === 'Y') {
             // console.log('stabilize y');
             oy = 0;
         }

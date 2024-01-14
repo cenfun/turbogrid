@@ -1,6 +1,5 @@
 import $ from '../core/query.js';
 import Util from '../core/util.js';
-import CONST from '../core/const.js';
 import E, { Types } from '../core/event-types.js';
 import Drag from '../components/drag.js';
 import Touch from '../components/touch.js';
@@ -266,37 +265,6 @@ export default {
             deltaX: deltaX,
             deltaY: deltaY
         };
-    },
-
-    stabilizeTouchX: function(d) {
-        const direction = d.direction;
-        if (!this.hasVScroll && this.hasHScroll) {
-            if ([CONST.UP, CONST.DOWN].includes(direction)) {
-                return true;
-            }
-        }
-        if (this.scrollTouchTop === 0 && direction === CONST.UP) {
-            return true;
-        }
-        if (this.scrollTouchTop === this.scrollMaxTouchTop && direction === CONST.DOWN) {
-            return true;
-        }
-
-    },
-
-    stabilizeTouchY: function(d) {
-        const direction = d.direction;
-        if (this.hasVScroll && !this.hasHScroll) {
-            if ([CONST.LEFT, CONST.RIGHT].includes(direction)) {
-                return true;
-            }
-        }
-        if (this.scrollTouchLeft === 0 && direction === CONST.LEFT) {
-            return true;
-        }
-        if (this.scrollTouchLeft === this.scrollMaxTouchLeft && direction === CONST.RIGHT) {
-            return true;
-        }
     },
 
     // ======================================================================================

@@ -13,6 +13,15 @@ module.exports = {
 
             return 0;
         }
+    },
+
+    test: {
+        coverageProvider: 'v8',
+        coverageOptions: {
+            // reports: ['v8', ['html', {
+            //     subdir: 'html'
+            // }]]
+        }
     }
 
 };

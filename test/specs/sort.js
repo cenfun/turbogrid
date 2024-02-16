@@ -96,12 +96,12 @@ describe('Row sort', function() {
         container = $('<div/>').width(600).height(400).appendTo(document.body);
         grid = new Grid(container);
     });
-    // after(function() {
-    //     grid.destroy();
-    //     grid = null;
-    //     container.remove();
-    //     container = null;
-    // });
+    after(function() {
+        grid.destroy();
+        grid = null;
+        container.remove();
+        container = null;
+    });
 
     const resetGrid = async (options = {}) => {
         grid.setOption(options);

@@ -62,7 +62,7 @@ describe('Touch', function() {
         await delay();
         triggerTouch(node, 'touchend', x - 30, y);
 
-        await delay(500);
+        await delay();
 
         assert.equal(grid.getScrollLeft(), 30);
         assert.equal(grid.getScrollTop(), 20);

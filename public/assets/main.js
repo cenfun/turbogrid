@@ -500,6 +500,9 @@
         }, {
             name: 'Integration',
             subs: [{
+                id: 'vue-editor',
+                name: 'Vue Editor'
+            }, {
                 id: 'vue-component',
                 name: 'Vue Component'
             }, {

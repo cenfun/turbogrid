@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>TurboGrid</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="assets/vue.global.prod.js"></script>
+    <script src="assets/vine-ui.js"></script>
+    <style>
+        .editor-input input {
+            width: 100%;
+            height: 100%;
+            outline: none;
+        }
+
+        .editor-switch {
+            padding: 5px;
+        }
+
+        .editor-select {
+            padding: 2px 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">Grid editor with Vue components <a href="https://cenfun.github.io/vine-ui" target="_blank">vine-ui</a></div>
+                </div>
+                <div>
+                    <button>exportData()</button>
+                </div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const vue = window.Vue;
+        const { components } = window['vine-ui'];
+        const { VuiSwitch, VuiSelect } = components;
+
+        const Grid = window.turbogrid.Grid;
+
+        const grid = new Grid('.grid-container');
+        grid.bind('onFirstUpdated', function() {
+            console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        grid.bind('onSort', function(e, d) {
+            if (d.e.target.classList.contains('tg-header-icon')) {
+                d.e.preventDefault();
+                console.log('event prevented');
+            }
+        });
+
+        let currentInputEditor;
+        const InputEditor = vue.defineComponent({
+            props: ['type', 'value', 'rowItem', 'columnItem'],
+            template: `<div class="editor-input" @focus="start" @click="start" tabindex="0">
+                    <div v-if="editing">
+                        <div v-if="editorType==='number'">
+                            <input type="number" class="editor-input" v-model="moduleValue" @blur="end" />    
+                        </div>
+                        <div v-else-if="editorType==='date'">
+                            <input type="date" class="editor-input" v-model="moduleValue" @blur="end" />    
+                        </div> 
+                        <div v-else>
+                            <input class="editor-input" v-model="moduleValue" @blur="end" />    
+                        </div> 
+                    </div>
+                    <div v-else>
+                        {{ originalValue }} 
+                    </div>
+                </div>`,
+            data() {
+                return {
+                    editing: false,
+                    editorType: this.$props.type,
+                    originalValue: this.$props.value,
+                    moduleValue: this.$props.value
+                };
+            },
+            methods: {
+                start: function() {
+                    if (this.editing) {
+                        return;
+                    }
+
+                    if (currentInputEditor) {
+                        currentInputEditor.end();
+                        currentInputEditor = null;
+                    }
+
+                    // console.log(this.editorType);
+
+                    this.editing = true;
+                    currentInputEditor = this;
+
+                    vue.nextTick(() => {
+                        const $input = this.$el.querySelector('input');
+                        if ($input) {
+                            $input.focus();
+                            $input.select();
+                        }
+                    });
+        
+                    // console.log('start edit');
+                },
+                end: function() {
+                    this.editing = false;
+                    // console.log('end edit', this.moduleValue);
+                    if (this.moduleValue !== this.$props.value) {
+                        // write new value
+                        this.$props.rowItem[this.$props.columnItem.id] = this.moduleValue;
+                        this.originalValue = this.moduleValue;
+                        this.$emit('editor-change', this.moduleValue);
+                    }
+                }
+            }
+        });
+
+        const editorFormatters = {
+            inputEditor: (value, rowItem, columnItem) => {
+                const div = document.createElement('div');
+                vue.createApp(InputEditor, {
+                    type: columnItem.editor,
+                    value,
+                    rowItem,
+                    columnItem,
+                    onEditorChange: (newValue) => {
+                        // console.log('editor-change', newValue);
+                    }
+                }).mount(div);
+                return div;
+            },
+            switchEditor: (value, rowItem, columnItem) => {
+                const div = document.createElement('div');
+                div.className = 'editor-switch';
+                vue.createApp(VuiSwitch, {
+                    checked: value,
+                    onChange: (newValue) => {
+                        rowItem[columnItem.id] = newValue;
+                    }
+                }).mount(div);
+                return div;
+            },
+            selectEditor: (value, rowItem, columnItem) => {
+                const div = document.createElement('div');
+                div.className = 'editor-select';
+                vue.createApp(VuiSelect, {
+                    options: columnItem.options,
+                    value,
+                    onChange: (newValue) => {
+                        rowItem[columnItem.id] = newValue;
+                    }
+                }).mount(div);
+                return div;
+            }
+        };
+
+        const editorData = {
+            columns: [{
+                id: 'name',
+                name: 'Name',
+                formatter: 'inputEditor',
+                editor: 'text'
+            }, {
+                id: 'text',
+                name: 'Text',
+                formatter: 'inputEditor',
+                editor: 'text'
+            }, {
+                id: 'number',
+                name: 'Number',
+                type: 'number',
+                formatter: 'inputEditor',
+                editor: 'number'
+            }, {
+                id: 'date',
+                name: 'Date',
+                width: 120,
+                formatter: 'inputEditor',
+                editor: 'date'
+            }, {
+                id: 'switch',
+                name: 'Switch',
+                formatter: 'switchEditor'
+            }, {
+                id: 'select',
+                name: 'Select',
+                width: 120,
+                formatter: 'selectEditor',
+                options: [{
+                    label: 'Option 1',
+                    value: '1'
+                }, {
+                    label: 'Option 2',
+                    value: '2'
+                }, {
+                    label: 'Option 3',
+                    value: '3'
+                }]
+            }],
+        
+            rows: [{
+                name: 'This is name 1',
+                text: 'My Text 1',
+                number: 123,
+                date: '2024-03-28',
+                switch: true,
+                select: '1'
+            }, {
+                name: 'This is name 2',
+                text: 'My Text 2',
+                number: 456,
+                date: '2024-03-28',
+                switch: false,
+                select: '2'
+            }]
+        };
+
+        let i = 3;
+        while (i < 100) {
+
+            editorData.rows.push({
+                name: `This is name ${i}`,
+                text: `My Text ${i}`,
+                number: Math.round(1000 * Math.random()),
+                date: '2024-03-28',
+                switch: Math.random() > 0.5,
+                select: Math.ceil(3 * Math.random())
+            });
+
+            i++;
+        }
+
+        const renderData = function(data) {
+            grid.setOption({
+                theme: document.querySelector('.st-theme').value,
+                selectVisible: true
+            });
+
+            grid.setFormatter(editorFormatters);
+            grid.setData(data);
+            grid.render();
+        };
+
+        function render() {
+            renderData(editorData);
+        }
+
+        ['.st-theme'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

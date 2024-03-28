@@ -5,3 +5,4 @@ server/package-lock.json
 .DS_Store
 /.temp/
 /dist
+/docs

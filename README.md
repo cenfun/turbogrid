@@ -1,6 +1,6 @@
 ## Install
 ```js
-npm install turbogrid --save
+npm i turbogrid
 ```
 ## Documentation
 [https://cenfun.github.io/turbogrid/](https://cenfun.github.io/turbogrid/)

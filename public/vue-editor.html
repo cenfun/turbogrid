@@ -19,6 +19,10 @@
             outline: none;
         }
 
+        .editor-input-disabled {
+            color: gray;
+        }
+
         .editor-switch {
             padding: 5px;
         }
@@ -41,6 +45,10 @@
                 </div>
                 <div>
                     <button>exportData()</button>
+                    <label>
+                        <input class="bt-disable" type="checkbox"></input>
+                        disable editor
+                    </label>
                 </div>
             </div>
             <div class="grid-container flex-auto"></div>
@@ -67,17 +75,17 @@
 
         let currentInputEditor;
         const InputEditor = vue.defineComponent({
-            props: ['type', 'value', 'rowItem', 'columnItem'],
-            template: `<div class="editor-input" @focus="start" @click="start" tabindex="0">
+            props: ['type', 'value', 'disabled', 'rowItem', 'columnItem'],
+            template: `<div :class="classMap" @focus="start" @click="start" tabindex="0">
                     <div v-if="editing">
                         <div v-if="editorType==='number'">
-                            <input type="number" class="editor-input" v-model="moduleValue" @blur="end" />    
+                            <input type="number" v-model="moduleValue" @blur="end" />    
                         </div>
                         <div v-else-if="editorType==='date'">
-                            <input type="date" class="editor-input" v-model="moduleValue" @blur="end" />    
+                            <input type="date" v-model="moduleValue" @blur="end" />    
                         </div> 
                         <div v-else>
-                            <input class="editor-input" v-model="moduleValue" @blur="end" />    
+                            <input v-model="moduleValue" @blur="end" />    
                         </div> 
                     </div>
                     <div v-else>
@@ -92,8 +100,21 @@
                     moduleValue: this.$props.value
                 };
             },
+            computed: {
+                classMap: function() {
+                    const ls = ['editor-input'];
+                    if (this.$props.disabled) {
+                        ls.push('editor-input-disabled');
+                    }
+                    return ls;
+                }
+            },
             methods: {
                 start: function() {
+                    if (this.$props.disabled) {
+                        return;
+                    }
+
                     if (this.editing) {
                         return;
                     }
@@ -131,6 +152,38 @@
             }
         });
 
+        const hasOwn = function(obj, key) {
+            return Object.prototype.hasOwnProperty.call(obj, key);
+        };
+
+        const getEditable = (rowItem, columnItem) => {
+            // check global editable
+            const checked = document.querySelector('.bt-disable').checked;
+            if (checked) {
+                return false;
+            }
+
+            // check column editable
+            if (hasOwn(columnItem, 'editable') && !columnItem.editable) {
+                return false;
+            }
+
+            // check row editable
+            if (hasOwn(rowItem, 'editable') && !rowItem.editable) {
+                return false;
+            }
+
+            // check cell editable
+
+            const cellKey = `${columnItem.id}_editable`;
+            if (hasOwn(rowItem, cellKey) && !rowItem[cellKey]) {
+                return false;
+            }
+
+            return true;
+
+        };
+
         const editorFormatters = {
             inputEditor: (value, rowItem, columnItem) => {
                 const div = document.createElement('div');
@@ -139,6 +192,7 @@
                     value,
                     rowItem,
                     columnItem,
+                    disabled: !getEditable(rowItem, columnItem),
                     onEditorChange: (newValue) => {
                         // console.log('editor-change', newValue);
                     }
@@ -150,6 +204,7 @@
                 div.className = 'editor-switch';
                 vue.createApp(VuiSwitch, {
                     checked: value,
+                    disabled: !getEditable(rowItem, columnItem),
                     onChange: (newValue) => {
                         rowItem[columnItem.id] = newValue;
                     }
@@ -162,6 +217,7 @@
                 vue.createApp(VuiSelect, {
                     options: columnItem.options,
                     value,
+                    disabled: !getEditable(rowItem, columnItem),
                     onChange: (newValue) => {
                         rowItem[columnItem.id] = newValue;
                     }
@@ -181,6 +237,10 @@
                 name: 'Text',
                 formatter: 'inputEditor',
                 editor: 'text'
+            }, {
+                id: 'readonly',
+                name: 'Readonly',
+                editable: false
             }, {
                 id: 'number',
                 name: 'Number',
@@ -215,20 +275,34 @@
             }],
         
             rows: [{
+                name: 'readonly row',
+                text: 'My Text',
+                readonly: 'readonly',
+                number: 123,
+                date: '2024-03-28',
+                switch: true,
+                select: '2',
+                editable: false
+            }, {
                 name: 'This is name 1',
                 text: 'My Text 1',
+                readonly: 'readonly 1',
                 number: 123,
                 date: '2024-03-28',
                 switch: true,
                 select: '1'
             }, {
-                name: 'This is name 2',
+                name: 'readonly name, date and select',
+                name_editable: false,
                 text: 'My Text 2',
+                readonly: 'readonly 2',
                 number: 456,
                 date: '2024-03-28',
+                date_editable: false,
                 switch: false,
-                select: '2'
-            }]
+                select: '2',
+                select_editable: false
+    }]
         };
 
         let i = 3;
@@ -237,6 +311,7 @@
             editorData.rows.push({
                 name: `This is name ${i}`,
                 text: `My Text ${i}`,
+                readonly: `readonly ${i}`,
                 number: Math.round(1000 * Math.random()),
                 date: '2024-03-28',
                 switch: Math.random() > 0.5,
@@ -265,6 +340,12 @@
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });
+        });
+
+        document.querySelector('.bt-disable').addEventListener('change', function() {
+            if (grid) {
+                grid.rerender();
+            }
         });
 
         window.initCommonEvents(grid);

@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "sf dev",
         "test": "sf test",
-        "build": "sf lint && sf b -p patch",
+        "build": "sf lint && sf b -e -p patch",
         "patch": "npm run build && sf publish patch",
         "pack": "sf pack -o docs"
     },
@@ -14,12 +14,14 @@
         "dist"
     ],
     "license": "MIT",
+    "dependencies": {},
     "devDependencies": {
-        "eslint": "^8.57.0",
-        "eslint-config-plus": "^1.0.6",
-        "eslint-plugin-html": "^8.0.0",
-        "stylelint": "^16.3.1",
-        "stylelint-config-plus": "^1.1.0",
+        "eslint": "^9.3.0",
+        "eslint-config-plus": "^2.0.1",
+        "eslint-plugin-html": "^8.1.1",
+        "stylelint": "^16.6.1",
+        "stylelint-config-plus": "^1.1.2",
         "vine-ui": "^3.1.13"
-    }
+    },
+    "module": "dist/turbogrid.esm.js"
 }

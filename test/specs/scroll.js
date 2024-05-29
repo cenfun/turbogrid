@@ -1,6 +1,6 @@
 import { Grid, $ } from '../../src/index.js';
 import Data from '../data/data.js';
-/* eslint-disable max-lines-per-function */
+
 describe('Scroll', function() {
     let container;
     let grid;

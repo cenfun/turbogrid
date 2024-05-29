@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>TurboGrid</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <script src="data/comfyui-data.js"></script>
+    <style>
+        .custom-nodes-grid a {
+            color: #55f;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .custom-nodes-grid a:hover {
+            color: #77f;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header flex-row"></div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">ComfyUI custom nodes data example:</div>
+                </div>
+                <div>
+                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
+                    rowFilter
+                </div>
+                <div>
+                    <div>onSelectChanged: <span class="onSelectChanged"></span></div>
+                </div>
+            </div>
+            <div class="grid-container custom-nodes-grid flex-auto"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const Grid = window.turbogrid.Grid;
+        const $ = window.turbogrid.$;
+        const container = document.querySelector('.grid-container');
+        const grid = new Grid(container);
+        grid.bind('onFirstUpdated', function() {
+            // console.log('duration:', `${this.renderDuration}ms`);
+        });
+
+        grid.bind('onClick', function(e, d) {
+        
+        });
+
+        grid.bind('onUpdated', function(e, d) {
+
+            const visibleRowList = grid.viewport.rows;
+            // console.log(visibleRowList);
+
+            const rows = [];
+            const heights = [];
+
+            visibleRowList.forEach(function(rowIndex) {
+                const row = grid.getRowItem(rowIndex);
+                if (row.rowHeightFixed) {
+                    return;
+                }
+                const cellNode = grid.getCellNode(rowIndex, 'description');
+                if (!cellNode) {
+                    return;
+                }
+                row.rowHeightFixed = true;
+                const div = cellNode.querySelector('.tg-multiline-fixing');
+                // 10px is padding top and bottom
+                let h = $(div).height() + 10;
+                if (h < grid.options.rowHeight) {
+                    h = grid.options.rowHeight;
+                }
+                rows.push(rowIndex);
+                heights.push(h);
+            });
+
+            // nothing fix
+            if (!rows.length) {
+                return;
+            }
+            grid.setRowHeight(rows, heights);
+        });
+
+        grid.bind('onColumnWidthChanged', function(e, d) {
+            if (d.id !== 'description') {
+                return;
+            }
+            // reset when column width changed
+            this.forEachRow(function(row) {
+                row.rowHeightFixed = false;
+            });
+        });
+
+        grid.bind('onSelectChanged', function(e, d) {
+            console.log('onSelectChanged', d);
+            document.querySelector('.onSelectChanged').innerHTML = d.length;
+        });
+
+        let keywords = '';
+
+        function render() {
+
+            const data = {
+                rows: window.comfyuiData,
+                columns: [{
+                    id: 'title',
+                    name: 'Name',
+                    width: 200,
+                    minWidth: 100,
+                    maxWidth: 500,
+                    classMap: 'tg-multiline',
+                    formatter: (v, rowItem, columnItem) => {
+                        return `<a class="tg-multiline-wrapper" href=${rowItem.reference} target="_blank"><font color="skyblue"><b>${v}</b></font></a>`;
+                    }
+                }, {
+                    id: 'description',
+                    name: 'Description',
+                    width: 400,
+                    maxWidth: 5000,
+                    classMap: 'tg-multiline',
+                    formatter: (v) => {
+                        return `<div class="tg-multiline-fixing">${v}</div>`;
+                    }
+                }, {
+                    id: 'author',
+                    name: 'Author',
+                    width: 100
+                }, {
+                    id: 'stars',
+                    name: '★',
+                    align: 'center',
+                    formatter: (v) => {
+                        if (v < 0) {
+                            return 'N/A';
+                        }
+                        if (typeof v === 'number') {
+                            return v.toLocaleString();
+                        }
+                        return v;
+                    }
+                }, {
+                    id: 'last_update',
+                    name: 'Last Update',
+                    align: 'center',
+                    formatter: (v) => {
+                        if (v < 0) {
+                            return 'N/A';
+                        }
+                        return `${v}`.split(' ')[0];
+                    }
+                }, {
+                    id: 'install',
+                    name: 'Install',
+                    formatter: (v, rowItem, columnItem) => {
+        
+                    }
+                }]
+            };
+
+            const options = {
+                theme: 'dark',
+                selectVisible: true,
+                selectMultiple: true,
+                selectAllVisible: true,
+
+                rowNumberVisible: true,
+
+                frozenColumn: 0,
+
+                rowHeight: 60,
+                bindWindowResize: true,
+
+                rowFilter: function(rowItem) {
+                    if (!keywords) {
+                        return true;
+                    }
+                    let name = rowItem.title;
+                    if (name) {
+                        name = name.toLowerCase();
+                        if (name.indexOf(keywords) !== -1) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            };
+            grid.setOption(options);
+            grid.setData(data);
+            grid.render();
+        }
+
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            grid.update();
+        });
+
+        window.initCommonEvents(grid);
+
+        window.addEventListener('load', function() {
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

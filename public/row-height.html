@@ -82,8 +82,8 @@
                 </div>
                 <div>
                     <label>
-                        <input type="checkbox" class="cb_lazyFix" />
-                        rowHeight lazyFix
+                        <input type="checkbox" class="cb_rowHeightFix" />
+                        rowHeightFix
                     </label>
                     <input class="bt-del" type="button" value="delete selected rows" />
                 </div>
@@ -99,31 +99,31 @@
             console.log('duration:', `${this.renderDuration}ms`);
         });
 
-        //lazy fix
+        // row height fix
         grid.bind('onUpdated', function(e, d) {
-            if (!document.querySelector('.cb_lazyFix').checked) {
+            if (!document.querySelector('.cb_rowHeightFix').checked) {
                 return;
             }
 
             const visibleRowList = grid.viewport.rows;
-            //console.log(visibleRowList);
+            // console.log(visibleRowList);
 
             const rows = [];
             const heights = [];
 
             visibleRowList.forEach(function(rowIndex) {
                 const row = grid.getRowItem(rowIndex);
-                if (!row.lazyFixable || row.lazyFixed) {
+                if (!row.rowHeightFixable || row.rowHeightFixed) {
                     return;
                 }
                 const cellNode = grid.getCellNode(rowIndex, 'title');
                 if (!cellNode) {
                     return;
                 }
-                row.lazyFixed = true;
-                const div = cellNode.querySelector('.tg-lazy-fix');
-                //6px is padding top and bottom
-                let h = $(div).height() + 6;
+                row.rowHeightFixed = true;
+                const div = cellNode.querySelector('.tg-multiline-fixing');
+                // 10px is padding top and bottom
+                let h = $(div).height() + 10;
                 if (h < grid.options.rowHeight) {
                     h = grid.options.rowHeight;
                 }
@@ -131,12 +131,12 @@
                 heights.push(h);
             });
 
-            //nothing fix
+            // nothing fix
             if (!rows.length) {
                 return;
             }
 
-            console.log('lazy fix: ', rows);
+            console.log('row height fix: ', rows);
             grid.setRowHeight(rows, heights);
         });
 
@@ -144,15 +144,15 @@
             if (d.id !== 'title') {
                 return;
             }
-            //reset when column width changed
+            // reset when column width changed
             this.forEachRow(function(row) {
-                if (row.lazyFixable) {
-                    row.lazyFixed = false;
+                if (row.rowHeightFixable) {
+                    row.rowHeightFixed = false;
                 }
             });
         });
 
-        //=========================================================================================
+        // =========================================================================================
 
         function getData() {
 
@@ -167,18 +167,18 @@
                     title: 'total text'
                 }, {
                     name: 'Row c',
-                    lazyFixable: true,
+                    rowHeightFixable: true,
                     title: text1
                 }, {
                     name: 'Row d',
-                    lazyFixable: true,
+                    rowHeightFixable: true,
                     title: "abcdefghijklmn opqrstuvwxyz ABCDEFGHIJKLMN OPQRSTUVWXYZ !@#$%^&*()_+-= 1234567890 ~`{}[];':\"|\\<>?,./"
                 }, {
                     name: 'Row e',
                     subs: [{
                         name: 'Row ea',
                         height: 50,
-                        lazyFixable: true,
+                        rowHeightFixable: true,
                         title: text1
                     }, {
                         name: 'Row eb',
@@ -189,7 +189,7 @@
                         selectable: true,
                         subs: [{
                             name: 'Row eca',
-                            lazyFixable: true,
+                            rowHeightFixable: true,
                             title: text2
                         }, {
                             name: 'Row ecb',
@@ -202,7 +202,7 @@
                 }, {
                     name: 'Row g',
                     height: 'title',
-                    lazyFixable: true,
+                    rowHeightFixable: true,
                     title: text1
                 }, {
                     name: 'Row h',
@@ -221,7 +221,7 @@
                     name: 'Row l'
                 }, {
                     name: 'Row m',
-                    lazyFixable: true,
+                    rowHeightFixable: true,
                     title: text2
                 }, {
                     name: 'Row n',
@@ -239,7 +239,7 @@
                     name: 'Row s'
                 }, {
                     name: 'Row t',
-                    lazyFixable: true,
+                    rowHeightFixable: true,
                     title: text1 + text2
                 }],
                 columns: [{
@@ -260,17 +260,17 @@
                     width: 300,
                     maxWidth: 1000,
                     formatter: function(value, rowItem, columnItem, cellNode) {
-                        if (rowItem.lazyFixable && value) {
+                        if (rowItem.rowHeightFixable && value) {
                             $(cellNode).addClass('tg-multiline');
-                            return `<div class="tg-lazy-fix" index="${rowItem.tg_index}">${value}</div>`;
+                            return `<div class="tg-multiline-fixing" index="${rowItem.tg_index}">${value}</div>`;
                         }
                         return value;
                     }
                 }, {
-                    id: 'lazyFixable',
-                    name: 'lazyFixable',
+                    id: 'rowHeightFixable',
+                    name: 'rowHeightFixable',
                     formatter: function(value, rowItem) {
-                        return Boolean(rowItem.lazyFixable);
+                        return Boolean(rowItem.rowHeightFixable);
                     }
                 }, {
                     id: 'refresh',
@@ -341,7 +341,7 @@
             '.cb_selectVisible',
             '.cb_rowNumberVisible',
             '.cb_rowDragVisible',
-            '.cb_lazyFix'
+            '.cb_rowHeightFix'
         ].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();

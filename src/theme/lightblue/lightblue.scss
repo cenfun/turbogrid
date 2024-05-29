@@ -50,10 +50,6 @@ $text-color: #304265;
     .tg-cell {
         color: $text-color;
         border-right: thin solid $border-color;
-
-        &.tg-multiline {
-            padding: 0;
-        }
     }
 
     .tg-row {

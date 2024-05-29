@@ -53,9 +53,17 @@
         }
 
         &.tg-multiline {
-            padding: 3px 5px;
-            line-height: 1.15;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5px;
+            line-height: normal;
             white-space: normal;
+            text-overflow: ellipsis;
+
+            .tg-multiline-wrapper {
+                overflow: hidden;
+            }
         }
 
         &.tg-align-left {

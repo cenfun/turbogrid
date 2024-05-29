@@ -69,8 +69,8 @@
                         <input type="number" value="50" class="ip-number ip_pageSize" />
                     </label>
                     <label>
-                        <input type="checkbox" checked class="cb_lazyFix" />
-                        rowHeight lazyFix
+                        <input type="checkbox" checked class="cb_rowHeightFix" />
+                        rowHeightFix
                     </label>
                     <input class="bt-del" type="button" value="delete selected rows" />
                 </div>
@@ -106,12 +106,12 @@
             return {
                 title: title,
                 date: date,
-                lazyFixable: true
+                rowHeightFixable: true
             };
         };
 
-        const lazyFix = function() {
-            if (!document.querySelector('.cb_lazyFix').checked) {
+        const rowHeightFix = function() {
+            if (!document.querySelector('.cb_rowHeightFix').checked) {
                 return;
             }
             const defaultHeight = grid.options.rowHeight;
@@ -120,17 +120,17 @@
             const heights = [];
             grid.viewport.rows.forEach(function(row) {
                 const rowItem = grid.getViewRowItem(row);
-                if (!rowItem.lazyFixable || rowItem.lazyFixed) {
+                if (!rowItem.rowHeightFixable || rowItem.rowHeightFixed) {
                     return;
                 }
                 const cellNode = grid.getCellNode(rowItem, 'title');
                 if (!cellNode) {
                     return;
                 }
-                rowItem.lazyFixed = true;
-                const div = cellNode.querySelector('.tg-lazy-fix');
-                // 6px is padding top and bottom
-                let h = $(div).height() + 6;
+                rowItem.rowHeightFixed = true;
+                const div = cellNode.querySelector('.tg-multiline-fixing');
+                // 10px is padding top and bottom
+                let h = $(div).height() + 10;
                 if (h < defaultHeight) {
                     h = defaultHeight;
                 }
@@ -141,7 +141,7 @@
                 // console.log("nothing fix")
                 return;
             }
-            console.log('lazy fix: ', rows);
+            console.log('row height fix: ', rows);
             grid.setRowHeight(rows, heights);
 
         };
@@ -186,7 +186,7 @@
                         id: 'loading',
                         formatter: 'loading',
                         height: 60,
-                        lazyFixable: false
+                        rowHeightFixable: false
                     });
 
                     // console.log(list);
@@ -227,11 +227,11 @@
 
         };
 
-        // load data and lazy fix
+        // load data and row height fix
         grid.bind('onUpdated', function(e, d) {
             updateWidth();
             loadNextPage();
-            lazyFix();
+            rowHeightFix();
         });
 
         grid.bind('onColumnWidthChanged', function(e, d) {
@@ -241,8 +241,8 @@
             console.log('onColumnWidthChanged');
             // reset when column width changed
             this.forEachRow(function(row) {
-                if (row.lazyFixable) {
-                    row.lazyFixed = false;
+                if (row.rowHeightFixable) {
+                    row.rowHeightFixed = false;
                 }
             });
         });
@@ -267,9 +267,9 @@
                     resizable: false,
                     maxWidth: 2048,
                     formatter: function(value, rowItem, columnItem, cellNode) {
-                        if (rowItem.lazyFixable && value) {
+                        if (rowItem.rowHeightFixable && value) {
                             $(cellNode).addClass('tg-multiline');
-                            return `<div class="tg-lazy-fix" index="${rowItem.tg_index}">${value}</div>`;
+                            return `<div class="tg-multiline-fixing" index="${rowItem.tg_index}">${value}</div>`;
                         }
                         return value;
                     }
@@ -333,7 +333,7 @@
             grid.deleteRow(selectedRows);
         });
         
-        ['.st-theme', '.ip_pageSize', '.ip_rowHeight', '.cb_textSelectable', '.cb_scrollbarFade', '.cb_lazyFix'].forEach(function(item) {
+        ['.st-theme', '.ip_pageSize', '.ip_rowHeight', '.cb_textSelectable', '.cb_scrollbarFade', '.cb_rowHeightFix'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

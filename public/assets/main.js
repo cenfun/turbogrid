@@ -548,6 +548,9 @@
                 id: 'online-render',
                 name: 'Online Render'
             }, {
+                id: 'comfyui',
+                name: 'ComfyUI'
+            }, {
                 id: 'poc',
                 name: 'POC'
             }, {

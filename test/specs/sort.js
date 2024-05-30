@@ -204,16 +204,18 @@ describe('Row sort', function() {
 
         assert.equal(onSort, true);
 
+        // 1495324800000 = 2017-05-21
+
         assert.equal($node.hasClass('tg-sort-asc'), true);
-        assert.equal(grid.getViewRows().map((it) => it.date).join(','), ',invalid date,1800-01-01,2017-05-20,2017-05-21,2017-05-21,1495324800000,');
-        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row4,row5,row2,row1,row3,row6,');
+        assert.equal(grid.getViewRows().map((it) => it.date).join(','), ',invalid date,1800-01-01,2017-05-20,1495324800000,2017-05-21,2017-05-21,');
+        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row4,row5,row2,row6,row3,row1,');
 
         $node.find('.tg-column-name').click();
         await delay();
 
         assert.equal($node.hasClass('tg-sort-desc'), true);
-        assert.equal(grid.getViewRows().map((it) => it.date).join(','), ',2017-05-21,2017-05-21,1495324800000,2017-05-20,1800-01-01,invalid date,');
-        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row1,row3,row6,row2,row5,row4,');
+        assert.equal(grid.getViewRows().map((it) => it.date).join(','), ',1495324800000,2017-05-21,2017-05-21,2017-05-20,1800-01-01,invalid date,');
+        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row6,row3,row1,row2,row5,row4,');
 
     });
 
@@ -235,7 +237,7 @@ describe('Row sort', function() {
 
         assert.equal($node.hasClass('tg-sort-asc'), true);
         assert.equal(grid.getViewRows().map((it) => it.boolean).join(','), ',string,false,true,true,,,');
-        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row5,row4,row1,row3,row2,row6,');
+        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row5,row4,row3,row1,row6,row2,');
 
         $node.find('.tg-column-name').click();
         await delay();
@@ -243,7 +245,7 @@ describe('Row sort', function() {
         // all value is true, should no change
         assert.equal($node.hasClass('tg-sort-desc'), true);
         assert.equal(grid.getViewRows().map((it) => it.boolean).join(','), ',true,true,false,string,,,');
-        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row1,row3,row4,row5,row2,row6,');
+        assert.equal(grid.getViewRows().map((it) => it.id).join(','), ',row3,row1,row4,row5,row6,row2,');
 
     });
 

@@ -82,7 +82,7 @@
                 </div>
                 <div>
                     <label>
-                        <input type="checkbox" class="cb_rowHeightFix" />
+                        <input type="checkbox" class="cb_rowHeightFix" checked />
                         rowHeightFix
                     </label>
                     <input class="bt-del" type="button" value="delete selected rows" />
@@ -111,8 +111,11 @@
             const rows = [];
             const heights = [];
 
+            console.log(grid.rows, visibleRowList);
+
             visibleRowList.forEach(function(rowIndex) {
                 const row = grid.getRowItem(rowIndex);
+                // console.log(row.name, row.tg_index);
                 if (!row.rowHeightFixable || row.rowHeightFixed) {
                     return;
                 }
@@ -123,12 +126,9 @@
                 row.rowHeightFixed = true;
                 const div = cellNode.querySelector('.tg-multiline-fixing');
                 // 10px is padding top and bottom
-                let h = $(div).height() + 10;
-                if (h < grid.options.rowHeight) {
-                    h = grid.options.rowHeight;
-                }
+                const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
                 rows.push(rowIndex);
-                heights.push(h);
+                heights.push(realHeight);
             });
 
             // nothing fix
@@ -268,7 +268,7 @@
                     }
                 }, {
                     id: 'rowHeightFixable',
-                    name: 'rowHeightFixable',
+                    name: 'Fixable',
                     formatter: function(value, rowItem) {
                         return Boolean(rowItem.rowHeightFixable);
                     }
@@ -311,12 +311,6 @@
                 rowDragVisible: document.querySelector('.cb_rowDragVisible').checked
             };
             grid.setOption(options);
-            grid.setFormatter({
-                tree: function(value, rowItem, columnItem, cellNode) {
-                    const defaultFormatter = this.getDefaultFormatter('tree');
-                    return defaultFormatter(`${value} ${rowItem.tg_index}`, rowItem, columnItem, cellNode);
-                }
-            });
             grid.setData(getData());
             grid.render();
         }

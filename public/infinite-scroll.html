@@ -114,7 +114,6 @@
             if (!document.querySelector('.cb_rowHeightFix').checked) {
                 return;
             }
-            const defaultHeight = grid.options.rowHeight;
             // console.log(visibleRowList);
             const rows = [];
             const heights = [];
@@ -130,12 +129,9 @@
                 rowItem.rowHeightFixed = true;
                 const div = cellNode.querySelector('.tg-multiline-fixing');
                 // 10px is padding top and bottom
-                let h = $(div).height() + 10;
-                if (h < defaultHeight) {
-                    h = defaultHeight;
-                }
+                const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
                 rows.push(rowItem);
-                heights.push(h);
+                heights.push(realHeight);
             });
             if (!rows.length) {
                 // console.log("nothing fix")

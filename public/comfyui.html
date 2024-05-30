@@ -22,6 +22,20 @@
             color: #77f;
             text-decoration: underline;
         }
+
+        .cm-warn-note {
+            padding: 10px;
+            color: #ff3800 !important;
+            font-size: 13px;
+            border-radius: 5px;
+            background-color: #101010 !important;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+
+        .tg-installed {
+            background: #003807;
+        }
     </style>
 </head>
 
@@ -77,12 +91,9 @@
                 row.rowHeightFixed = true;
                 const div = cellNode.querySelector('.tg-multiline-fixing');
                 // 10px is padding top and bottom
-                let h = $(div).height() + 10;
-                if (h < grid.options.rowHeight) {
-                    h = grid.options.rowHeight;
-                }
+                const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
                 rows.push(rowIndex);
-                heights.push(h);
+                heights.push(realHeight);
             });
 
             // nothing fix
@@ -102,6 +113,10 @@
             });
         });
 
+        grid.bind('onSort', function(e, d) {
+        
+        });
+
         grid.bind('onSelectChanged', function(e, d) {
             console.log('onSelectChanged', d);
             document.querySelector('.onSelectChanged').innerHTML = d.length;
@@ -116,7 +131,7 @@
                 columns: [{
                     id: 'title',
                     name: 'Name',
-                    width: 200,
+                    width: 150,
                     minWidth: 100,
                     maxWidth: 500,
                     classMap: 'tg-multiline',
@@ -153,20 +168,32 @@
                     id: 'last_update',
                     name: 'Last Update',
                     align: 'center',
+                    type: 'date',
                     formatter: (v) => {
+                        // console.log(v);
                         if (v < 0) {
                             return 'N/A';
                         }
                         return `${v}`.split(' ')[0];
                     }
                 }, {
-                    id: 'install',
+                    id: 'installed',
                     name: 'Install',
                     formatter: (v, rowItem, columnItem) => {
         
                     }
                 }]
             };
+
+            console.log(data);
+
+            // data.rows.forEach((row) => {
+            //     if (row.installed === 'True') {
+            //         row.styleMap = {
+            //             'background': '#003807'
+            //         };
+            //     }
+            // });
 
             const options = {
                 theme: 'dark',

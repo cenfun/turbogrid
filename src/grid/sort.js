@@ -179,6 +179,13 @@ export default {
 
         sortAll(this.rows);
 
+        // update rows indexCache after sort
+        if (sortChanged) {
+            this.initRowsHandler();
+        }
+
+        // console.log('sortChanged', sortChanged);
+
         return sortChanged;
     }
 

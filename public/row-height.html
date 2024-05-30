@@ -111,23 +111,23 @@
             const rows = [];
             const heights = [];
 
-            console.log(grid.rows, visibleRowList);
+            // console.log(grid.rows, visibleRowList);
 
-            visibleRowList.forEach(function(rowIndex) {
-                const row = grid.getRowItem(rowIndex);
+            visibleRowList.forEach(function(viewIndex) {
+                const rowItem = grid.getViewRowItem(viewIndex);
                 // console.log(row.name, row.tg_index);
-                if (!row.rowHeightFixable || row.rowHeightFixed) {
+                if (!rowItem.rowHeightFixable || rowItem.rowHeightFixed) {
                     return;
                 }
-                const cellNode = grid.getCellNode(rowIndex, 'title');
+                const cellNode = grid.getCellNode(rowItem, 'title');
                 if (!cellNode) {
                     return;
                 }
-                row.rowHeightFixed = true;
+                rowItem.rowHeightFixed = true;
                 const div = cellNode.querySelector('.tg-multiline-fixing');
                 // 10px is padding top and bottom
                 const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
-                rows.push(rowIndex);
+                rows.push(rowItem);
                 heights.push(realHeight);
             });
 

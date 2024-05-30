@@ -543,6 +543,12 @@ export default {
     },
 
     containerWheelHandler: function(e) {
+
+        // disable for tg-mask
+        // if (e.target && e.target.className === 'tg-mask') {
+        //     return;
+        // }
+
         // init mouse wheel data
         const lineHeight = this.getRowHeight();
         const pageHeight = this.bodyHeight;

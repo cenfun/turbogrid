@@ -48,6 +48,11 @@
                     <div class="controller-title">ComfyUI custom nodes data example:</div>
                 </div>
                 <div>
+                    <button>showMask()</button>
+                    <button>hideMask()</button>
+                    <button>showMask({"opacity":"0.3"})</button>
+                </div>
+                <div>
                     <input type="text" value="" placeholder="keywords" class="ip-keywords" />
                     rowFilter
                 </div>
@@ -79,20 +84,20 @@
             const rows = [];
             const heights = [];
 
-            visibleRowList.forEach(function(rowIndex) {
-                const row = grid.getRowItem(rowIndex);
-                if (row.rowHeightFixed) {
+            visibleRowList.forEach(function(viewIndex) {
+                const rowItem = grid.getViewRowItem(viewIndex);
+                if (rowItem.rowHeightFixed) {
                     return;
                 }
-                const cellNode = grid.getCellNode(rowIndex, 'description');
+                const cellNode = grid.getCellNode(rowItem, 'description');
                 if (!cellNode) {
                     return;
                 }
-                row.rowHeightFixed = true;
+                rowItem.rowHeightFixed = true;
                 const div = cellNode.querySelector('.tg-multiline-fixing');
                 // 10px is padding top and bottom
                 const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
-                rows.push(rowIndex);
+                rows.push(rowItem);
                 heights.push(realHeight);
             });
 
@@ -212,14 +217,15 @@
                     if (!keywords) {
                         return true;
                     }
-                    let name = rowItem.title;
-                    if (name) {
-                        name = name.toLowerCase();
-                        if (name.indexOf(keywords) !== -1) {
-                            return true;
+
+                    let matched = false;
+                    ['author', 'description', 'title'].forEach((k) => {
+                        const content = rowItem[k];
+                        if (content && content.toLowerCase().includes(keywords)) {
+                            matched = true;
                         }
-                    }
-                    return false;
+                    });
+                    return matched;
                 }
             };
             grid.setOption(options);

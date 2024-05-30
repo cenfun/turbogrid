@@ -1,5 +1,6 @@
 @use "./common.scss";
 @use "./animation.scss";
+@use "./mask.scss";
 @use "./loading.scss";
 @use "./select.scss";
 @use "./scroll.scss";
@@ -14,6 +15,7 @@
 %default {
     @extend %common;
     @extend %animation;
+    @extend %mask;
     @extend %loading;
     @extend %select;
     @extend %scroll;

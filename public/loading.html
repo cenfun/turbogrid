@@ -32,6 +32,10 @@
                 <div>
                     <button>showLoading()</button>
                     <button>hideLoading()</button>
+
+                    <button>showMask()</button>
+                    <button>hideMask()</button>
+                    <button>showMask({"opacity":"0.3"})</button>
                 </div>
                 <div>
                     <label>
@@ -65,7 +69,7 @@
         const renderData = function(data) {
             grid.setOption({
                 theme: document.querySelector('.st-theme').value,
-                //collapseAllOnInit: false,
+                // collapseAllOnInit: false,
                 frozenColumn: 0,
                 frozenRow: 1
             });

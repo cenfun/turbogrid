@@ -1,5 +1,11 @@
 # Changelog
 
++ 3.1.0
+    - fixed index cache after sort
+    - fixed css tg-multiline
+    - added ES module bundle
+    - added new APIs showMask/hideMask
+
 + 3.0.13
     - fixed touch orientation issue
 

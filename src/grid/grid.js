@@ -36,6 +36,7 @@ import InitRows from './init-rows.js';
 import Init from './init.js';
 
 import Loading from './loading.js';
+import Mask from './mask.js';
 
 import Navigation from './navigation.js';
 import Node from './node.js';
@@ -221,6 +222,7 @@ extendsPrototype(Grid.prototype, [
     Init,
 
     Loading,
+    Mask,
 
     Navigation,
     Node,

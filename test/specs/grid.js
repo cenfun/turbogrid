@@ -39,6 +39,13 @@ describe('Grid', function() {
         assert.equal(themeOptions.scrollbarRound, true);
     });
 
+    it('Grid mask', function() {
+        grid.showMask();
+        assert.equal(container.querySelector('.tg-mask').style.display, 'block');
+        grid.hideMask();
+        assert.equal(container.querySelector('.tg-mask').style.display, 'none');
+    });
+
     it('Grid loading', function() {
         grid.showLoading();
         assert.equal(container.querySelector('.tg-loading').style.display, 'block');

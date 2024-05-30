@@ -114,11 +114,13 @@
             if (!document.querySelector('.cb_rowHeightFix').checked) {
                 return;
             }
+
+            const visibleRowList = grid.viewport.rows;
             // console.log(visibleRowList);
             const rows = [];
             const heights = [];
-            grid.viewport.rows.forEach(function(row) {
-                const rowItem = grid.getViewRowItem(row);
+            visibleRowList.forEach(function(viewIndex) {
+                const rowItem = grid.getViewRowItem(viewIndex);
                 if (!rowItem.rowHeightFixable || rowItem.rowHeightFixed) {
                     return;
                 }

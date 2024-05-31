@@ -411,8 +411,8 @@ export default class Scrollbar extends EventBase {
 
     scaleChangeHandler() {
         let thumbSize = Math.round(this.viewSize * this.scale);
-        thumbSize = Math.max(thumbSize, this.options.size);
-        thumbSize = Math.min(thumbSize, this.viewSize);
+        thumbSize = Math.max(thumbSize, Math.round(this.options.size * 1.5));
+        thumbSize = Math.min(thumbSize, this.viewSize - 1);
         this.thumbSize = thumbSize;
         if (this.$thumb) {
             const thumbData = {};

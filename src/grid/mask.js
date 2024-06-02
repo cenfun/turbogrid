@@ -14,12 +14,14 @@ export default {
         }
 
         $mask.show();
+        this.hasMask = true;
 
         return this;
     },
 
     hideMask: function() {
         this.$container.find('.tg-mask').hide();
+        this.hasMask = false;
         return this;
     }
 };

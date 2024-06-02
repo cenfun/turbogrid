@@ -544,10 +544,10 @@ export default {
 
     containerWheelHandler: function(e) {
 
-        // disable for tg-mask
-        // if (e.target && e.target.className === 'tg-mask') {
-        //     return;
-        // }
+        // stop wheel if has mask
+        if (this.hasMask) {
+            return;
+        }
 
         // init mouse wheel data
         const lineHeight = this.getRowHeight();
@@ -660,6 +660,9 @@ export default {
     containerKeyDownHandler: function(e) {
 
         // console.log('onKeyDown', this.id, e.keyCode);
+        if (this.hasMask) {
+            return;
+        }
 
         this.trigger(E.onKeyDown, {
             e: e

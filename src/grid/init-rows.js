@@ -290,10 +290,12 @@ export default {
             return true;
         }
 
+        const keywords = `${keywordsStr}`.trim().toLowerCase().split(/\s+/g).filter((s) => s);
+        if (!keywords.length) {
+            return true;
+        }
+
         let hasMatched = false;
-
-        const keywords = keywordsStr.split(/\s+/g).filter((s) => s);
-
         const getTextMatched = (text) => {
 
             const lowText = text.toLowerCase();

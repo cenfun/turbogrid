@@ -456,6 +456,18 @@ const Util = {
         return handler;
     },
 
+    nextTick: function(callback) {
+        if (typeof window.queueMicrotask === 'function') {
+            window.queueMicrotask(() => {
+                callback();
+            });
+        } else {
+            Promise.resolve().then(() => {
+                callback();
+            });
+        }
+    },
+
     cancelAsync: function(target) {
         if (!target) {
             return;

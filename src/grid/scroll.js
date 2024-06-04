@@ -262,11 +262,11 @@ export default {
     },
 
     // render viewport position on init
-    scrollOnInit: function(renderSettings) {
+    scrollOnInit: function() {
 
         const {
             scrollLeft, scrollTop, scrollColumn, scrollRow
-        } = renderSettings;
+        } = this.renderSettings;
 
         // console.log(scrollRow, scrollColumn);
         this.scrollIntoViewChanged = false;

@@ -35,6 +35,12 @@ export default {
 
         this.renderNodeContent(cellNode, content);
 
+        const { highlightKey } = this.options.highlightKeywords;
+        const hasHighlight = rowItem[highlightKey + columnItem.id];
+        if (hasHighlight) {
+            this.renderSettings.highlightCells.push(cellNode);
+        }
+
         this.trigger(E.onCellUpdated, {
             value: value,
             rowItem: rowItem,

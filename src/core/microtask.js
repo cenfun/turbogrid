@@ -15,17 +15,11 @@ export default class Microtask {
             window.queueMicrotask(() => {
                 this.execute();
             });
-            return;
-        }
-
-        if (typeof Promise === 'function') {
+        } else {
             Promise.resolve().then(() => {
                 this.execute();
             });
-            return;
         }
-
-        throw new Error('Current browser does NOT support queueMicrotask or Promise');
     }
 
     execute() {

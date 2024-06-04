@@ -181,6 +181,15 @@ export default function() {
         sortIndicator: 'h',
 
         // ==========================================================
+        highlightKeywords: {
+            textKey: 'tg_text_',
+            textGenerator: null,
+            highlightKey: 'tg_highlight_',
+            highlightPre: '<mark>',
+            highlightPost: '</mark>'
+        },
+
+        // ==========================================================
         // frozen
         frozenRow: -1,
         frozenRowMax: 10,

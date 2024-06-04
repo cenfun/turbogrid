@@ -15,6 +15,9 @@ export default {
         this.renderStartedTimestamp = Date.now();
 
         const renderSettings = this.generateRenderSettings.apply(this, arguments);
+        // keep in render process
+        this.renderSettings = renderSettings;
+
         // console.log('renderSettings', renderSettings);
 
         // the render type determines the scope
@@ -27,7 +30,7 @@ export default {
             this.initHandler();
             this.renderHeader();
             this.updateViewRowsAndSize();
-            this.renderBody(renderSettings);
+            this.renderBody();
             return this;
         }
 
@@ -39,7 +42,7 @@ export default {
             this.initColumnsHandler();
             this.renderHeader();
             this.updateViewRowsAndSize();
-            this.renderBody(renderSettings);
+            this.renderBody();
             return this;
         }
 
@@ -49,7 +52,7 @@ export default {
         // rows changed
         if (renderSettings.type === 'rows') {
             this.updateViewRowsAndSize();
-            this.renderBody(renderSettings);
+            this.renderBody();
             return this;
         }
 
@@ -57,14 +60,14 @@ export default {
         // resize() only resize, no data update
         if (renderSettings.type === 'resize') {
             this.resizeHandler();
-            this.renderBody(renderSettings);
+            this.renderBody();
             return this;
         }
 
 
         // default mini render
         // render scroll area, no data update, no resize
-        this.renderBody(renderSettings);
+        this.renderBody();
 
         return this;
     },
@@ -76,7 +79,8 @@ export default {
             scrollLeft: null,
             scrollTop: null,
             scrollColumn: null,
-            scrollRow: null
+            scrollRow: null,
+            highlightCells: []
         };
 
         if (typeof settings === 'string') {
@@ -92,12 +96,9 @@ export default {
         return renderSettings;
     },
 
-    renderBody: function(renderSettings) {
+    renderBody: function() {
 
-        // keep in render process
-        this.renderSettings = renderSettings;
-
-        this.scrollOnInit(renderSettings);
+        this.scrollOnInit();
 
         // update row offset first
         this.scrollTopOffset = this.scrollPane.getScrollTopOffset();
@@ -137,6 +138,9 @@ export default {
         // update internal layout and outside size if changed
         this.layoutEventHandler();
         this.resizeEventHandler();
+
+        // render highlight keywords
+        this.highlightKeywordsHandler();
 
         // destroy render settings
         this.renderSettings = null;

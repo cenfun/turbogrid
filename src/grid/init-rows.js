@@ -275,6 +275,183 @@ export default {
 
     },
 
+    highlightKeywordsFilter: function(rowItem, columns, keywordsStr) {
+
+        const {
+            textKey, textGenerator, highlightKey
+        } = this.options.highlightKeywords;
+
+        // clean matched cache
+        columns.forEach((id) => {
+            rowItem[`${highlightKey}${id}`] = null;
+        });
+
+        if (!keywordsStr) {
+            return true;
+        }
+
+        let hasMatched = false;
+
+        const keywords = keywordsStr.split(/\s+/g).filter((s) => s);
+
+        const getTextMatched = (text) => {
+
+            const lowText = text.toLowerCase();
+
+            let startPos = 0;
+            for (const key of keywords) {
+                const index = lowText.indexOf(key, startPos);
+                if (index === -1) {
+                    return;
+                }
+                startPos = index + key.length;
+            }
+
+            return true;
+        };
+
+        const getHtmlText = (html, id) => {
+            const cacheKey = `${textKey}${id}`;
+            const cacheText = rowItem[cacheKey];
+            if (cacheText) {
+                return cacheText;
+            }
+            const div = document.createElement('div');
+            div.innerHTML = html;
+            // textContent includes hidden text, but innerText not
+            const text = div.innerText;
+            rowItem[cacheKey] = text;
+            return text;
+        };
+
+        const getMatched = (str, id) => {
+            const isHtml = (/<\/?[a-z][\s\S]*>/i).test(str);
+            if (isHtml) {
+                str = getHtmlText(str, id);
+            }
+            return getTextMatched(str);
+        };
+
+        let textHandler = function(_rowItem, id) {
+            return _rowItem[id];
+        };
+        if (typeof textGenerator === 'function') {
+            textHandler = textGenerator;
+        }
+
+        columns.forEach((id) => {
+
+            const text = textHandler(rowItem, id);
+            if (text === null || typeof text === 'undefined') {
+                return;
+            }
+
+            const str = `${text}`.trim();
+            if (!str) {
+                return;
+            }
+            const matched = getMatched(str, id);
+            if (matched) {
+                rowItem[`${highlightKey}${id}`] = matched;
+                hasMatched = true;
+                // keep in instance
+                this.highlightKeywords = keywords;
+            }
+        });
+
+        return hasMatched;
+
+    },
+
+    highlightKeywordsHandler: function() {
+
+        const { highlightCells } = this.renderSettings;
+        if (!highlightCells.length) {
+            return;
+        }
+
+        const keywords = this.highlightKeywords;
+        if (!keywords) {
+            return;
+        }
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
+        Util.nextTick(() => {
+
+            // there is no renderSettings in next tick
+
+            highlightCells.forEach((cellNode) => {
+                const treeWalker = document.createTreeWalker(cellNode, NodeFilter.SHOW_TEXT);
+                const allTextNodes = [];
+                let currentNode = treeWalker.nextNode();
+                while (currentNode) {
+                    allTextNodes.push(currentNode);
+                    currentNode = treeWalker.nextNode();
+                }
+
+                if (!allTextNodes.length) {
+                    return;
+                }
+
+                this.highlightTextNodes(allTextNodes, keywords);
+
+            });
+
+        });
+    },
+
+    highlightTextNodes: function(allTextNodes, keywords) {
+
+        const { highlightPre, highlightPost } = this.options.highlightKeywords;
+
+        let keyIndex = 0;
+        const nextKey = () => {
+            if (keyIndex >= keywords.length) {
+                keyIndex = 0;
+            }
+            return keywords[keyIndex++];
+        };
+
+        let key = nextKey();
+
+        allTextNodes.forEach((textNode) => {
+            const text = textNode.textContent;
+            const lowText = text.toLowerCase();
+            const list = [];
+            let startPos = 0;
+            const textLength = text.length;
+            let hasKeyMatched = false;
+            while (startPos < textLength) {
+                const index = lowText.indexOf(key, startPos);
+                if (index === -1) {
+                    break;
+                }
+
+                list.push(text.slice(startPos, index));
+                list.push(highlightPre);
+
+                startPos = index + key.length;
+                key = nextKey();
+                hasKeyMatched = true;
+
+                list.push(text.slice(index, startPos));
+                list.push(highlightPost);
+
+            }
+
+            if (hasKeyMatched) {
+                if (startPos < textLength) {
+                    list.push(text.slice(startPos, textLength));
+                }
+                //  console.log(list);
+                const spanNode = document.createElement('span');
+                spanNode.innerHTML = list.join('');
+                textNode.parentNode.replaceChild(spanNode, textNode);
+            }
+        });
+
+    },
+
     // =============================================================================
 
     // row subs

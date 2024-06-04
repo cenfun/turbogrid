@@ -95,6 +95,9 @@
                             <option>v</option>
                         </select>
                     </label>
+                    <label>rowFilter: 
+                        <input type="text" value="" placeholder="keywords" class="ip-keywords" onfocus="this.select()" />
+                    </label>
                 </div>
             </div>
             <div class="grid-container flex-auto"></div>
@@ -102,6 +105,9 @@
     </div>
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
+
+        let keywords = '';
+
         const grid = new Grid('.grid-container');
         grid.bind('onFirstUpdated', function() {
             console.log('duration:', `${this.renderDuration}ms`);
@@ -262,10 +268,9 @@
                 name: 'Button',
                 formatter: 'buttonFormatter'
             }, {
-                id: 'link',
-                name: 'Wiki Link',
-                width: 300,
-                formatter: 'linkFormatter'
+                id: 'html',
+                name: 'HTML',
+                width: 300
             }, {
                 id: 'icon',
                 name: 'Icon',
@@ -275,43 +280,38 @@
             }],
             rows: [{
                 id: 'h1',
-                name: 'City',
+                name: 'City City',
                 input: '',
                 button: '',
-                link: 'Link',
-                link_url: 'http://www.github.com/',
+                html: '<a href="http://www.github.com/" target="_blank">Link</a> 链接',
                 icon: ''
             }, {
                 id: 'h2',
-                name: 'City',
+                name: 'City City',
                 input: '',
                 button: '',
-                link: 'Link',
-                link_url: 'http://www.github.com/',
+                html: 'See <a href="http://www.github.com/" target="_blank">Link</a>',
                 icon: ''
             }, {
                 id: 'id1',
                 name: 'Shenzhen',
                 input: '',
                 button: '',
-                link: 'Shenzhen Wiki',
-                link_url: 'https://en.wikipedia.org/wiki/Shenzhen',
+                html: 'See <a href="https://en.wikipedia.org/wiki/Shenzhen" target="_blank">Wiki</a> Page',
                 icon: ''
             }, {
                 id: 'id2',
                 name: 'Beijing',
                 input: '',
                 button: '',
-                link: 'Beijing Wiki',
-                link_url: 'https://en.wikipedia.org/wiki/Beijing',
+                html: '<a href="https://en.wikipedia.org/wiki/Shenzhen" target="_blank"><b>Beijing</b> City</a> The capital of <font color="red">China</font>',
                 icon: ''
             }, {
                 id: 'id3',
                 name: 'Shanghai',
                 input: '',
                 button: '',
-                link: 'Shanghai Wiki',
-                link_url: 'https://en.wikipedia.org/wiki/Shanghai',
+                html: '<a href="https://en.wikipedia.org/wiki/Shenzhen" target="_blank">Shanghai</a>',
                 icon: ''
             }]
         };
@@ -365,7 +365,16 @@
                 selectVisible: true,
                 frozenColumn: 0,
                 // frozenRow: 1,
-                sortIndicator: document.querySelector('.st_sortIndicator').value
+                sortIndicator: document.querySelector('.st_sortIndicator').value,
+                rowNotFound: 'No Results',
+                highlightKeywords: {
+                    textGenerator: null,
+                    highlightPre: '<mark>',
+                    highlightPost: '</mark>'
+                },
+                rowFilter: function(rowItem) {
+                    return grid.highlightKeywordsFilter(rowItem, ['name', 'html'], keywords);
+                }
             });
 
             grid.setFormatter({
@@ -443,15 +452,6 @@
                     input.className = 'tg-form-input';
                     input.value = value;
                     return input;
-                },
-
-                linkFormatter: function(value, rowItem, columnItem, cellNode) {
-                    const a = document.createElement('a');
-                    a.className = 'tg-link tg-link--no-underline';
-                    a.innerHTML = value;
-                    a.target = '_blank';
-                    a.href = rowItem.link_url;
-                    return a;
                 },
 
                 buttonFormatter: function(value, rowItem, columnItem, cellNode) {
@@ -537,6 +537,16 @@
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });
+        });
+
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+            // update rows
+            grid.update();
         });
 
         window.initCommonEvents(grid);

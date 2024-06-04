@@ -6,6 +6,7 @@
     - fixed scrollbar min size
     - added ES module bundle
     - added new APIs showMask/hideMask
+    - added highlight keywords API
 
 + 3.0.13
     - fixed touch orientation issue

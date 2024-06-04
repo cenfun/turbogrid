@@ -247,4 +247,67 @@ describe('rowFilter and rowFilteredSort (invisible 15)', function() {
         assert.equal(values, '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19');
     });
 
+    it('Grid rowFilter: highlightKeywordsFilter', async () => {
+
+        keywords = '1';
+
+        const data = createData();
+        grid.setData(data);
+        grid.setOption({
+            rowNotFound: 'No Results',
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], keywords);
+            }
+        });
+
+        grid.render();
+
+        // 1 for nextTick
+        await delay(1);
+
+        const rows = grid.getViewRows();
+        assert.equal(rows.length, 10);
+
+        const values = grid.getViewRows().map((it) => it.value).join(',');
+        assert.equal(values, '1,10,11,12,13,14,16,17,18,19');
+
+        // check mark tag
+        const row1 = grid.getViewRows()[0];
+
+        const cellNode = grid.getCellNode(row1, 'name');
+        const mark = cellNode.querySelector('mark');
+        assert.ok(mark);
+        assert.equal(mark.innerText, keywords);
+    });
+
+    it('Grid rowFilter: highlightKeywordsFilter html', async () => {
+
+        keywords = 're';
+
+        const data = createData();
+        data.rows.push({
+            name: 'See <font color="red">red</font>'
+        });
+        grid.setData(data);
+        grid.setOption({
+            rowNotFound: 'No Results',
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], keywords);
+            }
+        });
+
+        grid.render();
+
+        // 1 for nextTick
+        await delay(1);
+
+        // check mark tag
+        const row1 = grid.getViewRows()[0];
+
+        const cellNode = grid.getCellNode(row1, 'name');
+        const mark = cellNode.querySelector('font mark');
+        assert.ok(mark);
+        assert.equal(mark.innerText, keywords);
+    });
+
 });

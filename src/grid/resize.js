@@ -96,7 +96,9 @@ export default {
             headerWidth: this.headerWidth,
             headerHeight: this.headerHeight,
             bodyWidth: this.bodyWidth,
-            bodyHeight: this.bodyHeight
+            bodyHeight: this.bodyHeight,
+            scrollbarWidth: this.getScrollbarWidth(),
+            scrollbarHeight: this.getScrollbarHeight()
         };
 
         if (Object.values(layout).join('') === Object.values(previousLayout).join('')) {

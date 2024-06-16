@@ -177,31 +177,28 @@ describe('Grid', function() {
 
     });
 
-    it('Grid destroy()', function(done) {
+    it('Grid destroy()', async () => {
         grid.setOption({});
         grid.setData(data);
-        grid.once('onFirstUpdated', function() {
-
-            const selector = `.${CONST.NS}`;
-            const id = grid.id;
-            const gridContainer = container.querySelector(selector);
-
-            assert.equal(gridContainer.classList.contains(id), true);
-            assert.equal(gridContainer.getAttribute('id'), id);
-
-            // console.log('onFirstUpdated before destroy');
-            grid.destroy();
-
-            assert.equal(document.querySelector(selector), null);
-            assert.equal(container.innerHTML, '');
-
-            // console.log('onFirstUpdated before done');
-
-            done();
-
-            // console.log('onFirstUpdated after done');
-        });
         grid.render();
+
+        await delay();
+
+        const selector = `.${CONST.NS}`;
+        const id = grid.id;
+        const gridContainer = container.querySelector(selector);
+
+        assert.equal(gridContainer.classList.contains(id), true);
+        assert.equal(gridContainer.getAttribute('id'), id);
+
+        // console.log('onFirstUpdated before destroy');
+        grid.destroy();
+
+        assert.equal(document.querySelector(selector), null);
+        assert.equal(container.innerHTML, '');
+
+        // console.log('onFirstUpdated before done');
+
     });
 
     it('Grid frozen check', function(done) {

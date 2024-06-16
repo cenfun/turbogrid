@@ -4,6 +4,7 @@
     - added `defaultPrevented` for event data
     - added `hoverable` for row
     - fixed text select issue when dragging
+    - fixed `onLayout` event to detect scrollbar size
 
 + 3.1.0
     - fixed index cache after sort

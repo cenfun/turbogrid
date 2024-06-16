@@ -1,7 +1,8 @@
 # Changelog
 
 + 3.1.1
-    - added defaultPrevented for event data
+    - added `defaultPrevented` for event data
+    - added `hoverable` for row
     - fixed text select issue when dragging
 
 + 3.1.0

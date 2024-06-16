@@ -25,6 +25,10 @@ export default {
             return this;
         }
 
+        if (rowItem.hoverable === false) {
+            return this;
+        }
+
         // add hover row not frozen, both for left and right pane
         if (rowItem.tg_frozen && !this.options.frozenRowHoverable) {
             return this;

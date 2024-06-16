@@ -33,11 +33,12 @@ export default {
         d.dragStartScrollTop = this.scrollTop;
         d.dragMaxScrollTop = this.scrollPane.getMaxScrollTop();
 
-        this.trigger(E.onRowDragged, {
+        const dd = {
             e,
             rowItem
-        });
-        if (this.isDefaultPrevented(e)) {
+        };
+        this.trigger(E.onRowDragged, dd);
+        if (this.isDefaultPrevented(dd)) {
             return;
         }
 

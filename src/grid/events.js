@@ -197,10 +197,19 @@ export default {
     // event api
 
     // check native event
-    isDefaultPrevented: function(e) {
-        if (e) {
-            return e.defaultPrevented;
+    isDefaultPrevented: function(d) {
+
+        if (d) {
+            if (d.defaultPrevented) {
+                return true;
+            }
+
+            if (d.e && d.e.defaultPrevented) {
+                return true;
+            }
+
         }
+
         return false;
     },
 
@@ -369,7 +378,7 @@ export default {
         }
 
         this.trigger(E.onSort, d);
-        if (this.isDefaultPrevented(e)) {
+        if (this.isDefaultPrevented(d)) {
             return;
         }
 
@@ -414,7 +423,7 @@ export default {
         } else {
             this.trigger(E.onRowMouseLeave, d);
         }
-        if (this.isDefaultPrevented(e)) {
+        if (this.isDefaultPrevented(d)) {
             return;
         }
         // row class handler
@@ -512,7 +521,7 @@ export default {
         const d = this.getEventData(e);
         if (d) {
             this.trigger(E.onTouchStart, d);
-            if (this.isDefaultPrevented(e)) {
+            if (this.isDefaultPrevented(d)) {
                 return;
             }
         }
@@ -556,14 +565,14 @@ export default {
 
         // e.deltaMode = 0;
         // console.log('delta', wd);
-
-        this.trigger(E.onMouseWheel, {
+        const d = {
             e: e,
             deltaX: wd.deltaX,
             deltaY: wd.deltaY,
             delta: wd
-        });
-        if (this.isDefaultPrevented(e)) {
+        };
+        this.trigger(E.onMouseWheel, d);
+        if (this.isDefaultPrevented(d)) {
             return;
         }
 
@@ -606,7 +615,7 @@ export default {
         const $headerItem = this.getEventClosestNode(e.target, 'tg-header-item');
         if ($headerItem) {
             this.trigger(E.onClick, d);
-            if (this.isDefaultPrevented(e)) {
+            if (this.isDefaultPrevented(d)) {
                 return;
             }
             this.sortHandler(e, d);
@@ -663,11 +672,11 @@ export default {
         if (this.hasMask) {
             return;
         }
-
-        this.trigger(E.onKeyDown, {
+        const d = {
             e: e
-        });
-        if (this.isDefaultPrevented(e)) {
+        };
+        this.trigger(E.onKeyDown, d);
+        if (this.isDefaultPrevented(d)) {
             return;
         }
 

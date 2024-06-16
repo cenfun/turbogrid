@@ -180,6 +180,17 @@ export default {
         // console.log(list);
         this.$container.addClass(Util.classMap(list));
 
+    },
+
+    setTextSelectable: function(selectable) {
+        if (!this.options.textSelectable) {
+            return;
+        }
+        if (selectable) {
+            this.$container.removeClass('tg-text-unselectable');
+        } else {
+            this.$container.addClass('tg-text-unselectable');
+        }
     }
 
 };

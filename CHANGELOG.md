@@ -1,5 +1,9 @@
 # Changelog
 
++ 3.1.1
+    - added defaultPrevented for event data
+    - fixed text select issue when dragging
+
 + 3.1.0
     - fixed index cache after sort
     - fixed css tg-multiline

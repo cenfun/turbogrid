@@ -47,6 +47,7 @@ export default {
         }
 
         this.setRowState(rowItem, 'dragging');
+        this.setTextSelectable(false);
         this.rowDropListHandler(d);
         this.updateDragCloneRowPosition(d);
 
@@ -72,6 +73,7 @@ export default {
         this.autoScrollStop();
 
         this.setRowState(d.rowItem, 'dragging', false);
+        this.setTextSelectable(true);
         if (d.dragCloneNodes) {
             d.dragCloneNodes.remove();
             d.dragCloneNodes = null;

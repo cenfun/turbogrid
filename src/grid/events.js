@@ -655,6 +655,7 @@ export default {
         this.trigger(E.onContextMenu, d);
     },
 
+    // selectstart only when css user-select: none;
     containerSelectStartHandler: function(e) {
         if (this.options.textSelectable) {
             return;

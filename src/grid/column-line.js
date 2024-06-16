@@ -20,6 +20,9 @@ export default {
 
     // blue color
     setColumnLineActive: function(active) {
+
+        this.setTextSelectable(!active);
+
         if (active === this.previousColumnLineActive) {
             return;
         }

@@ -138,7 +138,7 @@
 
             const pageData = pageHandler(getRandomData());
 
-            //mock ajax request data from server
+            // mock ajax request data from server
             grid.showLoading();
             setTimeout(function() {
                 grid.hideLoading();
@@ -176,7 +176,7 @@
             page = Math.max(1, page);
             page = Math.min(totalPage, page);
 
-            //reset page
+            // reset page
             pageNode.innerHTML = '';
             pageList.innerHTML = '';
 
@@ -200,7 +200,7 @@
 
             pageList.querySelector(`.page-item_${page}`).classList.add('selected');
 
-            //slice page data
+            // slice page data
             const start = (page - 1) * pageSize;
             const end = start + pageSize;
             const pageRows = totalRows.slice(start, end);

@@ -72,7 +72,7 @@
         grid.bind('onUpdated', function(e, viewport) {
             const visibleRowList = viewport.rows;
 
-            //generate rows which data not ready
+            // generate rows which data not ready
             const notReadyRowIndexList = [];
             visibleRowList.forEach(function(index) {
                 const rowItem = grid.getRowItem(index);
@@ -84,11 +84,11 @@
                 return;
             }
 
-            //mock request data by ajax
+            // mock request data by ajax
             clearTimeout(this.timeout_load_rows);
             this.timeout_load_rows = setTimeout(function() {
 
-                //apply new data to each row
+                // apply new data to each row
                 notReadyRowIndexList.forEach(function(rowIndex) {
                     const rowItem = grid.getRowItem(rowIndex);
                     rowItem.c1 = 'string';
@@ -96,12 +96,12 @@
                     rowItem.c3 = Math.random().toFixed(3);
                     rowItem.c4 = 'string';
                     rowItem.c5 = 'string';
-                    //data is ready
+                    // data is ready
                     rowItem.dataReady = true;
                 });
-                //flush cell which required refresh
+                // flush cell which required refresh
                 grid.flushCell(notReadyRowIndexList, [1, 2, 3, 4, 5]);
-                //render again
+                // render again
                 grid.render();
 
             }, 2000);

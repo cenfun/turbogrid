@@ -59,8 +59,8 @@
     <script type="text/javascript">
         const Grid = window.turbogrid.Grid;
 
-        //=======================================================================================
-        //Frozen Middle Grid
+        // =======================================================================================
+        // Frozen Middle Grid
         const FMG = function(container) {
             container.innerHTML = `
                 <div class="fmg">
@@ -95,7 +95,7 @@
                 this.gridL = new Grid(this.containerL);
                 this.gridR = new Grid(this.containerR);
 
-                //sync scroll
+                // sync scroll
                 this.gridL.bind('onScroll', (e, d) => {
                     this.gridR.setScrollTop(d.scrollTop);
                 });
@@ -103,7 +103,7 @@
                     this.gridL.setScrollTop(d.scrollTop);
                 });
 
-                //sync sort
+                // sync sort
                 this.gridL.bind('onSort', (e, d) => {
                     this.gridL.once('onUpdated', () => {
                         this.gridR.removeSortColumn();
@@ -117,7 +117,7 @@
                     });
                 });
 
-                //sync hover
+                // sync hover
                 this.gridL.bind('onRowMouseEnter', (e, d) => {
                     this.gridR.setRowHover(d.rowItem, true);
                 }).bind('onRowMouseLeave', (e, d) => {
@@ -195,7 +195,7 @@
             }
         };
 
-        //=======================================================================================
+        // =======================================================================================
 
         const getData = function() {
 
@@ -281,7 +281,7 @@
                     }
                 });
 
-                //console.log(row);
+                // console.log(row);
 
                 rows.push(row);
             };
@@ -300,7 +300,7 @@
             };
         };
 
-        //=======================================================================================
+        // =======================================================================================
         const container = document.querySelector('.grid-container');
         const grid = new FMG(container);
         grid.setData(getData());

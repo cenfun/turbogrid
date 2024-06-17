@@ -63,7 +63,7 @@
                 if (Util.isNum(value)) {
                     if (value < 0 && negativeFormatter) {
                         value = `(${numFix(-value)})`;
-                        //for Negative Number Align
+                        // for Negative Number Align
                         if (cellNode) {
                             cellNode.classList.add('tg-cell-negative');
                         }

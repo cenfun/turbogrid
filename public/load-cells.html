@@ -41,7 +41,7 @@
             console.log('duration:', `${this.renderDuration}ms`);
         });
 
-        //mock random data from server
+        // mock random data from server
         const mockDataByIdList = function(requestCellIdList) {
             const dataList = [];
             for (let i = 0, l = requestCellIdList.length; i < l; i++) {
@@ -55,7 +55,7 @@
                     if (Math.random() > 0.2) {
                         item.data[columnId] = Math.round(10000 * Math.random());
                     } else {
-                        //null for –
+                        // null for –
                         item.data[columnId] = null;
                     }
                 });
@@ -64,7 +64,7 @@
             return dataList;
         };
 
-        //mock request data
+        // mock request data
         let timeout_requestData;
         const requestData = function(requestCellIdList) {
             clearTimeout(timeout_requestData);
@@ -77,9 +77,9 @@
 
                 const dataList = mockDataByIdList(requestCellIdList);
 
-                //console.log(dataList);
+                // console.log(dataList);
 
-                //merge data from server response data list
+                // merge data from server response data list
                 dataList.forEach(function(item) {
                     const rowId = item.id;
                     Object.keys(item.data).forEach((columnId) => {
@@ -117,12 +117,12 @@
                 }
             });
 
-            //current rows already loaded
+            // current rows already loaded
             if (!requestCellIdList.length) {
                 return;
             }
 
-            //console.log(requestCellIdList);
+            // console.log(requestCellIdList);
 
             requestData(requestCellIdList);
 

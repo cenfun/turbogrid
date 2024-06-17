@@ -257,13 +257,13 @@
 
                 const handler = handlers[item.to] || handlers.L;
 
-                //meet
+                // meet
                 const fail = handler.call(this);
                 if (fail) {
                     return true;
                 }
 
-                //meet self
+                // meet self
                 const indexSnake = this.getSnakeIndex(item.x, item.y, true);
                 if (indexSnake !== null) {
                     return true;
@@ -289,12 +289,12 @@
 
             runSnakeNow() {
 
-                //more quickly
+                // more quickly
                 if (this.speed > 100) {
                     this.speed -= this.levelStep;
                 }
 
-                //update head
+                // update head
                 const head = this.snake[0];
                 if (!head) {
                     return;
@@ -311,7 +311,7 @@
 
                 let prev = head;
 
-                //get food
+                // get food
                 const indexFood = this.getFoodIndex(head.x, head.y, true);
                 if (indexFood !== null) {
                     this.snake.push({
@@ -321,7 +321,7 @@
                     this.createFood();
                 }
 
-                //update body
+                // update body
                 for (let i = 1, l = this.snake.length; i < l; i++) {
                     const item = this.snake[i];
                     this.initItemPos(item);

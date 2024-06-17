@@ -89,12 +89,12 @@
             window.appendLog(`event: ${e.type}`, d);
         }).bind('onClick', function(e, d) {
             if (d.e.target.classList.contains('tg-cell-hover-icon')) {
-                //console.log(d);
+                // console.log(d);
                 this.deleteRow(d.rowItem);
             }
 
         }).bind('onRowMouseEnter', function(e, d) {
-            //console.log(d);
+            // console.log(d);
             const cellNode = this.getCellNode(d.rowItem, 'name');
             if (!cellNode) {
                 return;
@@ -126,7 +126,7 @@
             const options = {
                 theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
-                //collapseAllOnInit: true,
+                // collapseAllOnInit: true,
                 frozenColumn: 0,
                 rowFilter: function(rowItem) {
                     if (!keywords) {
@@ -185,7 +185,7 @@
                 return;
             }
             keywords = k;
-            //update rows
+            // update rows
             grid.update();
         });
 

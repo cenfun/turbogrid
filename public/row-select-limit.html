@@ -72,7 +72,7 @@
             console.log(d);
             document.querySelector('.onSelectChanged').innerHTML = d.length;
 
-            //limit handler
+            // limit handler
             const selectedRows = this.getSelectedRows();
             const len = selectedRows.length;
             const limit = document.querySelector('.ip_limit').value | 0;
@@ -89,7 +89,7 @@
 
         });
 
-        //===============================================================================
+        // ===============================================================================
         const renderData = function(data) {
             const options = {
                 theme: document.querySelector('.st-theme').value,

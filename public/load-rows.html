@@ -64,7 +64,7 @@
             };
         };
 
-        //mock random data from server
+        // mock random data from server
         const mockDataByIdList = function(requestRowIndexList, requestColumnIdList) {
             const dataList = [];
             for (let i = 0, l = requestRowIndexList.length; i < l; i++) {
@@ -102,12 +102,12 @@
                 }
             });
 
-            //current rows already loaded
+            // current rows already loaded
             if (!requestRowIndexList.length) {
                 return;
             }
 
-            //flush columns if loaded except name and index
+            // flush columns if loaded except name and index
             const columnsData = grid.getColumns();
             const requestColumnIdList = [];
             columnsData.forEach(function(column) {
@@ -121,7 +121,7 @@
                 grid.hideLoading();
 
                 const dataList = mockDataByIdList(requestRowIndexList, requestColumnIdList);
-                //merge data from server response data list
+                // merge data from server response data list
                 dataList.forEach(function(item) {
                     item.data.data_loaded = true;
                     grid.updateRow(item.index, item.data);

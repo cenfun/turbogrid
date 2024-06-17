@@ -87,7 +87,7 @@
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onUpdated', function(e, viewport) {
-            //console.log(viewport);
+            // console.log(viewport);
 
             document.querySelector('.column-list').innerHTML = `columns: ${viewport.columns}`;
             document.querySelector('.row-list').innerHTML = `rows: ${viewport.rows}`;

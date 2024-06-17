@@ -151,7 +151,7 @@
 
             const rowIndex = item.tg_index;
 
-            //show loading and load data from server here
+            // show loading and load data from server here
             grid.setRowState(item, 'waiting');
             grid.showLoading();
 
@@ -205,17 +205,17 @@
             console.log(d);
             requestSubs(this, d);
         }).bind('onClick', function(e, d) {
-            //click first column on name
+            // click first column on name
             if (d.columnItem.id !== 'name') {
                 return;
             }
             const rowItem = d.rowItem;
             console.log(rowItem);
-            //click group
+            // click group
             if (!rowItem.tg_group) {
                 return;
             }
-            //already loaded
+            // already loaded
             if (rowItem.subs) {
                 grid.toggleRow(rowItem);
                 return;
@@ -274,7 +274,7 @@
                 return;
             }
             keywords = k;
-            //update rows
+            // update rows
             grid.update();
         });
 

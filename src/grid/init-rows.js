@@ -85,7 +85,6 @@ export default {
         let lastItem;
         this.initViewList(viewRows, (rowItem, i) => {
             rowItem.tg_top = top;
-            this.initRowHeight(rowItem);
             top += this.getRowHeight(rowItem);
 
             // fix group line

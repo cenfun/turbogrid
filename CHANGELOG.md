@@ -8,7 +8,6 @@
 
 + 3.1.0
     - fixed index cache after sort
-    - fixed css tg-multiline
     - fixed scrollbar min size
     - added ES module bundle
     - added new APIs showMask/hideMask

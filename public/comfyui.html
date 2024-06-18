@@ -64,62 +64,11 @@
         </div>
     </div>
     <script type="text/javascript">
-        const Grid = window.turbogrid.Grid;
-        const $ = window.turbogrid.$;
+        const { Grid } = window.turbogrid;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
             // console.log('duration:', `${this.renderDuration}ms`);
-        });
-
-        grid.bind('onClick', function(e, d) {
-        
-        });
-
-        grid.bind('onUpdated', function(e, d) {
-
-            const visibleRowList = grid.viewport.rows;
-            // console.log(visibleRowList);
-
-            const rows = [];
-            const heights = [];
-
-            visibleRowList.forEach(function(viewIndex) {
-                const rowItem = grid.getViewRowItem(viewIndex);
-                if (rowItem.rowHeightFixed) {
-                    return;
-                }
-                const cellNode = grid.getCellNode(rowItem, 'description');
-                if (!cellNode) {
-                    return;
-                }
-                rowItem.rowHeightFixed = true;
-                const div = cellNode.querySelector('.tg-multiline-fixing');
-                // 10px is padding top and bottom
-                const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
-                rows.push(rowItem);
-                heights.push(realHeight);
-            });
-
-            // nothing fix
-            if (!rows.length) {
-                return;
-            }
-            grid.setRowHeight(rows, heights);
-        });
-
-        grid.bind('onColumnWidthChanged', function(e, d) {
-            if (d.id !== 'description') {
-                return;
-            }
-            // reset when column width changed
-            this.forEachRow(function(row) {
-                row.rowHeightFixed = false;
-            });
-        });
-
-        grid.bind('onSort', function(e, d) {
-        
         });
 
         grid.bind('onSelectChanged', function(e, d) {
@@ -139,19 +88,14 @@
                     width: 150,
                     minWidth: 100,
                     maxWidth: 500,
-                    classMap: 'tg-multiline',
                     formatter: (v, rowItem, columnItem) => {
-                        return `<a class="tg-multiline-wrapper" href=${rowItem.reference} target="_blank"><font color="skyblue"><b>${v}</b></font></a>`;
+                        return `<a href=${rowItem.reference} target="_blank"><font color="skyblue"><b>${v}</b></font></a>`;
                     }
                 }, {
                     id: 'description',
                     name: 'Description',
                     width: 400,
-                    maxWidth: 5000,
-                    classMap: 'tg-multiline',
-                    formatter: (v) => {
-                        return `<div class="tg-multiline-fixing">${v}</div>`;
-                    }
+                    maxWidth: 5000
                 }, {
                     id: 'author',
                     name: 'Author',
@@ -211,22 +155,19 @@
 
                 frozenColumn: 0,
 
-                rowHeight: 60,
+                rowHeight: 36,
+                textSelectable: true,
+                cellResizeObserver: function(rowItem, columnItem) {
+                    if (columnItem.id === 'title' || columnItem.id === 'description') {
+                        return true;
+                    }
+                },
+
+
                 bindWindowResize: true,
 
                 rowFilter: function(rowItem) {
-                    if (!keywords) {
-                        return true;
-                    }
-
-                    let matched = false;
-                    ['author', 'description', 'title'].forEach((k) => {
-                        const content = rowItem[k];
-                        if (content && content.toLowerCase().includes(keywords)) {
-                            matched = true;
-                        }
-                    });
-                    return matched;
+                    return grid.highlightKeywordsFilter(rowItem, ['author', 'description', 'title'], keywords);
                 }
             };
             grid.setOption(options);

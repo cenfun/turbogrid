@@ -52,20 +52,6 @@
             background-color: beige;
         }
 
-        &.tg-multiline {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 5px;
-            line-height: normal;
-            white-space: normal;
-            text-overflow: ellipsis;
-
-            .tg-multiline-wrapper {
-                overflow: hidden;
-            }
-        }
-
         &.tg-align-left {
             &.tg-cell-negative {
                 padding-left: 1px;
@@ -78,15 +64,22 @@
             }
         }
 
-        .tg-cell-observer {
+        &.tg-cell-observer {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin: 5px 0;
+            padding: 5px;
             line-height: normal;
             white-space: normal;
             text-overflow: ellipsis;
             overflow: hidden;
+
+            .tg-observer {
+                position: relative;
+                margin: 0;
+                padding: 0;
+                border: none;
+            }
         }
     }
 }

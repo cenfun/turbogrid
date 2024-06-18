@@ -55,10 +55,6 @@
                         <input type="number" value="30" class="ip-number ip_rowHeight" />
                     </label>
                     <label>
-                        <input type="checkbox" checked class="cb_textSelectable" />
-                        textSelectable
-                    </label>
-                    <label>
                         <input type="checkbox" class="cb_scrollbarFade" />
                         scrollbarFade
                     </label>
@@ -79,7 +75,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        const { Grid, $ } = window.turbogrid;
+        const { Grid } = window.turbogrid;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
@@ -110,39 +106,6 @@
             };
         };
 
-        const rowHeightFix = function() {
-            if (!document.querySelector('.cb_rowHeightFix').checked) {
-                return;
-            }
-
-            const visibleRowList = grid.viewport.rows;
-            // console.log(visibleRowList);
-            const rows = [];
-            const heights = [];
-            visibleRowList.forEach(function(viewIndex) {
-                const rowItem = grid.getViewRowItem(viewIndex);
-                if (!rowItem.rowHeightFixable || rowItem.rowHeightFixed) {
-                    return;
-                }
-                const cellNode = grid.getCellNode(rowItem, 'title');
-                if (!cellNode) {
-                    return;
-                }
-                rowItem.rowHeightFixed = true;
-                const div = cellNode.querySelector('.tg-multiline-fixing');
-                // 10px is padding top and bottom
-                const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
-                rows.push(rowItem);
-                heights.push(realHeight);
-            });
-            if (!rows.length) {
-                // console.log("nothing fix")
-                return;
-            }
-            console.log('row height fix: ', rows);
-            grid.setRowHeight(rows, heights);
-
-        };
 
         let loading = false;
         const loadNextPage = function() {
@@ -229,20 +192,6 @@
         grid.bind('onUpdated', function(e, d) {
             updateWidth();
             loadNextPage();
-            rowHeightFix();
-        });
-
-        grid.bind('onColumnWidthChanged', function(e, d) {
-            if (d.id !== 'title') {
-                return;
-            }
-            console.log('onColumnWidthChanged');
-            // reset when column width changed
-            this.forEachRow(function(row) {
-                if (row.rowHeightFixable) {
-                    row.rowHeightFixed = false;
-                }
-            });
         });
 
         // =========================================================================================
@@ -263,17 +212,10 @@
                     name: 'Title',
                     sortable: false,
                     resizable: false,
-                    maxWidth: 2048,
-                    formatter: function(value, rowItem, columnItem, cellNode) {
-                        if (rowItem.rowHeightFixable && value) {
-                            $(cellNode).addClass('tg-multiline');
-                            return `<div class="tg-multiline-fixing" index="${rowItem.tg_index}">${value}</div>`;
-                        }
-                        return value;
-                    }
+                    maxWidth: 2048
                 }, {
                     id: 'tg_height',
-                    name: 'Height',
+                    name: 'tg_height',
                     width: 60,
                     align: 'center',
                     sortable: false
@@ -299,10 +241,15 @@
             const options = {
                 theme: document.querySelector('.st-theme').value,
                 rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
-                textSelectable: document.querySelector('.cb_textSelectable').checked,
                 scrollbarFade: document.querySelector('.cb_scrollbarFade').checked,
                 frozenRow: 1,
-                selectVisible: true
+                selectVisible: true,
+                textSelectable: true,
+                cellResizeObserver: function(rowItem, columnItem) {
+                    if (rowItem.rowHeightFixable && columnItem.id === 'title') {
+                        return true;
+                    }
+                }
             };
             grid.setOption(options);
             grid.setFormatter({
@@ -331,7 +278,7 @@
             grid.deleteRow(selectedRows);
         });
         
-        ['.st-theme', '.ip_pageSize', '.ip_rowHeight', '.cb_textSelectable', '.cb_scrollbarFade', '.cb_rowHeightFix'].forEach(function(item) {
+        ['.st-theme', '.ip_pageSize', '.ip_rowHeight', '.cb_scrollbarFade', '.cb_rowHeightFix'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

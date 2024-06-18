@@ -101,24 +101,16 @@
                 selectVisible: true,
                 rowNotFound: '<div>Not Found</div>',
                 rowFilter: function(rowItem) {
-                    if (!keywords) {
-                        return true;
-                    }
+                    let hasMatched = grid.highlightKeywordsFilter(rowItem, ['name'], keywords);
+
                     if (rowItem.tg_frozen) {
-                        return true;
+                        hasMatched = true;
                     }
                     // filter blank row
                     if (rowItem.formatter === 'blank') {
-                        return false;
+                        hasMatched = false;
                     }
-                    let name = rowItem.name;
-                    if (name) {
-                        name = name.toLowerCase();
-                        if (name.indexOf(keywords) !== -1) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    return hasMatched;
                 },
                 rowFilteredSort
             };

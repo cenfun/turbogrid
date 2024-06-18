@@ -84,11 +84,15 @@ export default {
         });
     },
 
-    getCellClass: function(rowItem, columnItem) {
+    getCellClass: function(rowItem, columnItem, resizable) {
 
         const column = columnItem.tg_view_index;
 
         const list = ['tg-cell'];
+
+        if (resizable) {
+            list.push('tg-cell-observer');
+        }
 
         list.push(`tg-c-${column}`);
 
@@ -122,52 +126,51 @@ export default {
         // console.log(this.dataCache);
 
         const rowMap = new Map();
-        const getItem = (row, rowItem) => {
-            if (rowMap.has(row)) {
-                return rowMap.get(row);
-            }
-
-            const item = {
-                rowItem,
-                height: this.getRowHeight(rowItem),
-                heights: [this.options.rowHeight]
-            };
-
-            rowMap.set(row, item);
-
-            return item;
-        };
-
         entries.forEach((entry) => {
-            const { target, contentRect } = entry;
+            const { target } = entry;
             const dataCache = this.getNodeDataCache(target.parentNode);
             if (!dataCache) {
                 return;
             }
-
             const { row, rowItem } = dataCache;
-            const item = getItem(row, rowItem);
-            // padding 5 + 5 + border 1
-            item.heights.push(contentRect.height + 11);
+            rowMap.set(row, rowItem);
         });
 
         // console.log('cell resize', rowMap);
 
-        const rows = [];
-        rowMap.forEach((item) => {
-            const height = Math.max.apply(null, item.heights);
-            if (height === item.height) {
+        let hasChanged = false;
+        rowMap.forEach((rowItem, row) => {
+            const rowCache = this.getRowCache(row);
+            if (!rowCache) {
                 return;
             }
-            rows.push(item.rowItem);
-            item.rowItem.tg_height = height;
+            const observerNodes = rowCache.observerNodes;
+            if (!observerNodes) {
+                return;
+            }
+
+            const { rowHeight, rowMinHeight } = this.options;
+            let height = Math.max(rowMinHeight || rowHeight, 1);
+
+            observerNodes.forEach((observerNode) => {
+                if (observerNode) {
+                    // padding 5 + 5 + border 1
+                    const rh = observerNode.clientHeight + 11;
+                    if (rh > height) {
+                        height = rh;
+                    }
+                }
+            });
+            const ph = this.getRowHeight(rowItem);
+            if (ph === height) {
+                return;
+            }
+
+            rowItem.tg_height = height;
+            hasChanged = true;
         });
 
-        // console.log(rows);
-        // console.log(heights);
-
-        if (rows.length) {
-            // render resize and css
+        if (hasChanged) {
             this.render('rows_cache');
         }
 
@@ -187,10 +190,12 @@ export default {
             return;
         }
 
+        const resizable = this.cellResizeObserverHandler(rowItem, columnItem);
+
         const cellNode = document.createElement('div');
         // for event position
         cellNode.setAttribute('column', column);
-        const classMap = this.getCellClass(rowItem, columnItem);
+        const classMap = this.getCellClass(rowItem, columnItem, resizable);
         cellNode.className = classMap;
         const cssText = Util.styleMap(columnItem.styleMap) + Util.styleMap(rowItem[`${columnItem.id}StyleMap`]);
         if (cssText) {
@@ -204,10 +209,9 @@ export default {
         this.appendNode(rowNode, cellNode);
 
         let observerNode;
-        const resizable = this.cellResizeObserverHandler(rowItem, columnItem);
         if (resizable) {
             observerNode = document.createElement('div');
-            observerNode.className = 'tg-cell-observer';
+            observerNode.className = 'tg-observer';
             cellNode.appendChild(observerNode);
             this.cellResizeObserver.observe(observerNode);
             rowCache.observerNodes.set(column, observerNode);

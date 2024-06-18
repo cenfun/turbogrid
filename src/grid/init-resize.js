@@ -26,27 +26,32 @@ export default {
 
     // =============================================================================
 
+    bindElementsResize: function(elements, callback) {
+        // failed in chrome v63
+        if (typeof ResizeObserver === 'undefined') {
+            return;
+        }
+        const resizeObserver = new ResizeObserver((entries) => {
+            // console.log(entries);
+            callback.apply(this, entries);
+        });
+        elements.forEach((elem) => {
+            resizeObserver.observe(elem);
+        });
+        return resizeObserver;
+    },
+
     initBindContainerResize: function() {
         this.unbindContainerResize();
         if (!this.options.bindContainerResize || !this.holder) {
             return;
         }
-        // failed in chrome v63
-        if (typeof ResizeObserver === 'undefined') {
-            return;
-        }
-        const isVisible = function(elem) {
-            return Boolean(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
-        };
-        this.resizeObserver = new ResizeObserver((entries) => {
-            // console.log(entries);
-            if (!isVisible(this.holder)) {
-                return;
+        this.resizeObserver = this.bindElementsResize([this.holder], (entries) => {
+            const isVisible = Boolean(this.holder.offsetWidth || this.holder.offsetHeight || this.holder.getClientRects().length);
+            if (isVisible) {
+                this.resize();
             }
-
-            this.resize();
         });
-        this.resizeObserver.observe(this.holder);
     },
 
     unbindContainerResize: function() {

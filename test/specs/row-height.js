@@ -42,37 +42,35 @@ describe('Row height', function() {
         container = null;
     });
 
-    it('Grid default row height', function(done) {
+    it('Grid default row height', async () => {
 
         grid.setData(data);
         grid.setOption({
             frozenRow: 1
         });
-        grid.once('onFirstUpdated', function() {
-
-
-            assert.equal(grid.getRowItem('total').tg_height, 30);
-            assert.equal(container.querySelector('.tg-row[row="0"]').style.height, '30px');
-
-            assert.equal(grid.getRowItem('row1').tg_height, 35);
-            assert.equal(container.querySelector('.tg-row[row="1"]').style.height, '35px');
-
-            assert.equal(typeof grid.getRowItem('row11').tg_height, 'undefined');
-            // if default row height will be empty
-            assert.equal(container.querySelector('.tg-row[row="2"]').style.height, '');
-
-            assert.equal(grid.getRowItem('row2').tg_height, 50);
-            assert.equal(container.querySelector('.tg-row[row="4"]').style.height, '50px');
-
-            assert.equal(grid.getRowItem('row3').tg_height, 38);
-            assert.equal(container.querySelector('.tg-row[row="5"]').style.height, '38px');
-
-            assert.equal(typeof grid.getRowItem('row21').tg_height, 'undefined');
-            assert.equal(typeof grid.getRowItem('row22').tg_height, 'undefined');
-
-            done();
-        });
         grid.render();
+        await delay();
+
+        assert.equal(grid.getRowItem('total').tg_height, 30);
+        assert.equal(container.querySelector('.tg-row[row="0"]').style.height, '30px');
+
+        assert.equal(grid.getRowItem('row1').tg_height, 35);
+        assert.equal(container.querySelector('.tg-row[row="1"]').style.height, '35px');
+
+        assert.equal(typeof grid.getRowItem('row11').tg_height, 'undefined');
+        // if default row height will be empty
+        assert.equal(container.querySelector('.tg-row[row="2"]').style.height, '');
+
+        assert.equal(grid.getRowItem('row2').tg_height, 50);
+        assert.equal(container.querySelector('.tg-row[row="4"]').style.height, '50px');
+
+        // id row3, index is 5
+        assert.equal(typeof grid.getRowItem('row3').tg_height, 'undefined');
+        assert.equal(container.querySelector('.tg-row[row="5"]').style.height, '');
+
+        assert.equal(typeof grid.getRowItem('row21').tg_height, 'undefined');
+        assert.equal(typeof grid.getRowItem('row22').tg_height, 'undefined');
+
     });
 
     it('Grid setRowHeight', async () => {

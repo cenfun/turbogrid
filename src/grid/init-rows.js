@@ -143,69 +143,6 @@ export default {
 
     },
 
-    // ========================================================================================
-
-    initRowHeight: function(item) {
-        if (!Util.hasOwn(item, 'height')) {
-            return;
-        }
-        if (Util.isNum(item.height)) {
-            item.tg_height = Math.round(item.height);
-            return;
-        }
-        // console.log('item.height', item.height);
-        // height is column id, using this column value to compute height
-        const column = this.getColumnItem(item.height);
-        if (column) {
-            const h = this.getComputedRowHeight(item, column);
-            if (Util.isNum(h)) {
-                item.tg_height = h;
-            }
-        }
-    },
-
-    getComputedRowHeight: function(rowItem, columnItem) {
-        const dh = this.options.rowHeight;
-        const str = rowItem[columnItem.id] || '';
-        const len = (`${str}`).length;
-        // a char average width 5px
-        const width = len * 5;
-        if (width <= columnItem.tg_width) {
-            return dh;
-        }
-        // text line height is 16 when font size is 14px
-        // padding top and bottom is 6
-        return Math.ceil(width / columnItem.tg_width) * 16 + 6;
-    },
-
-    setRowHeight: function(rowInfo, heightInfo) {
-
-        const rowList = Util.toList(rowInfo);
-        if (!rowList.length) {
-            return this;
-        }
-
-        const heightList = Util.toList(heightInfo);
-        heightList.length = rowList.length;
-
-        const defaultHeight = this.options.rowHeight;
-        rowList.forEach((rowIndex, i) => {
-            const rowItem = this.getRowItem(rowIndex);
-            if (!rowItem) {
-                return;
-            }
-            const h = heightList[i] || defaultHeight;
-            rowItem.height = h;
-            delete rowItem.tg_height;
-            this.initRowHeight(rowItem);
-            this.flushRowFrom(rowItem.tg_view_index);
-        });
-
-        this.render('rows');
-
-        return this;
-    },
-
     // =============================================================================
     // filter handler
 

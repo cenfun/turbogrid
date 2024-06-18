@@ -275,6 +275,8 @@ export default {
         return Util.classMap(list);
     },
 
+    // ========================================================================================
+
     getRowHeight: function(rowItem) {
         if (rowItem && Util.isNum(rowItem.tg_height)) {
             return rowItem.tg_height;
@@ -300,6 +302,62 @@ export default {
         return h;
     },
 
+    initRowHeight: function(item) {
+        const height = item.height;
+        if (Util.isNum(height)) {
+            const h = Math.round(height);
+            if (h > 0) {
+                item.tg_height = h;
+            }
+        }
+    },
+
+    setRowHeight: function(rowInfo, heightInfo) {
+
+        const rowList = Util.toList(rowInfo);
+        if (!rowList.length) {
+            return this;
+        }
+
+        const heightList = Util.toList(heightInfo);
+        heightList.length = rowList.length;
+
+        const defaultHeight = this.options.rowHeight;
+
+        const getNewHeight = (i) => {
+            const height = heightList[i];
+            if (Util.isNum(height)) {
+                const h = Math.round(height);
+                if (h > 0) {
+                    return h;
+                }
+            }
+
+            // reset to default height when set a invalid height
+            return defaultHeight;
+        };
+
+
+        rowList.forEach((rowIndex, i) => {
+            const rowItem = this.getRowItem(rowIndex);
+            if (!rowItem) {
+                return;
+            }
+
+            const h = getNewHeight(i);
+            // keep the height set by user
+            rowItem.height = h;
+            rowItem.tg_height = h;
+            this.flushRowFrom(rowItem.tg_view_index);
+
+        });
+
+        this.render('rows');
+
+        return this;
+    },
+
+    // ========================================================================================
     // init tg_top from the beginning
 
     // with scroll top offset

@@ -3,8 +3,9 @@ export default {
 
     createCache: function() {
         this.headerCache = new Map();
-        this.bodyCache = new Map();
+        this.rowsCache = new Map();
         this.dataCache = new WeakMap();
+
         this.cellResizeObserver = this.createResizeObserver((entries) => {
             this.cellResizeHandler(entries);
         });
@@ -29,14 +30,15 @@ export default {
     // =============================================================================
 
     setRowCache: function(row, rowNodes) {
-        this.bodyCache.set(row, {
+        this.rowsCache.set(row, {
             rowNodes,
-            cellNodes: new Map()
+            cellNodes: new Map(),
+            observerNodes: new Map()
         });
     },
 
     getRowCache: function(row) {
-        return this.bodyCache.get(row);
+        return this.rowsCache.get(row);
     },
 
     deleteRowCache: function(row) {
@@ -44,7 +46,16 @@ export default {
         if (!rowCache) {
             return;
         }
-        this.bodyCache.delete(row);
+        this.rowsCache.delete(row);
+
+        const observerNodes = rowCache.observerNodes;
+        if (observerNodes) {
+            observerNodes.forEach((observerNode) => {
+                if (observerNode) {
+                    this.cellResizeObserver.unobserve(observerNode);
+                }
+            });
+        }
 
         const rowNodes = rowCache.rowNodes;
         if (rowNodes) {
@@ -53,24 +64,22 @@ export default {
             });
         }
 
-        const cellNodes = rowCache.cellNodes;
-        if (cellNodes) {
-            cellNodes.forEach((cellNode) => {
-                this.cellResizeObserver.unobserve(cellNode);
-            });
-        }
     },
 
-    deleteCellCache: function(cellNodes, column) {
-        if (!cellNodes) {
-            return;
+    deleteCellCache: function(column, cellNodes, observerNodes) {
+
+        if (observerNodes) {
+            const observerNode = observerNodes.get(column);
+            if (observerNode) {
+                this.cellResizeObserver.unobserve(observerNode);
+            }
+            observerNodes.delete(column);
         }
-        const cellNode = cellNodes.get(column);
-        if (cellNode) {
-            this.cellResizeObserver.unobserve(cellNode);
-            this.removeNode(cellNode);
+
+        if (cellNodes) {
+            this.removeNode(cellNodes.get(column));
+            cellNodes.delete(column);
         }
-        cellNodes.delete(column);
     },
 
     // =============================================================================
@@ -93,9 +102,9 @@ export default {
     // =============================================================================
 
     // callback(row, rowNodes, cellNodes)
-    forEachBodyCache: function(callback) {
-        this.bodyCache.forEach((bodyCache, row) => {
-            callback.call(this, row, bodyCache.rowNodes, bodyCache.cellNodes);
+    forEachRowsCache: function(callback) {
+        this.rowsCache.forEach((rowCache, row) => {
+            callback.call(this, row, rowCache.rowNodes, rowCache.cellNodes, rowCache.observerNodes);
         });
     },
 
@@ -105,7 +114,7 @@ export default {
     updateRowCacheTopOffset: function() {
         // console.log("updateRowCacheTopOffset", this.scrollTopOffset);
         const fr = this.frozenInfo.row;
-        this.forEachBodyCache((row, rowNodes, cellNodes) => {
+        this.forEachRowsCache((row, rowNodes) => {
             // do NOT update frozen row
             if (row <= fr) {
                 return;
@@ -136,8 +145,9 @@ export default {
 
     removeCache: function() {
         this.headerCache = null;
-        this.bodyCache = null;
+        this.rowsCache = null;
         this.dataCache = null;
+
         if (this.cellResizeObserver) {
             this.cellResizeObserver.disconnect();
             this.cellResizeObserver = null;

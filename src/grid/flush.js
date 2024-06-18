@@ -20,7 +20,7 @@ export default {
             return;
         }
 
-        this.forEachBodyCache((row, rowNodes, cellNodes) => {
+        this.forEachRowsCache((row) => {
             if (row >= fromIndex) {
                 this.deleteRowCache(row);
             }
@@ -31,7 +31,7 @@ export default {
     // =============================================================================
 
     flushBody: function() {
-        this.forEachBodyCache((row, rowNodes, cellNodes) => {
+        this.forEachRowsCache((row) => {
             this.deleteRowCache(row);
         });
     },
@@ -48,9 +48,9 @@ export default {
 
     flushColumn: function(columnInfo) {
         const columnList = Util.toList(columnInfo);
-        this.forEachBodyCache((row, rowNodes, cellNodes) => {
+        this.forEachRowsCache((row, rowNodes, cellNodes, observerNodes) => {
             columnList.forEach((column) => {
-                this.deleteCellCache(cellNodes, column);
+                this.deleteCellCache(column, cellNodes, observerNodes);
             });
         });
     },
@@ -59,10 +59,10 @@ export default {
         if (!Util.isNum(fromIndex)) {
             return;
         }
-        this.forEachBodyCache((row, rowNodes, cellNodes) => {
+        this.forEachRowsCache((row, rowNodes, cellNodes, observerNodes) => {
             cellNodes.forEach((cellNode, column) => {
                 if (column >= fromIndex) {
-                    this.deleteCellCache(cellNodes, column);
+                    this.deleteCellCache(column, cellNodes, observerNodes);
                 }
             });
         });
@@ -79,8 +79,9 @@ export default {
                 return;
             }
             const cellNodes = rowCache.cellNodes;
+            const observerNodes = rowCache.observerNodes;
             columnList.forEach((column) => {
-                this.deleteCellCache(cellNodes, column);
+                this.deleteCellCache(column, cellNodes, observerNodes);
             });
         });
     },
@@ -91,7 +92,7 @@ export default {
     // clean handler, remove out of viewport
     flushWithViewport: function() {
         const { rows, columns } = this.viewport;
-        this.forEachBodyCache((row, rowNodes, cellNodes) => {
+        this.forEachRowsCache((row, rowNodes, cellNodes, observerNodes) => {
             if (!rows.includes(row)) {
                 // remove out of rows (include all columns)
                 this.deleteRowCache(row);
@@ -100,7 +101,7 @@ export default {
             // remove out of columns
             cellNodes.forEach((cellNode, column) => {
                 if (!columns.includes(column)) {
-                    this.deleteCellCache(cellNodes, column);
+                    this.deleteCellCache(column, cellNodes, observerNodes);
                 }
             });
 

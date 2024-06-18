@@ -28,8 +28,6 @@
                     <button>setRowHeight(3, 80)</button>
                     <button>setRowHeight(3)</button>
 
-                    <button>setRowHeight(3, "title")</button>
-                    <button>setRowHeight(3, "name")</button>
                     <button>setRowHeight(10)</button>
                     <button>setRowHeight("row15", 100)</button>
                     <button>setRowHeight("row15")</button>
@@ -81,10 +79,6 @@
                     <textarea class="usage-data2" style="width: 100%; height: 38px;">This is text 2, This is text 2, This is text 2, This is text 2, This is text 2</textarea>
                 </div>
                 <div>
-                    <label>
-                        <input type="checkbox" class="cb_rowHeightFix" />
-                        rowHeightFix
-                    </label>
                     <input class="bt-del" type="button" value="delete selected rows" />
                 </div>
             </div>
@@ -92,64 +86,11 @@
         </div>
     </div>
     <script type="text/javascript">
-        const { Grid, $ } = window.turbogrid;
+        const { Grid } = window.turbogrid;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
             console.log('duration:', `${this.renderDuration}ms`);
-        });
-
-        // row height fix
-        grid.bind('onUpdated', function(e, d) {
-            if (!document.querySelector('.cb_rowHeightFix').checked) {
-                return;
-            }
-
-            const visibleRowList = grid.viewport.rows;
-            // console.log(visibleRowList);
-
-            const rows = [];
-            const heights = [];
-
-            // console.log(grid.rows, visibleRowList);
-
-            visibleRowList.forEach(function(viewIndex) {
-                const rowItem = grid.getViewRowItem(viewIndex);
-                // console.log(row.name, row.tg_index);
-                if (!rowItem.rowHeightFixable || rowItem.rowHeightFixed) {
-                    return;
-                }
-                const cellNode = grid.getCellNode(rowItem, 'title');
-                if (!cellNode) {
-                    return;
-                }
-                rowItem.rowHeightFixed = true;
-                const div = cellNode.querySelector('.tg-multiline-fixing');
-                // 10px is padding top and bottom
-                const realHeight = Math.max($(div).height() + 10, grid.options.rowHeight);
-                rows.push(rowItem);
-                heights.push(realHeight);
-            });
-
-            // nothing fix
-            if (!rows.length) {
-                return;
-            }
-
-            console.log('row height fix: ', rows);
-            grid.setRowHeight(rows, heights);
-        });
-
-        grid.bind('onColumnWidthChanged', function(e, d) {
-            if (d.id !== 'title') {
-                return;
-            }
-            // reset when column width changed
-            this.forEachRow(function(row) {
-                if (row.rowHeightFixable) {
-                    row.rowHeightFixed = false;
-                }
-            });
         });
 
         // =========================================================================================
@@ -255,23 +196,16 @@
                     name: 'Height',
                     type: 'number'
                 }, {
-                    id: 'title',
-                    name: 'column 1',
-                    width: 300,
-                    maxWidth: 1000,
-                    formatter: function(value, rowItem, columnItem, cellNode) {
-                        if (rowItem.rowHeightFixable && value) {
-                            $(cellNode).addClass('tg-multiline');
-                            return `<div class="tg-multiline-fixing" index="${rowItem.tg_index}">${value}</div>`;
-                        }
-                        return value;
-                    }
-                }, {
                     id: 'rowHeightFixable',
                     name: 'Fixable',
                     formatter: function(value, rowItem) {
                         return Boolean(rowItem.rowHeightFixable);
                     }
+                }, {
+                    id: 'title',
+                    name: 'column 1',
+                    width: 300,
+                    maxWidth: 1000
                 }, {
                     id: 'refresh',
                     name: 'refresh',
@@ -310,6 +244,7 @@
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
                 rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
 
+                textSelectable: true,
                 cellResizeObserver: function(rowItem, columnItem) {
                     if (rowItem.rowHeightFixable && columnItem.id === 'title') {
                         return true;
@@ -340,8 +275,7 @@
             '.it_rowCacheLength',
             '.cb_selectVisible',
             '.cb_rowNumberVisible',
-            '.cb_rowDragVisible',
-            '.cb_rowHeightFix'
+            '.cb_rowDragVisible'
         ].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();

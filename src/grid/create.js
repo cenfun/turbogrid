@@ -29,7 +29,7 @@ export default {
     createView: function(holder) {
         this.createHolder(holder);
         if (!this.$holder) {
-            console.error('Grid requires a container');
+            console.error('ERROR: Grid requires a container');
             return;
         }
         this.createGlobalStyle();

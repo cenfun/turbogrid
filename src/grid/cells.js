@@ -13,7 +13,11 @@ export default {
         return rowItem[columnItem.id];
     },
 
-    renderCell: function(rowItem, columnItem, cellNode) {
+    renderCell: function(cellData) {
+
+        const {
+            rowItem, columnItem, cellNode, observerNode
+        } = cellData;
 
         const value = this.getCellValue(rowItem, columnItem);
 
@@ -21,7 +25,7 @@ export default {
 
         // 1, null formatter only for value
         if (this.nullFormatter) {
-            content = this.nullFormatter.call(this, content, rowItem, columnItem, cellNode);
+            content = this.nullFormatter.call(this, content, rowItem, columnItem, cellNode, observerNode);
         }
 
         // 2, row formatter, high priority
@@ -30,10 +34,11 @@ export default {
 
         // column formatter
         if (typeof formatter === 'function') {
-            content = formatter.call(this, content, rowItem, columnItem, cellNode);
+            content = formatter.call(this, content, rowItem, columnItem, cellNode, observerNode);
         }
 
-        this.renderNodeContent(cellNode, content);
+        const parentNode = observerNode || cellNode;
+        this.renderNodeContent(parentNode, content);
 
         const { highlightKey } = this.options.highlightKeywords;
         const hasHighlight = rowItem[highlightKey + columnItem.id];
@@ -79,18 +84,13 @@ export default {
         });
     },
 
-    getCellClass: function(rowItem, columnItem, resizable) {
+    getCellClass: function(rowItem, columnItem) {
 
         const column = columnItem.tg_view_index;
 
         const list = ['tg-cell'];
 
         list.push(`tg-c-${column}`);
-
-        // Dynamic Height
-        if (resizable) {
-            list.push('tg-multiline');
-        }
 
         if (columnItem.align) {
             list.push(`tg-align-${columnItem.align}`);
@@ -119,15 +119,59 @@ export default {
 
     cellResizeHandler: function(entries) {
 
-        entries.forEach((entry) => {
-            const { target } = entry;
-            const dataCache = this.getNodeDataCache(target);
-            console.log(dataCache);
+        // console.log(this.dataCache);
 
+        const rowMap = new Map();
+        const getItem = (row, rowItem) => {
+            if (rowMap.has(row)) {
+                return rowMap.get(row);
+            }
+
+            const item = {
+                rowItem,
+                height: this.getRowHeight(rowItem),
+                heights: [this.options.rowHeight]
+            };
+
+            rowMap.set(row, item);
+
+            return item;
+        };
+
+        entries.forEach((entry) => {
+            const { target, contentRect } = entry;
+            const dataCache = this.getNodeDataCache(target.parentNode);
+            if (!dataCache) {
+                return;
+            }
+
+            const { row, rowItem } = dataCache;
+            const item = getItem(row, rowItem);
+            // padding 5 + 5 + border 1
+            item.heights.push(contentRect.height + 11);
         });
 
-        console.log('cell resize');
+        // console.log('cell resize', rowMap);
 
+        const rows = [];
+        const heights = [];
+        rowMap.forEach((item) => {
+
+            const height = Math.max.apply(null, item.heights);
+            if (height === item.height) {
+                return;
+            }
+
+            rows.push(item.rowItem);
+            heights.push(height);
+        });
+
+        // console.log(rows);
+        // console.log(heights);
+
+        if (rows.length) {
+            this.setRowHeight(rows, heights);
+        }
     },
 
     createCellNode: function(row, column) {
@@ -145,15 +189,9 @@ export default {
         }
 
         const cellNode = document.createElement('div');
-
-        const resizable = this.cellResizeObserverHandler(rowItem, columnItem);
-        if (resizable) {
-            this.cellResizeObserver.observe(cellNode);
-        }
-
         // for event position
         cellNode.setAttribute('column', column);
-        const classMap = this.getCellClass(rowItem, columnItem, resizable);
+        const classMap = this.getCellClass(rowItem, columnItem);
         cellNode.className = classMap;
         const cssText = Util.styleMap(columnItem.styleMap) + Util.styleMap(rowItem[`${columnItem.id}StyleMap`]);
         if (cssText) {
@@ -166,18 +204,32 @@ export default {
         const rowNode = this.getCellRowNode(rowNodes, frozen);
         this.appendNode(rowNode, cellNode);
 
-        this.renderCell(rowItem, columnItem, cellNode);
+        let observerNode;
+        const resizable = this.cellResizeObserverHandler(rowItem, columnItem);
+        if (resizable) {
+            observerNode = document.createElement('div');
+            observerNode.className = 'tg-cell-observer';
+            cellNode.appendChild(observerNode);
+            this.cellResizeObserver.observe(observerNode);
+            rowCache.observerNodes.set(column, observerNode);
+        }
 
-        // node and data cache
-        rowCache.cellNodes.set(column, cellNode);
-        this.setNodeDataCache(cellNode, {
+        const cellData = {
             row,
             rowItem,
             rowNode,
             column,
             columnItem,
-            cellNode
-        });
+            cellNode,
+            observerNode
+        };
+
+        this.setNodeDataCache(cellNode, cellData);
+
+        // node and data cache
+        rowCache.cellNodes.set(column, cellNode);
+
+        this.renderCell(cellData);
 
     },
 

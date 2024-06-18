@@ -237,7 +237,9 @@ export default function() {
         bindWindowResize: false,
 
         // auto resize when container resize with ResizeObserver
-        bindContainerResize: false
+        bindContainerResize: false,
 
+        // cell resize observer
+        cellResizeObserver: null
     };
 }

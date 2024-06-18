@@ -5,6 +5,9 @@ export default {
         this.headerCache = new Map();
         this.bodyCache = new Map();
         this.dataCache = new WeakMap();
+        this.cellResizeObserver = this.createResizeObserver((entries) => {
+            this.cellResizeHandler(entries);
+        });
     },
 
     // =============================================================================
@@ -37,20 +40,36 @@ export default {
     },
 
     deleteRowCache: function(row) {
-        const rowNodes = this.getRowNodesByIndex(row);
+        const rowCache = this.getRowCache(row);
+        if (!rowCache) {
+            return;
+        }
+        this.bodyCache.delete(row);
+
+        const rowNodes = rowCache.rowNodes;
         if (rowNodes) {
             rowNodes.each((node) => {
                 this.removeNode(node);
             });
         }
-        this.bodyCache.delete(row);
+
+        const cellNodes = rowCache.cellNodes;
+        if (cellNodes) {
+            cellNodes.forEach((cellNode) => {
+                this.cellResizeObserver.unobserve(cellNode);
+            });
+        }
     },
 
     deleteCellCache: function(cellNodes, column) {
         if (!cellNodes) {
             return;
         }
-        this.removeNode(cellNodes.get(column));
+        const cellNode = cellNodes.get(column);
+        if (cellNode) {
+            this.cellResizeObserver.unobserve(cellNode);
+            this.removeNode(cellNode);
+        }
         cellNodes.delete(column);
     },
 
@@ -58,16 +77,16 @@ export default {
 
     // there are 2 rows if frozenInfo.rows (left and right)
     getRowNodesByIndex: function(row) {
-        const bodyCache = this.getRowCache(row);
-        if (bodyCache) {
-            return bodyCache.rowNodes;
+        const rowCache = this.getRowCache(row);
+        if (rowCache) {
+            return rowCache.rowNodes;
         }
     },
 
     getCellNodeByIndex: function(row, column) {
-        const bodyCache = this.getRowCache(row);
-        if (bodyCache) {
-            return bodyCache.cellNodes.get(column);
+        const rowCache = this.getRowCache(row);
+        if (rowCache) {
+            return rowCache.cellNodes.get(column);
         }
     },
 
@@ -119,6 +138,10 @@ export default {
         this.headerCache = null;
         this.bodyCache = null;
         this.dataCache = null;
+        if (this.cellResizeObserver) {
+            this.cellResizeObserver.disconnect();
+            this.cellResizeObserver = null;
+        }
     }
 
 };

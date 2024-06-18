@@ -26,17 +26,17 @@ export default {
 
     // =============================================================================
 
-    bindElementsResize: function(elements, callback) {
+    createResizeObserver: function(callback) {
         // failed in chrome v63
         if (typeof ResizeObserver === 'undefined') {
-            return;
+            return {
+                observe: () => {},
+                unobserve: () => {},
+                disconnect: () => {}
+            };
         }
         const resizeObserver = new ResizeObserver((entries) => {
-            // console.log(entries);
-            callback.apply(this, entries);
-        });
-        elements.forEach((elem) => {
-            resizeObserver.observe(elem);
+            callback.call(this, entries);
         });
         return resizeObserver;
     },
@@ -46,12 +46,13 @@ export default {
         if (!this.options.bindContainerResize || !this.holder) {
             return;
         }
-        this.resizeObserver = this.bindElementsResize([this.holder], (entries) => {
+        this.resizeObserver = this.createResizeObserver((entries) => {
             const isVisible = Boolean(this.holder.offsetWidth || this.holder.offsetHeight || this.holder.getClientRects().length);
             if (isVisible) {
                 this.resize();
             }
         });
+        this.resizeObserver.observe(this.holder);
     },
 
     unbindContainerResize: function() {

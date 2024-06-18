@@ -79,13 +79,18 @@ export default {
         });
     },
 
-    getCellClass: function(rowItem, columnItem) {
+    getCellClass: function(rowItem, columnItem, resizable) {
 
         const column = columnItem.tg_view_index;
 
         const list = ['tg-cell'];
 
         list.push(`tg-c-${column}`);
+
+        // Dynamic Height
+        if (resizable) {
+            list.push('tg-multiline');
+        }
 
         if (columnItem.align) {
             list.push(`tg-align-${columnItem.align}`);
@@ -105,6 +110,26 @@ export default {
         return Util.classMap(list);
     },
 
+    cellResizeObserverHandler: function(rowItem, columnItem) {
+        const cellResizeObserver = this.options.cellResizeObserver;
+        if (typeof cellResizeObserver === 'function') {
+            return cellResizeObserver.apply(this, [rowItem, columnItem]);
+        }
+    },
+
+    cellResizeHandler: function(entries) {
+
+        entries.forEach((entry) => {
+            const { target } = entry;
+            const dataCache = this.getNodeDataCache(target);
+            console.log(dataCache);
+
+        });
+
+        console.log('cell resize');
+
+    },
+
     createCellNode: function(row, column) {
 
         const rowCache = this.getRowCache(row);
@@ -120,9 +145,15 @@ export default {
         }
 
         const cellNode = document.createElement('div');
+
+        const resizable = this.cellResizeObserverHandler(rowItem, columnItem);
+        if (resizable) {
+            this.cellResizeObserver.observe(cellNode);
+        }
+
         // for event position
         cellNode.setAttribute('column', column);
-        const classMap = this.getCellClass(rowItem, columnItem);
+        const classMap = this.getCellClass(rowItem, columnItem, resizable);
         cellNode.className = classMap;
         const cssText = Util.styleMap(columnItem.styleMap) + Util.styleMap(rowItem[`${columnItem.id}StyleMap`]);
         if (cssText) {

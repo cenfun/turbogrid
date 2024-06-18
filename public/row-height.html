@@ -82,7 +82,7 @@
                 </div>
                 <div>
                     <label>
-                        <input type="checkbox" class="cb_rowHeightFix" checked />
+                        <input type="checkbox" class="cb_rowHeightFix" />
                         rowHeightFix
                     </label>
                     <input class="bt-del" type="button" value="delete selected rows" />
@@ -308,7 +308,13 @@
 
                 selectVisible: document.querySelector('.cb_selectVisible').checked,
                 rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
-                rowDragVisible: document.querySelector('.cb_rowDragVisible').checked
+                rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
+
+                cellResizeObserver: function(rowItem, columnItem) {
+                    if (rowItem.rowHeightFixable && columnItem.id === 'title') {
+                        return true;
+                    }
+                }
             };
             grid.setOption(options);
             grid.setData(getData());

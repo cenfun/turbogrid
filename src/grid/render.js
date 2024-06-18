@@ -56,6 +56,15 @@ export default {
             return this;
         }
 
+        // cell resize observer
+        if (renderSettings.type === 'rows_cache') {
+            this.cssRulesInvalid = true;
+            this.updateViewRowsAndSize();
+            this.updateRowCacheTopAndHeight();
+            this.renderBody();
+            return this;
+        }
+
 
         // resize() only resize, no data update
         if (renderSettings.type === 'resize') {

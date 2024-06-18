@@ -154,24 +154,23 @@ export default {
         // console.log('cell resize', rowMap);
 
         const rows = [];
-        const heights = [];
         rowMap.forEach((item) => {
-
             const height = Math.max.apply(null, item.heights);
             if (height === item.height) {
                 return;
             }
-
             rows.push(item.rowItem);
-            heights.push(height);
+            item.rowItem.tg_height = height;
         });
 
         // console.log(rows);
         // console.log(heights);
 
         if (rows.length) {
-            this.setRowHeight(rows, heights);
+            // render resize and css
+            this.render('rows_cache');
         }
+
     },
 
     createCellNode: function(row, column) {

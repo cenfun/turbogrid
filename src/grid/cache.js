@@ -127,6 +127,21 @@ export default {
         });
     },
 
+    updateRowCacheTopAndHeight: function() {
+        this.forEachRowsCache((row, rowNodes) => {
+            if (rowNodes) {
+                const rowItem = this.getViewRowItem(row);
+                const rowTop = this.getViewRowTop(rowItem);
+                const rowHeight = this.getRowHeight(rowItem);
+                rowNodes.css({
+                    top: rowTop,
+                    height: rowHeight,
+                    'line-height': rowHeight
+                });
+            }
+        });
+    },
+
     // =============================================================================
 
     setNodeDataCache: function(node, data) {

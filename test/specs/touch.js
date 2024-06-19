@@ -67,6 +67,10 @@ describe('Touch', function() {
         assert.equal(grid.getScrollLeft(), 30);
         assert.equal(grid.getScrollTop(), 20);
 
+        await delay(100);
+
+        // should be checking left but not stable
+
     });
 
 

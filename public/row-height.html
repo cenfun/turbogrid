@@ -64,6 +64,10 @@
                         <input type="number" min="0" step="1" value="0" class="ip-number it_rowCacheLength" />
                     </label>
 
+                    <label>rowFilter: 
+                        <input type="text" value="" placeholder="keywords" class="ip-keywords" onfocus="this.select()" />
+                    </label>
+
                 </div>
                 <div>
                     <textarea class="usage-data1" style="width: 100%; height: 38px;">This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1</textarea>
@@ -78,6 +82,8 @@
     </div>
     <script type="text/javascript">
         const { Grid } = window.turbogrid;
+
+        let keywords;
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
@@ -289,8 +295,15 @@
                     if (rowItem.rowHeightFixable && ['title', 'comments'].includes(columnItem.id)) {
                         return true;
                     }
+                },
+                rowFilter: function(rowItem) {
+                    let hasMatched = grid.highlightKeywordsFilter(rowItem, ['name', 'title'], keywords);
+                    if (rowItem.tg_frozen) {
+                        hasMatched = true;
+                    }
+                    return hasMatched;
                 }
-            };
+    };
             grid.setOption(options);
             grid.setData(getData());
             grid.render();
@@ -320,6 +333,17 @@
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });
+        });
+
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+
+            // update rows
+            grid.update();
         });
 
         window.initCommonEvents(grid);

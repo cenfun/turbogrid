@@ -262,8 +262,8 @@ describe('rowFilter and rowFilteredSort (invisible 15)', function() {
 
         grid.render();
 
-        // 1 for nextTick
-        await delay(1);
+        // 100 for debounce
+        await delay(100);
 
         const rows = grid.getViewRows();
         assert.equal(rows.length, 10);
@@ -298,8 +298,8 @@ describe('rowFilter and rowFilteredSort (invisible 15)', function() {
 
         grid.render();
 
-        // 1 for nextTick
-        await delay(1);
+        // 100 for debounce
+        await delay(100);
 
         // check mark tag
         const row1 = grid.getViewRows()[0];

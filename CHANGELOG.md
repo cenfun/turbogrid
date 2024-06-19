@@ -4,6 +4,7 @@
     - (breaking) removed API setRowHeight
     - (feature) added new option `cellResizeObserver` for row height auto adjustment
     - fixed minor UI issues for better user experience
+    - fixed highlight keywords for async renders
 
 + 3.1.1
     - added `defaultPrevented` for event data

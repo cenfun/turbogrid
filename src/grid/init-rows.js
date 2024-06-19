@@ -313,27 +313,31 @@ export default {
             return;
         }
 
+        if (!this.asyncHighlightKeywords) {
+            this.asyncHighlightKeywords = Util.debounce(this.highlightKeywordsSync, 10);
+        }
+        this.asyncHighlightKeywords.apply(this, [highlightCells, keywords]);
+
+    },
+
+    highlightKeywordsSync: function(highlightCells, keywords) {
+
         // https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
-        Util.nextTick(() => {
+        // there is no renderSettings in next tick
+        highlightCells.forEach((cellNode) => {
+            const treeWalker = document.createTreeWalker(cellNode, NodeFilter.SHOW_TEXT);
+            const allTextNodes = [];
+            let currentNode = treeWalker.nextNode();
+            while (currentNode) {
+                allTextNodes.push(currentNode);
+                currentNode = treeWalker.nextNode();
+            }
 
-            // there is no renderSettings in next tick
+            if (!allTextNodes.length) {
+                return;
+            }
 
-            highlightCells.forEach((cellNode) => {
-                const treeWalker = document.createTreeWalker(cellNode, NodeFilter.SHOW_TEXT);
-                const allTextNodes = [];
-                let currentNode = treeWalker.nextNode();
-                while (currentNode) {
-                    allTextNodes.push(currentNode);
-                    currentNode = treeWalker.nextNode();
-                }
-
-                if (!allTextNodes.length) {
-                    return;
-                }
-
-                this.highlightTextNodes(allTextNodes, keywords);
-
-            });
+            this.highlightTextNodes(allTextNodes, keywords);
 
         });
     },

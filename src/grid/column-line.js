@@ -22,6 +22,7 @@ export default {
     setColumnLineActive: function(active) {
 
         this.setTextSelectable(!active);
+        this.rowHoverable = !active;
 
         if (active === this.previousColumnLineActive) {
             return;

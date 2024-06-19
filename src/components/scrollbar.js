@@ -5,7 +5,9 @@ import Drag from './drag.js';
 import Motion from './motion.js';
 
 const EVENT = {
-    CHANGE: 'change'
+    CHANGE: 'change',
+    START: 'start',
+    END: 'end'
 };
 
 const types = {
@@ -326,6 +328,7 @@ export default class Scrollbar extends EventBase {
     thumbDragStart(d) {
         this.motionStop();
         d.thumbPositionStart = this.thumbPosition;
+        this.trigger(EVENT.START);
     }
 
     thumbDragMove(d) {
@@ -352,6 +355,7 @@ export default class Scrollbar extends EventBase {
         if (this.$thumb) {
             this.$thumb.removeClass('tg-scrollbar-thumb-hold');
         }
+        this.trigger(EVENT.END);
     }
 
     // ===================================================================

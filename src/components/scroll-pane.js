@@ -4,7 +4,9 @@ import EventBase from '../core/event-base.js';
 import Scrollbar from './scrollbar.js';
 
 const EVENT = {
-    CHANGE: 'change'
+    CHANGE: 'change',
+    START: 'start',
+    END: 'end'
 };
 
 export default class ScrollPane extends EventBase {
@@ -28,12 +30,20 @@ export default class ScrollPane extends EventBase {
         this.scrollbarH = new Scrollbar(Scrollbar.H, this.$container);
         this.scrollbarH.bind(Scrollbar.EVENT.CHANGE, (e, d) => {
             this.scrollHChangeHandler();
+        }).bind(Scrollbar.EVENT.START, (e) => {
+            this.scrollStartEndHandler(true);
+        }).bind(Scrollbar.EVENT.END, (e) => {
+            this.scrollStartEndHandler();
         });
 
         // v scrollbar right
         this.scrollbarV = new Scrollbar(Scrollbar.V, this.$container);
         this.scrollbarV.bind(Scrollbar.EVENT.CHANGE, (e, d) => {
             this.scrollVChangeHandler();
+        }).bind(Scrollbar.EVENT.START, (e) => {
+            this.scrollStartEndHandler(true);
+        }).bind(Scrollbar.EVENT.END, (e) => {
+            this.scrollStartEndHandler();
         });
 
         this.options = this.generateOptions();
@@ -50,6 +60,14 @@ export default class ScrollPane extends EventBase {
         };
 
         return Util.merge(defaultOptions, options);
+    }
+
+    scrollStartEndHandler(start) {
+        if (start) {
+            this.trigger(EVENT.START);
+        } else {
+            this.trigger(EVENT.END);
+        }
     }
 
     // ==========================================================================

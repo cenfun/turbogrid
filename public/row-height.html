@@ -101,7 +101,7 @@
                     name: 'Row c',
                     rowHeightFixable: true,
                     title: `<details>
-                            <summary>keep state: ${text2}</summary>
+                            <summary>${text2}</summary>
                             <p>${text1}</p>
                         </details>`,
                     comments: 'Comments'
@@ -112,6 +112,8 @@
                     comments: 'Text'
                 }, {
                     name: 'Row e',
+                    rowHeightFixable: true,
+                    title: 'formatter',
                     subs: [{
                         name: 'Row ea',
                         height: 50,
@@ -202,7 +204,37 @@
                     id: 'title',
                     name: 'Title',
                     width: 300,
-                    maxWidth: 2000
+                    maxWidth: 2000,
+                    formatter: (v, rowItem) => {
+                        if (v === 'formatter') {
+                            const details = document.createElement('details');
+                            details.ontoggle = (e) => {
+                                rowItem.detailsState = e.newState;
+                                if (rowItem.detailsState === 'open') {
+                                    details.open = true;
+                                    rowItem.hoverable = false;
+                                } else {
+                                    rowItem.hoverable = true;
+                                }
+                            };
+                            if (rowItem.detailsState === 'open') {
+                                details.open = true;
+                            }
+
+                            const summary = document.createElement('summary');
+                            summary.innerHTML = 'keep state';
+
+                            const p = document.createElement('p');
+                            p.innerHTML = 'This is very high element';
+                            p.style.height = '800px';
+
+                            details.appendChild(summary);
+                            details.appendChild(p);
+
+                            return details;
+                        }
+                        return v;
+                    }
                 }, {
                     id: 'refresh',
                     name: 'refresh',

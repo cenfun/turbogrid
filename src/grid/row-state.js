@@ -25,6 +25,10 @@ export default {
             return this;
         }
 
+        if (this.rowHoverable === false) {
+            return;
+        }
+
         if (rowItem.hoverable === false) {
             return this;
         }

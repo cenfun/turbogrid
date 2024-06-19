@@ -141,6 +141,10 @@ export default {
         this.scrollPane = this.scrollPaneMap[key];
         this.scrollPane.bind(ScrollPane.EVENT.CHANGE, (e, d) => {
             this.scrollPaneChangeHandler(e, d);
+        }).bind(ScrollPane.EVENT.START, (e) => {
+            this.rowHoverable = false;
+        }).bind(ScrollPane.EVENT.END, (e) => {
+            this.rowHoverable = true;
         });
 
         // scrollPaneFrozen

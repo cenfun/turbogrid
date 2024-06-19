@@ -10,33 +10,6 @@
     <!--inject:end-->
     <link href="assets/main.css" rel="stylesheet" />
     <script src="assets/main.js"></script>
-    <style>
-    @keyframes tg-loading-icon-animation {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .tg-loading-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        display: block;
-        width: 35px;
-        height: 35px;
-        color: #0077cf;
-        transform: translate(-50%, -50%);
-    }
-
-    .tg-loading-icon svg {
-        animation: 0.5s tg-loading-icon-animation linear infinite;
-    }
-
-    </style>
 </head>
 
 <body>
@@ -101,17 +74,12 @@
             const date = dateGenerator.getTime();
             return {
                 title: title,
-                date: date,
-                rowHeightFixable: true
+                date: date
             };
         };
 
 
-        let loading = false;
         const loadNextPage = function() {
-            if (loading) {
-                return;
-            }
 
             const rowsHeight = grid.getRowsHeight();
             const scrollViewHeight = grid.getScrollViewHeight();
@@ -124,10 +92,8 @@
             const hasRows = grid.getViewRows().length;
 
             if (!hasRows || distance < 20) {
-                if (!hasRows) {
-                    grid.showLoading();
-                }
-                loading = true;
+                grid.showLoading();
+
                 console.log('loading data...');
                 // mock request data delay
                 const timeout = 200 + Math.round(2000 * Math.random());
@@ -143,17 +109,6 @@
                         return b.date - a.date;
                     });
 
-                    list.push({
-                        id: 'loading',
-                        formatter: 'loading',
-                        height: 60,
-                        rowHeightFixable: false
-                    });
-
-                    // console.log(list);
-
-                    grid.deleteRow('loading');
-
                     const parent = null;
                     const position = null;
                     const scrollTo = false;
@@ -161,7 +116,6 @@
 
                     grid.hideLoading();
 
-                    loading = false;
                 }, timeout);
             }
         };
@@ -214,23 +168,19 @@
                     resizable: false,
                     maxWidth: 2048
                 }, {
-                    id: 'tg_height',
-                    name: 'tg_height',
-                    width: 60,
-                    align: 'center',
-                    sortable: false
-                }, {
                     id: 'date',
                     name: 'Date',
                     type: 'date',
                     width: 90,
                     sortable: false,
                     formatter: function(v) {
-                        return new Intl.DateTimeFormat('en-US', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit'
-                        }).format(v);
+                        if (typeof v === 'number') {
+                            return new Intl.DateTimeFormat('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }).format(v);
+                        }
                     }
                 }],
                 rows: []
@@ -246,26 +196,12 @@
                 selectVisible: true,
                 textSelectable: true,
                 cellResizeObserver: function(rowItem, columnItem) {
-                    if (rowItem.rowHeightFixable && columnItem.id === 'title') {
+                    if (columnItem.id === 'title') {
                         return true;
                     }
                 }
             };
             grid.setOption(options);
-            grid.setFormatter({
-                loading: function(value, rowItem, columnItem, cellNode) {
-                    if (columnItem.id === 'title') {
-                        return `
-                        <div class="tg-loading-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <path d="M1,8 A7 7 0 1 1 8 15" stroke-width="2" stroke-linecap="round" fill="none" stroke="currentColor"></path>
-                            </svg>
-                        </div>
-                        `;
-                    }
-                    return '';
-                }
-            });
             grid.setData(getData());
             grid.render();
         }

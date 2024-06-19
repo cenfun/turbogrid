@@ -1,5 +1,9 @@
 # Changelog
 
++ 3.2.0
+    - (breaking) removed API setRowHeight
+    - added new feature: auto adjust row height with option `cellResizeObserver`
+
 + 3.1.1
     - added `defaultPrevented` for event data
     - added `hoverable` for row

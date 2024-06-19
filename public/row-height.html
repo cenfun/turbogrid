@@ -23,6 +23,11 @@
                     <div class="controller-title">Grid Row Height API:</div>
                 </div>
                 <div>
+                    <button>setColumnWidth("title", 200)</button>
+                    <button>setColumnWidth("title", 300)</button>
+                    <button>setColumnWidth("title", 500)</button>
+                </div>
+                <div>
                     <label>
                         <input type="checkbox" checked class="cb_selectVisible" />
                         selectVisible
@@ -96,13 +101,15 @@
                     name: 'Row c',
                     rowHeightFixable: true,
                     title: `<details>
-                            <summary>${text2}</summary>
-                            <div>${text1}</div>
-                        </details>`
+                            <summary>keep state: ${text2}</summary>
+                            <p>${text1}</p>
+                        </details>`,
+                    comments: 'Comments'
                 }, {
                     name: 'Row d',
                     rowHeightFixable: true,
-                    title: "abcdefghijklmn opqrstuvwxyz ABCDEFGHIJKLMN OPQRSTUVWXYZ !@#$%^&*()_+-= 1234567890 ~`{}[];':\"|\\<>?,./"
+                    title: "abcdefghijklmn opqrstuvwxyz ABCDEFGHIJKLMN OPQRSTUVWXYZ !@#$%^&*()_+-= 1234567890 ~`{}[];':\"|\\<>?,./",
+                    comments: 'Text'
                 }, {
                     name: 'Row e',
                     subs: [{
@@ -170,7 +177,8 @@
                 }, {
                     name: 'Row t',
                     rowHeightFixable: true,
-                    title: text1 + text2
+                    title: text1 + text2,
+                    comments: text2
                 }],
                 columns: [{
                     id: 'name',
@@ -192,9 +200,9 @@
                     }
                 }, {
                     id: 'title',
-                    name: 'column 1',
+                    name: 'Title',
                     width: 300,
-                    maxWidth: 1000
+                    maxWidth: 2000
                 }, {
                     id: 'refresh',
                     name: 'refresh',
@@ -215,6 +223,17 @@
                 }, {
                     id: 'c5',
                     name: 'column 5'
+                }, {
+                    id: 'c6',
+                    name: 'column 6',
+                    width: 500
+                }, {
+                    id: 'comments',
+                    name: 'Comments',
+                    width: 300
+                }, {
+                    id: 'c7',
+                    name: 'column 7'
                 }]
             };
         }
@@ -235,7 +254,7 @@
 
                 textSelectable: true,
                 cellResizeObserver: function(rowItem, columnItem) {
-                    if (rowItem.rowHeightFixable && columnItem.id === 'title') {
+                    if (rowItem.rowHeightFixable && ['title', 'comments'].includes(columnItem.id)) {
                         return true;
                     }
                 }

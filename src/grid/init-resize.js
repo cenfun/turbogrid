@@ -28,6 +28,7 @@ export default {
 
     createResizeObserver: function(callback) {
         // failed in chrome v63
+        /* v8 ignore start */
         if (typeof ResizeObserver === 'undefined') {
             console.error('ERROR: This browser does not support ResizeObserver');
             return {
@@ -36,6 +37,9 @@ export default {
                 disconnect: () => {}
             };
         }
+
+        /* v8 ignore stop */
+
         const resizeObserver = new ResizeObserver((entries) => {
             callback.call(this, entries);
         });

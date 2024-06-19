@@ -424,4 +424,27 @@ describe('Row sort', function() {
 
         done();
     });
+
+    it('sortIndicator v', async () => {
+        grid.setOption({
+            sortOnInit: true,
+            collapseAllOnInit: true,
+            sortField: 'number',
+            sortAsc: true,
+            sortIndicator: 'v'
+        });
+        grid.setData(getData());
+        grid.render();
+
+        await delay();
+        // check header sort bar
+        const columnItem = grid.getColumnItem('number');
+        const $node = $(grid.getColumnHeaderNode(columnItem));
+
+        assert.equal($node.hasClass('tg-sort-asc'), true);
+        assert.equal($node.hasClass('tg-column-sort-v'), true);
+
+    });
+
+
 });

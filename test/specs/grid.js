@@ -44,6 +44,14 @@ describe('Grid', function() {
         assert.equal(container.querySelector('.tg-mask').style.display, 'block');
         grid.hideMask();
         assert.equal(container.querySelector('.tg-mask').style.display, 'none');
+
+        grid.showMask({
+            opacity: 0.5
+        });
+        assert.equal(container.querySelector('.tg-mask').style.display, 'block');
+        assert.equal(container.querySelector('.tg-mask').style.opacity, '0.5');
+        grid.hideMask();
+        assert.equal(container.querySelector('.tg-mask').style.display, 'none');
     });
 
     it('Grid loading', function() {

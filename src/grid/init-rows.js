@@ -332,7 +332,8 @@ export default {
                 if (svgList.length) {
                     for (const svg of svgList) {
                         if (svg.contains(node)) {
-                            return NodeFilter.FILTER_REJECT;
+                            // NodeFilter.FILTER_REJECT similar to return
+                            return NodeFilter.FILTER_SKIP;
                         }
                     }
                 }

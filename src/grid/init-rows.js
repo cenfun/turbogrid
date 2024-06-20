@@ -325,7 +325,19 @@ export default {
         // https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
         // there is no renderSettings in next tick
         highlightCells.forEach((cellNode) => {
-            const treeWalker = document.createTreeWalker(cellNode, NodeFilter.SHOW_TEXT);
+
+            // filter text in svg (highlight mark breaking svg image)
+            const svgList = Array.from(cellNode.querySelectorAll('svg'));
+            const treeWalker = document.createTreeWalker(cellNode, NodeFilter.SHOW_TEXT, (node) => {
+                if (svgList.length) {
+                    for (const svg of svgList) {
+                        if (svg.contains(node)) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                    }
+                }
+                return NodeFilter.FILTER_ACCEPT;
+            });
             const allTextNodes = [];
             let currentNode = treeWalker.nextNode();
             while (currentNode) {

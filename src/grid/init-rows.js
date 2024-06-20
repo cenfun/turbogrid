@@ -326,12 +326,15 @@ export default {
         // there is no renderSettings in next tick
         highlightCells.forEach((cellNode) => {
 
-            // filter text in svg (highlight mark breaking svg image)
-            const svgList = Array.from(cellNode.querySelectorAll('svg'));
+            // highlight mark will breaking DOM
+            // filter text in svg image
+            // filter text in textarea
+            const list = Array.from(cellNode.querySelectorAll('svg'))
+                .concat(Array.from(cellNode.querySelectorAll('textarea')));
             const treeWalker = document.createTreeWalker(cellNode, NodeFilter.SHOW_TEXT, (node) => {
-                if (svgList.length) {
-                    for (const svg of svgList) {
-                        if (svg.contains(node)) {
+                if (list.length) {
+                    for (const container of list) {
+                        if (container.contains(node)) {
                             // NodeFilter.FILTER_REJECT similar to return
                             return NodeFilter.FILTER_SKIP;
                         }

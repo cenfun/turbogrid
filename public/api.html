@@ -547,12 +547,8 @@
                             var rowItem = grid.getRowItem(rowIndex);
                             var rowItem = grid.getRowItem(123);
                             var rowItem = grid.getRowItem("id_123");
-                            var rowItem = grid.getRowItem({
-                                tg_index: 123
-                            });
-                            var rowItem = grid.getRowItem({
-                                id: "id_123"
-                            });
+                            var rowItem = grid.getRowItemBy("id", "id_123");
+                            var rowItem = grid.getRowItemBy("key", "value");
                         </code></pre>
                     </section>
 

@@ -99,6 +99,16 @@ const booleanComparer = function(av, bv) {
     return diffTypeComparer(ai, bi, av, bv);
 };
 
+const pinyinComparer = function(av, bv) {
+    const ai = typeof av === 'string';
+    const bi = typeof bv === 'string';
+    // both are string
+    if (ai && bi) {
+        return bv.localeCompare(av, 'zh-Hans-CN');
+    }
+    return av > bv ? -1 : 1;
+};
+
 // =======================================================================
 
 const valueComparer = function(a, b, options, diffValueComparer) {
@@ -153,6 +163,11 @@ export default {
     boolean: function(a, b, options) {
         return valueComparer(a, b, options, booleanComparer);
     },
-    booleanValue: booleanComparer
+    booleanValue: booleanComparer,
+
+    pinyin: function(a, b, options) {
+        return valueComparer(a, b, options, pinyinComparer);
+    },
+    pinyinValue: pinyinComparer
 
 };

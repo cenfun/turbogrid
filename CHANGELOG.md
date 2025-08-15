@@ -1,5 +1,8 @@
 # Changelog
 
++ 3.2.21
+    - fixed #2
+
 + 3.2.0
     - (breaking) removed API setRowHeight
     - (feature) added new option `cellResizeObserver` for row height auto adjustment

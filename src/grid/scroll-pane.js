@@ -337,7 +337,13 @@ export default {
         this.scrollTop = this.getScrollTop();
 
         // first time update fade after rendered
-        this.updateScrollPaneFade(Boolean(this.options.scrollbarFadeTimeout));
+        if (this.options.scrollbarFade) {
+            const needFade = Boolean(this.options.scrollbarFadeTimeout);
+            if (needFade && this.renderSettings?.type === 'rows') {
+                return;
+            }
+            this.updateScrollPaneFade(needFade);
+        }
 
     },
 

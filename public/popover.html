@@ -115,7 +115,9 @@
     app.mount('.popover');
 
     const hidePopover = () => {
-        state.target.classList.remove('tg-popover-icon-pin');
+        if (state.target) {
+            state.target.classList.remove('tg-popover-icon-pin');
+        }
         state.visible = false;
     };
 

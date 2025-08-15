@@ -2,13 +2,10 @@
 options.theme = "lightblue"
 */
 
-$border-color: #e8eaf0;
-$text-color: #304265;
-
 %lightblue {
     .tg-header-item {
-        border-top: thin solid $border-color;
-        border-right: thin solid $border-color;
+        border-top: thin solid #e8eaf0;
+        border-right: thin solid #e8eaf0;
 
         /* &.tg-header-group-item {
         } */
@@ -16,7 +13,7 @@ $text-color: #304265;
 
     .tg-column-name {
         padding: 5px;
-        color: $text-color;
+        color: #304265;
     }
 
     .tg-header-group-item::after {
@@ -48,12 +45,12 @@ $text-color: #304265;
     }
 
     .tg-cell {
-        color: $text-color;
-        border-right: thin solid $border-color;
+        color: #304265;
+        border-right: thin solid #e8eaf0;
     }
 
     .tg-row {
-        border-bottom: thin solid $border-color;
+        border-bottom: thin solid #e8eaf0;
 
         &.tg-group-line {
             border-bottom: thin solid #c9ccd8;
@@ -85,7 +82,7 @@ $text-color: #304265;
     }
 
     .tg-header-frame {
-        border-bottom: thin solid $border-color;
+        border-bottom: thin solid #e8eaf0;
     }
 
     /*

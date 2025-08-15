@@ -215,7 +215,7 @@ const Util = {
     },
 
     isTouchDevice: function() {
-        return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+        return matchMedia('(hover: none)').matches;
     },
 
     contains: function(container, target) {

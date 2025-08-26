@@ -350,7 +350,7 @@ export default {
     getScrollPaneOptions: function(spo) {
         const o = this.options;
         spo.scrollbarFade = o.scrollbarFade;
-        spo.gradient = Util.clamp(Util.toNum(o.scrollPaneGradient, true), 0, 100);
+        spo.scrollPaneGradient = o.scrollPaneGradient;
         return spo;
     },
 

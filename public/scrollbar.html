@@ -127,6 +127,10 @@
 
                 </div>
                 <div>
+                    <label>
+                        <input type="checkbox" id="cb_scrollPaneGradient" class="cb_scrollPaneGradient" />
+                        scrollPaneGradient
+                    </label>
 
                     <label for="cb_scrollbarFade">
                         <input type="checkbox" id="cb_scrollbarFade" class="cb_scrollbarFade" />
@@ -139,11 +143,7 @@
                         <input type="number" value="1000" class="ip-number ip_scrollbarFadeTimeout" />
                     </label>
 
-                    <label>
-                        scrollPaneGradient
-                        <input type="number" value="30" class="ip-number ip_scrollPaneGradient" />
-                        (depends scrollbarFade: true)
-                    </label>
+                    
 
                 </div>
     
@@ -164,7 +164,7 @@
             const options = {
                 theme: document.querySelector('.st-theme').value,
                 scrollPaneMinWidth: parseInt(document.querySelector('.ip_scrollPaneMinWidth').value, 10),
-                scrollPaneGradient: parseInt(document.querySelector('.ip_scrollPaneGradient').value, 10),
+                scrollPaneGradient: document.querySelector('.cb_scrollPaneGradient').checked,
                 scrollbarSize: parseInt(document.querySelector('.ip_scrollbarSize').value),
                 scrollbarRound: document.querySelector('.cb_scrollbarRound').checked,
                 scrollbarFade: document.querySelector('.cb_scrollbarFade').checked,
@@ -204,7 +204,7 @@
             '.st_scrollbarType',
             '.ip_scrollbarFadeTimeout',
             '.ip_scrollPaneMinWidth',
-            '.ip_scrollPaneGradient'
+            '.cb_scrollPaneGradient'
         ].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();

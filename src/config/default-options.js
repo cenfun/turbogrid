@@ -221,8 +221,7 @@ export default function() {
         // min width and will be auto hide, two scrollbarSize
         scrollPaneMinWidth: 30,
 
-        // depends scrollbarFade true
-        scrollPaneGradient: 30,
+        scrollPaneGradient: false,
 
         // ==========================================================
         // other

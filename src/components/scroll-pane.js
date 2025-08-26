@@ -19,8 +19,6 @@ export default class ScrollPane extends EventBase {
         super();
         this.id = Util.uid(4, `tg-scroll-pane-${name}-`);
 
-        this.gradientInfo = [];
-
         this.$container = $(container).attr('id', this.id);
         this.$container.addClass('tg-scroll-pane');
         this.$scrollView = this.$container.find('.tg-scroll-view');
@@ -56,7 +54,7 @@ export default class ScrollPane extends EventBase {
             scrollbarV: {},
             scrollbarFade: false,
             scrollSizeOnKeyPress: 20,
-            gradient: 30
+            scrollPaneGradient: false
         };
 
         return Util.merge(defaultOptions, options);
@@ -386,57 +384,50 @@ export default class ScrollPane extends EventBase {
     }
 
     updateGradient() {
-        const os = this.options;
-        if (!os.scrollbarFade) {
-            return;
-        }
-        const gradient = os.gradient;
-        if (!gradient) {
-            return;
-        }
         if (!this.asyncUpdateGradient) {
             this.asyncUpdateGradient = Util.microtask(this.updateGradientSync);
         }
         this.asyncUpdateGradient.apply(this, arguments);
     }
 
+    getGradientList() {
+        const gradientList = [];
+
+        if (this.options.scrollPaneGradient) {
+            const scrollLeft = this.getScrollLeft();
+            const scrollTop = this.getScrollTop();
+
+            const maxLeft = this.getMaxScrollLeft();
+            const maxTop = this.getMaxScrollTop();
+
+            if (this.hasScrollH) {
+                if (scrollLeft > 0) {
+                    gradientList.push('left');
+                }
+                if (scrollLeft < maxLeft) {
+                    gradientList.push('right');
+                }
+            }
+
+            if (this.hasScrollV) {
+                if (scrollTop > 0) {
+                    gradientList.push('top');
+                }
+                if (scrollTop < maxTop) {
+                    gradientList.push('bottom');
+                }
+            }
+        }
+        return gradientList;
+    }
+
     updateGradientSync() {
-        const gradientInfo = [];
-
-        const gradient = this.options.gradient;
-        const scrollLeft = this.getScrollLeft();
-        const scrollTop = this.getScrollTop();
-
-        const maxLeft = this.getMaxScrollLeft();
-        const maxTop = this.getMaxScrollTop();
-
-        if (this.hasScrollH) {
-            if (scrollLeft > gradient) {
-                gradientInfo.push('left');
-            }
-            if (scrollLeft < maxLeft - gradient) {
-                gradientInfo.push('right');
-            }
-        }
-
-        if (this.hasScrollV) {
-            if (scrollTop > gradient) {
-                gradientInfo.push('top');
-            }
-            if (scrollTop < maxTop - gradient) {
-                gradientInfo.push('bottom');
-            }
-        }
-
-        if (gradientInfo.join('') === this.gradientInfo.join('')) {
-            return;
-        }
-        this.gradientInfo = gradientInfo;
+        const gradientList = this.getGradientList();
 
         // remove and add tg-gradient class
         ['left', 'right', 'top', 'bottom'].forEach((item) => {
             const className = `tg-gradient-${item}`;
-            if (gradientInfo.includes(item)) {
+            if (gradientList.includes(item)) {
                 this.$container.addClass(className);
             } else {
                 this.$container.removeClass(className);

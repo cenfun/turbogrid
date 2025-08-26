@@ -638,6 +638,7 @@
             scrollbarSize: 6,
             scrollbarFade: true,
             scrollbarRound: true,
+            scrollPaneGradient: true,
             bindWindowResize: true,
             bindContainerResize: true,
             frozenRow: 1,

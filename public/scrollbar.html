@@ -13,7 +13,7 @@
     <script src="data/sample-data.js"></script>
     <script src="data/random-data.js"></script>
     <style>
-        .tg-gradient-top::before {
+        .grid-gradient .tg-gradient-top .tg-scroll-view::before {
             position: absolute;
             top: 0;
             left: 0;
@@ -22,11 +22,11 @@
             display: block;
             width: 100%;
             height: 50px;
-            background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
+            background-image: linear-gradient(to bottom, rgb(255 0 0), rgb(255 0 0 / 0%));
             pointer-events: none;
         }
 
-        .tg-gradient-bottom::after {
+        .grid-gradient .tg-gradient-bottom::before {
             position: absolute;
             left: 0;
             bottom: 0;
@@ -35,11 +35,11 @@
             display: block;
             width: 100%;
             height: 50px;
-            background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
+            background-image: linear-gradient(to bottom, rgb(255 0 0 / 0%), rgb(255 0 0));
             pointer-events: none;
         }
 
-        .tg-gradient-left .tg-scroll-view::before {
+        .grid-gradient .tg-gradient-left .tg-scroll-view::after {
             position: absolute;
             top: 0;
             left: 0;
@@ -48,11 +48,11 @@
             display: block;
             width: 50px;
             height: 100%;
-            background-image: linear-gradient(to right, #fff, rgb(255 255 255 / 0%));
+            background-image: linear-gradient(to right, rgb(255 0 0), rgb(255 0 0 / 0%));
             pointer-events: none;
         }
 
-        .tg-gradient-right .tg-scroll-view::after {
+        .grid-gradient .tg-gradient-right::after {
             position: absolute;
             top: 0;
             right: 0;
@@ -61,7 +61,7 @@
             display: block;
             width: 50px;
             height: 100%;
-            background-image: linear-gradient(to right, rgb(255 255 255 / 0%), #fff);
+            background-image: linear-gradient(to right, rgb(255 0 0 / 0%), rgb(255 0 0));
             pointer-events: none;
         }
     </style>
@@ -148,7 +148,7 @@
                 </div>
     
             </div>
-            <div class="grid-container flex-auto"></div>
+            <div class="grid-container grid-gradient flex-auto"></div>
         </div>
     </div>
     <script type="text/javascript">

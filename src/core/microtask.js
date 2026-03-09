@@ -11,8 +11,8 @@ export default class Microtask {
     }
 
     create() {
-        if (typeof window.queueMicrotask === 'function') {
-            window.queueMicrotask(() => {
+        if (typeof queueMicrotask === 'function') {
+            queueMicrotask(() => {
                 this.execute();
             });
         } else {

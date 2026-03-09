@@ -69,7 +69,7 @@ describe('Frozen', function() {
                     scrollbarHeight: grid.getScrollbarHeight()
                 };
                 o.blankWidth = Math.max(bw - totalColumns * columnWidth, 0);
-                o.frozenWidth = o.columnWidth + o.blankWidth + o.scrollbarWidth;
+                o.frozenWidth = o.columnWidth + o.scrollbarWidth;
                 o.frozenHeight = o.rowHeight + o.scrollbarHeight;
                 const panes = {
                     TL: container.find('.tg-pane-top-left'),

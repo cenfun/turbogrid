@@ -422,6 +422,12 @@ export default class ScrollPane extends EventBase {
     }
 
     updateGradientSync() {
+
+        if (!this.$container) {
+            // destroyed
+            return;
+        }
+
         const gradientList = this.getGradientList();
 
         // remove and add tg-gradient class

@@ -457,8 +457,8 @@ const Util = {
     },
 
     nextTick: function(callback) {
-        if (typeof window.queueMicrotask === 'function') {
-            window.queueMicrotask(() => {
+        if (typeof queueMicrotask === 'function') {
+            queueMicrotask(() => {
                 callback();
             });
         } else {

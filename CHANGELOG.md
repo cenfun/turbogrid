@@ -1,5 +1,8 @@
 # Changelog
 
++ 3.2.22
+    - fixed frozenRight and scrollToLastColumn
+
 + 3.2.21
     - fixed #2
 

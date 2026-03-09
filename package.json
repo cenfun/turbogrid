@@ -15,6 +15,7 @@
     "scripts": {
         "dev": "sf dev",
         "test": "sf test",
+        "lint": "sf lint",
         "build": "sf lint && sf b -e -p patch",
         "patch": "npm run build && sf publish patch",
         "pack": "sf pack -o docs"

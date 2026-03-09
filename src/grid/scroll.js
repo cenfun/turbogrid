@@ -139,8 +139,15 @@ export default {
             return;
         }
         let x = columnItem.tg_left;
+
         if (this.frozenInfo.columns) {
-            x -= this.bodyWidthL;
+
+            if (this.frozenInfo.right) {
+                x -= this.bodyWidthR;
+            } else {
+                x -= this.bodyWidthL;
+            }
+
         }
         // console.log(columnItem);
         if (x >= 0) {

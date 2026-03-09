@@ -153,11 +153,13 @@ export default {
         const value = columnItem.name;
         let content = value;
 
+        const elem = document.createElement('div');
+
         const formatter = columnItem.tg_headerFormatter;
         // formatter
         if (typeof formatter === 'function') {
             // value, rowItem, columnItem, cellNode
-            content = formatter.call(this, content, this.headerRowItem, columnItem);
+            content = formatter.call(this, content, this.headerRowItem, columnItem, elem);
         }
 
         if (columnItem.formatter === 'tree') {
@@ -166,7 +168,7 @@ export default {
             content = this.createHeaderSelectName();
         }
 
-        return this.createElement('div', attr, content);
+        return this.createElement(elem, attr, content);
     },
 
     // created tree no matter isTree

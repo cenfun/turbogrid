@@ -58,8 +58,11 @@ export default {
         }
     },
 
-    createElement: function(name, attr, children) {
-        const elem = document.createElement(name);
+    createElement: function(elem, attr, children) {
+
+        if (typeof elem === 'string') {
+            elem = document.createElement(elem);
+        }
 
         if (attr) {
             Object.keys(attr).forEach(function(k) {

@@ -82,6 +82,14 @@
                         append random rows
                         <input type="number" min="0" value="2000" class="ip-rows" />
                     </label>
+                    <label>
+                        <input type="checkbox" class="cb_frozenRight" />
+                        frozenRight
+                    </label>
+                    <label>
+                        <input type="checkbox" class="cb_frozenBottom" />
+                        frozenBottom
+                    </label>
                 </div>
                 <div>
                     <div>onScroll: <span class="onScroll"></span></div>
@@ -307,6 +315,8 @@
         const render = function() {
             grid.setOption({
                 theme: document.querySelector('.st-theme').value,
+                frozenRight: document.querySelector('.cb_frozenRight').checked,
+                frozenBottom: document.querySelector('.cb_frozenBottom').checked,
                 frozenColumn: 0,
                 frozenRow: 0
             });
@@ -314,6 +324,14 @@
                 tree: function(value, rowItem, columnItem, cellNode) {
                     const defaultFormatter = this.getDefaultFormatter('tree');
                     return defaultFormatter(`${value} (index=${rowItem.tg_index})`, rowItem, columnItem, cellNode);
+                },
+                header: function(v, rowItem, columnItem, cellNode) {
+                    let s = `index:${columnItem.tg_index} `;
+                    if (columnItem.id) {
+                        s += `id:${columnItem.id} `;
+                    }
+                    cellNode.title = s;
+                    return v;
                 }
             });
 
@@ -356,7 +374,7 @@
             }
         });
 
-        ['.st-theme', '.cb_appendRandomRows', '.ip-rows'].forEach(function(item) {
+        ['.st-theme', '.cb_appendRandomRows', '.ip-rows', '.cb_frozenRight', '.cb_frozenBottom'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

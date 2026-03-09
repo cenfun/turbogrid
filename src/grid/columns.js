@@ -133,6 +133,8 @@ export default {
         this.columnsWidthL = columnsWidthL;
         this.columnsWidthR = columnsWidthR;
 
+        // console.log('columnsWidthL:', columnsWidthL, 'columnsWidthR: ', columnsWidthR);
+
         // total width
         this.columnsWidth = columnsWidthL + columnsWidthR;
 

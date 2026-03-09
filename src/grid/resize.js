@@ -222,6 +222,8 @@ export default {
         // has frozen pane
         if (this.frozenInfo.columns) {
 
+            // console.log('columnsWidthL: ', this.columnsWidthL, 'columnsWidthR: ', this.columnsWidthR);
+
             const scrollbarW = this.getScrollbarWidth();
             if (this.frozenInfo.right) {
                 paneWidthR = this.columnsWidthR + scrollbarW;
@@ -249,7 +251,7 @@ export default {
         this.paneWidthL = paneWidthL;
         this.paneWidthR = paneWidthR;
 
-        // console.log("paneWidthL: " + paneWidthL, "paneWidthR: " + paneWidthR);
+        // console.log('paneWidthL: ', paneWidthL, 'paneWidthR: ', paneWidthR);
 
         this.$paneHL.css({
             left: 0,

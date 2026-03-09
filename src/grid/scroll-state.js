@@ -195,6 +195,7 @@ export default {
 
     },
 
+    // eslint-disable-next-line complexity
     updateBlankColumnWidth: function() {
 
         let blankColumnWidth = this.containerWidth - this.columnsWidth;
@@ -216,7 +217,13 @@ export default {
 
                 // no h scroll, has blank or blank = 0
                 if (this.frozenInfo.columns) {
-                    this.columnsWidthR += blankColumnWidth;
+
+                    if (this.frozenInfo.right) {
+                        this.columnsWidthL += blankColumnWidth;
+                    } else {
+                        this.columnsWidthR += blankColumnWidth;
+                    }
+
                 } else {
                     this.columnsWidthL += blankColumnWidth;
                 }

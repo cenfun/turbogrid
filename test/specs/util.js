@@ -22,7 +22,7 @@ describe('Util', function() {
         assert.equal(Util.isObject(Function), false);
 
         assert.equal(Util.isObject(null), false);
-        let und;
+        const und = void 0;
         assert.equal(Util.isObject(und), false);
 
         assert.equal(Util.isObject(window), false);
@@ -126,7 +126,7 @@ describe('Util', function() {
             key: 1
         }), '!hasOwnProperty{name}');
 
-        let und;
+        const und = void 0;
         assert.equal(Util.replace('undefined{name}', {
             name: und
         }), 'undefinedundefined');
@@ -209,7 +209,7 @@ describe('Util', function() {
 
     it('getValue', function() {
 
-        let und;
+        const und = void 0;
         const data = {
             a: {
                 b: {

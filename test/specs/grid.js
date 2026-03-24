@@ -139,6 +139,89 @@ describe('Grid', function() {
         assert.equal(c.id, 'c4');
     });
 
+    it('Grid getRowItemById/getColumnItemById', function() {
+        const row = grid.getRowItemById('row1');
+        assert.equal(row.id, 'row1');
+
+        const column = grid.getColumnItemById('name');
+        assert.equal(column.id, 'name');
+    });
+
+    it('Grid getColumnsLength/getViewRowItem/getViewColumnItem', function() {
+        const visibleLen = grid.getColumnsLength();
+        const totalLen = grid.getColumnsLength(true);
+
+        assert(totalLen >= visibleLen);
+
+        const viewRowItem = grid.getViewRowItem(0);
+        assert(viewRowItem);
+        assert.equal(viewRowItem.tg_view_index, 0);
+
+        const viewColumnItem = grid.getViewColumnItem(0);
+        assert(viewColumnItem);
+        assert.equal(viewColumnItem.tg_view_index, 0);
+    });
+
+    it('Grid setRowState', function() {
+        const rowItem = grid.getRowItem('row1');
+        assert(rowItem);
+
+        grid.setRowState('row1', 'warning', true);
+        const rowNode = container.querySelector(`.tg-row[row='${rowItem.tg_view_index}']`);
+        assert.equal(rowNode.classList.contains('tg-warning'), true);
+
+        grid.setRowState('row1', 'warning', false);
+        assert.equal(rowNode.classList.contains('tg-warning'), false);
+    });
+
+    it('Grid setDataSnapshot clean tg_ props and convert number', function() {
+        const snapshotData = Data.create();
+        snapshotData.rows[0].tg_custom = 'tg';
+        snapshotData.columns[2].subs[0].tg_custom = 'tg';
+        snapshotData.rows[0].number = '123';
+
+        grid.setDataSnapshot(snapshotData);
+
+        const d = grid.getData();
+        assert.equal(typeof d.rows[0].tg_custom, 'undefined');
+        assert.equal(typeof d.columns[2].subs[0].tg_custom, 'undefined');
+        assert.equal(d.rows[0].number, 123);
+    });
+
+    it('Grid setDataSnapshot invalid data', function() {
+        grid.setDataSnapshot(null);
+        const d = grid.getData();
+        assert.equal(d.columns.length, 0);
+        assert.equal(d.rows.length, 0);
+    });
+
+    it('Grid setDataSnapshot with null items', function() {
+        const snapshotData = {
+            columns: [
+                null,
+                {
+                    id: 'number',
+                    name: 'Number',
+                    type: 'number'
+                }
+            ],
+            rows: [
+                null,
+                {
+                    id: 'row1',
+                    number: '7'
+                }
+            ]
+        };
+
+        grid.setDataSnapshot(snapshotData);
+        const d = grid.getData();
+
+        assert.equal(typeof d.columns[0], 'object');
+        assert.equal(typeof d.rows[0], 'object');
+        assert.equal(d.rows[1].number, 7);
+    });
+
     it('Grid getItemSnapshot', function(done) {
         grid = new Grid(container);
         grid.setData(data);

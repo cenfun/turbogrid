@@ -154,7 +154,6 @@ API 页面包含以下内容：
 - [tooltip](https://cenfun.github.io/turbogrid/tooltip.html)
 - [popover](https://cenfun.github.io/turbogrid/popover.html)
 - [context-menu](https://cenfun.github.io/turbogrid/context-menu.html)
-- [custom-element](https://cenfun.github.io/turbogrid/custom-element.html)
 
 ### 排序、导出与高级场景
 
@@ -172,6 +171,7 @@ API 页面包含以下内容：
 - [vue-integration](https://cenfun.github.io/turbogrid/vue-integration.html)
 - [vue-component](https://cenfun.github.io/turbogrid/vue-component.html)
 - [vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html)
+- [custom-element](https://cenfun.github.io/turbogrid/custom-element.html)
 - React：支持基于容器的集成方式，可参考下方 React 说明
 
 ## 移动端 / 触摸支持

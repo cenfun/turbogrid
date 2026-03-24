@@ -154,7 +154,6 @@ Online docs home: [https://cenfun.github.io/turbogrid/](https://cenfun.github.io
 - [tooltip](https://cenfun.github.io/turbogrid/tooltip.html)
 - [popover](https://cenfun.github.io/turbogrid/popover.html)
 - [context-menu](https://cenfun.github.io/turbogrid/context-menu.html)
-- [custom-element](https://cenfun.github.io/turbogrid/custom-element.html)
 
 ### Sort, Export and Advanced Cases
 
@@ -172,6 +171,7 @@ Online docs home: [https://cenfun.github.io/turbogrid/](https://cenfun.github.io
 - [vue-integration](https://cenfun.github.io/turbogrid/vue-integration.html)
 - [vue-component](https://cenfun.github.io/turbogrid/vue-component.html)
 - [vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html)
+- [custom-element](https://cenfun.github.io/turbogrid/custom-element.html)
 - React: container-based integration pattern is supported (see the React section below)
 
 ## Mobile / Touch Support

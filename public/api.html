@@ -330,11 +330,11 @@
                     <section>
                         <pre><code class="language-js">
                             // global
-                            var TG = window.turbogrid;
-                            var { Grid, Util } = window.turbogrid;
+                            const TG = window.turbogrid;
+                            const { Grid, Util } = window.turbogrid;
                             // cjs
-                            var TG = require("turbogrid");
-                            var { Grid, Util } = require("turbogrid");
+                            const TG = require("turbogrid");
+                            const { Grid, Util } = require("turbogrid");
                             // esm
                             import TG from "turbogrid";
                             import { Grid, Util } from "turbogrid";
@@ -346,12 +346,12 @@
                         <div>Grid constructor, creates a new grid instance with container.</div>
                         <pre><code class="language-js">
                             //selector
-                            var grid = new Grid(".container");
+                            const grid = new Grid(".container");
                             //or element
-                            var container = document.querySelector(".container");
-                            var grid = new Grid(container);
+                            const container = document.querySelector(".container");
+                            const grid = new Grid(container);
                             //or options with container
-                            var grid = Grid({
+                            const grid = Grid({
                                 container,
                                 ... other options
                             });
@@ -381,7 +381,7 @@
                         <a name="getData">getData()</a>
                         <div>Returns current data.</div>
                         <pre><code class="language-js">
-                            var data = grid.getData();
+                            const data = grid.getData();
                         </code></pre>
                     </section>
 
@@ -397,8 +397,8 @@
                         <a name="getItemSnapshot">getItemSnapshot(item[, keysSettings])</a>
                         <div>Returns clean snapshot by removing private fields or using keysSettings.</div>
                         <pre><code class="language-js">
-                            var rowSnapshot = grid.getItemSnapshot(rowItem);
-                            var rowSnapshot2 = grid.getItemSnapshot(rowItem, {
+                            const rowSnapshot = grid.getItemSnapshot(rowItem);
+                            const rowSnapshot2 = grid.getItemSnapshot(rowItem, {
                                 id: true,
                                 name: true
                             });
@@ -424,9 +424,9 @@
                         <div>Returns current options by name or all options.</div>
                         <pre><code class="language-js">
                             //get all options
-                            var options = grid.getOption();
+                            const options = grid.getOption();
                             //get single option
-                            var optionValue = grid.getOption(optionKey);
+                            const optionValue = grid.getOption(optionKey);
                         </code></pre>
                     </section>
 
@@ -451,11 +451,11 @@
                             function(value, rowItem, columnItem, cellNode) { 
                                 // value is formatted by null formatter
                                 // get original value:
-                                var originalValue = rowItem[columnItem.id];
-                                var rowIndex = rowItem.tg_index;
-                                var columnIndex = columnItem.tg_index;
+                                const originalValue = rowItem[columnItem.id];
+                                const rowIndex = rowItem.tg_index;
+                                const columnIndex = columnItem.tg_index;
                                 // using default formatter returns:
-                                var defaultFormatter = this.getDefaultFormatter("[formatter-name]");
+                                const defaultFormatter = this.getDefaultFormatter("[formatter-name]");
                                 return defaultFormatter(value + " new text", rowItem, columnItem, cellNode)
                             } 
                         </code></pre>
@@ -466,7 +466,7 @@
                         <a name="getFormatter">getFormatter(type)</a>
                         <div>Returns type specified formatter(Function).</div>
                         <pre><code class="language-js">
-                            var stringFormatter = grid.getFormatter("string");
+                            const stringFormatter = grid.getFormatter("string");
                         </code></pre>
                     </section>
 
@@ -474,7 +474,7 @@
                         <a name="getDefaultFormatter">getDefaultFormatter([type])</a>
                         <div>Returns type specified default formatter(Function).</div>
                         <pre><code class="language-js">
-                            var treeFormatter = grid.getDefaultFormatter("tree");
+                            const treeFormatter = grid.getDefaultFormatter("tree");
                         </code></pre>
                     </section>
 
@@ -521,7 +521,7 @@
                         <a name="getAllEvents">getAllEvents()</a>
                         <div>Returns all <a href="#events">event types</a>.</div>
                         <pre><code class="language-js">
-                            var allEventTypes = grid.getAllEvents();
+                            const allEventTypes = grid.getAllEvents();
                         </code></pre>
                         <div>Demo <a href="events.html" target="_blank">Events</a></div>
                     </section>
@@ -574,14 +574,14 @@
                             </ul>
                         </ol>
                         <pre><code class="language-js">
-                            var columnItem = grid.getColumnItem(columnIndex);
-                            var columnItemById = grid.getColumnItemById("id_123");
-                            var rowItem = grid.getRowItem(rowIndex);
-                            var rowItemById = grid.getRowItemById("id_123");
-                            var rowItem = grid.getRowItem(123);
-                            var rowItem = grid.getRowItem("id_123");
-                            var rowItem = grid.getRowItemBy("id", "id_123");
-                            var rowItem = grid.getRowItemBy("key", "value");
+                            const columnItem = grid.getColumnItem(columnIndex);
+                            const columnItemById = grid.getColumnItemById("id_123");
+                            const rowItem = grid.getRowItem(rowIndex);
+                            const rowItemById = grid.getRowItemById("id_123");
+                            const rowItem = grid.getRowItem(123);
+                            const rowItem = grid.getRowItem("id_123");
+                            const rowItem = grid.getRowItemBy("id", "id_123");
+                            const rowItem = grid.getRowItemBy("key", "value");
                         </code></pre>
                     </section>
 
@@ -650,8 +650,8 @@
                         <a name="exportData">exportData([keysSettings])</a>
                         <div>Returns all columns and rows data without private properties or by keysSettings.</div>
                         <pre><code class="language-js">
-                            var exportedData = grid.exportData();
-                            var exportedData = grid.exportData({
+                            const exportedData = grid.exportData();
+                            const exportedData = grid.exportData({
                                 the_key_need: true,
                                 key_key_no_need: false
                             });
@@ -662,7 +662,7 @@
                     <section>
                         <a name="setRowSubs">setRowSubs(rowIndex, subs)</a>
                         <pre><code class="language-js">
-                            var subs = [{name:"row1"},{name:"row2"}];
+                            const subs = [{name:"row1"},{name:"row2"}];
                             grid.setRowSubs(rowIndex, subs);
                         </code></pre>
                         <div>Demo <a href="load-subs.html" target="_blank">Dynamic Load Subs</a></div>
@@ -671,7 +671,7 @@
                     <section>
                         <a name="setRows">setRows(rowList)</a>
                         <pre><code class="language-js">
-                            var rows = [{name:"row1"},{name:"row2"}];
+                            const rows = [{name:"row1"},{name:"row2"}];
                             grid.setRows(rows);
                         </code></pre>
                         <div>Demo <a href="set-rows.html" target="_blank">Dynamic Set Rows</a></div>
@@ -685,11 +685,11 @@
                         <a name="getViewColumnItem">getViewColumnItem(viewColumnIndex)</a>
                         <div>view index means current visible order index after filter/collapse/sort.</div>
                         <pre><code class="language-js">
-                            var rows = grid.getRows();
-                            var columns = grid.getColumns();
-                            var viewRows = grid.getViewRows();
-                            var viewRowItem = grid.getViewRowItem(0);
-                            var viewColumnItem = grid.getViewColumnItem(0);
+                            const rows = grid.getRows();
+                            const columns = grid.getColumns();
+                            const viewRows = grid.getViewRows();
+                            const viewRowItem = grid.getViewRowItem(0);
+                            const viewColumnItem = grid.getViewColumnItem(0);
                         </code></pre>
                     </section>
                     
@@ -763,8 +763,8 @@
                         <a name="getSelectedRows">getSelectedRows()</a>
                         <div>Returns a list for multiple selection</div>
                         <pre><code class="language-js">
-                            var selectedRow = grid.getSelectedRow();
-                            var selectedRows = grid.getSelectedRows();
+                            const selectedRow = grid.getSelectedRow();
+                            const selectedRows = grid.getSelectedRows();
                         </code></pre>
                         <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
                     </section>
@@ -874,8 +874,8 @@
                         <pre><code class="language-js">
                             grid.setScrollTop(200);
                             grid.setScrollLeft(200);
-                            var st = grid.getScrollTop();
-                            var sl = grid.getScrollLeft();
+                            const st = grid.getScrollTop();
+                            const sl = grid.getScrollLeft();
                         </code></pre>
                         <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
                     </section>
@@ -906,8 +906,8 @@
                         <a name="getScrollbarHeight">getScrollbarHeight()</a>
                         <div>Returns 0 or <a href="#options.scrollbarSize">scrollbarSize</a> if has horizontal scrollbar (<a href="#onScrollStateChanged">hasHScroll</a>)</div>
                         <pre><code class="language-js">
-                            var sbw = grid.getScrollbarWidth();
-                            var sbh = grid.getScrollbarHeight();
+                            const sbw = grid.getScrollbarWidth();
+                            const sbh = grid.getScrollbarHeight();
                         </code></pre>
                     </section>
 
@@ -916,8 +916,8 @@
                         <a name="getScrollViewHeight">getScrollViewHeight()</a>
                         <div>Scroll View size = Scroll Pane size - Scrollbar size</div>
                         <pre><code class="language-js">
-                            var svw = grid.getScrollViewWidth();
-                            var svh = grid.getScrollViewHeight();
+                            const svw = grid.getScrollViewWidth();
+                            const svh = grid.getScrollViewHeight();
                         </code></pre>
                     </section>
                     
@@ -927,8 +927,8 @@
                         <a name="getScrollPaneHeight">getScrollPaneHeight()</a>
                         <div>Scroll Pane size = Scroll View size + Scrollbar size</div>
                         <pre><code class="language-js">
-                            var spw = grid.getScrollPaneWidth();
-                            var sph = grid.getScrollPaneHeight();
+                            const spw = grid.getScrollPaneWidth();
+                            const sph = grid.getScrollPaneHeight();
                         </code></pre>
                     </section>
                     
@@ -936,8 +936,8 @@
                         <a name="getColumnsLength">getColumnsLength(total)</a>
                         <div>Total columns length. default total is false and returns current visible columns; total true returns all columns.</div>
                         <pre><code class="language-js">
-                            var len = grid.getColumnsLength();
-                            var totalLen = grid.getColumnsLength(true);
+                            const len = grid.getColumnsLength();
+                            const totalLen = grid.getColumnsLength(true);
                         </code></pre>
                     </section>
 
@@ -945,8 +945,8 @@
                         <a name="getRowsLength">getRowsLength(total)</a>
                         <div>Total rows length. default total is false; total is true means including collapsed/filtered rows;</div>
                         <pre><code class="language-js">
-                            var len = grid.getRowsLength();
-                            var totalLen = grid.getRowsLength(true);
+                            const len = grid.getRowsLength();
+                            const totalLen = grid.getRowsLength(true);
                         </code></pre>
                     </section>
                     
@@ -954,13 +954,13 @@
                         <a name="getRowsHeight">getRowsHeight()</a>
                         <div>Total rows height</div>
                         <pre><code class="language-js">
-                            var totalHeight = grid.getRowsHeight();
+                            const totalHeight = grid.getRowsHeight();
                         </code></pre>
                     </section>
                     <section>
                         <a name="getRowHeight">getRowHeight(rowIndex)</a>
                         <pre><code class="language-js">
-                            var rowHeight = grid.getRowHeight(rowIndex);
+                            const rowHeight = grid.getRowHeight(rowIndex);
                         </code></pre>
                     </section>
 
@@ -968,7 +968,7 @@
                         <a name="getViewport">getViewport()</a>
                         <div>Returns current the index list of visible rows and columns.</div>
                         <pre><code class="language-js">
-                            var viewport = grid.getViewport();
+                            const viewport = grid.getViewport();
                             // { rows, columns }
                         </code></pre>
                     </section>
@@ -976,27 +976,27 @@
                     <section>
                         <a name="find">find(selector)</a>
                         <pre><code class="language-js">
-                            var nodes = grid.find(".selector-name");
+                            const nodes = grid.find(".selector-name");
                         </code></pre>
                     </section>
                     <section>
                         <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
                         <a name="getCellValue">getCellValue(rowItem, columnItem)</a>
                         <pre><code class="language-js">
-                            var cellNode = grid.getCellNode(rowIndex, columnIndex);
-                            var cellValue = grid.getCellValue(rowItem, columnItem);
+                            const cellNode = grid.getCellNode(rowIndex, columnIndex);
+                            const cellValue = grid.getCellValue(rowItem, columnItem);
                         </code></pre>
                     </section>
                     <section>
                         <a name="getHeaderItemNode">getHeaderItemNode(columnIndex)</a>
                         <pre><code class="language-js">
-                            var headerItemNode = grid.getHeaderItemNode(columnIndex);
+                            const headerItemNode = grid.getHeaderItemNode(columnIndex);
                         </code></pre>
                     </section>
                     <section>
                         <a name="getColumnHeaderNode">getColumnHeaderNode(columnIndex)</a>
                         <pre><code class="language-js">
-                            var columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
+                            const columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
                         </code></pre>
                     </section>
                     
@@ -1018,7 +1018,7 @@
                     <section>
                         <a name="isRowSelectable">isRowSelectable(rowItem)</a>
                         <pre><code class="language-js">
-                            var rowItem = grid.getRowItem(rowIndex);
+                            const rowItem = grid.getRowItem(rowIndex);
                             if (grid.isRowSelectable(rowItem)) {
                                 console.log("selectable");
                             }
@@ -1079,7 +1079,7 @@
                             </code></pre>
                         </div>
                         <pre><code class="language-js">
-                            var data = {
+                            const data = {
                                 columns : [...],
                                 rows : [...]
                             };
@@ -1091,7 +1091,7 @@
                         <a name="data.columns">columns</a>
                         <div>See column available properties: <a href="#options.columnProps">columnProps</a></div>
                         <pre><code class="language-js">
-                            var columns = [{
+                            const columns = [{
                                 id:"c1",
                                 type : "string",
                                 name:"Column Name 1"
@@ -1117,7 +1117,7 @@
                         <a name="data.rows">rows</a>
                         <div>See row available properties: <a href="#options.rowProps">rowProps</a></div>
                         <pre><code class="language-js">
-                            var rows = [{
+                            const rows = [{
                                 id : "r1",
                                 name : "Row Name 1",
                                 c1 : "string value 1",
@@ -1149,7 +1149,7 @@
                         <a name="data.options">options</a>
                         <div>Sets options from data (The priority is higher than "setOption")</div>
                         <pre><code class="language-js">
-                            var data = {
+                            const data = {
                                 options : {
                                     sortField : "name"
                                 },
@@ -1164,7 +1164,7 @@
                         <a name="data.rowsLength">rowsLength</a>
                         <div>Dynamic load rows data. No rows data but require total length of rows.</div>
                         <pre><code class="language-js">
-                                var data = {
+                                const data = {
                                     columns: columns,
                                     rowsLength: 50000
                                 };
@@ -1996,7 +1996,7 @@
                                 <td>loading APIs</td>
                                 <td>
                                     <pre><code class="language-js">
-                                        var grid = new Grid(container);
+                                        const grid = new Grid(container);
                                         grid.setData(data);
                                         grid.setOption(options);
                                         grid.setFormatter(formatters);

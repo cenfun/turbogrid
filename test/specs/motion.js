@@ -33,7 +33,7 @@ describe('Motion', function() {
             assert(startCalled);
             assert(moveCalled);
 
-            console.log(d);
+            // console.log(d);
 
             assert.equal(d.a, 10);
             assert.equal(d.b, 20);

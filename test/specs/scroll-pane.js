@@ -63,7 +63,7 @@ describe('ScrollPane', function() {
             hvs: hvs,
             hsp: hsp
         };
-        console.log(`hasHScroll:${state.hhs}`, `hasVScroll:${state.hvs}`, `scrollPaneHidden:${state.hsp}`);
+        // console.log(`hasHScroll:${state.hhs}`, `hasVScroll:${state.hvs}`, `scrollPaneHidden:${state.hsp}`);
         return state;
     };
 
@@ -84,7 +84,7 @@ describe('ScrollPane', function() {
         size += container.find('.tg-pane-bottom-right').find('.tg-scrollbar-h').length;
         size += ',';
         size += container.find('.tg-pane-bottom-right').find('.tg-scrollbar-v').length;
-        console.log('tlh,tlv,trh,trv,blh,blv,brh,brv', size);
+        // console.log('tlh,tlv,trh,trv,blh,blv,brh,brv', size);
         return size;
     };
 
@@ -94,7 +94,7 @@ describe('ScrollPane', function() {
         grid.setData(getData());
         grid.once('onFirstUpdated', function() {
             const hh = grid.headerHeight;
-            console.log('headerHeight', hh);
+            // console.log('headerHeight', hh);
             const state = getScrollState(grid);
             assert.equal(state.hhs, false);
             assert.equal(state.hvs, false);
@@ -138,7 +138,7 @@ describe('ScrollPane', function() {
         grid.setData(getData());
         grid.once('onFirstUpdated', function() {
             const hh = grid.headerHeight;
-            console.log('headerHeight', hh);
+            // console.log('headerHeight', hh);
             const state = getScrollState(grid);
             assert.equal(state.hhs, false);
             assert.equal(state.hvs, false);

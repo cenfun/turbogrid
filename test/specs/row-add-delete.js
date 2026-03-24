@@ -4,6 +4,7 @@ describe('Row add/delete', function() {
 
     let container;
     let grid;
+    let eventRowId = 0;
 
     const data = Data.create();
     before(function() {
@@ -206,7 +207,8 @@ describe('Row add/delete', function() {
     // =================================================================================
 
     it('Grid row onRowAdded', function(done) {
-        const id = Math.round(Math.random() * 100);
+        eventRowId += 1;
+        const id = `event-row-${eventRowId}`;
 
         grid.once('onRowAdded', function(e, d) {
             assert.equal(d[0].id, id);
@@ -220,7 +222,8 @@ describe('Row add/delete', function() {
     });
 
     it('Grid row onRowRemoved', function(done) {
-        const id = Math.round(Math.random() * 100);
+        eventRowId += 1;
+        const id = `event-row-${eventRowId}`;
 
         grid.once('onRowRemoved', function(e, d) {
             assert.equal(d[0].id, id);

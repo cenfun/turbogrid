@@ -36,6 +36,54 @@ describe('Data', function() {
 
     });
 
+    it('Grid setData invalid rowsLength and invalid types', function() {
+        grid.setData({
+            columns: 'invalid',
+            rows: 'invalid',
+            rowsLength: -1
+        });
+
+        assert.equal(Array.isArray(grid.getData().columns), true);
+        assert.equal(Array.isArray(grid.getData().rows), true);
+        assert.equal(grid.getData().columns.length, 0);
+        assert.equal(grid.getData().rows.length, 0);
+
+        grid.setData({
+            rowsLength: 2.5
+        });
+
+        assert.equal(grid.getData().rows.length, 0);
+    });
+
+    it('Grid data.options has higher priority than setOption', async () => {
+
+        grid.setOption({
+            sortField: 'value'
+        });
+
+        grid.setData({
+            options: {
+                sortField: 'name'
+            },
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }, {
+                id: 'value',
+                name: 'Value'
+            }],
+            rows: [{
+                name: 'n1',
+                value: 'v1'
+            }]
+        });
+
+        grid.render();
+        await delay();
+
+        assert.equal(grid.getOption('sortField'), 'name');
+    });
+
     it('Grid rowsLength = 10000', async () => {
 
         const rowHeight = 30;

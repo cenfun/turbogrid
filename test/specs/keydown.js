@@ -102,5 +102,34 @@ describe('keydown', function() {
 
     });
 
+    it('keydown navigation chooses main or frozen pane', function() {
+        const oldScrollPane = grid.scrollPane;
+        const oldScrollPaneFrozen = grid.scrollPaneFrozen;
+        const oldHidden = grid.scrollPaneHidden;
+
+        try {
+            grid.scrollPane = {
+                keyLeftHandler: () => 'main-left',
+                keyRightHandler: () => 'main-right'
+            };
+            grid.scrollPaneFrozen = {
+                keyLeftHandler: () => 'frozen-left',
+                keyRightHandler: () => 'frozen-right'
+            };
+
+            grid.scrollPaneHidden = false;
+            assert.equal(grid.keyLeftHandler({}), 'main-left');
+            assert.equal(grid.keyRightHandler({}), 'main-right');
+
+            grid.scrollPaneHidden = true;
+            assert.equal(grid.keyLeftHandler({}), 'frozen-left');
+            assert.equal(grid.keyRightHandler({}), 'frozen-right');
+        } finally {
+            grid.scrollPane = oldScrollPane;
+            grid.scrollPaneFrozen = oldScrollPaneFrozen;
+            grid.scrollPaneHidden = oldHidden;
+        }
+    });
+
 
 });

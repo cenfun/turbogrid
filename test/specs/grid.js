@@ -139,6 +139,24 @@ describe('Grid', function() {
         assert.equal(c.id, 'c4');
     });
 
+    it('Grid getRowItem/getColumnItem with context object and invalid context', function() {
+        const rowItem = grid.getRowItem(0);
+        const columnItem = grid.getColumnItem(0);
+
+        const rowContext = {
+            tg_index: rowItem.tg_index
+        };
+        const columnContext = {
+            tg_index: columnItem.tg_index
+        };
+
+        assert.equal(grid.getRowItem(rowContext), rowContext);
+        assert.equal(grid.getColumnItem(columnContext), columnContext);
+
+        assert.equal(grid.getRowItem(), undefined);
+        assert.equal(grid.getColumnItem(), undefined);
+    });
+
     it('Grid getRowItemById/getColumnItemById', function() {
         const row = grid.getRowItemById('row1');
         assert.equal(row.id, 'row1');
@@ -162,6 +180,52 @@ describe('Grid', function() {
         assert.equal(viewColumnItem.tg_view_index, 0);
     });
 
+    it('Grid getColumnsLength visible vs total after hide/show column', async () => {
+        const localContainer = createContainer('500px', '200px');
+        const localGrid = new Grid(localContainer);
+        const localData = Data.create();
+        localGrid.setData(localData);
+        localGrid.render();
+
+        await delay();
+
+        const beforeVisibleLen = localGrid.getColumnsLength();
+        localGrid.hideColumn('name');
+        await delay();
+
+        const hiddenVisibleLen = localGrid.getColumnsLength();
+        const totalLen = localGrid.getColumnsLength(true);
+        assert(totalLen > hiddenVisibleLen);
+        assert(hiddenVisibleLen < beforeVisibleLen);
+
+        localGrid.showColumn('name');
+        await delay();
+        const afterShowVisibleLen = localGrid.getColumnsLength();
+        assert(afterShowVisibleLen > hiddenVisibleLen);
+        assert(totalLen >= afterShowVisibleLen);
+
+        localGrid.destroy();
+        localContainer.remove();
+    });
+
+    it('Grid getViewRowItem/getViewColumnItem out of range', function() {
+        const vr = grid.getViewRowItem(99999);
+        const vc = grid.getViewColumnItem(99999);
+        assert.equal(vr, undefined);
+        assert.equal(vc, undefined);
+    });
+
+    it('Grid getRowItemBy/getColumnItemBy invalid value', function() {
+        const rowByName = grid.getRowItemBy('name', 'Name1');
+        assert.equal(rowByName.id, 'row1');
+
+        const colByName = grid.getColumnItemBy('name', 'Name');
+        assert.equal(colByName.id, 'name');
+
+        assert.equal(grid.getRowItemBy('id', undefined), undefined);
+        assert.equal(grid.getColumnItemBy('id', undefined), undefined);
+    });
+
     it('Grid setRowState', function() {
         const rowItem = grid.getRowItem('row1');
         assert(rowItem);
@@ -172,6 +236,29 @@ describe('Grid', function() {
 
         grid.setRowState('row1', 'warning', false);
         assert.equal(rowNode.classList.contains('tg-warning'), false);
+    });
+
+    it('Grid setRowState invalid row', function() {
+        const res = grid.setRowState('row_not_exists', 'warning', true);
+        assert.equal(res, grid);
+    });
+
+    it('Grid isColumnSortable/isColumnResizable branches', function() {
+        const normalColumn = grid.getColumnItem('name');
+        assert.equal(grid.isColumnSortable(normalColumn), true);
+        assert.equal(grid.isColumnResizable(normalColumn), true);
+
+        const groupColumn = grid.getColumnItem('subs');
+        assert.equal(grid.isColumnSortable(groupColumn), false);
+        assert.equal(grid.isColumnResizable(groupColumn), false);
+
+        assert.equal(grid.isColumnSortable(null), false);
+        assert.equal(grid.isColumnResizable(null), false);
+
+        assert.equal(grid.isColumnSortable({}), false);
+        assert.equal(grid.isColumnResizable({
+            resizable: false
+        }), false);
     });
 
     it('Grid setDataSnapshot clean tg_ props and convert number', function() {
@@ -266,6 +353,25 @@ describe('Grid', function() {
         assert.equal(grid.getOption('key1'), 'value1');
         assert.equal(grid.getOption().key1, 'value1');
 
+    });
+
+    it('Grid setOption/getOption before render', async () => {
+        const localContainer = createContainer('500px', '200px');
+        const localGrid = new Grid(localContainer);
+
+        assert.equal(localGrid.getOption(), undefined);
+        assert.equal(localGrid.getOption('key_pre'), undefined);
+
+        localGrid.setOption('key_pre', 'value_pre');
+        localGrid.setData(data);
+        localGrid.render();
+
+        await delay();
+
+        assert.equal(localGrid.getOption('key_pre'), 'value_pre');
+
+        localGrid.destroy();
+        localContainer.remove();
     });
 
     it('Grid destroy()', async () => {

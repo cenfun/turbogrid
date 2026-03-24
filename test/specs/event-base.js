@@ -333,4 +333,20 @@ describe('Event base', function() {
 
     });
 
+    it('Event delEventListeners/getEventListeners reset', function() {
+        let num = 0;
+        e.bind('reset', function() {
+            num += 1;
+        });
+        e.trigger('reset');
+        assert.equal(num, 1);
+
+        e.delEventListeners();
+        const listeners = e.getEventListeners();
+        assert.equal(typeof listeners, 'object');
+
+        e.trigger('reset');
+        assert.equal(num, 1);
+    });
+
 });

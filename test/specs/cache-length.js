@@ -165,4 +165,90 @@ describe('Cache length', function() {
 
     });
 
+    it('Grid cache deleteRowCache/deleteCellCache guards', function() {
+        const oldObserver = grid.cellResizeObserver;
+        const oldRemoveNode = grid.removeNode;
+
+        let unobserveCount = 0;
+        let removeCount = 0;
+        try {
+            grid.cellResizeObserver = {
+                unobserve: () => {
+                    unobserveCount += 1;
+                },
+                disconnect: () => {}
+            };
+            grid.removeNode = () => {
+                removeCount += 1;
+            };
+
+            // guard: missing row cache
+            grid.deleteRowCache('__missing__');
+
+            const column = {
+                key: 'name'
+            };
+            const cellNodes = new Map();
+            const observerNodes = new Map();
+            cellNodes.set(column, {
+                id: 'cell'
+            });
+            observerNodes.set(column, {
+                id: 'observer'
+            });
+
+            grid.deleteCellCache(column, cellNodes, observerNodes);
+            assert.equal(unobserveCount, 1);
+            assert.equal(removeCount, 1);
+            assert.equal(cellNodes.has(column), false);
+            assert.equal(observerNodes.has(column), false);
+
+            // guards: null map inputs
+            grid.deleteCellCache(column, null, null);
+
+            grid.rowsCache.set('__row__', {
+                rowNodes: {
+                    each: (callback) => {
+                        callback({
+                            id: 'row-a'
+                        });
+                        callback({
+                            id: 'row-b'
+                        });
+                    }
+                },
+                cellNodes: new Map(),
+                observerNodes: new Map([
+                    [1, {
+                        id: 'obs-a'
+                    }],
+                    [2, null]
+                ])
+            });
+
+            grid.deleteRowCache('__row__');
+            assert.equal(unobserveCount, 2);
+            assert.equal(removeCount, 3);
+            assert.equal(grid.rowsCache.has('__row__'), false);
+        } finally {
+            grid.cellResizeObserver = oldObserver;
+            grid.removeNode = oldRemoveNode;
+        }
+    });
+
+    it('Grid cache node data with null node', function() {
+        const node = document.createElement('div');
+        const dataNode = {
+            x: 1
+        };
+
+        grid.setNodeDataCache(node, dataNode);
+        assert.equal(grid.getNodeDataCache(node), dataNode);
+
+        assert.equal(grid.setNodeDataCache(null, {
+            y: 1
+        }), undefined);
+        assert.equal(grid.getNodeDataCache(null), undefined);
+    });
+
 });

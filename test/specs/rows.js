@@ -114,4 +114,44 @@ describe('Rows', function() {
         assert.equal(grid.getRowItem('row_invalid'), null);
     });
 
+    it('Grid setRowHover guards (rowHoverable / frozenRowHoverable / rowItem.hoverable)', async () => {
+        const localContainer = createContainer('500px', '200px');
+        const localGrid = new Grid(localContainer);
+        const localData = Data.create();
+
+        localGrid.setOption({
+            frozenRow: 0,
+            frozenRowHoverable: false
+        });
+        localGrid.setData(localData);
+        localGrid.render();
+        await delay();
+
+        // guard 1: invalid row
+        assert.equal(localGrid.setRowHover('row_not_exists', true), localGrid);
+
+        // guard 2: rowHoverable false
+        localGrid.setColumnLineActive(true);
+        localGrid.setRowHover(1, true);
+        const rowNode1 = localContainer.querySelector('.tg-row[row="1"]');
+        assert.equal(rowNode1.classList.contains('tg-hover'), false);
+
+        // restore hover ability
+        localGrid.setColumnLineActive(false);
+
+        // guard 3: rowItem.hoverable false
+        const rowItem1 = localGrid.getRowItem(1);
+        rowItem1.hoverable = false;
+        localGrid.setRowHover(1, true);
+        assert.equal(rowNode1.classList.contains('tg-hover'), false);
+
+        // guard 4: frozen row and frozenRowHoverable false
+        localGrid.setRowHover(0, true);
+        const rowNode0 = localContainer.querySelector('.tg-row[row="0"]');
+        assert.equal(rowNode0.classList.contains('tg-hover'), false);
+
+        localGrid.destroy();
+        localContainer.remove();
+    });
+
 });

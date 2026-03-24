@@ -386,6 +386,26 @@
                     </section>
 
                     <section>
+                        <a name="setDataSnapshot">setDataSnapshot(data)</a>
+                        <div>Set data with snapshot conversion (removes private fields and normalizes tree data).</div>
+                        <pre><code class="language-js">
+                            grid.setDataSnapshot(data);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getItemSnapshot">getItemSnapshot(item[, keysSettings])</a>
+                        <div>Returns clean snapshot by removing private fields or using keysSettings.</div>
+                        <pre><code class="language-js">
+                            var rowSnapshot = grid.getItemSnapshot(rowItem);
+                            var rowSnapshot2 = grid.getItemSnapshot(rowItem, {
+                                id: true,
+                                name: true
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
                         <a name="setOption">setOption(options)</a>
                         <div>For Detailed options, check <a href="#options">default options</a></div>
                         <pre><code class="language-js">
@@ -514,6 +534,13 @@
                     </section>
 
                     <section>
+                        <a name="rerender">rerender()</a>
+                        <pre><code class="language-js">
+                            grid.rerender();
+                        </code></pre>
+                    </section>
+
+                    <section>
                         <a name="resize">resize([w, [h]])</a>
                         <pre><code class="language-js">
                             grid.resize();
@@ -531,7 +558,11 @@
 
                     <section>
                         <a name="getColumnItem">getColumnItem(columnIndex)</a>
+                        <a name="getColumnItemById">getColumnItemById(id)</a>
+                        <a name="getColumnItemBy">getColumnItemBy(key, value)</a>
                         <a name="getRowItem">getRowItem(rowIndex)</a>
+                        <a name="getRowItemById">getRowItemById(id)</a>
+                        <a name="getRowItemBy">getRowItemBy(key, value)</a>
                         <div>Different data types of the rowIndex/columnIndex parameter are supported :</div>
                         <ol>
                             <li>If parameter type is Number, grid will search the row/column item by index. (recommend, highest performance)</li>
@@ -544,7 +575,9 @@
                         </ol>
                         <pre><code class="language-js">
                             var columnItem = grid.getColumnItem(columnIndex);
+                            var columnItemById = grid.getColumnItemById("id_123");
                             var rowItem = grid.getRowItem(rowIndex);
+                            var rowItemById = grid.getRowItemById("id_123");
                             var rowItem = grid.getRowItem(123);
                             var rowItem = grid.getRowItem("id_123");
                             var rowItem = grid.getRowItemBy("id", "id_123");
@@ -643,6 +676,22 @@
                         </code></pre>
                         <div>Demo <a href="set-rows.html" target="_blank">Dynamic Set Rows</a></div>
                     </section>
+
+                    <section>
+                        <a name="getRows">getRows()</a>
+                        <a name="getColumns">getColumns()</a>
+                        <a name="getViewRows">getViewRows()</a>
+                        <a name="getViewRowItem">getViewRowItem(viewRowIndex)</a>
+                        <a name="getViewColumnItem">getViewColumnItem(viewColumnIndex)</a>
+                        <div>view index means current visible order index after filter/collapse/sort.</div>
+                        <pre><code class="language-js">
+                            var rows = grid.getRows();
+                            var columns = grid.getColumns();
+                            var viewRows = grid.getViewRows();
+                            var viewRowItem = grid.getViewRowItem(0);
+                            var viewColumnItem = grid.getViewColumnItem(0);
+                        </code></pre>
+                    </section>
                     
                     <section>
                         <a name="addRow">addRow(rowInfo[, parent, position, scrollTo = true])</a>
@@ -728,6 +777,16 @@
                             grid.setRowHover(rowIndex, false);
                         </code></pre>
                         <div>Demo <a href="frozen-middle.html" target="_blank">Frozen Middle</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setRowState">setRowState(rowIndex, state, value = true)</a>
+                        <div>Set custom row state and toggles className `tg-[state]` on rendered row nodes.</div>
+                        <pre><code class="language-js">
+                            grid.setRowState(rowIndex, "selected", true);
+                            grid.setRowState(rowIndex, "warning", true);
+                            grid.setRowState(rowIndex, "warning", false);
+                        </code></pre>
                     </section>
 
                     <section>
@@ -824,7 +883,15 @@
                     <section>
                         <a name="updateRow">updateRow(rowIndex[, rowData])</a>
                         <a name="updateCell">updateCell(rowIndex, columnIndex[, cellValue])</a>
+                        <a name="update">update()</a>
+                        <a name="flushRow">flushRow(viewRowIndex)</a>
+                        <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
+                        <div>updateRow supports partial rowData merge.</div>
+                        <div>flushRow/flushCell operate on view index cache (tg_view_index), not source index.</div>
                         <pre><code class="language-js">
+                            grid.update();
+                            grid.flushRow(viewRowIndex);
+                            grid.flushCell(viewRowIndex, viewColumnIndex);
                             grid.updateRow(rowIndex);
                             grid.updateRow(rowIndex, rowData);
                             grid.updateCell(rowIndex, columnIndex);
@@ -866,6 +933,15 @@
                     </section>
                     
                     <section>
+                        <a name="getColumnsLength">getColumnsLength(total)</a>
+                        <div>Total columns length. default total is false and returns current visible columns; total true returns all columns.</div>
+                        <pre><code class="language-js">
+                            var len = grid.getColumnsLength();
+                            var totalLen = grid.getColumnsLength(true);
+                        </code></pre>
+                    </section>
+
+                    <section>
                         <a name="getRowsLength">getRowsLength(total)</a>
                         <div>Total rows length. default total is false; total is true means including collapsed/filtered rows;</div>
                         <pre><code class="language-js">
@@ -905,8 +981,10 @@
                     </section>
                     <section>
                         <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
+                        <a name="getCellValue">getCellValue(rowItem, columnItem)</a>
                         <pre><code class="language-js">
                             var cellNode = grid.getCellNode(rowIndex, columnIndex);
+                            var cellValue = grid.getCellValue(rowItem, columnItem);
                         </code></pre>
                     </section>
                     <section>
@@ -949,6 +1027,18 @@
                     <section>
                         <a name="isRowLeaf">isRowLeaf(rowItem)</a>
                         <div>Returns true or false.</div>
+                    </section>
+
+                    <section>
+                        <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
+                        <div>Keyword helper used by rowFilter and highlightKeywords options.</div>
+                        <pre><code class="language-js">
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    return this.highlightKeywordsFilter(rowItem, ["name", "type"], "foo bar");
+                                }
+                            });
+                        </code></pre>
                     </section>
 
                     <section>
@@ -1109,7 +1199,7 @@
                     </section>
                     
                     <section>
-                        <a name="options.rowHeight">rowHeight = 23</a>
+                        <a name="options.rowHeight">rowHeight = 32</a>
                         <div>Demo <a href="multiple-instance.html" target="_blank">Row Height</a></div>
                     </section>
                     
@@ -1207,7 +1297,13 @@
 
                     <section>
                         <a name="options.rowFilter">rowFilter</a>
+                        <a name="options.rowFilteredSort">rowFilteredSort = null</a>
                         <div>Demo <a href="row-filter.html" target="_blank">Row Filter</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.columnTypes">columnTypes = {...}</a>
+                        <div>Preset column type map and id-to-type mapping.</div>
                     </section>
                     
 
@@ -1297,6 +1393,7 @@
                         <a name="options.frozenColumn">frozenColumn = -1</a>
                         <a name="options.frozenRow">frozenRow = -1</a>
                         <a name="options.frozenBottom">frozenBottom = false</a>
+                        <a name="options.frozenRight">frozenRight = false</a>
                         <a name="options.frozenColumnMax">frozenColumnMax = 10</a>
                         <a name="options.frozenRowMax">frozenRowMax = 10</a>
                         <a name="options.frozenRowHoverable">frozenRowHoverable = false</a>
@@ -1306,6 +1403,8 @@
 
                     <section>
                         <a name="options.scrollbarSize">scrollbarSize = 12</a>
+                        <a name="options.scrollbarSizeH">scrollbarSizeH = null</a>
+                        <a name="options.scrollbarSizeV">scrollbarSizeV = null</a>
                         <div>Sets scrollbar size</div>
 
                         <a name="options.scrollbarRound">scrollbarRound = false</a>
@@ -1322,7 +1421,38 @@
 
                         <a name="options.scrollPaneMinWidth">scrollPaneMinWidth = 30</a>
                         <div>Sets scroll pane min width</div>
+                        <a name="options.scrollPaneGradient">scrollPaneGradient = false</a>
+                        <div>Enable gradient mask on scroll pane edges</div>
                         <div>Demo <a href="scrollbar.html" target="_blank">Scrollbar</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.rowDragVisible">rowDragVisible = false</a>
+                        <a name="options.rowDragColumn">rowDragColumn = {...}</a>
+                        <div>Built-in drag column settings.</div>
+                    </section>
+
+                    <section>
+                        <a name="options.rowNumberWidth">rowNumberWidth = 36</a>
+                        <a name="options.rowNumberFilter">rowNumberFilter = null</a>
+                        <a name="options.rowNumberColumn">rowNumberColumn = {...}</a>
+                        <div>Built-in row number column settings.</div>
+                    </section>
+
+                    <section>
+                        <a name="options.selectColumn">selectColumn = {...}</a>
+                        <a name="options.blankColumn">blankColumn = {...}</a>
+                        <div>Built-in private columns for select and blank filling.</div>
+                    </section>
+
+                    <section>
+                        <a name="options.highlightKeywords">highlightKeywords = {...}</a>
+                        <div>Keyword highlight config for text extraction and mark wrappers.</div>
+                        <a name="options.highlightKeywords.textKey">textKey = "tg_text_"</a>
+                        <a name="options.highlightKeywords.textGenerator">textGenerator = null</a>
+                        <a name="options.highlightKeywords.highlightKey">highlightKey = "tg_highlight_"</a>
+                        <a name="options.highlightKeywords.highlightPre">highlightPre = "&lt;mark&gt;"</a>
+                        <a name="options.highlightKeywords.highlightPost">highlightPost = "&lt;/mark&gt;"</a>
                     </section>
 
                     <section>

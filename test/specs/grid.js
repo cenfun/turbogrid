@@ -153,8 +153,8 @@ describe('Grid', function() {
         assert.equal(grid.getRowItem(rowContext), rowContext);
         assert.equal(grid.getColumnItem(columnContext), columnContext);
 
-        assert.equal(grid.getRowItem(), undefined);
-        assert.equal(grid.getColumnItem(), undefined);
+        assert.equal(typeof grid.getRowItem(), 'undefined');
+        assert.equal(typeof grid.getColumnItem(), 'undefined');
     });
 
     it('Grid getRowItemById/getColumnItemById', function() {
@@ -211,8 +211,8 @@ describe('Grid', function() {
     it('Grid getViewRowItem/getViewColumnItem out of range', function() {
         const vr = grid.getViewRowItem(99999);
         const vc = grid.getViewColumnItem(99999);
-        assert.equal(vr, undefined);
-        assert.equal(vc, undefined);
+        assert.equal(typeof vr, 'undefined');
+        assert.equal(typeof vc, 'undefined');
     });
 
     it('Grid getRowItemBy/getColumnItemBy invalid value', function() {
@@ -222,8 +222,8 @@ describe('Grid', function() {
         const colByName = grid.getColumnItemBy('name', 'Name');
         assert.equal(colByName.id, 'name');
 
-        assert.equal(grid.getRowItemBy('id', undefined), undefined);
-        assert.equal(grid.getColumnItemBy('id', undefined), undefined);
+        assert.equal(typeof grid.getRowItemBy('id', null), 'undefined');
+        assert.equal(typeof grid.getColumnItemBy('id', null), 'undefined');
     });
 
     it('Grid setRowState', function() {
@@ -359,8 +359,8 @@ describe('Grid', function() {
         const localContainer = createContainer('500px', '200px');
         const localGrid = new Grid(localContainer);
 
-        assert.equal(localGrid.getOption(), undefined);
-        assert.equal(localGrid.getOption('key_pre'), undefined);
+        assert.equal(typeof localGrid.getOption(), 'undefined');
+        assert.equal(typeof localGrid.getOption('key_pre'), 'undefined');
 
         localGrid.setOption('key_pre', 'value_pre');
         localGrid.setData(data);

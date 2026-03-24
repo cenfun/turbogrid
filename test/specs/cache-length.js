@@ -245,10 +245,10 @@ describe('Cache length', function() {
         grid.setNodeDataCache(node, dataNode);
         assert.equal(grid.getNodeDataCache(node), dataNode);
 
-        assert.equal(grid.setNodeDataCache(null, {
+        assert.equal(typeof grid.setNodeDataCache(null, {
             y: 1
-        }), undefined);
-        assert.equal(grid.getNodeDataCache(null), undefined);
+        }), 'undefined');
+        assert.equal(typeof grid.getNodeDataCache(null), 'undefined');
     });
 
 });

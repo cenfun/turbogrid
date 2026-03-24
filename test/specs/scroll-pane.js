@@ -137,7 +137,7 @@ describe('ScrollPane', function() {
         });
         grid.setData(getData());
         grid.once('onFirstUpdated', function() {
-            const hh = grid.headerHeight;
+            // const hh = grid.headerHeight;
             // console.log('headerHeight', hh);
             const state = getScrollState(grid);
             assert.equal(state.hhs, false);

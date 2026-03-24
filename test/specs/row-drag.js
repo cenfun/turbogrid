@@ -2,6 +2,8 @@ import { Grid, $ } from '../../src/index.js';
 import Data from '../data/data.js';
 import { triggerTouch } from '../data/helper.js';
 
+/* eslint-disable max-lines-per-function */
+
 describe('Row drag', function() {
 
     let container;
@@ -234,7 +236,7 @@ describe('Row drag', function() {
 
         const sameList = [a, b, c];
         const noChange = grid.updateDragDropPosition(sameList, sameList, 1, 1, b);
-        assert.equal(noChange, undefined);
+        assert.equal(typeof noChange, 'undefined');
 
         const moveInfo = grid.updateDragDropPosition(sameList, sameList, 0, 2, a);
         assert.equal(moveInfo.rowItem, a);

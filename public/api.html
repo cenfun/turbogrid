@@ -368,6 +368,7 @@
                     <section>
                         <a name="Grid">Grid(container)</a>
                         <div>Creates a new grid instance for the specified container.</div>
+                        <div>The container argument can be a CSS selector, a DOM element, or an options object that includes a container property.</div>
                         <pre><code class="language-js">
                             //selector
                             const grid = new Grid(".container");
@@ -393,6 +394,7 @@
                     <section>
                         <a name="setData">setData(data)</a>
                         <div>Sets the grid data. See the <a href="#data">data structure</a> section for details.</div>
+                        <div>The data object reads columns, rows, rowsLength, and options. rowsLength is useful when the total row count is known before all rows are loaded.</div>
                         <pre><code class="language-js">
                             grid.setData({
                                 columns: [],
@@ -411,7 +413,7 @@
 
                     <section>
                         <a name="setDataSnapshot">setDataSnapshot(data)</a>
-                        <div>Sets data from a snapshot by removing private fields and normalizing tree structures.</div>
+                        <div>Loads data from a plain snapshot by stripping private tg_* fields and rebuilding normalized tree state for rows and columns.</div>
                         <pre><code class="language-js">
                             grid.setDataSnapshot(data);
                         </code></pre>
@@ -419,7 +421,8 @@
 
                     <section>
                         <a name="getItemSnapshot">getItemSnapshot(item[, keysSettings])</a>
-                        <div>Returns a sanitized snapshot of an item by removing private fields, or by selecting fields with keysSettings.</div>
+                        <div>Returns a sanitized snapshot of a row or column item.</div>
+                        <div>When keysSettings is omitted, private fields are removed. When keysSettings is provided, keys set to true are included explicitly and keys set to false are excluded.</div>
                         <pre><code class="language-js">
                             const rowSnapshot = grid.getItemSnapshot(rowItem);
                             const rowSnapshot2 = grid.getItemSnapshot(rowItem, {
@@ -432,6 +435,7 @@
                     <section>
                         <a name="setOption">setOption(options)</a>
                         <div>Sets one or more grid options. See <a href="#options">options</a> for available settings.</div>
+                        <div>Supports both setOption(optionKey, optionValue) and setOption(optionsObject).</div>
                         <pre><code class="language-js">
                             //set multiple options
                             grid.setOption({
@@ -446,6 +450,7 @@
                     <section>
                         <a name="getOption">getOption([name])</a>
                         <div>Returns the current option value for name, or the full options object when no name is provided.</div>
+                        <div>Returns undefined for unknown keys.</div>
                         <pre><code class="language-js">
                             //get all options
                             const options = grid.getOption();
@@ -457,6 +462,7 @@
                     <section>
                         <a name="setFormatter">setFormatter(formatters)</a>
                         <div>Registers or overrides grid formatters.</div>
+                        <div>Supports both setFormatter(type, handler) and setFormatter(formatterMap). Registered handlers run with the grid instance as this.</div>
                         <pre><code class="language-js">
                             //set multiple formatters
                             grid.setFormatter({
@@ -488,7 +494,7 @@
 
                     <section>
                         <a name="getFormatter">getFormatter(type)</a>
-                        <div>Returns the formatter function registered for the specified type.</div>
+                        <div>Returns the formatter function registered for the specified type, bound to the current grid instance.</div>
                         <pre><code class="language-js">
                             const stringFormatter = grid.getFormatter("string");
                         </code></pre>
@@ -497,6 +503,7 @@
                     <section>
                         <a name="getDefaultFormatter">getDefaultFormatter([type])</a>
                         <div>Returns the built-in formatter function for the specified type.</div>
+                        <div>Falls back to the built-in string formatter when the requested type is missing.</div>
                         <pre><code class="language-js">
                             const treeFormatter = grid.getDefaultFormatter("tree");
                         </code></pre>
@@ -505,6 +512,7 @@
                     <section>
                         <a name="bind">bind(eventType, handler)</a>
                         <div>Binds an event handler to the grid. See <a href="#events">events</a> for supported event types.</div>
+                        <div>eventType can be a single event name, multiple names separated by spaces, or an object map of event names to handlers. Namespaced events such as onUpdated.demo are supported.</div>
                         <pre><code class="language-js">
                             grid.bind("onUpdated", function(e, d){
                                 //console.log(d);
@@ -516,6 +524,7 @@
                     <section>
                         <a name="once">once(eventType, handler)</a>
                         <div>Binds a handler that runs once and is removed after the first trigger.</div>
+                        <div>Accepts the same eventType formats as bind.</div>
                         <pre><code class="language-js">
                             grid.once("onUpdated", function(e, eventData){
                                 //console.log(eventData);
@@ -526,6 +535,7 @@
                     <section>
                         <a name="unbind">unbind([eventType][, handler])</a>
                         <div>Removes previously bound event handlers from the grid.</div>
+                        <div>Call without arguments to remove all handlers, with an event name or namespace to remove matching handlers, or with both eventType and handler to remove a specific binding.</div>
                         <pre><code class="language-js">
                             grid.unbind();
                             grid.unbind("onUpdated");
@@ -536,6 +546,7 @@
                     <section>
                         <a name="trigger">trigger(eventType, eventData)</a>
                         <div>Triggers an event and calls all bound handlers with the provided event data.</div>
+                        <div>Handlers receive the event object first and eventData as the second argument.</div>
                         <pre><code class="language-js">
                             this.trigger(eventType, eventData);
                         </code></pre>
@@ -552,7 +563,8 @@
 
                     <section>
                         <a name="render">render()</a>
-                        <div>Renders the grid using the current data, options, and formatters.</div>
+                        <div>Schedules a render pass using the current data, options, and formatters.</div>
+                        <div>Repeated calls in the same tick are merged, so render is safe to call after batched updates.</div>
                         <pre><code class="language-js">
                             grid.render();
                         </code></pre>
@@ -560,7 +572,7 @@
 
                     <section>
                         <a name="rerender">rerender()</a>
-                        <div>Rebuilds the grid structure and renders it again.</div>
+                        <div>Forces a full rebuild of the grid structure and renders it again.</div>
                         <pre><code class="language-js">
                             grid.rerender();
                         </code></pre>
@@ -568,7 +580,8 @@
 
                     <section>
                         <a name="resize">resize([w, [h]])</a>
-                        <div>Recalculates the layout and optionally applies a new width and height.</div>
+                        <div>Recalculates the layout and optionally applies a new size.</div>
+                        <div>Supports resize(), resize(width, height), and resize(styleMap) where styleMap is applied to the grid holder.</div>
                         <pre><code class="language-js">
                             grid.resize();
                             grid.resize(600, 400);
@@ -593,7 +606,7 @@
                         <a name="getRowItemBy">getRowItemBy(key, value)</a>
                         <div>The rowIndex and columnIndex parameters support several input forms:</div>
                         <ol>
-                            <li>If the parameter is a Number, the grid looks up the row or column by index. This is the recommended and fastest option.</li>
+                            <li>If the parameter is a Number, the grid looks up the row or column by index. Negative indexes are supported, so -1 resolves to the last item.</li>
                             <li>If the parameter is a String, the grid searches all items for a matching row or column id.</li>
                             <li>If the parameter is an Object, the grid inspects these properties:</li>
                             <ul>
@@ -618,6 +631,7 @@
                         <a name="hideLoading">hideLoading()</a>
                         <a name="setLoading">setLoading(loading)</a>
                         <div>Shows, hides, or customizes the built-in loading overlay.</div>
+                        <div>loading can be plain content, a DOM node, a factory function that receives the loading container, or a default-loading options object such as { size, color, fast }.</div>
                         <pre><code class="language-js">
                             grid.showLoading();
                             grid.hideLoading();
@@ -630,9 +644,10 @@
                     </section>
 
                     <section>
-                        <a name="showMask">showMask()</a>
+                        <a name="showMask">showMask([styleMap])</a>
                         <a name="hideMask">hideMask()</a>
                         <div>Shows or hides the interaction-blocking mask overlay.</div>
+                        <div>Pass styleMap to override mask styles such as opacity or background color.</div>
                         <pre><code class="language-js">
                             grid.showMask();
                             grid.showMask({
@@ -662,6 +677,7 @@
                         <a name="collapseRow">collapseRow(rowIndex)</a>
                         <a name="toggleRow">toggleRow(rowIndex)</a>
                         <div>Expands, collapses, or toggles a specific row.</div>
+                        <div>If the target row is a group with no loaded subs yet, expandRow may trigger onRowSubsRequest so child rows can be loaded lazily.</div>
                         <pre><code class="language-js">
                             grid.expandRow(rowIndex);
                             grid.collapseRow(rowIndex);
@@ -682,6 +698,7 @@
                     <section>
                         <a name="exportData">exportData([keysSettings])</a>
                         <div>Returns export-ready columns and rows with private fields removed, optionally filtered by keysSettings.</div>
+                        <div>In keysSettings, true forces a key to be included and false excludes it.</div>
                         <pre><code class="language-js">
                             const exportedData = grid.exportData();
                             const exportedData = grid.exportData({
@@ -695,6 +712,7 @@
                     <section>
                         <a name="setRowSubs">setRowSubs(rowIndex, subs)</a>
                         <div>Replaces the child rows for the specified parent row.</div>
+                        <div>Passing an array of subs updates the row tree immediately and marks the parent row as expanded.</div>
                         <pre><code class="language-js">
                             const subs = [{name:"row1"},{name:"row2"}];
                             grid.setRowSubs(rowIndex, subs);
@@ -703,8 +721,18 @@
                     </section>
                     
                     <section>
+                        <a name="setColumns">setColumns(columnList)</a>
+                        <div>Replaces the current top-level columns and triggers a full rerender.</div>
+                        <pre><code class="language-js">
+                            const columns = [{id:"name", name:"Name"}];
+                            grid.setColumns(columns);
+                        </code></pre>
+                    </section>
+
+                    <section>
                         <a name="setRows">setRows(rowList)</a>
                         <div>Replaces the current top-level rows with a new row list.</div>
+                        <div>Use setRows when only the row tree changes. Use setData when columns or options also need to be replaced.</div>
                         <pre><code class="language-js">
                             const rows = [{name:"row1"},{name:"row2"}];
                             grid.setRows(rows);
@@ -716,13 +744,17 @@
                         <a name="getRows">getRows()</a>
                         <a name="getColumns">getColumns()</a>
                         <a name="getViewRows">getViewRows()</a>
+                        <a name="getViewColumns">getViewColumns([all])</a>
                         <a name="getViewRowItem">getViewRowItem(viewRowIndex)</a>
                         <a name="getViewColumnItem">getViewColumnItem(viewColumnIndex)</a>
-                        <div>A view index is the current visible order after filtering, collapsing, and sorting.</div>
+                        <div>getRows and getColumns return the source top-level data.</div>
+                        <div>A view index is the current visible order after filtering, collapsing, sorting, and column visibility changes.</div>
+                        <div>getViewColumns(true) also includes visible group columns in the returned list.</div>
                         <pre><code class="language-js">
                             const rows = grid.getRows();
                             const columns = grid.getColumns();
                             const viewRows = grid.getViewRows();
+                            const viewColumns = grid.getViewColumns();
                             const viewRowItem = grid.getViewRowItem(0);
                             const viewColumnItem = grid.getViewColumnItem(0);
                         </code></pre>
@@ -732,6 +764,7 @@
                         <a name="addRow">addRow(rowInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteRow">deleteRow(rowIndex)</a>
                         <div>Adds a row or deletes one or more rows.</div>
+                        <div>parent can be a row reference, row index, or row id. position inserts at a specific child index, and scrollTo defaults to true so the new row is brought into view.</div>
                         <pre><code class="language-js">
                             grid.addRow({
                                 id: "id1",
@@ -757,6 +790,7 @@
                         <a name="moveSelectedRowsToBottom">moveSelectedRowsToBottom()</a>
                         <a name="moveRows">moveRows(rowList, offset)</a>
                         <div>offset: values less than 0 move rows up, and values greater than 0 move rows down.</div>
+                        <div>rowList can be a single row or a list of rows. The move is ignored when offset is 0 or when all visible rows are included.</div>
                         <pre><code class="language-js">
                             grid.moveRowsToTop(["row_id1", "row_id2"]);
                             grid.moveRowsUp(["row_id1", "row_id2"]);
@@ -776,8 +810,9 @@
                     </section>
 
                     <section>
-                        <a name="selectAll">selectAll()</a>
+                        <a name="selectAll">selectAll([selected = true])</a>
                         <div>Selects or clears all selectable rows.</div>
+                        <div>In single-select mode, selectAll(true) is ignored.</div>
                         <pre><code class="language-js">
                             grid.selectAll();
                             grid.selectAll(false);
@@ -786,8 +821,9 @@
                     </section>
 
                     <section>
-                        <a name="setRowSelected">setRowSelected(rowIndex)</a>
-                        <div>Updates the selected state of a row, or clears the selection when called without arguments.</div>
+                        <a name="setRowSelected">setRowSelected(rowInfo[, settings])</a>
+                        <div>Updates the selected state of one or more rows.</div>
+                        <div>In multi-select mode, pass false as the only argument to clear all, pass false as the second argument to unselect specific rows, or pass an event with Shift pressed to select a range from the previous selection.</div>
                         <pre><code class="language-js">
                             grid.setRowSelected(rowIndex);
                             grid.setRowSelected(rowIndex, false);
@@ -799,7 +835,8 @@
                     <section>
                         <a name="getSelectedRow">getSelectedRow()</a>
                         <a name="getSelectedRows">getSelectedRows()</a>
-                        <div>Returns an array when multiple rows are selected.</div>
+                        <div>getSelectedRow returns the first selected row or null.</div>
+                        <div>getSelectedRows always returns an array sorted by selection order.</div>
                         <pre><code class="language-js">
                             const selectedRow = grid.getSelectedRow();
                             const selectedRows = grid.getSelectedRows();
@@ -830,7 +867,8 @@
                     <section>
                         <a name="setSortColumn">setSortColumn(sortColumn)</a>
                         <a name="removeSortColumn">removeSortColumn()</a>
-                        <div>Clears the current sort state, typically after the underlying data changes.</div>
+                        <div>setSortColumn accepts the same input forms as getColumnItem.</div>
+                        <div>Calling setSortColumn repeatedly with the same column toggles sortAsc. removeSortColumn clears the current sort state.</div>
                         <pre><code class="language-js">
                             grid.setSortColumn(sortColumn);
                             grid.removeSortColumn();
@@ -840,7 +878,8 @@
 
                     <section>
                         <a name="setColumnWidth">setColumnWidth(columnIndex, width)</a>
-                        <div>Updates a column width at runtime. minWidth and maxWidth can also be changed.</div>
+                        <div>Updates a column width at runtime.</div>
+                        <div>width is rounded to an integer, clamped to 0 or greater, and updates the column width, minWidth, and maxWidth together.</div>
                         <pre><code class="language-js">
                             grid.setColumnWidth(columnIndex, width);
                         </code></pre>
@@ -851,19 +890,21 @@
                         <a name="showColumn">showColumn(columnIndex)</a>
                         <a name="hideColumn">hideColumn(columnIndex)</a>
                         <div>Shows or hides one or more columns.</div>
+                        <div>Accepts the same input forms as getColumnItem, including lists.</div>
                         <pre><code class="language-js">
                             grid.showColumn(columnIndex);
                             grid.hideColumn(columnIndex);
                             grid.showColumn([1, 3]);
                             grid.hideColumn([1, 3]);
                         </code></pre>
-                        <div>Demo <a href="column-width.html" target="_blank">Show/Hide Column</a></div>
+                        <div>Demo <a href="column-display.html" target="_blank">Show/Hide Column</a></div>
                     </section>
 
                     <section>
                         <a name="addColumn">addColumn(columnInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteColumn">deleteColumn(columnIndex)</a>
                         <div>Adds a column or deletes one or more columns.</div>
+                        <div>parent can be a column reference, column index, or column id. position inserts at a specific child index, and scrollTo defaults to true so the new column is brought into view.</div>
                         <pre><code class="language-js">
                             grid.addColumn({
                                 id: "id1",
@@ -887,6 +928,7 @@
                         <a name="scrollToLastColumn">scrollToLastColumn(end)</a>
                         <a name="scrollToCell">scrollToCell(rowIndex, columnIndex)</a>
                         <div>Scrolls directly to the specified row, column, or cell.</div>
+                        <div>scrollToLastColumn(end) skips the trailing blank filler column unless end is true.</div>
                         <pre><code class="language-js">
                             grid.scrollToRow(rowIndex);
                             grid.scrollToColumn(columnIndex);
@@ -930,6 +972,7 @@
                         <a name="flushRow">flushRow(viewRowIndex)</a>
                         <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
                         <div>updateRow merges partial rowData into the existing row.</div>
+                        <div>updateCell reads rowIndex and columnIndex using the normal row and column lookup rules. Omitting rowData or cellValue rerenders the existing data.</div>
                         <div>flushRow and flushCell use view indexes (tg_view_index), not source indexes.</div>
                         <pre><code class="language-js">
                             grid.update();
@@ -1018,8 +1061,9 @@
                     </section>
 
                     <section>
-                        <a name="find">find(selector)</a>
+                        <a name="find">find(selector[, container])</a>
                         <div>Finds nodes inside the grid root with a CSS selector.</div>
+                        <div>Pass container to limit the query to a specific node inside the grid.</div>
                         <pre><code class="language-js">
                             const nodes = grid.find(".selector-name");
                         </code></pre>
@@ -1028,6 +1072,7 @@
                         <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
                         <a name="getCellValue">getCellValue(rowItem, columnItem)</a>
                         <div>Returns a rendered cell node or resolves the raw cell value.</div>
+                        <div>getCellValue returns rowItem[columnItem.id] before any formatter is applied.</div>
                         <pre><code class="language-js">
                             const cellNode = grid.getCellNode(rowIndex, columnIndex);
                             const cellValue = grid.getCellValue(rowItem, columnItem);
@@ -1036,6 +1081,7 @@
                     <section>
                         <a name="getHeaderItemNode">getHeaderItemNode(columnIndex)</a>
                         <div>Returns the header item node for the specified column.</div>
+                        <div>Accepts the same input forms as getColumnItem.</div>
                         <pre><code class="language-js">
                             const headerItemNode = grid.getHeaderItemNode(columnIndex);
                         </code></pre>
@@ -1043,6 +1089,7 @@
                     <section>
                         <a name="getColumnHeaderNode">getColumnHeaderNode(columnIndex)</a>
                         <div>Returns the header container node for the specified column.</div>
+                        <div>Accepts the same input forms as getColumnItem.</div>
                         <pre><code class="language-js">
                             const columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
                         </code></pre>
@@ -1053,6 +1100,7 @@
                         <a name="forEachColumn">forEachColumn(callback)</a>
                         <a name="forEachRow">forEachRow(callback)</a>
                         <div>Iterates over each column or row and calls the provided callback.</div>
+                        <div>The callback receives (item, index, parent) for each node in the tree.</div>
                         <pre><code class="language-js">
                             grid.forEachColumn(function(column, index, parent) {
                                 //
@@ -1081,6 +1129,7 @@
                     <section>
                         <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
                         <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
+                        <div>columns should be a list of column ids, and keywords is split on whitespace before matching.</div>
                         <pre><code class="language-js">
                             grid.setOption({
                                 rowFilter: function(rowItem) {
@@ -1093,6 +1142,7 @@
                     <section>
                         <a name="onNextUpdated">onNextUpdated(handler)</a>
                         <div>Registers a one-time handler for the next onUpdated event.</div>
+                        <div>This is equivalent to a one-shot listener for onUpdated.</div>
                         <pre><code class="language-js">
                             grid.onNextUpdated(function(e, eventData){
                                 //console.log(eventData);

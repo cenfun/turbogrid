@@ -368,6 +368,7 @@
                     <section>
                         <a name="Grid">Grid(container)</a>
                         <div>为指定容器创建一个新的 Grid 实例。</div>
+                        <div>container 参数可以是 CSS 选择器、DOM 元素，或包含 container 属性的配置对象。</div>
                         <pre><code class="language-js">
                             // 选择器
                             const grid = new Grid(".container");
@@ -393,6 +394,7 @@
                     <section>
                         <a name="setData">setData(data)</a>
                         <div>设置表格数据。详细结构请参见 <a href="#data">数据结构</a>。</div>
+                        <div>data 对象会读取 columns、rows、rowsLength 和 options。rowsLength 适用于已知总行数但数据尚未全部加载完成的场景。</div>
                         <pre><code class="language-js">
                             grid.setData({
                                 columns: [],
@@ -411,7 +413,7 @@
 
                     <section>
                         <a name="setDataSnapshot">setDataSnapshot(data)</a>
-                        <div>通过快照设置数据，会移除私有字段并规范化树形结构。</div>
+                        <div>从普通快照数据加载内容，会移除私有 tg_* 字段，并重新构建 rows 和 columns 的规范化树结构状态。</div>
                         <pre><code class="language-js">
                             grid.setDataSnapshot(data);
                         </code></pre>
@@ -419,7 +421,8 @@
 
                     <section>
                         <a name="getItemSnapshot">getItemSnapshot(item[, keysSettings])</a>
-                        <div>返回条目的快照数据，可移除私有字段，或通过 keysSettings 选择导出字段。</div>
+                        <div>返回行或列条目的净化快照数据。</div>
+                        <div>未传 keysSettings 时会移除私有字段；传入 keysSettings 时，值为 true 的键会被显式保留，值为 false 的键会被排除。</div>
                         <pre><code class="language-js">
                             const rowSnapshot = grid.getItemSnapshot(rowItem);
                             const rowSnapshot2 = grid.getItemSnapshot(rowItem, {
@@ -432,6 +435,7 @@
                     <section>
                         <a name="setOption">setOption(options)</a>
                         <div>设置一个或多个表格选项。可用配置请参见 <a href="#options">配置项</a>。</div>
+                        <div>同时支持 setOption(optionKey, optionValue) 和 setOption(optionsObject) 两种调用形式。</div>
                         <pre><code class="language-js">
                             // 设置多个选项
                             grid.setOption({
@@ -446,6 +450,7 @@
                     <section>
                         <a name="getOption">getOption([name])</a>
                         <div>传入 name 时返回对应选项值；未传入时返回完整配置对象。</div>
+                        <div>查询未知配置键时返回 undefined。</div>
                         <pre><code class="language-js">
                             // 获取全部选项
                             const options = grid.getOption();
@@ -457,6 +462,7 @@
                     <section>
                         <a name="setFormatter">setFormatter(formatters)</a>
                         <div>注册或覆盖 Grid 格式化器。</div>
+                        <div>同时支持 setFormatter(type, handler) 和 setFormatter(formatterMap)。已注册的处理函数执行时，this 指向当前 grid 实例。</div>
                         <pre><code class="language-js">
                             // 设置多个格式化器
                             grid.setFormatter({
@@ -488,7 +494,7 @@
 
                     <section>
                         <a name="getFormatter">getFormatter(type)</a>
-                        <div>返回指定类型已注册的格式化函数。</div>
+                        <div>返回指定类型已注册的格式化函数，并绑定到当前 grid 实例。</div>
                         <pre><code class="language-js">
                             const stringFormatter = grid.getFormatter("string");
                         </code></pre>
@@ -497,6 +503,7 @@
                     <section>
                         <a name="getDefaultFormatter">getDefaultFormatter([type])</a>
                         <div>返回指定类型的内置格式化函数。</div>
+                        <div>当指定类型不存在时，会回退到内置的 string 格式化器。</div>
                         <pre><code class="language-js">
                             const treeFormatter = grid.getDefaultFormatter("tree");
                         </code></pre>
@@ -505,6 +512,7 @@
                     <section>
                         <a name="bind">bind(eventType, handler)</a>
                         <div>为表格绑定事件处理函数。支持的事件类型请参见 <a href="#events">事件</a>。</div>
+                        <div>eventType 可以是单个事件名、由空格分隔的多个事件名，或事件名到处理函数的对象映射。也支持 `onUpdated.demo` 这类带命名空间的事件名。</div>
                         <pre><code class="language-js">
                             grid.bind("onUpdated", function(e, d){
                                 //console.log(d);
@@ -516,6 +524,7 @@
                     <section>
                         <a name="once">once(eventType, handler)</a>
                         <div>绑定一个只执行一次的处理函数，首次触发后会自动移除。</div>
+                        <div>支持与 bind 相同的 eventType 传参形式。</div>
                         <pre><code class="language-js">
                             grid.once("onUpdated", function(e, eventData){
                                 //console.log(eventData);
@@ -526,6 +535,7 @@
                     <section>
                         <a name="unbind">unbind([eventType][, handler])</a>
                         <div>移除之前绑定到表格上的事件处理函数。</div>
+                        <div>不传参数时会移除全部处理函数；传入事件名或命名空间时移除匹配项；同时传入 eventType 和 handler 时移除指定绑定。</div>
                         <pre><code class="language-js">
                             grid.unbind();
                             grid.unbind("onUpdated");
@@ -536,6 +546,7 @@
                     <section>
                         <a name="trigger">trigger(eventType, eventData)</a>
                         <div>触发一个事件，并使用传入的事件数据调用所有已绑定处理函数。</div>
+                        <div>处理函数的第一个参数是事件对象，第二个参数是 eventData。</div>
                         <pre><code class="language-js">
                             this.trigger(eventType, eventData);
                         </code></pre>
@@ -552,7 +563,8 @@
 
                     <section>
                         <a name="render">render()</a>
-                        <div>使用当前数据、配置和格式化器渲染表格。</div>
+                        <div>基于当前数据、配置和格式化器调度一次渲染。</div>
+                        <div>同一个事件循环中的重复调用会被合并，因此适合在批量更新后调用。</div>
                         <pre><code class="language-js">
                             grid.render();
                         </code></pre>
@@ -560,7 +572,7 @@
 
                     <section>
                         <a name="rerender">rerender()</a>
-                        <div>重新构建表格结构并再次渲染。</div>
+                        <div>强制完整重建表格结构并重新渲染。</div>
                         <pre><code class="language-js">
                             grid.rerender();
                         </code></pre>
@@ -568,7 +580,8 @@
 
                     <section>
                         <a name="resize">resize([w, [h]])</a>
-                        <div>重新计算布局，并可选择应用新的宽高。</div>
+                        <div>重新计算布局，并可选择应用新的尺寸。</div>
+                        <div>支持 resize()、resize(width, height) 和 resize(styleMap) 三种形式，其中 styleMap 会直接应用到 grid holder。</div>
                         <pre><code class="language-js">
                             grid.resize();
                             grid.resize(600, 400);
@@ -593,7 +606,7 @@
                         <a name="getRowItemBy">getRowItemBy(key, value)</a>
                         <div>rowIndex 和 columnIndex 参数支持以下几种传入形式：</div>
                         <ol>
-                            <li>如果参数是 Number，Grid 会按索引查找对应的行或列。这是推荐且性能最高的方式。</li>
+                            <li>如果参数是 Number，Grid 会按索引查找对应的行或列。这是推荐且性能最高的方式。也支持负索引，例如 -1 表示最后一项。</li>
                             <li>如果参数是 String，Grid 会遍历所有项，查找匹配的行或列 id。</li>
                             <li>如果参数是 Object，Grid 会检查以下属性：</li>
                             <ul>
@@ -618,6 +631,7 @@
                         <a name="hideLoading">hideLoading()</a>
                         <a name="setLoading">setLoading(loading)</a>
                         <div>显示、隐藏或自定义内置加载遮罩。</div>
+                        <div>loading 可以是普通内容、DOM 节点、接收 loading 容器的工厂函数，或默认 loading 的配置对象，例如 { size, color, fast }。</div>
                         <pre><code class="language-js">
                             grid.showLoading();
                             grid.hideLoading();
@@ -630,9 +644,10 @@
                     </section>
 
                     <section>
-                        <a name="showMask">showMask()</a>
+                        <a name="showMask">showMask([styleMap])</a>
                         <a name="hideMask">hideMask()</a>
                         <div>显示或隐藏用于阻止交互的遮罩层。</div>
+                        <div>可传入 styleMap 覆盖遮罩层样式，例如 opacity 或 backgroundColor。</div>
                         <pre><code class="language-js">
                             grid.showMask();
                             grid.showMask({
@@ -662,6 +677,7 @@
                         <a name="collapseRow">collapseRow(rowIndex)</a>
                         <a name="toggleRow">toggleRow(rowIndex)</a>
                         <div>展开、折叠或切换指定行。</div>
+                        <div>如果目标行是一个尚未加载 subs 的分组行，expandRow 可能会触发 onRowSubsRequest，用于按需加载子行。</div>
                         <pre><code class="language-js">
                             grid.expandRow(rowIndex);
                             grid.collapseRow(rowIndex);
@@ -682,6 +698,7 @@
                     <section>
                         <a name="exportData">exportData([keysSettings])</a>
                         <div>返回适合导出的 columns 和 rows 数据，会移除私有字段，并可通过 keysSettings 过滤字段。</div>
+                        <div>在 keysSettings 中，值为 true 表示强制保留该字段，值为 false 表示排除该字段。</div>
                         <pre><code class="language-js">
                             const exportedData = grid.exportData();
                             const exportedData = grid.exportData({
@@ -695,16 +712,27 @@
                     <section>
                         <a name="setRowSubs">setRowSubs(rowIndex, subs)</a>
                         <div>替换指定父行的子行数据。</div>
+                        <div>传入 subs 数组后会立即更新该行的树结构，并将父行标记为已展开。</div>
                         <pre><code class="language-js">
                             const subs = [{name:"row1"},{name:"row2"}];
                             grid.setRowSubs(rowIndex, subs);
                         </code></pre>
                         <div>示例 <a href="load-subs.html" target="_blank">动态加载子项</a></div>
                     </section>
+
+                    <section>
+                        <a name="setColumns">setColumns(columnList)</a>
+                        <div>替换当前顶层列数据，并触发一次完整 rerender。</div>
+                        <pre><code class="language-js">
+                            const columns = [{id:"name", name:"名称"}];
+                            grid.setColumns(columns);
+                        </code></pre>
+                    </section>
                     
                     <section>
                         <a name="setRows">setRows(rowList)</a>
                         <div>使用新的行列表替换当前顶层 rows。</div>
+                        <div>当只有行树发生变化时使用 setRows；如果列或 options 也需要一起替换，应使用 setData。</div>
                         <pre><code class="language-js">
                             const rows = [{name:"row1"},{name:"row2"}];
                             grid.setRows(rows);
@@ -716,13 +744,17 @@
                         <a name="getRows">getRows()</a>
                         <a name="getColumns">getColumns()</a>
                         <a name="getViewRows">getViewRows()</a>
+                        <a name="getViewColumns">getViewColumns([all])</a>
                         <a name="getViewRowItem">getViewRowItem(viewRowIndex)</a>
                         <a name="getViewColumnItem">getViewColumnItem(viewColumnIndex)</a>
-                        <div>view index 指经过筛选、折叠和排序后的当前可见顺序索引。</div>
+                        <div>getRows 和 getColumns 返回源数据中的顶层列表。</div>
+                        <div>view index 指经过筛选、折叠、排序以及列显隐处理后的当前可见顺序索引。</div>
+                        <div>getViewColumns(true) 还会把当前可见的分组列一并包含在返回结果中。</div>
                         <pre><code class="language-js">
                             const rows = grid.getRows();
                             const columns = grid.getColumns();
                             const viewRows = grid.getViewRows();
+                            const viewColumns = grid.getViewColumns();
                             const viewRowItem = grid.getViewRowItem(0);
                             const viewColumnItem = grid.getViewColumnItem(0);
                         </code></pre>
@@ -732,6 +764,7 @@
                         <a name="addRow">addRow(rowInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteRow">deleteRow(rowIndex)</a>
                         <div>新增一行，或删除一行/多行。</div>
+                        <div>parent 可以是行对象、行索引或行 id；position 用于指定插入到父节点子列表中的位置；scrollTo 默认为 true，会自动滚动到新增行。</div>
                         <pre><code class="language-js">
                             grid.addRow({
                                 id: "id1",
@@ -757,6 +790,7 @@
                         <a name="moveSelectedRowsToBottom">moveSelectedRowsToBottom()</a>
                         <a name="moveRows">moveRows(rowList, offset)</a>
                         <div>offset：小于 0 时向上移动，大于 0 时向下移动。</div>
+                        <div>rowList 可以是单行或行列表。offset 为 0，或 rowList 已包含全部可见行时，本次移动会被忽略。</div>
                         <pre><code class="language-js">
                             grid.moveRowsToTop(["row_id1", "row_id2"]);
                             grid.moveRowsUp(["row_id1", "row_id2"]);
@@ -776,8 +810,9 @@
                     </section>
 
                     <section>
-                        <a name="selectAll">selectAll()</a>
+                        <a name="selectAll">selectAll([selected = true])</a>
                         <div>选中全部可选行，或清空全部选中状态。</div>
+                        <div>在单选模式下，selectAll(true) 不会生效。</div>
                         <pre><code class="language-js">
                             grid.selectAll();
                             grid.selectAll(false);
@@ -786,8 +821,9 @@
                     </section>
 
                     <section>
-                        <a name="setRowSelected">setRowSelected(rowIndex)</a>
-                        <div>更新指定行的选中状态；不传参数时清空选中状态。</div>
+                        <a name="setRowSelected">setRowSelected(rowInfo[, settings])</a>
+                        <div>更新一行或多行的选中状态。</div>
+                        <div>在多选模式下，只传 false 可清空全部选中；第二个参数传 false 可取消指定行的选中；传入带 Shift 的事件对象时，会以上一次选中行为起点执行范围选择。</div>
                         <pre><code class="language-js">
                             grid.setRowSelected(rowIndex);
                             grid.setRowSelected(rowIndex, false);
@@ -799,7 +835,8 @@
                     <section>
                         <a name="getSelectedRow">getSelectedRow()</a>
                         <a name="getSelectedRows">getSelectedRows()</a>
-                        <div>多选场景下返回已选行数组。</div>
+                        <div>getSelectedRow 返回第一条已选中的行，未选中时返回 null。</div>
+                        <div>getSelectedRows 始终返回数组，并按选中顺序排序。</div>
                         <pre><code class="language-js">
                             const selectedRow = grid.getSelectedRow();
                             const selectedRows = grid.getSelectedRows();
@@ -830,7 +867,8 @@
                     <section>
                         <a name="setSortColumn">setSortColumn(sortColumn)</a>
                         <a name="removeSortColumn">removeSortColumn()</a>
-                        <div>清除当前排序状态，通常用于底层数据发生变化之后。</div>
+                        <div>setSortColumn 支持与 getColumnItem 相同的传参形式。</div>
+                        <div>对同一列重复调用 setSortColumn 会切换 sortAsc；removeSortColumn 用于清除当前排序状态。</div>
                         <pre><code class="language-js">
                             grid.setSortColumn(sortColumn);
                             grid.removeSortColumn();
@@ -840,7 +878,8 @@
 
                     <section>
                         <a name="setColumnWidth">setColumnWidth(columnIndex, width)</a>
-                        <div>在运行时更新列宽，同时也可以修改 minWidth 和 maxWidth。</div>
+                        <div>在运行时更新列宽。</div>
+                        <div>width 会被取整并限制为不小于 0，同时同步更新该列的 width、minWidth 和 maxWidth。</div>
                         <pre><code class="language-js">
                             grid.setColumnWidth(columnIndex, width);
                         </code></pre>
@@ -851,19 +890,21 @@
                         <a name="showColumn">showColumn(columnIndex)</a>
                         <a name="hideColumn">hideColumn(columnIndex)</a>
                         <div>显示或隐藏一个或多个列。</div>
+                        <div>支持与 getColumnItem 相同的传参形式，也支持传入列表。</div>
                         <pre><code class="language-js">
                             grid.showColumn(columnIndex);
                             grid.hideColumn(columnIndex);
                             grid.showColumn([1, 3]);
                             grid.hideColumn([1, 3]);
                         </code></pre>
-                        <div>示例 <a href="column-width.html" target="_blank">显示/隐藏列</a></div>
+                        <div>示例 <a href="column-display.html" target="_blank">显示/隐藏列</a></div>
                     </section>
 
                     <section>
                         <a name="addColumn">addColumn(columnInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteColumn">deleteColumn(columnIndex)</a>
                         <div>新增列，或删除一列/多列。</div>
+                        <div>parent 可以是列对象、列索引或列 id；position 用于指定插入到父节点子列表中的位置；scrollTo 默认为 true，会自动滚动到新增列。</div>
                         <pre><code class="language-js">
                             grid.addColumn({
                                 id: "id1",
@@ -887,6 +928,7 @@
                         <a name="scrollToLastColumn">scrollToLastColumn(end)</a>
                         <a name="scrollToCell">scrollToCell(rowIndex, columnIndex)</a>
                         <div>直接滚动到指定的行、列或单元格。</div>
+                        <div>scrollToLastColumn(end) 默认会跳过末尾用于占位的 blank 列；当 end 为 true 时会滚动到真正的最末尾。</div>
                         <pre><code class="language-js">
                             grid.scrollToRow(rowIndex);
                             grid.scrollToColumn(columnIndex);
@@ -930,6 +972,7 @@
                         <a name="flushRow">flushRow(viewRowIndex)</a>
                         <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
                         <div>updateRow 支持将部分 rowData 合并到现有行数据中。</div>
+                        <div>updateCell 会按常规的行列定位规则解析 rowIndex 和 columnIndex。省略 rowData 或 cellValue 时，会基于现有数据重新渲染对应内容。</div>
                         <div>flushRow 和 flushCell 使用 view 索引（tg_view_index），而不是源数据索引。</div>
                         <pre><code class="language-js">
                             grid.update();
@@ -1018,8 +1061,9 @@
                     </section>
 
                     <section>
-                        <a name="find">find(selector)</a>
+                        <a name="find">find(selector[, container])</a>
                         <div>使用 CSS 选择器查找表格根节点内部的元素。</div>
+                        <div>传入 container 时，可将查询范围限制在 grid 内部的某个特定节点下。</div>
                         <pre><code class="language-js">
                             const nodes = grid.find(".selector-name");
                         </code></pre>
@@ -1028,6 +1072,7 @@
                         <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
                         <a name="getCellValue">getCellValue(rowItem, columnItem)</a>
                         <div>返回已渲染的单元格节点，或解析单元格原始值。</div>
+                        <div>getCellValue 返回的是 rowItem[columnItem.id]，即格式化前的原始值。</div>
                         <pre><code class="language-js">
                             const cellNode = grid.getCellNode(rowIndex, columnIndex);
                             const cellValue = grid.getCellValue(rowItem, columnItem);
@@ -1036,6 +1081,7 @@
                     <section>
                         <a name="getHeaderItemNode">getHeaderItemNode(columnIndex)</a>
                         <div>返回指定列对应的表头项节点。</div>
+                        <div>支持与 getColumnItem 相同的传参形式。</div>
                         <pre><code class="language-js">
                             const headerItemNode = grid.getHeaderItemNode(columnIndex);
                         </code></pre>
@@ -1043,6 +1089,7 @@
                     <section>
                         <a name="getColumnHeaderNode">getColumnHeaderNode(columnIndex)</a>
                         <div>返回指定列对应的表头容器节点。</div>
+                        <div>支持与 getColumnItem 相同的传参形式。</div>
                         <pre><code class="language-js">
                             const columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
                         </code></pre>
@@ -1053,6 +1100,7 @@
                         <a name="forEachColumn">forEachColumn(callback)</a>
                         <a name="forEachRow">forEachRow(callback)</a>
                         <div>遍历每一列或每一行，并调用传入的回调函数。</div>
+                        <div>回调函数会收到 (item, index, parent) 三个参数，对应当前节点、索引和父节点。</div>
                         <pre><code class="language-js">
                             grid.forEachColumn(function(column, index, parent) {
                                 //
@@ -1081,6 +1129,7 @@
                     <section>
                         <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
                         <div>用于 rowFilter 和 highlightKeywords 的关键字匹配与高亮辅助方法。</div>
+                        <div>columns 应为列 id 列表，keywords 会先按空白字符拆分后再逐个匹配。</div>
                         <pre><code class="language-js">
                             grid.setOption({
                                 rowFilter: function(rowItem) {
@@ -1093,6 +1142,7 @@
                     <section>
                         <a name="onNextUpdated">onNextUpdated(handler)</a>
                         <div>为下一次 onUpdated 事件注册一个一次性处理函数。</div>
+                        <div>等价于对 onUpdated 绑定一个只执行一次的监听器。</div>
                         <pre><code class="language-js">
                             grid.onNextUpdated(function(e, eventData){
                                 //console.log(eventData);

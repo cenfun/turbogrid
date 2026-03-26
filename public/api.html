@@ -343,7 +343,7 @@
 
                     <section>
                         <a name="Grid">Grid(container)</a>
-                        <div>Grid constructor, creates a new grid instance with container.</div>
+                        <div>Creates a new grid instance for the specified container.</div>
                         <pre><code class="language-js">
                             //selector
                             const grid = new Grid(".container");
@@ -368,7 +368,7 @@
 
                     <section>
                         <a name="setData">setData(data)</a>
-                        <div>For Detailed data structure, check <a href="#data">data structure</a></div>
+                        <div>Sets the grid data. See the <a href="#data">data structure</a> section for details.</div>
                         <pre><code class="language-js">
                             grid.setData({
                                 columns: [],
@@ -379,7 +379,7 @@
 
                     <section>
                         <a name="getData">getData()</a>
-                        <div>Returns current data.</div>
+                        <div>Returns the current grid data object.</div>
                         <pre><code class="language-js">
                             const data = grid.getData();
                         </code></pre>
@@ -387,7 +387,7 @@
 
                     <section>
                         <a name="setDataSnapshot">setDataSnapshot(data)</a>
-                        <div>Set data with snapshot conversion (removes private fields and normalizes tree data).</div>
+                        <div>Sets data from a snapshot by removing private fields and normalizing tree structures.</div>
                         <pre><code class="language-js">
                             grid.setDataSnapshot(data);
                         </code></pre>
@@ -395,7 +395,7 @@
 
                     <section>
                         <a name="getItemSnapshot">getItemSnapshot(item[, keysSettings])</a>
-                        <div>Returns clean snapshot by removing private fields or using keysSettings.</div>
+                        <div>Returns a sanitized snapshot of an item by removing private fields, or by selecting fields with keysSettings.</div>
                         <pre><code class="language-js">
                             const rowSnapshot = grid.getItemSnapshot(rowItem);
                             const rowSnapshot2 = grid.getItemSnapshot(rowItem, {
@@ -407,7 +407,7 @@
 
                     <section>
                         <a name="setOption">setOption(options)</a>
-                        <div>For Detailed options, check <a href="#options">default options</a></div>
+                        <div>Sets one or more grid options. See <a href="#options">options</a> for available settings.</div>
                         <pre><code class="language-js">
                             //set multiple options
                             grid.setOption({
@@ -421,7 +421,7 @@
 
                     <section>
                         <a name="getOption">getOption([name])</a>
-                        <div>Returns current options by name or all options.</div>
+                        <div>Returns the current option value for name, or the full options object when no name is provided.</div>
                         <pre><code class="language-js">
                             //get all options
                             const options = grid.getOption();
@@ -432,7 +432,7 @@
 
                     <section>
                         <a name="setFormatter">setFormatter(formatters)</a>
-                        <div>Set or customize Grid formatters.</div>
+                        <div>Registers or overrides grid formatters.</div>
                         <pre><code class="language-js">
                             //set multiple formatters
                             grid.setFormatter({
@@ -444,9 +444,9 @@
                             //set single formatter
                             grid.setFormatter("string", formatterHandler);
                         </code></pre>
-                        <div>default cell formatter: string, number, date, icon, blank, checkbox, tree, null</div>
-                        <div>default header formatter: header</div>
-                        <div>Formatter arguments:</div>
+                        <div>Built-in cell formatters: string, number, date, icon, blank, checkbox, tree, null</div>
+                        <div>Built-in header formatter: header</div>
+                        <div>Formatter signature:</div>
                         <pre><code class="language-js">
                             function(value, rowItem, columnItem, cellNode) { 
                                 // value is formatted by null formatter
@@ -464,7 +464,7 @@
 
                     <section>
                         <a name="getFormatter">getFormatter(type)</a>
-                        <div>Returns type specified formatter(Function).</div>
+                        <div>Returns the formatter function registered for the specified type.</div>
                         <pre><code class="language-js">
                             const stringFormatter = grid.getFormatter("string");
                         </code></pre>
@@ -472,7 +472,7 @@
 
                     <section>
                         <a name="getDefaultFormatter">getDefaultFormatter([type])</a>
-                        <div>Returns type specified default formatter(Function).</div>
+                        <div>Returns the built-in formatter function for the specified type.</div>
                         <pre><code class="language-js">
                             const treeFormatter = grid.getDefaultFormatter("tree");
                         </code></pre>
@@ -480,7 +480,7 @@
 
                     <section>
                         <a name="bind">bind(eventType, handler)</a>
-                        <div>Attach a handler to an event for Grid. See all <a href="#events">event types</a>.</div>
+                        <div>Binds an event handler to the grid. See <a href="#events">events</a> for supported event types.</div>
                         <pre><code class="language-js">
                             grid.bind("onUpdated", function(e, d){
                                 //console.log(d);
@@ -491,7 +491,7 @@
                     
                     <section>
                         <a name="once">once(eventType, handler)</a>
-                        <div>Attach a handler to an event. The handler is executed at most once per event type. It will be removed once it triggers for the first time.</div>
+                        <div>Binds a handler that runs once and is removed after the first trigger.</div>
                         <pre><code class="language-js">
                             grid.once("onUpdated", function(e, eventData){
                                 //console.log(eventData);
@@ -501,7 +501,7 @@
 
                     <section>
                         <a name="unbind">unbind([eventType][, handler])</a>
-                        <div>Remove a previously-attached event handler from Grid.</div>
+                        <div>Removes previously bound event handlers from the grid.</div>
                         <pre><code class="language-js">
                             grid.unbind();
                             grid.unbind("onUpdated");
@@ -511,7 +511,7 @@
 
                     <section>
                         <a name="trigger">trigger(eventType, eventData)</a>
-                        <div>Execute all handlers attached to Grid for an event.</div>
+                        <div>Triggers an event and calls all bound handlers with the provided event data.</div>
                         <pre><code class="language-js">
                             this.trigger(eventType, eventData);
                         </code></pre>
@@ -519,7 +519,7 @@
 
                     <section>
                         <a name="getAllEvents">getAllEvents()</a>
-                        <div>Returns all <a href="#events">event types</a>.</div>
+                        <div>Returns all supported <a href="#events">event types</a>.</div>
                         <pre><code class="language-js">
                             const allEventTypes = grid.getAllEvents();
                         </code></pre>
@@ -528,6 +528,7 @@
 
                     <section>
                         <a name="render">render()</a>
+                        <div>Renders the grid using the current data, options, and formatters.</div>
                         <pre><code class="language-js">
                             grid.render();
                         </code></pre>
@@ -535,6 +536,7 @@
 
                     <section>
                         <a name="rerender">rerender()</a>
+                        <div>Rebuilds the grid structure and renders it again.</div>
                         <pre><code class="language-js">
                             grid.rerender();
                         </code></pre>
@@ -542,6 +544,7 @@
 
                     <section>
                         <a name="resize">resize([w, [h]])</a>
+                        <div>Recalculates the layout and optionally applies a new width and height.</div>
                         <pre><code class="language-js">
                             grid.resize();
                             grid.resize(600, 400);
@@ -551,6 +554,7 @@
                     
                     <section>
                         <a name="destroy">destroy()</a>
+                        <div>Destroys the grid instance and removes generated DOM, observers, and event bindings.</div>
                         <pre><code class="language-js">
                             grid.destroy();
                         </code></pre>
@@ -563,14 +567,14 @@
                         <a name="getRowItem">getRowItem(rowIndex)</a>
                         <a name="getRowItemById">getRowItemById(id)</a>
                         <a name="getRowItemBy">getRowItemBy(key, value)</a>
-                        <div>Different data types of the rowIndex/columnIndex parameter are supported :</div>
+                        <div>The rowIndex and columnIndex parameters support several input forms:</div>
                         <ol>
-                            <li>If parameter type is Number, grid will search the row/column item by index. (recommend, highest performance)</li>
-                            <li>If parameter type is String, grid will iterates all items to match the row/column id.</li>
-                            <li>If parameter type is Object, grid will look at the object properties: </li>
+                            <li>If the parameter is a Number, the grid looks up the row or column by index. This is the recommended and fastest option.</li>
+                            <li>If the parameter is a String, the grid searches all items for a matching row or column id.</li>
+                            <li>If the parameter is an Object, the grid inspects these properties:</li>
                             <ul>
-                                <li>If there is a tg_index property inside the object, grid will search the row/column item by index. (higher priority)</li>
-                                <li>if there is an id property (type of string), grid will iterates all items to match the row/column id.</li>
+                                <li>If the object has a tg_index property, the grid looks up the row or column by index first.</li>
+                                <li>If the object has an id property of type String, the grid searches all items for a matching id.</li>
                             </ul>
                         </ol>
                         <pre><code class="language-js">
@@ -589,6 +593,7 @@
                         <a name="showLoading">showLoading()</a>
                         <a name="hideLoading">hideLoading()</a>
                         <a name="setLoading">setLoading(loading)</a>
+                        <div>Shows, hides, or customizes the built-in loading overlay.</div>
                         <pre><code class="language-js">
                             grid.showLoading();
                             grid.hideLoading();
@@ -603,6 +608,7 @@
                     <section>
                         <a name="showMask">showMask()</a>
                         <a name="hideMask">hideMask()</a>
+                        <div>Shows or hides the interaction-blocking mask overlay.</div>
                         <pre><code class="language-js">
                             grid.showMask();
                             grid.showMask({
@@ -618,6 +624,7 @@
                         <a name="expandAllRows">expandAllRows()</a>
                         <a name="collapseAllRows">collapseAllRows()</a>
                         <a name="toggleAllRows">toggleAllRows()</a>
+                        <div>Expands, collapses, or toggles all tree rows.</div>
                         <pre><code class="language-js">
                             grid.expandAllRows();
                             grid.collapseAllRows();
@@ -630,6 +637,7 @@
                         <a name="expandRow">expandRow(rowIndex)</a>
                         <a name="collapseRow">collapseRow(rowIndex)</a>
                         <a name="toggleRow">toggleRow(rowIndex)</a>
+                        <div>Expands, collapses, or toggles a specific row.</div>
                         <pre><code class="language-js">
                             grid.expandRow(rowIndex);
                             grid.collapseRow(rowIndex);
@@ -640,6 +648,7 @@
 
                     <section>
                         <a name="expandRowLevel">expandRowLevel(level)</a>
+                        <div>Expands rows up to the specified tree level.</div>
                         <pre><code class="language-js">
                             grid.expandRowLevel(level);
                         </code></pre>
@@ -648,7 +657,7 @@
 
                     <section>
                         <a name="exportData">exportData([keysSettings])</a>
-                        <div>Returns all columns and rows data without private properties or by keysSettings.</div>
+                        <div>Returns export-ready columns and rows with private fields removed, optionally filtered by keysSettings.</div>
                         <pre><code class="language-js">
                             const exportedData = grid.exportData();
                             const exportedData = grid.exportData({
@@ -661,6 +670,7 @@
                     
                     <section>
                         <a name="setRowSubs">setRowSubs(rowIndex, subs)</a>
+                        <div>Replaces the child rows for the specified parent row.</div>
                         <pre><code class="language-js">
                             const subs = [{name:"row1"},{name:"row2"}];
                             grid.setRowSubs(rowIndex, subs);
@@ -670,6 +680,7 @@
                     
                     <section>
                         <a name="setRows">setRows(rowList)</a>
+                        <div>Replaces the current top-level rows with a new row list.</div>
                         <pre><code class="language-js">
                             const rows = [{name:"row1"},{name:"row2"}];
                             grid.setRows(rows);
@@ -683,7 +694,7 @@
                         <a name="getViewRows">getViewRows()</a>
                         <a name="getViewRowItem">getViewRowItem(viewRowIndex)</a>
                         <a name="getViewColumnItem">getViewColumnItem(viewColumnIndex)</a>
-                        <div>view index means current visible order index after filter/collapse/sort.</div>
+                        <div>A view index is the current visible order after filtering, collapsing, and sorting.</div>
                         <pre><code class="language-js">
                             const rows = grid.getRows();
                             const columns = grid.getColumns();
@@ -696,6 +707,7 @@
                     <section>
                         <a name="addRow">addRow(rowInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteRow">deleteRow(rowIndex)</a>
+                        <div>Adds a row or deletes one or more rows.</div>
                         <pre><code class="language-js">
                             grid.addRow({
                                 id: "id1",
@@ -720,7 +732,7 @@
                         <a name="moveSelectedRowsDown">moveSelectedRowsDown()</a>
                         <a name="moveSelectedRowsToBottom">moveSelectedRowsToBottom()</a>
                         <a name="moveRows">moveRows(rowList, offset)</a>
-                        <div>offset: if &lt; 0 move up; if &gt; 0 move down </div>
+                        <div>offset: values less than 0 move rows up, and values greater than 0 move rows down.</div>
                         <pre><code class="language-js">
                             grid.moveRowsToTop(["row_id1", "row_id2"]);
                             grid.moveRowsUp(["row_id1", "row_id2"]);
@@ -741,6 +753,7 @@
 
                     <section>
                         <a name="selectAll">selectAll()</a>
+                        <div>Selects or clears all selectable rows.</div>
                         <pre><code class="language-js">
                             grid.selectAll();
                             grid.selectAll(false);
@@ -750,6 +763,7 @@
 
                     <section>
                         <a name="setRowSelected">setRowSelected(rowIndex)</a>
+                        <div>Updates the selected state of a row, or clears the selection when called without arguments.</div>
                         <pre><code class="language-js">
                             grid.setRowSelected(rowIndex);
                             grid.setRowSelected(rowIndex, false);
@@ -761,7 +775,7 @@
                     <section>
                         <a name="getSelectedRow">getSelectedRow()</a>
                         <a name="getSelectedRows">getSelectedRows()</a>
-                        <div>Returns a list for multiple selection</div>
+                        <div>Returns an array when multiple rows are selected.</div>
                         <pre><code class="language-js">
                             const selectedRow = grid.getSelectedRow();
                             const selectedRows = grid.getSelectedRows();
@@ -771,7 +785,7 @@
                     
                     <section>
                         <a name="setRowHover">setRowHover(rowIndex, hover)</a>
-                        <div>hover: true or false</div>
+                        <div>Sets whether the specified row is hovered.</div>
                         <pre><code class="language-js">
                             grid.setRowHover(rowIndex, true);
                             grid.setRowHover(rowIndex, false);
@@ -781,7 +795,7 @@
 
                     <section>
                         <a name="setRowState">setRowState(rowIndex, state, value = true)</a>
-                        <div>Set custom row state and toggles className `tg-[state]` on rendered row nodes.</div>
+                        <div>Sets a custom row state and toggles the CSS class tg-[state] on rendered row nodes.</div>
                         <pre><code class="language-js">
                             grid.setRowState(rowIndex, "selected", true);
                             grid.setRowState(rowIndex, "warning", true);
@@ -792,7 +806,7 @@
                     <section>
                         <a name="setSortColumn">setSortColumn(sortColumn)</a>
                         <a name="removeSortColumn">removeSortColumn()</a>
-                        <div>Remove sort state if data changed</div>
+                        <div>Clears the current sort state, typically after the underlying data changes.</div>
                         <pre><code class="language-js">
                             grid.setSortColumn(sortColumn);
                             grid.removeSortColumn();
@@ -802,7 +816,7 @@
 
                     <section>
                         <a name="setColumnWidth">setColumnWidth(columnIndex, width)</a>
-                        <div>Dynamic set column width, minWidth/maxWidth could be updated</div>
+                        <div>Updates a column width at runtime. minWidth and maxWidth can also be changed.</div>
                         <pre><code class="language-js">
                             grid.setColumnWidth(columnIndex, width);
                         </code></pre>
@@ -812,6 +826,7 @@
                     <section>
                         <a name="showColumn">showColumn(columnIndex)</a>
                         <a name="hideColumn">hideColumn(columnIndex)</a>
+                        <div>Shows or hides one or more columns.</div>
                         <pre><code class="language-js">
                             grid.showColumn(columnIndex);
                             grid.hideColumn(columnIndex);
@@ -824,6 +839,7 @@
                     <section>
                         <a name="addColumn">addColumn(columnInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteColumn">deleteColumn(columnIndex)</a>
+                        <div>Adds a column or deletes one or more columns.</div>
                         <pre><code class="language-js">
                             grid.addColumn({
                                 id: "id1",
@@ -846,6 +862,7 @@
                         <a name="scrollToFirstColumn">scrollToFirstColumn()</a>
                         <a name="scrollToLastColumn">scrollToLastColumn(end)</a>
                         <a name="scrollToCell">scrollToCell(rowIndex, columnIndex)</a>
+                        <div>Scrolls directly to the specified row, column, or cell.</div>
                         <pre><code class="language-js">
                             grid.scrollToRow(rowIndex);
                             grid.scrollToColumn(columnIndex);
@@ -858,6 +875,7 @@
                         <a name="scrollRowIntoView">scrollRowIntoView(rowIndex)</a>
                         <a name="scrollColumnIntoView">scrollColumnIntoView(columnIndex)</a>
                         <a name="scrollCellIntoView">scrollCellIntoView(rowIndex, columnIndex)</a>
+                        <div>Scrolls just enough to bring the target row, column, or cell into view.</div>
                         <pre><code class="language-js">
                             grid.scrollRowIntoView(rowIndex);
                             grid.scrollColumnIntoView(columnIndex);
@@ -871,6 +889,7 @@
                         <a name="setScrollLeft">setScrollLeft(left)</a>
                         <a name="getScrollTop">getScrollTop()</a>
                         <a name="getScrollLeft">getScrollLeft()</a>
+                        <div>Sets or returns the current scroll positions.</div>
                         <pre><code class="language-js">
                             grid.setScrollTop(200);
                             grid.setScrollLeft(200);
@@ -886,8 +905,8 @@
                         <a name="update">update()</a>
                         <a name="flushRow">flushRow(viewRowIndex)</a>
                         <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
-                        <div>updateRow supports partial rowData merge.</div>
-                        <div>flushRow/flushCell operate on view index cache (tg_view_index), not source index.</div>
+                        <div>updateRow merges partial rowData into the existing row.</div>
+                        <div>flushRow and flushCell use view indexes (tg_view_index), not source indexes.</div>
                         <pre><code class="language-js">
                             grid.update();
                             grid.flushRow(viewRowIndex);
@@ -902,9 +921,9 @@
 
                     <section>
                         <a name="getScrollbarWidth">getScrollbarWidth()</a>
-                        <div>Returns 0 or <a href="#options.scrollbarSize">scrollbarSize</a> if has vertical scrollbar (<a href="#onScrollStateChanged">hasVScroll</a>)</div>
+                        <div>Returns 0 when no vertical scrollbar is present; otherwise returns <a href="#options.scrollbarSize">scrollbarSize</a> when <a href="#onScrollStateChanged">hasVScroll</a> is true.</div>
                         <a name="getScrollbarHeight">getScrollbarHeight()</a>
-                        <div>Returns 0 or <a href="#options.scrollbarSize">scrollbarSize</a> if has horizontal scrollbar (<a href="#onScrollStateChanged">hasHScroll</a>)</div>
+                        <div>Returns 0 when no horizontal scrollbar is present; otherwise returns <a href="#options.scrollbarSize">scrollbarSize</a> when <a href="#onScrollStateChanged">hasHScroll</a> is true.</div>
                         <pre><code class="language-js">
                             const sbw = grid.getScrollbarWidth();
                             const sbh = grid.getScrollbarHeight();
@@ -914,7 +933,7 @@
                     <section>
                         <a name="getScrollViewWidth">getScrollViewWidth()</a>
                         <a name="getScrollViewHeight">getScrollViewHeight()</a>
-                        <div>Scroll View size = Scroll Pane size - Scrollbar size</div>
+                        <div>Scroll view size equals scroll pane size minus scrollbar size.</div>
                         <pre><code class="language-js">
                             const svw = grid.getScrollViewWidth();
                             const svh = grid.getScrollViewHeight();
@@ -925,7 +944,7 @@
                     <section>
                         <a name="getScrollPaneWidth">getScrollPaneWidth()</a>
                         <a name="getScrollPaneHeight">getScrollPaneHeight()</a>
-                        <div>Scroll Pane size = Scroll View size + Scrollbar size</div>
+                        <div>Scroll pane size equals scroll view size plus scrollbar size.</div>
                         <pre><code class="language-js">
                             const spw = grid.getScrollPaneWidth();
                             const sph = grid.getScrollPaneHeight();
@@ -934,7 +953,7 @@
                     
                     <section>
                         <a name="getColumnsLength">getColumnsLength(total)</a>
-                        <div>Total columns length. default total is false and returns current visible columns; total true returns all columns.</div>
+                        <div>Returns the number of visible columns by default. Pass true to include hidden columns.</div>
                         <pre><code class="language-js">
                             const len = grid.getColumnsLength();
                             const totalLen = grid.getColumnsLength(true);
@@ -943,7 +962,7 @@
 
                     <section>
                         <a name="getRowsLength">getRowsLength(total)</a>
-                        <div>Total rows length. default total is false; total is true means including collapsed/filtered rows;</div>
+                        <div>Returns the number of visible rows by default. Pass true to include collapsed or filtered rows.</div>
                         <pre><code class="language-js">
                             const len = grid.getRowsLength();
                             const totalLen = grid.getRowsLength(true);
@@ -952,13 +971,14 @@
                     
                     <section>
                         <a name="getRowsHeight">getRowsHeight()</a>
-                        <div>Total rows height</div>
+                        <div>Returns the total rendered height of all rows.</div>
                         <pre><code class="language-js">
                             const totalHeight = grid.getRowsHeight();
                         </code></pre>
                     </section>
                     <section>
                         <a name="getRowHeight">getRowHeight(rowIndex)</a>
+                        <div>Returns the computed height of the specified row.</div>
                         <pre><code class="language-js">
                             const rowHeight = grid.getRowHeight(rowIndex);
                         </code></pre>
@@ -966,7 +986,7 @@
 
                     <section>
                         <a name="getViewport">getViewport()</a>
-                        <div>Returns current the index list of visible rows and columns.</div>
+                        <div>Returns the current visible row and column index ranges.</div>
                         <pre><code class="language-js">
                             const viewport = grid.getViewport();
                             // { rows, columns }
@@ -975,6 +995,7 @@
 
                     <section>
                         <a name="find">find(selector)</a>
+                        <div>Finds nodes inside the grid root with a CSS selector.</div>
                         <pre><code class="language-js">
                             const nodes = grid.find(".selector-name");
                         </code></pre>
@@ -982,6 +1003,7 @@
                     <section>
                         <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
                         <a name="getCellValue">getCellValue(rowItem, columnItem)</a>
+                        <div>Returns a rendered cell node or resolves the raw cell value.</div>
                         <pre><code class="language-js">
                             const cellNode = grid.getCellNode(rowIndex, columnIndex);
                             const cellValue = grid.getCellValue(rowItem, columnItem);
@@ -989,12 +1011,14 @@
                     </section>
                     <section>
                         <a name="getHeaderItemNode">getHeaderItemNode(columnIndex)</a>
+                        <div>Returns the header item node for the specified column.</div>
                         <pre><code class="language-js">
                             const headerItemNode = grid.getHeaderItemNode(columnIndex);
                         </code></pre>
                     </section>
                     <section>
                         <a name="getColumnHeaderNode">getColumnHeaderNode(columnIndex)</a>
+                        <div>Returns the header container node for the specified column.</div>
                         <pre><code class="language-js">
                             const columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
                         </code></pre>
@@ -1004,7 +1028,7 @@
                     <section>
                         <a name="forEachColumn">forEachColumn(callback)</a>
                         <a name="forEachRow">forEachRow(callback)</a>
-                        <div>Executing a function for each column/row.</div>
+                        <div>Iterates over each column or row and calls the provided callback.</div>
                         <pre><code class="language-js">
                             grid.forEachColumn(function(column, index, parent) {
                                 //
@@ -1017,6 +1041,7 @@
 
                     <section>
                         <a name="isRowSelectable">isRowSelectable(rowItem)</a>
+                        <div>Returns whether the row can be selected under the current rules.</div>
                         <pre><code class="language-js">
                             const rowItem = grid.getRowItem(rowIndex);
                             if (grid.isRowSelectable(rowItem)) {
@@ -1026,12 +1051,12 @@
                     </section>
                     <section>
                         <a name="isRowLeaf">isRowLeaf(rowItem)</a>
-                        <div>Returns true or false.</div>
+                        <div>Returns whether the row is a leaf node.</div>
                     </section>
 
                     <section>
                         <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
-                        <div>Keyword helper used by rowFilter and highlightKeywords options.</div>
+                        <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
                         <pre><code class="language-js">
                             grid.setOption({
                                 rowFilter: function(rowItem) {
@@ -1043,7 +1068,7 @@
 
                     <section>
                         <a name="onNextUpdated">onNextUpdated(handler)</a>
-                        <div>Attach a handler to onUpdated event and the handler is executed at most once.</div>
+                        <div>Registers a one-time handler for the next onUpdated event.</div>
                         <pre><code class="language-js">
                             grid.onNextUpdated(function(e, eventData){
                                 //console.log(eventData);
@@ -1089,7 +1114,7 @@
 
                     <section>
                         <a name="data.columns">columns</a>
-                        <div>See column available properties: <a href="#options.columnProps">columnProps</a></div>
+                        <div>See <a href="#options.columnProps">columnProps</a> for available column fields.</div>
                         <pre><code class="language-js">
                             const columns = [{
                                 id:"c1",
@@ -1115,7 +1140,7 @@
 
                     <section>
                         <a name="data.rows">rows</a>
-                        <div>See row available properties: <a href="#options.rowProps">rowProps</a></div>
+                        <div>See <a href="#options.rowProps">rowProps</a> for available row fields.</div>
                         <pre><code class="language-js">
                             const rows = [{
                                 id : "r1",
@@ -1147,7 +1172,7 @@
 
                     <section>
                         <a name="data.options">options</a>
-                        <div>Sets options from data (The priority is higher than "setOption")</div>
+                        <div>Applies options from the data payload. These values take precedence over setOption.</div>
                         <pre><code class="language-js">
                             const data = {
                                 options : {
@@ -1162,7 +1187,7 @@
                     
                     <section>
                         <a name="data.rowsLength">rowsLength</a>
-                        <div>Dynamic load rows data. No rows data but require total length of rows.</div>
+                        <div>Supports lazy row loading when rows are not provided but the total row count is known.</div>
                         <pre><code class="language-js">
                                 const data = {
                                     columns: columns,
@@ -1184,7 +1209,7 @@
 
                     <section>
                         <a name="options.className">className = "tg-turbogrid"</a>
-                        <div>Customize className (CSS namespace).</div>
+                        <div>Customizes the root CSS class name used as the grid namespace.</div>
                         <pre><code class="language-js">
                         grid.setOption({
                             className: "my-grid-class-name"
@@ -1194,18 +1219,20 @@
 
                     <section>
                         <a name="options.theme">theme = "[theme-name]"</a>
-                        <div>Sets theme name: (default), lightblue, dark</div>
+                        <div>Sets the theme name. Available values: default, lightblue, dark.</div>
                         <div>Demo <a href="theme.html" target="_blank">Theme</a></div>
                     </section>
                     
                     <section>
                         <a name="options.rowHeight">rowHeight = 32</a>
+                        <div>Sets the default row height in pixels.</div>
                         <div>Demo <a href="multiple-instance.html" target="_blank">Row Height</a></div>
                     </section>
                     
                     <section>
                         <a name="options.rowCacheLength">rowCacheLength = 0</a>
                         <a name="options.columnCacheLength">columnCacheLength = 0</a>
+                        <div>Controls how many extra rows and columns are rendered outside the viewport as cache.</div>
                         <div>Demo <a href="cache.html" target="_blank">Row/Column Cache</a></div>
                     </section>
                     
@@ -1213,12 +1240,14 @@
 
                     <section>
                         <a name="options.autoHeight">autoHeight = false</a>
+                        <div>Automatically adjusts the grid height to fit its visible content.</div>
                         <div>Demo <a href="auto-height.html" target="_blank">Auto Height</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.headerVisible">headerVisible = true</a>
+                        <div>Shows or hides the header area.</div>
                         <div>Demo <a href="no-header.html" target="_blank">Show/Hide Header</a></div>
                     </section>
                     
@@ -1226,6 +1255,7 @@
                     <section>
                         <a name="options.collapseAllVisible">collapseAllVisible = true</a>
                         <a name="options.collapseAllOnInit">collapseAllOnInit = null</a>
+                        <div>Controls whether collapse-all actions are shown and whether they run during initialization.</div>
                         <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
                     </section>
                     
@@ -1236,7 +1266,8 @@
                         <a name="options.selectAllVisible">selectAllVisible = true</a>
 
                         <a name="options.selectAllOnInit">selectAllOnInit = null</a>
-                        <div>true: select all, false: unselect all, or do nothing</div>
+                        <div>Controls whether selection UI is shown and whether all rows are selected during initialization.</div>
+                        <div>For selectAllOnInit: true selects all, false clears all, and null leaves the current state unchanged.</div>
 
                         <a name="options.selectMultiple">selectMultiple = true</a>
                         <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
@@ -1245,20 +1276,20 @@
 
                     <section>
                         <a name="options.rowNumberVisible">rowNumberVisible = false</a>
-                        <div>false: no number, true: show number column</div>
+                        <div>Shows or hides the built-in row number column.</div>
                         <div>Demo <a href="row-number.html" target="_blank">Row Number</a></div>
                     </section>
 
                     <section>
                         <a name="options.rowNotFound">rowNotFound = ''</a>
-                        <div>empty; string; element; or function </div>
+                        <div>Sets the empty-state content. Accepts an empty string, string, element, or function.</div>
                         <div>Demo <a href="row-not-found.html" target="_blank">Row Not Found</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.rowDragCrossLevel">rowDragCrossLevel = true</a>
-                        <div>boolean or a handler function, returns a specified drop list</div>
+                        <div>Controls whether dragged rows can move across levels. Accepts a boolean or a function that returns the allowed drop list.</div>
                         <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
                     </section>
                     
@@ -1266,31 +1297,31 @@
 
                     <section>
                         <a name="options.rowMoveCrossLevel">rowMoveCrossLevel = true</a>
-                        <div>true: multi-level move, false: single level move</div>
+                        <div>Controls whether move APIs can move rows across hierarchy levels.</div>
                         <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.sortField">sortField = ""</a>
-                        <div>Field for value compare</div>
+                        <div>Specifies the field used for sorting comparisons.</div>
 
                         <a name="options.sortAsc">sortAsc = true</a>
-                        <div>true: for ascending sort, false: for descending sort</div>
+                        <div>true sorts ascending; false sorts descending.</div>
 
                         <a name="options.sortBlankValueBottom">sortBlankValueBottom = true</a>
-                        <div>Configuration for sort blank value logic</div>
-                        <div>true: rows with blank values should always be at the bottom of the grid</div>
-                        <div>false: rows with blank values sort at the bottom for descending sort and at the top for ascending sort</div>
+                        <div>Controls how blank values are positioned during sorting.</div>
+                        <div>true keeps rows with blank values at the bottom of the grid.</div>
+                        <div>false places blank values at the bottom for descending sort and at the top for ascending sort.</div>
 
                         <a name="options.sortOnInit">sortOnInit = false</a>
-                        <div>Sets true will sort by sortField on initialized</div>
+                        <div>When true, the grid sorts by sortField during initialization.</div>
 
                         <a name="options.sortIndicator">sortIndicator = "h"</a>
-                        <div>"h" or "v" style</div>
+                        <div>Sets the sort indicator style: "h" or "v".</div>
 
                         <a name="options.sortComparers">sortComparers = {defaultSortComparers}</a>
-                        <div>Customize own sort comparers</div>
+                        <div>Provides custom comparer functions for sorting.</div>
                         <div>Demo <a href="sort.html" target="_blank">Row Sort</a></div>
                     </section>
                     
@@ -1298,12 +1329,13 @@
                     <section>
                         <a name="options.rowFilter">rowFilter</a>
                         <a name="options.rowFilteredSort">rowFilteredSort = null</a>
+                        <div>Filters rows before rendering and optionally sorts filtered matches.</div>
                         <div>Demo <a href="row-filter.html" target="_blank">Row Filter</a></div>
                     </section>
 
                     <section>
                         <a name="options.columnTypes">columnTypes = {...}</a>
-                        <div>Preset column type map and id-to-type mapping.</div>
+                        <div>Defines preset column types and id-to-type mappings.</div>
                     </section>
                     
 
@@ -1397,7 +1429,7 @@
                         <a name="options.frozenColumnMax">frozenColumnMax = 10</a>
                         <a name="options.frozenRowMax">frozenRowMax = 10</a>
                         <a name="options.frozenRowHoverable">frozenRowHoverable = false</a>
-                        <div>Boolean, Allow hovering on frozen row</div>
+                        <div>Configures frozen rows and columns. frozenRowHoverable enables hover styles and hover events on frozen rows.</div>
                         <div>Demo <a href="frozen.html" target="_blank">Frozen</a></div>
                     </section>
 
@@ -1405,49 +1437,49 @@
                         <a name="options.scrollbarSize">scrollbarSize = 12</a>
                         <a name="options.scrollbarSizeH">scrollbarSizeH = null</a>
                         <a name="options.scrollbarSizeV">scrollbarSizeV = null</a>
-                        <div>Sets scrollbar size</div>
+                        <div>Sets the base scrollbar thickness.</div>
 
                         <a name="options.scrollbarRound">scrollbarRound = false</a>
-                        <div>Sets scrollbar round style</div>
+                        <div>Enables rounded scrollbar styling.</div>
 
                         <a name="options.scrollbarFade">scrollbarFade = false</a>
-                        <div>Sets scrollbar fade</div>
+                        <div>Enables scrollbar fade-in and fade-out behavior.</div>
 
                         <a name="options.scrollbarFadeTimeout">scrollbarFadeTimeout = 1000</a>
-                        <div>Sets scrollbar fade timeout</div>
+                        <div>Sets the delay before faded scrollbars are hidden.</div>
 
                         <a name="options.scrollbarType">scrollbarType = "auto"</a>
-                        <div>Sets scrollbar type: auto, mobile (fade = true and size = 6)</div>
+                        <div>Sets the scrollbar preset: auto or mobile, where mobile enables fade and uses size 6.</div>
 
                         <a name="options.scrollPaneMinWidth">scrollPaneMinWidth = 30</a>
-                        <div>Sets scroll pane min width</div>
+                        <div>Sets the minimum width of the scroll pane.</div>
                         <a name="options.scrollPaneGradient">scrollPaneGradient = false</a>
-                        <div>Enable gradient mask on scroll pane edges</div>
+                        <div>Enables a gradient mask on the scroll pane edges.</div>
                         <div>Demo <a href="scrollbar.html" target="_blank">Scrollbar</a></div>
                     </section>
 
                     <section>
                         <a name="options.rowDragVisible">rowDragVisible = false</a>
                         <a name="options.rowDragColumn">rowDragColumn = {...}</a>
-                        <div>Built-in drag column settings.</div>
+                        <div>Enables built-in row drag handles and configures the drag column.</div>
                     </section>
 
                     <section>
                         <a name="options.rowNumberWidth">rowNumberWidth = 36</a>
                         <a name="options.rowNumberFilter">rowNumberFilter = null</a>
                         <a name="options.rowNumberColumn">rowNumberColumn = {...}</a>
-                        <div>Built-in row number column settings.</div>
+                        <div>Configures the built-in row number column.</div>
                     </section>
 
                     <section>
                         <a name="options.selectColumn">selectColumn = {...}</a>
                         <a name="options.blankColumn">blankColumn = {...}</a>
-                        <div>Built-in private columns for select and blank filling.</div>
+                        <div>Configures the built-in private columns used for selection and layout filling.</div>
                     </section>
 
                     <section>
                         <a name="options.highlightKeywords">highlightKeywords = {...}</a>
-                        <div>Keyword highlight config for text extraction and mark wrappers.</div>
+                        <div>Configures how matched keywords are extracted and wrapped with highlight markup.</div>
                         <a name="options.highlightKeywords.textKey">textKey = "tg_text_"</a>
                         <a name="options.highlightKeywords.textGenerator">textGenerator = null</a>
                         <a name="options.highlightKeywords.highlightKey">highlightKey = "tg_highlight_"</a>
@@ -1457,20 +1489,20 @@
 
                     <section>
                         <a name="options.textSelectable">textSelectable = false</a>
-                        <div>Boolean, Allow select text</div>
+                        <div>Allows text selection inside grid cells.</div>
                     </section>
 
                     <section>
                         <a name="options.bindWindowResize">bindWindowResize = false</a>
-                        <div>Boolean, Bind window resize and call resize API</div>
+                        <div>Binds window resize and calls resize automatically.</div>
                         <a name="options.bindContainerResize">bindContainerResize = false</a>
-                        <div>Boolean, Bind container resize and call resize API (ResizeObserver required)</div>
+                        <div>Uses ResizeObserver to watch container size and call resize automatically.</div>
                         <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
                     </section>
 
                     <section>
                         <a name="options.cellResizeObserver">cellResizeObserver = null</a>
-                        <div>Function, Filter for cell resize observer (ResizeObserver required)</div>
+                        <div>Filters which cells are observed for size changes. Requires ResizeObserver.</div>
                         <div>Demo <a href="row-height.html" target="_blank">Row Height</a></div>
                     </section>
                     
@@ -1986,11 +2018,11 @@
                             <tr>
                                 <td>create</td>
                                 <td colspan="2">
-                                    <div>create style and html in the container</div>
-                                    <div>set data</div>
-                                    <div>set options</div>
-                                    <div>set formatters</div>
-                                    <div>add events</div>
+                                    <div>Create styles and DOM structure inside the container.</div>
+                                    <div>Apply initial data.</div>
+                                    <div>Apply initial options.</div>
+                                    <div>Register initial formatters.</div>
+                                    <div>Bind initial event handlers.</div>
                                 </td>
                                 <td>low</td>
                                 <td>loading APIs</td>
@@ -2033,9 +2065,9 @@
                             <tr>
                                 <td>update</td>
                                 <td colspan="2">
-                                    <div>update body</div>
-                                    <div>update row(s)</div>
-                                    <div>update cell(s)</div>
+                                    <div>Update the grid body.</div>
+                                    <div>Update one or more rows.</div>
+                                    <div>Update one or more cells.</div>
                                 </td>
                                 <td></td>
                                 <td>
@@ -2069,21 +2101,21 @@
                     </summary>
 
                     <section>
-                        <div>The "tg" is Grid prefix or namespace.</div>
-                        <div>CSS className:</div>
+                        <div>"tg" is the grid prefix and internal namespace.</div>
+                        <div>Common CSS class names:</div>
                         <pre><code class="language-css">
                             .tg-pane {}
                             .tg-body{}
                             .tg-row{}
                             .tg-cell{}
                         </code></pre>
-                        <div>Private property:</div>
+                        <div>Common private properties:</div>
                         <pre><code class="language-js">
                             //rowItem.tg_index
                             //rowItem.tg_level
                             //rowItem.tg_group
                         </code></pre>
-                        <div>The private properties will be removed when <a href="#exportData">exportData()</a></div>
+                        <div>These private properties are removed when calling <a href="#exportData">exportData()</a>.</div>
                     </section>
                 </details>
 

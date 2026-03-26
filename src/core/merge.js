@@ -51,8 +51,7 @@ const mergeList = function(args, deep) {
 };
 
 // merge JSON
-const merge = function() {
-    const args = Array.from(arguments);
+const merge = function(... args) {
     const len = args.length;
     // no parameters
     if (!len) {

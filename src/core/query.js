@@ -46,9 +46,9 @@ const elementDisplay = {};
 const getDefaultDisplay = function(nodeName) {
     if (!elementDisplay[nodeName]) {
         const element = document.createElement(nodeName);
-        document.body.appendChild(element);
+        document.body.append(element);
         const display = getStyle(element).display;
-        element.parentNode.removeChild(element);
+        element.remove();
         elementDisplay[nodeName] = display;
     }
     return elementDisplay[nodeName];
@@ -173,9 +173,9 @@ Query.prototype = {
     },
 
     remove: function() {
-        this.each(function(node, i) {
-            if (node && node.parentNode) {
-                node.parentNode.removeChild(node);
+        this.each(function(node) {
+            if (node) {
+                node.remove();
             }
         });
         this.list = [];
@@ -205,7 +205,7 @@ Query.prototype = {
         const child = new Query(selector);
         this.each(function(parentNode) {
             child.each(function(childNode) {
-                parentNode.insertBefore(childNode, parentNode.firstChild);
+                parentNode.prepend(childNode);
             });
         });
         return this;
@@ -218,7 +218,7 @@ Query.prototype = {
         const child = new Query(selector);
         this.each(function(parentNode) {
             child.each(function(childNode) {
-                parentNode.appendChild(childNode);
+                parentNode.append(childNode);
             });
         });
         return this;

@@ -1,31 +1,30 @@
-const Event = function(o) {
-    Object.assign(this, o);
-    this.timeStamp = new Date().getTime();
-};
+class Event {
 
-Event.prototype = {
-    constructor: Event,
-    cancelable: true,
+    constructor(o) {
+        Object.assign(this, o);
+        this.timeStamp = Date.now();
+        this.cancelable = true;
+        this.defaultPrevented = false;
+        this.isPropagationStopped = false;
+        this.isImmediatePropagationStopped = false;
+    }
 
     // removed not native
-    defaultPrevented: false,
-    preventDefault: function() {
+    preventDefault() {
         this.defaultPrevented = true;
-    },
+    }
 
     // just stopped if multiple bind
-    isPropagationStopped: false,
-    stopPropagation: function() {
+    stopPropagation() {
         this.isPropagationStopped = true;
-    },
+    }
 
     // useless for custom events
-    isImmediatePropagationStopped: false,
-    stopImmediatePropagation: function() {
+    stopImmediatePropagation() {
         this.isImmediatePropagationStopped = true;
         this.stopPropagation();
     }
 
-};
+}
 
 export default Event;

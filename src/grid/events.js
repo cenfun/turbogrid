@@ -669,7 +669,7 @@ export default {
 
     containerKeyDownHandler: function(e) {
 
-        // console.log('onKeyDown', this.id, e.keyCode);
+        // console.log('onKeyDown', this.id, e.key);
         if (this.hasMask) {
             return;
         }
@@ -681,31 +681,47 @@ export default {
             return;
         }
 
-        const keyCode = e.keyCode;
-        // console.log(keyCode);
-        // 9: tab
-        // 13: enter
-        // 27: esc
-        // 33,34: page up,page down
-        // 35,36: end,home
-        // 37,38,39,40: left,up,right,down
-        const keyCodeList = {
-            '9': this.keyTabHandler,
-            '13': this.keyEnterHandler,
-            '27': this.keyEscHandler,
+        const normalizedKey = {
+            Esc: 'Escape',
+            Left: 'ArrowLeft',
+            Up: 'ArrowUp',
+            Right: 'ArrowRight',
+            Down: 'ArrowDown'
+        }[e.key] || e.key;
 
-            '33': this.keyPageUpHandler,
-            '34': this.keyPageDownHandler,
-            '35': this.keyEndHandler,
-            '36': this.keyHomeHandler,
-
-            '37': this.keyLeftHandler,
-            '38': this.keyUpHandler,
-            '39': this.keyRightHandler,
-            '40': this.keyDownHandler
+        const keyCodeName = {
+            9: 'Tab',
+            13: 'Enter',
+            27: 'Escape',
+            33: 'PageUp',
+            34: 'PageDown',
+            35: 'End',
+            36: 'Home',
+            37: 'ArrowLeft',
+            38: 'ArrowUp',
+            39: 'ArrowRight',
+            40: 'ArrowDown'
         };
 
-        const handler = keyCodeList[keyCode];
+        const keyName = normalizedKey || keyCodeName[e.keyCode];
+
+        const keyHandlerMap = {
+            Tab: this.keyTabHandler,
+            Enter: this.keyEnterHandler,
+            Escape: this.keyEscHandler,
+
+            PageUp: this.keyPageUpHandler,
+            PageDown: this.keyPageDownHandler,
+            End: this.keyEndHandler,
+            Home: this.keyHomeHandler,
+
+            ArrowLeft: this.keyLeftHandler,
+            ArrowUp: this.keyUpHandler,
+            ArrowRight: this.keyRightHandler,
+            ArrowDown: this.keyDownHandler
+        };
+
+        const handler = keyHandlerMap[keyName];
         if (!handler) {
             return;
         }

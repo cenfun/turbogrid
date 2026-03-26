@@ -47,14 +47,14 @@ export default {
     },
 
     removeNode: function(node) {
-        if (node && node.parentNode) {
-            node.parentNode.removeChild(node);
+        if (node) {
+            node.remove();
         }
     },
 
     appendNode: function(parentNode, node) {
         if (parentNode && node) {
-            parentNode.appendChild(node);
+            parentNode.append(node);
         }
     },
 

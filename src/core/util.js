@@ -405,10 +405,11 @@ const Util = {
 
     debounce: function(callback, delay = 100) {
         let timeout;
-        const handler = function() {
+        const handler = function(... args) {
+            const context = this;
             clearTimeout(timeout);
             timeout = setTimeout(() => {
-                callback.apply(this, arguments);
+                callback.apply(context, args);
             }, delay);
         };
         handler.cancel = () => {
@@ -420,19 +421,20 @@ const Util = {
     throttle: function(callback, delay = 100) {
         let last = 0;
         let timeout;
-        const handler = function() {
+        const handler = function(... args) {
+            const context = this;
             const now = Date.now();
             if (now > last + delay) {
                 clearTimeout(timeout);
                 last = now;
-                callback.apply(this, arguments);
+                callback.apply(context, args);
                 return;
             }
 
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 last = now;
-                callback.apply(this, arguments);
+                callback.apply(context, args);
             }, delay);
 
         };
@@ -445,9 +447,10 @@ const Util = {
 
     microtask: function(callback) {
         const mt = new Microtask();
-        const handler = function() {
+        const handler = function(... args) {
+            const context = this;
             mt.start(() => {
-                callback.apply(this, arguments);
+                callback.apply(context, args);
             });
         };
         handler.cancel = () => {

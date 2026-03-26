@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>TurboGrid</title>
+    <title>TurboGrid API - 简体中文</title>
     <!--inject:start-->
     <script src="../dist/turbogrid.js"></script>
     <!--inject:end-->
@@ -326,15 +326,15 @@
         <div class="main flex-auto flex-column">
             <div class="api-header">
                 <div class="api-nav">
-                    <a href="#methods">Methods</a>
-                    <a href="#data">Data</a>
-                    <a href="#options">Options</a>
-                    <a href="#events">Events</a>
-                    <a href="#lifecycle">Lifecycle</a>
+                    <a href="#methods">方法</a>
+                    <a href="#data">数据</a>
+                    <a href="#options">配置项</a>
+                    <a href="#events">事件</a>
+                    <a href="#lifecycle">生命周期</a>
                 </div>
                 <div class="api-toolbar">
                     <div class="api-search">
-                        <input class="api-search-value" type="text" placeholder="Search API" value="" />
+                        <input class="api-search-value" type="text" placeholder="搜索 API" value="" />
                         <div class="api-search-list" style="display: none;"></div>
                     </div>
                     <div class="api-language">
@@ -353,13 +353,13 @@
 
                     <section>
                         <pre><code class="language-js">
-                            // global
+                            // 全局方式
                             const TG = window.turbogrid;
                             const { Grid, Util } = window.turbogrid;
-                            // cjs
+                            // CJS
                             const TG = require("turbogrid");
                             const { Grid, Util } = require("turbogrid");
-                            // esm
+                            // ESM
                             import TG from "turbogrid";
                             import { Grid, Util } from "turbogrid";
                         </code></pre>
@@ -367,17 +367,17 @@
 
                     <section>
                         <a name="Grid">Grid(container)</a>
-                        <div>Creates a new grid instance for the specified container.</div>
+                        <div>为指定容器创建一个新的 Grid 实例。</div>
                         <pre><code class="language-js">
-                            //selector
+                            // 选择器
                             const grid = new Grid(".container");
-                            //or element
+                            // 或 DOM 元素
                             const container = document.querySelector(".container");
                             const grid = new Grid(container);
-                            //or options with container
+                            // 或包含 container 的配置对象
                             const grid = Grid({
                                 container,
-                                ... other options
+                                ... 其他选项
                             });
                         </code></pre>
                     </section>
@@ -386,13 +386,13 @@
 
                 <details open class="methods">
                     <summary>
-                        <a name="methods">Methods</a>
+                        <a name="methods">方法</a>
                         <span class="total"></span>
                     </summary>
 
                     <section>
                         <a name="setData">setData(data)</a>
-                        <div>Sets the grid data. See the <a href="#data">data structure</a> section for details.</div>
+                        <div>设置表格数据。详细结构请参见 <a href="#data">数据结构</a>。</div>
                         <pre><code class="language-js">
                             grid.setData({
                                 columns: [],
@@ -403,7 +403,7 @@
 
                     <section>
                         <a name="getData">getData()</a>
-                        <div>Returns the current grid data object.</div>
+                        <div>返回当前表格数据对象。</div>
                         <pre><code class="language-js">
                             const data = grid.getData();
                         </code></pre>
@@ -411,7 +411,7 @@
 
                     <section>
                         <a name="setDataSnapshot">setDataSnapshot(data)</a>
-                        <div>Sets data from a snapshot by removing private fields and normalizing tree structures.</div>
+                        <div>通过快照设置数据，会移除私有字段并规范化树形结构。</div>
                         <pre><code class="language-js">
                             grid.setDataSnapshot(data);
                         </code></pre>
@@ -419,7 +419,7 @@
 
                     <section>
                         <a name="getItemSnapshot">getItemSnapshot(item[, keysSettings])</a>
-                        <div>Returns a sanitized snapshot of an item by removing private fields, or by selecting fields with keysSettings.</div>
+                        <div>返回条目的快照数据，可移除私有字段，或通过 keysSettings 选择导出字段。</div>
                         <pre><code class="language-js">
                             const rowSnapshot = grid.getItemSnapshot(rowItem);
                             const rowSnapshot2 = grid.getItemSnapshot(rowItem, {
@@ -431,64 +431,64 @@
 
                     <section>
                         <a name="setOption">setOption(options)</a>
-                        <div>Sets one or more grid options. See <a href="#options">options</a> for available settings.</div>
+                        <div>设置一个或多个表格选项。可用配置请参见 <a href="#options">配置项</a>。</div>
                         <pre><code class="language-js">
-                            //set multiple options
+                            // 设置多个选项
                             grid.setOption({
                                 optionKey1: optionValue1,
                                 optionKey2: optionValue2
                             });
-                            //set single option
+                            // 设置单个选项
                             grid.setOption(optionKey, optionValue);
                         </code></pre>
                     </section>
 
                     <section>
                         <a name="getOption">getOption([name])</a>
-                        <div>Returns the current option value for name, or the full options object when no name is provided.</div>
+                        <div>传入 name 时返回对应选项值；未传入时返回完整配置对象。</div>
                         <pre><code class="language-js">
-                            //get all options
+                            // 获取全部选项
                             const options = grid.getOption();
-                            //get single option
+                            // 获取单个选项
                             const optionValue = grid.getOption(optionKey);
                         </code></pre>
                     </section>
 
                     <section>
                         <a name="setFormatter">setFormatter(formatters)</a>
-                        <div>Registers or overrides grid formatters.</div>
+                        <div>注册或覆盖 Grid 格式化器。</div>
                         <pre><code class="language-js">
-                            //set multiple formatters
+                            // 设置多个格式化器
                             grid.setFormatter({
                                 string: function(value, rowItem, columnItem, cellNode) {
                                     return value;
                                 }
                             });
 
-                            //set single formatter
+                            // 设置单个格式化器
                             grid.setFormatter("string", formatterHandler);
                         </code></pre>
-                        <div>Built-in cell formatters: string, number, date, icon, blank, checkbox, tree, null</div>
-                        <div>Built-in header formatter: header</div>
-                        <div>Formatter signature:</div>
+                        <div>内置单元格格式化器：string、number、date、icon、blank、checkbox、tree、null</div>
+                        <div>内置表头格式化器：header</div>
+                        <div>格式化器签名：</div>
                         <pre><code class="language-js">
                             function(value, rowItem, columnItem, cellNode) { 
-                                // value is formatted by null formatter
-                                // get original value:
+                                // value 经过 null 格式化器处理后传入
+                                // 获取原始值：
                                 const originalValue = rowItem[columnItem.id];
                                 const rowIndex = rowItem.tg_index;
                                 const columnIndex = columnItem.tg_index;
-                                // using default formatter returns:
+                                // 使用默认格式化器返回结果：
                                 const defaultFormatter = this.getDefaultFormatter("[formatter-name]");
                                 return defaultFormatter(value + " new text", rowItem, columnItem, cellNode)
                             } 
                         </code></pre>
-                        <div>Demo <a href="formatter.html" target="_blank">Formatter</a></div>
+                        <div>示例 <a href="formatter.html" target="_blank">格式化器</a></div>
                     </section>
 
                     <section>
                         <a name="getFormatter">getFormatter(type)</a>
-                        <div>Returns the formatter function registered for the specified type.</div>
+                        <div>返回指定类型已注册的格式化函数。</div>
                         <pre><code class="language-js">
                             const stringFormatter = grid.getFormatter("string");
                         </code></pre>
@@ -496,7 +496,7 @@
 
                     <section>
                         <a name="getDefaultFormatter">getDefaultFormatter([type])</a>
-                        <div>Returns the built-in formatter function for the specified type.</div>
+                        <div>返回指定类型的内置格式化函数。</div>
                         <pre><code class="language-js">
                             const treeFormatter = grid.getDefaultFormatter("tree");
                         </code></pre>
@@ -504,18 +504,18 @@
 
                     <section>
                         <a name="bind">bind(eventType, handler)</a>
-                        <div>Binds an event handler to the grid. See <a href="#events">events</a> for supported event types.</div>
+                        <div>为表格绑定事件处理函数。支持的事件类型请参见 <a href="#events">事件</a>。</div>
                         <pre><code class="language-js">
                             grid.bind("onUpdated", function(e, d){
                                 //console.log(d);
                             });
                         </code></pre>
-                        <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                        <div>示例 <a href="events.html" target="_blank">事件</a></div>
                     </section>
                     
                     <section>
                         <a name="once">once(eventType, handler)</a>
-                        <div>Binds a handler that runs once and is removed after the first trigger.</div>
+                        <div>绑定一个只执行一次的处理函数，首次触发后会自动移除。</div>
                         <pre><code class="language-js">
                             grid.once("onUpdated", function(e, eventData){
                                 //console.log(eventData);
@@ -525,7 +525,7 @@
 
                     <section>
                         <a name="unbind">unbind([eventType][, handler])</a>
-                        <div>Removes previously bound event handlers from the grid.</div>
+                        <div>移除之前绑定到表格上的事件处理函数。</div>
                         <pre><code class="language-js">
                             grid.unbind();
                             grid.unbind("onUpdated");
@@ -535,7 +535,7 @@
 
                     <section>
                         <a name="trigger">trigger(eventType, eventData)</a>
-                        <div>Triggers an event and calls all bound handlers with the provided event data.</div>
+                        <div>触发一个事件，并使用传入的事件数据调用所有已绑定处理函数。</div>
                         <pre><code class="language-js">
                             this.trigger(eventType, eventData);
                         </code></pre>
@@ -543,16 +543,16 @@
 
                     <section>
                         <a name="getAllEvents">getAllEvents()</a>
-                        <div>Returns all supported <a href="#events">event types</a>.</div>
+                        <div>返回全部支持的 <a href="#events">事件类型</a>。</div>
                         <pre><code class="language-js">
                             const allEventTypes = grid.getAllEvents();
                         </code></pre>
-                        <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                        <div>示例 <a href="events.html" target="_blank">事件</a></div>
                     </section>
 
                     <section>
                         <a name="render">render()</a>
-                        <div>Renders the grid using the current data, options, and formatters.</div>
+                        <div>使用当前数据、配置和格式化器渲染表格。</div>
                         <pre><code class="language-js">
                             grid.render();
                         </code></pre>
@@ -560,7 +560,7 @@
 
                     <section>
                         <a name="rerender">rerender()</a>
-                        <div>Rebuilds the grid structure and renders it again.</div>
+                        <div>重新构建表格结构并再次渲染。</div>
                         <pre><code class="language-js">
                             grid.rerender();
                         </code></pre>
@@ -568,17 +568,17 @@
 
                     <section>
                         <a name="resize">resize([w, [h]])</a>
-                        <div>Recalculates the layout and optionally applies a new width and height.</div>
+                        <div>重新计算布局，并可选择应用新的宽高。</div>
                         <pre><code class="language-js">
                             grid.resize();
                             grid.resize(600, 400);
                         </code></pre>
-                        <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                        <div>示例 <a href="resize.html" target="_blank">尺寸调整</a></div>
                     </section>
                     
                     <section>
                         <a name="destroy">destroy()</a>
-                        <div>Destroys the grid instance and removes generated DOM, observers, and event bindings.</div>
+                        <div>销毁 Grid 实例，并移除生成的 DOM、观察器和事件绑定。</div>
                         <pre><code class="language-js">
                             grid.destroy();
                         </code></pre>
@@ -591,14 +591,14 @@
                         <a name="getRowItem">getRowItem(rowIndex)</a>
                         <a name="getRowItemById">getRowItemById(id)</a>
                         <a name="getRowItemBy">getRowItemBy(key, value)</a>
-                        <div>The rowIndex and columnIndex parameters support several input forms:</div>
+                        <div>rowIndex 和 columnIndex 参数支持以下几种传入形式：</div>
                         <ol>
-                            <li>If the parameter is a Number, the grid looks up the row or column by index. This is the recommended and fastest option.</li>
-                            <li>If the parameter is a String, the grid searches all items for a matching row or column id.</li>
-                            <li>If the parameter is an Object, the grid inspects these properties:</li>
+                            <li>如果参数是 Number，Grid 会按索引查找对应的行或列。这是推荐且性能最高的方式。</li>
+                            <li>如果参数是 String，Grid 会遍历所有项，查找匹配的行或列 id。</li>
+                            <li>如果参数是 Object，Grid 会检查以下属性：</li>
                             <ul>
-                                <li>If the object has a tg_index property, the grid looks up the row or column by index first.</li>
-                                <li>If the object has an id property of type String, the grid searches all items for a matching id.</li>
+                                <li>如果对象包含 tg_index 属性，Grid 会优先按索引查找行或列。</li>
+                                <li>如果对象包含 String 类型的 id 属性，Grid 会遍历所有项，查找匹配的 id。</li>
                             </ul>
                         </ol>
                         <pre><code class="language-js">
@@ -617,22 +617,22 @@
                         <a name="showLoading">showLoading()</a>
                         <a name="hideLoading">hideLoading()</a>
                         <a name="setLoading">setLoading(loading)</a>
-                        <div>Shows, hides, or customizes the built-in loading overlay.</div>
+                        <div>显示、隐藏或自定义内置加载遮罩。</div>
                         <pre><code class="language-js">
                             grid.showLoading();
                             grid.hideLoading();
-                            grid.setLoading("Loading ...");
+                            grid.setLoading("加载中...");
                             grid.setLoading(function(container) {
                                 return document.createElement("div");
                             });
                         </code></pre>
-                        <div>Demo <a href="loading.html" target="_blank">Show/Hide Loading</a></div>
+                        <div>示例 <a href="loading.html" target="_blank">显示/隐藏加载态</a></div>
                     </section>
 
                     <section>
                         <a name="showMask">showMask()</a>
                         <a name="hideMask">hideMask()</a>
-                        <div>Shows or hides the interaction-blocking mask overlay.</div>
+                        <div>显示或隐藏用于阻止交互的遮罩层。</div>
                         <pre><code class="language-js">
                             grid.showMask();
                             grid.showMask({
@@ -641,47 +641,47 @@
 
                             grid.hideMask();
                         </code></pre>
-                        <div>Demo <a href="loading.html" target="_blank">Show/Hide Loading</a></div>
+                        <div>示例 <a href="loading.html" target="_blank">显示/隐藏加载态</a></div>
                     </section>
 
                     <section>
                         <a name="expandAllRows">expandAllRows()</a>
                         <a name="collapseAllRows">collapseAllRows()</a>
                         <a name="toggleAllRows">toggleAllRows()</a>
-                        <div>Expands, collapses, or toggles all tree rows.</div>
+                        <div>展开、折叠或切换所有树形行。</div>
                         <pre><code class="language-js">
                             grid.expandAllRows();
                             grid.collapseAllRows();
                             grid.toggleAllRows();
                         </code></pre>
-                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                        <div>示例 <a href="row-collapse.html" target="_blank">行折叠/展开</a></div>
                     </section>
                     
                     <section>
                         <a name="expandRow">expandRow(rowIndex)</a>
                         <a name="collapseRow">collapseRow(rowIndex)</a>
                         <a name="toggleRow">toggleRow(rowIndex)</a>
-                        <div>Expands, collapses, or toggles a specific row.</div>
+                        <div>展开、折叠或切换指定行。</div>
                         <pre><code class="language-js">
                             grid.expandRow(rowIndex);
                             grid.collapseRow(rowIndex);
                             grid.toggleRow(rowIndex);
                         </code></pre>
-                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                        <div>示例 <a href="row-collapse.html" target="_blank">行折叠/展开</a></div>
                     </section>
 
                     <section>
                         <a name="expandRowLevel">expandRowLevel(level)</a>
-                        <div>Expands rows up to the specified tree level.</div>
+                        <div>展开到指定树层级的行。</div>
                         <pre><code class="language-js">
                             grid.expandRowLevel(level);
                         </code></pre>
-                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                        <div>示例 <a href="row-collapse.html" target="_blank">行折叠/展开</a></div>
                     </section>
 
                     <section>
                         <a name="exportData">exportData([keysSettings])</a>
-                        <div>Returns export-ready columns and rows with private fields removed, optionally filtered by keysSettings.</div>
+                        <div>返回适合导出的 columns 和 rows 数据，会移除私有字段，并可通过 keysSettings 过滤字段。</div>
                         <pre><code class="language-js">
                             const exportedData = grid.exportData();
                             const exportedData = grid.exportData({
@@ -689,27 +689,27 @@
                                 key_key_no_need: false
                             });
                         </code></pre>
-                        <div>Demo <a href="export.html" target="_blank">Export</a></div>
+                        <div>示例 <a href="export.html" target="_blank">导出</a></div>
                     </section>
                     
                     <section>
                         <a name="setRowSubs">setRowSubs(rowIndex, subs)</a>
-                        <div>Replaces the child rows for the specified parent row.</div>
+                        <div>替换指定父行的子行数据。</div>
                         <pre><code class="language-js">
                             const subs = [{name:"row1"},{name:"row2"}];
                             grid.setRowSubs(rowIndex, subs);
                         </code></pre>
-                        <div>Demo <a href="load-subs.html" target="_blank">Dynamic Load Subs</a></div>
+                        <div>示例 <a href="load-subs.html" target="_blank">动态加载子项</a></div>
                     </section>
                     
                     <section>
                         <a name="setRows">setRows(rowList)</a>
-                        <div>Replaces the current top-level rows with a new row list.</div>
+                        <div>使用新的行列表替换当前顶层 rows。</div>
                         <pre><code class="language-js">
                             const rows = [{name:"row1"},{name:"row2"}];
                             grid.setRows(rows);
                         </code></pre>
-                        <div>Demo <a href="set-rows.html" target="_blank">Dynamic Set Rows</a></div>
+                        <div>示例 <a href="set-rows.html" target="_blank">动态设置行</a></div>
                     </section>
 
                     <section>
@@ -718,7 +718,7 @@
                         <a name="getViewRows">getViewRows()</a>
                         <a name="getViewRowItem">getViewRowItem(viewRowIndex)</a>
                         <a name="getViewColumnItem">getViewColumnItem(viewColumnIndex)</a>
-                        <div>A view index is the current visible order after filtering, collapsing, and sorting.</div>
+                        <div>view index 指经过筛选、折叠和排序后的当前可见顺序索引。</div>
                         <pre><code class="language-js">
                             const rows = grid.getRows();
                             const columns = grid.getColumns();
@@ -731,19 +731,19 @@
                     <section>
                         <a name="addRow">addRow(rowInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteRow">deleteRow(rowIndex)</a>
-                        <div>Adds a row or deletes one or more rows.</div>
+                        <div>新增一行，或删除一行/多行。</div>
                         <pre><code class="language-js">
                             grid.addRow({
                                 id: "id1",
-                                name: "row item"
+                                name: "行项目"
                             });
-                            grid.addRow(["Row 1", "Row 2"]);
-                            grid.addRow(["Row 1", "Row 2"], parentIndex);
-                            grid.addRow("Row Before","level_0", 0);
+                            grid.addRow(["行 1", "行 2"]);
+                            grid.addRow(["行 1", "行 2"], parentIndex);
+                            grid.addRow("插入到前面的一行","level_0", 0);
                             grid.deleteRow(2);
                             grid.deleteRow([1, 2]);
                         </code></pre>
-                        <div>Demo <a href="row-add-delete.html" target="_blank">Row Add/Delete</a></div>
+                        <div>示例 <a href="row-add-delete.html" target="_blank">行新增/删除</a></div>
                     </section>
                     
                     <section>
@@ -756,7 +756,7 @@
                         <a name="moveSelectedRowsDown">moveSelectedRowsDown()</a>
                         <a name="moveSelectedRowsToBottom">moveSelectedRowsToBottom()</a>
                         <a name="moveRows">moveRows(rowList, offset)</a>
-                        <div>offset: values less than 0 move rows up, and values greater than 0 move rows down.</div>
+                        <div>offset：小于 0 时向上移动，大于 0 时向下移动。</div>
                         <pre><code class="language-js">
                             grid.moveRowsToTop(["row_id1", "row_id2"]);
                             grid.moveRowsUp(["row_id1", "row_id2"]);
@@ -772,54 +772,54 @@
                             grid.moveRows(["row_id"], -2);
                             grid.moveRows("row_id", 1);
                         </code></pre>
-                        <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
+                        <div>示例 <a href="row-move.html" target="_blank">行移动</a></div>
                     </section>
 
                     <section>
                         <a name="selectAll">selectAll()</a>
-                        <div>Selects or clears all selectable rows.</div>
+                        <div>选中全部可选行，或清空全部选中状态。</div>
                         <pre><code class="language-js">
                             grid.selectAll();
                             grid.selectAll(false);
                         </code></pre>
-                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                        <div>示例 <a href="row-select.html" target="_blank">行选择</a></div>
                     </section>
 
                     <section>
                         <a name="setRowSelected">setRowSelected(rowIndex)</a>
-                        <div>Updates the selected state of a row, or clears the selection when called without arguments.</div>
+                        <div>更新指定行的选中状态；不传参数时清空选中状态。</div>
                         <pre><code class="language-js">
                             grid.setRowSelected(rowIndex);
                             grid.setRowSelected(rowIndex, false);
                             grid.setRowSelected();
                         </code></pre>
-                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                        <div>示例 <a href="row-select.html" target="_blank">行选择</a></div>
                     </section>
 
                     <section>
                         <a name="getSelectedRow">getSelectedRow()</a>
                         <a name="getSelectedRows">getSelectedRows()</a>
-                        <div>Returns an array when multiple rows are selected.</div>
+                        <div>多选场景下返回已选行数组。</div>
                         <pre><code class="language-js">
                             const selectedRow = grid.getSelectedRow();
                             const selectedRows = grid.getSelectedRows();
                         </code></pre>
-                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                        <div>示例 <a href="row-select.html" target="_blank">行选择</a></div>
                     </section>
                     
                     <section>
                         <a name="setRowHover">setRowHover(rowIndex, hover)</a>
-                        <div>Sets whether the specified row is hovered.</div>
+                        <div>设置指定行是否处于悬停状态。</div>
                         <pre><code class="language-js">
                             grid.setRowHover(rowIndex, true);
                             grid.setRowHover(rowIndex, false);
                         </code></pre>
-                        <div>Demo <a href="frozen-middle.html" target="_blank">Frozen Middle</a></div>
+                        <div>示例 <a href="frozen-middle.html" target="_blank">中间冻结</a></div>
                     </section>
 
                     <section>
                         <a name="setRowState">setRowState(rowIndex, state, value = true)</a>
-                        <div>Sets a custom row state and toggles the CSS class tg-[state] on rendered row nodes.</div>
+                        <div>设置自定义行状态，并在已渲染的行节点上切换 CSS 类 tg-[state]。</div>
                         <pre><code class="language-js">
                             grid.setRowState(rowIndex, "selected", true);
                             grid.setRowState(rowIndex, "warning", true);
@@ -830,52 +830,52 @@
                     <section>
                         <a name="setSortColumn">setSortColumn(sortColumn)</a>
                         <a name="removeSortColumn">removeSortColumn()</a>
-                        <div>Clears the current sort state, typically after the underlying data changes.</div>
+                        <div>清除当前排序状态，通常用于底层数据发生变化之后。</div>
                         <pre><code class="language-js">
                             grid.setSortColumn(sortColumn);
                             grid.removeSortColumn();
                         </code></pre>
-                        <div>Demo <a href="sort.html" target="_blank">Row Sort</a></div>
+                        <div>示例 <a href="sort.html" target="_blank">行排序</a></div>
                     </section>
 
                     <section>
                         <a name="setColumnWidth">setColumnWidth(columnIndex, width)</a>
-                        <div>Updates a column width at runtime. minWidth and maxWidth can also be changed.</div>
+                        <div>在运行时更新列宽，同时也可以修改 minWidth 和 maxWidth。</div>
                         <pre><code class="language-js">
                             grid.setColumnWidth(columnIndex, width);
                         </code></pre>
-                        <div>Demo <a href="column-display.html" target="_blank">Column Width Resize</a></div>
+                        <div>示例 <a href="column-display.html" target="_blank">列宽调整</a></div>
                     </section>
                     
                     <section>
                         <a name="showColumn">showColumn(columnIndex)</a>
                         <a name="hideColumn">hideColumn(columnIndex)</a>
-                        <div>Shows or hides one or more columns.</div>
+                        <div>显示或隐藏一个或多个列。</div>
                         <pre><code class="language-js">
                             grid.showColumn(columnIndex);
                             grid.hideColumn(columnIndex);
                             grid.showColumn([1, 3]);
                             grid.hideColumn([1, 3]);
                         </code></pre>
-                        <div>Demo <a href="column-width.html" target="_blank">Show/Hide Column</a></div>
+                        <div>示例 <a href="column-width.html" target="_blank">显示/隐藏列</a></div>
                     </section>
 
                     <section>
                         <a name="addColumn">addColumn(columnInfo[, parent, position, scrollTo = true])</a>
                         <a name="deleteColumn">deleteColumn(columnIndex)</a>
-                        <div>Adds a column or deletes one or more columns.</div>
+                        <div>新增列，或删除一列/多列。</div>
                         <pre><code class="language-js">
                             grid.addColumn({
                                 id: "id1",
-                                name: "column item"
+                                name: "列项目"
                             });
-                            grid.addColumn(["Column 1", "Column 2"]);
-                            grid.addColumn(["Column 1", "Column 2"], parentIndex);
-                            grid.addColumn("Column Before","level_0",0);
+                            grid.addColumn(["列 1", "列 2"]);
+                            grid.addColumn(["列 1", "列 2"], parentIndex);
+                            grid.addColumn("插入到前面的列","level_0",0);
                             grid.deleteColumn(2);
                             grid.deleteColumn([1, 2]);
                         </code></pre>
-                        <div>Demo <a href="column-add-delete.html" target="_blank">Column Add/Delete</a></div>
+                        <div>示例 <a href="column-add-delete.html" target="_blank">列新增/删除</a></div>
                     </section>
 
                     <section>
@@ -886,26 +886,26 @@
                         <a name="scrollToFirstColumn">scrollToFirstColumn()</a>
                         <a name="scrollToLastColumn">scrollToLastColumn(end)</a>
                         <a name="scrollToCell">scrollToCell(rowIndex, columnIndex)</a>
-                        <div>Scrolls directly to the specified row, column, or cell.</div>
+                        <div>直接滚动到指定的行、列或单元格。</div>
                         <pre><code class="language-js">
                             grid.scrollToRow(rowIndex);
                             grid.scrollToColumn(columnIndex);
                             grid.scrollToCell(rowIndex, columnIndex);
                         </code></pre>
-                        <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                        <div>示例 <a href="scroll.html" target="_blank">滚动</a></div>
                     </section>
                     
                     <section>
                         <a name="scrollRowIntoView">scrollRowIntoView(rowIndex)</a>
                         <a name="scrollColumnIntoView">scrollColumnIntoView(columnIndex)</a>
                         <a name="scrollCellIntoView">scrollCellIntoView(rowIndex, columnIndex)</a>
-                        <div>Scrolls just enough to bring the target row, column, or cell into view.</div>
+                        <div>滚动最小必要距离，使目标行、列或单元格进入可视区域。</div>
                         <pre><code class="language-js">
                             grid.scrollRowIntoView(rowIndex);
                             grid.scrollColumnIntoView(columnIndex);
                             grid.scrollCellIntoView(rowIndex, columnIndex);
                         </code></pre>
-                        <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                        <div>示例 <a href="scroll.html" target="_blank">滚动</a></div>
                     </section>
 
                     <section>
@@ -913,14 +913,14 @@
                         <a name="setScrollLeft">setScrollLeft(left)</a>
                         <a name="getScrollTop">getScrollTop()</a>
                         <a name="getScrollLeft">getScrollLeft()</a>
-                        <div>Sets or returns the current scroll positions.</div>
+                        <div>设置或获取当前滚动位置。</div>
                         <pre><code class="language-js">
                             grid.setScrollTop(200);
                             grid.setScrollLeft(200);
                             const st = grid.getScrollTop();
                             const sl = grid.getScrollLeft();
                         </code></pre>
-                        <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                        <div>示例 <a href="scroll.html" target="_blank">滚动</a></div>
                     </section>
 
                     <section>
@@ -929,8 +929,8 @@
                         <a name="update">update()</a>
                         <a name="flushRow">flushRow(viewRowIndex)</a>
                         <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
-                        <div>updateRow merges partial rowData into the existing row.</div>
-                        <div>flushRow and flushCell use view indexes (tg_view_index), not source indexes.</div>
+                        <div>updateRow 支持将部分 rowData 合并到现有行数据中。</div>
+                        <div>flushRow 和 flushCell 使用 view 索引（tg_view_index），而不是源数据索引。</div>
                         <pre><code class="language-js">
                             grid.update();
                             grid.flushRow(viewRowIndex);
@@ -940,14 +940,14 @@
                             grid.updateCell(rowIndex, columnIndex);
                             grid.updateCell(rowIndex, columnIndex, cellValue);
                         </code></pre>
-                        <div>Demo <a href="flush.html" target="_blank">Flush</a></div>
+                        <div>示例 <a href="flush.html" target="_blank">刷新</a></div>
                     </section>
 
                     <section>
                         <a name="getScrollbarWidth">getScrollbarWidth()</a>
-                        <div>Returns 0 when no vertical scrollbar is present; otherwise returns <a href="#options.scrollbarSize">scrollbarSize</a> when <a href="#onScrollStateChanged">hasVScroll</a> is true.</div>
+                        <div>没有垂直滚动条时返回 0；当 <a href="#onScrollStateChanged">hasVScroll</a> 为 true 时，返回 <a href="#options.scrollbarSize">scrollbarSize</a>。</div>
                         <a name="getScrollbarHeight">getScrollbarHeight()</a>
-                        <div>Returns 0 when no horizontal scrollbar is present; otherwise returns <a href="#options.scrollbarSize">scrollbarSize</a> when <a href="#onScrollStateChanged">hasHScroll</a> is true.</div>
+                        <div>没有水平滚动条时返回 0；当 <a href="#onScrollStateChanged">hasHScroll</a> 为 true 时，返回 <a href="#options.scrollbarSize">scrollbarSize</a>。</div>
                         <pre><code class="language-js">
                             const sbw = grid.getScrollbarWidth();
                             const sbh = grid.getScrollbarHeight();
@@ -957,7 +957,7 @@
                     <section>
                         <a name="getScrollViewWidth">getScrollViewWidth()</a>
                         <a name="getScrollViewHeight">getScrollViewHeight()</a>
-                        <div>Scroll view size equals scroll pane size minus scrollbar size.</div>
+                        <div>滚动视口尺寸 = 滚动面板尺寸 - 滚动条尺寸。</div>
                         <pre><code class="language-js">
                             const svw = grid.getScrollViewWidth();
                             const svh = grid.getScrollViewHeight();
@@ -968,7 +968,7 @@
                     <section>
                         <a name="getScrollPaneWidth">getScrollPaneWidth()</a>
                         <a name="getScrollPaneHeight">getScrollPaneHeight()</a>
-                        <div>Scroll pane size equals scroll view size plus scrollbar size.</div>
+                        <div>滚动面板尺寸 = 滚动视口尺寸 + 滚动条尺寸。</div>
                         <pre><code class="language-js">
                             const spw = grid.getScrollPaneWidth();
                             const sph = grid.getScrollPaneHeight();
@@ -977,7 +977,7 @@
                     
                     <section>
                         <a name="getColumnsLength">getColumnsLength(total)</a>
-                        <div>Returns the number of visible columns by default. Pass true to include hidden columns.</div>
+                        <div>默认返回当前可见列数量；传入 true 时包含隐藏列。</div>
                         <pre><code class="language-js">
                             const len = grid.getColumnsLength();
                             const totalLen = grid.getColumnsLength(true);
@@ -986,7 +986,7 @@
 
                     <section>
                         <a name="getRowsLength">getRowsLength(total)</a>
-                        <div>Returns the number of visible rows by default. Pass true to include collapsed or filtered rows.</div>
+                        <div>默认返回当前可见行数量；传入 true 时包含被折叠或过滤掉的行。</div>
                         <pre><code class="language-js">
                             const len = grid.getRowsLength();
                             const totalLen = grid.getRowsLength(true);
@@ -995,14 +995,14 @@
                     
                     <section>
                         <a name="getRowsHeight">getRowsHeight()</a>
-                        <div>Returns the total rendered height of all rows.</div>
+                        <div>返回所有行渲染后的总高度。</div>
                         <pre><code class="language-js">
                             const totalHeight = grid.getRowsHeight();
                         </code></pre>
                     </section>
                     <section>
                         <a name="getRowHeight">getRowHeight(rowIndex)</a>
-                        <div>Returns the computed height of the specified row.</div>
+                        <div>返回指定行的计算高度。</div>
                         <pre><code class="language-js">
                             const rowHeight = grid.getRowHeight(rowIndex);
                         </code></pre>
@@ -1010,7 +1010,7 @@
 
                     <section>
                         <a name="getViewport">getViewport()</a>
-                        <div>Returns the current visible row and column index ranges.</div>
+                        <div>返回当前可见行和列的索引范围。</div>
                         <pre><code class="language-js">
                             const viewport = grid.getViewport();
                             // { rows, columns }
@@ -1019,7 +1019,7 @@
 
                     <section>
                         <a name="find">find(selector)</a>
-                        <div>Finds nodes inside the grid root with a CSS selector.</div>
+                        <div>使用 CSS 选择器查找表格根节点内部的元素。</div>
                         <pre><code class="language-js">
                             const nodes = grid.find(".selector-name");
                         </code></pre>
@@ -1027,7 +1027,7 @@
                     <section>
                         <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
                         <a name="getCellValue">getCellValue(rowItem, columnItem)</a>
-                        <div>Returns a rendered cell node or resolves the raw cell value.</div>
+                        <div>返回已渲染的单元格节点，或解析单元格原始值。</div>
                         <pre><code class="language-js">
                             const cellNode = grid.getCellNode(rowIndex, columnIndex);
                             const cellValue = grid.getCellValue(rowItem, columnItem);
@@ -1035,14 +1035,14 @@
                     </section>
                     <section>
                         <a name="getHeaderItemNode">getHeaderItemNode(columnIndex)</a>
-                        <div>Returns the header item node for the specified column.</div>
+                        <div>返回指定列对应的表头项节点。</div>
                         <pre><code class="language-js">
                             const headerItemNode = grid.getHeaderItemNode(columnIndex);
                         </code></pre>
                     </section>
                     <section>
                         <a name="getColumnHeaderNode">getColumnHeaderNode(columnIndex)</a>
-                        <div>Returns the header container node for the specified column.</div>
+                        <div>返回指定列对应的表头容器节点。</div>
                         <pre><code class="language-js">
                             const columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
                         </code></pre>
@@ -1052,7 +1052,7 @@
                     <section>
                         <a name="forEachColumn">forEachColumn(callback)</a>
                         <a name="forEachRow">forEachRow(callback)</a>
-                        <div>Iterates over each column or row and calls the provided callback.</div>
+                        <div>遍历每一列或每一行，并调用传入的回调函数。</div>
                         <pre><code class="language-js">
                             grid.forEachColumn(function(column, index, parent) {
                                 //
@@ -1065,22 +1065,22 @@
 
                     <section>
                         <a name="isRowSelectable">isRowSelectable(rowItem)</a>
-                        <div>Returns whether the row can be selected under the current rules.</div>
+                        <div>返回该行在当前规则下是否可被选中。</div>
                         <pre><code class="language-js">
                             const rowItem = grid.getRowItem(rowIndex);
                             if (grid.isRowSelectable(rowItem)) {
-                                console.log("selectable");
+                                console.log("可选中");
                             }
                         </code></pre>
                     </section>
                     <section>
                         <a name="isRowLeaf">isRowLeaf(rowItem)</a>
-                        <div>Returns whether the row is a leaf node.</div>
+                        <div>返回该行是否为叶子节点。</div>
                     </section>
 
                     <section>
                         <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
-                        <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
+                        <div>用于 rowFilter 和 highlightKeywords 的关键字匹配与高亮辅助方法。</div>
                         <pre><code class="language-js">
                             grid.setOption({
                                 rowFilter: function(rowItem) {
@@ -1092,7 +1092,7 @@
 
                     <section>
                         <a name="onNextUpdated">onNextUpdated(handler)</a>
-                        <div>Registers a one-time handler for the next onUpdated event.</div>
+                        <div>为下一次 onUpdated 事件注册一个一次性处理函数。</div>
                         <pre><code class="language-js">
                             grid.onNextUpdated(function(e, eventData){
                                 //console.log(eventData);
@@ -1105,20 +1105,20 @@
 
                 <details open class="data">
                     <summary>
-                        <a name="data">Data</a>
+                        <a name="data">数据</a>
                         <span class="total"></span>
                     </summary>
 
                     <section>
-                        Both columns and rows are same data structure (JSON/Tree-like):
+                        columns 和 rows 使用相同的数据结构（JSON / 树形结构）：
                         <div>
                             <pre><code class="language-js">
                                     [{
-                                        name: "item 1",
+                                        name: "项目 1",
                                         subs: [{
-                                            name : "item 2",
+                                            name : "项目 2",
                                             subs: [{
-                                                name : "item 3",
+                                                name : "项目 3",
                                                 subs: [{
                                                     ...
                                                 }]
@@ -1138,25 +1138,25 @@
 
                     <section>
                         <a name="data.columns">columns</a>
-                        <div>See <a href="#options.columnProps">columnProps</a> for available column fields.</div>
+                        <div>可用列字段请参见 <a href="#options.columnProps">columnProps</a>。</div>
                         <pre><code class="language-js">
                             const columns = [{
                                 id:"c1",
                                 type : "string",
-                                name:"Column Name 1"
+                                name:"列名 1"
                             }, {
                                 id : "c2",
                                 type : "number",
-                                name : "Column Name 2"
+                                name : "列名 2"
                             }, {
                                 id: "c3",
-                                name: "Column Name 3",
+                                name: "列名 3",
                                 subs: [{
                                     id: "c3_s1",
-                                    name: "Column Name 3-1"
+                                    name: "列名 3-1"
                                 }, {
                                     id: "c3_s2",
-                                    name: "Column Name 3-2"
+                                    name: "列名 3-2"
                                 }]
                             }];
                         </code></pre>
@@ -1164,31 +1164,31 @@
 
                     <section>
                         <a name="data.rows">rows</a>
-                        <div>See <a href="#options.rowProps">rowProps</a> for available row fields.</div>
+                        <div>可用行字段请参见 <a href="#options.rowProps">rowProps</a>。</div>
                         <pre><code class="language-js">
                             const rows = [{
                                 id : "r1",
-                                name : "Row Name 1",
-                                c1 : "string value 1",
+                                name : "行名 1",
+                                c1 : "字符串值 1",
                                 c2 : 1,
-                                c3_s1 : "value 3 - 1",
-                                c3_s2 : "value 1 - 2"
+                                c3_s1 : "值 3 - 1",
+                                c3_s2 : "值 1 - 2"
                             }, {
                                 id : "r2",
                                 type : "group",
-                                name : "Row Name 2",
-                                c1 : "string value 2",
-                                c2 : "value 2",
-                                c3_s1 : "value 3 - 1",
-                                c3_s2 : "value 1 - 2",
+                                name : "行名 2",
+                                c1 : "字符串值 2",
+                                c2 : "值 2",
+                                c3_s1 : "值 3 - 1",
+                                c3_s2 : "值 1 - 2",
                                 subs : [{
                                     id : "r3",
                                     type : "holding",
-                                    name : "Row Name 3",
-                                    c1 : "string value 3",
+                                    name : "行名 3",
+                                    c1 : "字符串值 3",
                                     c2 : 3,
-                                    c3_s1 : "value 3 - 1",
-                                    c3_s2 : "value 1 - 2"
+                                    c3_s1 : "值 3 - 1",
+                                    c3_s2 : "值 1 - 2"
                                 }]
                             }];
                         </code></pre>
@@ -1196,7 +1196,7 @@
 
                     <section>
                         <a name="data.options">options</a>
-                        <div>Applies options from the data payload. These values take precedence over setOption.</div>
+                        <div>应用 data 中携带的 options。这些值的优先级高于 setOption。</div>
                         <pre><code class="language-js">
                             const data = {
                                 options : {
@@ -1211,7 +1211,7 @@
                     
                     <section>
                         <a name="data.rowsLength">rowsLength</a>
-                        <div>Supports lazy row loading when rows are not provided but the total row count is known.</div>
+                        <div>在不直接提供 rows、但已知总行数时支持按需懒加载。</div>
                         <pre><code class="language-js">
                                 const data = {
                                     columns: columns,
@@ -1219,7 +1219,7 @@
                                 };
                                 grid.setData(data);
                         </code></pre>
-                        <div>Demo <a href="load-rows.html" target="_blank">Dynamic Load Rows</a></div>
+                        <div>示例 <a href="load-rows.html" target="_blank">动态加载行</a></div>
                     </section>
 
 
@@ -1227,13 +1227,13 @@
 
                 <details open class="options">
                     <summary>
-                        <a name="options">Options</a>
+                        <a name="options">配置项</a>
                         <span class="total"></span>
                     </summary>
 
                     <section>
                         <a name="options.className">className = "tg-turbogrid"</a>
-                        <div>Customizes the root CSS class name used as the grid namespace.</div>
+                        <div>自定义作为 Grid 命名空间的根 CSS 类名。</div>
                         <pre><code class="language-js">
                         grid.setOption({
                             className: "my-grid-class-name"
@@ -1243,44 +1243,44 @@
 
                     <section>
                         <a name="options.theme">theme = "[theme-name]"</a>
-                        <div>Sets the theme name. Available values: default, lightblue, dark.</div>
-                        <div>Demo <a href="theme.html" target="_blank">Theme</a></div>
+                        <div>设置主题名称。可选值：default、lightblue、dark。</div>
+                        <div>示例 <a href="theme.html" target="_blank">主题</a></div>
                     </section>
                     
                     <section>
                         <a name="options.rowHeight">rowHeight = 32</a>
-                        <div>Sets the default row height in pixels.</div>
-                        <div>Demo <a href="multiple-instance.html" target="_blank">Row Height</a></div>
+                        <div>设置默认行高，单位为像素。</div>
+                        <div>示例 <a href="multiple-instance.html" target="_blank">行高</a></div>
                     </section>
                     
                     <section>
                         <a name="options.rowCacheLength">rowCacheLength = 0</a>
                         <a name="options.columnCacheLength">columnCacheLength = 0</a>
-                        <div>Controls how many extra rows and columns are rendered outside the viewport as cache.</div>
-                        <div>Demo <a href="cache.html" target="_blank">Row/Column Cache</a></div>
+                        <div>控制在可视区域外额外渲染多少行和列作为缓存。</div>
+                        <div>示例 <a href="cache.html" target="_blank">行/列缓存</a></div>
                     </section>
                     
 
 
                     <section>
                         <a name="options.autoHeight">autoHeight = false</a>
-                        <div>Automatically adjusts the grid height to fit its visible content.</div>
-                        <div>Demo <a href="auto-height.html" target="_blank">Auto Height</a></div>
+                        <div>自动调整表格高度，使其适配当前可见内容。</div>
+                        <div>示例 <a href="auto-height.html" target="_blank">自动高度</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.headerVisible">headerVisible = true</a>
-                        <div>Shows or hides the header area.</div>
-                        <div>Demo <a href="no-header.html" target="_blank">Show/Hide Header</a></div>
+                        <div>显示或隐藏表头区域。</div>
+                        <div>示例 <a href="no-header.html" target="_blank">显示/隐藏表头</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.collapseAllVisible">collapseAllVisible = true</a>
                         <a name="options.collapseAllOnInit">collapseAllOnInit = null</a>
-                        <div>Controls whether collapse-all actions are shown and whether they run during initialization.</div>
-                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                        <div>控制是否显示全部折叠操作，以及是否在初始化时执行。</div>
+                        <div>示例 <a href="row-collapse.html" target="_blank">行折叠/展开</a></div>
                     </section>
                     
 
@@ -1290,76 +1290,76 @@
                         <a name="options.selectAllVisible">selectAllVisible = true</a>
 
                         <a name="options.selectAllOnInit">selectAllOnInit = null</a>
-                        <div>Controls whether selection UI is shown and whether all rows are selected during initialization.</div>
-                        <div>For selectAllOnInit: true selects all, false clears all, and null leaves the current state unchanged.</div>
+                        <div>控制是否显示选择相关 UI，以及是否在初始化时全选行。</div>
+                        <div>对于 selectAllOnInit：true 表示全选，false 表示取消全选，null 表示保持当前状态不变。</div>
 
                         <a name="options.selectMultiple">selectMultiple = true</a>
-                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                        <div>示例 <a href="row-select.html" target="_blank">行选择</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.rowNumberVisible">rowNumberVisible = false</a>
-                        <div>Shows or hides the built-in row number column.</div>
-                        <div>Demo <a href="row-number.html" target="_blank">Row Number</a></div>
+                        <div>显示或隐藏内置行号列。</div>
+                        <div>示例 <a href="row-number.html" target="_blank">行号</a></div>
                     </section>
 
                     <section>
                         <a name="options.rowNotFound">rowNotFound = ''</a>
-                        <div>Sets the empty-state content. Accepts an empty string, string, element, or function.</div>
-                        <div>Demo <a href="row-not-found.html" target="_blank">Row Not Found</a></div>
+                        <div>设置空状态内容。支持空字符串、字符串、DOM 元素或函数。</div>
+                        <div>示例 <a href="row-not-found.html" target="_blank">空结果提示</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.rowDragCrossLevel">rowDragCrossLevel = true</a>
-                        <div>Controls whether dragged rows can move across levels. Accepts a boolean or a function that returns the allowed drop list.</div>
-                        <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                        <div>控制拖拽行是否允许跨层级移动。支持布尔值，或返回允许落点列表的函数。</div>
+                        <div>示例 <a href="row-drag.html" target="_blank">行拖拽</a></div>
                     </section>
                     
 
 
                     <section>
                         <a name="options.rowMoveCrossLevel">rowMoveCrossLevel = true</a>
-                        <div>Controls whether move APIs can move rows across hierarchy levels.</div>
-                        <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
+                        <div>控制行移动相关 API 是否允许跨层级移动。</div>
+                        <div>示例 <a href="row-move.html" target="_blank">行移动</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.sortField">sortField = ""</a>
-                        <div>Specifies the field used for sorting comparisons.</div>
+                        <div>指定排序比较时使用的字段。</div>
 
                         <a name="options.sortAsc">sortAsc = true</a>
-                        <div>true sorts ascending; false sorts descending.</div>
+                        <div>true 为升序，false 为降序。</div>
 
                         <a name="options.sortBlankValueBottom">sortBlankValueBottom = true</a>
-                        <div>Controls how blank values are positioned during sorting.</div>
-                        <div>true keeps rows with blank values at the bottom of the grid.</div>
-                        <div>false places blank values at the bottom for descending sort and at the top for ascending sort.</div>
+                        <div>控制空值在排序时的位置。</div>
+                        <div>true 表示空值行始终排在表格底部。</div>
+                        <div>false 表示降序时空值排到底部，升序时空值排到顶部。</div>
 
                         <a name="options.sortOnInit">sortOnInit = false</a>
-                        <div>When true, the grid sorts by sortField during initialization.</div>
+                        <div>为 true 时，Grid 会在初始化时按 sortField 排序。</div>
 
                         <a name="options.sortIndicator">sortIndicator = "h"</a>
-                        <div>Sets the sort indicator style: "h" or "v".</div>
+                        <div>设置排序指示器样式："h" 或 "v"。</div>
 
                         <a name="options.sortComparers">sortComparers = {defaultSortComparers}</a>
-                        <div>Provides custom comparer functions for sorting.</div>
-                        <div>Demo <a href="sort.html" target="_blank">Row Sort</a></div>
+                        <div>提供自定义排序比较函数。</div>
+                        <div>示例 <a href="sort.html" target="_blank">行排序</a></div>
                     </section>
                     
 
                     <section>
                         <a name="options.rowFilter">rowFilter</a>
                         <a name="options.rowFilteredSort">rowFilteredSort = null</a>
-                        <div>Filters rows before rendering and optionally sorts filtered matches.</div>
-                        <div>Demo <a href="row-filter.html" target="_blank">Row Filter</a></div>
+                        <div>在渲染前过滤行，并可选择对过滤结果进行排序。</div>
+                        <div>示例 <a href="row-filter.html" target="_blank">行过滤</a></div>
                     </section>
 
                     <section>
                         <a name="options.columnTypes">columnTypes = {...}</a>
-                        <div>Defines preset column types and id-to-type mappings.</div>
+                        <div>定义预设列类型，以及 id 到类型的映射关系。</div>
                     </section>
                     
 
@@ -1368,28 +1368,28 @@
                         <pre><code class="language-js">
                                 {
 
-                                    //selected: Boolean
-                                    //collapsed: Boolean
+                                    //selected: 布尔值
+                                    //collapsed: 布尔值
                                 
                                     //selectable : true
                                     //exportable: true
                                 
-                                    //sortFixed: [Boolean, String "top"]
+                                    //sortFixed: [布尔值, 字符串 "top"]
                                 
-                                    // customize row style
-                                    //classMap : [String, Array, Object]
-                                    //styleMap : [String, Array, Object]
-                                    //[columnId]ClassMap: [String, Array, Object]
-                                    //[columnId]StyleMap: [String, Array, Object]
+                                    // 自定义行样式
+                                    //classMap : [字符串, 数组, 对象]
+                                    //styleMap : [字符串, 数组, 对象]
+                                    //[columnId]ClassMap: [字符串, 数组, 对象]
+                                    //[columnId]StyleMap: [字符串, 数组, 对象]
                                 
-                                    // row type for class name: group
-                                    //type: String
+                                    // 用于类名的行类型，例如 group
+                                    //type: 字符串
                                 
-                                    //formatter: [String, Function]
+                                    //formatter: [字符串, 函数]
                                 
-                                    //height: Number
+                                    //height: 数字
                                 
-                                    //subs: Array
+                                    //subs: 数组
                                 }
                         </code></pre>
                     </section>
@@ -1399,32 +1399,32 @@
                         <pre><code class="language-js">
                                 {
 
-                                    // require for showing header
+                                    // 显示表头时必填
                                     name: '',
 
-                                    // for getting row value
-                                    //id: String
+                                    // 用于读取行数据的字段键
+                                    //id: 字符串
 
-                                    // expect to be a string, for example: "string", "number", "date" etc.
-                                    //type: String
+                                    // 预期为字符串，例如："string"、"number"、"date" 等
+                                    //type: 字符串
 
-                                    // formatter expect to be a function, but also can be a string like type
-                                    // priority is higher than type
-                                    // be used for cell formatting
-                                    //formatter: [String, Function]
-                                    //headerFormatter: [String, Function]
+                                    // formatter 通常是函数，也可以是类似 type 的字符串
+                                    // 优先级高于 type
+                                    // 用于单元格格式化
+                                    //formatter: [字符串, 函数]
+                                    //headerFormatter: [字符串, 函数]
 
-                                    // comparer function when sort function(a, b, options)
-                                    //comparer: [String, Function]
+                                    // 排序时使用的比较函数 function(a, b, options)
+                                    //comparer: [字符串, 函数]
 
-                                    // left (default) | center | right
-                                    //align: String
+                                    // left（默认）| center | right
+                                    //align: 字符串
 
-                                    // customize column style
-                                    //classMap: [String, Array, Object]
-                                    //styleMap: [String, Array, Object]
-                                    //headerClassMap: [String, Array, Object]
-                                    //headerStyleMap: [String, Array, Object]
+                                    // 自定义列样式
+                                    //classMap: [字符串, 数组, 对象]
+                                    //styleMap: [字符串, 数组, 对象]
+                                    //headerClassMap: [字符串, 数组, 对象]
+                                    //headerStyleMap: [字符串, 数组, 对象]
 
                                     //sortable: true
                                     //resizable: true
@@ -1432,14 +1432,14 @@
 
                                     //private: false
 
-                                    // require for column resize
+                                    // 列宽调整时常用
                                     minWidth: 81,
                                     maxWidth: 300
 
-                                    //width: Number
-                                    //height: Number
+                                    //width: 数字
+                                    //height: 数字
 
-                                    //subs: Array
+                                    //subs: 数组
                                     
                                 }
                         </code></pre>
@@ -1453,57 +1453,57 @@
                         <a name="options.frozenColumnMax">frozenColumnMax = 10</a>
                         <a name="options.frozenRowMax">frozenRowMax = 10</a>
                         <a name="options.frozenRowHoverable">frozenRowHoverable = false</a>
-                        <div>Configures frozen rows and columns. frozenRowHoverable enables hover styles and hover events on frozen rows.</div>
-                        <div>Demo <a href="frozen.html" target="_blank">Frozen</a></div>
+                        <div>配置冻结行和冻结列。frozenRowHoverable 用于开启冻结行的悬停样式和悬停事件。</div>
+                        <div>示例 <a href="frozen.html" target="_blank">冻结</a></div>
                     </section>
 
                     <section>
                         <a name="options.scrollbarSize">scrollbarSize = 12</a>
                         <a name="options.scrollbarSizeH">scrollbarSizeH = null</a>
                         <a name="options.scrollbarSizeV">scrollbarSizeV = null</a>
-                        <div>Sets the base scrollbar thickness.</div>
+                        <div>设置滚动条基础厚度。</div>
 
                         <a name="options.scrollbarRound">scrollbarRound = false</a>
-                        <div>Enables rounded scrollbar styling.</div>
+                        <div>启用圆角滚动条样式。</div>
 
                         <a name="options.scrollbarFade">scrollbarFade = false</a>
-                        <div>Enables scrollbar fade-in and fade-out behavior.</div>
+                        <div>启用滚动条淡入淡出效果。</div>
 
                         <a name="options.scrollbarFadeTimeout">scrollbarFadeTimeout = 1000</a>
-                        <div>Sets the delay before faded scrollbars are hidden.</div>
+                        <div>设置淡出滚动条隐藏前的延迟时间。</div>
 
                         <a name="options.scrollbarType">scrollbarType = "auto"</a>
-                        <div>Sets the scrollbar preset: auto or mobile, where mobile enables fade and uses size 6.</div>
+                        <div>设置滚动条预设：auto 或 mobile，其中 mobile 会启用淡出效果并将尺寸设为 6。</div>
 
                         <a name="options.scrollPaneMinWidth">scrollPaneMinWidth = 30</a>
-                        <div>Sets the minimum width of the scroll pane.</div>
+                        <div>设置滚动面板的最小宽度。</div>
                         <a name="options.scrollPaneGradient">scrollPaneGradient = false</a>
-                        <div>Enables a gradient mask on the scroll pane edges.</div>
-                        <div>Demo <a href="scrollbar.html" target="_blank">Scrollbar</a></div>
+                        <div>在滚动面板边缘启用渐变遮罩。</div>
+                        <div>示例 <a href="scrollbar.html" target="_blank">滚动条</a></div>
                     </section>
 
                     <section>
                         <a name="options.rowDragVisible">rowDragVisible = false</a>
                         <a name="options.rowDragColumn">rowDragColumn = {...}</a>
-                        <div>Enables built-in row drag handles and configures the drag column.</div>
+                        <div>启用内置行拖拽手柄，并配置拖拽列。</div>
                     </section>
 
                     <section>
                         <a name="options.rowNumberWidth">rowNumberWidth = 36</a>
                         <a name="options.rowNumberFilter">rowNumberFilter = null</a>
                         <a name="options.rowNumberColumn">rowNumberColumn = {...}</a>
-                        <div>Configures the built-in row number column.</div>
+                        <div>配置内置行号列。</div>
                     </section>
 
                     <section>
                         <a name="options.selectColumn">selectColumn = {...}</a>
                         <a name="options.blankColumn">blankColumn = {...}</a>
-                        <div>Configures the built-in private columns used for selection and layout filling.</div>
+                        <div>配置用于选择和布局填充的内置私有列。</div>
                     </section>
 
                     <section>
                         <a name="options.highlightKeywords">highlightKeywords = {...}</a>
-                        <div>Configures how matched keywords are extracted and wrapped with highlight markup.</div>
+                        <div>配置匹配关键字的提取方式，以及高亮标记的包裹方式。</div>
                         <a name="options.highlightKeywords.textKey">textKey = "tg_text_"</a>
                         <a name="options.highlightKeywords.textGenerator">textGenerator = null</a>
                         <a name="options.highlightKeywords.highlightKey">highlightKey = "tg_highlight_"</a>
@@ -1513,37 +1513,37 @@
 
                     <section>
                         <a name="options.textSelectable">textSelectable = false</a>
-                        <div>Allows text selection inside grid cells.</div>
+                        <div>允许在表格单元格内选中文本。</div>
                     </section>
 
                     <section>
                         <a name="options.bindWindowResize">bindWindowResize = false</a>
-                        <div>Binds window resize and calls resize automatically.</div>
+                        <div>绑定 window resize，并自动调用 resize。</div>
                         <a name="options.bindContainerResize">bindContainerResize = false</a>
-                        <div>Uses ResizeObserver to watch container size and call resize automatically.</div>
-                        <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                        <div>使用 ResizeObserver 监听容器尺寸变化，并自动调用 resize。</div>
+                        <div>示例 <a href="resize.html" target="_blank">尺寸调整</a></div>
                     </section>
 
                     <section>
                         <a name="options.cellResizeObserver">cellResizeObserver = null</a>
-                        <div>Filters which cells are observed for size changes. Requires ResizeObserver.</div>
-                        <div>Demo <a href="row-height.html" target="_blank">Row Height</a></div>
+                        <div>过滤需要监听尺寸变化的单元格。依赖 ResizeObserver。</div>
+                        <div>示例 <a href="row-height.html" target="_blank">行高</a></div>
                     </section>
                     
                 </details>
 
                 <details open class="events">
                     <summary>
-                        <a name="events">Events</a>
+                        <a name="events">事件</a>
                         <span class="total"></span>
                     </summary>
 
                     <section>
                         <table class="api-table api-table-zebra">
                             <tr>
-                                <th>Event Type</th>
-                                <th>Event Data</th>
-                                <th>Example</th>
+                                <th>事件类型</th>
+                                <th>事件数据</th>
+                                <th>示例</th>
                             </tr>
             
                             <tr>
@@ -1555,11 +1555,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: viewport
+                                        对象：viewport
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1571,13 +1571,13 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             node: headerNode
                                         }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1589,7 +1589,7 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                    Object: {
+                                    对象：{
                                         e,
                                         columnItem,
                                         node: headerItemNode
@@ -1597,7 +1597,7 @@
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="sort.html" target="_blank">Sort</a></div>
+                                    <div>示例 <a href="sort.html" target="_blank">行排序</a></div>
                                 </td>
                             </tr>
             
@@ -1611,11 +1611,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Array: [columnItem ...]
+                                        数组：[columnItem ...]
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="column-add-delete.html" target="_blank">Column Add/Delete</a></div>
+                                    <div>示例 <a href="column-add-delete.html" target="_blank">列新增/删除</a></div>
                                 </td>
                             </tr>
             
@@ -1627,11 +1627,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: columnItem
+                                        对象：columnItem
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1644,11 +1644,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Array: [rowItem ...]
+                                        数组：[rowItem ...]
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="row-add-delete.html" target="_blank">Row Add/Delete</a></div>
+                                    <div>示例 <a href="row-add-delete.html" target="_blank">行新增/删除</a></div>
                                 </td>
                             </tr>
             
@@ -1661,11 +1661,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: rowItem
+                                        对象：rowItem
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1677,11 +1677,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: rowItem
+                                        对象：rowItem
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="load-subs.html" target="_blank">Dynamic Load Subs</a></div>
+                                    <div>示例 <a href="load-subs.html" target="_blank">动态加载子项</a></div>
                                 </td>
                             </tr>
             
@@ -1694,14 +1694,14 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             e,
                                             rowItem
                                         }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                                    <div>示例 <a href="row-drag.html" target="_blank">行拖拽</a></div>
                                 </td>
                             </tr>
                             <tr>
@@ -1712,7 +1712,7 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             rowItem,
                                             dragFrom,
                                             dragIndex,
@@ -1722,7 +1722,7 @@
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                                    <div>示例 <a href="row-drag.html" target="_blank">行拖拽</a></div>
                                 </td>
                             </tr>
             
@@ -1734,11 +1734,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Array: [rowItem ...]
+                                        数组：[rowItem ...]
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
+                                    <div>示例 <a href="row-move.html" target="_blank">行移动</a></div>
                                 </td>
                             </tr>
             
@@ -1751,14 +1751,14 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             e,
                                             rowItem
                                         }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1770,11 +1770,11 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Array [rowItem ...]
+                                        数组：[rowItem ...]
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                                    <div>示例 <a href="row-select.html" target="_blank">行选择</a></div>
                                 </td>
                             </tr>
             
@@ -1787,7 +1787,7 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             value,
                                             rowItem,
                                             columnItem,
@@ -1796,7 +1796,7 @@
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1809,7 +1809,7 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             e,
                                             rowItem,
                                             columnItem,
@@ -1819,7 +1819,7 @@
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1835,14 +1835,14 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        //on header
-                                        Object: {
+                                        // 表头区域
+                                        对象：{
                                             e,
                                             columnItem,
                                             headerNode
                                         }
-                                        //on body
-                                        Object: {
+                                        // 主体区域
+                                        对象：{
                                             e,
                                             rowItem,
                                             columnItem,
@@ -1852,7 +1852,7 @@
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
 
@@ -1866,14 +1866,14 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        //on header
-                                        Object: {
+                                        // 表头区域
+                                        对象：{
                                             e,
                                             columnItem?,
                                             headerNode?
                                         }
-                                        //on body
-                                        Object: {
+                                        // 主体区域
+                                        对象：{
                                             e,
                                             rowItem?,
                                             columnItem?,
@@ -1883,7 +1883,7 @@
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="touch.html" target="_blank">Touch</a></div>
+                                    <div>示例 <a href="touch.html" target="_blank">触摸</a></div>
                                 </td>
                             </tr>
             
@@ -1895,14 +1895,14 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             scrollLeft,
                                             scrollTop
                                         }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                                    <div>示例 <a href="scroll.html" target="_blank">滚动</a></div>
                                 </td>
                             </tr>
             
@@ -1914,14 +1914,14 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                    Object: {
+                                    对象：{
                                         hasHScroll,
                                         hasVScroll
                                     }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -1933,7 +1933,7 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                    Object: {
+                                    对象：{
                                         e,
                                         deltaX,
                                         deltaY
@@ -1941,7 +1941,7 @@
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                                    <div>示例 <a href="scroll.html" target="_blank">滚动</a></div>
                                 </td>
                             </tr>
             
@@ -1953,15 +1953,15 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
-                                            previous: Object,
-                                            width: Number, 
-                                            height: Number
+                                        对象：{
+                                            previous: 对象,
+                                            width: 数字, 
+                                            height: 数字
                                         }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                                    <div>示例 <a href="resize.html" target="_blank">尺寸调整</a></div>
                                 </td>
                             </tr>
             
@@ -1973,19 +1973,19 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
-                                            previous: Object,
-                                            headerWidth: Number, 
-                                            headerHeight: Number, 
-                                            bodyWidth: Number, 
-                                            bodyHeight: Number,
-                                            scrollbarWidth: Number,
-                                            scrollbarHeight: Number
+                                        对象：{
+                                            previous: 对象,
+                                            headerWidth: 数字, 
+                                            headerHeight: 数字, 
+                                            bodyWidth: 数字, 
+                                            bodyHeight: 数字,
+                                            scrollbarWidth: 数字,
+                                            scrollbarHeight: 数字
                                         }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                                    <div>示例 <a href="resize.html" target="_blank">尺寸调整</a></div>
                                 </td>
                             </tr>
             
@@ -1997,13 +1997,13 @@
                                 </td>
                                 <td>
                                     <pre><code class="language-js">
-                                        Object: {
+                                        对象：{
                                             e
                                         }
                                     </code></pre>
                                 </td>
                                 <td>
-                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                    <div>示例 <a href="events.html" target="_blank">事件</a></div>
                                 </td>
                             </tr>
             
@@ -2014,9 +2014,9 @@
                                         <a name="onDestroy">onDestroy</a>
                                     </section>
                                 </td>
-                                <td>N/A</td>
+                                <td>无</td>
                                 <td>
-                                    <div>Demo <a href="flush.html" target="_blank">Flush</a></div>
+                                    <div>示例 <a href="flush.html" target="_blank">刷新</a></div>
                                 </td>
                             </tr>
             
@@ -2027,44 +2027,44 @@
 
                 <details open class="lifecycle">
                     <summary>
-                        <a name="lifecycle">Lifecycle</a>
+                        <a name="lifecycle">生命周期</a>
                     </summary>
 
                     <section>
                         <table class="api-table">
                             <tr>
-                                <th>Phases</th>
-                                <th colspan="2">Sub Phases</th>
-                                <th>Payload</th>
-                                <th>Capacity</th>
+                                <th>阶段</th>
+                                <th colspan="2">子阶段</th>
+                                <th>负载</th>
+                                <th>可用能力</th>
                                 <th></th>
                             </tr>
                             <tr>
-                                <td>create</td>
+                                <td>创建</td>
                                 <td colspan="2">
-                                    <div>Create styles and DOM structure inside the container.</div>
-                                    <div>Apply initial data.</div>
-                                    <div>Apply initial options.</div>
-                                    <div>Register initial formatters.</div>
-                                    <div>Bind initial event handlers.</div>
+                                    <div>在容器内创建样式和 DOM 结构。</div>
+                                    <div>应用初始数据。</div>
+                                    <div>应用初始配置。</div>
+                                    <div>注册初始格式化器。</div>
+                                    <div>绑定初始事件处理函数。</div>
                                 </td>
-                                <td>low</td>
-                                <td>loading APIs</td>
+                                <td>低</td>
+                                <td>加载相关 API</td>
                                 <td>
                                     <pre><code class="language-js">
                                         const grid = new Grid(container);
                                         grid.setData(data);
                                         grid.setOption(options);
                                         grid.setFormatter(formatters);
-                                        grid.bind("[event type]", handler);
+                                        grid.bind("[事件类型]", handler);
                                     </code></pre>
                                 </td>
                             </tr>
                             <tr>
-                                <td rowspan="4">render</td>
-                                <td colspan="2">init options</td>
-                                <td>low</td>
-                                <td rowspan="5">all APIs</td>
+                                <td rowspan="4">渲染</td>
+                                <td colspan="2">初始化配置</td>
+                                <td>低</td>
+                                <td rowspan="5">全部 API</td>
                                 <td rowspan="4">
                                     <pre><code class="language-js">
                                         grid.render();
@@ -2073,25 +2073,25 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">render header</td>
-                                <td>middle</td>
+                                <td colspan="2">渲染表头</td>
+                                <td>中</td>
                             </tr>
                             <tr>
-                                <td rowspan="2">render body</td>
-                                <td>render rows</td>
-                                <td>middle</td>
+                                <td rowspan="2">渲染主体</td>
+                                <td>渲染行</td>
+                                <td>中</td>
                             </tr>
                             <tr>
-                                <td>render cells</td>
-                                <td>high</td>
+                                <td>渲染单元格</td>
+                                <td>高</td>
                             </tr>
             
                             <tr>
-                                <td>update</td>
+                                <td>更新</td>
                                 <td colspan="2">
-                                    <div>Update the grid body.</div>
-                                    <div>Update one or more rows.</div>
-                                    <div>Update one or more cells.</div>
+                                    <div>更新表格主体。</div>
+                                    <div>更新一行或多行。</div>
+                                    <div>更新一个或多个单元格。</div>
                                 </td>
                                 <td></td>
                                 <td>
@@ -2104,10 +2104,10 @@
                             </tr>
             
                             <tr>
-                                <td>destroy</td>
-                                <td colspan="2">remove all</td>
-                                <td>low</td>
-                                <td>none</td>
+                                <td>销毁</td>
+                                <td colspan="2">移除全部内容</td>
+                                <td>低</td>
+                                <td>无</td>
                                 <td>
                                     <pre><code class="language-js">
                                         grid.destroy();
@@ -2125,21 +2125,21 @@
                     </summary>
 
                     <section>
-                        <div>"tg" is the grid prefix and internal namespace.</div>
-                        <div>Common CSS class names:</div>
+                        <div>“tg” 是 Grid 的前缀和内部命名空间。</div>
+                        <div>常见 CSS 类名：</div>
                         <pre><code class="language-css">
                             .tg-pane {}
                             .tg-body{}
                             .tg-row{}
                             .tg-cell{}
                         </code></pre>
-                        <div>Common private properties:</div>
+                        <div>常见私有属性：</div>
                         <pre><code class="language-js">
                             //rowItem.tg_index
                             //rowItem.tg_level
                             //rowItem.tg_group
                         </code></pre>
-                        <div>These private properties are removed when calling <a href="#exportData">exportData()</a>.</div>
+                        <div>调用 <a href="#exportData">exportData()</a> 时，这些私有属性会被移除。</div>
                     </section>
                 </details>
 
@@ -2154,7 +2154,7 @@
                 if (node.nodeName.toLowerCase() === 'details') {
                     const $summary = node.querySelector('summary');
                     const $a = $summary.querySelector('a');
-                    const name = $a.innerText.toLowerCase();
+                    const name = node.className || $a.innerText.toLowerCase();
                     if (!searchMap[name]) {
                         searchMap[name] = {
                             node: $summary,
@@ -2173,7 +2173,7 @@
                 const item = searchMap[k];
                 const $total = item.node.querySelector('.total');
                 if ($total) {
-                    $total.innerHTML = `(Total: ${item.value})`;
+                    $total.innerHTML = `(总数: ${item.value})`;
                 }
             }
         };
@@ -2289,7 +2289,7 @@
                 }
 
                 if (!$searchList.innerHTML) {
-                    $searchList.innerHTML = '<div class="api-search-info">No Results</div>';
+                    $searchList.innerHTML = '<div class="api-search-info">无结果</div>';
                 }
 
                 $searchList.style.display = 'block';
@@ -2403,3 +2403,4 @@
 </body>
 
 </html>
+

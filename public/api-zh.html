@@ -510,9 +510,10 @@
                     </section>
 
                     <section>
-                        <a name="bind">bind(eventType, handler)</a>
+                        <a name="bind">bind(eventType, handler[, options])</a>
                         <div>为表格绑定事件处理函数。支持的事件类型请参见 <a href="#events">事件</a>。</div>
                         <div>eventType 可以是单个事件名、由空格分隔的多个事件名，或事件名到处理函数的对象映射。也支持 `onUpdated.demo` 这类带命名空间的事件名。</div>
+                        <div>可通过 options 传入诸如 { once: true } 之类的监听配置。</div>
                         <pre><code class="language-js">
                             grid.bind("onUpdated", function(e, d){
                                 //console.log(d);
@@ -533,7 +534,7 @@
                     </section>
 
                     <section>
-                        <a name="unbind">unbind([eventType][, handler])</a>
+                        <a name="unbind">unbind([eventType][, handler][, options])</a>
                         <div>移除之前绑定到表格上的事件处理函数。</div>
                         <div>不传参数时会移除全部处理函数；传入事件名或命名空间时移除匹配项；同时传入 eventType 和 handler 时移除指定绑定。</div>
                         <pre><code class="language-js">
@@ -588,7 +589,7 @@
                         </code></pre>
                         <div>示例 <a href="resize.html" target="_blank">尺寸调整</a></div>
                     </section>
-                    
+
                     <section>
                         <a name="destroy">destroy()</a>
                         <div>销毁 Grid 实例，并移除生成的 DOM、观察器和事件绑定。</div>
@@ -827,7 +828,7 @@
                         <pre><code class="language-js">
                             grid.setRowSelected(rowIndex);
                             grid.setRowSelected(rowIndex, false);
-                            grid.setRowSelected();
+                            grid.setRowSelected(false);
                         </code></pre>
                         <div>示例 <a href="row-select.html" target="_blank">行选择</a></div>
                     </section>
@@ -969,14 +970,25 @@
                         <a name="updateRow">updateRow(rowIndex[, rowData])</a>
                         <a name="updateCell">updateCell(rowIndex, columnIndex[, cellValue])</a>
                         <a name="update">update()</a>
+                        <a name="flushBody">flushBody()</a>
+                        <a name="flushSort">flushSort()</a>
                         <a name="flushRow">flushRow(viewRowIndex)</a>
+                        <a name="flushRowFrom">flushRowFrom(viewRowIndex)</a>
+                        <a name="flushColumn">flushColumn(viewColumnIndex)</a>
+                        <a name="flushColumnFrom">flushColumnFrom(viewColumnIndex)</a>
                         <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
                         <div>updateRow 支持将部分 rowData 合并到现有行数据中。</div>
                         <div>updateCell 会按常规的行列定位规则解析 rowIndex 和 columnIndex。省略 rowData 或 cellValue 时，会基于现有数据重新渲染对应内容。</div>
-                        <div>flushRow 和 flushCell 使用 view 索引（tg_view_index），而不是源数据索引。</div>
+                        <div>flushBody 会清空所有行渲染缓存。flushSort 会清理排序后使用的行缓存。</div>
+                        <div>flushRow、flushRowFrom、flushColumn、flushColumnFrom 和 flushCell 使用的都是 view 索引（tg_view_index），而不是源数据索引。</div>
                         <pre><code class="language-js">
                             grid.update();
+                            grid.flushBody();
+                            grid.flushSort();
                             grid.flushRow(viewRowIndex);
+                            grid.flushRowFrom(viewRowIndex);
+                            grid.flushColumn(viewColumnIndex);
+                            grid.flushColumnFrom(viewColumnIndex);
                             grid.flushCell(viewRowIndex, viewColumnIndex);
                             grid.updateRow(rowIndex);
                             grid.updateRow(rowIndex, rowData);
@@ -1066,6 +1078,14 @@
                         <div>传入 container 时，可将查询范围限制在 grid 内部的某个特定节点下。</div>
                         <pre><code class="language-js">
                             const nodes = grid.find(".selector-name");
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getRowNodes">getRowNodes(rowIndex)</a>
+                        <div>返回指定行当前已渲染的 DOM 节点集合。</div>
+                        <div>返回值是 Query 集合，适合处理同一行同时出现在多个 pane 中的情况。</div>
+                        <pre><code class="language-js">
+                            const rowNodes = grid.getRowNodes(rowIndex);
                         </code></pre>
                     </section>
                     <section>

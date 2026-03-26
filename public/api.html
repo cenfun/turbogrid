@@ -510,9 +510,10 @@
                     </section>
 
                     <section>
-                        <a name="bind">bind(eventType, handler)</a>
+                        <a name="bind">bind(eventType, handler[, options])</a>
                         <div>Binds an event handler to the grid. See <a href="#events">events</a> for supported event types.</div>
                         <div>eventType can be a single event name, multiple names separated by spaces, or an object map of event names to handlers. Namespaced events such as onUpdated.demo are supported.</div>
+                        <div>Use options such as { once: true } to control listener behavior.</div>
                         <pre><code class="language-js">
                             grid.bind("onUpdated", function(e, d){
                                 //console.log(d);
@@ -533,7 +534,7 @@
                     </section>
 
                     <section>
-                        <a name="unbind">unbind([eventType][, handler])</a>
+                        <a name="unbind">unbind([eventType][, handler][, options])</a>
                         <div>Removes previously bound event handlers from the grid.</div>
                         <div>Call without arguments to remove all handlers, with an event name or namespace to remove matching handlers, or with both eventType and handler to remove a specific binding.</div>
                         <pre><code class="language-js">
@@ -588,7 +589,7 @@
                         </code></pre>
                         <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
                     </section>
-                    
+
                     <section>
                         <a name="destroy">destroy()</a>
                         <div>Destroys the grid instance and removes generated DOM, observers, and event bindings.</div>
@@ -827,7 +828,7 @@
                         <pre><code class="language-js">
                             grid.setRowSelected(rowIndex);
                             grid.setRowSelected(rowIndex, false);
-                            grid.setRowSelected();
+                            grid.setRowSelected(false);
                         </code></pre>
                         <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
                     </section>
@@ -969,14 +970,25 @@
                         <a name="updateRow">updateRow(rowIndex[, rowData])</a>
                         <a name="updateCell">updateCell(rowIndex, columnIndex[, cellValue])</a>
                         <a name="update">update()</a>
+                        <a name="flushBody">flushBody()</a>
+                        <a name="flushSort">flushSort()</a>
                         <a name="flushRow">flushRow(viewRowIndex)</a>
+                        <a name="flushRowFrom">flushRowFrom(viewRowIndex)</a>
+                        <a name="flushColumn">flushColumn(viewColumnIndex)</a>
+                        <a name="flushColumnFrom">flushColumnFrom(viewColumnIndex)</a>
                         <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
                         <div>updateRow merges partial rowData into the existing row.</div>
                         <div>updateCell reads rowIndex and columnIndex using the normal row and column lookup rules. Omitting rowData or cellValue rerenders the existing data.</div>
-                        <div>flushRow and flushCell use view indexes (tg_view_index), not source indexes.</div>
+                        <div>flushBody clears all cached row renders. flushSort clears the row cache used after sorting.</div>
+                        <div>flushRow, flushRowFrom, flushColumn, flushColumnFrom, and flushCell use view indexes (tg_view_index), not source indexes.</div>
                         <pre><code class="language-js">
                             grid.update();
+                            grid.flushBody();
+                            grid.flushSort();
                             grid.flushRow(viewRowIndex);
+                            grid.flushRowFrom(viewRowIndex);
+                            grid.flushColumn(viewColumnIndex);
+                            grid.flushColumnFrom(viewColumnIndex);
                             grid.flushCell(viewRowIndex, viewColumnIndex);
                             grid.updateRow(rowIndex);
                             grid.updateRow(rowIndex, rowData);
@@ -1066,6 +1078,14 @@
                         <div>Pass container to limit the query to a specific node inside the grid.</div>
                         <pre><code class="language-js">
                             const nodes = grid.find(".selector-name");
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getRowNodes">getRowNodes(rowIndex)</a>
+                        <div>Returns the rendered DOM nodes for the specified row.</div>
+                        <div>The return value is a Query collection, which is useful when the same row is rendered in multiple panes.</div>
+                        <pre><code class="language-js">
+                            const rowNodes = grid.getRowNodes(rowIndex);
                         </code></pre>
                     </section>
                     <section>

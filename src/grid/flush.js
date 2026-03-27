@@ -92,15 +92,18 @@ export default {
     // clean handler, remove out of viewport
     flushWithViewport: function() {
         const { rows, columns } = this.viewport;
+        const rowSet = new Set(rows);
+        const columnSet = new Set(columns);
+
         this.forEachRowsCache((row, rowNodes, cellNodes, observerNodes) => {
-            if (!rows.includes(row)) {
+            if (!rowSet.has(row)) {
                 // remove out of rows (include all columns)
                 this.deleteRowCache(row);
                 return;
             }
             // remove out of columns
             cellNodes.forEach((cellNode, column) => {
-                if (!columns.includes(column)) {
+                if (!columnSet.has(column)) {
                     this.deleteCellCache(column, cellNodes, observerNodes);
                 }
             });

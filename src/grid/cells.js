@@ -4,9 +4,9 @@ import Util from '../core/util.js';
 export default {
 
     renderCells: function(rows, columns) {
-        rows.forEach((row) => {
-            this.drawRowCells(row, columns);
-        });
+        for (let i = 0, l = rows.length; i < l; i++) {
+            this.drawRowCells(rows[i], columns);
+        }
     },
 
     getCellValue: function(rowItem, columnItem) {
@@ -55,37 +55,22 @@ export default {
 
     },
 
-    getPreRenderColumnList: function(row, columns) {
-        const list = [];
-        if (!columns.length) {
-            return list;
-        }
-
-        for (let i = 0, l = columns.length; i < l; i++) {
-            const column = columns[i];
-            const cellNode = this.getCellNodeByIndex(row, column);
-            if (!cellNode) {
-                list.push(column);
-            }
-        }
-        return list;
-    },
-
     drawRowCells: function(row, columns) {
-        const list = this.getPreRenderColumnList(row, columns);
-        if (!list.length) {
+        const len = columns.length;
+        if (!len) {
             return;
         }
 
-        // console.log(columns, list);
-
-        list.forEach((column) => {
+        for (let i = 0; i < len; i++) {
+            const column = columns[i];
+            if (this.getCellNodeByIndex(row, column)) {
+                continue;
+            }
             this.createCellNode(row, column);
-        });
+        }
     },
 
     getCellClass: function(rowItem, columnItem, resizable) {
-
         const column = columnItem.tg_view_index;
 
         const list = ['tg-cell'];

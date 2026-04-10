@@ -217,16 +217,15 @@ export default {
     },
 
     isInvisible: function(item) {
-        if (!item) {
-            return false;
-        }
-        // filtered: temporary state
-        // invisible: from user
-        if (item.tg_filtered || item.tg_invisible) {
-            return true;
-        }
-        if (this.isInvisible(item.tg_parent)) {
-            return true;
+        // walk up the parent chain iteratively
+        let current = item;
+        while (current) {
+            // filtered: temporary state
+            // invisible: from user
+            if (current.tg_filtered || current.tg_invisible) {
+                return true;
+            }
+            current = current.tg_parent;
         }
         return false;
     },

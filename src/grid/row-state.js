@@ -26,7 +26,7 @@ export default {
         }
 
         if (this.rowHoverable === false) {
-            return;
+            return this;
         }
 
         if (rowItem.hoverable === false) {

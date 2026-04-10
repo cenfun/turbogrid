@@ -101,7 +101,7 @@ export default {
             scrollbarHeight: this.getScrollbarHeight()
         };
 
-        if (Object.values(layout).join('') === Object.values(previousLayout).join('')) {
+        if (Object.values(layout).join(',') === Object.values(previousLayout).join(',')) {
             return;
         }
 
@@ -119,7 +119,7 @@ export default {
             height: this.containerHeight
         };
 
-        if (Object.values(size).join('') === Object.values(previousSize).join('')) {
+        if (Object.values(size).join(',') === Object.values(previousSize).join(',')) {
             return;
         }
 

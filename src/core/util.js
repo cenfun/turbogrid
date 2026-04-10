@@ -59,7 +59,7 @@ const Util = {
     convertNum: function(str) {
         if (typeof str === 'string') {
             // keep string if can not be converted
-            const reg = /^[-+]?\d+(\.\d+)?$/ig;
+            const reg = /^[-+]?\d+(\.\d+)?$/;
             if (reg.test(str)) {
                 return parseFloat(str);
             }

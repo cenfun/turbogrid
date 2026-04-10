@@ -90,18 +90,12 @@ export default {
         }
 
         const changedList = [];
-        // unselected
+        // unselected previous
         const previousRow = this.getSelectedRow();
-        if (previousRow && previousRow.selected) {
+        if (previousRow) {
             changedList.push(previousRow);
         }
-        if (!rowItem.selected) {
-            changedList.push(rowItem);
-        }
-
-        if (!changedList.length) {
-            return this;
-        }
+        changedList.push(rowItem);
 
         this.updateRowsSelectedState(changedList);
 
@@ -287,12 +281,13 @@ export default {
 
     getSelectAllState: function() {
         let total = 0;
+        let selectedLength = 0;
         this.forEachSelectableRow((item) => {
             total += 1;
+            if (item.selected) {
+                selectedLength += 1;
+            }
         });
-
-        const selectedRows = this.getSelectedRows();
-        const selectedLength = selectedRows.length;
 
         // empty means mixed
         let selectAllState = 'mixed';

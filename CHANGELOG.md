@@ -1,5 +1,9 @@
 # Changelog
 
++ 3.2.3
+    - fixed performance
+    - updated docs
+
 + 3.2.2
     - fixed frozenRight and scrollToLastColumn
 

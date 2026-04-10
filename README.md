@@ -1,3 +1,5 @@
+![TurboGrid](public/assets/images/logo.svg)
+
 # TurboGrid
 
 🌐 English | [简体中文](README.zh-Hans.md)

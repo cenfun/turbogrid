@@ -5,9 +5,10 @@
 🌐 [English](README.md) | 简体中文
 
 [![](https://img.shields.io/npm/v/turbogrid)](https://www.npmjs.com/package/turbogrid)
-[![](https://badgen.net/npm/dw/turbogrid)](https://www.npmjs.com/package/turbogrid)
+[![](https://devimg.vercel.app/npm/downloads/turbogrid?label={total}%20downloads/month)](https://www.npmjs.com/package/turbogrid)
 ![](https://img.shields.io/librariesio/github/cenfun/turbogrid)
 ![](https://img.shields.io/github/license/cenfun/turbogrid)
+![](https://img.shields.io/github/actions/workflow/status/cenfun/turbogrid/static.yml)
 
 TurboGrid 是一个零依赖、高性能的 JavaScript 数据表格库，专注于大数据量渲染、丰富交互和深度可定制能力。
 

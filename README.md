@@ -5,9 +5,10 @@
 🌐 English | [简体中文](README.zh-Hans.md)
 
 [![](https://img.shields.io/npm/v/turbogrid)](https://www.npmjs.com/package/turbogrid)
-[![](https://badgen.net/npm/dw/turbogrid)](https://www.npmjs.com/package/turbogrid)
+[![](https://devimg.vercel.app/npm/downloads/turbogrid?label={total}%20downloads/month)](https://www.npmjs.com/package/turbogrid)
 ![](https://img.shields.io/librariesio/github/cenfun/turbogrid)
 ![](https://img.shields.io/github/license/cenfun/turbogrid)
+![](https://img.shields.io/github/actions/workflow/status/cenfun/turbogrid/static.yml)
 
 TurboGrid is a high-performance JavaScript data grid library with zero dependencies, focused on large-data rendering, rich interactions, and deep customizability.
 

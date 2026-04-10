@@ -21,9 +21,14 @@
         "pack": "sf pack -o docs"
     },
     "files": [
-        "dist"
+        "dist",
+        "README.zh-Hans.md"
     ],
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cenfun/turbogrid.git"
+    },
     "dependencies": {},
     "devDependencies": {
         "eslint": "^10.1.0",

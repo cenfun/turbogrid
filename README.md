@@ -25,6 +25,7 @@ TurboGrid is a high-performance JavaScript data grid library with zero dependenc
 - **Touch & Mobile** — Built-in touch scrolling, gesture support, and mobile-friendly scrollbar modes
 - **Themes** — Built-in themes (default, lightblue, dark) with deep CSS customization via `className`, `classMap`, and `styleMap`
 - **Framework-Agnostic** — Works with vanilla JS, Vue, React, Angular, Svelte, or any framework that provides a DOM container
+- **Quality Assured** — 90%+ unit test coverage with 40+ test specs covering rendering, interaction, data operations, and edge cases
 
 ## Install
 

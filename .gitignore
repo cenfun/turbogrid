@@ -6,3 +6,4 @@ server/package-lock.json
 /.temp/
 /dist
 /docs
+/.claude

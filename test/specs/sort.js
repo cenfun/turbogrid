@@ -425,6 +425,112 @@ describe('Row sort', function() {
         done();
     });
 
+    it('setSortColumn with invalid column', async () => {
+        await resetGrid();
+        const result = grid.setSortColumn('nonexistent');
+        assert.equal(typeof result, 'undefined');
+    });
+
+    it('setSortColumn with non-sortable column', async () => {
+        await resetGrid();
+        const columnItem = grid.getColumnItem('name');
+        columnItem.sortable = false;
+        const result = grid.setSortColumn(columnItem);
+        assert.equal(typeof result, 'undefined');
+        columnItem.sortable = true;
+    });
+
+    it('removeSortColumn', async () => {
+        await resetGrid({
+            sortOnInit: true,
+            sortField: 'number',
+            sortAsc: true
+        });
+        assert.ok(grid.sortColumn);
+        grid.removeSortColumn();
+        assert.equal(grid.sortColumn, null);
+    });
+
+    it('getSortComparer with function comparer', async () => {
+        await resetGrid();
+        const fn = function() {};
+        const result = grid.getSortComparer({
+            comparer: fn
+        });
+        assert.equal(result, fn);
+    });
+
+    it('getSortComparer with type name', async () => {
+        await resetGrid();
+        const result = grid.getSortComparer({
+            type: 'number'
+        });
+        assert.equal(typeof result, 'function');
+    });
+
+    it('getSortComparer fallback to string', async () => {
+        await resetGrid();
+        const result = grid.getSortComparer({});
+        assert.equal(typeof result, 'function');
+    });
+
+    it('sortRows with tree data subs', async () => {
+        const treeData = {
+            columns: [{
+                id: 'name', name: 'Name', type: 'tree'
+            }, {
+                id: 'value', name: 'Value', type: 'number'
+            }],
+            rows: [{
+                name: 'Group1',
+                subs: [
+                    {
+                        name: 'B', value: 2
+                    },
+                    {
+                        name: 'A', value: 1
+                    }
+                ]
+            }, {
+                name: 'Group2',
+                subs: [
+                    {
+                        name: 'D', value: 4
+                    },
+                    {
+                        name: 'C', value: 3
+                    }
+                ]
+            }]
+        };
+        grid.setData(treeData);
+        grid.render();
+        await delay();
+
+        const changed = grid.sortRows('value', {
+            sortAsc: true
+        });
+        assert.equal(changed, true);
+    });
+
+    it('setSortColumn with single row (less than 2 rows)', async () => {
+        grid.setData({
+            columns: [{
+                id: 'name', name: 'Name', type: 'string'
+            }],
+            rows: [{
+                id: 'r1', name: 'Only'
+            }]
+        });
+        grid.render();
+        await delay();
+
+        // with only 1 row, setSortColumn should return early
+        grid.setSortColumn('name');
+        // should not crash, sort column should still be set
+        assert.ok(grid.sortColumn);
+    });
+
     it('sortIndicator v', async () => {
         grid.setOption({
             sortOnInit: true,

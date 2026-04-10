@@ -114,6 +114,46 @@ describe('Rows', function() {
         assert.equal(grid.getRowItem('row_invalid'), null);
     });
 
+    it('Grid custom rowNumberFilter', async () => {
+        let filterCalled = false;
+        grid.setData(data);
+        grid.setOption({
+            rowNumberVisible: true,
+            rowNumberFilter: function(rowItem, i) {
+                filterCalled = true;
+                return !rowItem.tg_group;
+            }
+        });
+        grid.render();
+        await delay();
+
+        assert.equal(filterCalled, true);
+    });
+
+    it('Grid row formatter as function', async () => {
+        let formatterCalled = false;
+        grid.setData({
+            columns: [{
+                id: 'name', name: 'Name'
+            }],
+            rows: [{
+                id: 'r1',
+                name: 'Test',
+                formatter: function(v, rowItem, columnItem, cellNode) {
+                    formatterCalled = true;
+                    return v;
+                }
+            }]
+        });
+        grid.setOption({
+            rowNumberVisible: false
+        });
+        grid.render();
+        await delay();
+
+        assert.equal(formatterCalled, true);
+    });
+
     it('Grid setRowHover guards (rowHoverable / frozenRowHoverable / rowItem.hoverable)', async () => {
         const localContainer = createContainer('500px', '200px');
         const localGrid = new Grid(localContainer);

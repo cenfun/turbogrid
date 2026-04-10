@@ -138,6 +138,114 @@ describe('Row select', function() {
     });
 
 
+    it('Grid single select on already selected row', async () => {
+        grid.setData(data);
+        grid.setOption({
+            selectMultiple: false,
+            selectVisible: true
+        });
+        grid.render();
+        await delay();
+
+        grid.setRowSelected(1);
+        assert.equal(grid.getSelectedRows().length, 1);
+        // select same row again - should not change
+        grid.setRowSelected(1);
+        assert.equal(grid.getSelectedRows().length, 1);
+    });
+
+    it('Grid single select on non-selectable row', () => {
+        // group row (index 0) is not selectable by default
+        grid.setRowSelected(0);
+        assert.equal(grid.getSelectedRows().length, 1);
+        assert.equal(grid.getSelectedRow().tg_index, 1);
+    });
+
+    it('Grid multiple select with false arg', async () => {
+        grid.setData(data);
+        grid.setOption({
+            selectMultiple: true,
+            selectVisible: true,
+            selectAllOnInit: true
+        });
+        grid.render();
+        await delay();
+        assert.ok(grid.getSelectedRows().length > 0);
+
+        grid.setRowSelected(false);
+        assert.equal(grid.getSelectedRows().length, 0);
+    });
+
+    it('Grid multiple select with no args', () => {
+        const result = grid.setRowSelected();
+        assert.equal(result, grid);
+    });
+
+    it('Grid selectAll on single mode returns early', async () => {
+        grid.setData(data);
+        grid.setOption({
+            selectMultiple: false,
+            selectVisible: true
+        });
+        grid.render();
+        await delay();
+
+        const result = grid.selectAll(true);
+        assert.equal(result, grid);
+        // single mode should not select all
+        assert.equal(grid.getSelectedRows().length, 0);
+    });
+
+    it('Grid selectMultiple shiftKey backward', async () => {
+        grid.setData(data);
+        grid.setOption({
+            selectMultiple: true,
+            selectVisible: true
+        });
+        grid.render();
+        await delay();
+
+        grid.selectAll(false);
+
+        // select row 3 first
+        grid.setRowSelected(3, {});
+        assert.equal(grid.getSelectedRows().length, 1);
+
+        // shift+select row 1 (backward - covers else branch in getBetweenSelectedChangedList)
+        grid.setRowSelected(1, {
+            shiftKey: true
+        });
+        assert.equal(grid.getSelectedRows().length, 3);
+    });
+
+    it('Grid selectAll when already all selected', async () => {
+        grid.setData(data);
+        grid.setOption({
+            selectMultiple: true,
+            selectVisible: true,
+            selectAllOnInit: true
+        });
+        grid.render();
+        await delay();
+
+        const total = getTotal(grid);
+        assert.equal(grid.getSelectedRows().length, total);
+
+        // selectAll again - changedList should be empty, returns early
+        grid.selectAll(true);
+        assert.equal(grid.getSelectedRows().length, total);
+
+        // cleanup: reset to single select for subsequent tests
+        grid.setOption({
+            selectMultiple: false,
+            selectAllOnInit: false,
+            selectVisible: true
+        });
+        grid.setData(data);
+        grid.render();
+        await delay();
+    });
+
     it('Grid row item tg-select-icon', async () => {
         const rowNode = container.querySelector('.tg-row[row="1"]');
         const icon = rowNode.querySelector('.tg-select-icon');

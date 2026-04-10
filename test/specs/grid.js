@@ -486,6 +486,53 @@ describe('Grid', function() {
         assert.equal(grid.formatters.callback, callback);
     });
 
+    it('Grid frozen column with private columns', async () => {
+        grid.destroy();
+        grid = new Grid(container);
+        grid.setOption({
+            frozenColumn: 0,
+            frozenRow: -1,
+            selectVisible: true,
+            rowDragVisible: true,
+            rowNumberVisible: true
+        });
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        // frozenColumn should be adjusted for private columns (select + drag + number = +3)
+        assert.equal(grid.frozenInfo.column, 3);
+        assert.equal(grid.frozenInfo.columns, 4);
+    });
+
+    it('Grid scrollbar touch mode', async () => {
+        grid.destroy();
+        grid = new Grid(container);
+        grid.setOption({
+            scrollbarType: 'touch'
+        });
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        assert.equal(grid.options.scrollbarFade, true);
+        assert.equal(grid.options.scrollbarRound, true);
+        assert.equal(grid.options.scrollbarSize, 6);
+    });
+
+    it('Grid theme options', async () => {
+        grid.destroy();
+        grid = new Grid(container);
+        grid.setOption({
+            theme: 'dark'
+        });
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        assert.ok(container.querySelector('.tg-dark'));
+    });
+
     it('Grid cell click', async () => {
         grid.destroy();
 

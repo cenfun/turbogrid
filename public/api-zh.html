@@ -2209,8 +2209,202 @@
                             //rowItem.tg_level
                             //rowItem.tg_group
                         </code></pre>
-                        <div>调用 <a href="#exportData">exportData()</a> 时，这些私有属性会被移除。</div>
+                        <div>调用 <a href="#exportData">exportData()</a> 或 <a href="#getItemSnapshot">getItemSnapshot()</a> 时，这些私有属性会被移除。</div>
                     </section>
+
+                    <section>
+                        <div><b>行属性 (rowItem.tg_*)</b></div>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>属性</th>
+                                <th>类型</th>
+                                <th>说明</th>
+                            </tr>
+                            <tr>
+                                <td>tg_index</td>
+                                <td>Number</td>
+                                <td>行在完整数据树中的全局索引（包含不可见行）。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_view_index</td>
+                                <td>Number</td>
+                                <td>行在可见列表中的索引。仅对可见行设置。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_sub_index</td>
+                                <td>Number</td>
+                                <td>在父节点 subs 数组中的索引（包含不可见行）。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_list_index</td>
+                                <td>Number</td>
+                                <td>在同一父节点的可见子列表中的索引。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_parent</td>
+                                <td>Object | undefined</td>
+                                <td>指向父行的引用。根级行为 undefined。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_level</td>
+                                <td>Number</td>
+                                <td>在树形层级中的嵌套深度。根级行为 0。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_group</td>
+                                <td>Boolean</td>
+                                <td>如果行拥有 subs 数组（即分组/父节点），则为 true。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_subs_length</td>
+                                <td>Number</td>
+                                <td>行的 subs 数组中直接子节点的数量。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_frozen</td>
+                                <td>Boolean</td>
+                                <td>如果行处于冻结区域，则为 true。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_invisible</td>
+                                <td>Boolean</td>
+                                <td>如果行通过 hideRow() 或 invisible 属性被隐藏，则为 true。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_filtered</td>
+                                <td>Boolean</td>
+                                <td>如果行被 <a href="#options.rowFilter">rowFilter</a> 函数过滤隐藏，则为 true。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_row_number</td>
+                                <td>String | Number</td>
+                                <td>显示用行号（不适用时为空字符串）。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_selected_index</td>
+                                <td>Number</td>
+                                <td>行被选中的顺序索引。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_top</td>
+                                <td>Number</td>
+                                <td>行渲染时的顶部偏移位置（像素）。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_height</td>
+                                <td>Number</td>
+                                <td>行的实际渲染高度（像素）。</td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <div><b>列属性 (columnItem.tg_*)</b></div>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>属性</th>
+                                <th>类型</th>
+                                <th>说明</th>
+                            </tr>
+                            <tr>
+                                <td>tg_index</td>
+                                <td>Number</td>
+                                <td>列在完整列树中的全局索引。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_view_index</td>
+                                <td>Number</td>
+                                <td>列在可见列表中的索引。仅对可见列设置。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_sub_index</td>
+                                <td>Number</td>
+                                <td>在父分组的 subs 数组中的索引。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_list_index</td>
+                                <td>Number</td>
+                                <td>在同一父分组的可见子列表中的索引。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_parent</td>
+                                <td>Object | undefined</td>
+                                <td>指向父列分组的引用。顶级列为 undefined。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_group</td>
+                                <td>Boolean</td>
+                                <td>如果列拥有 subs 数组（即表头分组），则为 true。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_subs_length</td>
+                                <td>Number</td>
+                                <td>分组中直接子列的数量。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_frozen</td>
+                                <td>Boolean</td>
+                                <td>如果列处于冻结区域，则为 true。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_invisible</td>
+                                <td>Boolean</td>
+                                <td>如果列通过 <a href="#hideColumn">hideColumn()</a> 或 invisible 属性被隐藏，则为 true。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_width</td>
+                                <td>Number</td>
+                                <td>列的实际渲染宽度（像素）。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_left</td>
+                                <td>Number</td>
+                                <td>列的左侧偏移位置（像素）。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_height</td>
+                                <td>Number</td>
+                                <td>列表头单元格的高度（像素）。</td>
+                            </tr>
+                            <tr>
+                                <td>tg_layer</td>
+                                <td>Number</td>
+                                <td>表头布局的反向层级索引（0 = 最底层）。用于分组表头。</td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <div>使用示例：</div>
+                        <pre><code class="language-js">
+                            grid.setFormatter({
+                                string: function(value, rowItem, columnItem, cellNode) {
+                                    // 访问行属性
+                                    const rowIndex = rowItem.tg_index;
+                                    const level = rowItem.tg_level;
+                                    const isFrozen = rowItem.tg_frozen;
+                                    const isGroup = rowItem.tg_group;
+
+                                    // 访问列属性
+                                    const columnIndex = columnItem.tg_index;
+                                    const columnWidth = columnItem.tg_width;
+
+                                    return value;
+                                }
+                            });
+
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    // 冻结行始终可见
+                                    if (rowItem.tg_frozen) {
+                                        return true;
+                                    }
+                                    return rowItem.name.includes(keywords);
+                                }
+                            });
+                        </code></pre>
+                    </section>
+
                 </details>
 
             </div>

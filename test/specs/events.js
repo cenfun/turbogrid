@@ -107,6 +107,112 @@ describe('Events', function() {
 
     });
 
+    it('Grid wheel event with mask blocks wheel', async () => {
+        grid.setOption({});
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        grid.showMask('loading');
+        const prevLeft = grid.scrollLeft;
+        const prevTop = grid.scrollTop;
+
+        grid.container.dispatchEvent(new WheelEvent('wheel', {
+            deltaX: 10,
+            deltaY: 10
+        }));
+        await delay();
+
+        // scroll should not change because mask is active
+        assert.equal(grid.scrollLeft, prevLeft);
+        assert.equal(grid.scrollTop, prevTop);
+
+        grid.hideMask();
+    });
+
+    it('Grid keydown with mask blocks keydown', async () => {
+        grid.setOption({});
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        grid.showMask('loading');
+
+        let keyDownTriggered = false;
+        grid.once('onKeyDown', function() {
+            keyDownTriggered = true;
+        });
+
+        grid.container.dispatchEvent(new KeyboardEvent('keydown', {
+            key: 'ArrowDown',
+            bubbles: true
+        }));
+        await delay();
+
+        assert.equal(keyDownTriggered, false);
+        grid.hideMask();
+    });
+
+    it('Grid wheel event with deltaMode line', async () => {
+        grid.setOption({});
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        // deltaMode 1 = line mode
+        grid.container.dispatchEvent(new WheelEvent('wheel', {
+            deltaX: 0,
+            deltaY: 1,
+            deltaMode: 1
+        }));
+        await delay();
+
+        assert.ok(grid.scrollTop > 0);
+    });
+
+    it('Grid selectstart with textSelectable', async () => {
+        grid.setOption({
+            textSelectable: true
+        });
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        const e = new Event('selectstart', {
+            cancelable: true
+        });
+        grid.container.dispatchEvent(e);
+        // should not preventDefault when textSelectable is true
+        assert.equal(e.defaultPrevented, false);
+
+        grid.setOption({
+            textSelectable: false
+        });
+    });
+
+    it('Grid header click on non-sortable column', async () => {
+        grid.setOption({});
+        grid.setData(data);
+        grid.render();
+        await delay();
+
+        const columnItem = grid.getColumnItem('name');
+        columnItem.sortable = false;
+
+        let sortTriggered = false;
+        grid.once('onSort', function() {
+            sortTriggered = true;
+        });
+
+        const headerNode = grid.getColumnHeaderNode(columnItem);
+        const nameNode = headerNode.querySelector('.tg-column-name');
+        nameNode.click();
+        await delay();
+
+        assert.equal(sortTriggered, false);
+        columnItem.sortable = true;
+    });
+
     it('Grid wheel events', async () => {
         grid.setOption({});
         grid.setData(data);

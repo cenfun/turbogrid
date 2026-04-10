@@ -7,17 +7,22 @@
 ![](https://img.shields.io/librariesio/github/cenfun/turbogrid)
 ![](https://img.shields.io/github/license/cenfun/turbogrid)
 
-TurboGrid is a high-performance JavaScript data grid library focused on large-data rendering, rich interactions, and strong customizability.
+TurboGrid is a high-performance JavaScript data grid library with zero dependencies, focused on large-data rendering, rich interactions, and deep customizability.
 
-It supports virtual rendering, frozen panes, row/column operations, sorting/filtering, drag and drop, events and lifecycle hooks, export, and deep style/behavior customization.
+## Features
 
-## Why TurboGrid
-
-- High performance for large datasets: virtual viewport, row/column cache, lazy loading patterns.
-- Rich built-in interactions: sort, filter, select, drag, collapse/expand, resize, scroll sync.
-- High customizability: formatter system, column types, row/column props, custom sort comparers, theme/class hooks.
-- Strong event and lifecycle model: full event map from render/update to mouse/touch/keyboard/scroll/destroy.
-- Framework-friendly: native JS usage plus Vue integration demos.
+- **High Performance** — Virtual rendering handles millions of rows and columns smoothly; row/column caching and lazy loading patterns
+- **Zero Dependencies** — Pure JavaScript, no external runtime dependencies
+- **Tree Data** — Hierarchical rows with expand/collapse, multi-level nesting, and lazy-loading child rows (`setRowSubs`)
+- **Frozen Panes** — Freeze rows and columns at any edge (top/bottom/left/right) with configurable limits
+- **Row Operations** — Selection (single/multiple), drag & drop reordering, move, add/delete, row numbering
+- **Sorting & Filtering** — Built-in type-aware sorting (string/number/date/boolean), custom comparers, row filtering with keyword highlighting
+- **Rich Cell Rendering** — Formatter system for custom cell content — badges, progress bars, icons, checkboxes, or framework components
+- **Data Export** — Export grid data with configurable column/row inclusion and private field stripping
+- **Comprehensive API** — 100+ methods, 50+ configuration options, and 36 event types covering the full lifecycle
+- **Touch & Mobile** — Built-in touch scrolling, gesture support, and mobile-friendly scrollbar modes
+- **Themes** — Built-in themes (default, lightblue, dark) with deep CSS customization via `className`, `classMap`, and `styleMap`
+- **Framework-Agnostic** — Works with vanilla JS, Vue, React, Angular, Svelte, or any framework that provides a DOM container
 
 ## Install
 
@@ -83,17 +88,16 @@ grid.render();
 
 ## API Overview
 
-For the complete and always up-to-date API list, please see:
+TurboGrid provides 100+ public methods, 50+ configuration options, and 36 event types. For the complete and always up-to-date API reference:
 
 [https://cenfun.github.io/turbogrid/api.html](https://cenfun.github.io/turbogrid/api.html)
 
-The API page includes full details for:
+The API covers:
 
-- Methods
-- Data structure
-- Options
-- Events
-- Lifecycle and namespace utilities
+- **Methods** — Data management, row/column CRUD, scrolling & navigation, rendering, selection, tree operations, export
+- **Options** — Display, selection, sorting, frozen panes, scrollbar, performance tuning, theming
+- **Events** — Lifecycle (`onUpdated`, `onDestroy`), interaction (`onClick`, `onSort`, `onKeyDown`), scroll, selection, drag & drop
+- **Data Structures** — Column items, row items, and internal properties (`tg_*` namespace)
 
 ## Demo Map
 
@@ -172,68 +176,27 @@ Online docs home: [https://cenfun.github.io/turbogrid/](https://cenfun.github.io
 - [vue-component](https://cenfun.github.io/turbogrid/vue-component.html)
 - [vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html)
 - [custom-element](https://cenfun.github.io/turbogrid/custom-element.html)
-- React: container-based integration pattern is supported (see the React section below)
+- React: container-based integration (see [Vue / React Integration](#vue--react-integration) below)
 
 ## Mobile / Touch Support
 
-TurboGrid has built-in mobile support and can be used on touch devices without extra adapters.
-
-### Supported Mobile Capabilities
+TurboGrid has built-in mobile support — no extra adapters needed.
 
 - Touch interaction events: `onTouchStart`, `onTouchMove`, `onTouchEnd`
-- Touch-friendly scrollbar mode via `scrollbarType`
+- Touch-friendly scrollbar mode via `scrollbarType: 'auto'`
 - Smooth scrolling and large-data rendering on mobile devices
-- Frozen row and frozen column support on touch screens
-- Mobile-friendly resize handling with `autoHeight` and `resize()`
+- Frozen rows/columns work on touch screens
+- Combine touch events with `onClick`, `onMouseWheel`, and frozen pane options for hybrid devices
 
-### Recommended Touch Configuration
-
-```js
-const grid = new Grid(container);
-
-grid.setOption({
-	frozenColumn: 0,
-	frozenRow: 0,
-	scrollbarType: 'auto',
-	scrollbarSize: 10,
-	autoHeight: false
-});
-
-grid.bind('onTouchStart', function(e, d) {
-	console.log('touch start', d.rowItem, d.columnItem);
-});
-
-grid.bind('onTouchMove', function(e, d) {
-	console.log('touch move', d.rowItem, d.columnItem);
-});
-
-grid.bind('onTouchEnd', function(e, d) {
-	console.log('touch end', d.rowItem, d.columnItem);
-});
-```
-
-### Notes for Mobile Usage
-
-- `scrollbarType: 'auto'` will automatically switch behavior for touch devices.
-- If you need a stronger mobile style, you can explicitly set `scrollbarType` to touch-oriented behavior.
-- Touch events can be combined with `onClick`, `onMouseWheel`, and frozen pane options for hybrid device scenarios.
-- For pages with long content above and below the grid, review the touch demo to decide whether you need `preventDefault()` handling in `onTouchStart`.
-
-Touch demo: [touch](https://cenfun.github.io/turbogrid/touch.html)
+See the live demo for configuration examples: [touch](https://cenfun.github.io/turbogrid/touch.html)
 
 ## Vue / React Integration
 
-TurboGrid works well with framework-based applications because the core usage model is simple: create a grid instance with a container, update data/options, then render or resize when needed.
+TurboGrid is framework-agnostic — create a grid with a container, update data/options, and call `render()`. It works the same way in any framework.
 
-### Vue Integration
+### Vue
 
-This repository already includes Vue-based demos that show several integration patterns:
-
-- Vue integration: sync grid events and selection state with Vue reactive data
-- Vue component: mount Vue components inside grid cells through custom formatters
-- Vue editor: build editable cells with Vue components and custom editor logic
-
-### Typical Vue Usage
+This repository includes Vue demos: [vue-integration](https://cenfun.github.io/turbogrid/vue-integration.html), [vue-component](https://cenfun.github.io/turbogrid/vue-component.html), [vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html).
 
 ```js
 import { onMounted, onBeforeUnmount, ref } from 'vue';
@@ -268,11 +231,7 @@ onBeforeUnmount(() => {
 });
 ```
 
-### React Integration
-
-The repository does not currently provide a dedicated React demo page, but TurboGrid integrates cleanly with React because it is container-based and framework-agnostic.
-
-### Typical React Usage
+### React
 
 ```jsx
 import { useEffect, useRef } from 'react';
@@ -313,55 +272,19 @@ export function GridView() {
 }
 ```
 
-### Framework Integration Advantages
+### Other Frameworks
 
-- Use the same `setData`, `setOption`, `render`, `resize`, and `destroy` flow in any framework
-- Combine TurboGrid events with framework state management
-- Mount custom framework components in cells through formatter-based rendering
-- Build custom editors, toolbars, and side panels around the grid instance
+TurboGrid is pure JavaScript — any framework with DOM access and mount/unmount lifecycle works: Angular, Svelte, SolidJS, Lit, Alpine.js, etc. Use the same `setData` → `setOption` → `render` → `destroy` pattern.
 
-### Native JavaScript and Other Frameworks
+## Customization
 
-TurboGrid is implemented in native JavaScript, so it is not limited to Vue or React. As long as a framework can provide a DOM container and a lifecycle hook for mount/unmount, TurboGrid can usually be integrated in the same way.
+TurboGrid is designed for deep customization at every level:
 
-- Angular
-- Lit
-- Svelte
-- SolidJS
-- Alpine.js
-
-## Customization Power
-
-TurboGrid is designed for deep customization. You can extend visual style, behavior, data logic, and interaction flows at multiple levels.
-
-### 1) Formatter and Cell Rendering
-
-- Set formatter globally or per-column with `setFormatter`.
-- Use built-in formatters or custom formatter functions.
-- Build rich UI cells like badges, progress bars, links, operations.
-
-### 2) Column Types and Props
-
-- Configure reusable `columnTypes` and map by `type`.
-- Override with `columnProps` and per-column props.
-- Control width/alignment/sortability/exportability per column.
-
-### 3) Row Behavior and Data Rules
-
-- Customize row shape with `rowProps`.
-- Implement custom filtering via `rowFilter` and fuzzy-like ordering via `rowFilteredSort`.
-- Manage tree data with `setRowSubs`, collapse/expand controls, and cross-level row move/drag options.
-
-### 4) Event-driven Extension
-
-- Hook rich events (`onClick`, `onSort`, `onRowDropped`, `onScroll`, `onKeyDown`, `onDestroy`, etc.).
-- Build custom workflows around selection, editing, context menu, and server sync.
-
-### 5) Theming and Interaction Details
-
-- Set `theme`, `className`, and style hooks for custom look and feel.
-- Tune scrollbar, scroll pane, frozen behavior, row hover/select behavior.
-- Control resize policy with `bindWindowResize`, `bindContainerResize`, and `cellResizeObserver`.
+- **Cell Rendering** — `setFormatter` for global or per-column custom cell content (HTML, components, badges, icons); built-in formatters for string, number, date, boolean, tree, checkbox
+- **Column Types** — Reusable `columnTypes` with per-column overrides for width, alignment, sortability, exportability
+- **Row Behavior** — Custom `rowProps`, `rowFilter` for filtering, `rowFilteredSort` for ranked results, tree operations with cross-level drag/move
+- **Events** — 36 hookable events for clicks, sorting, dragging, scrolling, keyboard, selection, and lifecycle
+- **Theming** — `theme`, `className`, `classMap`, and `styleMap` at grid, row, and cell level; configurable scrollbar, frozen pane, and hover behavior
 
 ## Project Links
 
@@ -369,7 +292,7 @@ TurboGrid is designed for deep customization. You can extend visual style, behav
 - API: [https://cenfun.github.io/turbogrid/api.html](https://cenfun.github.io/turbogrid/api.html)
 - NPM: [https://www.npmjs.com/package/turbogrid](https://www.npmjs.com/package/turbogrid)
 
-## Related Grid
+## Related Projects
 
 - [console-grid](https://github.com/cenfun/console-grid)
 - [markdown-grid](https://github.com/cenfun/markdown-grid)

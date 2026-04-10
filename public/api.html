@@ -2209,8 +2209,202 @@
                             //rowItem.tg_level
                             //rowItem.tg_group
                         </code></pre>
-                        <div>These private properties are removed when calling <a href="#exportData">exportData()</a>.</div>
+                        <div>These private properties are removed when calling <a href="#exportData">exportData()</a> or <a href="#getItemSnapshot">getItemSnapshot()</a>.</div>
                     </section>
+
+                    <section>
+                        <div><b>Row Item Properties (rowItem.tg_*)</b></div>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>tg_index</td>
+                                <td>Number</td>
+                                <td>Global index of the row in the full data tree (including invisible rows).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_view_index</td>
+                                <td>Number</td>
+                                <td>Index of the row in the visible (view) list. Only set for visible rows.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_sub_index</td>
+                                <td>Number</td>
+                                <td>Index within the parent's subs array (includes invisible rows).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_list_index</td>
+                                <td>Number</td>
+                                <td>Index within the visible sub-list of the same parent.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_parent</td>
+                                <td>Object | undefined</td>
+                                <td>Reference to the parent row item. undefined for root-level rows.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_level</td>
+                                <td>Number</td>
+                                <td>Nesting level in the tree hierarchy. 0 for root-level rows.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_group</td>
+                                <td>Boolean</td>
+                                <td>true if the row has a subs array (is a group/parent node).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_subs_length</td>
+                                <td>Number</td>
+                                <td>Number of direct children in the row's subs array.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_frozen</td>
+                                <td>Boolean</td>
+                                <td>true if the row is in the frozen section.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_invisible</td>
+                                <td>Boolean</td>
+                                <td>true if the row was hidden by user via hideRow() or the invisible property.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_filtered</td>
+                                <td>Boolean</td>
+                                <td>true if the row was hidden by the <a href="#options.rowFilter">rowFilter</a> function.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_row_number</td>
+                                <td>String | Number</td>
+                                <td>The display row number (empty string if row number is not applicable).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_selected_index</td>
+                                <td>Number</td>
+                                <td>Sequential index indicating the order in which the row was selected.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_top</td>
+                                <td>Number</td>
+                                <td>Top position offset in pixels for rendering.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_height</td>
+                                <td>Number</td>
+                                <td>Actual rendered height of the row in pixels.</td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <div><b>Column Item Properties (columnItem.tg_*)</b></div>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>tg_index</td>
+                                <td>Number</td>
+                                <td>Global index of the column in the full column tree.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_view_index</td>
+                                <td>Number</td>
+                                <td>Index of the column in the visible (view) list. Only set for visible columns.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_sub_index</td>
+                                <td>Number</td>
+                                <td>Index within the parent group's subs array.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_list_index</td>
+                                <td>Number</td>
+                                <td>Index within the visible sub-list of the same parent group.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_parent</td>
+                                <td>Object | undefined</td>
+                                <td>Reference to the parent column group. undefined for top-level columns.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_group</td>
+                                <td>Boolean</td>
+                                <td>true if the column has a subs array (is a header group).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_subs_length</td>
+                                <td>Number</td>
+                                <td>Number of direct sub-columns in the group.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_frozen</td>
+                                <td>Boolean</td>
+                                <td>true if the column is in the frozen section.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_invisible</td>
+                                <td>Boolean</td>
+                                <td>true if the column was hidden by user via <a href="#hideColumn">hideColumn()</a> or the invisible property.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_width</td>
+                                <td>Number</td>
+                                <td>Actual rendered width of the column in pixels.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_left</td>
+                                <td>Number</td>
+                                <td>Left position offset of the column in pixels.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_height</td>
+                                <td>Number</td>
+                                <td>Height of the column header cell in pixels.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_layer</td>
+                                <td>Number</td>
+                                <td>Reverse level index for header layout (0 = bottom level). Used for grouped headers.</td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <div>Usage example:</div>
+                        <pre><code class="language-js">
+                            grid.setFormatter({
+                                string: function(value, rowItem, columnItem, cellNode) {
+                                    // access row properties
+                                    const rowIndex = rowItem.tg_index;
+                                    const level = rowItem.tg_level;
+                                    const isFrozen = rowItem.tg_frozen;
+                                    const isGroup = rowItem.tg_group;
+
+                                    // access column properties
+                                    const columnIndex = columnItem.tg_index;
+                                    const columnWidth = columnItem.tg_width;
+
+                                    return value;
+                                }
+                            });
+
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    // frozen rows are always visible
+                                    if (rowItem.tg_frozen) {
+                                        return true;
+                                    }
+                                    return rowItem.name.includes(keywords);
+                                }
+                            });
+                        </code></pre>
+                    </section>
+
                 </details>
 
             </div>

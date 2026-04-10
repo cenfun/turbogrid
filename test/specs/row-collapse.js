@@ -104,6 +104,86 @@ describe('Row collapse', function() {
         assert.equal(rowItem.collapsed, false);
     });
 
+    it('Grid expandRow with invalid row', () => {
+        const result = grid.expandRow('nonexistent');
+        assert.equal(result, grid);
+    });
+
+    it('Grid collapseRow with invalid row', () => {
+        const result = grid.collapseRow('nonexistent');
+        assert.equal(result, grid);
+    });
+
+    it('Grid toggleRow with invalid row', () => {
+        const result = grid.toggleRow('nonexistent');
+        assert.equal(result, grid);
+    });
+
+    it('Grid expandRow on empty group triggers onRowSubsRequest', async () => {
+        let subsRequested = false;
+        grid.once('onRowSubsRequest', function() {
+            subsRequested = true;
+        });
+        // Create an empty group row
+        const emptyGroupData = {
+            columns: [{
+                id: 'name', name: 'Name', type: 'tree'
+            }],
+            rows: [{
+                id: 'empty-group',
+                name: 'Empty Group',
+                subs: []
+            }, {
+                id: 'leaf',
+                name: 'Leaf'
+            }]
+        };
+        grid.setData(emptyGroupData);
+        grid.render();
+        await delay();
+        grid.expandRow('empty-group');
+        await delay();
+        assert.equal(subsRequested, true);
+    });
+
+    it('Grid collapseRow on row without subs', () => {
+        const result = grid.collapseRow('leaf');
+        assert.equal(result, grid);
+    });
+
+    it('Grid expandRow on already expanded row', async () => {
+        // Restore normal data
+        grid.setData(data);
+        grid.setOption({
+            collapseAllOnInit: false
+        });
+        grid.render();
+        await delay();
+        const rowItem = grid.getRowItem('row1');
+        assert.equal(Boolean(rowItem.collapsed), false);
+        // expand already expanded row - should return without change
+        const result = grid.expandRow('row1');
+        assert.equal(result, grid);
+    });
+
+    it('Grid collapseRow on already collapsed row', async () => {
+        grid.collapseRow('row1');
+        await delay();
+        // collapse again - should return without change
+        const result = grid.collapseRow('row1');
+        assert.equal(result, grid);
+    });
+
+    it('Grid expandRowLevel with deeper levels', async () => {
+        // Expand all first then collapse to level 0
+        grid.expandAllRows();
+        await delay();
+        grid.expandRowLevel(1);
+        await delay();
+        // Level 0 groups should be expanded
+        assert.equal(grid.getRowItem('row1').collapsed, false);
+    });
+
     it('Grid row collapse triggers event', async () => {
 
         const icon = container.querySelector('.tg-row[row="0"]').querySelector('.tg-tree-icon');

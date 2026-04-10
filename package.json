@@ -1,7 +1,7 @@
 {
     "name": "turbogrid",
     "version": "3.2.3",
-    "description": "TurboGrid",
+    "description": "A high-performance JavaScript data grid library with zero dependencies",
     "main": "dist/turbogrid.js",
     "module": "dist/turbogrid.esm.js",
     "exports": {

@@ -39,6 +39,17 @@ export interface ColumnItem {
 
     subs?: ColumnItem[];
 
+    /** @internal */ tg_index?: number;
+    /** @internal */ tg_view_index?: number;
+    /** @internal */ tg_sub_index?: number;
+    /** @internal */ tg_list_index?: number;
+    /** @internal */ tg_width?: number;
+    /** @internal */ tg_left?: number;
+    /** @internal */ tg_frozen?: boolean;
+    /** @internal */ tg_group?: boolean;
+    /** @internal */ tg_parent?: ColumnItem;
+    /** @internal */ tg_subs_length?: number;
+
     [key: string]: any;
 }
 
@@ -133,6 +144,8 @@ export interface HighlightKeywords {
 // Options
 
 export interface GridOptions {
+    container?: string | HTMLElement;
+
     className?: string;
     theme?: string;
 
@@ -142,7 +155,7 @@ export interface GridOptions {
     rowHeight?: number;
     rowFilter?: ((rowItem: RowItem, index: number, parent?: RowItem) => boolean) | null;
     rowFilteredSort?: string | RowItem | (() => string | RowItem | null) | null;
-    rowNotFound?: string | ((info: any) => string) | HTMLElement;
+    rowNotFound?: string | HTMLElement | ((this: Grid, info: any) => string | HTMLElement);
     rowMoveCrossLevel?: boolean;
     rowCacheLength?: number;
     rowProps?: Record<string, any>;
@@ -216,6 +229,9 @@ export interface GridOptions {
     bindWindowResize?: boolean;
     bindContainerResize?: boolean;
     cellResizeObserver?: ((rowItem: RowItem, columnItem: ColumnItem) => boolean) | null;
+
+    // formatters can be passed via options
+    formatters?: Record<string, (value: any, rowItem: RowItem, columnItem: ColumnItem, cellNode: HTMLElement, observerNode?: HTMLElement) => any>;
 
     [key: string]: any;
 }
@@ -306,7 +322,12 @@ export declare class Grid extends EventBase {
     VERSION: string;
     TIMESTAMP: string;
 
-    constructor(options?: GridOptions);
+    constructor(container: string | HTMLElement | GridOptions);
+
+    // Event bindng with typed events
+    bind(types: GridEventType | GridEventType[] | string | string[], handler: EventHandler, options?: { once?: boolean }): this;
+    once(types: GridEventType | GridEventType[] | string | string[], handler: EventHandler): this;
+    unbind(types?: GridEventType | GridEventType[] | string | string[], handler?: EventHandler, options?: any): this;
 
     // Options
     setOption(key: string, value: any): this;

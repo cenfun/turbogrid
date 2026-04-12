@@ -8,6 +8,7 @@ export default {
             this.asyncRender = Util.microtask(this.renderSync);
         }
         this.asyncRender.apply(this, arguments);
+        return this;
     },
 
     renderSync: function() {

@@ -49,6 +49,9 @@ export interface ColumnItem {
     /** @internal */ tg_group?: boolean;
     /** @internal */ tg_parent?: ColumnItem;
     /** @internal */ tg_subs_length?: number;
+    /** @internal */ tg_invisible?: boolean;
+    /** @internal */ tg_height?: number;
+    /** @internal */ tg_layer?: number;
 
     [key: string]: any;
 }
@@ -89,6 +92,9 @@ export interface RowItem {
     /** @internal */ tg_height?: number;
     /** @internal */ tg_top?: number;
     /** @internal */ tg_row_number?: number | string;
+    /** @internal */ tg_invisible?: boolean;
+    /** @internal */ tg_filtered?: boolean;
+    /** @internal */ tg_selected_index?: number;
 
     [key: string]: any;
 }
@@ -339,11 +345,16 @@ export declare class Grid extends EventBase {
     setData(data: GridData): this;
     setDataSnapshot(data: any): this;
     getData(): GridData;
+    getItemSnapshot(item: RowItem | ColumnItem, keysSettings?: Record<string, boolean>): Record<string, any>;
 
     // Formatter
     setFormatter(key: string, value: (...args: any[]) => any): this;
     setFormatter(formatters: Record<string, (...args: any[]) => any>): this;
     getFormatter(name: string): ((...args: any[]) => any) | undefined;
+    getDefaultFormatter(type?: string): (...args: any[]) => any;
+
+    // Events
+    getAllEvents(): string[];
 
     // Render
     render(): this;
@@ -356,9 +367,19 @@ export declare class Grid extends EventBase {
     updateCell(rowIndex: number | string | RowItem, columnIndex: number | string | ColumnItem, value?: any): this;
     onNextUpdated(callback: (this: Grid) => void): this;
 
+    // Flush
+    flushBody(): void;
+    flushSort(): void;
+    flushRow(viewRowIndex: number): void;
+    flushRowFrom(viewRowIndex: number): void;
+    flushColumn(viewColumnIndex: number): void;
+    flushColumnFrom(viewColumnIndex: number): void;
+    flushCell(viewRowIndex: number, viewColumnIndex: number): void;
+
     // Column API
     getColumns(): ColumnItem[];
     getViewColumns(all?: boolean): ColumnItem[];
+    getViewColumnItem(viewColumnIndex: number): ColumnItem | undefined;
     getColumnItem(context: number | string | ColumnItem): ColumnItem | undefined;
     getColumnItemById(id: string): ColumnItem | undefined;
     getColumnItemBy(key: string, value: any): ColumnItem | undefined;
@@ -375,6 +396,7 @@ export declare class Grid extends EventBase {
     // Row API
     getRows(): RowItem[];
     getViewRows(): RowItem[];
+    getViewRowItem(viewRowIndex: number): RowItem | undefined;
     getRowItem(context: number | string | RowItem): RowItem | undefined;
     getRowItemById(id: string): RowItem | undefined;
     getRowItemBy(key: string, value: any): RowItem | undefined;
@@ -398,11 +420,17 @@ export declare class Grid extends EventBase {
     toggleAllRows(): this;
     expandRowLevel(level: number): this;
 
+    // Row hover/state
+    setRowHover(rowIndex: number | string | RowItem, hover: boolean): void;
+    setRowState(rowIndex: number | string | RowItem, state: string, value?: boolean): void;
+
     // Row select
     selectAll(selected?: boolean): this;
     setRowSelected(rowInfo: number | string | RowItem | Array<number | string | RowItem>, settings?: boolean | Event): this;
     getSelectedRow(): RowItem | null;
     getSelectedRows(): RowItem[];
+    isRowSelectable(rowItem: RowItem): boolean;
+    isRowLeaf(rowItem: RowItem): boolean;
 
     // Row move
     moveRows(rowList: number | string | RowItem | Array<number | string | RowItem>, offset: number): boolean;
@@ -438,6 +466,21 @@ export declare class Grid extends EventBase {
     getMaxScrollLeft(): number;
     getMaxScrollTop(): number;
 
+    // Scroll size
+    getScrollbarWidth(): number;
+    getScrollbarHeight(): number;
+    getScrollViewWidth(): number;
+    getScrollViewHeight(): number;
+    getScrollPaneWidth(): number;
+    getScrollPaneHeight(): number;
+
+    // Row size
+    getRowsHeight(): number;
+    getRowHeight(rowIndex?: number | string | RowItem): number;
+
+    // Viewport
+    getViewport(): { rows: number[]; columns: number[] };
+
     // Loading
     setLoading(content?: HTMLElement | Record<string, any> | ((holder: HTMLElement) => HTMLElement) | null): this;
     showLoading(): this;
@@ -453,6 +496,12 @@ export declare class Grid extends EventBase {
     // Iterate
     forEachRow(callback: (rowItem: RowItem, index: number, parent?: RowItem) => void | false): this;
     forEachColumn(callback: (columnItem: ColumnItem, index: number, parent?: ColumnItem) => void | false): this;
+
+    // Cell
+    getCellValue(rowItem: RowItem, columnItem: ColumnItem): any;
+
+    // Highlight
+    highlightKeywordsFilter(rowItem: RowItem, columns: string[], keywords: string): boolean;
 
     // Node
     find(selector: string, container?: HTMLElement): Query;

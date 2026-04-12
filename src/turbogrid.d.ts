@@ -476,7 +476,7 @@ export declare class Grid extends EventBase {
     /** Updates a single cell value and rerenders */
     updateCell(rowIndex: number | string | RowItem, columnIndex: number | string | ColumnItem, value?: any): this;
     /** Registers a one-time handler for the next onUpdated event */
-    onNextUpdated(callback: (this: Grid) => void): this;
+    onNextUpdated(callback: EventHandler): this;
 
     // Flush
     /** Clears all cached row renders */
@@ -568,9 +568,9 @@ export declare class Grid extends EventBase {
 
     // Row hover/state
     /** Sets whether the specified row is hovered */
-    setRowHover(rowIndex: number | string | RowItem, hover: boolean): void;
+    setRowHover(rowIndex: number | string | RowItem, hover: boolean): this;
     /** Sets a custom row state and toggles the CSS class tg-[state] on row nodes */
-    setRowState(rowIndex: number | string | RowItem, state: string, value?: boolean): void;
+    setRowState(rowIndex: number | string | RowItem, state: string, value?: boolean): this;
 
     // Row select
     /** Selects or clears all selectable rows */
@@ -648,7 +648,7 @@ export declare class Grid extends EventBase {
     /** Returns the total rendered height of all rows */
     getRowsHeight(): number;
     /** Returns the computed height of the specified row */
-    getRowHeight(rowIndex?: number | string | RowItem): number;
+    getRowHeight(rowItem?: RowItem): number;
 
     // Viewport
     /** Returns the current visible row and column index ranges */

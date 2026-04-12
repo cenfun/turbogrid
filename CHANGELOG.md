@@ -1,5 +1,8 @@
 # Changelog
 
++ 3.2.4
+    - added TypeScript type definitions
+
 + 3.2.3
     - fixed performance
     - updated docs

@@ -4,7 +4,6 @@
     "description": "A high-performance JavaScript data grid library with zero dependencies",
     "main": "dist/turbogrid.js",
     "module": "dist/turbogrid.esm.js",
-    "types": "dist/turbogrid.d.ts",
     "exports": {
         ".": {
             "types": "./dist/turbogrid.d.ts",
@@ -14,6 +13,7 @@
         },
         "./package.json": "./package.json"
     },
+    "types": "dist/turbogrid.d.ts",
     "scripts": {
         "dev": "sf dev",
         "test": "sf test",
@@ -31,13 +31,12 @@
         "type": "git",
         "url": "git+https://github.com/cenfun/turbogrid.git"
     },
-    "dependencies": {},
     "devDependencies": {
-        "eslint": "^10.1.0",
+        "eslint": "^10.2.0",
         "eslint-config-plus": "^2.0.4",
         "eslint-plugin-html": "^8.1.4",
-        "stylelint": "^17.5.0",
-        "stylelint-config-plus": "^1.1.5",
+        "stylelint": "^17.6.0",
+        "stylelint-config-plus": "^1.1.6",
         "vine-ui": "^3.1.18"
     }
 }

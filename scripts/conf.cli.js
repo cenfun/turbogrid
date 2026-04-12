@@ -28,6 +28,14 @@ module.exports = {
             });
 
             return 0;
+        },
+        after: () => {
+            console.log('copy types ...');
+            const src = path.resolve('src/turbogrid.d.ts');
+            const dest = path.resolve('dist/turbogrid.d.ts');
+            fs.copyFileSync(src, dest);
+            console.log('copied to dist/turbogrid.d.ts');
+            return 0;
         }
     },
 

@@ -4,8 +4,10 @@
     "description": "A high-performance JavaScript data grid library with zero dependencies",
     "main": "dist/turbogrid.js",
     "module": "dist/turbogrid.esm.js",
+    "types": "dist/turbogrid.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/turbogrid.d.ts",
             "import": "./dist/turbogrid.esm.js",
             "require": "./dist/turbogrid.js",
             "default": "./dist/turbogrid.js"

@@ -129,7 +129,6 @@ export default {
         rowList.forEach((rowItem) => {
             // object
             if (rowItem && typeof rowItem === 'object') {
-                // TODO should create snapshot ?
                 list.push(rowItem);
                 return;
             }

@@ -79,6 +79,8 @@ export default {
         this.headerWidth = this.containerWidth;
         this.bodyWidth = this.containerWidth;
 
+        console.log('resizeHandler');
+
         // reset column width and update width for both header and body size
         if (this.options.autoColumnWidth) {
             // Reset auto-sized columns to their name-computed base widths before scroll calculation.
@@ -101,6 +103,12 @@ export default {
             this.updateAllColumnHeadersSize();
         } else {
             this.updateTotalColumnsWidth();
+
+            if (this.autoColumnWidthDistributed) {
+                console.log('container size changed, reset auto column width distribution');
+                this.autoColumnWidthDistributed = false;
+                this.updateAllColumnHeadersSize();
+            }
         }
 
         // then update DOM size

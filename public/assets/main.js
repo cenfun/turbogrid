@@ -1,7 +1,7 @@
 (function(window) {
     'use strict';
 
-    const TG = window.turbogrid;
+    let TG;
 
     const formatCode = function(code) {
 
@@ -848,6 +848,8 @@
     };
 
     window.addEventListener('load', function() {
+        TG = window.turbogrid;
+
         initFavicon();
         initNav();
         initThemes();

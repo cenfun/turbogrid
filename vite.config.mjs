@@ -48,16 +48,48 @@ function buildEndPlugin() {
 }
 
 
+function devHtmlPlugin() {
+    return {
+        name: 'dev-html',
+        configureServer(server) {
+            server.middlewares.use((req, res, next) => {
+                const url = req.url;
+                if (!url.endsWith('.html') && url !== '/') {
+                    return next();
+                }
+
+                const filename = url === '/' ? 'index.html' : url.slice(1);
+                const filePath = path.resolve(__dirname, 'public', filename);
+
+                if (!fs.existsSync(filePath)) {
+                    return next();
+                }
+
+                let html = fs.readFileSync(filePath, 'utf-8');
+
+                // Replace the production script with a dev module import
+                // so Vite watches src/ and triggers HMR on file changes
+                html = html.replace(
+                    /<!--inject:start-->[\s\S]*?<!--inject:end-->/,
+                    '<script type="module" src="/src/demo.js"></script>'
+                );
+
+                res.setHeader('Content-Type', 'text/html; charset=utf-8');
+                res.end(html);
+            });
+        }
+    };
+}
+
+
 export default defineConfig(({ command }) => {
 
     if (command === 'serve') {
         return {
             root: '.',
+            plugins: [devHtmlPlugin()],
             server: {
-                open: '/index.html',
-                fs: {
-                    allow: ['dist']
-                }
+                open: '/index.html'
             }
         };
     }

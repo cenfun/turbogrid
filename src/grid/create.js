@@ -2,8 +2,8 @@ import $ from '../core/query.js';
 import CONST from '../core/const.js';
 import Util from '../core/util.js';
 
-import globalStyle from '../theme/theme.scss';
-import templateHtml from '../template.html';
+import globalStyle from '../theme/theme.scss?inline';
+import templateHtml from '../template.html?raw';
 
 export default {
 

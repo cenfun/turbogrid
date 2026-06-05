@@ -1,10 +1,18 @@
 // https://eslint.org/docs/rules/
 
-const plus = require('eslint-config-plus');
-const html = require('eslint-plugin-html');
+import plus from 'eslint-config-plus';
+import html from 'eslint-plugin-html';
 
 // https://eslint.org/docs/latest/use/configure/configuration-files
-module.exports = [
+export default [
+    {
+        ignores: [
+            'dist/',
+            '.temp/',
+            'public/assets/*.js',
+            'public/data/*.js'
+        ]
+    },
     {
         languageOptions: {
             globals: {

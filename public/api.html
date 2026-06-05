@@ -1336,6 +1336,9 @@
                         <a name="options.autoHeight">autoHeight = false</a>
                         <div>Automatically adjusts the grid height to fit its visible content.</div>
                         <div>Demo <a href="auto-height.html" target="_blank">Auto Height</a></div>
+                        <a name="options.autoColumnWidth">autoColumnWidth = false</a>
+                        <div>Distributes remaining horizontal space proportionally across columns without an explicit <code>width</code>. Columns with an explicit <code>width</code> are excluded. Use <code>widthWeight</code> on a column to control its share (default <code>1</code>). Works with <code>bindContainerResize</code>.</div>
+                        <div>Demo <a href="column-display.html" target="_blank">Column Display</a></div>
                     </section>
                     
 
@@ -1507,6 +1510,7 @@
                                     maxWidth: 300
 
                                     //width: Number
+                                    //widthWeight: Number (for autoColumnWidth proportional share; default 1 if not set)
                                     //height: Number
 
                                     //subs: Array

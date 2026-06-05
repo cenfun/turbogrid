@@ -1336,6 +1336,9 @@
                         <a name="options.autoHeight">autoHeight = false</a>
                         <div>自动调整表格高度，使其适配当前可见内容。</div>
                         <div>示例 <a href="auto-height.html" target="_blank">自动高度</a></div>
+                        <a name="options.autoColumnWidth">autoColumnWidth = false</a>
+                        <div>将容器剩余水平空间按比例分配到没有显式指定 <code>width</code> 的列上。有显式 <code>width</code> 的列被排除。使用列的 <code>widthWeight</code> 控制分配权重（默认 <code>1</code>）。配合 <code>bindContainerResize</code> 自动响应容器尺寸变化。</div>
+                        <div>示例 <a href="column-display.html" target="_blank">Column Display</a></div>
                     </section>
                     
 
@@ -1507,6 +1510,7 @@
                                     maxWidth: 300
 
                                     //width: 数字
+                                    //widthWeight: 数字（autoColumnWidth 分配权重，未指定则默认为 1）
                                     //height: 数字
 
                                     //subs: 数组

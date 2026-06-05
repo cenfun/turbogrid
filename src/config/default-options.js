@@ -145,7 +145,6 @@ export default function() {
 
         // ==========================================================
         // blank
-        autoColumnWidth: false,
 
         blankColumn: {
             private: true,
@@ -227,6 +226,8 @@ export default function() {
 
         // ==========================================================
         // other
+
+        autoColumnWidth: false,
 
         autoHeight: false,
 

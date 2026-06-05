@@ -1,6 +1,8 @@
 # Changelog
 
 + 3.3.0
+    - (breaking) renamed exported `TIMESTAMP` to `TAG` — `TIMESTAMP` is now available as `TAG`
+    - (breaking) replaced build toolchain: `starfall-cli` → `vite`; dev/build/lint scripts updated accordingly
     - (feature) added `autoColumnWidth` option to distribute remaining horizontal space across columns
         - proportional distribution by optional `widthWeight` column property
         - columns with explicit `width` are excluded from auto-distribution

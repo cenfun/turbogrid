@@ -17,11 +17,11 @@ class Grid extends EventBase {
     static getAllThemes = Theme.getAllThemes;
     static getAllEvents = Events.getAllEvents;
     static VERSION = CONST.VERSION;
-    static TIMESTAMP = CONST.TIMESTAMP;
+    static TAG = CONST.TAG;
 
     $ = $;
     VERSION = CONST.VERSION;
-    TIMESTAMP = CONST.TIMESTAMP;
+    TAG = CONST.TAG;
 
     constructor(options) {
         super();

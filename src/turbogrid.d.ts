@@ -411,11 +411,11 @@ export declare class Grid extends EventBase {
     static getAllThemes(): string[];
     static getAllEvents(): string[];
     static VERSION: string;
-    static TIMESTAMP: string;
+    static TAG: string;
 
     $: QueryFunction;
     VERSION: string;
-    TIMESTAMP: string;
+    TAG: string;
 
     /**
      * Creates a new grid instance.
@@ -760,7 +760,7 @@ export declare const CONST: {
     ID: string;
     NS: string;
     VERSION: string;
-    TIMESTAMP: string;
+    TAG: string;
     UP: string;
     DOWN: string;
     LEFT: string;
@@ -892,7 +892,7 @@ export declare const Util: Util;
 // Exports
 
 export declare const VERSION: string;
-export declare const TIMESTAMP: string;
+export declare const TAG: string;
 export declare const $: QueryFunction;
 
 // =============================================================================
@@ -900,7 +900,7 @@ export declare const $: QueryFunction;
 
 declare const TurboGrid: {
     VERSION: string;
-    TIMESTAMP: string;
+    TAG: string;
     Grid: typeof Grid;
     $: QueryFunction;
     CONST: typeof CONST;

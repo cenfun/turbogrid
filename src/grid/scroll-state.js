@@ -339,6 +339,8 @@ export default {
 
         // blankColumn.tg_width stays 0 (already done by updateTotalColumnsWidth)
 
+        this.autoColumnWidthDistributed = true;
+
     },
 
     // Assign remaining space to the blank column (fallback when no auto-sized columns)

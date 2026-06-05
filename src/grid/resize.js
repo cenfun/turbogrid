@@ -101,6 +101,10 @@ export default {
             this.updateAllColumnHeadersSize();
         } else {
             this.updateTotalColumnsWidth();
+
+            if (this.autoColumnWidthDistributed) {
+                this.updateAllColumnHeadersSize();
+            }
         }
 
         // then update DOM size

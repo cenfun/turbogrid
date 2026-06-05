@@ -254,6 +254,8 @@ export default {
 
     distributeExtraColumnWidth: function() {
 
+        this.autoColumnWidthDistributed = false;
+
         const columns = this.viewColumns;
         // blankColumn is always the last item in viewColumns
         const normalColumns = columns.slice(0, -1);
@@ -334,6 +336,8 @@ export default {
         });
 
         // blankColumn.tg_width stays 0 (already done by updateTotalColumnsWidth)
+
+        this.autoColumnWidthDistributed = true;
 
     },
 

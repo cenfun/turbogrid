@@ -1,5 +1,10 @@
 # Changelog
 
++ 3.3.0
+    - (feature) added `autoColumnWidth` option to distribute remaining horizontal space across columns
+        - proportional distribution by optional `widthWeight` column property
+        - columns with explicit `width` are excluded from auto-distribution
+
 + 3.2.4
     - added TypeScript type definitions
 

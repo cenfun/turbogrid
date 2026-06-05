@@ -27,6 +27,8 @@ export interface ColumnItem {
     align?: 'left' | 'center' | 'right';
 
     width?: number;
+    /** Weight for autoColumnWidth distribution. Defaults to 1 if not set. 0.5 gets half, 2 gets double the proportional share */
+    widthWeight?: number;
     minWidth?: number;
     maxWidth?: number;
     height?: number;
@@ -245,6 +247,9 @@ export interface GridOptions {
     rowNumberColumn?: ColumnItem;
 
     // blank
+    /** Whether remaining horizontal space is proportionally distributed to all columns (default: false) */
+    autoColumnWidth?: boolean;
+
     /** Configuration for the built-in blank filler column */
     blankColumn?: ColumnItem;
 
@@ -848,6 +853,7 @@ export interface Util {
     toNum(num: any, toInt?: boolean): number;
     convertNum(str: any): number | any;
     clamp(num: number, min: number, max: number): number;
+    isSize(num: any): boolean;
     per(num: any): number;
 
     replace(str: string, obj: Record<string, any>): string;

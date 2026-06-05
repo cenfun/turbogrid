@@ -40,6 +40,7 @@
                     <div class="controller-title">Grid Column Width API:</div>
                     <select class="st-data">
                         <option>custom-data</option>
+                        <option>auto-width-data</option>
                         <option>random-5x10</option>
                         <option>random-10x2k</option>
                     </select>
@@ -69,9 +70,18 @@
                 </div>
                 <div>
                     <label>
+                        <input type="checkbox" class="cb-autoColumnWidth">
+                        autoColumnWidth
+                    </label>
+                    <label>
                         frozenColumn
                         <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
                     </label>
+                    <label>
+                        <input type="checkbox" class="cb_frozenRight" />
+                        frozenRight
+                    </label>
+                    
                     <button>update()</button>
                     <button>rerender()</button>
                 </div>
@@ -87,7 +97,7 @@
         const container = document.querySelector('.grid-container');
         const grid = new Grid(container);
         grid.bind('onFirstUpdated', function() {
-            console.log('duration:', `${this.renderDuration}ms`);
+            // console.log('duration:', `${this.renderDuration}ms`);
         });
 
         grid.bind('onColumnWidthChanged', function(e, d) {
@@ -95,8 +105,41 @@
         });
 
         grid.bind('onLayout onResize', function(e, d) {
-            console.log(e.type, d);
+            // console.log(e.type, d);
         });
+
+        const autoWidthData = {
+            columns: [{
+                name: 'width 100',
+                width: 100
+            }, {
+                name: 'default width'
+            }, {
+                name: 'widthWeight 2',
+                widthWeight: 2
+            }, {
+                name: 'widthWeight 0.5',
+                widthWeight: 0.5
+            }, {
+                name: 'default width'
+            }, {
+                name: '50',
+                width: 50
+            }, {
+                name: 'end column'
+            }],
+            rows: [{
+                name: 'Row 1'
+            }, {
+                name: 'Row 2'
+            }, {
+                name: 'Row 3'
+            }, {
+                name: 'Row 4'
+            }, {
+                name: 'Row 5'
+            }]
+        };
 
         const customData = {
             columns: [{
@@ -201,11 +244,16 @@
         };
 
         function renderData(data) {
+
+
             const options = {
                 theme: document.querySelector('.st-theme').value,
                 frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
-                frozenRow: 0
+                frozenRow: 0,
+                autoColumnWidth: document.querySelector('.cb-autoColumnWidth').checked,
+                frozenRight: document.querySelector('.cb_frozenRight').checked
             };
+            // console.log('options:', options);
 
             grid.setOption(options);
             grid.setData(data);
@@ -221,12 +269,17 @@
                 return;
             }
 
+            if (dataStr === 'auto-width-data') {
+                renderData(autoWidthData);
+                return;
+            }
+
             const data = JSON.parse(JSON.stringify(customData));
             renderData(data);
         
         }
 
-        ['.st-data', '.st-theme', '.ip_frozenColumn'].forEach(function(item) {
+        ['.st-data', '.st-theme', '.ip_frozenColumn', '.cb-autoColumnWidth', '.cb_frozenRight'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {
                 render();
             });

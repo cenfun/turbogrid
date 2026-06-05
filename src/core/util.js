@@ -71,6 +71,11 @@ const Util = {
         return Math.max(Math.min(num, max), min);
     },
 
+    // check if a value is a valid non-negative size (width/height)
+    isSize: function(num) {
+        return Util.isNum(num) && num >= 0;
+    },
+
     per: function(num) {
         num = Util.toNum(num);
         num = Util.clamp(num, 0, 1);

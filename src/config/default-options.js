@@ -145,6 +145,8 @@ export default function() {
 
         // ==========================================================
         // blank
+        autoColumnWidth: false,
+
         blankColumn: {
             private: true,
             id: 'tg-column-blank',

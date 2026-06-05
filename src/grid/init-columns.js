@@ -253,7 +253,7 @@ export default {
         }
 
         // read custom width
-        if (Util.isNum(columnItem.width) && columnItem.width >= 0) {
+        if (Util.isSize(columnItem.width)) {
             columnItem.tg_width = columnItem.width;
             // fix min and max width
             columnItem.minWidth = Math.min(columnItem.minWidth, columnItem.tg_width);

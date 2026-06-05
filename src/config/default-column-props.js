@@ -38,6 +38,7 @@ export default {
     maxWidth: 300
 
     // width: Number
+    // widthWeight: Number (default 1, for autoColumnWidth proportional distribution)
     // height: Number
 
     // subs: Array

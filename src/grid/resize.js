@@ -80,7 +80,28 @@ export default {
         this.bodyWidth = this.containerWidth;
 
         // reset column width and update width for both header and body size
-        this.updateTotalColumnsWidth();
+        if (this.options.autoColumnWidth) {
+            // Reset auto-sized columns to their name-computed base widths before scroll calculation.
+            // This ensures hasHScroll and blankColumnWidth are always based on original (non-inflated) widths,
+            // even when the container shrinks.
+            const cs = this.viewColumns;
+            for (let i = 0, l = cs.length - 1; i < l; i++) {
+                const col = cs[i];
+                if (!Util.isSize(col.width)) {
+                    const bw = this.getComputedColumnWidth(col);
+                    if (Util.isNum(bw)) {
+                        col.tg_width = bw;
+                    }
+                }
+            }
+            this.updateTotalColumnsWidth();
+            // Sync header sizes (width + height) after reset
+            // updateAllColumnHeadersSize clears height cache and reads fresh DOM heights,
+            // then initHeaderLayerHeight in resizeHeaderHandler will reuse those fresh values
+            this.updateAllColumnHeadersSize();
+        } else {
+            this.updateTotalColumnsWidth();
+        }
 
         // then update DOM size
         this.resizeHeaderHandler();

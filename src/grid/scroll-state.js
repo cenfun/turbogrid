@@ -198,6 +198,8 @@ export default {
     // eslint-disable-next-line complexity
     updateBlankColumnWidth: function() {
 
+        // Note: snapshot restore is done in resizeHandler() before this runs
+
         let blankColumnWidth = this.containerWidth - this.columnsWidth;
         // when has v scrollbar
         if (this.hasVScroll && !this.hasHScroll && !this.options.scrollbarFade) {
@@ -214,6 +216,13 @@ export default {
         if (!this.hasHScroll) {
 
             if (blankColumnWidth >= 0) {
+
+                // ===== autoColumnWidth: distribute remaining space to all view columns =====
+                if (this.options.autoColumnWidth && blankColumnWidth > 0) {
+                    this.distributeExtraColumnWidth();
+                    return;
+                }
+                // ==========================================================================
 
                 // no h scroll, has blank or blank = 0
                 if (this.frozenInfo.columns) {
@@ -238,6 +247,108 @@ export default {
 
         // console.log("columnsWidthL: " + this.columnsWidthL, "columnsWidthR: " + this.columnsWidthR);
 
+    },
+
+    // =======================================================================================
+    // autoColumnWidth: distribute extra space to all view columns
+
+    distributeExtraColumnWidth: function() {
+
+        const columns = this.viewColumns;
+        // blankColumn is always the last item in viewColumns
+        const normalColumns = columns.slice(0, -1);
+
+        if (!normalColumns.length) {
+            return;
+        }
+
+        // Columns are already reset to base widths by resizeHandler() before this call
+        // Calculate available extra space
+        let extra = this.containerWidth - this.columnsWidth;
+        if (this.hasVScroll && !this.hasHScroll && !this.options.scrollbarFade) {
+            extra -= this.scrollbarSizeV;
+        }
+
+        // No extra space to distribute
+        if (extra <= 0) {
+            return;
+        }
+
+        // Gather auto-sized columns (those without explicit width)
+        const autoColumns = [];
+        let totalWeight = 0;
+        normalColumns.forEach(function(col) {
+            if (!Util.isSize(col.width)) {
+                autoColumns.push(col);
+                totalWeight += (col.widthWeight || 1);
+            }
+        });
+
+        // No auto-sized columns: fall back to blankColumn
+        if (!autoColumns.length || totalWeight <= 0) {
+            this.assignExtraToBlankColumn(extra);
+            this.updateAllColumnHeadersSize();
+            return;
+        }
+
+        // Distribute proportionally by weight, using Math.floor
+        let distributed = 0;
+        const results = autoColumns.map(function(col) {
+            const weight = col.widthWeight || 1;
+            const e = Math.floor(extra * weight / totalWeight);
+            distributed += e;
+            return {
+                column: col,
+                extra: e
+            };
+        });
+
+        // Remainder (floor rounding) goes to the last auto-sized column
+        const remaining = extra - distributed;
+        results[results.length - 1].extra += remaining;
+
+        // Apply new widths with min/max clamp and track actual distributed amount
+        let totalAdded = 0;
+        results.forEach(function(r) {
+            const base = r.column.tg_width;
+            let w = base + r.extra;
+            w = Util.clamp(w, r.column.minWidth, r.column.maxWidth);
+            totalAdded += w - base;
+            r.column.tg_width = w;
+        });
+
+        // Recalculate columnsWidthL / columnsWidthR / columnsWidth and tg_left
+        this.updateTotalColumnsWidth();
+
+        // Any space undristributed due to min/max clamping goes to the blank column
+        const leftover = extra - totalAdded;
+        this.assignExtraToBlankColumn(leftover);
+
+        // Sync header sizes (resizeHeaderHandler already ran, so header cache is stale)
+        this.updateAllColumnHeadersSize();
+        this.updateHeaderLayerHeight();
+        this.updateHeaderTableHeight();
+        this.$headerFrame.css({
+            width: this.headerWidth,
+            height: this.headerHeight
+        });
+
+        // blankColumn.tg_width stays 0 (already done by updateTotalColumnsWidth)
+
+    },
+
+    // Assign remaining space to the blank column (fallback when no auto-sized columns)
+    assignExtraToBlankColumn: function(extra) {
+        this.blankColumn.tg_width = extra;
+        if (this.frozenInfo.columns) {
+            if (this.frozenInfo.right) {
+                this.columnsWidthL += extra;
+            } else {
+                this.columnsWidthR += extra;
+            }
+        } else {
+            this.columnsWidthL += extra;
+        }
     }
 
 };

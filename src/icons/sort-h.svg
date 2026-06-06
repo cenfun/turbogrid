@@ -1,0 +1,6 @@
+<svg class="tg-icon-sort-h" pointer-events="none" viewBox="0 0 19 6">
+    <path class="tg-icon-item tg-icon-item-light tg-asc" fill="currentColor" d="M0 0h10l-5 6z" />
+    <path class="tg-icon-item tg-asc" fill="currentColor" d="M9 6h10l-5 -6z" />
+    <path class="tg-icon-item tg-desc" fill="currentColor" d="M0 0h10l-5 6z" />
+    <path class="tg-icon-item tg-icon-item-light tg-desc" fill="currentColor" d="M9 6h10l-5 -6z" />
+</svg>

@@ -34,6 +34,25 @@ const tag = {
 };
 
 
+function inlineAssetsPlugin() {
+    return {
+        name: 'inline-assets',
+        resolveId(id) {
+            if (id.endsWith('?inline') && (id.endsWith('.html?inline') || id.endsWith('.svg?inline'))) {
+                return this.resolve(id.replace('?inline', ''));
+            }
+        },
+        load(id) {
+            if (id.endsWith('?inline') && (id.endsWith('.html?inline') || id.endsWith('.svg?inline'))) {
+                const filePath = id.replace('?inline', '');
+                const content = fs.readFileSync(filePath, 'utf-8');
+                return `export default ${JSON.stringify(content.replace(/\r?\n/g, ''))}`;
+            }
+        }
+    };
+}
+
+
 function buildEndPlugin() {
     return {
         name: 'build-end',
@@ -97,7 +116,7 @@ export default defineConfig(({ command }) => {
     // Production build
     return {
         root: '.',
-        plugins: [buildEndPlugin()],
+        plugins: [inlineAssetsPlugin(), buildEndPlugin()],
         publicDir: false,
         define: {
             'window.TAG': JSON.stringify(Object.values(tag).join('-')),

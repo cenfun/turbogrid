@@ -231,7 +231,7 @@ export default {
         Object.keys(this.cssList).forEach(function(k) {
             rules.push(`${k}{}`);
         });
-        const str = rules.join('\n');
+        const str = rules.join('');
         this.styleElement.innerHTML = str;
         this.previousCssList = this.cssList;
     },

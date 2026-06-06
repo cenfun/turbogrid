@@ -111,8 +111,7 @@ export default defineConfig(({ command }) => {
                 formats: ['umd', 'es'],
                 fileName: (format) => (format === 'umd' ? 'turbogrid.js' : 'turbogrid.esm.js')
             },
-            rollupOptions: {
-                external: [],
+            rolldownOptions: {
                 output: {
                     exports: 'named'
                 }

@@ -37,14 +37,10 @@ const tag = {
 function inlineAssetsPlugin() {
     return {
         name: 'inline-assets',
-        resolveId(id) {
-            if (id.endsWith('?inline') && (id.endsWith('.html?inline') || id.endsWith('.svg?inline'))) {
-                return this.resolve(id.replace('?inline', ''));
-            }
-        },
+        enforce: 'pre',
         load(id) {
-            if (id.endsWith('?inline') && (id.endsWith('.html?inline') || id.endsWith('.svg?inline'))) {
-                const filePath = id.replace('?inline', '');
+            if (id.endsWith('.html?raw') || id.endsWith('.svg?raw')) {
+                const filePath = id.replace('?raw', '');
                 const content = fs.readFileSync(filePath, 'utf-8');
                 return `export default ${JSON.stringify(content.replace(/\r?\n/g, ''))}`;
             }

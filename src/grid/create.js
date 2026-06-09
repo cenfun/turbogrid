@@ -3,7 +3,7 @@ import CONST from '../core/const.js';
 import Util from '../core/util.js';
 
 import globalStyle from '../theme/theme.scss?inline';
-import templateHtml from '../template.html?inline';
+import templateHtml from '../template.html?raw';
 
 export default {
 

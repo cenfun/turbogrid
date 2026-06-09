@@ -1,8 +1,8 @@
-import sortH from '../icons/sort-h.svg?inline';
-import sortV from '../icons/sort-v.svg?inline';
-import tree from '../icons/tree.svg?inline';
-import checkbox from '../icons/checkbox.svg?inline';
-import drag from '../icons/drag.svg?inline';
+import sortH from '../icons/sort-h.svg?raw';
+import sortV from '../icons/sort-v.svg?raw';
+import tree from '../icons/tree.svg?raw';
+import checkbox from '../icons/checkbox.svg?raw';
+import drag from '../icons/drag.svg?raw';
 
 const radio = '<div class="tg-icon-radio"><div>';
 

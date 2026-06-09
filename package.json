@@ -16,9 +16,9 @@
     },
     "types": "dist/turbogrid.d.ts",
     "scripts": {
-        "dev": "vite build && vite",
+        "dev": "vite",
         "test": "sf test",
-        "lint": "eslint src/ test/ public/ --ext .js,.html && stylelint src/**/*.scss",
+        "lint": "eslint src/ test/ --ext .js && stylelint src/**/*.scss",
         "build": "npm run lint && vite build",
         "patch": "npm run build && sf publish patch",
         "pack": "sf pack -o docs"
@@ -32,15 +32,21 @@
         "type": "git",
         "url": "git+https://github.com/cenfun/turbogrid.git"
     },
-    "dependencies": {},
+    "dependencies": {
+        "vue": "^3.5.35",
+        "vue-router": "^5.1.0"
+    },
     "devDependencies": {
+        "@vitejs/plugin-vue": "^6.0.7",
         "eslint": "^10.4.1",
         "eslint-config-plus": "^2.0.4",
         "eslint-plugin-html": "^8.1.4",
+        "eslint-plugin-vue": "^10.9.2",
         "sass": "^1.100.0",
         "stylelint": "^17.13.0",
         "stylelint-config-plus": "^1.1.6",
         "vine-ui": "^3.1.18",
-        "vite": "^8.0.16"
+        "vite": "^8.0.16",
+        "vue-eslint-parser": "^10.4.1"
     }
 }

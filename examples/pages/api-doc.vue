@@ -1,0 +1,2107 @@
+<template>
+    <div class="main flex-auto flex-column">
+        <div class="api-header">
+                <div class="api-nav">
+                    <a href="#methods">Methods</a>
+                    <a href="#data">Data</a>
+                    <a href="#options">Options</a>
+                    <a href="#events">Events</a>
+                    <a href="#lifecycle">Lifecycle</a>
+                </div>
+                <div class="api-toolbar">
+                    <div class="api-search">
+                        <input class="api-search-value" type="text" placeholder="Search API" value="" />
+                        <div class="api-search-list" style="display: none;"></div>
+                    </div>
+                    <div class="api-language">
+                        <a href="api.html">English</a>
+                        <a href="api-zh.html">简体中文</a>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="api-container flex-auto">
+
+                <details open class="turbogrid">
+                    <summary>
+                        <a name="turbogrid">turbogrid</a>
+                    </summary>
+
+                    <section>
+                        <pre><code class="language-js">
+                            // global
+                            const TG = window.turbogrid;
+                            const { Grid, Util } = window.turbogrid;
+                            // cjs
+                            const TG = require("turbogrid");
+                            const { Grid, Util } = require("turbogrid");
+                            // esm
+                            import TG from "turbogrid";
+                            import { Grid, Util } from "turbogrid";
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="Grid">Grid(container)</a>
+                        <div>Creates a new grid instance for the specified container.</div>
+                        <div>The container argument can be a CSS selector, a DOM element, or an options object that includes a container property.</div>
+                        <pre><code class="language-js">
+                            //selector
+                            const grid = new Grid(".container");
+                            //or element
+                            const container = document.querySelector(".container");
+                            const grid = new Grid(container);
+                            //or options with container
+                            const grid = Grid({
+                                container,
+                                ... other options
+                            });
+                        </code></pre>
+                    </section>
+
+                </details>
+
+                <details open class="methods">
+                    <summary>
+                        <a name="methods">Methods</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <section>
+                        <a name="setData">setData(data)</a>
+                        <div>Sets the grid data. See the <a href="#data">data structure</a> section for details.</div>
+                        <div>The data object reads columns, rows, rowsLength, and options. rowsLength is useful when the total row count is known before all rows are loaded.</div>
+                        <pre><code class="language-js">
+                            grid.setData({
+                                columns: [],
+                                rows: []
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getData">getData()</a>
+                        <div>Returns the current grid data object.</div>
+                        <pre><code class="language-js">
+                            const data = grid.getData();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="setDataSnapshot">setDataSnapshot(data)</a>
+                        <div>Loads data from a plain snapshot by stripping private tg_* fields and rebuilding normalized tree state for rows and columns.</div>
+                        <pre><code class="language-js">
+                            grid.setDataSnapshot(data);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getItemSnapshot">getItemSnapshot(item[, keysSettings])</a>
+                        <div>Returns a sanitized snapshot of a row or column item.</div>
+                        <div>When keysSettings is omitted, private fields are removed. When keysSettings is provided, keys set to true are included explicitly and keys set to false are excluded.</div>
+                        <pre><code class="language-js">
+                            const rowSnapshot = grid.getItemSnapshot(rowItem);
+                            const rowSnapshot2 = grid.getItemSnapshot(rowItem, {
+                                id: true,
+                                name: true
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="setOption">setOption(options)</a>
+                        <div>Sets one or more grid options. See <a href="#options">options</a> for available settings.</div>
+                        <div>Supports both setOption(optionKey, optionValue) and setOption(optionsObject).</div>
+                        <pre><code class="language-js">
+                            //set multiple options
+                            grid.setOption({
+                                optionKey1: optionValue1,
+                                optionKey2: optionValue2
+                            });
+                            //set single option
+                            grid.setOption(optionKey, optionValue);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getOption">getOption([name])</a>
+                        <div>Returns the current option value for name, or the full options object when no name is provided.</div>
+                        <div>Returns undefined for unknown keys.</div>
+                        <pre><code class="language-js">
+                            //get all options
+                            const options = grid.getOption();
+                            //get single option
+                            const optionValue = grid.getOption(optionKey);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="setFormatter">setFormatter(formatters)</a>
+                        <div>Registers or overrides grid formatters.</div>
+                        <div>Supports both setFormatter(type, handler) and setFormatter(formatterMap). Registered handlers run with the grid instance as this.</div>
+                        <pre><code class="language-js">
+                            //set multiple formatters
+                            grid.setFormatter({
+                                string: function(value, rowItem, columnItem, cellNode) {
+                                    return value;
+                                }
+                            });
+
+                            //set single formatter
+                            grid.setFormatter("string", formatterHandler);
+                        </code></pre>
+                        <div>Built-in cell formatters: string, number, date, icon, blank, checkbox, tree, null</div>
+                        <div>Built-in header formatter: header</div>
+                        <div>Formatter signature:</div>
+                        <pre><code class="language-js">
+                            function(value, rowItem, columnItem, cellNode) { 
+                                // value is formatted by null formatter
+                                // get original value:
+                                const originalValue = rowItem[columnItem.id];
+                                const rowIndex = rowItem.tg_index;
+                                const columnIndex = columnItem.tg_index;
+                                // using default formatter returns:
+                                const defaultFormatter = this.getDefaultFormatter("[formatter-name]");
+                                return defaultFormatter(value + " new text", rowItem, columnItem, cellNode)
+                            } 
+                        </code></pre>
+                        <div>Demo <a href="formatter.html" target="_blank">Formatter</a></div>
+                    </section>
+
+                    <section>
+                        <a name="getFormatter">getFormatter(type)</a>
+                        <div>Returns the formatter function registered for the specified type, bound to the current grid instance.</div>
+                        <pre><code class="language-js">
+                            const stringFormatter = grid.getFormatter("string");
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getDefaultFormatter">getDefaultFormatter([type])</a>
+                        <div>Returns the built-in formatter function for the specified type.</div>
+                        <div>Falls back to the built-in string formatter when the requested type is missing.</div>
+                        <pre><code class="language-js">
+                            const treeFormatter = grid.getDefaultFormatter("tree");
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="bind">bind(eventType, handler[, options])</a>
+                        <div>Binds an event handler to the grid. See <a href="#events">events</a> for supported event types.</div>
+                        <div>eventType can be a single event name, multiple names separated by spaces, or an object map of event names to handlers. Namespaced events such as onUpdated.demo are supported.</div>
+                        <div>Use options such as { once: true } to control listener behavior.</div>
+                        <pre><code class="language-js">
+                            grid.bind("onUpdated", function(e, d){
+                                //console.log(d);
+                            });
+                        </code></pre>
+                        <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="once">once(eventType, handler)</a>
+                        <div>Binds a handler that runs once and is removed after the first trigger.</div>
+                        <div>Accepts the same eventType formats as bind.</div>
+                        <pre><code class="language-js">
+                            grid.once("onUpdated", function(e, eventData){
+                                //console.log(eventData);
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="unbind">unbind([eventType][, handler][, options])</a>
+                        <div>Removes previously bound event handlers from the grid.</div>
+                        <div>Call without arguments to remove all handlers, with an event name or namespace to remove matching handlers, or with both eventType and handler to remove a specific binding.</div>
+                        <pre><code class="language-js">
+                            grid.unbind();
+                            grid.unbind("onUpdated");
+                            grid.unbind("onUpdated", handler);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="trigger">trigger(eventType, eventData)</a>
+                        <div>Triggers an event and calls all bound handlers with the provided event data.</div>
+                        <div>Handlers receive the event object first and eventData as the second argument.</div>
+                        <pre><code class="language-js">
+                            this.trigger(eventType, eventData);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getAllEvents">getAllEvents()</a>
+                        <div>Returns all supported <a href="#events">event types</a>.</div>
+                        <pre><code class="language-js">
+                            const allEventTypes = grid.getAllEvents();
+                        </code></pre>
+                        <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                    </section>
+
+                    <section>
+                        <a name="render">render()</a>
+                        <div>Schedules a render pass using the current data, options, and formatters.</div>
+                        <div>Repeated calls in the same tick are merged, so render is safe to call after batched updates.</div>
+                        <pre><code class="language-js">
+                            grid.render();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="rerender">rerender()</a>
+                        <div>Forces a full rebuild of the grid structure and renders it again.</div>
+                        <pre><code class="language-js">
+                            grid.rerender();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="resize">resize([w, [h]])</a>
+                        <div>Recalculates the layout and optionally applies a new size.</div>
+                        <div>Supports resize(), resize(width, height), and resize(styleMap) where styleMap is applied to the grid holder.</div>
+                        <pre><code class="language-js">
+                            grid.resize();
+                            grid.resize(600, 400);
+                        </code></pre>
+                        <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                    </section>
+
+                    <section>
+                        <a name="destroy">destroy()</a>
+                        <div>Destroys the grid instance and removes generated DOM, observers, and event bindings.</div>
+                        <pre><code class="language-js">
+                            grid.destroy();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getColumnItem">getColumnItem(columnIndex)</a>
+                        <a name="getColumnItemById">getColumnItemById(id)</a>
+                        <a name="getColumnItemBy">getColumnItemBy(key, value)</a>
+                        <a name="getRowItem">getRowItem(rowIndex)</a>
+                        <a name="getRowItemById">getRowItemById(id)</a>
+                        <a name="getRowItemBy">getRowItemBy(key, value)</a>
+                        <div>The rowIndex and columnIndex parameters support several input forms:</div>
+                        <ol>
+                            <li>If the parameter is a Number, the grid looks up the row or column by index. Negative indexes are supported, so -1 resolves to the last item.</li>
+                            <li>If the parameter is a String, the grid searches all items for a matching row or column id.</li>
+                            <li>If the parameter is an Object, the grid inspects these properties:</li>
+                            <ul>
+                                <li>If the object has a tg_index property, the grid looks up the row or column by index first.</li>
+                                <li>If the object has an id property of type String, the grid searches all items for a matching id.</li>
+                            </ul>
+                        </ol>
+                        <pre><code class="language-js">
+                            const columnItem = grid.getColumnItem(columnIndex);
+                            const columnItemById = grid.getColumnItemById("id_123");
+                            const rowItem = grid.getRowItem(rowIndex);
+                            const rowItemById = grid.getRowItemById("id_123");
+                            const rowItem = grid.getRowItem(123);
+                            const rowItem = grid.getRowItem("id_123");
+                            const rowItem = grid.getRowItemBy("id", "id_123");
+                            const rowItem = grid.getRowItemBy("key", "value");
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="showLoading">showLoading()</a>
+                        <a name="hideLoading">hideLoading()</a>
+                        <a name="setLoading">setLoading(loading)</a>
+                        <div>Shows, hides, or customizes the built-in loading overlay.</div>
+                        <div>loading can be plain content, a DOM node, a factory function that receives the loading container, or a default-loading options object such as { size, color, fast }.</div>
+                        <pre><code class="language-js">
+                            grid.showLoading();
+                            grid.hideLoading();
+                            grid.setLoading("Loading ...");
+                            grid.setLoading(function(container) {
+                                return document.createElement("div");
+                            });
+                        </code></pre>
+                        <div>Demo <a href="loading.html" target="_blank">Show/Hide Loading</a></div>
+                    </section>
+
+                    <section>
+                        <a name="showMask">showMask([styleMap])</a>
+                        <a name="hideMask">hideMask()</a>
+                        <div>Shows or hides the interaction-blocking mask overlay.</div>
+                        <div>Pass styleMap to override mask styles such as opacity or background color.</div>
+                        <pre><code class="language-js">
+                            grid.showMask();
+                            grid.showMask({
+                                opacity: 0.3
+                            });
+
+                            grid.hideMask();
+                        </code></pre>
+                        <div>Demo <a href="loading.html" target="_blank">Show/Hide Loading</a></div>
+                    </section>
+
+                    <section>
+                        <a name="expandAllRows">expandAllRows()</a>
+                        <a name="collapseAllRows">collapseAllRows()</a>
+                        <a name="toggleAllRows">toggleAllRows()</a>
+                        <div>Expands, collapses, or toggles all tree rows.</div>
+                        <pre><code class="language-js">
+                            grid.expandAllRows();
+                            grid.collapseAllRows();
+                            grid.toggleAllRows();
+                        </code></pre>
+                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="expandRow">expandRow(rowIndex)</a>
+                        <a name="collapseRow">collapseRow(rowIndex)</a>
+                        <a name="toggleRow">toggleRow(rowIndex)</a>
+                        <div>Expands, collapses, or toggles a specific row.</div>
+                        <div>If the target row is a group with no loaded subs yet, expandRow may trigger onRowSubsRequest so child rows can be loaded lazily.</div>
+                        <pre><code class="language-js">
+                            grid.expandRow(rowIndex);
+                            grid.collapseRow(rowIndex);
+                            grid.toggleRow(rowIndex);
+                        </code></pre>
+                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+
+                    <section>
+                        <a name="expandRowLevel">expandRowLevel(level)</a>
+                        <div>Expands rows up to the specified tree level.</div>
+                        <pre><code class="language-js">
+                            grid.expandRowLevel(level);
+                        </code></pre>
+                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+
+                    <section>
+                        <a name="exportData">exportData([keysSettings])</a>
+                        <div>Returns export-ready columns and rows with private fields removed, optionally filtered by keysSettings.</div>
+                        <div>In keysSettings, true forces a key to be included and false excludes it.</div>
+                        <pre><code class="language-js">
+                            const exportedData = grid.exportData();
+                            const exportedData = grid.exportData({
+                                the_key_need: true,
+                                key_key_no_need: false
+                            });
+                        </code></pre>
+                        <div>Demo <a href="export.html" target="_blank">Export</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="setRowSubs">setRowSubs(rowIndex, subs)</a>
+                        <div>Replaces the child rows for the specified parent row.</div>
+                        <div>Passing an array of subs updates the row tree immediately and marks the parent row as expanded.</div>
+                        <pre><code class="language-js">
+                            const subs = [{name:"row1"},{name:"row2"}];
+                            grid.setRowSubs(rowIndex, subs);
+                        </code></pre>
+                        <div>Demo <a href="load-subs.html" target="_blank">Dynamic Load Subs</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="setColumns">setColumns(columnList)</a>
+                        <div>Replaces the current top-level columns and triggers a full rerender.</div>
+                        <pre><code class="language-js">
+                            const columns = [{id:"name", name:"Name"}];
+                            grid.setColumns(columns);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="setRows">setRows(rowList)</a>
+                        <div>Replaces the current top-level rows with a new row list.</div>
+                        <div>Use setRows when only the row tree changes. Use setData when columns or options also need to be replaced.</div>
+                        <pre><code class="language-js">
+                            const rows = [{name:"row1"},{name:"row2"}];
+                            grid.setRows(rows);
+                        </code></pre>
+                        <div>Demo <a href="set-rows.html" target="_blank">Dynamic Set Rows</a></div>
+                    </section>
+
+                    <section>
+                        <a name="getRows">getRows()</a>
+                        <a name="getColumns">getColumns()</a>
+                        <a name="getViewRows">getViewRows()</a>
+                        <a name="getViewColumns">getViewColumns([all])</a>
+                        <a name="getViewRowItem">getViewRowItem(viewRowIndex)</a>
+                        <a name="getViewColumnItem">getViewColumnItem(viewColumnIndex)</a>
+                        <div>getRows and getColumns return the source top-level data.</div>
+                        <div>A view index is the current visible order after filtering, collapsing, sorting, and column visibility changes.</div>
+                        <div>getViewColumns(true) also includes visible group columns in the returned list.</div>
+                        <pre><code class="language-js">
+                            const rows = grid.getRows();
+                            const columns = grid.getColumns();
+                            const viewRows = grid.getViewRows();
+                            const viewColumns = grid.getViewColumns();
+                            const viewRowItem = grid.getViewRowItem(0);
+                            const viewColumnItem = grid.getViewColumnItem(0);
+                        </code></pre>
+                    </section>
+                    
+                    <section>
+                        <a name="addRow">addRow(rowInfo[, parent, position, scrollTo = true])</a>
+                        <a name="deleteRow">deleteRow(rowIndex)</a>
+                        <div>Adds a row or deletes one or more rows.</div>
+                        <div>parent can be a row reference, row index, or row id. position inserts at a specific child index, and scrollTo defaults to true so the new row is brought into view.</div>
+                        <pre><code class="language-js">
+                            grid.addRow({
+                                id: "id1",
+                                name: "row item"
+                            });
+                            grid.addRow(["Row 1", "Row 2"]);
+                            grid.addRow(["Row 1", "Row 2"], parentIndex);
+                            grid.addRow("Row Before","level_0", 0);
+                            grid.deleteRow(2);
+                            grid.deleteRow([1, 2]);
+                        </code></pre>
+                        <div>Demo <a href="row-add-delete.html" target="_blank">Row Add/Delete</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="moveRowsToTop">moveRowsToTop(rowList)</a>
+                        <a name="moveRowsUp">moveRowsUp(rowList)</a>
+                        <a name="moveRowsDown">moveRowsDown(rowList)</a>
+                        <a name="moveRowsToBottom">moveRowsToBottom(rowList)</a>
+                        <a name="moveSelectedRowsToTop">moveSelectedRowsToTop()</a>
+                        <a name="moveSelectedRowsUp">moveSelectedRowsUp()</a>
+                        <a name="moveSelectedRowsDown">moveSelectedRowsDown()</a>
+                        <a name="moveSelectedRowsToBottom">moveSelectedRowsToBottom()</a>
+                        <a name="moveRows">moveRows(rowList, offset)</a>
+                        <div>offset: values less than 0 move rows up, and values greater than 0 move rows down.</div>
+                        <div>rowList can be a single row or a list of rows. The move is ignored when offset is 0 or when all visible rows are included.</div>
+                        <pre><code class="language-js">
+                            grid.moveRowsToTop(["row_id1", "row_id2"]);
+                            grid.moveRowsUp(["row_id1", "row_id2"]);
+                            grid.moveRowsDown(["row_id1", "row_id2"]);
+                            grid.moveRowsToBottom(["row_id1", "row_id2"]);
+    
+                            grid.moveSelectedRowsToTop();
+                            grid.moveSelectedRowsUp();
+                            grid.moveSelectedRowsDown();
+                            grid.moveSelectedRowsToBottom();
+
+                            grid.moveRows(["row_id"], -1);
+                            grid.moveRows(["row_id"], -2);
+                            grid.moveRows("row_id", 1);
+                        </code></pre>
+                        <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
+                    </section>
+
+                    <section>
+                        <a name="selectAll">selectAll([selected = true])</a>
+                        <div>Selects or clears all selectable rows.</div>
+                        <div>In single-select mode, selectAll(true) is ignored.</div>
+                        <pre><code class="language-js">
+                            grid.selectAll();
+                            grid.selectAll(false);
+                        </code></pre>
+                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setRowSelected">setRowSelected(rowInfo[, settings])</a>
+                        <div>Updates the selected state of one or more rows.</div>
+                        <div>In multi-select mode, pass false as the only argument to clear all, pass false as the second argument to unselect specific rows, or pass an event with Shift pressed to select a range from the previous selection.</div>
+                        <pre><code class="language-js">
+                            grid.setRowSelected(rowIndex);
+                            grid.setRowSelected(rowIndex, false);
+                            grid.setRowSelected(false);
+                        </code></pre>
+                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+
+                    <section>
+                        <a name="getSelectedRow">getSelectedRow()</a>
+                        <a name="getSelectedRows">getSelectedRows()</a>
+                        <div>getSelectedRow returns the first selected row or null.</div>
+                        <div>getSelectedRows always returns an array sorted by selection order.</div>
+                        <pre><code class="language-js">
+                            const selectedRow = grid.getSelectedRow();
+                            const selectedRows = grid.getSelectedRows();
+                        </code></pre>
+                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="setRowHover">setRowHover(rowIndex, hover)</a>
+                        <div>Sets whether the specified row is hovered.</div>
+                        <pre><code class="language-js">
+                            grid.setRowHover(rowIndex, true);
+                            grid.setRowHover(rowIndex, false);
+                        </code></pre>
+                        <div>Demo <a href="frozen-middle.html" target="_blank">Frozen Middle</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setRowState">setRowState(rowIndex, state, value = true)</a>
+                        <div>Sets a custom row state and toggles the CSS class tg-[state] on rendered row nodes.</div>
+                        <pre><code class="language-js">
+                            grid.setRowState(rowIndex, "selected", true);
+                            grid.setRowState(rowIndex, "warning", true);
+                            grid.setRowState(rowIndex, "warning", false);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="setSortColumn">setSortColumn(sortColumn)</a>
+                        <a name="removeSortColumn">removeSortColumn()</a>
+                        <div>setSortColumn accepts the same input forms as getColumnItem.</div>
+                        <div>Calling setSortColumn repeatedly with the same column toggles sortAsc. removeSortColumn clears the current sort state.</div>
+                        <pre><code class="language-js">
+                            grid.setSortColumn(sortColumn);
+                            grid.removeSortColumn();
+                        </code></pre>
+                        <div>Demo <a href="sort.html" target="_blank">Row Sort</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setColumnWidth">setColumnWidth(columnIndex, width)</a>
+                        <div>Updates a column width at runtime.</div>
+                        <div>width is rounded to an integer, clamped to 0 or greater, and updates the column width, minWidth, and maxWidth together.</div>
+                        <pre><code class="language-js">
+                            grid.setColumnWidth(columnIndex, width);
+                        </code></pre>
+                        <div>Demo <a href="column-display.html" target="_blank">Column Width Resize</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="showColumn">showColumn(columnIndex)</a>
+                        <a name="hideColumn">hideColumn(columnIndex)</a>
+                        <div>Shows or hides one or more columns.</div>
+                        <div>Accepts the same input forms as getColumnItem, including lists.</div>
+                        <pre><code class="language-js">
+                            grid.showColumn(columnIndex);
+                            grid.hideColumn(columnIndex);
+                            grid.showColumn([1, 3]);
+                            grid.hideColumn([1, 3]);
+                        </code></pre>
+                        <div>Demo <a href="column-display.html" target="_blank">Show/Hide Column</a></div>
+                    </section>
+
+                    <section>
+                        <a name="addColumn">addColumn(columnInfo[, parent, position, scrollTo = true])</a>
+                        <a name="deleteColumn">deleteColumn(columnIndex)</a>
+                        <div>Adds a column or deletes one or more columns.</div>
+                        <div>parent can be a column reference, column index, or column id. position inserts at a specific child index, and scrollTo defaults to true so the new column is brought into view.</div>
+                        <pre><code class="language-js">
+                            grid.addColumn({
+                                id: "id1",
+                                name: "column item"
+                            });
+                            grid.addColumn(["Column 1", "Column 2"]);
+                            grid.addColumn(["Column 1", "Column 2"], parentIndex);
+                            grid.addColumn("Column Before","level_0",0);
+                            grid.deleteColumn(2);
+                            grid.deleteColumn([1, 2]);
+                        </code></pre>
+                        <div>Demo <a href="column-add-delete.html" target="_blank">Column Add/Delete</a></div>
+                    </section>
+
+                    <section>
+                        <a name="scrollToRow">scrollToRow(rowIndex)</a>
+                        <a name="scrollToFirstRow">scrollToFirstRow()</a>
+                        <a name="scrollToLastRow">scrollToLastRow()</a>
+                        <a name="scrollToColumn">scrollToColumn(columnIndex)</a>
+                        <a name="scrollToFirstColumn">scrollToFirstColumn()</a>
+                        <a name="scrollToLastColumn">scrollToLastColumn(end)</a>
+                        <a name="scrollToCell">scrollToCell(rowIndex, columnIndex)</a>
+                        <div>Scrolls directly to the specified row, column, or cell.</div>
+                        <div>scrollToLastColumn(end) skips the trailing blank filler column unless end is true.</div>
+                        <pre><code class="language-js">
+                            grid.scrollToRow(rowIndex);
+                            grid.scrollToColumn(columnIndex);
+                            grid.scrollToCell(rowIndex, columnIndex);
+                        </code></pre>
+                        <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="scrollRowIntoView">scrollRowIntoView(rowIndex)</a>
+                        <a name="scrollColumnIntoView">scrollColumnIntoView(columnIndex)</a>
+                        <a name="scrollCellIntoView">scrollCellIntoView(rowIndex, columnIndex)</a>
+                        <div>Scrolls just enough to bring the target row, column, or cell into view.</div>
+                        <pre><code class="language-js">
+                            grid.scrollRowIntoView(rowIndex);
+                            grid.scrollColumnIntoView(columnIndex);
+                            grid.scrollCellIntoView(rowIndex, columnIndex);
+                        </code></pre>
+                        <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                    </section>
+
+                    <section>
+                        <a name="setScrollTop">setScrollTop(top)</a>
+                        <a name="setScrollLeft">setScrollLeft(left)</a>
+                        <a name="getScrollTop">getScrollTop()</a>
+                        <a name="getScrollLeft">getScrollLeft()</a>
+                        <div>Sets or returns the current scroll positions.</div>
+                        <pre><code class="language-js">
+                            grid.setScrollTop(200);
+                            grid.setScrollLeft(200);
+                            const st = grid.getScrollTop();
+                            const sl = grid.getScrollLeft();
+                        </code></pre>
+                        <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                    </section>
+
+                    <section>
+                        <a name="updateRow">updateRow(rowIndex[, rowData])</a>
+                        <a name="updateCell">updateCell(rowIndex, columnIndex[, cellValue])</a>
+                        <a name="update">update()</a>
+                        <a name="flushBody">flushBody()</a>
+                        <a name="flushSort">flushSort()</a>
+                        <a name="flushRow">flushRow(viewRowIndex)</a>
+                        <a name="flushRowFrom">flushRowFrom(viewRowIndex)</a>
+                        <a name="flushColumn">flushColumn(viewColumnIndex)</a>
+                        <a name="flushColumnFrom">flushColumnFrom(viewColumnIndex)</a>
+                        <a name="flushCell">flushCell(viewRowIndex, viewColumnIndex)</a>
+                        <div>updateRow merges partial rowData into the existing row.</div>
+                        <div>updateCell reads rowIndex and columnIndex using the normal row and column lookup rules. Omitting rowData or cellValue rerenders the existing data.</div>
+                        <div>flushBody clears all cached row renders. flushSort clears the row cache used after sorting.</div>
+                        <div>flushRow, flushRowFrom, flushColumn, flushColumnFrom, and flushCell use view indexes (tg_view_index), not source indexes.</div>
+                        <pre><code class="language-js">
+                            grid.update();
+                            grid.flushBody();
+                            grid.flushSort();
+                            grid.flushRow(viewRowIndex);
+                            grid.flushRowFrom(viewRowIndex);
+                            grid.flushColumn(viewColumnIndex);
+                            grid.flushColumnFrom(viewColumnIndex);
+                            grid.flushCell(viewRowIndex, viewColumnIndex);
+                            grid.updateRow(rowIndex);
+                            grid.updateRow(rowIndex, rowData);
+                            grid.updateCell(rowIndex, columnIndex);
+                            grid.updateCell(rowIndex, columnIndex, cellValue);
+                        </code></pre>
+                        <div>Demo <a href="flush.html" target="_blank">Flush</a></div>
+                    </section>
+
+                    <section>
+                        <a name="getScrollbarWidth">getScrollbarWidth()</a>
+                        <div>Returns 0 when no vertical scrollbar is present; otherwise returns <a href="#options.scrollbarSize">scrollbarSize</a> when <a href="#onScrollStateChanged">hasVScroll</a> is true.</div>
+                        <a name="getScrollbarHeight">getScrollbarHeight()</a>
+                        <div>Returns 0 when no horizontal scrollbar is present; otherwise returns <a href="#options.scrollbarSize">scrollbarSize</a> when <a href="#onScrollStateChanged">hasHScroll</a> is true.</div>
+                        <pre><code class="language-js">
+                            const sbw = grid.getScrollbarWidth();
+                            const sbh = grid.getScrollbarHeight();
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getScrollViewWidth">getScrollViewWidth()</a>
+                        <a name="getScrollViewHeight">getScrollViewHeight()</a>
+                        <div>Scroll view size equals scroll pane size minus scrollbar size.</div>
+                        <pre><code class="language-js">
+                            const svw = grid.getScrollViewWidth();
+                            const svh = grid.getScrollViewHeight();
+                        </code></pre>
+                    </section>
+                    
+
+                    <section>
+                        <a name="getScrollPaneWidth">getScrollPaneWidth()</a>
+                        <a name="getScrollPaneHeight">getScrollPaneHeight()</a>
+                        <div>Scroll pane size equals scroll view size plus scrollbar size.</div>
+                        <pre><code class="language-js">
+                            const spw = grid.getScrollPaneWidth();
+                            const sph = grid.getScrollPaneHeight();
+                        </code></pre>
+                    </section>
+                    
+                    <section>
+                        <a name="getColumnsLength">getColumnsLength(total)</a>
+                        <div>Returns the number of visible columns by default. Pass true to include hidden columns.</div>
+                        <pre><code class="language-js">
+                            const len = grid.getColumnsLength();
+                            const totalLen = grid.getColumnsLength(true);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getRowsLength">getRowsLength(total)</a>
+                        <div>Returns the number of visible rows by default. Pass true to include collapsed or filtered rows.</div>
+                        <pre><code class="language-js">
+                            const len = grid.getRowsLength();
+                            const totalLen = grid.getRowsLength(true);
+                        </code></pre>
+                    </section>
+                    
+                    <section>
+                        <a name="getRowsHeight">getRowsHeight()</a>
+                        <div>Returns the total rendered height of all rows.</div>
+                        <pre><code class="language-js">
+                            const totalHeight = grid.getRowsHeight();
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getRowHeight">getRowHeight(rowIndex)</a>
+                        <div>Returns the computed height of the specified row.</div>
+                        <pre><code class="language-js">
+                            const rowHeight = grid.getRowHeight(rowIndex);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="getViewport">getViewport()</a>
+                        <div>Returns the current visible row and column index ranges.</div>
+                        <pre><code class="language-js">
+                            const viewport = grid.getViewport();
+                            // { rows, columns }
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="find">find(selector[, container])</a>
+                        <div>Finds nodes inside the grid root with a CSS selector.</div>
+                        <div>Pass container to limit the query to a specific node inside the grid.</div>
+                        <pre><code class="language-js">
+                            const nodes = grid.find(".selector-name");
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getRowNodes">getRowNodes(rowIndex)</a>
+                        <div>Returns the rendered DOM nodes for the specified row.</div>
+                        <div>The return value is a Query collection, which is useful when the same row is rendered in multiple panes.</div>
+                        <pre><code class="language-js">
+                            const rowNodes = grid.getRowNodes(rowIndex);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getCellNode">getCellNode(rowIndex, columnIndex)</a>
+                        <a name="getCellValue">getCellValue(rowItem, columnItem)</a>
+                        <div>Returns a rendered cell node or resolves the raw cell value.</div>
+                        <div>getCellValue returns rowItem[columnItem.id] before any formatter is applied.</div>
+                        <pre><code class="language-js">
+                            const cellNode = grid.getCellNode(rowIndex, columnIndex);
+                            const cellValue = grid.getCellValue(rowItem, columnItem);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getHeaderItemNode">getHeaderItemNode(columnIndex)</a>
+                        <div>Returns the header item node for the specified column.</div>
+                        <div>Accepts the same input forms as getColumnItem.</div>
+                        <pre><code class="language-js">
+                            const headerItemNode = grid.getHeaderItemNode(columnIndex);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="getColumnHeaderNode">getColumnHeaderNode(columnIndex)</a>
+                        <div>Returns the header container node for the specified column.</div>
+                        <div>Accepts the same input forms as getColumnItem.</div>
+                        <pre><code class="language-js">
+                            const columnHeaderNode = grid.getColumnHeaderNode(columnIndex);
+                        </code></pre>
+                    </section>
+                    
+
+                    <section>
+                        <a name="forEachColumn">forEachColumn(callback)</a>
+                        <a name="forEachRow">forEachRow(callback)</a>
+                        <div>Iterates over each column or row and calls the provided callback.</div>
+                        <div>The callback receives (item, index, parent) for each node in the tree.</div>
+                        <pre><code class="language-js">
+                            grid.forEachColumn(function(column, index, parent) {
+                                //
+                            });
+                            grid.forEachRow(function(row, index, parent) {
+                                //
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="isRowSelectable">isRowSelectable(rowItem)</a>
+                        <div>Returns whether the row can be selected under the current rules.</div>
+                        <pre><code class="language-js">
+                            const rowItem = grid.getRowItem(rowIndex);
+                            if (grid.isRowSelectable(rowItem)) {
+                                console.log("selectable");
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <a name="isRowLeaf">isRowLeaf(rowItem)</a>
+                        <div>Returns whether the row is a leaf node.</div>
+                    </section>
+
+                    <section>
+                        <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
+                        <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
+                        <div>columns should be a list of column ids, and keywords is split on whitespace before matching.</div>
+                        <pre><code class="language-js">
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    return this.highlightKeywordsFilter(rowItem, ["name", "type"], "foo bar");
+                                }
+                            });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="onNextUpdated">onNextUpdated(handler)</a>
+                        <div>Registers a one-time handler for the next onUpdated event.</div>
+                        <div>This is equivalent to a one-shot listener for onUpdated.</div>
+                        <pre><code class="language-js">
+                            grid.onNextUpdated(function(e, eventData){
+                                //console.log(eventData);
+                            });
+                        </code></pre>
+                    </section> 
+                    
+
+                </details>
+
+                <details open class="data">
+                    <summary>
+                        <a name="data">Data</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <section>
+                        Both columns and rows are same data structure (JSON/Tree-like):
+                        <div>
+                            <pre><code class="language-js">
+                                    [{
+                                        name: "item 1",
+                                        subs: [{
+                                            name : "item 2",
+                                            subs: [{
+                                                name : "item 3",
+                                                subs: [{
+                                                    ...
+                                                }]
+                                            }, ...]
+                                        }, ...]
+                                    }, ...]
+                            </code></pre>
+                        </div>
+                        <pre><code class="language-js">
+                            const data = {
+                                columns : [...],
+                                rows : [...]
+                            };
+                            grid.setData(data);
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="data.columns">columns</a>
+                        <div>See <a href="#options.columnProps">columnProps</a> for available column fields.</div>
+                        <pre><code class="language-js">
+                            const columns = [{
+                                id:"c1",
+                                type : "string",
+                                name:"Column Name 1"
+                            }, {
+                                id : "c2",
+                                type : "number",
+                                name : "Column Name 2"
+                            }, {
+                                id: "c3",
+                                name: "Column Name 3",
+                                subs: [{
+                                    id: "c3_s1",
+                                    name: "Column Name 3-1"
+                                }, {
+                                    id: "c3_s2",
+                                    name: "Column Name 3-2"
+                                }]
+                            }];
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="data.rows">rows</a>
+                        <div>See <a href="#options.rowProps">rowProps</a> for available row fields.</div>
+                        <pre><code class="language-js">
+                            const rows = [{
+                                id : "r1",
+                                name : "Row Name 1",
+                                c1 : "string value 1",
+                                c2 : 1,
+                                c3_s1 : "value 3 - 1",
+                                c3_s2 : "value 1 - 2"
+                            }, {
+                                id : "r2",
+                                type : "group",
+                                name : "Row Name 2",
+                                c1 : "string value 2",
+                                c2 : "value 2",
+                                c3_s1 : "value 3 - 1",
+                                c3_s2 : "value 1 - 2",
+                                subs : [{
+                                    id : "r3",
+                                    type : "holding",
+                                    name : "Row Name 3",
+                                    c1 : "string value 3",
+                                    c2 : 3,
+                                    c3_s1 : "value 3 - 1",
+                                    c3_s2 : "value 1 - 2"
+                                }]
+                            }];
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="data.options">options</a>
+                        <div>Applies options from the data payload. These values take precedence over setOption.</div>
+                        <pre><code class="language-js">
+                            const data = {
+                                options : {
+                                    sortField : "name"
+                                },
+                                columns : columns,
+                                rows : rows
+                            };
+                            grid.setData(data);
+                        </code></pre>
+                    </section>
+                    
+                    <section>
+                        <a name="data.rowsLength">rowsLength</a>
+                        <div>Supports lazy row loading when rows are not provided but the total row count is known.</div>
+                        <pre><code class="language-js">
+                                const data = {
+                                    columns: columns,
+                                    rowsLength: 50000
+                                };
+                                grid.setData(data);
+                        </code></pre>
+                        <div>Demo <a href="load-rows.html" target="_blank">Dynamic Load Rows</a></div>
+                    </section>
+
+
+                </details>
+
+                <details open class="options">
+                    <summary>
+                        <a name="options">Options</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <section>
+                        <a name="options.className">className = "tg-turbogrid"</a>
+                        <div>Customizes the root CSS class name used as the grid namespace.</div>
+                        <pre><code class="language-js">
+                        grid.setOption({
+                            className: "my-grid-class-name"
+                        });
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="options.theme">theme = "[theme-name]"</a>
+                        <div>Sets the theme name. Available values: default, lightblue, dark.</div>
+                        <div>Demo <a href="theme.html" target="_blank">Theme</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="options.rowHeight">rowHeight = 32</a>
+                        <div>Sets the default row height in pixels.</div>
+                        <div>Demo <a href="multiple-instance.html" target="_blank">Row Height</a></div>
+                    </section>
+                    
+                    <section>
+                        <a name="options.rowCacheLength">rowCacheLength = 0</a>
+                        <a name="options.columnCacheLength">columnCacheLength = 0</a>
+                        <div>Controls how many extra rows and columns are rendered outside the viewport as cache.</div>
+                        <div>Demo <a href="cache.html" target="_blank">Row/Column Cache</a></div>
+                    </section>
+                    
+
+
+                    <section>
+                        <a name="options.autoHeight">autoHeight = false</a>
+                        <div>Automatically adjusts the grid height to fit its visible content.</div>
+                        <div>Demo <a href="auto-height.html" target="_blank">Auto Height</a></div>
+                        <a name="options.autoColumnWidth">autoColumnWidth = false</a>
+                        <div>Distributes remaining horizontal space proportionally across columns without an explicit <code>width</code>. Columns with an explicit <code>width</code> are excluded. Use <code>widthWeight</code> on a column to control its share (default <code>1</code>). Works with <code>bindContainerResize</code>.</div>
+                        <div>Demo <a href="column-display.html" target="_blank">Column Display</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.headerVisible">headerVisible = true</a>
+                        <div>Shows or hides the header area.</div>
+                        <div>Demo <a href="no-header.html" target="_blank">Show/Hide Header</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.collapseAllVisible">collapseAllVisible = true</a>
+                        <a name="options.collapseAllOnInit">collapseAllOnInit = null</a>
+                        <div>Controls whether collapse-all actions are shown and whether they run during initialization.</div>
+                        <div>Demo <a href="row-collapse.html" target="_blank">Row Collapse/Expand</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.selectVisible">selectVisible = false</a>
+
+                        <a name="options.selectAllVisible">selectAllVisible = true</a>
+
+                        <a name="options.selectAllOnInit">selectAllOnInit = null</a>
+                        <div>Controls whether selection UI is shown and whether all rows are selected during initialization.</div>
+                        <div>For selectAllOnInit: true selects all, false clears all, and null leaves the current state unchanged.</div>
+
+                        <a name="options.selectMultiple">selectMultiple = true</a>
+                        <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowNumberVisible">rowNumberVisible = false</a>
+                        <div>Shows or hides the built-in row number column.</div>
+                        <div>Demo <a href="row-number.html" target="_blank">Row Number</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.rowNotFound">rowNotFound = ''</a>
+                        <div>Sets the empty-state content. Accepts an empty string, string, element, or function.</div>
+                        <div>Demo <a href="row-not-found.html" target="_blank">Row Not Found</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowDragCrossLevel">rowDragCrossLevel = true</a>
+                        <div>Controls whether dragged rows can move across levels. Accepts a boolean or a function that returns the allowed drop list.</div>
+                        <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                    </section>
+                    
+
+
+                    <section>
+                        <a name="options.rowMoveCrossLevel">rowMoveCrossLevel = true</a>
+                        <div>Controls whether move APIs can move rows across hierarchy levels.</div>
+                        <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.sortField">sortField = ""</a>
+                        <div>Specifies the field used for sorting comparisons.</div>
+
+                        <a name="options.sortAsc">sortAsc = true</a>
+                        <div>true sorts ascending; false sorts descending.</div>
+
+                        <a name="options.sortBlankValueBottom">sortBlankValueBottom = true</a>
+                        <div>Controls how blank values are positioned during sorting.</div>
+                        <div>true keeps rows with blank values at the bottom of the grid.</div>
+                        <div>false places blank values at the bottom for descending sort and at the top for ascending sort.</div>
+
+                        <a name="options.sortOnInit">sortOnInit = false</a>
+                        <div>When true, the grid sorts by sortField during initialization.</div>
+
+                        <a name="options.sortIndicator">sortIndicator = "h"</a>
+                        <div>Sets the sort indicator style: "h" or "v".</div>
+
+                        <a name="options.sortComparers">sortComparers = {defaultSortComparers}</a>
+                        <div>Provides custom comparer functions for sorting.</div>
+                        <div>Demo <a href="sort.html" target="_blank">Row Sort</a></div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowFilter">rowFilter</a>
+                        <a name="options.rowFilteredSort">rowFilteredSort = null</a>
+                        <div>Filters rows before rendering and optionally sorts filtered matches.</div>
+                        <div>Demo <a href="row-filter.html" target="_blank">Row Filter</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.columnTypes">columnTypes = {...}</a>
+                        <div>Defines preset column types and id-to-type mappings.</div>
+                    </section>
+                    
+
+                    <section>
+                        <a name="options.rowProps">rowProps = </a>
+                        <pre><code class="language-js">
+                                {
+
+                                    //selected: Boolean
+                                    //collapsed: Boolean
+                                
+                                    //selectable : true
+                                    //exportable: true
+                                
+                                    //sortFixed: [Boolean, String "top"]
+                                
+                                    // customize row style
+                                    //classMap : [String, Array, Object]
+                                    //styleMap : [String, Array, Object]
+                                    //[columnId]ClassMap: [String, Array, Object]
+                                    //[columnId]StyleMap: [String, Array, Object]
+                                
+                                    // row type for class name: group
+                                    //type: String
+                                
+                                    //formatter: [String, Function]
+                                
+                                    //height: Number
+                                
+                                    //subs: Array
+                                }
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="options.columnProps">columnProps = </a>
+                        <pre><code class="language-js">
+                                {
+
+                                    // require for showing header
+                                    name: '',
+
+                                    // for getting row value
+                                    //id: String
+
+                                    // expect to be a string, for example: "string", "number", "date" etc.
+                                    //type: String
+
+                                    // formatter expect to be a function, but also can be a string like type
+                                    // priority is higher than type
+                                    // be used for cell formatting
+                                    //formatter: [String, Function]
+                                    //headerFormatter: [String, Function]
+
+                                    // comparer function when sort function(a, b, options)
+                                    //comparer: [String, Function]
+
+                                    // left (default) | center | right
+                                    //align: String
+
+                                    // customize column style
+                                    //classMap: [String, Array, Object]
+                                    //styleMap: [String, Array, Object]
+                                    //headerClassMap: [String, Array, Object]
+                                    //headerStyleMap: [String, Array, Object]
+
+                                    //sortable: true
+                                    //resizable: true
+                                    //exportable: true
+
+                                    //private: false
+
+                                    // require for column resize
+                                    minWidth: 81,
+                                    maxWidth: 300
+
+                                    //width: Number
+                                    //widthWeight: Number (for autoColumnWidth proportional share; default 1 if not set)
+                                    //height: Number
+
+                                    //subs: Array
+                                    
+                                }
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <a name="options.frozenColumn">frozenColumn = -1</a>
+                        <a name="options.frozenRow">frozenRow = -1</a>
+                        <a name="options.frozenBottom">frozenBottom = false</a>
+                        <a name="options.frozenRight">frozenRight = false</a>
+                        <a name="options.frozenColumnMax">frozenColumnMax = 10</a>
+                        <a name="options.frozenRowMax">frozenRowMax = 10</a>
+                        <a name="options.frozenRowHoverable">frozenRowHoverable = false</a>
+                        <div>Configures frozen rows and columns. frozenRowHoverable enables hover styles and hover events on frozen rows.</div>
+                        <div>Demo <a href="frozen.html" target="_blank">Frozen</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.scrollbarSize">scrollbarSize = 12</a>
+                        <a name="options.scrollbarSizeH">scrollbarSizeH = null</a>
+                        <a name="options.scrollbarSizeV">scrollbarSizeV = null</a>
+                        <div>Sets the base scrollbar thickness.</div>
+
+                        <a name="options.scrollbarRound">scrollbarRound = false</a>
+                        <div>Enables rounded scrollbar styling.</div>
+
+                        <a name="options.scrollbarFade">scrollbarFade = false</a>
+                        <div>Enables scrollbar fade-in and fade-out behavior.</div>
+
+                        <a name="options.scrollbarFadeTimeout">scrollbarFadeTimeout = 1000</a>
+                        <div>Sets the delay before faded scrollbars are hidden.</div>
+
+                        <a name="options.scrollbarType">scrollbarType = "auto"</a>
+                        <div>Sets the scrollbar preset: auto or mobile, where mobile enables fade and uses size 6.</div>
+
+                        <a name="options.scrollPaneMinWidth">scrollPaneMinWidth = 30</a>
+                        <div>Sets the minimum width of the scroll pane.</div>
+                        <a name="options.scrollPaneGradient">scrollPaneGradient = false</a>
+                        <div>Enables a gradient mask on the scroll pane edges.</div>
+                        <div>Demo <a href="scrollbar.html" target="_blank">Scrollbar</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.rowDragVisible">rowDragVisible = false</a>
+                        <a name="options.rowDragColumn">rowDragColumn = {...}</a>
+                        <div>Enables built-in row drag handles and configures the drag column.</div>
+                    </section>
+
+                    <section>
+                        <a name="options.rowNumberWidth">rowNumberWidth = 36</a>
+                        <a name="options.rowNumberFilter">rowNumberFilter = null</a>
+                        <a name="options.rowNumberColumn">rowNumberColumn = {...}</a>
+                        <div>Configures the built-in row number column.</div>
+                    </section>
+
+                    <section>
+                        <a name="options.selectColumn">selectColumn = {...}</a>
+                        <a name="options.blankColumn">blankColumn = {...}</a>
+                        <div>Configures the built-in private columns used for selection and layout filling.</div>
+                    </section>
+
+                    <section>
+                        <a name="options.highlightKeywords">highlightKeywords = {...}</a>
+                        <div>Configures how matched keywords are extracted and wrapped with highlight markup.</div>
+                        <a name="options.highlightKeywords.textKey">textKey = "tg_text_"</a>
+                        <a name="options.highlightKeywords.textGenerator">textGenerator = null</a>
+                        <a name="options.highlightKeywords.highlightKey">highlightKey = "tg_highlight_"</a>
+                        <a name="options.highlightKeywords.highlightPre">highlightPre = "&lt;mark&gt;"</a>
+                        <a name="options.highlightKeywords.highlightPost">highlightPost = "&lt;/mark&gt;"</a>
+                    </section>
+
+                    <section>
+                        <a name="options.textSelectable">textSelectable = false</a>
+                        <div>Allows text selection inside grid cells.</div>
+                    </section>
+
+                    <section>
+                        <a name="options.bindWindowResize">bindWindowResize = false</a>
+                        <div>Binds window resize and calls resize automatically.</div>
+                        <a name="options.bindContainerResize">bindContainerResize = false</a>
+                        <div>Uses ResizeObserver to watch container size and call resize automatically.</div>
+                        <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                    </section>
+
+                    <section>
+                        <a name="options.cellResizeObserver">cellResizeObserver = null</a>
+                        <div>Filters which cells are observed for size changes. Requires ResizeObserver.</div>
+                        <div>Demo <a href="row-height.html" target="_blank">Row Height</a></div>
+                    </section>
+                    
+                </details>
+
+                <details open class="events">
+                    <summary>
+                        <a name="events">Events</a>
+                        <span class="total"></span>
+                    </summary>
+
+                    <section>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>Event Type</th>
+                                <th>Event Data</th>
+                                <th>Example</th>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onUpdated">onUpdated</a>
+                                        <a name="onFirstUpdated">onFirstUpdated</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: viewport
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onHeaderUpdated">onHeaderUpdated</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            node: headerNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onSort">onSort</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                    Object: {
+                                        e,
+                                        columnItem,
+                                        node: headerItemNode
+                                    }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="sort.html" target="_blank">Sort</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onColumnAdded">onColumnAdded</a>
+                                        <a name="onColumnRemoved">onColumnRemoved</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array: [columnItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="column-add-delete.html" target="_blank">Column Add/Delete</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onColumnWidthChanged">onColumnWidthChanged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: columnItem
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowAdded">onRowAdded</a>
+                                        <a name="onRowRemoved">onRowRemoved</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array: [rowItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-add-delete.html" target="_blank">Row Add/Delete</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowExpanded">onRowExpanded</a>
+                                        <a name="onRowCollapsed">onRowCollapsed</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: rowItem
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowSubsRequest">onRowSubsRequest</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: rowItem
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="load-subs.html" target="_blank">Dynamic Load Subs</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowDragged">onRowDragged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e,
+                                            rowItem
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowDropped">onRowDropped</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            rowItem,
+                                            dragFrom,
+                                            dragIndex,
+                                            dropInto,
+                                            dropIndex
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-drag.html" target="_blank">Row Drag</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowMoved">onRowMoved</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array: [rowItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-move.html" target="_blank">Row Move</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onRowMouseEnter">onRowMouseEnter</a>
+                                        <a name="onRowMouseLeave">onRowMouseLeave</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e,
+                                            rowItem
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onSelectChanged">onSelectChanged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Array [rowItem ...]
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="row-select.html" target="_blank">Row Select</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onCellUpdated">onCellUpdated</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            value,
+                                            rowItem,
+                                            columnItem,
+                                            node: cellNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onCellMouseEnter">onCellMouseEnter</a>
+                                        <a name="onCellMouseLeave">onCellMouseLeave</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e,
+                                            rowItem,
+                                            columnItem,
+                                            rowNode,
+                                            cellNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onClick">onClick</a>
+                                        <a name="onDblClick">onDblClick</a>
+                                        <a name="onContextMenu">onContextMenu</a>
+                                        <a name="onMouseOver">onMouseOver</a>
+                                        <a name="onMouseOut">onMouseOut</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        //on header
+                                        Object: {
+                                            e,
+                                            columnItem,
+                                            headerNode
+                                        }
+                                        //on body
+                                        Object: {
+                                            e,
+                                            rowItem,
+                                            columnItem,
+                                            rowNode,
+                                            cellNode
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onTouchStart">onTouchStart</a>
+                                        <a name="onTouchMove">onTouchMove</a>
+                                        <a name="onTouchEnd">onTouchEnd</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        //on header
+                                        Object: {
+                                            e,
+                                            columnItem?,
+                                            headerNode?
+                                        }
+                                        //on body
+                                        Object: {
+                                            e,
+                                            rowItem?,
+                                            columnItem?,
+                                            rowNode?,
+                                            cellNode?
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="touch.html" target="_blank">Touch</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onScroll">onScroll</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            scrollLeft,
+                                            scrollTop
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onScrollStateChanged">onScrollStateChanged</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                    Object: {
+                                        hasHScroll,
+                                        hasVScroll
+                                    }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onMouseWheel">onMouseWheel</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                    Object: {
+                                        e,
+                                        deltaX,
+                                        deltaY
+                                    }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="scroll.html" target="_blank">Scroll</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onResize">onResize</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            previous: Object,
+                                            width: Number, 
+                                            height: Number
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onLayout">onLayout</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            previous: Object,
+                                            headerWidth: Number, 
+                                            headerHeight: Number, 
+                                            bodyWidth: Number, 
+                                            bodyHeight: Number,
+                                            scrollbarWidth: Number,
+                                            scrollbarHeight: Number
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="resize.html" target="_blank">Resize</a></div>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onKeyDown">onKeyDown</a>
+                                    </section>
+                                </td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        Object: {
+                                            e
+                                        }
+                                    </code></pre>
+                                </td>
+                                <td>
+                                    <div>Demo <a href="events.html" target="_blank">Events</a></div>
+                                </td>
+                            </tr>
+            
+            
+                            <tr>
+                                <td>
+                                    <section>
+                                        <a name="onDestroy">onDestroy</a>
+                                    </section>
+                                </td>
+                                <td>N/A</td>
+                                <td>
+                                    <div>Demo <a href="flush.html" target="_blank">Flush</a></div>
+                                </td>
+                            </tr>
+            
+                        </table>
+                    </section>
+           
+                </details>
+
+                <details open class="lifecycle">
+                    <summary>
+                        <a name="lifecycle">Lifecycle</a>
+                    </summary>
+
+                    <section>
+                        <table class="api-table">
+                            <tr>
+                                <th>Phases</th>
+                                <th colspan="2">Sub Phases</th>
+                                <th>Payload</th>
+                                <th>Capacity</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>create</td>
+                                <td colspan="2">
+                                    <div>Create styles and DOM structure inside the container.</div>
+                                    <div>Apply initial data.</div>
+                                    <div>Apply initial options.</div>
+                                    <div>Register initial formatters.</div>
+                                    <div>Bind initial event handlers.</div>
+                                </td>
+                                <td>low</td>
+                                <td>loading APIs</td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        const grid = new Grid(container);
+                                        grid.setData(data);
+                                        grid.setOption(options);
+                                        grid.setFormatter(formatters);
+                                        grid.bind("[event type]", handler);
+                                    </code></pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">render</td>
+                                <td colspan="2">init options</td>
+                                <td>low</td>
+                                <td rowspan="5">all APIs</td>
+                                <td rowspan="4">
+                                    <pre><code class="language-js">
+                                        grid.render();
+                                        grid.rerender();
+                                    </code></pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">render header</td>
+                                <td>middle</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">render body</td>
+                                <td>render rows</td>
+                                <td>middle</td>
+                            </tr>
+                            <tr>
+                                <td>render cells</td>
+                                <td>high</td>
+                            </tr>
+            
+                            <tr>
+                                <td>update</td>
+                                <td colspan="2">
+                                    <div>Update the grid body.</div>
+                                    <div>Update one or more rows.</div>
+                                    <div>Update one or more cells.</div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        grid.update();
+                                        grid.updateRow(rowIndex, rowData);
+                                        grid.updateCell(rowIndex, columnIndex, cellValue);
+                                    </code></pre>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>destroy</td>
+                                <td colspan="2">remove all</td>
+                                <td>low</td>
+                                <td>none</td>
+                                <td>
+                                    <pre><code class="language-js">
+                                        grid.destroy();
+                                    </code></pre>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+
+                </details>
+
+                <details open class="tg">
+                    <summary>
+                        <a name="tg">tg</a>
+                    </summary>
+
+                    <section>
+                        <div>"tg" is the grid prefix and internal namespace.</div>
+                        <div>Common CSS class names:</div>
+                        <pre><code class="language-css">
+                            .tg-pane {}
+                            .tg-body{}
+                            .tg-row{}
+                            .tg-cell{}
+                        </code></pre>
+                        <div>Common private properties:</div>
+                        <pre><code class="language-js">
+                            //rowItem.tg_index
+                            //rowItem.tg_level
+                            //rowItem.tg_group
+                        </code></pre>
+                        <div>These private properties are removed when calling <a href="#exportData">exportData()</a> or <a href="#getItemSnapshot">getItemSnapshot()</a>.</div>
+                    </section>
+
+                    <section>
+                        <div><b>Row Item Properties (rowItem.tg_*)</b></div>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>tg_index</td>
+                                <td>Number</td>
+                                <td>Global index of the row in the full data tree (including invisible rows).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_view_index</td>
+                                <td>Number</td>
+                                <td>Index of the row in the visible (view) list. Only set for visible rows.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_sub_index</td>
+                                <td>Number</td>
+                                <td>Index within the parent's subs array (includes invisible rows).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_list_index</td>
+                                <td>Number</td>
+                                <td>Index within the visible sub-list of the same parent.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_parent</td>
+                                <td>Object | undefined</td>
+                                <td>Reference to the parent row item. undefined for root-level rows.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_level</td>
+                                <td>Number</td>
+                                <td>Nesting level in the tree hierarchy. 0 for root-level rows.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_group</td>
+                                <td>Boolean</td>
+                                <td>true if the row has a subs array (is a group/parent node).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_subs_length</td>
+                                <td>Number</td>
+                                <td>Number of direct children in the row's subs array.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_frozen</td>
+                                <td>Boolean</td>
+                                <td>true if the row is in the frozen section.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_invisible</td>
+                                <td>Boolean</td>
+                                <td>true if the row was hidden by user via hideRow() or the invisible property.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_filtered</td>
+                                <td>Boolean</td>
+                                <td>true if the row was hidden by the <a href="#options.rowFilter">rowFilter</a> function.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_row_number</td>
+                                <td>String | Number</td>
+                                <td>The display row number (empty string if row number is not applicable).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_selected_index</td>
+                                <td>Number</td>
+                                <td>Sequential index indicating the order in which the row was selected.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_top</td>
+                                <td>Number</td>
+                                <td>Top position offset in pixels for rendering.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_height</td>
+                                <td>Number</td>
+                                <td>Actual rendered height of the row in pixels.</td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <div><b>Column Item Properties (columnItem.tg_*)</b></div>
+                        <table class="api-table api-table-zebra">
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>tg_index</td>
+                                <td>Number</td>
+                                <td>Global index of the column in the full column tree.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_view_index</td>
+                                <td>Number</td>
+                                <td>Index of the column in the visible (view) list. Only set for visible columns.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_sub_index</td>
+                                <td>Number</td>
+                                <td>Index within the parent group's subs array.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_list_index</td>
+                                <td>Number</td>
+                                <td>Index within the visible sub-list of the same parent group.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_parent</td>
+                                <td>Object | undefined</td>
+                                <td>Reference to the parent column group. undefined for top-level columns.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_group</td>
+                                <td>Boolean</td>
+                                <td>true if the column has a subs array (is a header group).</td>
+                            </tr>
+                            <tr>
+                                <td>tg_subs_length</td>
+                                <td>Number</td>
+                                <td>Number of direct sub-columns in the group.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_frozen</td>
+                                <td>Boolean</td>
+                                <td>true if the column is in the frozen section.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_invisible</td>
+                                <td>Boolean</td>
+                                <td>true if the column was hidden by user via <a href="#hideColumn">hideColumn()</a> or the invisible property.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_width</td>
+                                <td>Number</td>
+                                <td>Actual rendered width of the column in pixels.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_left</td>
+                                <td>Number</td>
+                                <td>Left position offset of the column in pixels.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_height</td>
+                                <td>Number</td>
+                                <td>Height of the column header cell in pixels.</td>
+                            </tr>
+                            <tr>
+                                <td>tg_layer</td>
+                                <td>Number</td>
+                                <td>Reverse level index for header layout (0 = bottom level). Used for grouped headers.</td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <div>Usage example:</div>
+                        <pre><code class="language-js">
+                            grid.setFormatter({
+                                string: function(value, rowItem, columnItem, cellNode) {
+                                    // access row properties
+                                    const rowIndex = rowItem.tg_index;
+                                    const level = rowItem.tg_level;
+                                    const isFrozen = rowItem.tg_frozen;
+                                    const isGroup = rowItem.tg_group;
+
+                                    // access column properties
+                                    const columnIndex = columnItem.tg_index;
+                                    const columnWidth = columnItem.tg_width;
+
+                                    return value;
+                                }
+                            });
+
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    // frozen rows are always visible
+                                    if (rowItem.tg_frozen) {
+                                        return true;
+                                    }
+                                    return rowItem.name.includes(keywords);
+                                }
+                            });
+                        </code></pre>
+                    </section>
+
+                </details>
+</div>
+    </div>
+</template>
+
+<script setup>
+import { onMounted, nextTick } from 'vue';
+
+onMounted(() => {
+    nextTick(() => {
+        if (window.Prism) {
+            window.formatCodes();
+        }
+    });
+});
+</script>
+
+<style lang="scss">
+@import './api-styles.scss';
+</style>

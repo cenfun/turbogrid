@@ -1,0 +1,211 @@
+<template>
+    <div class="main flex-auto flex-column">
+        <div class="controller">
+            <div>
+                <div class="controller-title">Grid Row Hover:</div>
+            </div>
+            <div>
+                <textarea class="usage-data" style="width: 100%; height: 100px;"></textarea>
+                <button class="bt-render">render usage</button>
+            </div>
+            <div>
+                <button>showLoading()</button>
+                <button>hideLoading()</button>
+                <label>(test loading above background)</label>
+            </div>
+        </div>
+        <div ref="gridContainer" class="grid-container flex-auto"></div>
+    </div>
+</template>
+
+<script setup>
+import {
+    onMounted, onBeforeUnmount, ref
+} from 'vue';
+import { Grid } from 'turbogrid';
+import { initCommonEvents } from '../utils/helpers.js';
+
+const gridContainer = ref(null);
+const grid = ref(null);
+
+const usageData = {
+    rows: [{
+        name: 'Holding 1',
+        c1: -100,
+        c1ClassMap: 'tg-cell-bg-1',
+        c2: 20,
+        c2ClassMap: 'tg-cell-bg-5',
+        c3: 120,
+        c3ClassMap: 'tg-cell-bg-8',
+        c4: -10,
+        c4ClassMap: 'tg-cell-bg-4'
+    }, {
+        name: 'Holding 2',
+        c1: -50,
+        c1ClassMap: 'tg-cell-bg-2',
+        c2: 120,
+        c2ClassMap: 'tg-cell-bg-8'
+    }, {
+        name: 'Holding 3',
+        c1: -30,
+        c1ClassMap: 'tg-cell-bg-3'
+    }, {
+        name: 'Holding 4',
+        c1: -10,
+        c1ClassMap: 'tg-cell-bg-4'
+    }, {
+        name: 'Holding 5',
+        c1: 20,
+        c1ClassMap: 'tg-cell-bg-5'
+    }, {
+        name: 'Holding 6',
+        c1: 60,
+        c1ClassMap: 'tg-cell-bg-6',
+        c2: -30,
+        c2ClassMap: 'tg-cell-bg-3',
+        c3: -10,
+        c3ClassMap: 'tg-cell-bg-4'
+    }, {
+        name: 'Holding 7',
+        c1: 90,
+        c1ClassMap: 'tg-cell-bg-7'
+    }, {
+        name: 'Holding 8',
+        c1: 120,
+        c1ClassMap: 'tg-cell-bg-8'
+    }, {
+        name: 'Holding 9'
+    }],
+    columns: [{
+        id: 'name',
+        name: 'Name'
+    }, {
+        id: 'c1',
+        name: 'column 1',
+        type: 'number'
+    }, {
+        id: 'c2',
+        name: 'column 2',
+        type: 'number'
+    }, {
+        id: 'c3',
+        name: 'column 3',
+        type: 'number'
+    }, {
+        id: 'c4',
+        name: 'column 4',
+        type: 'number'
+    }, {
+        id: 'c5',
+        name: 'column 5',
+        type: 'number'
+    }]
+};
+
+const onResize = () => {
+    if (grid.value) {
+        grid.value.resize();
+    }
+};
+
+onMounted(() => {
+    const g = new Grid(gridContainer.value);
+    grid.value = g;
+
+    g.bind('onFirstUpdated', function() {
+        console.log('duration:', `${this.renderDuration}ms`);
+    });
+
+    g.bind('onRowMouseEnter', function(e, d) {
+        const cellNode = this.getCellNode(d.rowItem, 'c5');
+        cellNode.style.background = '#ff0000';
+    }).bind('onRowMouseLeave', function(e, d) {
+        const cellNode = this.getCellNode(d.rowItem, 'c5');
+        cellNode.style.background = 'none';
+    });
+
+    document.querySelector('.usage-data').value = JSON.stringify(usageData, null, 4);
+
+    const render = () => {
+        const options = {
+            theme: document.querySelector('.st-theme').value,
+            selectVisible: true,
+            frozenColumn: 1,
+            frozenRow: -1,
+            sortField: 'name',
+            sortOnInit: true
+        };
+        g.setOption(options);
+
+        const data = JSON.parse(document.querySelector('.usage-data').value);
+        g.setData(data);
+
+        g.render();
+    };
+
+    document.querySelector('.bt-render').addEventListener('click', function() {
+        render();
+    });
+
+    ['.st-theme'].forEach(function(item) {
+        document.querySelector(item).addEventListener('change', function() {
+            render();
+        });
+    });
+
+    initCommonEvents(g);
+
+    window.addEventListener('resize', onResize);
+
+    render();
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', onResize);
+    if (grid.value) {
+        grid.value.destroy();
+    }
+});
+</script>
+
+<style scoped>
+.grid-container .tg-cell-bg-1 {
+    background: #c00;
+    color: #fff;
+}
+
+.grid-container .tg-cell-bg-2 {
+    background: #c30;
+    color: #fff;
+}
+
+.grid-container .tg-cell-bg-3 {
+    background: #930;
+    color: #fff;
+}
+
+.grid-container .tg-cell-bg-4 {
+    background: #960;
+    color: #fff;
+}
+
+.grid-container .tg-cell-bg-5 {
+    background: #660;
+    color: #fff;
+}
+
+.grid-container .tg-cell-bg-6 {
+    background: #690;
+    color: #fff;
+}
+
+.grid-container .tg-cell-bg-7 {
+    background: #390;
+    color: #fff;
+}
+
+.grid-container .tg-cell-bg-8 {
+    background: #0c0;
+    color: #fff;
+}
+</style>

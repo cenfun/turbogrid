@@ -221,7 +221,6 @@ export default {
             height: this.bodyHeight
         });
 
-        this.updatePaneHeight();
     },
 
     // =======================================================================================

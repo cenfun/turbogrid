@@ -171,21 +171,34 @@ export default {
 
     // =======================================================================================
 
+    updateAutoHeight: function() {
+        if (!this.options.autoHeight) {
+            return;
+        }
+
+        // console.log('updateAutoHeight', this.bodyMessageHeight);
+
+        const scrollbarH = this.getScrollbarHeight();
+        this.containerHeight = this.headerHeight + this.totalRowsHeight + this.bodyMessageHeight + scrollbarH;
+        this.$holder.height(this.containerHeight);
+
+        this.updateBodySize();
+    },
+
     updateVScrollState: function() {
         // v scroll state
         this.hasVScroll = true;
 
-        const scrollbarH = this.getScrollbarHeight();
 
         if (this.options.autoHeight) {
             this.hasVScroll = false;
 
             // update container height again
-            this.containerHeight = this.headerHeight + this.totalRowsHeight + scrollbarH;
-            this.$holder.height(this.containerHeight);
+            this.updateAutoHeight();
 
         } else {
 
+            const scrollbarH = this.getScrollbarHeight();
             const tempBodyHeight = this.containerHeight - this.headerHeight - scrollbarH;
             if (tempBodyHeight >= this.totalRowsHeight) {
                 this.hasVScroll = false;

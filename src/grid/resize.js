@@ -168,6 +168,13 @@ export default {
             o.autoHeight = false;
         }
 
+        this.bodyMessageHeight = 0;
+        if (o.autoHeight) {
+            this.$bodyFrame.addClass('tg-auto-height');
+        } else {
+            this.$bodyFrame.removeClass('tg-auto-height');
+        }
+
         // update height
         this.headerHeight = 0;
         // require a valid container height
@@ -203,6 +210,19 @@ export default {
         this.headerHeight = totalLayerHeight;
     },
 
+    updateBodySize: function() {
+        // update body size
+        // body height depends on header height and auto height
+        this.bodyHeight = Math.max(this.containerHeight - this.headerHeight, 0);
+        // console.log('bodyHeight: ', this.bodyHeight);
+        this.$bodyFrame.css({
+            width: this.bodyWidth,
+            height: this.bodyHeight
+        });
+
+        this.updatePaneHeight();
+    },
+
     // =======================================================================================
 
     // update pane height for all rows
@@ -212,13 +232,7 @@ export default {
         // update 3 state: h/v scrollbar and hide scrollPane
         this.updateScrollState();
 
-        // update body size
-        // body height depends on header height and auto height
-        this.bodyHeight = this.containerHeight - this.headerHeight;
-        this.$bodyFrame.css({
-            width: this.bodyWidth,
-            height: this.bodyHeight
-        });
+        this.updateBodySize();
 
         // update pane size
         this.updatePaneWidth();
@@ -317,11 +331,11 @@ export default {
         if (this.frozenInfo.rows) {
             if (this.frozenInfo.bottom) {
                 const scrollbarH = this.getScrollbarHeight();
-                paneHeightT = this.bodyHeight - this.frozenRowsHeight - scrollbarH;
+                paneHeightT = Math.max(this.bodyHeight - this.frozenRowsHeight - scrollbarH, 0);
                 paneHeightB = this.frozenRowsHeight + scrollbarH;
             } else {
                 paneHeightT = this.frozenRowsHeight;
-                paneHeightB = this.bodyHeight - this.frozenRowsHeight;
+                paneHeightB = Math.max(this.bodyHeight - this.frozenRowsHeight, 0);
             }
         }
 

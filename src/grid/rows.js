@@ -102,6 +102,8 @@ export default {
         const $elem = this.$bodyFrame.find('.tg-body-message').show();
         this.renderNodeContent($elem.get(0), message);
         this.paneMessageVisible = true;
+        this.bodyMessageHeight = $elem.height();
+        this.updateAutoHeight();
     },
 
     hidePaneMessage: function() {
@@ -109,6 +111,8 @@ export default {
             this.$bodyFrame.removeClass('tg-row-not-found');
             this.$bodyFrame.find('.tg-body-message').hide();
             this.paneMessageVisible = false;
+            this.bodyMessageHeight = 0;
+            this.updateAutoHeight();
         }
     },
 

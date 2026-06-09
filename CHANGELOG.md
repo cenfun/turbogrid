@@ -1,5 +1,9 @@
 # Changelog
 
++ 3.3.1
+    - fixed autoHeight rowNotFound body message height
+    - added tests for autoHeight rowNotFound height and resize recalculation
+
 + 3.3.0
     - (breaking) renamed exported `TIMESTAMP` to `TAG` — `TIMESTAMP` is now available as `TAG`
     - (breaking) replaced build toolchain: `starfall-cli` → `vite`; dev/build/lint scripts updated accordingly

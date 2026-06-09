@@ -14,8 +14,8 @@
     <script src="data/random-data.js"></script>
     <style>
         .main {
-            overflow-y: auto;
             display: block;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -33,6 +33,7 @@
                         <option>sample-data</option>
                         <option>random-3x10</option>
                         <option>random-10x100</option>
+                        <option>no-rows</option>
                     </select>
                 </div>
                 <div>
@@ -68,8 +69,9 @@
                 autoHeight: document.querySelector('.cb_autoHeight').checked,
                 collapseAllOnInit: document.querySelector('.cb_collapseAllOnInit').checked,
                 frozenColumn: 0,
-                frozenRow: -1
-            };
+                frozenRow: -1,
+                rowNotFound: '没有找到任何结果'
+    };
             grid.setOption(options);
             grid.setData(data);
             grid.render();
@@ -79,6 +81,13 @@
             const dataStr = document.querySelector('.st-data').value;
             if (dataStr.startsWith('random')) {
                 renderData(window.randomData(dataStr));
+                return;
+            }
+            if (dataStr === 'no-rows') {
+                renderData({
+                    columns: window.randomData('random-10x10').columns,
+                    rows: []
+                });
                 return;
             }
             renderData(window.sampleData);

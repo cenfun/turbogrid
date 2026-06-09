@@ -43,6 +43,7 @@ export default {
         this.frozenRowsHeight = 0;
         this.totalRowsHeight = 0;
         this.scrollRowsHeight = 0;
+        this.bodyMessageHeight = 0;
 
         // to rebuild css rules
         this.bodyWidthL = 0;

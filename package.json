@@ -2,6 +2,7 @@
     "name": "turbogrid",
     "version": "3.3.1",
     "description": "A high-performance JavaScript data grid library with zero dependencies",
+    "type": "module",
     "main": "dist/turbogrid.js",
     "module": "dist/turbogrid.esm.js",
     "exports": {
@@ -15,10 +16,10 @@
     },
     "types": "dist/turbogrid.d.ts",
     "scripts": {
-        "dev": "sf dev",
+        "dev": "vite build && vite",
         "test": "sf test",
-        "lint": "sf lint",
-        "build": "sf lint && sf b -e -p patch",
+        "lint": "eslint src/ test/ public/ --ext .js,.html && stylelint src/**/*.scss",
+        "build": "npm run lint && vite build",
         "patch": "npm run build && sf publish patch",
         "pack": "sf pack -o docs"
     },
@@ -36,8 +37,10 @@
         "eslint": "^10.4.1",
         "eslint-config-plus": "^2.0.4",
         "eslint-plugin-html": "^8.1.4",
+        "sass": "^1.100.0",
         "stylelint": "^17.13.0",
         "stylelint-config-plus": "^1.1.6",
-        "vine-ui": "^3.1.18"
+        "vine-ui": "^3.1.18",
+        "vite": "^8.0.16"
     }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
++ 3.3.1
+    - fixed autoHeight rowNotFound body message height
+    - added tests for autoHeight rowNotFound height and resize recalculation
+
 + 3.3.0
     - (feature) added `autoColumnWidth` option to distribute remaining horizontal space across columns
         - proportional distribution by optional `widthWeight` column property

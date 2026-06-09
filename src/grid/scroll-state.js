@@ -183,6 +183,8 @@ export default {
         this.$holder.height(this.containerHeight);
 
         this.updateBodySize();
+
+        this.updatePaneHeight();
     },
 
     updateVScrollState: function() {

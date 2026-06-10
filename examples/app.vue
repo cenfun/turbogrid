@@ -1,14 +1,17 @@
 <template>
     <div class="app">
         <div class="app-header">
-            <div class="icon icon-menu header-icon-menu" @click="toggleNav"></div>
-            <router-link class="header-title" to="/">TurboGrid</router-link>
-            <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v{{ version }}</a>
-            <div class="flex-auto"></div>
-            <select class="st-theme" v-model="theme" @change="onThemeChange">
-                <option v-for="t in themes" :key="t" :value="t">{{ t }}</option>
-            </select>
-            <a class="icon icon-github" href="https://github.com/cenfun/turbogrid" target="_blank"></a>
+            <div class="app-header-left">
+                <div class="icon icon-menu header-icon-menu" @click="toggleNav"></div>
+                <router-link class="header-title" to="/">TurboGrid</router-link>
+                <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v{{ version }}</a>
+            </div>
+            <div class="app-header-right">
+                <select class="st-theme" v-model="theme">
+                    <option v-for="t in themes" :key="t" :value="t">{{ t }}</option>
+                </select>
+                <a class="icon icon-github" href="https://github.com/cenfun/turbogrid" target="_blank"></a>
+            </div>
         </div>
         <div class="app-body">
             <nav class="app-nav" :class="{ 'nav-opened': navOpen, 'nav-closing': navClosing }">
@@ -52,6 +55,15 @@ const navOpen = ref(false);
 const navClosing = ref(false);
 const keywords = ref('');
 const navGridEl = ref(null);
+
+watch(theme, (newTheme) => {
+    router.push({
+        query: {
+            ...route.query,
+            theme: newTheme
+        }
+    });
+});
 
 watch(keywords, () => {
     if (navGrid.value) {
@@ -97,16 +109,6 @@ function closeNav() {
     setTimeout(() => {
         navClosing.value = false;
     }, 300);
-}
-
-function onThemeChange() {
-    if (theme.value === 'default') {
-        delHash('theme');
-    } else {
-        setHash('theme', theme.value);
-    }
-    // Apply theme to all grid instances via body class
-    document.body.className = theme.value === 'default' ? '' : `tg-theme-${theme.value}`;
 }
 
 function initThemes() {
@@ -267,6 +269,18 @@ function updateNavSelection() {
     gap: 10px;
     border-bottom: 1px solid #ccc;
     flex-shrink: 0;
+    justify-content: space-between;
+}
+
+.app-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.app-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .app-body {
@@ -334,15 +348,14 @@ function updateNavSelection() {
     border-color: #999;
 }
 
-.header-icon-menu {
-    display: none;
+.header-icon-menu,
+.header-icon-close {
     cursor: pointer;
     font-size: 20px;
 }
 
-.header-icon-close {
-    cursor: pointer;
-    font-size: 20px;
+.header-icon-menu {
+    display: none;
 }
 
 /* Mobile responsive */
@@ -365,10 +378,6 @@ function updateNavSelection() {
         .nav-header {
             display: none;
         }
-    }
-
-    .nav.nav-closing {
-        margin-left: -260px;
     }
 
     .nav .header {

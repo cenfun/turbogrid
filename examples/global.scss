@@ -112,39 +112,39 @@ icon
 }
 
 .icon-info {
-    background-image: url("./images/info.svg");
+    background-image: url("./assets/images/info.svg");
 }
 
 .icon-menu {
-    background-image: url("./images/menu.svg");
+    background-image: url("./assets/images/menu.svg");
 }
 
 .icon-close {
-    background-image: url("./images/close.svg");
+    background-image: url("./assets/images/close.svg");
 }
 
 .icon-github {
-    background-image: url("./images/github.svg");
+    background-image: url("./assets/images/github.svg");
 }
 
 .icon-setting {
-    background-image: url("./images/setting.svg");
+    background-image: url("./assets/images/setting.svg");
 }
 
 .icon-double-up {
-    background-image: url("./images/double-up.svg");
+    background-image: url("./assets/images/double-up.svg");
 }
 
 .icon-up {
-    background-image: url("./images/up.svg");
+    background-image: url("./assets/images/up.svg");
 }
 
 .icon-double-down {
-    background-image: url("./images/double-down.svg");
+    background-image: url("./assets/images/double-down.svg");
 }
 
 .icon-down {
-    background-image: url("./images/down.svg");
+    background-image: url("./assets/images/down.svg");
 }
 
 /*
@@ -238,7 +238,7 @@ header children
     padding-left: 20px;
     font-weight: bold;
     font-size: 16px;
-    background-image: url("./images/logo.svg");
+    background-image: url("./assets/images/logo.svg");
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 16px;
@@ -287,7 +287,7 @@ nav children
     line-height: 25px;
     border: 1px solid #555;
     border-radius: 5px;
-    background-image: url("./images/search.svg");
+    background-image: url("./assets/images/search.svg");
     background-repeat: no-repeat;
     background-position: 97% center;
     background-size: 16px;
@@ -305,7 +305,7 @@ nav children
     content: "";
     width: 16px;
     height: 30px;
-    background-image: url("./images/double-right.svg");
+    background-image: url("./assets/images/double-right.svg");
     background-repeat: no-repeat;
     background-position: center center;
 }

@@ -1,11 +1,3 @@
 export default {
-    extends: ['stylelint-config-plus'],
-    rules: {
-        'at-rule-no-unknown': [true, {
-            ignoreAtRules: [
-                'use',
-                'extend'
-            ]
-        }]
-    }
+    extends: ['stylelint-config-plus']
 };

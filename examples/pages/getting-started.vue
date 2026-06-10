@@ -52,6 +52,7 @@
 
 <script setup>
 import { Grid } from '../../src/index.js';
+import { formatCodes } from '../global.js';
 import {
     ref, onMounted, onBeforeUnmount, nextTick
 } from 'vue';
@@ -88,7 +89,7 @@ onMounted(() => {
     grid.value.render();
 
     nextTick(() => {
-        window.formatCodes();
+        //formatCodes();
     });
 });
 

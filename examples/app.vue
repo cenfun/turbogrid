@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="app">
+    <div class="app">
         <div class="header flex-row">
             <div class="icon icon-menu header-icon-menu" @click="toggleNav"></div>
             <router-link class="header-title" to="/">TurboGrid</router-link>
@@ -254,7 +254,7 @@ function updateNavSelection() {
 </script>
 
 <style>
-@import './assets/global.scss';
+@import './global.scss';
 
 /* App-level styles to match the original main.css + nav styles */
 .nav {

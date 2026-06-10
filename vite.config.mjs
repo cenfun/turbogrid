@@ -66,10 +66,16 @@ function buildEndPlugin() {
 
 export default defineConfig(({ command }) => {
 
+    const define = {
+        'window.TAG': JSON.stringify(Object.values(tag).join('-')),
+        'window.VERSION': JSON.stringify(pkg.version)
+    };
+
     if (command === 'serve') {
         return {
             root: '.',
             publicDir: 'public',
+            define,
             plugins: [vue(), inlineAssetsPlugin()],
             server: {
                 open: '/'
@@ -82,10 +88,7 @@ export default defineConfig(({ command }) => {
         root: '.',
         plugins: [inlineAssetsPlugin(), buildEndPlugin()],
         publicDir: false,
-        define: {
-            'window.TAG': JSON.stringify(Object.values(tag).join('-')),
-            'window.VERSION': JSON.stringify(pkg.version)
-        },
+        define,
         build: {
             outDir: 'dist',
             lib: {

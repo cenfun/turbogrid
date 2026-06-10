@@ -83,6 +83,7 @@
 
 <script setup>
 import './global.scss';
+import 'prismjs/themes/prism.css';
 import {
     ref, watch, onMounted,
     nextTick

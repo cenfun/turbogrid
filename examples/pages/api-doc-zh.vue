@@ -182,7 +182,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="formatter.html"
+              href="#/formatter"
               target="_blank"
             >格式化器</a>
           </div>
@@ -217,7 +217,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="events.html"
+              href="#/events"
               target="_blank"
             >事件</a>
           </div>
@@ -262,7 +262,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="events.html"
+              href="#/events"
               target="_blank"
             >事件</a>
           </div>
@@ -295,7 +295,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="resize.html"
+              href="#/resize"
               target="_blank"
             >尺寸调整</a>
           </div>
@@ -354,7 +354,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="loading.html"
+              href="#/loading"
               target="_blank"
             >显示/隐藏加载态</a>
           </div>
@@ -375,7 +375,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="loading.html"
+              href="#/loading"
               target="_blank"
             >显示/隐藏加载态</a>
           </div>
@@ -393,7 +393,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >行折叠/展开</a>
           </div>
@@ -412,7 +412,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >行折叠/展开</a>
           </div>
@@ -426,7 +426,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >行折叠/展开</a>
           </div>
@@ -445,7 +445,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="export.html"
+              href="#/export"
               target="_blank"
             >导出</a>
           </div>
@@ -461,7 +461,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="load-subs.html"
+              href="#/load-subs"
               target="_blank"
             >动态加载子项</a>
           </div>
@@ -486,7 +486,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="set-rows.html"
+              href="#/set-rows"
               target="_blank"
             >动态设置行</a>
           </div>
@@ -530,7 +530,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-add-delete.html"
+              href="#/row-add-delete"
               target="_blank"
             >行新增/删除</a>
           </div>
@@ -565,7 +565,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-move.html"
+              href="#/row-move"
               target="_blank"
             >行移动</a>
           </div>
@@ -581,7 +581,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >行选择</a>
           </div>
@@ -598,7 +598,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >行选择</a>
           </div>
@@ -615,7 +615,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >行选择</a>
           </div>
@@ -630,7 +630,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="frozen-middle.html"
+              href="#/frozen-middle"
               target="_blank"
             >中间冻结</a>
           </div>
@@ -657,7 +657,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="sort.html"
+              href="#/sort"
               target="_blank"
             >行排序</a>
           </div>
@@ -672,7 +672,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="column-display.html"
+              href="#/column-display"
               target="_blank"
             >列宽调整</a>
           </div>
@@ -691,7 +691,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="column-display.html"
+              href="#/column-display"
               target="_blank"
             >显示/隐藏列</a>
           </div>
@@ -715,7 +715,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="column-add-delete.html"
+              href="#/column-add-delete"
               target="_blank"
             >列新增/删除</a>
           </div>
@@ -738,7 +738,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="scroll.html"
+              href="#/scroll"
               target="_blank"
             >滚动</a>
           </div>
@@ -756,7 +756,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="scroll.html"
+              href="#/scroll"
               target="_blank"
             >滚动</a>
           </div>
@@ -776,7 +776,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="scroll.html"
+              href="#/scroll"
               target="_blank"
             >滚动</a>
           </div>
@@ -816,7 +816,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="flush.html"
+              href="#/flush"
               target="_blank"
             >刷新</a>
           </div>
@@ -1124,7 +1124,7 @@
                         </code></pre>
           <div>
             示例 <a
-              href="load-rows.html"
+              href="#/load-rows"
               target="_blank"
             >动态加载行</a>
           </div>
@@ -1155,7 +1155,7 @@
           <div>设置主题名称。可选值：default、lightblue、dark。</div>
           <div>
             示例 <a
-              href="theme.html"
+              href="#/theme"
               target="_blank"
             >主题</a>
           </div>
@@ -1166,7 +1166,7 @@
           <div>设置默认行高，单位为像素。</div>
           <div>
             示例 <a
-              href="multiple-instance.html"
+              href="#/multiple-instance"
               target="_blank"
             >行高</a>
           </div>
@@ -1178,7 +1178,7 @@
           <div>控制在可视区域外额外渲染多少行和列作为缓存。</div>
           <div>
             示例 <a
-              href="cache.html"
+              href="#/cache"
               target="_blank"
             >行/列缓存</a>
           </div>
@@ -1190,7 +1190,7 @@
           <div>自动调整表格高度，使其适配当前可见内容。</div>
           <div>
             示例 <a
-              href="auto-height.html"
+              href="#/auto-height"
               target="_blank"
             >自动高度</a>
           </div>
@@ -1202,7 +1202,7 @@
           </div>
           <div>
             示例 <a
-              href="column-display.html"
+              href="#/column-display"
               target="_blank"
             >Column Display</a>
           </div>
@@ -1214,7 +1214,7 @@
           <div>显示或隐藏表头区域。</div>
           <div>
             示例 <a
-              href="no-header.html"
+              href="#/no-header"
               target="_blank"
             >显示/隐藏表头</a>
           </div>
@@ -1227,7 +1227,7 @@
           <div>控制是否显示全部折叠操作，以及是否在初始化时执行。</div>
           <div>
             示例 <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >行折叠/展开</a>
           </div>
@@ -1246,7 +1246,7 @@
           <a name="options.selectMultiple">selectMultiple = true</a>
           <div>
             示例 <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >行选择</a>
           </div>
@@ -1258,7 +1258,7 @@
           <div>显示或隐藏内置行号列。</div>
           <div>
             示例 <a
-              href="row-number.html"
+              href="#/row-number"
               target="_blank"
             >行号</a>
           </div>
@@ -1269,7 +1269,7 @@
           <div>设置空状态内容。支持空字符串、字符串、DOM 元素或函数。</div>
           <div>
             示例 <a
-              href="row-not-found.html"
+              href="#/row-not-found"
               target="_blank"
             >空结果提示</a>
           </div>
@@ -1281,7 +1281,7 @@
           <div>控制拖拽行是否允许跨层级移动。支持布尔值，或返回允许落点列表的函数。</div>
           <div>
             示例 <a
-              href="row-drag.html"
+              href="#/row-drag"
               target="_blank"
             >行拖拽</a>
           </div>
@@ -1293,7 +1293,7 @@
           <div>控制行移动相关 API 是否允许跨层级移动。</div>
           <div>
             示例 <a
-              href="row-move.html"
+              href="#/row-move"
               target="_blank"
             >行移动</a>
           </div>
@@ -1322,7 +1322,7 @@
           <div>提供自定义排序比较函数。</div>
           <div>
             示例 <a
-              href="sort.html"
+              href="#/sort"
               target="_blank"
             >行排序</a>
           </div>
@@ -1335,7 +1335,7 @@
           <div>在渲染前过滤行，并可选择对过滤结果进行排序。</div>
           <div>
             示例 <a
-              href="row-filter.html"
+              href="#/row-filter"
               target="_blank"
             >行过滤</a>
           </div>
@@ -1441,7 +1441,7 @@
           <div>配置冻结行和冻结列。frozenRowHoverable 用于开启冻结行的悬停样式和悬停事件。</div>
           <div>
             示例 <a
-              href="frozen.html"
+              href="#/frozen"
               target="_blank"
             >冻结</a>
           </div>
@@ -1471,7 +1471,7 @@
           <div>在滚动面板边缘启用渐变遮罩。</div>
           <div>
             示例 <a
-              href="scrollbar.html"
+              href="#/scrollbar"
               target="_blank"
             >滚动条</a>
           </div>
@@ -1518,7 +1518,7 @@
           <div>使用 ResizeObserver 监听容器尺寸变化，并自动调用 resize。</div>
           <div>
             示例 <a
-              href="resize.html"
+              href="#/resize"
               target="_blank"
             >尺寸调整</a>
           </div>
@@ -1529,7 +1529,7 @@
           <div>过滤需要监听尺寸变化的单元格。依赖 ResizeObserver。</div>
           <div>
             示例 <a
-              href="row-height.html"
+              href="#/row-height"
               target="_blank"
             >行高</a>
           </div>
@@ -1547,12 +1547,14 @@
 
         <section>
           <table class="api-table api-table-zebra">
+            <thead>
             <tr>
               <th>事件类型</th>
               <th>事件数据</th>
               <th>示例</th>
             </tr>
-
+            </thead>
+            <tbody>
             <tr>
               <td>
                 <section>
@@ -1568,7 +1570,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1591,7 +1593,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1616,7 +1618,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="sort.html"
+                    href="#/sort"
                     target="_blank"
                   >行排序</a>
                 </div>
@@ -1639,7 +1641,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="column-add-delete.html"
+                    href="#/column-add-delete"
                     target="_blank"
                   >列新增/删除</a>
                 </div>
@@ -1660,7 +1662,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1682,7 +1684,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="row-add-delete.html"
+                    href="#/row-add-delete"
                     target="_blank"
                   >行新增/删除</a>
                 </div>
@@ -1704,7 +1706,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1725,7 +1727,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="load-subs.html"
+                    href="#/load-subs"
                     target="_blank"
                   >动态加载子项</a>
                 </div>
@@ -1750,7 +1752,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="row-drag.html"
+                    href="#/row-drag"
                     target="_blank"
                   >行拖拽</a>
                 </div>
@@ -1776,7 +1778,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="row-drag.html"
+                    href="#/row-drag"
                     target="_blank"
                   >行拖拽</a>
                 </div>
@@ -1797,7 +1799,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="row-move.html"
+                    href="#/row-move"
                     target="_blank"
                   >行移动</a>
                 </div>
@@ -1822,7 +1824,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1843,7 +1845,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="row-select.html"
+                    href="#/row-select"
                     target="_blank"
                   >行选择</a>
                 </div>
@@ -1870,7 +1872,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1898,7 +1900,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1936,7 +1938,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -1972,7 +1974,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="touch.html"
+                    href="#/touch"
                     target="_blank"
                   >触摸</a>
                 </div>
@@ -1996,7 +1998,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="scroll.html"
+                    href="#/scroll"
                     target="_blank"
                   >滚动</a>
                 </div>
@@ -2020,7 +2022,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -2045,7 +2047,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="scroll.html"
+                    href="#/scroll"
                     target="_blank"
                   >滚动</a>
                 </div>
@@ -2070,7 +2072,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="resize.html"
+                    href="#/resize"
                     target="_blank"
                   >尺寸调整</a>
                 </div>
@@ -2099,7 +2101,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="resize.html"
+                    href="#/resize"
                     target="_blank"
                   >尺寸调整</a>
                 </div>
@@ -2122,7 +2124,7 @@
               <td>
                 <div>
                   示例 <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >事件</a>
                 </div>
@@ -2140,12 +2142,13 @@
               <td>
                 <div>
                   示例 <a
-                    href="flush.html"
+                    href="#/flush"
                     target="_blank"
                   >刷新</a>
                 </div>
               </td>
             </tr>
+          </tbody>
           </table>
         </section>
       </details>
@@ -2160,6 +2163,7 @@
 
         <section>
           <table class="api-table">
+            <thead>
             <tr>
               <th>阶段</th>
               <th colspan="2">
@@ -2169,6 +2173,8 @@
               <th>可用能力</th>
               <th />
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td>创建</td>
               <td colspan="2">
@@ -2256,6 +2262,7 @@
                                     </code></pre>
               </td>
             </tr>
+          </tbody>
           </table>
         </section>
       </details>
@@ -2292,11 +2299,14 @@
         <section>
           <div><b>行属性 (rowItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
+            <thead>
             <tr>
               <th>属性</th>
               <th>类型</th>
               <th>说明</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td>tg_index</td>
               <td>Number</td>
@@ -2372,17 +2382,21 @@
               <td>Number</td>
               <td>行的实际渲染高度（像素）。</td>
             </tr>
+          </tbody>
           </table>
         </section>
 
         <section>
           <div><b>列属性 (columnItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
+            <thead>
             <tr>
               <th>属性</th>
               <th>类型</th>
               <th>说明</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td>tg_index</td>
               <td>Number</td>
@@ -2448,6 +2462,7 @@
               <td>Number</td>
               <td>表头布局的反向层级索引（0 = 最底层）。用于分组表头。</td>
             </tr>
+          </tbody>
           </table>
         </section>
 

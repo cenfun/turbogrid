@@ -197,7 +197,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="formatter.html"
+              href="#/formatter"
               target="_blank"
             >Formatter</a>
           </div>
@@ -240,7 +240,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="events.html"
+              href="#/events"
               target="_blank"
             >Events</a>
           </div>
@@ -288,7 +288,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="events.html"
+              href="#/events"
               target="_blank"
             >Events</a>
           </div>
@@ -326,7 +326,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="resize.html"
+              href="#/resize"
               target="_blank"
             >Resize</a>
           </div>
@@ -399,7 +399,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="loading.html"
+              href="#/loading"
               target="_blank"
             >Show/Hide Loading</a>
           </div>
@@ -420,7 +420,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="loading.html"
+              href="#/loading"
               target="_blank"
             >Show/Hide Loading</a>
           </div>
@@ -438,7 +438,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
           </div>
@@ -460,7 +460,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
           </div>
@@ -474,7 +474,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
           </div>
@@ -496,7 +496,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="export.html"
+              href="#/export"
               target="_blank"
             >Export</a>
           </div>
@@ -514,7 +514,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="load-subs.html"
+              href="#/load-subs"
               target="_blank"
             >Dynamic Load Subs</a>
           </div>
@@ -542,7 +542,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="set-rows.html"
+              href="#/set-rows"
               target="_blank"
             >Dynamic Set Rows</a>
           </div>
@@ -592,7 +592,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-add-delete.html"
+              href="#/row-add-delete"
               target="_blank"
             >Row Add/Delete</a>
           </div>
@@ -630,7 +630,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-move.html"
+              href="#/row-move"
               target="_blank"
             >Row Move</a>
           </div>
@@ -646,7 +646,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >Row Select</a>
           </div>
@@ -667,7 +667,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >Row Select</a>
           </div>
@@ -684,7 +684,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >Row Select</a>
           </div>
@@ -699,7 +699,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="frozen-middle.html"
+              href="#/frozen-middle"
               target="_blank"
             >Frozen Middle</a>
           </div>
@@ -729,7 +729,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="sort.html"
+              href="#/sort"
               target="_blank"
             >Row Sort</a>
           </div>
@@ -747,7 +747,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="column-display.html"
+              href="#/column-display"
               target="_blank"
             >Column Width Resize</a>
           </div>
@@ -766,7 +766,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="column-display.html"
+              href="#/column-display"
               target="_blank"
             >Show/Hide Column</a>
           </div>
@@ -793,7 +793,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="column-add-delete.html"
+              href="#/column-add-delete"
               target="_blank"
             >Column Add/Delete</a>
           </div>
@@ -816,7 +816,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="scroll.html"
+              href="#/scroll"
               target="_blank"
             >Scroll</a>
           </div>
@@ -834,7 +834,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="scroll.html"
+              href="#/scroll"
               target="_blank"
             >Scroll</a>
           </div>
@@ -854,7 +854,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="scroll.html"
+              href="#/scroll"
               target="_blank"
             >Scroll</a>
           </div>
@@ -899,7 +899,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="flush.html"
+              href="#/flush"
               target="_blank"
             >Flush</a>
           </div>
@@ -1218,7 +1218,7 @@
                         </code></pre>
           <div>
             Demo <a
-              href="load-rows.html"
+              href="#/load-rows"
               target="_blank"
             >Dynamic Load Rows</a>
           </div>
@@ -1249,7 +1249,7 @@
           <div>Sets the theme name. Available values: default, lightblue, dark.</div>
           <div>
             Demo <a
-              href="theme.html"
+              href="#/theme"
               target="_blank"
             >Theme</a>
           </div>
@@ -1260,7 +1260,7 @@
           <div>Sets the default row height in pixels.</div>
           <div>
             Demo <a
-              href="multiple-instance.html"
+              href="#/multiple-instance"
               target="_blank"
             >Row Height</a>
           </div>
@@ -1272,7 +1272,7 @@
           <div>Controls how many extra rows and columns are rendered outside the viewport as cache.</div>
           <div>
             Demo <a
-              href="cache.html"
+              href="#/cache"
               target="_blank"
             >Row/Column Cache</a>
           </div>
@@ -1284,7 +1284,7 @@
           <div>Automatically adjusts the grid height to fit its visible content.</div>
           <div>
             Demo <a
-              href="auto-height.html"
+              href="#/auto-height"
               target="_blank"
             >Auto Height</a>
           </div>
@@ -1297,7 +1297,7 @@
           </div>
           <div>
             Demo <a
-              href="column-display.html"
+              href="#/column-display"
               target="_blank"
             >Column Display</a>
           </div>
@@ -1309,7 +1309,7 @@
           <div>Shows or hides the header area.</div>
           <div>
             Demo <a
-              href="no-header.html"
+              href="#/no-header"
               target="_blank"
             >Show/Hide Header</a>
           </div>
@@ -1324,7 +1324,7 @@
           </div>
           <div>
             Demo <a
-              href="row-collapse.html"
+              href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
           </div>
@@ -1348,7 +1348,7 @@
           <a name="options.selectMultiple">selectMultiple = true</a>
           <div>
             Demo <a
-              href="row-select.html"
+              href="#/row-select"
               target="_blank"
             >Row Select</a>
           </div>
@@ -1360,7 +1360,7 @@
           <div>Shows or hides the built-in row number column.</div>
           <div>
             Demo <a
-              href="row-number.html"
+              href="#/row-number"
               target="_blank"
             >Row Number</a>
           </div>
@@ -1371,7 +1371,7 @@
           <div>Sets the empty-state content. Accepts an empty string, string, element, or function.</div>
           <div>
             Demo <a
-              href="row-not-found.html"
+              href="#/row-not-found"
               target="_blank"
             >Row Not Found</a>
           </div>
@@ -1386,7 +1386,7 @@
           </div>
           <div>
             Demo <a
-              href="row-drag.html"
+              href="#/row-drag"
               target="_blank"
             >Row Drag</a>
           </div>
@@ -1398,7 +1398,7 @@
           <div>Controls whether move APIs can move rows across hierarchy levels.</div>
           <div>
             Demo <a
-              href="row-move.html"
+              href="#/row-move"
               target="_blank"
             >Row Move</a>
           </div>
@@ -1429,7 +1429,7 @@
           <div>Provides custom comparer functions for sorting.</div>
           <div>
             Demo <a
-              href="sort.html"
+              href="#/sort"
               target="_blank"
             >Row Sort</a>
           </div>
@@ -1442,7 +1442,7 @@
           <div>Filters rows before rendering and optionally sorts filtered matches.</div>
           <div>
             Demo <a
-              href="row-filter.html"
+              href="#/row-filter"
               target="_blank"
             >Row Filter</a>
           </div>
@@ -1551,7 +1551,7 @@
           </div>
           <div>
             Demo <a
-              href="frozen.html"
+              href="#/frozen"
               target="_blank"
             >Frozen</a>
           </div>
@@ -1581,7 +1581,7 @@
           <div>Enables a gradient mask on the scroll pane edges.</div>
           <div>
             Demo <a
-              href="scrollbar.html"
+              href="#/scrollbar"
               target="_blank"
             >Scrollbar</a>
           </div>
@@ -1628,7 +1628,7 @@
           <div>Uses ResizeObserver to watch container size and call resize automatically.</div>
           <div>
             Demo <a
-              href="resize.html"
+              href="#/resize"
               target="_blank"
             >Resize</a>
           </div>
@@ -1639,7 +1639,7 @@
           <div>Filters which cells are observed for size changes. Requires ResizeObserver.</div>
           <div>
             Demo <a
-              href="row-height.html"
+              href="#/row-height"
               target="_blank"
             >Row Height</a>
           </div>
@@ -1657,12 +1657,14 @@
 
         <section>
           <table class="api-table api-table-zebra">
+            <thead>
             <tr>
               <th>Event Type</th>
               <th>Event Data</th>
               <th>Example</th>
             </tr>
-
+            </thead>
+            <tbody>
             <tr>
               <td>
                 <section>
@@ -1678,7 +1680,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -1701,7 +1703,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -1726,7 +1728,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="sort.html"
+                    href="#/sort"
                     target="_blank"
                   >Sort</a>
                 </div>
@@ -1749,7 +1751,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="column-add-delete.html"
+                    href="#/column-add-delete"
                     target="_blank"
                   >Column Add/Delete</a>
                 </div>
@@ -1770,7 +1772,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -1792,7 +1794,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="row-add-delete.html"
+                    href="#/row-add-delete"
                     target="_blank"
                   >Row Add/Delete</a>
                 </div>
@@ -1814,7 +1816,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -1835,7 +1837,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="load-subs.html"
+                    href="#/load-subs"
                     target="_blank"
                   >Dynamic Load Subs</a>
                 </div>
@@ -1860,7 +1862,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="row-drag.html"
+                    href="#/row-drag"
                     target="_blank"
                   >Row Drag</a>
                 </div>
@@ -1886,7 +1888,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="row-drag.html"
+                    href="#/row-drag"
                     target="_blank"
                   >Row Drag</a>
                 </div>
@@ -1907,7 +1909,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="row-move.html"
+                    href="#/row-move"
                     target="_blank"
                   >Row Move</a>
                 </div>
@@ -1932,7 +1934,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -1953,7 +1955,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="row-select.html"
+                    href="#/row-select"
                     target="_blank"
                   >Row Select</a>
                 </div>
@@ -1980,7 +1982,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -2008,7 +2010,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -2046,7 +2048,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -2082,7 +2084,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="touch.html"
+                    href="#/touch"
                     target="_blank"
                   >Touch</a>
                 </div>
@@ -2106,7 +2108,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="scroll.html"
+                    href="#/scroll"
                     target="_blank"
                   >Scroll</a>
                 </div>
@@ -2130,7 +2132,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -2155,7 +2157,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="scroll.html"
+                    href="#/scroll"
                     target="_blank"
                   >Scroll</a>
                 </div>
@@ -2180,7 +2182,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="resize.html"
+                    href="#/resize"
                     target="_blank"
                   >Resize</a>
                 </div>
@@ -2209,7 +2211,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="resize.html"
+                    href="#/resize"
                     target="_blank"
                   >Resize</a>
                 </div>
@@ -2232,7 +2234,7 @@
               <td>
                 <div>
                   Demo <a
-                    href="events.html"
+                    href="#/events"
                     target="_blank"
                   >Events</a>
                 </div>
@@ -2250,12 +2252,13 @@
               <td>
                 <div>
                   Demo <a
-                    href="flush.html"
+                    href="#/flush"
                     target="_blank"
                   >Flush</a>
                 </div>
               </td>
             </tr>
+          </tbody>
           </table>
         </section>
       </details>
@@ -2270,6 +2273,7 @@
 
         <section>
           <table class="api-table">
+            <thead>
             <tr>
               <th>Phases</th>
               <th colspan="2">
@@ -2279,6 +2283,8 @@
               <th>Capacity</th>
               <th />
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td>create</td>
               <td colspan="2">
@@ -2366,6 +2372,7 @@
                                     </code></pre>
               </td>
             </tr>
+          </tbody>
           </table>
         </section>
       </details>
@@ -2403,11 +2410,14 @@
         <section>
           <div><b>Row Item Properties (rowItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
+            <thead>
             <tr>
               <th>Property</th>
               <th>Type</th>
               <th>Description</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td>tg_index</td>
               <td>Number</td>
@@ -2485,17 +2495,21 @@
               <td>Number</td>
               <td>Actual rendered height of the row in pixels.</td>
             </tr>
+          </tbody>
           </table>
         </section>
 
         <section>
           <div><b>Column Item Properties (columnItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
+            <thead>
             <tr>
               <th>Property</th>
               <th>Type</th>
               <th>Description</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
               <td>tg_index</td>
               <td>Number</td>
@@ -2564,6 +2578,7 @@
               <td>Number</td>
               <td>Reverse level index for header layout (0 = bottom level). Used for grouped headers.</td>
             </tr>
+          </tbody>
           </table>
         </section>
 

@@ -13,7 +13,7 @@ function addRoute(path, componentPath, meta) {
 }
 
 // Home
-addRoute('/', 'getting-started', {
+addRoute('/', 'api-doc', {
     title: 'Getting Started'
 });
 

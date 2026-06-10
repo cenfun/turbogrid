@@ -74,7 +74,7 @@
           @click="toggleMenu"
         />
       </div>
-      <div class="app-nav">
+      <div class="nav-main">
         <Nav />
       </div>
     </div>
@@ -309,8 +309,9 @@ onMounted(() => {
         border-bottom: 1px solid #ccc;
     }
 
-    .app-nav {
+    .nav-main {
         flex: auto;
+        overflow: auto;
     }
 }
 

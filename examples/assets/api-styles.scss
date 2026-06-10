@@ -114,20 +114,22 @@ details section a[target="_blank"] {
 }
 
 .api-header {
-    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
     border-bottom: 1px solid #ccc;
 }
 
 .api-nav {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .api-nav a:link,
 .api-nav a:visited {
     position: relative;
-    margin-right: 8px;
     padding-right: 8px;
     font-weight: bold;
     text-decoration: underline;

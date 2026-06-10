@@ -22,12 +22,7 @@
       </div>
 
       <div class="app-header-right">
-        <div class="app-search">
-          <input
-            v-model="state.keywords"
-            type="text"
-          >
-        </div>
+        <Search />
         <select
           v-model="state.theme"
           class="app-header-theme"
@@ -96,6 +91,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { Grid } from '../src/index.js';
 
 import Nav from './nav.vue';
+import Search from './search.vue';
 import { state } from './global.js';
 
 const route = useRoute();
@@ -354,19 +350,4 @@ onMounted(() => {
     animation-fill-mode: both;
 }
 
-.app-search {
-    input {
-        width: 100%;
-        height: 25px;
-        padding-right: 23px;
-        padding-left: 5px;
-        line-height: 25px;
-        border: 1px solid #555;
-        border-radius: 5px;
-        background-image: url("./assets/images/search.svg");
-        background-repeat: no-repeat;
-        background-position: 97% center;
-        background-size: 16px;
-    }
-}
 </style>

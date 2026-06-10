@@ -4,7 +4,7 @@
       <div class="app-header-left">
         <div
           class="app-header-menu icon icon-menu"
-          @click="toggleNav"
+          @click="toggleMenu"
         />
         <div class="app-header-title">
           <a
@@ -17,16 +17,23 @@
             class="app-header-version"
             href="https://github.com/cenfun/turbogrid"
             target="_blank"
-          >v{{ version }}</a>
+          >v{{ state.version }}</a>
         </div>
       </div>
+
       <div class="app-header-right">
+        <div class="app-search">
+          <input
+            v-model="state.keywords"
+            type="text"
+          >
+        </div>
         <select
-          v-model="theme"
+          v-model="state.theme"
           class="app-header-theme"
         >
           <option
-            v-for="(t, ti) in themeOptions"
+            v-for="(t, ti) in state.themeOptions"
             :key="ti"
             :value="t.value"
           >
@@ -49,20 +56,27 @@
       </div>
     </div>
     <div
-      v-if="navOpen"
-      class="nav-popover"
+      v-if="state.flyoverVisible"
+      ref="flyoverEl"
+      class="nav-flyover"
     >
       <div class="nav-header">
-        <router-link
-          class="header-title"
-          to="/"
-        >
-          TurboGrid
-        </router-link>
-        <div class="flex-auto" />
+        <div class="app-header-title">
+          <a
+            class="app-header-name"
+            href="/"
+          >
+            TurboGrid
+          </a>
+          <a
+            class="app-header-version"
+            href="https://github.com/cenfun/turbogrid"
+            target="_blank"
+          >v{{ state.version }}</a>
+        </div>
         <div
-          class="icon icon-close header-icon-close"
-          @click="toggleNav"
+          class="icon icon-close"
+          @click="toggleMenu"
         />
       </div>
       <div class="app-nav">
@@ -75,33 +89,94 @@
 <script setup>
 import './global.scss';
 import {
-    ref, watch, onMounted
+    ref, watch, onMounted,
+    nextTick
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Grid, VERSION } from '../src/index.js';
+import { Grid } from '../src/index.js';
 
 import Nav from './nav.vue';
+import { state } from './global.js';
 
 const route = useRoute();
 const router = useRouter();
 
-const version = VERSION;
-const themeOptions = ref([]);
-const theme = ref('default');
 
-const navOpen = ref(false);
-const navClosing = ref(false);
+const flyoverEl = ref();
 
-watch(theme, (newTheme) => {
-    router.push({
-        query: {
-            ... route.query,
-            theme: newTheme
+const bindAnimation = (closing, callback) => {
+
+    const elem = flyoverEl.value;
+    if (!elem) {
+        return;
+    }
+
+    elem.addEventListener('animationend', () => {
+        if (closing) {
+            elem.classList.remove('nav-closing');
+        } else {
+            elem.classList.remove('nav-opening');
         }
+        if (callback) {
+            callback();
+        }
+    }, {
+        once: true
+    });
+
+    if (closing) {
+        elem.classList.add('nav-closing');
+    } else {
+        elem.classList.add('nav-opening');
+    }
+};
+
+const autoCloseHandler = (e) => {
+    if (flyoverEl.value && !flyoverEl.value.contains(e.target)) {
+        document.removeEventListener('click', autoCloseHandler);
+        toggleMenu();
+    }
+};
+
+const toggleMenu = () => {
+    if (state.flyoverVisible) {
+        bindAnimation(true, () => {
+            document.removeEventListener('click', autoCloseHandler);
+            state.flyoverVisible = false;
+        });
+    } else {
+        state.flyoverVisible = true;
+        nextTick(() => {
+            bindAnimation(false, () => {
+                document.addEventListener('click', autoCloseHandler);
+            });
+        });
+    }
+};
+
+watch(() => state.theme, (newTheme) => {
+    const newQuery = {
+        ... route.query
+    };
+    if (newTheme) {
+        newQuery.theme = newTheme;
+    } else {
+        delete newQuery.theme;
+    }
+    router.push({
+        query: newQuery
     });
 });
 
+watch(() => route.path, () => {
+    if (state.flyoverVisible) {
+        toggleMenu();
+    }
+});
+
 const initThemes = () => {
+    state.theme = route.query.theme || '';
+
     const themeList = Grid.getAllThemes().map((t) => {
         return {
             label: t,
@@ -112,38 +187,13 @@ const initThemes = () => {
         label: 'theme',
         value: ''
     });
-    themeOptions.value = themeList;
-    theme.value = route.query.theme || '';
+    state.themeOptions = themeList;
+
 };
 
 onMounted(() => {
     initThemes();
 });
-
-function toggleNav() {
-    if (navOpen.value) {
-        closeNav();
-    } else {
-        openNav();
-    }
-}
-
-function openNav() {
-    navClosing.value = false;
-    navOpen.value = true;
-}
-
-function closeNav() {
-    if (!navOpen.value) {
-        return;
-    }
-    navClosing.value = true;
-    navOpen.value = false;
-    setTimeout(() => {
-        navClosing.value = false;
-    }, 300);
-}
-
 </script>
 
 <style lang="scss">
@@ -214,6 +264,7 @@ function closeNav() {
     position: relative;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     width: 230px;
     height: 100%;
     border-right: 1px solid #ccc;
@@ -233,10 +284,89 @@ function closeNav() {
         display: block;
     }
 
-    .app-nav,
-    .app-header-title,
-    .app-header-theme {
+    .app-body .app-nav,
+    .app-header .app-header-title,
+    .app-header .app-header-theme {
         display: none;
+    }
+}
+
+.nav-flyover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+    overflow: hidden;
+
+    .nav-header {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .app-nav {
+        flex: auto;
+    }
+}
+
+@keyframes nav-slide-in-left {
+    from {
+        visibility: visible;
+        transform: translate3d(-100%, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes nav-slide-out-left {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        visibility: hidden;
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+.nav-opening {
+    left: 0;
+    animation-name: nav-slide-in-left;
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+}
+
+.nav-closing {
+    left: 0;
+    animation-name: nav-slide-out-left;
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+}
+
+.app-search {
+    input {
+        width: 100%;
+        height: 25px;
+        padding-right: 23px;
+        padding-left: 5px;
+        line-height: 25px;
+        border: 1px solid #555;
+        border-radius: 5px;
+        background-image: url("./assets/images/search.svg");
+        background-repeat: no-repeat;
+        background-position: 97% center;
+        background-size: 16px;
     }
 }
 </style>

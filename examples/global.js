@@ -1,5 +1,13 @@
 import { Grid, VERSION } from '../src/index.js';
 import Prism from 'prismjs';
+import { shallowReactive } from 'vue';
+
+export const state = shallowReactive({
+    version: VERSION,
+    theme: '',
+    themeOptions: [],
+    flyoverVisible: false
+});
 
 const formatCode = function(code) {
 
@@ -565,88 +573,6 @@ const initSource = function($header) {
 
 };
 
-const initNav = function() {
-
-    // header
-    const $header = document.querySelector('.header');
-    if (!$header) {
-        return;
-    }
-
-    const headerTitle = `
-            <a class="header-title" href="./">TurboGrid</a> 
-            <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v${VERSION}</a>
-        `;
-
-    $header.insertAdjacentHTML('afterbegin', `
-            ${headerTitle}
-            <div class="icon icon-menu header-icon-menu"></div>
-            <div class="flex-auto"></div>
-        `);
-
-    initSource($header);
-
-    // nav header
-    const $nav = document.createElement('div');
-    $nav.className = 'nav flex-column';
-    $nav.innerHTML = `
-            <div class="header flex-row">
-                ${headerTitle}
-                <div class="flex-auto"></div>
-                <div class="icon icon-close header-icon-close"></div>
-            </div>
-            <div class="nav-grid flex-auto"></div>
-            <div class="nav-search">
-                <input class="nav-keywords" value="" onfocus="this.select();" placeholder="Search Demo" />
-            </div>
-        `;
-
-    const $body = document.querySelector('.body');
-    $body.insertBefore($nav, $body.firstChild);
-
-    const cls = $nav.classList;
-
-    const closeHandler = (e) => {
-        if ($nav === e.target || $nav.contains(e.target)) {
-            return;
-        }
-        close();
-    };
-
-    const close = () => {
-        document.removeEventListener('click', closeHandler);
-        cls.remove('nav-opened');
-        cls.add('nav-closed');
-        $nav.addEventListener('animationend', function() {
-            cls.remove('nav-closed');
-        }, {
-            once: true
-        });
-    };
-
-    const open = () => {
-        cls.remove('nav-closed');
-        cls.add('nav-opened');
-        $nav.addEventListener('animationend', function() {
-            document.addEventListener('click', closeHandler);
-        }, {
-            once: true
-        });
-
-    };
-
-    ['.header-icon-menu', '.header-icon-close'].forEach(function(selector) {
-        document.querySelector(selector).addEventListener('click', function(e) {
-            if (cls.contains('nav-opened')) {
-                close();
-            } else {
-                open();
-            }
-        });
-    });
-
-};
-
 const initLogs = function() {
     const logClear = document.querySelector('.log-clear');
     if (logClear) {
@@ -685,8 +611,9 @@ const initFavicon = function() {
 
 export const init = function() {
     initFavicon();
-    initNav();
     initThemes();
     initLogs();
     initDataSelect();
+
+    initSource();
 };

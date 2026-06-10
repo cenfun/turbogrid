@@ -1,6 +1,7 @@
 import { Grid, VERSION } from '../src/index.js';
 import Prism from 'prismjs';
 import { shallowReactive } from 'vue';
+// import { debounce } from 'async-tick';
 
 export const state = shallowReactive({
     version: VERSION,
@@ -18,6 +19,8 @@ const formatCode = function(code) {
 
     html = html.replace(/^\n/g, '');
     html = html.replace(/\n$/g, '');
+
+    html = html.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
     const p = html.match(/^\s+/);
     if (p && p[0]) {
@@ -45,41 +48,14 @@ const formatCode = function(code) {
 
 };
 
-const formatList = function(list) {
-    if (!list.length) {
-        return;
-    }
-    const item = list.shift();
-    for (let i = 0, l = item.length; i < l; i++) {
-        const code = item[i];
-        formatCode(code);
-    }
-    setTimeout(function() {
-        formatList(list);
-    }, 10);
-};
-
 export const formatCodes = function() {
-    const codes = document.querySelectorAll('code');
-    if (!codes) {
+    const codes = Array.from(document.querySelectorAll('pre code'));
+    if (!codes.length) {
         return;
     }
-
-    const list = [];
-    let item = [];
-
-    for (let i = 0, l = codes.length; i < l; i++) {
-        const code = codes[i];
-        if (item.length < 10) {
-            item.push(code);
-            continue;
-        }
-        list.push(item);
-        item = [];
-        item.push(code);
-    }
-    list.push(item);
-    formatList(list);
+    codes.forEach((code) => {
+        formatCode(code);
+    });
 };
 
 export const getHash = function(key) {
@@ -1755,24 +1731,25 @@ export const init = function() {
 
 export const updateApiPage = function(route) {
 
-    // const name = hash.replace('#', '');
-    // if (!name) {
-    //     return;
-    // }
-    // nextTick(() => {
-    //     const el = document.querySelector(`.api-container a[name="${name}"]`);
-    //     if (el) {
-    //         el.scrollIntoView();
-    //         el.classList.add('selected');
-    //         setTimeout(() => {
-    //             el.classList.remove('selected');
-    //         }, 2000);
-    //     }
-    // });
+    const position = route.query.position;
+    if (!position) {
+        return;
+    }
+
+    const el = document.querySelector(`a[name="${position}"]`);
+    if (el) {
+        el.scrollIntoView();
+        el.classList.add('selected');
+        setTimeout(() => {
+            el.classList.remove('selected');
+        }, 2000);
+    }
 
 };
 
 export const initApiPage = function(route) {
-
-
+    formatCodes();
+    setTimeout(() => {
+        updateApiPage(route);
+    }, 100);
 };

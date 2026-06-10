@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { Grid } from 'turbogrid';
+import { Grid } from '../../src/index.js';
 import {
     ref, onMounted, onBeforeUnmount, nextTick
 } from 'vue';

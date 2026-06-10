@@ -24,7 +24,7 @@
 import {
     ref, onMounted, onBeforeUnmount, reactive, createApp, h, defineComponent
 } from 'vue';
-import { Grid, Util } from 'turbogrid';
+import { Grid, Util } from '../../src/index.js';
 import { sampleData } from '../data/sample-data.js';
 import { randomData } from '../data/random-data.js';
 import { initCommonEvents } from '../utils/helpers.js';

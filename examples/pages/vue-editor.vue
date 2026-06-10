@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { Grid } from 'turbogrid';
+import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../utils/helpers.js';
 import {
     createApp, defineComponent, ref, onMounted, onBeforeUnmount, nextTick

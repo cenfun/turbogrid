@@ -85,7 +85,7 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
-import { Grid } from 'turbogrid';
+import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../utils/helpers.js';
 
 const gridContainer = ref(null);

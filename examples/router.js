@@ -3,24 +3,25 @@ import { getGridRows } from './utils/nav-data.js';
 export const routes = [];
 
 function addRoute(path, componentPath, meta) {
+    // console.log(`Adding route: ${path} -> ${componentPath}`);
     routes.push({
         path,
         meta: meta || {},
         // @vite-ignore
-        component: () => import(`./${componentPath}`)
+        component: () => import(`./pages/${componentPath}.vue`)
     });
 }
 
 // Home
-addRoute('/', 'pages/getting-started.vue', {
+addRoute('/', 'getting-started', {
     title: 'Getting Started'
 });
 
 // API docs
-addRoute('/api', 'pages/api-doc.vue', {
+addRoute('/api', 'api-doc', {
     title: 'API Reference'
 });
-addRoute('/api-zh', 'pages/api-doc-zh.vue', {
+addRoute('/api-zh', 'api-doc-zh', {
     title: 'API Reference (中文)'
 });
 
@@ -28,7 +29,7 @@ addRoute('/api-zh', 'pages/api-doc-zh.vue', {
 function walkNav(nodes) {
     nodes.forEach((node) => {
         if (node.id) {
-            addRoute(`/${node.id}`, `pages/${node.id}.vue`, {
+            addRoute(`/${node.id}`, `${node.id}`, {
                 title: node.name
             });
         }

@@ -23,7 +23,7 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
-import { Grid } from 'turbogrid';
+import { Grid } from '../../src/index.js';
 import { sampleData } from '../data/sample-data.js';
 import { initCommonEvents } from '../utils/helpers.js';
 

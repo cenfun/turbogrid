@@ -19,7 +19,7 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
-import { Grid } from 'turbogrid';
+import { Grid, Util } from '../../src/index.js';
 import { initCommonEvents } from '../utils/helpers.js';
 
 const gridContainer = ref(null);
@@ -32,15 +32,14 @@ const onResize = () => {
 };
 
 onMounted(() => {
-    const { Util } = window.turbogrid;
     const g = new Grid(gridContainer.value);
     grid.value = g;
 
-    g.bind('onFirstUpdated', function() {
+    g.bind('onFirstUpdated', function () {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    const numFix = function(num, fix) {
+    const numFix = function (num, fix) {
         const n = Util.toNum;
         const f = Util.isNum(fix) ? fix : 2;
         return n(num).toFixed(n(f, true));
@@ -56,7 +55,7 @@ onMounted(() => {
         const negativeFormatter = document.querySelector('.cb_negativeFormatter').checked;
 
         g.setFormatter({
-            number: function(value, rowItem, columnItem, cellNode) {
+            number: function (value, rowItem, columnItem, cellNode) {
                 if (Util.isNum(value)) {
                     if (value < 0 && negativeFormatter) {
                         value = `(${numFix(-value)})`;
@@ -197,8 +196,8 @@ onMounted(() => {
         renderData(testData);
     };
 
-    ['.st-theme', '.cb_negativeFormatter'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
+    ['.st-theme', '.cb_negativeFormatter'].forEach(function (item) {
+        document.querySelector(item).addEventListener('change', function () {
             render();
         });
     });
@@ -218,5 +217,4 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

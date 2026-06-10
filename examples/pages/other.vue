@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { Icon } from 'turbogrid';
+import { Icon } from '../../src/index.js';
 import {
     ref, onMounted, nextTick
 } from 'vue';

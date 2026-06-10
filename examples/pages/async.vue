@@ -15,11 +15,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { Util } from '../../src/index.js';
 
 const gridContainer = ref(null);
 
 onMounted(() => {
-    const { Util } = window.turbogrid;
 
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
@@ -27,7 +27,7 @@ onMounted(() => {
     const paintColors = ['gray', 'green', 'blue', 'red'];
     const totalLanes = paintColors.length;
 
-    const flush = function() {
+    const flush = function () {
         context.fillStyle = '#ffffff';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -48,7 +48,7 @@ onMounted(() => {
 
     let pos = 0;
 
-    const paintSync = function(lane) {
+    const paintSync = function (lane) {
         if (pos >= canvas.width) {
             pos = 0;
             flush();
@@ -71,7 +71,7 @@ onMounted(() => {
     const paintThrottle = Util.throttle(paintSync, 100);
     const paintDebounce = Util.debounce(paintSync, 100);
 
-    canvas.addEventListener('mousemove', function(e) {
+    canvas.addEventListener('mousemove', function (e) {
         pos += 2;
         paintSync(0);
         paintMicrotask(1);
@@ -105,5 +105,4 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

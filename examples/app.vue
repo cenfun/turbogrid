@@ -19,7 +19,8 @@
                 </div>
                 <div class="nav-grid flex-auto" ref="navGridEl"></div>
                 <div class="nav-search">
-                    <input class="nav-keywords" v-model="keywords" placeholder="Search Demo" @focus="$event.target.select()" />
+                    <input class="nav-keywords" v-model="keywords" placeholder="Search Demo"
+                        @focus="$event.target.select()" />
                 </div>
             </nav>
             <div class="main flex-auto flex-column" @click="closeNav">
@@ -34,7 +35,7 @@ import {
     ref, watch, onMounted, onBeforeUnmount
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Grid } from 'turbogrid';
+import { Grid, VERSION } from '../src/index.js';
 import {
     getHash, setHash, delHash
 } from './utils/helpers.js';
@@ -43,7 +44,7 @@ import { getGridRows } from './utils/nav-data.js';
 const route = useRoute();
 const router = useRouter();
 
-const version = ref('');
+const version = VERSION;;
 const themes = ref([]);
 const theme = ref('default');
 const navGrid = ref(null);
@@ -63,7 +64,6 @@ watch(route, () => {
 });
 
 onMounted(() => {
-    version.value = window.turbogrid.VERSION;
     initThemes();
     initNavGrid();
     updateNavSelection();
@@ -128,7 +128,7 @@ function initNavGrid() {
     const grid = new Grid(container);
     navGrid.value = grid;
 
-    grid.bind('onCellUpdated', function(e, d) {
+    grid.bind('onCellUpdated', function (e, d) {
         if (this.renderSettings.type) {
             return;
         }
@@ -137,9 +137,9 @@ function initNavGrid() {
     });
 
     let scrollTimeId;
-    grid.bind('onScroll', function(e, d) {
+    grid.bind('onScroll', function (e, d) {
         clearTimeout(scrollTimeId);
-        scrollTimeId = setTimeout(function() {
+        scrollTimeId = setTimeout(function () {
             localStorage.setItem('tg-scroll-top', d.scrollTop);
         }, 500);
     });
@@ -197,7 +197,7 @@ function initNavGrid() {
     });
 
     grid.setFormatter({
-        tree: function(value, rowItem, columnItem, cellNode) {
+        tree: function (value, rowItem, columnItem, cellNode) {
             const defaultFormatter = this.getDefaultFormatter('tree');
             const rn = `<div class="tg-tree-row-number">${rowItem.tg_row_number}</div>`;
             return rn + defaultFormatter(value, rowItem, columnItem, cellNode);
@@ -231,12 +231,12 @@ function updateNavSelection() {
     const currentPath = route.path;
     const pageId = currentPath === '/' ? 'index' : currentPath.slice(1);
 
-    rows.forEach(function(row) {
+    rows.forEach(function (row) {
         if (!row.subs) {
             row.selected = row.id === pageId;
             return;
         }
-        row.subs.forEach(function(sub) {
+        row.subs.forEach(function (sub) {
             sub.selected = sub.id === pageId;
         });
     });
@@ -254,6 +254,8 @@ function updateNavSelection() {
 </script>
 
 <style>
+@import './assets/global.scss';
+
 /* App-level styles to match the original main.css + nav styles */
 .nav {
     position: relative;

@@ -32,7 +32,7 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
-import { Grid } from 'turbogrid';
+import { Grid } from '../../src/index.js';
 
 const gridContainer = ref(null);
 const she = ref(null);

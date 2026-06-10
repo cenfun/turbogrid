@@ -93,9 +93,9 @@ grid.render();
 
 ## API Overview
 
-TurboGrid provides 100+ public methods, 50+ configuration options, and 36 event types. For the complete and always up-to-date API reference:
+TurboGrid provides 100+ public methods, 50+ configuration options, and 36 event types. For the complete and always up-to-date documentation:
 
-[https://cenfun.github.io/turbogrid/api.html](https://cenfun.github.io/turbogrid/api.html)
+[https://cenfun.github.io/turbogrid/#/api-doc](https://cenfun.github.io/turbogrid/#/api-doc)
 
 The API covers:
 
@@ -104,83 +104,79 @@ The API covers:
 - **Events** — Lifecycle (`onUpdated`, `onDestroy`), interaction (`onClick`, `onSort`, `onKeyDown`), scroll, selection, drag & drop
 - **Data Structures** — Column items, row items, and internal properties (`tg_*` namespace)
 
-## Demo Map
-
-Online docs home: [https://cenfun.github.io/turbogrid/](https://cenfun.github.io/turbogrid/)
-
 ### Basics and Performance
 
-- [async](https://cenfun.github.io/turbogrid/async.html)
-- [auto-height](https://cenfun.github.io/turbogrid/auto-height.html)
-- [cache](https://cenfun.github.io/turbogrid/cache.html)
-- [loading](https://cenfun.github.io/turbogrid/loading.html)
-- [lifecycle](https://cenfun.github.io/turbogrid/lifecycle.html)
-- [multiple-instance](https://cenfun.github.io/turbogrid/multiple-instance.html)
-- [online-render](https://cenfun.github.io/turbogrid/online-render.html)
-- [performance-test](https://cenfun.github.io/turbogrid/performance-test.html)
-- [resize](https://cenfun.github.io/turbogrid/resize.html)
-- [scroll](https://cenfun.github.io/turbogrid/scroll.html)
-- [scrollbar](https://cenfun.github.io/turbogrid/scrollbar.html)
-- [touch](https://cenfun.github.io/turbogrid/touch.html)
+- [async](https://cenfun.github.io/turbogrid/#/async)
+- [auto-height](https://cenfun.github.io/turbogrid/#/auto-height)
+- [cache](https://cenfun.github.io/turbogrid/#/cache)
+- [loading](https://cenfun.github.io/turbogrid/#/loading)
+- [lifecycle](https://cenfun.github.io/turbogrid/#/lifecycle)
+- [multiple-instance](https://cenfun.github.io/turbogrid/#/multiple-instance)
+- [online-render](https://cenfun.github.io/turbogrid/#/online-render)
+- [performance-test](https://cenfun.github.io/turbogrid/#/performance-test)
+- [resize](https://cenfun.github.io/turbogrid/#/resize)
+- [scroll](https://cenfun.github.io/turbogrid/#/scroll)
+- [scrollbar](https://cenfun.github.io/turbogrid/#/scrollbar)
+- [touch](https://cenfun.github.io/turbogrid/#/touch)
 
 ### Rows and Data Operations
 
-- [load-rows](https://cenfun.github.io/turbogrid/load-rows.html)
-- [load-subs](https://cenfun.github.io/turbogrid/load-subs.html)
-- [set-rows](https://cenfun.github.io/turbogrid/set-rows.html)
-- [row-add-delete](https://cenfun.github.io/turbogrid/row-add-delete.html)
-- [row-collapse](https://cenfun.github.io/turbogrid/row-collapse.html)
-- [row-drag](https://cenfun.github.io/turbogrid/row-drag.html)
-- [row-filter](https://cenfun.github.io/turbogrid/row-filter.html)
-- [row-height](https://cenfun.github.io/turbogrid/row-height.html)
-- [row-hover](https://cenfun.github.io/turbogrid/row-hover.html)
-- [row-move](https://cenfun.github.io/turbogrid/row-move.html)
-- [row-not-found](https://cenfun.github.io/turbogrid/row-not-found.html)
-- [row-number](https://cenfun.github.io/turbogrid/row-number.html)
-- [row-select](https://cenfun.github.io/turbogrid/row-select.html)
-- [row-select-group](https://cenfun.github.io/turbogrid/row-select-group.html)
-- [row-select-limit](https://cenfun.github.io/turbogrid/row-select-limit.html)
-- [pagination](https://cenfun.github.io/turbogrid/pagination.html)
-- [infinite-scroll](https://cenfun.github.io/turbogrid/infinite-scroll.html)
+- [load-rows](https://cenfun.github.io/turbogrid/#/load-rows)
+- [load-subs](https://cenfun.github.io/turbogrid/#/load-subs)
+- [set-rows](https://cenfun.github.io/turbogrid/#/set-rows)
+- [row-add-delete](https://cenfun.github.io/turbogrid/#/row-add-delete)
+- [row-collapse](https://cenfun.github.io/turbogrid/#/row-collapse)
+- [row-drag](https://cenfun.github.io/turbogrid/#/row-drag)
+- [row-filter](https://cenfun.github.io/turbogrid/#/row-filter)
+- [row-height](https://cenfun.github.io/turbogrid/#/row-height)
+- [row-hover](https://cenfun.github.io/turbogrid/#/row-hover)
+- [row-move](https://cenfun.github.io/turbogrid/#/row-move)
+- [row-not-found](https://cenfun.github.io/turbogrid/#/row-not-found)
+- [row-number](https://cenfun.github.io/turbogrid/#/row-number)
+- [row-select](https://cenfun.github.io/turbogrid/#/row-select)
+- [row-select-group](https://cenfun.github.io/turbogrid/#/row-select-group)
+- [row-select-limit](https://cenfun.github.io/turbogrid/#/row-select-limit)
+- [pagination](https://cenfun.github.io/turbogrid/#/pagination)
+- [infinite-scroll](https://cenfun.github.io/turbogrid/#/infinite-scroll)
 
 ### Columns, Header, Frozen
 
-- [column-add-delete](https://cenfun.github.io/turbogrid/column-add-delete.html)
-- [column-display](https://cenfun.github.io/turbogrid/column-display.html)
-- [column-set](https://cenfun.github.io/turbogrid/column-set.html)
-- [header-display](https://cenfun.github.io/turbogrid/header-display.html)
-- [header-group](https://cenfun.github.io/turbogrid/header-group.html)
-- [frozen](https://cenfun.github.io/turbogrid/frozen.html)
-- [frozen-middle](https://cenfun.github.io/turbogrid/frozen-middle.html)
+- [column-add-delete](https://cenfun.github.io/turbogrid/#/column-add-delete)
+- [column-display](https://cenfun.github.io/turbogrid/#/column-display)
+- [column-set](https://cenfun.github.io/turbogrid/#/column-set)
+- [header-display](https://cenfun.github.io/turbogrid/#/header-display)
+- [header-group](https://cenfun.github.io/turbogrid/#/header-group)
+- [frozen](https://cenfun.github.io/turbogrid/#/frozen)
+- [frozen-middle](https://cenfun.github.io/turbogrid/#/frozen-middle)
 
 ### Render, Style, UI Extension
 
-- [formatter](https://cenfun.github.io/turbogrid/formatter.html)
-- [load-cells](https://cenfun.github.io/turbogrid/load-cells.html)
-- [negative-number](https://cenfun.github.io/turbogrid/negative-number.html)
-- [skeleton-screen](https://cenfun.github.io/turbogrid/skeleton-screen.html)
-- [style](https://cenfun.github.io/turbogrid/style.html)
-- [tooltip](https://cenfun.github.io/turbogrid/tooltip.html)
-- [popover](https://cenfun.github.io/turbogrid/popover.html)
-- [context-menu](https://cenfun.github.io/turbogrid/context-menu.html)
+- [formatter](https://cenfun.github.io/turbogrid/#/formatter)
+- [load-cells](https://cenfun.github.io/turbogrid/#/load-cells)
+- [negative-number](https://cenfun.github.io/turbogrid/#/negative-number)
+- [skeleton-screen](https://cenfun.github.io/turbogrid/#/skeleton-screen)
+- [style](https://cenfun.github.io/turbogrid/#/style)
+- [tooltip](https://cenfun.github.io/turbogrid/#/tooltip)
+- [popover](https://cenfun.github.io/turbogrid/#/popover)
+- [context-menu](https://cenfun.github.io/turbogrid/#/context-menu)
 
 ### Sort, Export and Advanced Cases
 
-- [sort](https://cenfun.github.io/turbogrid/sort.html)
-- [export](https://cenfun.github.io/turbogrid/export.html)
-- [events](https://cenfun.github.io/turbogrid/events.html)
-- [comfyui](https://cenfun.github.io/turbogrid/comfyui.html)
-- [poc](https://cenfun.github.io/turbogrid/poc.html)
-- [snake-game](https://cenfun.github.io/turbogrid/snake-game.html)
-- [conflict](https://cenfun.github.io/turbogrid/conflict.html)
-- [other](https://cenfun.github.io/turbogrid/other.html)
+- [sort](https://cenfun.github.io/turbogrid/#/sort)
+- [export](https://cenfun.github.io/turbogrid/#/export)
+- [events](https://cenfun.github.io/turbogrid/#/events)
+- [comfyui](https://cenfun.github.io/turbogrid/#/comfyui)
+- [poc](https://cenfun.github.io/turbogrid/#/poc)
+- [snake-game](https://cenfun.github.io/turbogrid/#/snake-game)
+- [conflict](https://cenfun.github.io/turbogrid/#/conflict)
+- [other](https://cenfun.github.io/turbogrid/#/other)
 
 ### Framework Integration
 
-- [vue-integration](https://cenfun.github.io/turbogrid/vue-integration.html)
-- [vue-component](https://cenfun.github.io/turbogrid/vue-component.html)
-- [vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html)
-- [custom-element](https://cenfun.github.io/turbogrid/custom-element.html)
+- [vue-integration](https://cenfun.github.io/turbogrid/#/vue-integration)
+- [vue-component](https://cenfun.github.io/turbogrid/#/vue-component)
+- [vue-editor](https://cenfun.github.io/turbogrid/#/vue-editor)
+- [custom-element](https://cenfun.github.io/turbogrid/#/custom-element)
 - React: container-based integration (see [Vue / React Integration](#vue--react-integration) below)
 
 ## Mobile / Touch Support
@@ -193,7 +189,7 @@ TurboGrid has built-in mobile support — no extra adapters needed.
 - Frozen rows/columns work on touch screens
 - Combine touch events with `onClick`, `onMouseWheel`, and frozen pane options for hybrid devices
 
-See the live demo for configuration examples: [touch](https://cenfun.github.io/turbogrid/touch.html)
+See the live demo for configuration examples: [touch](https://cenfun.github.io/turbogrid/#/touch)
 
 ## Vue / React Integration
 
@@ -201,7 +197,7 @@ TurboGrid is framework-agnostic — create a grid with a container, update data/
 
 ### Vue
 
-This repository includes Vue demos: [vue-integration](https://cenfun.github.io/turbogrid/vue-integration.html), [vue-component](https://cenfun.github.io/turbogrid/vue-component.html), [vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html).
+This repository includes Vue demos: [vue-integration](https://cenfun.github.io/turbogrid/#/vue-integration), [vue-component](https://cenfun.github.io/turbogrid/#/vue-component), [vue-editor](https://cenfun.github.io/turbogrid/#/vue-editor).
 
 ```js
 import { onMounted, onBeforeUnmount, ref } from 'vue';
@@ -294,7 +290,6 @@ TurboGrid is designed for deep customization at every level:
 ## Project Links
 
 - Documentation: [https://cenfun.github.io/turbogrid/](https://cenfun.github.io/turbogrid/)
-- API: [https://cenfun.github.io/turbogrid/api.html](https://cenfun.github.io/turbogrid/api.html)
 - NPM: [https://www.npmjs.com/package/turbogrid](https://www.npmjs.com/package/turbogrid)
 
 ## Related Projects

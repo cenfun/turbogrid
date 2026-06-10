@@ -302,7 +302,7 @@ const showSource = () => {
 export const getGridRows = function() {
     return [{
         id: 'api-doc',
-        name: 'API reference',
+        name: 'Documentation',
         selectable: true,
         nameClassMap: 'tg-row-top'
     }, {

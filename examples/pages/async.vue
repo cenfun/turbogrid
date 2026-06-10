@@ -1,20 +1,23 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Async test</div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Async test
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto">
-            <canvas class="canvas"></canvas>
-        </div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    >
+      <canvas class="canvas" />
+    </div>
+  </div>
 </template>
 
 <script setup>
-import {
-    onMounted, onBeforeUnmount, ref
-} from 'vue';
+import { onMounted, ref } from 'vue';
 import { Util } from '../../src/index.js';
 
 const gridContainer = ref(null);
@@ -27,7 +30,7 @@ onMounted(() => {
     const paintColors = ['gray', 'green', 'blue', 'red'];
     const totalLanes = paintColors.length;
 
-    const flush = function () {
+    const flush = function() {
         context.fillStyle = '#ffffff';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -48,7 +51,7 @@ onMounted(() => {
 
     let pos = 0;
 
-    const paintSync = function (lane) {
+    const paintSync = function(lane) {
         if (pos >= canvas.width) {
             pos = 0;
             flush();
@@ -71,7 +74,7 @@ onMounted(() => {
     const paintThrottle = Util.throttle(paintSync, 100);
     const paintDebounce = Util.debounce(paintSync, 100);
 
-    canvas.addEventListener('mousemove', function (e) {
+    canvas.addEventListener('mousemove', function(e) {
         pos += 2;
         paintSync(0);
         paintMicrotask(1);
@@ -101,8 +104,4 @@ onMounted(() => {
     resize();
 });
 
-onBeforeUnmount(() => {
-});
 </script>
-
-<style scoped></style>

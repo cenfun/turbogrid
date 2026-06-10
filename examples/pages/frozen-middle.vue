@@ -13,8 +13,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 
@@ -111,13 +114,13 @@ FMG.prototype = {
         this.initData();
         this.resize();
 
-        this.gridL.setOption({
-            theme: document.querySelector('.st-theme').value,
+this.gridL.setOption({
+            theme: route.query.theme,
             scrollbarSize: this.scrollbarSize,
             scrollbarSizeV: 0
         });
         this.gridR.setOption({
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             scrollbarSize: this.scrollbarSize,
             frozenColumn: 0
         });
@@ -257,7 +260,7 @@ onMounted(() => {
         fmg.render();
     };
 
-    ['.st-theme'].forEach(function(item) {
+    [].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

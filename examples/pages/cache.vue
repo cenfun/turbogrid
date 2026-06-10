@@ -54,10 +54,12 @@
 import {
     ref, onMounted, onBeforeUnmount
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -81,7 +83,7 @@ onMounted(() => {
         const columnCacheLength = parseInt(document.querySelector('.it_columnCacheLength').value);
 
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             selectVisible: true,
             frozenBottom: document.querySelector('.cb_frozenBottom').checked,
             frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
@@ -110,7 +112,7 @@ onMounted(() => {
         renderData(sampleData);
     };
 
-    ['.st-data', '.st-theme', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
+    ['.st-data', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

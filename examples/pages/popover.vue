@@ -35,8 +35,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -178,7 +181,7 @@ onMounted(() => {
 
     const getCommonOption = function() {
         return {
-            theme: document.querySelector('.st-theme') ? document.querySelector('.st-theme').value : 'default',
+            theme: route.query.theme || 'default',
             rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
             selectVisible: document.querySelector('.cb_selectVisible').checked,
             frozenColumn: 0,
@@ -245,7 +248,7 @@ onMounted(() => {
         render2();
     });
 
-    ['.st-theme', '.cb_selectVisible', '.cb_rowNumberVisible'].forEach(function(item) {
+    ['.cb_selectVisible', '.cb_rowNumberVisible'].forEach(function(item) {
         const el = document.querySelector(item);
         if (el) {
             el.addEventListener('change', function() {

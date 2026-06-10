@@ -24,11 +24,14 @@
 import {
     ref, onMounted, onBeforeUnmount, reactive, createApp, h, defineComponent
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid, Util } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
 import VuiPopover from 'vine-ui';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -83,7 +86,7 @@ const ColumnSetContent = defineComponent({
         init() {
             const g = new Grid(this.$refs.gridContainer);
             g.setOption({
-                theme: document.querySelector('.st-theme').value,
+                theme: route.query.theme,
                 rowDragVisible: true,
                 selectVisible: true,
                 selectAllVisible: false,
@@ -187,7 +190,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             selectVisible: true,
             frozenColumn: 0
         };
@@ -257,7 +260,7 @@ onMounted(() => {
     app.mount(popoverContainer);
     popoverApp.value = app;
 
-    ['.st-data', '.st-theme'].forEach(function(item) {
+    ['.st-data'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

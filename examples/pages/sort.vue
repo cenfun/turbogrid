@@ -94,9 +94,12 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -557,7 +560,7 @@ onMounted(() => {
     const renderData = function(data) {
 
         const options = {
-            theme: document.querySelector('.st-theme') ? document.querySelector('.st-theme').value : 'default',
+            theme: route.query.theme || 'default',
             sortField: document.querySelector('.it_sortField').value,
             sortAsc: document.querySelector('.cb_sortAsc').checked,
             sortBlankValueBottom: document.querySelector('.cb_sortBlankValueBottom').checked,
@@ -620,7 +623,7 @@ onMounted(() => {
         render();
     });
 
-    ['.st-data', '.st-theme', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
+    ['.st-data', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
         const el = document.querySelector(item);
         if (el) {
             el.addEventListener('change', function() {

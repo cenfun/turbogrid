@@ -67,8 +67,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -274,7 +277,7 @@ onMounted(() => {
 
     function render() {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
             frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
             frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
@@ -313,7 +316,7 @@ onMounted(() => {
     });
 
     [
-        '.st-theme',
+        
         '.usage-data1',
         '.usage-data2',
         '.ip_rowHeight',

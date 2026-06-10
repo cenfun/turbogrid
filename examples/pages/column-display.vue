@@ -62,9 +62,11 @@
 import {
     ref, onMounted, onBeforeUnmount
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
 
 const autoWidthData = {
     columns: [{
@@ -225,7 +227,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
             frozenRow: 0,
             autoColumnWidth: document.querySelector('.cb-autoColumnWidth').checked,
@@ -254,7 +256,7 @@ onMounted(() => {
         renderData(data);
     };
 
-    ['.st-data', '.st-theme', '.ip_frozenColumn', '.cb-autoColumnWidth', '.cb_frozenRight'].forEach(function(item) {
+    ['.st-data', '.ip_frozenColumn', '.cb-autoColumnWidth', '.cb_frozenRight'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

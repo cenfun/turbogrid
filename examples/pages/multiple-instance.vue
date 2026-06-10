@@ -35,10 +35,13 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer1 = ref(null);
 const gridContainer2 = ref(null);
@@ -62,8 +65,8 @@ onMounted(() => {
     grid2.value = g2;
 
     const renderData = (data) => {
-        g.setOption({
-            theme: document.querySelector('.st-theme').value,
+g.setOption({
+            theme: route.query.theme,
             selectVisible: true,
             frozenColumn: 0,
             frozenRow: -1
@@ -72,7 +75,7 @@ onMounted(() => {
         g.render();
 
         g2.setOption({
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             height: 50,
             selectVisible: true,
             frozenColumn: 0,
@@ -102,7 +105,7 @@ onMounted(() => {
         }
     });
 
-    ['.st-data', '.st-theme'].forEach(function(item) {
+    ['.st-data'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

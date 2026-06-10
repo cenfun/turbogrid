@@ -68,10 +68,13 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -153,7 +156,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             selectVisible: document.querySelector('.cb_selectVisible').checked,
             rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
             rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
@@ -187,7 +190,7 @@ onMounted(() => {
     };
 
     [
-        '.st-theme',
+        
         '.st-data',
         '.ip_frozenColumn',
         '.ip_frozenRow',

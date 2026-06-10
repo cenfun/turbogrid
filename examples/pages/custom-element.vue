@@ -28,6 +28,9 @@ import { initCommonEvents } from '../global.js';
 import {
     ref, onMounted, onBeforeUnmount
 } from 'vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 
 class GridElement extends HTMLElement {
 
@@ -95,8 +98,8 @@ const renderData = (data) => {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    g.setOption({
-        theme: document.querySelector('.st-theme').value,
+g.setOption({
+        theme: route.query.theme,
         frozenColumn: 0,
         frozenRow: 1
     });

@@ -31,10 +31,13 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -87,7 +90,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             selectMultiple: document.querySelector('.cb_selectMultiple').checked,
             selectVisible: true,
             frozenColumn: 0
@@ -108,7 +111,7 @@ onMounted(() => {
         renderData(sampleData);
     };
 
-    ['.st-data', '.st-theme', '.cb_selectMultiple'].forEach(function(item) {
+    ['.st-data', '.cb_selectMultiple'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

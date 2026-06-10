@@ -25,6 +25,9 @@ import { initCommonEvents } from '../global.js';
 import {
     createApp, defineComponent, shallowReactive, toRefs, ref, onMounted, onBeforeUnmount
 } from 'vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 
 // ====================================================================
 
@@ -61,7 +64,7 @@ const renderData = (data) => {
         return;
     }
     grid.value.setOption({
-        theme: document.querySelector('.st-theme').value,
+        theme: route.query.theme,
         selectVisible: true,
         bindWindowResize: true
     });

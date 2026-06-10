@@ -45,9 +45,12 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -1292,7 +1295,7 @@ onMounted(() => {
 
     const renderData = function(data) {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             frozenColumn: 0,
             selectVisible: document.querySelector('.cb_selectVisible').checked,
             sortField: document.querySelector('.it_sortField').value,
@@ -1316,7 +1319,7 @@ onMounted(() => {
         renderData(testData);
     }
 
-    ['.st-data', '.st-theme', '.cb_sortOnInit', '.cb_sortBlankValueBottom', '.cb_selectVisible', '.it_sortField'].forEach(function(item) {
+    ['.st-data', '.cb_sortOnInit', '.cb_sortBlankValueBottom', '.cb_selectVisible', '.it_sortField'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

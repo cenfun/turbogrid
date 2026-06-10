@@ -13,8 +13,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -219,7 +222,7 @@ onMounted(() => {
     const render = function () {
 
         g.setOption({
-            theme: document.querySelector('.st-theme') ? document.querySelector('.st-theme').value : 'default',
+            theme: route.query.theme || 'default',
             selectVisible: true,
             frozenColumn: 1,
             frozenRow: 1
@@ -245,7 +248,7 @@ onMounted(() => {
 
     };
 
-    ['.st-theme'].forEach(function (item) {
+    [].forEach(function (item) {
         const el = document.querySelector(item);
         if (el) {
             el.addEventListener('change', function () {

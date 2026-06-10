@@ -25,8 +25,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -104,7 +107,7 @@ onMounted(async () => {
         };
 
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             selectVisible: true,
             selectMultiple: true,
             selectAllVisible: true,

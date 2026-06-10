@@ -40,10 +40,13 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -72,7 +75,7 @@ onMounted(() => {
             frozenBottom: document.querySelector('.cb_frozenBottom').checked,
             frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
             frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
 
             textSelectable: true,
             selectVisible: true,
@@ -132,7 +135,7 @@ onMounted(() => {
         log.innerHTML = `${selectedRows.length} row(s) be removed`;
     });
 
-    ['.st-data', '.st-theme', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom', '.st-theme'].forEach(function(item) {
+    ['.st-data', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

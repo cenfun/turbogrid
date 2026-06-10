@@ -68,10 +68,13 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -106,7 +109,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         grid.value.setOption({
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             bindWindowResize: document.querySelector('.cb_bindWindowResize').checked,
             bindContainerResize: document.querySelector('.cb_bindContainerResize').checked
         });
@@ -143,7 +146,7 @@ onMounted(() => {
         gridContainer.value.style.display = this.checked ? 'none' : 'block';
     });
 
-    ['.st-data', '.st-theme', '.cb_bindWindowResize', '.cb_bindContainerResize'].forEach(function(item) {
+    ['.st-data', '.cb_bindWindowResize', '.cb_bindContainerResize'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

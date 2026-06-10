@@ -52,9 +52,12 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -340,7 +343,7 @@ onMounted(() => {
         };
         const rowDragCrossLevel = handlers[document.querySelector('.st_rowDragCrossLevel').value];
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             rowDragCrossLevel: rowDragCrossLevel,
             textSelectable: document.querySelector('.cb_textSelectable').checked,
             rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
@@ -363,7 +366,7 @@ onMounted(() => {
         renderData(customData);
     };
 
-    ['.st-data', '.st-theme', '.st_rowDragCrossLevel', '.cb_rowDragVisible', '.cb_textSelectable'].forEach(function(item) {
+    ['.st-data', '.st_rowDragCrossLevel', '.cb_rowDragVisible', '.cb_textSelectable'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

@@ -1,65 +1,78 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid customize formatter example:</div>
-                <select class="st-data">
-                    <option>custom_data</option>
-                    <option>tg_style</option>
-                    <option>random-10x10</option>
-                    <option>random-10x200</option>
-                    <option>random-20x2k</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    Number Decimal
-                    <select class="st_decimal">
-                        <option></option>
-                        <option>0</option>
-                        <option>1</option>
-                        <option selected>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </label>
-
-                <label>
-                    Date Format
-                    <select class="st_dateFilter">
-                        <option></option>
-                        <option selected>yyyy-mm-dd</option>
-                        <option>yyyy/mm/dd</option>
-                        <option>mm/dd/yyyy</option>
-                        <option>dd/mm/yyyy</option>
-                        <option>dd-mm-yyyy</option>
-                    </select>
-                </label>
-                <label>
-                    sortIndicator
-                    <select class="st_sortIndicator">
-                        <option>h</option>
-                        <option>v</option>
-                    </select>
-                </label>
-                <label>rowFilter:
-                    <input type="text" value="" placeholder="keywords" class="ip-keywords" onfocus="this.select()" />
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid customize formatter example:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>custom_data</option>
+          <option>tg_style</option>
+          <option>random-10x10</option>
+          <option>random-10x200</option>
+          <option>random-20x2k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          Number Decimal
+          <select class="st_decimal">
+            <option />
+            <option>0</option>
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </label>
+
+        <label>
+          Date Format
+          <select class="st_dateFilter">
+            <option />
+            <option selected>yyyy-mm-dd</option>
+            <option>yyyy/mm/dd</option>
+            <option>mm/dd/yyyy</option>
+            <option>dd/mm/yyyy</option>
+            <option>dd-mm-yyyy</option>
+          </select>
+        </label>
+        <label>
+          sortIndicator
+          <select class="st_sortIndicator">
+            <option>h</option>
+            <option>v</option>
+          </select>
+        </label>
+        <label>rowFilter:
+          <input
+            type="text"
+            value=""
+            placeholder="keywords"
+            class="ip-keywords"
+            onfocus="this.select()"
+          >
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -68,18 +81,18 @@ onMounted(() => {
     const g = new Grid(gridContainer.value);
     grid.value = g;
 
-    g.bind('onFirstUpdated', function () {
+    g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    g.bind('onSort', function (e, d) {
+    g.bind('onSort', function(e, d) {
         if (d.e.target.classList.contains('tg-header-icon')) {
             d.e.preventDefault();
             console.log('event prevented');
         }
     });
 
-    g.bind('onClick', function (e, d) {
+    g.bind('onClick', function(e, d) {
         if (d.e.target.nodeName === 'INPUT') {
             return;
         }
@@ -275,7 +288,7 @@ onMounted(() => {
         }]
     };
 
-    const dateFormatterHandler = function (date, format) {
+    const dateFormatterHandler = function(date, format) {
         format = format.replace('mm', 'MM');
         format = format || 'yyyy-MM-dd';
 
@@ -294,7 +307,7 @@ onMounted(() => {
             'S': date.getMilliseconds()
         };
 
-        const doubleNumberHandler = function () {
+        const doubleNumberHandler = function() {
             for (const k in o) {
                 if (Object.prototype.hasOwnProperty.call(o, k)) {
                     const reg = new RegExp(`(${k})`).test(format);
@@ -312,9 +325,10 @@ onMounted(() => {
         return format;
     };
 
-    const renderData = function (data) {
+    const renderData = function(data) {
         g.setOption({
-            theme: document.querySelector('.st-theme') ? document.querySelector('.st-theme').value : 'default',
+
+            theme: route.query.theme || 'default',
             selectVisible: true,
             frozenColumn: 0,
             sortIndicator: document.querySelector('.st_sortIndicator').value,
@@ -324,14 +338,14 @@ onMounted(() => {
                 highlightPre: '<mark>',
                 highlightPost: '</mark>'
             },
-            rowFilter: function (rowItem) {
+            rowFilter: function(rowItem) {
                 return g.highlightKeywordsFilter(rowItem, ['name', 'html'], keywords);
             }
         });
 
         g.setFormatter({
 
-            header: function (value, rowItem, columnItem, cellNode) {
+            header: function(value, rowItem, columnItem, cellNode) {
                 if (columnItem.id === 'index') {
                     return `
                         <div class="tg-header-icon">
@@ -343,7 +357,7 @@ onMounted(() => {
                 return value;
             },
 
-            number: function (value) {
+            number: function(value) {
                 if (typeof value !== 'number') {
                     return value;
                 }
@@ -354,7 +368,7 @@ onMounted(() => {
                 return value.toFixed(Number(decimal), 10);
             },
 
-            date: function (value, rowItem) {
+            date: function(value, rowItem) {
                 if (!rowItem.date) {
                     return value;
                 }
@@ -371,7 +385,7 @@ onMounted(() => {
                 return dateFormatterHandler(date, format);
             },
 
-            typeFormatter: function (value, rowItem, columnItem, cellNode) {
+            typeFormatter: function(value, rowItem, columnItem, cellNode) {
                 if (rowItem.tg_frozen) {
                     return "<b style='color:green;'>frozen</b>";
                 }
@@ -381,15 +395,15 @@ onMounted(() => {
                 return "<i style='color:green;'>holding</i>";
             },
 
-            positionFormatter: function (value, rowItem, columnItem, cellNode) {
+            positionFormatter: function(value, rowItem, columnItem, cellNode) {
                 return `(${rowItem.tg_index}, ${columnItem.tg_index})`;
             },
 
-            htmlFormatter: function (value, rowItem, columnItem, cellNode) {
+            htmlFormatter: function(value, rowItem, columnItem, cellNode) {
                 return '<a href="a" target="_blank">a</a> <b>b</b> <i>i</i> <s>s</s> <u>u</u>';
             },
 
-            imageFormatter: function (value, rowItem, columnItem, cellNode) {
+            imageFormatter: function(value, rowItem, columnItem, cellNode) {
                 const img = document.createElement('img');
                 img.src = 'data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20pointer-events%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010a4%204%200%201%200-4-4%204%204%200%200%200%204%204Zm0-6a2%202%200%201%201-2%202%202%202%200%200%201%202-2ZM2%2022h20a1%201%200%200%200%20.949-1.316l-4-12a1%201%200%200%200-1.708-.335l-5.39%206.289L8.6%2012.2a1%201%200%200%200-1.4.2l-6%208A1%201%200%200%200%202%2022Zm6.2-7.6%203.2%202.4a1%201%200%200%200%201.359-.149l4.851-5.659%203%209.008H4Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E';
                 img.height = 16;
@@ -397,23 +411,23 @@ onMounted(() => {
                 return img;
             },
 
-            formFormatter: function (value, rowItem, columnItem, cellNode) {
+            formFormatter: function(value, rowItem, columnItem, cellNode) {
                 const input = document.createElement('input');
                 input.className = 'tg-form-input';
                 input.value = value;
                 return input;
             },
 
-            buttonFormatter: function (value, rowItem, columnItem, cellNode) {
+            buttonFormatter: function(value, rowItem, columnItem, cellNode) {
                 return '<button style="padding:4px 10px;" class="tg-button tg-button--small">Button</button>';
             },
 
-            iconFormatter: function (value, rowItem, columnItem, cellNode) {
+            iconFormatter: function(value, rowItem, columnItem, cellNode) {
                 const icon = '<svg class="tg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" id="style-box-top-right" width="100%" height="100%"><path d="M15 2H2v19h19V2h-6zm-1 12H9V9h5v5zm0-11v5H9V3h5zM3 3h5v5H3V3zm0 6h5v5H3V9zm0 11v-5h5v5H3zm6 0v-5h5v5H9zm11 0h-5v-5h5v5zm0-6h-5V9h5v5z"></path></svg>';
                 return `<div style="height:23px;width:23px;">${icon}</div>`;
             },
 
-            checkboxFormatter: function (value, rowItem, columnItem, cellNode) {
+            checkboxFormatter: function(value, rowItem, columnItem, cellNode) {
                 return `<input type="checkbox" ${value === true ? 'checked' : ''} />`;
             }
 
@@ -423,7 +437,7 @@ onMounted(() => {
         g.render();
     };
 
-    const renderRadomData = function (data) {
+    const renderRadomData = function(data) {
         data.columns[1].name = 'Type';
         data.columns[1].formatter = 'typeFormatter';
 
@@ -461,7 +475,7 @@ onMounted(() => {
         renderData(data);
     };
 
-    const render = function () {
+    const render = function() {
         const dataStr = document.querySelector('.st-data').value;
 
         if (dataStr.startsWith('random')) {
@@ -484,16 +498,16 @@ onMounted(() => {
 
     const keywords = '';
 
-    ['.st-data', '.st-theme', '.st_decimal', '.st_dateFilter', '.st_sortIndicator'].forEach(function (item) {
+    ['.st-data', '.st_decimal', '.st_dateFilter', '.st_sortIndicator'].forEach(function(item) {
         const el = document.querySelector(item);
         if (el) {
-            el.addEventListener('change', function () {
+            el.addEventListener('change', function() {
                 render();
             });
         }
     });
 
-    document.querySelector('.ip-keywords').addEventListener('keyup', function () {
+    document.querySelector('.ip-keywords').addEventListener('keyup', function() {
         const k = this.value;
         if (k === this.keywords) {
             return;
@@ -504,7 +518,7 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    const onResize = function () {
+    const onResize = function() {
         g.resize();
     };
     window.addEventListener('resize', onResize);

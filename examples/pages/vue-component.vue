@@ -25,6 +25,9 @@ import { initCommonEvents } from '../global.js';
 import {
     createApp, defineComponent, shallowReactive, ref, onMounted, onBeforeUnmount, watch, nextTick
 } from 'vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 
 // ====================================================================
 const HoverIcon = defineComponent({
@@ -69,7 +72,7 @@ const renderData = (data) => {
 
     gridData.data = data;
     gridData.options = {
-        theme: document.querySelector('.st-theme').value,
+        theme: route.query.theme,
         frozenColumn: 0,
         frozenRow: 1
     };

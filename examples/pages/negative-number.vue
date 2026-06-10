@@ -19,8 +19,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid, Util } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -47,7 +50,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         g.setOption({
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             sortOnInit: true,
             sortField: 'number'
         });
@@ -196,7 +199,7 @@ onMounted(() => {
         renderData(testData);
     };
 
-    ['.st-theme', '.cb_negativeFormatter'].forEach(function (item) {
+    ['.cb_negativeFormatter'].forEach(function (item) {
         document.querySelector(item).addEventListener('change', function () {
             render();
         });

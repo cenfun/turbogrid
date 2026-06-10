@@ -125,9 +125,12 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -213,7 +216,7 @@ const renderGrid = function() {
     });
 
     const options = {
-        theme: document.querySelector('.st-theme') ? document.querySelector('.st-theme').value : 'default',
+        theme: route.query.theme || 'default',
         rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
         frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
         frozenRow: parseInt(document.querySelector('.ip_frozenRow').value),
@@ -299,7 +302,7 @@ onMounted(() => {
         });
     }
 
-    ['.st-theme', '.cb-subs', '.cb_selectVisible', '.cb_sortOnInit', '.cb_rowNumberVisible', '.cb_frozenBottom', '.ip_frozenRow', '.ip_frozenColumn'].forEach(function(item) {
+    ['.cb-subs', '.cb_selectVisible', '.cb_sortOnInit', '.cb_rowNumberVisible', '.cb_frozenBottom', '.ip_frozenRow', '.ip_frozenColumn'].forEach(function(item) {
         const el = document.querySelector(item);
         if (el) {
             el.addEventListener('change', function() {

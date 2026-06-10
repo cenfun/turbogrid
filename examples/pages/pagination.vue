@@ -59,9 +59,12 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -97,7 +100,7 @@ onMounted(() => {
 
     function render() {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             frozenColumn: 0,
             frozenRow: -1
         };
@@ -173,7 +176,7 @@ onMounted(() => {
         };
     };
 
-    ['.st-data', '.st-theme', '.st_pageSize', '.st_page'].forEach(function(item) {
+    ['.st-data', '.st_pageSize', '.st_page'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

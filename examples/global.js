@@ -1,4 +1,4 @@
-import { Grid, VERSION } from '../src/index.js';
+import { VERSION } from '../src/index.js';
 import Prism from 'prismjs';
 import { shallowReactive } from 'vue';
 // import { debounce } from 'async-tick';
@@ -117,36 +117,6 @@ export const getNum = function(str) {
         n *= 1000000;
     }
     return n;
-};
-
-const initThemes = function() {
-
-    const $theme = document.querySelector('.st-theme');
-    if (!$theme) {
-        return;
-    }
-
-    $theme.title = 'theme';
-
-    const hash = getHash();
-    const allThemes = Grid.getAllThemes();
-    allThemes.forEach((theme) => {
-        const $option = document.createElement('option');
-        $option.setAttribute('value', theme);
-        if (hash.theme === theme) {
-            $option.setAttribute('selected', 'selected');
-        }
-        $option.innerText = theme;
-        $theme.appendChild($option);
-    });
-
-    $theme.addEventListener('change', function() {
-        if (this.value === 'default') {
-            delHash('theme');
-            return;
-        }
-        setHash('theme', this.value);
-    });
 };
 
 export const showPage = (content) => {
@@ -1722,10 +1692,8 @@ export const apiSearchItems = [
 
 export const init = function() {
     initFavicon();
-    initThemes();
     initLogs();
     initDataSelect();
-
     initSource();
 };
 

@@ -22,7 +22,10 @@ import { initCommonEvents } from '../global.js';
 import {
     createApp, defineComponent, ref, onMounted, onBeforeUnmount, nextTick
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { components } from 'vine-ui';
+const route = useRoute();
+
 
 const { VuiSwitch, VuiSelect } = components;
 
@@ -296,7 +299,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         g.setOption({
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             selectVisible: true
         });
         g.setFormatter(editorFormatters);

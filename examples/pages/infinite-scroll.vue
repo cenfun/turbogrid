@@ -34,8 +34,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -177,7 +180,7 @@ onMounted(() => {
 
     function render() {
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
             scrollbarFade: document.querySelector('.cb_scrollbarFade').checked,
             frozenRow: 1,
@@ -202,7 +205,7 @@ onMounted(() => {
         g.deleteRow(selectedRows);
     });
 
-    ['.st-theme', '.ip_pageSize', '.ip_rowHeight', '.cb_scrollbarFade', '.cb_rowHeightFix'].forEach(function(item) {
+    ['.ip_pageSize', '.ip_rowHeight', '.cb_scrollbarFade', '.cb_rowHeightFix'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

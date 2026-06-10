@@ -51,7 +51,7 @@ const update = () => {
 
     grid.setOption({
 
-        theme: route.query.theme || 'default',
+        theme: route.query.theme,
 
         headerVisible: false,
         selectMultiple: false,
@@ -63,6 +63,8 @@ const update = () => {
         bindContainerResize: true,
         frozenRow: 1,
         frozenRowHoverable: true,
+
+        autoColumnWidth: true,
 
         rowNumberFilter: (rowItem, i) => {
             if (rowItem.tg_group || rowItem.tg_frozen || rowItem.nameClassMap) {
@@ -83,8 +85,7 @@ const update = () => {
     grid.setData({
         columns: [{
             id: 'name',
-            name: 'Name',
-            width: 195
+            name: 'Name'
         }],
         rows: getGridRows()
     });

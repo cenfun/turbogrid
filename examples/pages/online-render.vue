@@ -26,8 +26,11 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -126,14 +129,14 @@ onMounted(() => {
 
     const render = () => {
         const options = JSON.parse(document.querySelector('.tg_options').value);
-        options.theme = document.querySelector('.st-theme').value;
+options.theme = route.query.theme;
         g.setOption(options);
         const data = JSON.parse(document.querySelector('.tg_data').value);
         g.setData(data);
         g.render();
     };
 
-    ['.st-theme', '.tg_options', '.tg_data', '.bt-render'].forEach(function(item) {
+    ['.tg_options', '.tg_data', '.bt-render'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

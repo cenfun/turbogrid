@@ -39,10 +39,13 @@
 import {
     ref, onMounted, onBeforeUnmount
 } from 'vue';
+import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
+const route = useRoute();
+
 
 const grid = ref(null);
 const gridContainer = ref(null);
@@ -123,7 +126,7 @@ onMounted(() => {
         }
 
         const options = {
-            theme: document.querySelector('.st-theme').value,
+            theme: route.query.theme,
             selectVisible: true,
             frozenColumn: 0,
             frozenRow: 0,
@@ -154,7 +157,7 @@ onMounted(() => {
         g.resize();
     });
 
-    ['.st-data', '.st-theme', '.cb_autoHeight'].forEach(function(item) {
+    ['.st-data', '.cb_autoHeight'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

@@ -18,7 +18,7 @@
 
 <script setup>
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../utils/helpers.js';
+import { initCommonEvents } from '../global.js';
 import {
     createApp, defineComponent, ref, onMounted, onBeforeUnmount, nextTick
 } from 'vue';

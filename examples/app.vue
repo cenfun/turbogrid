@@ -38,9 +38,8 @@ import {
 import { useRoute, useRouter } from 'vue-router';
 import { Grid, VERSION } from '../src/index.js';
 import {
-    getHash, setHash, delHash
-} from './utils/helpers.js';
-import { getGridRows } from './utils/nav-data.js';
+    getHash, setHash, delHash, getGridRows
+} from './global.js';
 
 const route = useRoute();
 const router = useRouter();

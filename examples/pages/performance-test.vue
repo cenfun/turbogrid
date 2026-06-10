@@ -127,7 +127,7 @@ import {
 } from 'vue';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../data/random-data.js';
-import { initCommonEvents } from '../utils/helpers.js';
+import { initCommonEvents } from '../global.js';
 
 const gridContainer = ref(null);
 const grid = ref(null);

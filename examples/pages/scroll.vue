@@ -86,7 +86,7 @@ import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../utils/helpers.js';
+import { initCommonEvents } from '../global.js';
 
 const gridContainer = ref(null);
 const grid = ref(null);

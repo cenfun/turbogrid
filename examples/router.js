@@ -1,4 +1,4 @@
-import { getGridRows } from './utils/nav-data.js';
+import { getGridRows } from './global.js';
 
 export const routes = [];
 

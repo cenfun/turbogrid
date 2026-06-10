@@ -356,7 +356,7 @@ const getPageId = function() {
     return 'index';
 };
 
-const getGridRows = function() {
+export const getGridRows = function() {
     return [{
         id: 'index',
         name: 'Getting Started',

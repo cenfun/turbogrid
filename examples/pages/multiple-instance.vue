@@ -38,7 +38,7 @@ import {
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../data/sample-data.js';
 import { randomData } from '../data/random-data.js';
-import { initCommonEvents } from '../utils/helpers.js';
+import { initCommonEvents } from '../global.js';
 
 const gridContainer1 = ref(null);
 const gridContainer2 = ref(null);

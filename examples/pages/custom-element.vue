@@ -24,7 +24,7 @@
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../data/sample-data.js';
 import { randomData } from '../data/random-data.js';
-import { initCommonEvents } from '../utils/helpers.js';
+import { initCommonEvents } from '../global.js';
 import {
     ref, onMounted, onBeforeUnmount
 } from 'vue';

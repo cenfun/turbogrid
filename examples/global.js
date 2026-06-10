@@ -345,17 +345,6 @@ const showSource = () => {
     showPage(content);
 };
 
-const getPageId = function() {
-    const filename = window.location.pathname.split('/').pop();
-    if (filename) {
-        if (filename.endsWith('.html')) {
-            return filename.slice(0, -5);
-        }
-        return filename;
-    }
-    return 'index';
-};
-
 export const getGridRows = function() {
     return [{
         id: 'index',
@@ -562,150 +551,6 @@ export const getGridRows = function() {
     }];
 };
 
-const initNavGrid = function() {
-    const grid = new Grid('.nav-grid');
-
-    grid.bind('onCellUpdated', function(e, d) {
-
-        if (this.renderSettings.type) {
-            // only for scroll
-            return;
-        }
-
-        const cellNode = d.node;
-        // console.log(d);
-        cellNode.classList.add('tg-cell-effect');
-
-    });
-
-    let scrollTimeId;
-    grid.bind('onScroll', function(e, d) {
-        clearTimeout(scrollTimeId);
-        scrollTimeId = setTimeout(function() {
-            localStorage.setItem('tg-scroll-top', d.scrollTop);
-        }, 500);
-    });
-
-    grid.bind('onClick', function(e, d) {
-
-        const rowItem = d.rowItem;
-        const id = rowItem.id;
-
-        if (!id) {
-            grid.toggleRow(rowItem);
-            return;
-        }
-
-        grid.setRowSelected(rowItem);
-
-        const pageId = getPageId();
-        if (id === pageId) {
-            window.location.reload();
-            return;
-        }
-        // console.log('iframe loading ...');
-
-        let url = `${id}.html`;
-        if (pageId !== 'api') {
-            url += window.location.hash;
-        }
-
-        window.location.href = url;
-
-    });
-
-    let keywords = '';
-    document.querySelector('.nav-keywords').addEventListener('keyup', function() {
-        const k = this.value;
-        if (k === keywords) {
-            return;
-        }
-        keywords = k;
-        // update rows
-        grid.update();
-    });
-
-    grid.setOption({
-        headerVisible: false,
-        selectMultiple: false,
-        scrollbarSize: 6,
-        scrollbarFade: true,
-        scrollbarRound: true,
-        scrollPaneGradient: true,
-        bindWindowResize: true,
-        bindContainerResize: true,
-        frozenRow: 1,
-        frozenRowHoverable: true,
-        rowFilter: function(rowItem) {
-            if (!keywords) {
-                return true;
-            }
-            if (rowItem.tg_frozen) {
-                return true;
-            }
-            let name = rowItem.name;
-            if (name) {
-                name = name.toLowerCase();
-                if (name.indexOf(keywords) !== -1) {
-                    return true;
-                }
-            }
-            return false;
-        },
-        rowNumberFilter: function(rowItem, i) {
-            if (rowItem.tg_group || rowItem.tg_frozen || rowItem.nameClassMap) {
-                return false;
-            }
-            return true;
-        }
-    });
-
-    grid.setFormatter({
-        tree: function(value, rowItem, columnItem, cellNode) {
-            const defaultFormatter = this.getDefaultFormatter('tree');
-            const rn = `<div class="tg-tree-row-number">${rowItem.tg_row_number}</div>`;
-            return rn + defaultFormatter(value, rowItem, columnItem, cellNode);
-        }
-    });
-
-    const rows = getGridRows();
-
-    const pageId = getPageId();
-
-    rows.forEach(function(row) {
-        if (!row.subs) {
-            if (row.id === pageId) {
-                row.selected = true;
-            }
-            return;
-        }
-        row.subs.forEach(function(sub) {
-            if (sub.id === pageId) {
-                sub.selected = true;
-            }
-        });
-    });
-
-    grid.setData({
-        columns: [{
-            id: 'name',
-            name: 'Name',
-            width: 195
-        }],
-        rows: rows
-    });
-
-    let scrollTop = localStorage.getItem('tg-scroll-top');
-    if (scrollTop) {
-        scrollTop = parseInt(scrollTop);
-    }
-
-    grid.render({
-        scrollTop
-    });
-
-};
-
 const initSource = function($header) {
     if (!document.querySelector('.grid-container')) {
         return;
@@ -799,8 +644,6 @@ const initNav = function() {
             }
         });
     });
-
-    initNavGrid();
 
 };
 

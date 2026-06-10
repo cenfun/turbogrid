@@ -177,8 +177,6 @@ media screen
         padding-left: 40px;
     }
 
-
-
     .nav {
         position: fixed;
         top: 0;
@@ -229,38 +227,6 @@ media screen
 }
 
 /*
-header children
-*/
-
-.header-title {
-    padding-left: 20px;
-    font-weight: bold;
-    font-size: 16px;
-    background-image: url("./assets/images/logo.svg");
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 16px;
-}
-
-.header .header-title {
-    text-decoration: none;
-}
-
-.header-version {
-    margin-left: 5px;
-    color: #555;
-    font-size: 14px;
-    text-decoration: underline;
-}
-
-.header-api {
-    margin-left: 10px;
-    font-weight: bold;
-}
-
-
-
-/*
 nav children
 */
 
@@ -285,71 +251,6 @@ nav children
     background-repeat: no-repeat;
     background-position: 97% center;
     background-size: 16px;
-}
-
-.nav-grid .tg-row-top {
-    position: relative;
-    font-weight: bold;
-}
-
-.nav-grid .tg-row-top::after {
-    position: absolute;
-    top: 0;
-    left: 5px;
-    content: "";
-    width: 16px;
-    height: 30px;
-    background-image: url("./assets/images/double-right.svg");
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
-.nav-grid .tg-tree-row-number {
-    position: absolute;
-    width: 20px;
-    text-align: center;
-}
-
-.nav-grid .tg-gradient-top::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: "";
-    z-index: 10;
-    display: block;
-    width: 100%;
-    height: 30px;
-    background-image: linear-gradient(to bottom, #fff, rgb(255 255 255 / 0%));
-    pointer-events: none;
-}
-
-.nav-grid .tg-gradient-bottom::after {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    content: "";
-    z-index: 10;
-    display: block;
-    width: 100%;
-    height: 30px;
-    background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
-    pointer-events: none;
-}
-
-@keyframes tg-cell-effect-animate {
-    from {
-        transform: scale(0.5) translateX(-90%);
-    }
-
-    to {
-        transform: translateX(0);
-    }
-}
-
-.tg-cell-effect {
-    animation-name: tg-cell-effect-animate;
-    animation-duration: 0.3s;
-    animation-timing-function: cubic-bezier(0.26, 0.86, 0.44, 0.985);
 }
 
 /*

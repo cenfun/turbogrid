@@ -24,7 +24,7 @@ import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
 import { Grid } from '../../src/index.js';
-import { sampleData } from '../data/sample-data.js';
+import { sampleData } from '../assets/sample-data.js';
 import { initCommonEvents } from '../global.js';
 
 const gridContainer = ref(null);

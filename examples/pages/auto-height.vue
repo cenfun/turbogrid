@@ -30,8 +30,8 @@ import {
     ref, onMounted, onBeforeUnmount
 } from 'vue';
 import { Grid } from '../../src/index.js';
-import { sampleData } from '../data/sample-data.js';
-import { randomData } from '../data/random-data.js';
+import { sampleData } from '../assets/sample-data.js';
+import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
 
 const gridContainer = ref(null);

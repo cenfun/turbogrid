@@ -35,7 +35,7 @@ const selectedCount = ref(0);
 
 onMounted(async () => {
     // Dynamically import comfyui data (435KB) to avoid initial bundle bloat
-    const { comfyuiData } = await import('../data/comfyui-data.js');
+    const { comfyuiData } = await import('../assets/comfyui-data.js');
 
     const container = gridContainer.value;
     const g = new Grid(container);

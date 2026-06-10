@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+import './global.scss';
 import {
     ref, watch, onMounted, onBeforeUnmount
 } from 'vue';
@@ -254,8 +255,6 @@ function updateNavSelection() {
 </script>
 
 <style lang="scss">
-@import './global.scss';
-
 .app {
     display: flex;
     flex-direction: column;

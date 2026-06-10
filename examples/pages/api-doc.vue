@@ -2143,6 +2143,7 @@
 </template>
 
 <script setup>
+import '../assets/api-styles.scss';
 import { onMounted, nextTick } from 'vue';
 
 onMounted(() => {
@@ -2153,7 +2154,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style lang="scss">
-@import '../assets/api-styles.scss';
-</style>

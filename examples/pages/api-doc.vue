@@ -2144,13 +2144,37 @@
 
 <script setup>
 import '../assets/api-styles.scss';
-import { onMounted, nextTick } from 'vue';
+import { onMounted, nextTick, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+const scrollToAnchor = (hash) => {
+    if (!hash) return;
+    const name = hash.replace('#', '');
+    if (!name) return;
+    nextTick(() => {
+        const el = document.querySelector(`.api-container a[name="${name}"]`);
+        if (el) {
+            el.scrollIntoView();
+            el.classList.add('selected');
+            setTimeout(() => {
+                el.classList.remove('selected');
+            }, 2000);
+        }
+    });
+};
+
+watch(() => route.hash, (hash) => {
+    scrollToAnchor(hash);
+});
 
 onMounted(() => {
     nextTick(() => {
         if (window.Prism) {
             window.formatCodes();
         }
+        scrollToAnchor(route.hash);
     });
 });
 </script>

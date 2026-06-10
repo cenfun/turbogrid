@@ -609,6 +609,1146 @@ const initFavicon = function() {
     document.head.appendChild(link);
 };
 
+// Auto-generated from public/api.html
+// Contains all API anchor items for search functionality
+export const apiSearchItems = [
+  {
+    "name": "turbogrid",
+    "text": "turbogrid",
+    "type": "turbogrid"
+  },
+  {
+    "name": "Grid",
+    "text": "Grid(container)",
+    "type": "turbogrid"
+  },
+  {
+    "name": "methods",
+    "text": "Methods",
+    "type": "methods"
+  },
+  {
+    "name": "setData",
+    "text": "setData(data)",
+    "type": "methods"
+  },
+  {
+    "name": "getData",
+    "text": "getData()",
+    "type": "methods"
+  },
+  {
+    "name": "setDataSnapshot",
+    "text": "setDataSnapshot(data)",
+    "type": "methods"
+  },
+  {
+    "name": "getItemSnapshot",
+    "text": "getItemSnapshot(item[, keysSettings])",
+    "type": "methods"
+  },
+  {
+    "name": "setOption",
+    "text": "setOption(options)",
+    "type": "methods"
+  },
+  {
+    "name": "getOption",
+    "text": "getOption([name])",
+    "type": "methods"
+  },
+  {
+    "name": "setFormatter",
+    "text": "setFormatter(formatters)",
+    "type": "methods"
+  },
+  {
+    "name": "getFormatter",
+    "text": "getFormatter(type)",
+    "type": "methods"
+  },
+  {
+    "name": "getDefaultFormatter",
+    "text": "getDefaultFormatter([type])",
+    "type": "methods"
+  },
+  {
+    "name": "bind",
+    "text": "bind(eventType, handler[, options])",
+    "type": "methods"
+  },
+  {
+    "name": "once",
+    "text": "once(eventType, handler)",
+    "type": "methods"
+  },
+  {
+    "name": "unbind",
+    "text": "unbind([eventType][, handler][, options])",
+    "type": "methods"
+  },
+  {
+    "name": "trigger",
+    "text": "trigger(eventType, eventData)",
+    "type": "methods"
+  },
+  {
+    "name": "getAllEvents",
+    "text": "getAllEvents()",
+    "type": "methods"
+  },
+  {
+    "name": "render",
+    "text": "render()",
+    "type": "methods"
+  },
+  {
+    "name": "rerender",
+    "text": "rerender()",
+    "type": "methods"
+  },
+  {
+    "name": "resize",
+    "text": "resize([w, [h]])",
+    "type": "methods"
+  },
+  {
+    "name": "destroy",
+    "text": "destroy()",
+    "type": "methods"
+  },
+  {
+    "name": "getColumnItem",
+    "text": "getColumnItem(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getColumnItemById",
+    "text": "getColumnItemById(id)",
+    "type": "methods"
+  },
+  {
+    "name": "getColumnItemBy",
+    "text": "getColumnItemBy(key, value)",
+    "type": "methods"
+  },
+  {
+    "name": "getRowItem",
+    "text": "getRowItem(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getRowItemById",
+    "text": "getRowItemById(id)",
+    "type": "methods"
+  },
+  {
+    "name": "getRowItemBy",
+    "text": "getRowItemBy(key, value)",
+    "type": "methods"
+  },
+  {
+    "name": "showLoading",
+    "text": "showLoading()",
+    "type": "methods"
+  },
+  {
+    "name": "hideLoading",
+    "text": "hideLoading()",
+    "type": "methods"
+  },
+  {
+    "name": "setLoading",
+    "text": "setLoading(loading)",
+    "type": "methods"
+  },
+  {
+    "name": "showMask",
+    "text": "showMask([styleMap])",
+    "type": "methods"
+  },
+  {
+    "name": "hideMask",
+    "text": "hideMask()",
+    "type": "methods"
+  },
+  {
+    "name": "expandAllRows",
+    "text": "expandAllRows()",
+    "type": "methods"
+  },
+  {
+    "name": "collapseAllRows",
+    "text": "collapseAllRows()",
+    "type": "methods"
+  },
+  {
+    "name": "toggleAllRows",
+    "text": "toggleAllRows()",
+    "type": "methods"
+  },
+  {
+    "name": "expandRow",
+    "text": "expandRow(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "collapseRow",
+    "text": "collapseRow(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "toggleRow",
+    "text": "toggleRow(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "expandRowLevel",
+    "text": "expandRowLevel(level)",
+    "type": "methods"
+  },
+  {
+    "name": "exportData",
+    "text": "exportData([keysSettings])",
+    "type": "methods"
+  },
+  {
+    "name": "setRowSubs",
+    "text": "setRowSubs(rowIndex, subs)",
+    "type": "methods"
+  },
+  {
+    "name": "setColumns",
+    "text": "setColumns(columnList)",
+    "type": "methods"
+  },
+  {
+    "name": "setRows",
+    "text": "setRows(rowList)",
+    "type": "methods"
+  },
+  {
+    "name": "getRows",
+    "text": "getRows()",
+    "type": "methods"
+  },
+  {
+    "name": "getColumns",
+    "text": "getColumns()",
+    "type": "methods"
+  },
+  {
+    "name": "getViewRows",
+    "text": "getViewRows()",
+    "type": "methods"
+  },
+  {
+    "name": "getViewColumns",
+    "text": "getViewColumns([all])",
+    "type": "methods"
+  },
+  {
+    "name": "getViewRowItem",
+    "text": "getViewRowItem(viewRowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getViewColumnItem",
+    "text": "getViewColumnItem(viewColumnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "addRow",
+    "text": "addRow(rowInfo[, parent, position, scrollTo = true])",
+    "type": "methods"
+  },
+  {
+    "name": "deleteRow",
+    "text": "deleteRow(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "moveRowsToTop",
+    "text": "moveRowsToTop(rowList)",
+    "type": "methods"
+  },
+  {
+    "name": "moveRowsUp",
+    "text": "moveRowsUp(rowList)",
+    "type": "methods"
+  },
+  {
+    "name": "moveRowsDown",
+    "text": "moveRowsDown(rowList)",
+    "type": "methods"
+  },
+  {
+    "name": "moveRowsToBottom",
+    "text": "moveRowsToBottom(rowList)",
+    "type": "methods"
+  },
+  {
+    "name": "moveSelectedRowsToTop",
+    "text": "moveSelectedRowsToTop()",
+    "type": "methods"
+  },
+  {
+    "name": "moveSelectedRowsUp",
+    "text": "moveSelectedRowsUp()",
+    "type": "methods"
+  },
+  {
+    "name": "moveSelectedRowsDown",
+    "text": "moveSelectedRowsDown()",
+    "type": "methods"
+  },
+  {
+    "name": "moveSelectedRowsToBottom",
+    "text": "moveSelectedRowsToBottom()",
+    "type": "methods"
+  },
+  {
+    "name": "moveRows",
+    "text": "moveRows(rowList, offset)",
+    "type": "methods"
+  },
+  {
+    "name": "selectAll",
+    "text": "selectAll([selected = true])",
+    "type": "methods"
+  },
+  {
+    "name": "setRowSelected",
+    "text": "setRowSelected(rowInfo[, settings])",
+    "type": "methods"
+  },
+  {
+    "name": "getSelectedRow",
+    "text": "getSelectedRow()",
+    "type": "methods"
+  },
+  {
+    "name": "getSelectedRows",
+    "text": "getSelectedRows()",
+    "type": "methods"
+  },
+  {
+    "name": "setRowHover",
+    "text": "setRowHover(rowIndex, hover)",
+    "type": "methods"
+  },
+  {
+    "name": "setRowState",
+    "text": "setRowState(rowIndex, state, value = true)",
+    "type": "methods"
+  },
+  {
+    "name": "setSortColumn",
+    "text": "setSortColumn(sortColumn)",
+    "type": "methods"
+  },
+  {
+    "name": "removeSortColumn",
+    "text": "removeSortColumn()",
+    "type": "methods"
+  },
+  {
+    "name": "setColumnWidth",
+    "text": "setColumnWidth(columnIndex, width)",
+    "type": "methods"
+  },
+  {
+    "name": "showColumn",
+    "text": "showColumn(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "hideColumn",
+    "text": "hideColumn(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "addColumn",
+    "text": "addColumn(columnInfo[, parent, position, scrollTo = true])",
+    "type": "methods"
+  },
+  {
+    "name": "deleteColumn",
+    "text": "deleteColumn(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "scrollToRow",
+    "text": "scrollToRow(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "scrollToFirstRow",
+    "text": "scrollToFirstRow()",
+    "type": "methods"
+  },
+  {
+    "name": "scrollToLastRow",
+    "text": "scrollToLastRow()",
+    "type": "methods"
+  },
+  {
+    "name": "scrollToColumn",
+    "text": "scrollToColumn(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "scrollToFirstColumn",
+    "text": "scrollToFirstColumn()",
+    "type": "methods"
+  },
+  {
+    "name": "scrollToLastColumn",
+    "text": "scrollToLastColumn(end)",
+    "type": "methods"
+  },
+  {
+    "name": "scrollToCell",
+    "text": "scrollToCell(rowIndex, columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "scrollRowIntoView",
+    "text": "scrollRowIntoView(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "scrollColumnIntoView",
+    "text": "scrollColumnIntoView(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "scrollCellIntoView",
+    "text": "scrollCellIntoView(rowIndex, columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "setScrollTop",
+    "text": "setScrollTop(top)",
+    "type": "methods"
+  },
+  {
+    "name": "setScrollLeft",
+    "text": "setScrollLeft(left)",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollTop",
+    "text": "getScrollTop()",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollLeft",
+    "text": "getScrollLeft()",
+    "type": "methods"
+  },
+  {
+    "name": "updateRow",
+    "text": "updateRow(rowIndex[, rowData])",
+    "type": "methods"
+  },
+  {
+    "name": "updateCell",
+    "text": "updateCell(rowIndex, columnIndex[, cellValue])",
+    "type": "methods"
+  },
+  {
+    "name": "update",
+    "text": "update()",
+    "type": "methods"
+  },
+  {
+    "name": "flushBody",
+    "text": "flushBody()",
+    "type": "methods"
+  },
+  {
+    "name": "flushSort",
+    "text": "flushSort()",
+    "type": "methods"
+  },
+  {
+    "name": "flushRow",
+    "text": "flushRow(viewRowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "flushRowFrom",
+    "text": "flushRowFrom(viewRowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "flushColumn",
+    "text": "flushColumn(viewColumnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "flushColumnFrom",
+    "text": "flushColumnFrom(viewColumnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "flushCell",
+    "text": "flushCell(viewRowIndex, viewColumnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollbarWidth",
+    "text": "getScrollbarWidth()",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollbarHeight",
+    "text": "getScrollbarHeight()",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollViewWidth",
+    "text": "getScrollViewWidth()",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollViewHeight",
+    "text": "getScrollViewHeight()",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollPaneWidth",
+    "text": "getScrollPaneWidth()",
+    "type": "methods"
+  },
+  {
+    "name": "getScrollPaneHeight",
+    "text": "getScrollPaneHeight()",
+    "type": "methods"
+  },
+  {
+    "name": "getColumnsLength",
+    "text": "getColumnsLength(total)",
+    "type": "methods"
+  },
+  {
+    "name": "getRowsLength",
+    "text": "getRowsLength(total)",
+    "type": "methods"
+  },
+  {
+    "name": "getRowsHeight",
+    "text": "getRowsHeight()",
+    "type": "methods"
+  },
+  {
+    "name": "getRowHeight",
+    "text": "getRowHeight(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getViewport",
+    "text": "getViewport()",
+    "type": "methods"
+  },
+  {
+    "name": "find",
+    "text": "find(selector[, container])",
+    "type": "methods"
+  },
+  {
+    "name": "getRowNodes",
+    "text": "getRowNodes(rowIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getCellNode",
+    "text": "getCellNode(rowIndex, columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getCellValue",
+    "text": "getCellValue(rowItem, columnItem)",
+    "type": "methods"
+  },
+  {
+    "name": "getHeaderItemNode",
+    "text": "getHeaderItemNode(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "getColumnHeaderNode",
+    "text": "getColumnHeaderNode(columnIndex)",
+    "type": "methods"
+  },
+  {
+    "name": "forEachColumn",
+    "text": "forEachColumn(callback)",
+    "type": "methods"
+  },
+  {
+    "name": "forEachRow",
+    "text": "forEachRow(callback)",
+    "type": "methods"
+  },
+  {
+    "name": "isRowSelectable",
+    "text": "isRowSelectable(rowItem)",
+    "type": "methods"
+  },
+  {
+    "name": "isRowLeaf",
+    "text": "isRowLeaf(rowItem)",
+    "type": "methods"
+  },
+  {
+    "name": "highlightKeywordsFilter",
+    "text": "highlightKeywordsFilter(rowItem, columns, keywords)",
+    "type": "methods"
+  },
+  {
+    "name": "onNextUpdated",
+    "text": "onNextUpdated(handler)",
+    "type": "methods"
+  },
+  {
+    "name": "data",
+    "text": "Data",
+    "type": "data"
+  },
+  {
+    "name": "data.columns",
+    "text": "columns",
+    "type": "data"
+  },
+  {
+    "name": "data.rows",
+    "text": "rows",
+    "type": "data"
+  },
+  {
+    "name": "data.options",
+    "text": "options",
+    "type": "data"
+  },
+  {
+    "name": "data.rowsLength",
+    "text": "rowsLength",
+    "type": "data"
+  },
+  {
+    "name": "options",
+    "text": "Options",
+    "type": "options"
+  },
+  {
+    "name": "options.className",
+    "text": "className = \"tg-turbogrid\"",
+    "type": "options"
+  },
+  {
+    "name": "options.theme",
+    "text": "theme = \"[theme-name]\"",
+    "type": "options"
+  },
+  {
+    "name": "options.rowHeight",
+    "text": "rowHeight = 32",
+    "type": "options"
+  },
+  {
+    "name": "options.rowCacheLength",
+    "text": "rowCacheLength = 0",
+    "type": "options"
+  },
+  {
+    "name": "options.columnCacheLength",
+    "text": "columnCacheLength = 0",
+    "type": "options"
+  },
+  {
+    "name": "options.autoHeight",
+    "text": "autoHeight = false",
+    "type": "options"
+  },
+  {
+    "name": "options.autoColumnWidth",
+    "text": "autoColumnWidth = false",
+    "type": "options"
+  },
+  {
+    "name": "options.headerVisible",
+    "text": "headerVisible = true",
+    "type": "options"
+  },
+  {
+    "name": "options.collapseAllVisible",
+    "text": "collapseAllVisible = true",
+    "type": "options"
+  },
+  {
+    "name": "options.collapseAllOnInit",
+    "text": "collapseAllOnInit = null",
+    "type": "options"
+  },
+  {
+    "name": "options.selectVisible",
+    "text": "selectVisible = false",
+    "type": "options"
+  },
+  {
+    "name": "options.selectAllVisible",
+    "text": "selectAllVisible = true",
+    "type": "options"
+  },
+  {
+    "name": "options.selectAllOnInit",
+    "text": "selectAllOnInit = null",
+    "type": "options"
+  },
+  {
+    "name": "options.selectMultiple",
+    "text": "selectMultiple = true",
+    "type": "options"
+  },
+  {
+    "name": "options.rowNumberVisible",
+    "text": "rowNumberVisible = false",
+    "type": "options"
+  },
+  {
+    "name": "options.rowNotFound",
+    "text": "rowNotFound = ''",
+    "type": "options"
+  },
+  {
+    "name": "options.rowDragCrossLevel",
+    "text": "rowDragCrossLevel = true",
+    "type": "options"
+  },
+  {
+    "name": "options.rowMoveCrossLevel",
+    "text": "rowMoveCrossLevel = true",
+    "type": "options"
+  },
+  {
+    "name": "options.sortField",
+    "text": "sortField = \"\"",
+    "type": "options"
+  },
+  {
+    "name": "options.sortAsc",
+    "text": "sortAsc = true",
+    "type": "options"
+  },
+  {
+    "name": "options.sortBlankValueBottom",
+    "text": "sortBlankValueBottom = true",
+    "type": "options"
+  },
+  {
+    "name": "options.sortOnInit",
+    "text": "sortOnInit = false",
+    "type": "options"
+  },
+  {
+    "name": "options.sortIndicator",
+    "text": "sortIndicator = \"h\"",
+    "type": "options"
+  },
+  {
+    "name": "options.sortComparers",
+    "text": "sortComparers = {defaultSortComparers}",
+    "type": "options"
+  },
+  {
+    "name": "options.rowFilter",
+    "text": "rowFilter",
+    "type": "options"
+  },
+  {
+    "name": "options.rowFilteredSort",
+    "text": "rowFilteredSort = null",
+    "type": "options"
+  },
+  {
+    "name": "options.columnTypes",
+    "text": "columnTypes = {...}",
+    "type": "options"
+  },
+  {
+    "name": "options.rowProps",
+    "text": "rowProps = ",
+    "type": "options"
+  },
+  {
+    "name": "options.columnProps",
+    "text": "columnProps = ",
+    "type": "options"
+  },
+  {
+    "name": "options.frozenColumn",
+    "text": "frozenColumn = -1",
+    "type": "options"
+  },
+  {
+    "name": "options.frozenRow",
+    "text": "frozenRow = -1",
+    "type": "options"
+  },
+  {
+    "name": "options.frozenBottom",
+    "text": "frozenBottom = false",
+    "type": "options"
+  },
+  {
+    "name": "options.frozenRight",
+    "text": "frozenRight = false",
+    "type": "options"
+  },
+  {
+    "name": "options.frozenColumnMax",
+    "text": "frozenColumnMax = 10",
+    "type": "options"
+  },
+  {
+    "name": "options.frozenRowMax",
+    "text": "frozenRowMax = 10",
+    "type": "options"
+  },
+  {
+    "name": "options.frozenRowHoverable",
+    "text": "frozenRowHoverable = false",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollbarSize",
+    "text": "scrollbarSize = 12",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollbarSizeH",
+    "text": "scrollbarSizeH = null",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollbarSizeV",
+    "text": "scrollbarSizeV = null",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollbarRound",
+    "text": "scrollbarRound = false",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollbarFade",
+    "text": "scrollbarFade = false",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollbarFadeTimeout",
+    "text": "scrollbarFadeTimeout = 1000",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollbarType",
+    "text": "scrollbarType = \"auto\"",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollPaneMinWidth",
+    "text": "scrollPaneMinWidth = 30",
+    "type": "options"
+  },
+  {
+    "name": "options.scrollPaneGradient",
+    "text": "scrollPaneGradient = false",
+    "type": "options"
+  },
+  {
+    "name": "options.rowDragVisible",
+    "text": "rowDragVisible = false",
+    "type": "options"
+  },
+  {
+    "name": "options.rowDragColumn",
+    "text": "rowDragColumn = {...}",
+    "type": "options"
+  },
+  {
+    "name": "options.rowNumberWidth",
+    "text": "rowNumberWidth = 36",
+    "type": "options"
+  },
+  {
+    "name": "options.rowNumberFilter",
+    "text": "rowNumberFilter = null",
+    "type": "options"
+  },
+  {
+    "name": "options.rowNumberColumn",
+    "text": "rowNumberColumn = {...}",
+    "type": "options"
+  },
+  {
+    "name": "options.selectColumn",
+    "text": "selectColumn = {...}",
+    "type": "options"
+  },
+  {
+    "name": "options.blankColumn",
+    "text": "blankColumn = {...}",
+    "type": "options"
+  },
+  {
+    "name": "options.highlightKeywords",
+    "text": "highlightKeywords = {...}",
+    "type": "options"
+  },
+  {
+    "name": "options.highlightKeywords.textKey",
+    "text": "textKey = \"tg_text_\"",
+    "type": "options"
+  },
+  {
+    "name": "options.highlightKeywords.textGenerator",
+    "text": "textGenerator = null",
+    "type": "options"
+  },
+  {
+    "name": "options.highlightKeywords.highlightKey",
+    "text": "highlightKey = \"tg_highlight_\"",
+    "type": "options"
+  },
+  {
+    "name": "options.highlightKeywords.highlightPre",
+    "text": "highlightPre = \"&lt;mark&gt;\"",
+    "type": "options"
+  },
+  {
+    "name": "options.highlightKeywords.highlightPost",
+    "text": "highlightPost = \"&lt;/mark&gt;\"",
+    "type": "options"
+  },
+  {
+    "name": "options.textSelectable",
+    "text": "textSelectable = false",
+    "type": "options"
+  },
+  {
+    "name": "options.bindWindowResize",
+    "text": "bindWindowResize = false",
+    "type": "options"
+  },
+  {
+    "name": "options.bindContainerResize",
+    "text": "bindContainerResize = false",
+    "type": "options"
+  },
+  {
+    "name": "options.cellResizeObserver",
+    "text": "cellResizeObserver = null",
+    "type": "options"
+  },
+  {
+    "name": "events",
+    "text": "Events",
+    "type": "events"
+  },
+  {
+    "name": "onUpdated",
+    "text": "onUpdated",
+    "type": "events"
+  },
+  {
+    "name": "onFirstUpdated",
+    "text": "onFirstUpdated",
+    "type": "events"
+  },
+  {
+    "name": "onHeaderUpdated",
+    "text": "onHeaderUpdated",
+    "type": "events"
+  },
+  {
+    "name": "onSort",
+    "text": "onSort",
+    "type": "events"
+  },
+  {
+    "name": "onColumnAdded",
+    "text": "onColumnAdded",
+    "type": "events"
+  },
+  {
+    "name": "onColumnRemoved",
+    "text": "onColumnRemoved",
+    "type": "events"
+  },
+  {
+    "name": "onColumnWidthChanged",
+    "text": "onColumnWidthChanged",
+    "type": "events"
+  },
+  {
+    "name": "onRowAdded",
+    "text": "onRowAdded",
+    "type": "events"
+  },
+  {
+    "name": "onRowRemoved",
+    "text": "onRowRemoved",
+    "type": "events"
+  },
+  {
+    "name": "onRowExpanded",
+    "text": "onRowExpanded",
+    "type": "events"
+  },
+  {
+    "name": "onRowCollapsed",
+    "text": "onRowCollapsed",
+    "type": "events"
+  },
+  {
+    "name": "onRowSubsRequest",
+    "text": "onRowSubsRequest",
+    "type": "events"
+  },
+  {
+    "name": "onRowDragged",
+    "text": "onRowDragged",
+    "type": "events"
+  },
+  {
+    "name": "onRowDropped",
+    "text": "onRowDropped",
+    "type": "events"
+  },
+  {
+    "name": "onRowMoved",
+    "text": "onRowMoved",
+    "type": "events"
+  },
+  {
+    "name": "onRowMouseEnter",
+    "text": "onRowMouseEnter",
+    "type": "events"
+  },
+  {
+    "name": "onRowMouseLeave",
+    "text": "onRowMouseLeave",
+    "type": "events"
+  },
+  {
+    "name": "onSelectChanged",
+    "text": "onSelectChanged",
+    "type": "events"
+  },
+  {
+    "name": "onCellUpdated",
+    "text": "onCellUpdated",
+    "type": "events"
+  },
+  {
+    "name": "onCellMouseEnter",
+    "text": "onCellMouseEnter",
+    "type": "events"
+  },
+  {
+    "name": "onCellMouseLeave",
+    "text": "onCellMouseLeave",
+    "type": "events"
+  },
+  {
+    "name": "onClick",
+    "text": "onClick",
+    "type": "events"
+  },
+  {
+    "name": "onDblClick",
+    "text": "onDblClick",
+    "type": "events"
+  },
+  {
+    "name": "onContextMenu",
+    "text": "onContextMenu",
+    "type": "events"
+  },
+  {
+    "name": "onMouseOver",
+    "text": "onMouseOver",
+    "type": "events"
+  },
+  {
+    "name": "onMouseOut",
+    "text": "onMouseOut",
+    "type": "events"
+  },
+  {
+    "name": "onTouchStart",
+    "text": "onTouchStart",
+    "type": "events"
+  },
+  {
+    "name": "onTouchMove",
+    "text": "onTouchMove",
+    "type": "events"
+  },
+  {
+    "name": "onTouchEnd",
+    "text": "onTouchEnd",
+    "type": "events"
+  },
+  {
+    "name": "onScroll",
+    "text": "onScroll",
+    "type": "events"
+  },
+  {
+    "name": "onScrollStateChanged",
+    "text": "onScrollStateChanged",
+    "type": "events"
+  },
+  {
+    "name": "onMouseWheel",
+    "text": "onMouseWheel",
+    "type": "events"
+  },
+  {
+    "name": "onResize",
+    "text": "onResize",
+    "type": "events"
+  },
+  {
+    "name": "onLayout",
+    "text": "onLayout",
+    "type": "events"
+  },
+  {
+    "name": "onKeyDown",
+    "text": "onKeyDown",
+    "type": "events"
+  },
+  {
+    "name": "onDestroy",
+    "text": "onDestroy",
+    "type": "events"
+  },
+  {
+    "name": "lifecycle",
+    "text": "Lifecycle",
+    "type": "lifecycle"
+  },
+  {
+    "name": "tg",
+    "text": "tg",
+    "type": "tg"
+  }
+];
+
 export const init = function() {
     initFavicon();
     initThemes();

@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <div class="header flex-row">
+        <div class="app-header">
             <div class="icon icon-menu header-icon-menu" @click="toggleNav"></div>
             <router-link class="header-title" to="/">TurboGrid</router-link>
             <a class="header-version" href="https://github.com/cenfun/turbogrid" target="_blank">v{{ version }}</a>
@@ -10,10 +10,10 @@
             </select>
             <a class="icon icon-github" href="https://github.com/cenfun/turbogrid" target="_blank"></a>
         </div>
-        <div class="body flex-auto flex-row">
-            <nav class="nav flex-column" :class="{ 'nav-opened': navOpen, 'nav-closing': navClosing }">
-                <div class="header flex-row">
-                    <router-link class="header-title" to="/" @click.native="closeNav">TurboGrid</router-link>
+        <div class="app-body">
+            <nav class="app-nav" :class="{ 'nav-opened': navOpen, 'nav-closing': navClosing }">
+                <div class="nav-header">
+                    <router-link class="header-title" to="/">TurboGrid</router-link>
                     <div class="flex-auto"></div>
                     <div class="icon icon-close header-icon-close" @click="toggleNav"></div>
                 </div>
@@ -23,7 +23,7 @@
                         @focus="$event.target.select()" />
                 </div>
             </nav>
-            <div class="main flex-auto flex-column" @click="closeNav">
+            <div class="app-main">
                 <router-view />
             </div>
         </div>
@@ -253,8 +253,47 @@ function updateNavSelection() {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import './global.scss';
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    border-bottom: 1px solid #ccc;
+    flex-shrink: 0;
+}
+
+.app-body {
+    flex: auto;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.app-nav {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+    height: 100%;
+    border-right: 1px solid #ccc;
+}
+
+.app-main {
+    flex: auto;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
 /* App-level styles to match the original main.css + nav styles */
 .nav {
@@ -324,6 +363,10 @@ function updateNavSelection() {
 
     .nav.nav-opened {
         margin-left: 0;
+
+        .nav-header {
+            display: none;
+        }
     }
 
     .nav.nav-closing {

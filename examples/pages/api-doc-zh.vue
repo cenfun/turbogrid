@@ -14,8 +14,8 @@
                     <div class="api-search-list" style="display: none;"></div>
                 </div>
                 <div class="api-language">
-                    <a href="api.html">English</a>
-                    <a href="api-zh.html">简体中文</a>
+                    <a href="#/api-doc">English</a>
+                    <a href="#/api-doc-zh">简体中文</a>
                 </div>
             </div>
 
@@ -1019,7 +1019,8 @@
                     <a name="options.autoColumnWidth">autoColumnWidth = false</a>
                     <div>将容器剩余水平空间按比例分配到没有显式指定 <code>width</code> 的列上。有显式 <code>width</code> 的列被排除。使用列的
                         <code>widthWeight</code> 控制分配权重（默认 <code>1</code>）。配合 <code>bindContainerResize</code>
-                        自动响应容器尺寸变化。</div>
+                        自动响应容器尺寸变化。
+                    </div>
                     <div>示例 <a href="column-display.html" target="_blank">Column Display</a></div>
                 </section>
 

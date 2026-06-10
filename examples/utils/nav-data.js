@@ -5,7 +5,7 @@ export function getGridRows() {
         selectable: true,
         nameClassMap: 'tg-row-top'
     }, {
-        id: 'api',
+        id: 'api-doc',
         name: 'API reference',
         selectable: true,
         nameClassMap: 'tg-row-top'

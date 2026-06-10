@@ -14,8 +14,8 @@
                     <div class="api-search-list" style="display: none;"></div>
                 </div>
                 <div class="api-language">
-                    <a href="api.html">English</a>
-                    <a href="api-zh.html">简体中文</a>
+                    <a href="#/api-doc">English</a>
+                    <a href="#/api-doc-zh">简体中文</a>
                 </div>
             </div>
 
@@ -1055,7 +1055,8 @@
                     <div>Distributes remaining horizontal space proportionally across columns without an explicit
                         <code>width</code>. Columns with an explicit <code>width</code> are excluded. Use
                         <code>widthWeight</code> on a column to control its share (default <code>1</code>). Works with
-                        <code>bindContainerResize</code>.</div>
+                        <code>bindContainerResize</code>.
+                    </div>
                     <div>Demo <a href="column-display.html" target="_blank">Column Display</a></div>
                 </section>
 

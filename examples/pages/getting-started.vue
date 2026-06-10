@@ -1,5 +1,5 @@
 <template>
-    <div class="main flex-auto flex-column">
+    <div class="page">
         <div class="readme">
             <h3>Getting Started</h3>
             <pre><code class="language-js">
@@ -62,7 +62,7 @@ const grid = ref(null);
 
 onMounted(() => {
     const container = previewContainer.value;
-    container.style.height = '120px';
+    container.style.height = '110px';
     grid.value = new Grid(container);
     grid.value.setOption({
         sortField: 'name'

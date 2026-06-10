@@ -18,10 +18,10 @@ addRoute('/', 'getting-started', {
 });
 
 // API docs
-addRoute('/api', 'api-doc', {
+addRoute('/api-doc', 'api-doc', {
     title: 'API Reference'
 });
-addRoute('/api-zh', 'api-doc-zh', {
+addRoute('/api-doc-zh', 'api-doc-zh', {
     title: 'API Reference (中文)'
 });
 

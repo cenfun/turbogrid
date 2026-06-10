@@ -10,7 +10,14 @@ export default [
             'dist',
             'node_modules',
             '.temp'
-        ]
+        ],
+        languageOptions: {
+            globals: {
+                delay: 'readonly',
+                assert: 'readonly',
+                page: 'readonly'
+            }
+        }
     },
     plus,
     ... vue.configs['flat/recommended'],

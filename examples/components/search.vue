@@ -25,7 +25,10 @@
           class="app-search-item-label"
           v-html="item.label"
         />
-        <span class="app-search-item-category">{{ item.category }}</span>
+        <span
+          v-if="item.category"
+          class="app-search-item-category"
+        >{{ item.category }}</span>
       </div>
     </div>
     <div
@@ -58,7 +61,7 @@ const selectedIndex = ref(0);
 // Build page items from getGridRows
 const buildPageItems = () => {
     const items = [];
-    const walk = (nodes, parentName) => {
+    const walk = (nodes) => {
         nodes.forEach((node) => {
             if (node.id) {
                 items.push({
@@ -66,11 +69,12 @@ const buildPageItems = () => {
                     name: node.name,
                     route: node.id,
                     anchor: null,
-                    category: parentName || 'Page'
+                    category: node.id === 'api-doc' ? '' : 'Examples',
+                    typeClass: node.id === 'api-doc' ? 'doc' : 'preview'
                 });
             }
             if (node.subs) {
-                walk(node.subs, node.name || parentName);
+                walk(node.subs);
             }
         });
     };
@@ -82,27 +86,22 @@ const pageItems = buildPageItems();
 
 // Build API items
 const apiItems = apiSearchItems.map((item) => {
-    // Skip category headers (methods, data, options, events, lifecycle, turbogrid, tg)
-    const skipNames = ['methods', 'data', 'options', 'events', 'lifecycle', 'turbogrid', 'tg'];
-    if (skipNames.includes(item.name)) {
-        return null;
-    }
-    const typeMap = {
-        'turbogrid': 'turbogrid',
-        'methods': 'methods',
-        'data': 'data',
-        'options': 'options',
-        'events': 'events',
-        'lifecycle': 'lifecycle',
-        'tg': 'tg'
+    const categoryMap = {
+        'turbogrid': 'Turbogrid',
+        'methods': 'Methods',
+        'data': 'Data',
+        'options': 'Options',
+        'events': 'Events',
+        'lifecycle': 'Lifecycle',
+        'tg': 'Turbogrid'
     };
     return {
         id: `api:${item.name}`,
         name: item.text || item.name,
         route: 'api-doc',
         anchor: item.name,
-        category: item.type,
-        typeClass: typeMap[item.type] || ''
+        category: categoryMap[item.type] || '',
+        typeClass: item.type
     };
 }).filter(Boolean);
 
@@ -415,6 +414,22 @@ if (typeof document !== 'undefined') {
 .app-search-item.tg .app-search-item-label {
     padding-left: 18px;
     background-image: url("../assets/images/namespace.svg");
+    background-repeat: no-repeat;
+    background-position: 0 center;
+    background-size: 14px;
+}
+
+.app-search-item.doc .app-search-item-label {
+    padding-left: 18px;
+    background-image: url("../assets/images/doc.svg");
+    background-repeat: no-repeat;
+    background-position: 0 center;
+    background-size: 14px;
+}
+
+.app-search-item.preview .app-search-item-label {
+    padding-left: 18px;
+    background-image: url("../assets/images/preview.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;

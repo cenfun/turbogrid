@@ -7,7 +7,7 @@
       placeholder="Search..."
       @focus="onFocus"
       @keydown="onKeydown"
-      @keyup="onKeyup"
+      @input="onInput"
     >
     <div
       v-show="visible && filteredList.length"
@@ -250,7 +250,7 @@ const onKeydown = (e) => {
     }
 };
 
-const onKeyup = () => {
+const onInput = () => {
     selectedIndex.value = 0;
     if (keywords.value.trim()) {
         visible.value = true;
@@ -338,7 +338,6 @@ if (typeof document !== 'undefined') {
 }
 
 .app-search-item.selected {
-    font-weight: bold;
     background: #e8f4fd;
 }
 

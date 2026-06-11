@@ -183,7 +183,6 @@ const scrollItemIntoView = (index) => {
 };
 
 const goto = (item) => {
-    keywords.value = '';
     visible.value = false;
     selectedIndex.value = 0;
 

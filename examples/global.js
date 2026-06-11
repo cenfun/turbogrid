@@ -1,9 +1,8 @@
-import { VERSION } from '../src/index.js';
+import { VERSION, Util } from '../src/index.js';
 import Prism from 'prismjs';
 import { shallowReactive } from 'vue';
 import exampleList from './assets/example-list.json';
 import apiList from './assets/api-list.json';
-// import { debounce } from 'async-tick';
 
 export const state = shallowReactive({
     version: VERSION,
@@ -370,23 +369,42 @@ export const init = function() {
     initSource();
 };
 
-export const updateApiPage = function(route) {
+let focusedEl;
+const removeFocusedHandler = function() {
+    // console.log('removeFocusedHandler');
+    if (focusedEl) {
+        focusedEl.classList.remove('focused');
+        focusedEl = null;
+    }
+};
+
+export const updateApiPage = Util.microtask((route) => {
 
     const position = route.query.position;
     if (!position) {
         return;
     }
 
+    // remove prev focus
+    document.removeEventListener('click', removeFocusedHandler);
+    removeFocusedHandler();
+
     const el = document.querySelector(`a[name="${position}"]`);
     if (el) {
+
+        // console.log('scroll to', position);
         el.scrollIntoView();
-        el.classList.add('selected');
+        el.classList.add('focused');
+        focusedEl = el;
         setTimeout(() => {
-            el.classList.remove('selected');
-        }, 2000);
+            document.addEventListener('click', removeFocusedHandler, {
+                once: true
+            });
+        }, 10);
+
     }
 
-};
+});
 
 export const initApiPage = function(route) {
     formatCodes();

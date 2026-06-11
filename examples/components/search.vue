@@ -163,9 +163,7 @@ const filteredList = computed(() => {
         const idx = item.name.toLowerCase().indexOf(k);
         let label = item.name;
         if (idx !== -1) {
-            label = `${item.name.substring(0, idx)
-            }<strong>${item.name.substring(idx, idx + k.length)}</strong>${
-                item.name.substring(idx + k.length)}`;
+            label = `${item.name.substring(0, idx)}<strong>${item.name.substring(idx, idx + k.length)}</strong>${item.name.substring(idx + k.length)}`;
         }
         return {
             ... item,
@@ -200,25 +198,26 @@ const goto = (item) => {
     visible.value = false;
     selectedIndex.value = 0;
 
+    const query = {
+        ... route.query
+    };
+
     if (item.anchor) {
-        // API item: navigate to api-doc page with anchor
-        router.push({
-            path: '/api-doc',
-            query: {
-                ... route.query,
-                position: item.anchor
-            }
-        });
+        query.position = item.anchor;
     } else {
-
-        delete route.query.position;
-
-        // Page item: navigate to the page
-        router.push({
-            path: `/${item.route}`,
-            query: route.query
-        });
+        delete query.position;
     }
+
+    // switch language if navigating to API doc from non-doc page
+    let routePath = item.route;
+    if (routePath === 'api-doc' && route.path === '/api-doc-zh') {
+        routePath = 'api-doc-zh';
+    }
+
+    router.push({
+        path: `/${routePath}`,
+        query
+    });
 };
 
 const onFocus = () => {

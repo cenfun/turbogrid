@@ -8,7 +8,7 @@
       @focus="onFocus"
       @keydown="onKeydown"
       @keyup="onKeyup"
-    />
+    >
     <div
       v-show="visible && filteredList.length"
       ref="listEl"
@@ -32,16 +32,19 @@
       v-show="visible && keywords && !filteredList.length"
       class="app-search-list"
     >
-      <div class="app-search-info">No Results</div>
+      <div class="app-search-info">
+        No Results
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from 'vue';
+import {
+    ref, computed, nextTick
+} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getGridRows } from './global.js';
-import { apiSearchItems } from './global.js';
+import { getGridRows, apiSearchItems } from './global.js';
 
 const router = useRouter();
 const route = useRoute();
@@ -103,12 +106,17 @@ const apiItems = apiSearchItems.map((item) => {
     };
 }).filter(Boolean);
 
-const allItems = [...pageItems, ...apiItems];
+const allItems = [... pageItems, ... apiItems];
 
 const filteredList = computed(() => {
     const k = keywords.value.trim().toLowerCase();
+
     if (!k) {
-        return [];
+        // No keywords: show all items with plain labels
+        return allItems.map((item) => ({
+            ... item,
+            label: item.name
+        }));
     }
 
     const list = allItems.filter((item) => {
@@ -120,11 +128,19 @@ const filteredList = computed(() => {
         const an = a.name.toLowerCase();
         const bn = b.name.toLowerCase();
         // Exact match first
-        if (an === k) return -1;
-        if (bn === k) return 1;
+        if (an === k) {
+            return -1;
+        }
+        if (bn === k) {
+            return 1;
+        }
         // Starts with match next
-        if (an.startsWith(k) && !bn.startsWith(k)) return -1;
-        if (bn.startsWith(k) && !an.startsWith(k)) return 1;
+        if (an.startsWith(k) && !bn.startsWith(k)) {
+            return -1;
+        }
+        if (bn.startsWith(k) && !an.startsWith(k)) {
+            return 1;
+        }
         // Then alphabetical
         return an > bn ? 1 : -1;
     });
@@ -134,12 +150,12 @@ const filteredList = computed(() => {
         const idx = item.name.toLowerCase().indexOf(k);
         let label = item.name;
         if (idx !== -1) {
-            label = item.name.substring(0, idx) +
-                '<strong>' + item.name.substring(idx, idx + k.length) + '</strong>' +
-                item.name.substring(idx + k.length);
+            label = `${item.name.substring(0, idx)
+            }<strong>${item.name.substring(idx, idx + k.length)}</strong>${
+                item.name.substring(idx + k.length)}`;
         }
         return {
-            ...item,
+            ... item,
             label
         };
     });
@@ -148,9 +164,13 @@ const filteredList = computed(() => {
 const scrollItemIntoView = (index) => {
     nextTick(() => {
         const list = listEl.value;
-        if (!list) return;
+        if (!list) {
+            return;
+        }
         const target = list.children[index];
-        if (!target) return;
+        if (!target) {
+            return;
+        }
         const tt = target.offsetTop;
         const th = target.clientHeight;
         const lt = list.scrollTop;
@@ -172,8 +192,10 @@ const goto = (item) => {
         // API item: navigate to api-doc page with anchor
         router.push({
             path: '/api-doc',
-            query: route.query,
-            hash: `#${item.anchor}`
+            query: {
+                ... route.query,
+                position: item.anchor
+            }
         });
     } else {
         // Page item: navigate to the page
@@ -188,6 +210,7 @@ const onFocus = () => {
     visible.value = true;
 };
 
+// eslint-disable-next-line complexity
 const onKeydown = (e) => {
     const keyCode = e.keyCode;
     const list = filteredList.value;
@@ -232,14 +255,15 @@ const onKeyup = () => {
     selectedIndex.value = 0;
     if (keywords.value.trim()) {
         visible.value = true;
-    } else {
-        visible.value = false;
     }
+    // When keywords is empty, keep visible as-is (controlled by focus/blur)
 };
 
 const onClickList = (e) => {
     const itemEl = e.target.closest('.app-search-item');
-    if (!itemEl) return;
+    if (!itemEl) {
+        return;
+    }
     const index = parseInt(itemEl.dataset.index, 10);
     const list = filteredList.value;
     if (index >= 0 && index < list.length) {
@@ -264,15 +288,14 @@ if (typeof document !== 'undefined') {
     position: relative;
 
     input {
-        width: 200px;
-        height: 25px;
-        padding: 5px 23px 5px 5px;
-        line-height: 25px;
+        max-width: 200px;
+        padding: 3px 3px 3px 22px;
+        line-height: 100%;
         border: 1px solid #555;
         border-radius: 5px;
         background-image: url("./assets/images/search.svg");
         background-repeat: no-repeat;
-        background-position: 97% center;
+        background-position: 3px center;
         background-size: 16px;
         outline: none;
     }
@@ -285,11 +308,9 @@ if (typeof document !== 'undefined') {
     z-index: 999;
     width: 320px;
     max-height: 350px;
-    margin-top: 2px;
     border: 1px solid #ccc;
-    border-radius: 4px;
     background: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
     overflow: hidden auto;
 }
 
@@ -305,8 +326,8 @@ if (typeof document !== 'undefined') {
     align-items: center;
     padding: 6px 10px;
     font-size: 13px;
-    cursor: pointer;
     border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
 }
 
 .app-search-item:last-child {
@@ -324,9 +345,9 @@ if (typeof document !== 'undefined') {
 
 .app-search-item-label {
     flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .app-search-item-label :deep(strong) {
@@ -337,10 +358,10 @@ if (typeof document !== 'undefined') {
     flex-shrink: 0;
     margin-left: 8px;
     padding: 1px 6px;
-    font-size: 11px;
     color: #888;
-    background: #f0f0f0;
+    font-size: 11px;
     border-radius: 3px;
+    background: #f0f0f0;
 }
 
 .app-search-item.turbogrid .app-search-item-label {

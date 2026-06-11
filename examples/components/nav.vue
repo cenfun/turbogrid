@@ -18,6 +18,23 @@ const route = useRoute();
 const router = useRouter();
 
 let grid;
+
+const selectRow = () => {
+    if (!grid) {
+        return;
+    }
+    // Select the row matching the current route path
+    const currentPath = route.path.replace(/^\//, '');
+    if (currentPath) {
+        const rowItem = grid.getRowItemById(currentPath);
+        if (rowItem && rowItem.selectable !== false) {
+            grid.setRowSelected(rowItem);
+            grid.scrollRowIntoView(rowItem);
+        }
+    }
+};
+
+
 const update = () => {
     const container = navGridEl.value;
     if (!container) {
@@ -47,6 +64,10 @@ const update = () => {
             path: id,
             query: route.query
         });
+    });
+
+    grid.bind('onFirstUpdated', () => {
+        selectRow();
     });
 
     grid.setOption({
@@ -91,12 +112,14 @@ const update = () => {
     });
 
     grid.render();
+
 };
 
-watch([
-    () => route.query.theme,
-    () => route.path
-], () => {
+watch(() => route.path, () => {
+    selectRow();
+});
+
+watch(() => route.query.theme, () => {
     update();
 });
 

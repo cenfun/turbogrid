@@ -10,8 +10,8 @@ import {
     watch
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Grid } from '../src/index.js';
-import { getGridRows } from './global.js';
+import { Grid } from '../../src/index.js';
+import { getGridRows } from '../global.js';
 
 const navGridEl = ref(null);
 const route = useRoute();
@@ -150,7 +150,7 @@ onUnmounted(() => {
         content: "";
         width: 16px;
         height: 30px;
-        background-image: url("./assets/images/double-right.svg");
+        background-image: url("../assets/images/double-right.svg");
         background-repeat: no-repeat;
         background-position: center center;
     }

@@ -44,7 +44,7 @@ import {
     ref, computed, nextTick
 } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getGridRows, apiSearchItems } from './global.js';
+import { getGridRows, apiSearchItems } from '../global.js';
 
 const router = useRouter();
 const route = useRoute();
@@ -293,7 +293,7 @@ if (typeof document !== 'undefined') {
         line-height: 100%;
         border: 1px solid #555;
         border-radius: 5px;
-        background-image: url("./assets/images/search.svg");
+        background-image: url("../assets/images/search.svg");
         background-repeat: no-repeat;
         background-position: 3px center;
         background-size: 16px;
@@ -366,7 +366,7 @@ if (typeof document !== 'undefined') {
 
 .app-search-item.turbogrid .app-search-item-label {
     padding-left: 18px;
-    background-image: url("./assets/images/function.svg");
+    background-image: url("../assets/images/function.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;
@@ -374,7 +374,7 @@ if (typeof document !== 'undefined') {
 
 .app-search-item.methods .app-search-item-label {
     padding-left: 18px;
-    background-image: url("./assets/images/method.svg");
+    background-image: url("../assets/images/method.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;
@@ -382,7 +382,7 @@ if (typeof document !== 'undefined') {
 
 .app-search-item.data .app-search-item-label {
     padding-left: 18px;
-    background-image: url("./assets/images/data.svg");
+    background-image: url("../assets/images/data.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;
@@ -390,7 +390,7 @@ if (typeof document !== 'undefined') {
 
 .app-search-item.options .app-search-item-label {
     padding-left: 18px;
-    background-image: url("./assets/images/setting.svg");
+    background-image: url("../assets/images/setting.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;
@@ -398,7 +398,7 @@ if (typeof document !== 'undefined') {
 
 .app-search-item.events .app-search-item-label {
     padding-left: 18px;
-    background-image: url("./assets/images/event.svg");
+    background-image: url("../assets/images/event.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;
@@ -406,7 +406,7 @@ if (typeof document !== 'undefined') {
 
 .app-search-item.lifecycle .app-search-item-label {
     padding-left: 18px;
-    background-image: url("./assets/images/cycle.svg");
+    background-image: url("../assets/images/cycle.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;
@@ -414,7 +414,7 @@ if (typeof document !== 'undefined') {
 
 .app-search-item.tg .app-search-item-label {
     padding-left: 18px;
-    background-image: url("./assets/images/namespace.svg");
+    background-image: url("../assets/images/namespace.svg");
     background-repeat: no-repeat;
     background-position: 0 center;
     background-size: 14px;

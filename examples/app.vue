@@ -91,8 +91,8 @@ import {
 import { useRoute, useRouter } from 'vue-router';
 import { Grid } from '../src/index.js';
 
-import Nav from './nav.vue';
-import Search from './search.vue';
+import Nav from './components/nav.vue';
+import Search from './components/search.vue';
 import { state } from './global.js';
 
 const route = useRoute();

@@ -303,7 +303,7 @@ const showSource = () => {
     showPage(content);
 };
 
-export const getGridRows = function() {
+export const getExampleList = function() {
     return cloneJson(exampleList);
 };
 
@@ -359,7 +359,9 @@ const initFavicon = function() {
 
 // Auto-generated from public/api.html
 // Contains all API anchor items for search functionality
-export const apiSearchItems = cloneJson(apiList);
+export const getApiList = () => {
+    return cloneJson(apiList);
+};
 
 export const init = function() {
     initFavicon();

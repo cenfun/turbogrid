@@ -11,7 +11,7 @@ import {
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { getGridRows } from '../global.js';
+import { getExampleList } from '../global.js';
 
 const navGridEl = ref(null);
 const route = useRoute();
@@ -87,7 +87,7 @@ const update = () => {
             id: 'name',
             name: 'Name'
         }],
-        rows: getGridRows()
+        rows: getExampleList()
     });
 
     grid.render();

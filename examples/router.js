@@ -1,4 +1,4 @@
-import { getGridRows } from './global.js';
+import { getExampleList } from './global.js';
 
 export const routes = [];
 
@@ -39,4 +39,4 @@ function walkNav(nodes) {
     });
 }
 
-walkNav(getGridRows());
+walkNav(getExampleList());

@@ -10,16 +10,22 @@
       @input="onInput"
     >
     <div
+      v-if="keywords"
+      class="app-search-clear icon icon-close"
+      title="Clear"
+      @mousedown.prevent
+      @click.stop="clearKeywords"
+    />
+    <div
       v-show="visible && filteredList.length"
       ref="listEl"
       class="app-search-list"
-      @click="onClickList"
     >
       <div
         v-for="(item, index) in filteredList"
         :key="item.id"
         :class="['app-search-item', item.typeClass, { selected: index === selectedIndex }]"
-        :data-index="index"
+        @click="onClick(item)"
       >
         <span
           class="app-search-item-label"
@@ -47,7 +53,7 @@ import {
     ref, computed, nextTick
 } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getGridRows, apiSearchItems } from '../global.js';
+import { getExampleList, getApiList } from '../global.js';
 
 const router = useRouter();
 const route = useRoute();
@@ -58,7 +64,7 @@ const keywords = ref('');
 const visible = ref(false);
 const selectedIndex = ref(0);
 
-// Build page items from getGridRows
+// Build page items from getExampleList
 const buildPageItems = () => {
     const items = [];
     const walk = (nodes) => {
@@ -78,14 +84,14 @@ const buildPageItems = () => {
             }
         });
     };
-    walk(getGridRows(), '');
+    walk(getExampleList(), '');
     return items;
 };
 
 const pageItems = buildPageItems();
 
 // Build API items
-const apiItems = apiSearchItems.map((item) => {
+const apiItems = getApiList().map((item) => {
     const categoryMap = {
         'turbogrid': 'Turbogrid',
         'methods': 'Methods',
@@ -105,7 +111,15 @@ const apiItems = apiSearchItems.map((item) => {
     };
 }).filter(Boolean);
 
-const allItems = [... pageItems, ... apiItems];
+const apiDocIndex = pageItems.findIndex((item) => item.route === 'api-doc');
+let allItems = [... pageItems, ... apiItems];
+if (apiDocIndex !== -1) {
+    allItems = [
+        ... pageItems.slice(0, apiDocIndex + 1),
+        ... apiItems,
+        ... pageItems.slice(apiDocIndex + 1)
+    ];
+}
 
 const filteredList = computed(() => {
     const k = keywords.value.trim().toLowerCase();
@@ -196,6 +210,9 @@ const goto = (item) => {
             }
         });
     } else {
+
+        delete route.query.position;
+
         // Page item: navigate to the page
         router.push({
             path: `/${item.route}`,
@@ -257,16 +274,19 @@ const onInput = () => {
     // When keywords is empty, keep visible as-is (controlled by focus/blur)
 };
 
-const onClickList = (e) => {
-    const itemEl = e.target.closest('.app-search-item');
-    if (!itemEl) {
-        return;
-    }
-    const index = parseInt(itemEl.dataset.index, 10);
-    const list = filteredList.value;
-    if (index >= 0 && index < list.length) {
-        goto(list[index]);
-    }
+const clearKeywords = () => {
+    keywords.value = '';
+    selectedIndex.value = 0;
+    visible.value = true;
+    nextTick(() => {
+        if (inputEl.value) {
+            inputEl.value.focus();
+        }
+    });
+};
+
+const onClick = (item) => {
+    goto(item);
 };
 
 // Close on outside click
@@ -287,7 +307,7 @@ if (typeof document !== 'undefined') {
 
     input {
         max-width: 200px;
-        padding: 3px 3px 3px 22px;
+        padding: 3px 24px 3px 22px;
         line-height: 100%;
         border: 1px solid #555;
         border-radius: 5px;
@@ -297,6 +317,17 @@ if (typeof document !== 'undefined') {
         background-size: 16px;
         outline: none;
     }
+}
+
+.app-search-clear {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    z-index: 1;
+    width: 14px;
+    height: 14px;
+    background-size: 14px 14px;
+    transform: translateY(-50%);
 }
 
 .app-search-list {

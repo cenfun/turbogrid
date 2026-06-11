@@ -85,7 +85,7 @@
 
         <section>
           <a name="setData">setData(data)</a>
-          <div>Sets the grid data. See the <a href="#data">data structure</a> section for details.</div>
+          <div>Sets the grid data. See the <a href="#/api-doc?position=data">data structure</a> section for details.</div>
           <div>
             The data object reads columns, rows, rowsLength, and options. rowsLength is useful when the
             total row count is known before all rows are loaded.
@@ -135,7 +135,7 @@
 
         <section>
           <a name="setOption">setOption(options)</a>
-          <div>Sets one or more grid options. See <a href="#options">options</a> for available settings.</div>
+          <div>Sets one or more grid options. See <a href="#/api-doc?position=options">options</a> for available settings.</div>
           <div>Supports both setOption(optionKey, optionValue) and setOption(optionsObject).</div>
           <pre><code class="language-js">
                             //set multiple options
@@ -226,7 +226,7 @@
         <section>
           <a name="bind">bind(eventType, handler[, options])</a>
           <div>
-            Binds an event handler to the grid. See <a href="#events">events</a> for supported event types.
+            Binds an event handler to the grid. See <a href="#/api-doc?position=events">events</a> for supported event types.
           </div>
           <div>
             eventType can be a single event name, multiple names separated by spaces, or an object map of
@@ -282,7 +282,7 @@
 
         <section>
           <a name="getAllEvents">getAllEvents()</a>
-          <div>Returns all supported <a href="#events">event types</a>.</div>
+          <div>Returns all supported <a href="#/api-doc?position=events">event types</a>.</div>
           <pre><code class="language-js">
                             const allEventTypes = grid.getAllEvents();
                         </code></pre>
@@ -909,17 +909,17 @@
           <a name="getScrollbarWidth">getScrollbarWidth()</a>
           <div>
             Returns 0 when no vertical scrollbar is present; otherwise returns <a
-              href="#options.scrollbarSize"
+              href="#/api-doc?position=options.scrollbarSize"
             >scrollbarSize</a> when <a
-              href="#onScrollStateChanged"
+              href="#/api-doc?position=onScrollStateChanged"
             >hasVScroll</a> is true.
           </div>
           <a name="getScrollbarHeight">getScrollbarHeight()</a>
           <div>
             Returns 0 when no horizontal scrollbar is present; otherwise returns <a
-              href="#options.scrollbarSize"
+              href="#/api-doc?position=options.scrollbarSize"
             >scrollbarSize</a> when <a
-              href="#onScrollStateChanged"
+              href="#/api-doc?position=onScrollStateChanged"
             >hasHScroll</a> is true.
           </div>
           <pre><code class="language-js">
@@ -1135,7 +1135,7 @@
 
         <section>
           <a name="data.columns">columns</a>
-          <div>See <a href="#options.columnProps">columnProps</a> for available column fields.</div>
+          <div>See <a href="#/api-doc?position=options.columnProps">columnProps</a> for available column fields.</div>
           <pre><code class="language-js">
                             const columns = [{
                                 id:"c1",
@@ -1161,7 +1161,7 @@
 
         <section>
           <a name="data.rows">rows</a>
-          <div>See <a href="#options.rowProps">rowProps</a> for available row fields.</div>
+          <div>See <a href="#/api-doc?position=options.rowProps">rowProps</a> for available row fields.</div>
           <pre><code class="language-js">
                             const rows = [{
                                 id : "r1",
@@ -2401,8 +2401,8 @@
                             //rowItem.tg_group
                         </code></pre>
           <div>
-            These private properties are removed when calling <a href="#exportData">exportData()</a> or <a
-              href="#getItemSnapshot"
+            These private properties are removed when calling <a href="#/api-doc?position=exportData">exportData()</a> or <a
+              href="#/api-doc?position=getItemSnapshot"
             >getItemSnapshot()</a>.
           </div>
         </section>
@@ -2472,7 +2472,7 @@
               <td>tg_filtered</td>
               <td>Boolean</td>
               <td>
-                true if the row was hidden by the <a href="#options.rowFilter">rowFilter</a> function.
+                true if the row was hidden by the <a href="#/api-doc?position=options.rowFilter">rowFilter</a> function.
               </td>
             </tr>
             <tr>
@@ -2554,7 +2554,7 @@
               <td>tg_invisible</td>
               <td>Boolean</td>
               <td>
-                true if the column was hidden by user via <a href="#hideColumn">hideColumn()</a> or the
+                true if the column was hidden by user via <a href="#/api-doc?position=hideColumn">hideColumn()</a> or the
                 invisible property.
               </td>
             </tr>

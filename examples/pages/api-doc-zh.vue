@@ -82,7 +82,7 @@
 
         <section>
           <a name="setData">setData(data)</a>
-          <div>设置表格数据。详细结构请参见 <a href="#data">数据结构</a>。</div>
+          <div>设置表格数据。详细结构请参见 <a href="#/api-doc-zh?position=data">数据结构</a>。</div>
           <div>data 对象会读取 columns、rows、rowsLength 和 options。rowsLength 适用于已知总行数但数据尚未全部加载完成的场景。</div>
           <pre><code class="language-js">
                             grid.setData({
@@ -123,7 +123,7 @@
 
         <section>
           <a name="setOption">setOption(options)</a>
-          <div>设置一个或多个表格选项。可用配置请参见 <a href="#options">配置项</a>。</div>
+          <div>设置一个或多个表格选项。可用配置请参见 <a href="#/api-doc-zh?position=options">配置项</a>。</div>
           <div>同时支持 setOption(optionKey, optionValue) 和 setOption(optionsObject) 两种调用形式。</div>
           <pre><code class="language-js">
                             // 设置多个选项
@@ -207,7 +207,7 @@
 
         <section>
           <a name="bind">bind(eventType, handler[, options])</a>
-          <div>为表格绑定事件处理函数。支持的事件类型请参见 <a href="#events">事件</a>。</div>
+          <div>为表格绑定事件处理函数。支持的事件类型请参见 <a href="#/api-doc-zh?position=events">事件</a>。</div>
           <div>eventType 可以是单个事件名、由空格分隔的多个事件名，或事件名到处理函数的对象映射。也支持 `onUpdated.demo` 这类带命名空间的事件名。</div>
           <div>可通过 options 传入诸如 { once: true } 之类的监听配置。</div>
           <pre><code class="language-js">
@@ -256,7 +256,7 @@
 
         <section>
           <a name="getAllEvents">getAllEvents()</a>
-          <div>返回全部支持的 <a href="#events">事件类型</a>。</div>
+          <div>返回全部支持的 <a href="#/api-doc-zh?position=events">事件类型</a>。</div>
           <pre><code class="language-js">
                             const allEventTypes = grid.getAllEvents();
                         </code></pre>
@@ -825,14 +825,14 @@
         <section>
           <a name="getScrollbarWidth">getScrollbarWidth()</a>
           <div>
-            没有垂直滚动条时返回 0；当 <a href="#onScrollStateChanged">hasVScroll</a> 为 true 时，返回 <a
-              href="#options.scrollbarSize"
+            没有垂直滚动条时返回 0；当 <a href="#/api-doc-zh?position=onScrollStateChanged">hasVScroll</a> 为 true 时，返回 <a
+              href="#/api-doc-zh?position=options.scrollbarSize"
             >scrollbarSize</a>。
           </div>
           <a name="getScrollbarHeight">getScrollbarHeight()</a>
           <div>
-            没有水平滚动条时返回 0；当 <a href="#onScrollStateChanged">hasHScroll</a> 为 true 时，返回 <a
-              href="#options.scrollbarSize"
+            没有水平滚动条时返回 0；当 <a href="#/api-doc-zh?position=onScrollStateChanged">hasHScroll</a> 为 true 时，返回 <a
+              href="#/api-doc-zh?position=options.scrollbarSize"
             >scrollbarSize</a>。
           </div>
           <pre><code class="language-js">
@@ -1041,7 +1041,7 @@
 
         <section>
           <a name="data.columns">columns</a>
-          <div>可用列字段请参见 <a href="#options.columnProps">columnProps</a>。</div>
+          <div>可用列字段请参见 <a href="#/api-doc-zh?position=options.columnProps">columnProps</a>。</div>
           <pre><code class="language-js">
                             const columns = [{
                                 id:"c1",
@@ -1067,7 +1067,7 @@
 
         <section>
           <a name="data.rows">rows</a>
-          <div>可用行字段请参见 <a href="#options.rowProps">rowProps</a>。</div>
+          <div>可用行字段请参见 <a href="#/api-doc-zh?position=options.rowProps">rowProps</a>。</div>
           <pre><code class="language-js">
                             const rows = [{
                                 id : "r1",
@@ -2291,7 +2291,7 @@
                             //rowItem.tg_group
                         </code></pre>
           <div>
-            调用 <a href="#exportData">exportData()</a> 或 <a href="#getItemSnapshot">getItemSnapshot()</a>
+            调用 <a href="#/api-doc-zh?position=exportData">exportData()</a> 或 <a href="#/api-doc-zh?position=getItemSnapshot">getItemSnapshot()</a>
             时，这些私有属性会被移除。
           </div>
         </section>
@@ -2360,7 +2360,7 @@
             <tr>
               <td>tg_filtered</td>
               <td>Boolean</td>
-              <td>如果行被 <a href="#options.rowFilter">rowFilter</a> 函数过滤隐藏，则为 true。</td>
+              <td>如果行被 <a href="#/api-doc-zh?position=options.rowFilter">rowFilter</a> 函数过滤隐藏，则为 true。</td>
             </tr>
             <tr>
               <td>tg_row_number</td>
@@ -2440,7 +2440,7 @@
             <tr>
               <td>tg_invisible</td>
               <td>Boolean</td>
-              <td>如果列通过 <a href="#hideColumn">hideColumn()</a> 或 invisible 属性被隐藏，则为 true。</td>
+              <td>如果列通过 <a href="#/api-doc-zh?position=hideColumn">hideColumn()</a> 或 invisible 属性被隐藏，则为 true。</td>
             </tr>
             <tr>
               <td>tg_width</td>

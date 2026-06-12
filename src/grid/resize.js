@@ -72,6 +72,12 @@ export default {
     // ===================================================================================
 
     resizeHandler: function() {
+        // Guard: auto-disable autoHeight for large datasets before any O(n) height calculations
+        // (moved from resizeHeaderHandler to avoid wasted getRowsHeight in updateGlobalScrollInfo)
+        if (this.options.autoHeight && this.getRowsLength() > 5000) {
+            this.options.autoHeight = false;
+        }
+
         // update global container size
         this.containerWidth = this.$container.width();
         this.containerHeight = this.$container.height();
@@ -162,13 +168,7 @@ export default {
 
         this.initHeaderLayerHeight();
 
-        // fix auto height before first using
         const o = this.options;
-        // auto close autoHeight when rows length > 5000
-        if (o.autoHeight && this.viewRows.length > 5000) {
-            o.autoHeight = false;
-        }
-
         this.bodyMessageHeight = 0;
         if (o.autoHeight) {
             this.$bodyFrame.addClass('tg-auto-height');

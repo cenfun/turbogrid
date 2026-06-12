@@ -106,6 +106,9 @@ export default {
         this.viewRows = viewRows;
         // console.log(this.viewRows, rows);
 
+        // rows changed — invalidate cached totalRowsHeight
+        this.rowsHeightChanged = true;
+
         return this;
     },
 

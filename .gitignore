@@ -7,3 +7,5 @@ server/package-lock.json
 /dist
 /docs
 /.claude
+/.codegraph
+/.mcp.json

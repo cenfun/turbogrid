@@ -46,7 +46,15 @@ export default {
 
         // all rows height
         this.totalRowsLength = this.getRowsLength();
-        this.totalRowsHeight = this.getRowsHeight();
+
+        // Cache totalRowsHeight to avoid O(n) row-height loop on every resize.
+        // Only recalculate when rows change (createViewRows sets rowsHeightChanged).
+        if (this.rowsHeightChanged || !this.previousTotalRowsHeight) {
+            this.previousTotalRowsHeight = this.getRowsHeight();
+            this.rowsHeightChanged = false;
+        }
+        this.totalRowsHeight = this.previousTotalRowsHeight;
+
         this.frozenRowsHeight = this.getFrozenRowsHeight();
 
         // scroll rows height, require frozenRowsHeight on init pane

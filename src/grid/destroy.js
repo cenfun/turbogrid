@@ -63,6 +63,10 @@ export default {
         this.scrollTop = 0;
         this.scrollTopOffset = 0;
 
+        // clear height cache
+        this.rowsHeightChanged = false;
+        this.previousTotalRowsHeight = 0;
+
         return this;
     },
 

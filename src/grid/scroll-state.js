@@ -171,16 +171,24 @@ export default {
 
     // =======================================================================================
 
+    // Recalculate containerHeight for autoHeight and update the holder DOM.
+    // Extracted to avoid duplication between updateAutoHeight and
+    // distributeExtraColumnWidth (which changes headerHeight after distribution).
+    updateHolderHeight: function() {
+        if (!this.options.autoHeight) {
+            return;
+        }
+        const scrollbarH = this.getScrollbarHeight();
+        this.containerHeight = this.headerHeight + this.totalRowsHeight + this.bodyMessageHeight + scrollbarH;
+        this.$holder.height(this.containerHeight);
+    },
+
     updateAutoHeight: function() {
         if (!this.options.autoHeight) {
             return;
         }
 
-        // console.log('updateAutoHeight', this.bodyMessageHeight);
-
-        const scrollbarH = this.getScrollbarHeight();
-        this.containerHeight = this.headerHeight + this.totalRowsHeight + this.bodyMessageHeight + scrollbarH;
-        this.$holder.height(this.containerHeight);
+        this.updateHolderHeight();
 
         this.updateBodySize();
 
@@ -353,6 +361,13 @@ export default {
         this.autoColumnWidthDistributed = true;
 
         // blankColumn.tg_width stays 0 (already done by updateTotalColumnsWidth)
+
+        // Recalculate autoHeight container height after column width distribution
+        // changed the headerHeight. Without this, containerHeight was set in
+        // updateAutoHeight() (called from updateVScrollState()) before distribution,
+        // using the old headerHeight, causing bodyHeight = containerHeight - newHeaderHeight
+        // to be wrong.
+        this.updateHolderHeight();
 
         this.autoColumnWidthDistributed = true;
 

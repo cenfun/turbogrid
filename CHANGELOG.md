@@ -1,5 +1,9 @@
 # Changelog
 
++ 3.3.2
+    - fixed autoColumnWidth + autoHeight race: containerHeight now correctly
+      recalculated after column width distribution changes headerHeight
+
 + 3.3.1
     - fixed autoHeight rowNotFound body message height
     - added tests for autoHeight rowNotFound height and resize recalculation

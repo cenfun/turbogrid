@@ -563,11 +563,20 @@
                     </section>
 
                     <section>
-                        <a name="render">render()</a>
+                        <a name="render">render([renderSettings])</a>
                         <div>基于当前数据、配置和格式化器调度一次渲染。</div>
                         <div>同一个事件循环中的重复调用会被合并，因此适合在批量更新后调用。</div>
+                        <div>renderSettings 可以是渲染类型字符串，也可以是对象。支持的 type 包括 <code>all</code>、<code>columns</code>、<code>rows</code>、<code>rows_cache</code> 和 <code>resize</code>。</div>
+                        <div>对象形式还支持 <code>scrollLeft</code>、<code>scrollTop</code>、<code>scrollColumn</code>、<code>scrollRow</code>，用于在渲染前调整滚动位置或将指定项滚动到可视区域。</div>
                         <pre><code class="language-js">
                             grid.render();
+                            grid.render('rows');
+                            grid.render({
+                                type: 'rows',
+                                scrollTop: 0,
+                                scrollRow: rowItem,
+                                scrollColumn: columnItem
+                            });
                         </code></pre>
                     </section>
 

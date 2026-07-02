@@ -563,11 +563,20 @@
                     </section>
 
                     <section>
-                        <a name="render">render()</a>
+                        <a name="render">render([renderSettings])</a>
                         <div>Schedules a render pass using the current data, options, and formatters.</div>
                         <div>Repeated calls in the same tick are merged, so render is safe to call after batched updates.</div>
+                        <div>renderSettings can be a render type string or an object. Supported type values include <code>all</code>, <code>columns</code>, <code>rows</code>, <code>rows_cache</code>, and <code>resize</code>.</div>
+                        <div>The object form also supports <code>scrollLeft</code>, <code>scrollTop</code>, <code>scrollColumn</code>, and <code>scrollRow</code> to adjust or bring an item into view before rendering.</div>
                         <pre><code class="language-js">
                             grid.render();
+                            grid.render('rows');
+                            grid.render({
+                                type: 'rows',
+                                scrollTop: 0,
+                                scrollRow: rowItem,
+                                scrollColumn: columnItem
+                            });
                         </code></pre>
                     </section>
 

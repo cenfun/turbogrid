@@ -173,6 +173,28 @@ export interface HighlightKeywords {
 }
 
 // =============================================================================
+// Render
+
+export type RenderType = 'all' | 'columns' | 'rows' | 'rows_cache' | 'resize' | (string & {});
+
+export interface RenderSettings {
+    /** Render scope. Defaults to the current pending render type, or "all" before the first render */
+    type?: RenderType | null;
+    /** Initial horizontal scroll position applied before rendering */
+    scrollLeft?: number | null;
+    /** Initial vertical scroll position applied before rendering */
+    scrollTop?: number | null;
+    /** Column item to bring into view before rendering */
+    scrollColumn?: ColumnItem | null;
+    /** Row item to bring into view before rendering */
+    scrollRow?: RowItem | null;
+    /** Cell nodes collected for keyword highlighting during the render pass */
+    highlightCells?: HTMLElement[];
+
+    [key: string]: any;
+}
+
+// =============================================================================
 // Options
 
 export interface GridOptions {
@@ -467,7 +489,7 @@ export declare class Grid extends EventBase {
 
     // Render
     /** Schedules a render pass. Repeated calls in the same tick are merged */
-    render(): this;
+    render(renderSettings?: RenderType | RenderSettings): this;
     /** Forces a full rebuild of the grid structure and renders it again */
     rerender(): this;
     /** Recalculates the layout and optionally applies a new size */

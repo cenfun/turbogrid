@@ -152,6 +152,10 @@ export default {
 
         const rowFilter = this.options.rowFilter;
         if (typeof rowFilter !== 'function') {
+            // clear stale tg_filtered when no filter is active
+            this.forEachRow((rowItem) => {
+                rowItem.tg_filtered = false;
+            });
             return;
         }
 

@@ -1,5 +1,6 @@
 import { Grid, $ } from '../../src/index.js';
 import Data from '../data/data.js';
+// eslint-disable-next-line max-lines-per-function
 describe('Row add/delete', function() {
 
     let container;
@@ -240,6 +241,218 @@ describe('Row add/delete', function() {
             id: id,
             name: `Row ${id}`
         });
+    });
+
+    // =================================================================================
+    // rowFilter related tests
+    // Each test is self-contained: explicitly sets up filter and calls grid.update()
+    // before recording state, to avoid cross-test pollution.
+
+    it('Grid row addRow with rowFilter matching', async () => {
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return rowItem.name && rowItem.name.indexOf('Add') !== -1;
+            }
+        });
+        grid.render();
+        await delay();
+
+        const prevViewLen = grid.getViewRows().length;
+        const prevDataLen = grid.getRows().length;
+
+        grid.addRow({
+            id: 'filter_match_1',
+            name: 'Add Filter Match'
+        });
+        await delay();
+
+        assert.equal(grid.getRows().length, prevDataLen + 1);
+        assert.equal(grid.getViewRows().length, prevViewLen + 1);
+
+        grid.deleteRow('filter_match_1');
+        await delay();
+    });
+
+    it('Grid row addRow with rowFilter not matching', async () => {
+        // ensure filter is active before recording state
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return rowItem.name && rowItem.name.indexOf('Add') !== -1;
+            }
+        });
+        grid.render();
+        await delay();
+
+        const prevViewLen = grid.getViewRows().length;
+        const prevDataLen = grid.getRows().length;
+
+        grid.addRow({
+            id: 'filter_no_match_1',
+            name: 'NoMatch'
+        });
+        await delay();
+
+        assert.equal(grid.getRows().length, prevDataLen + 1);
+        assert.equal(grid.getViewRows().length, prevViewLen);
+
+        grid.deleteRow('filter_no_match_1');
+        await delay();
+    });
+
+    it('Grid row addRow with rowFilter at position', async () => {
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return rowItem.name && rowItem.name.indexOf('Add') !== -1;
+            }
+        });
+        grid.render();
+        await delay();
+
+        const prevViewLen = grid.getViewRows().length;
+        const prevDataLen = grid.getRows().length;
+
+        grid.addRow({
+            id: 'filter_pos_0',
+            name: 'Add Position 0'
+        }, null, 0);
+        await delay();
+
+        assert.equal(grid.getRows().length, prevDataLen + 1);
+        assert.equal(grid.getViewRows().length, prevViewLen + 1);
+
+        const viewRow0 = grid.getViewRowItem(0);
+        assert.equal(viewRow0.id, 'filter_pos_0');
+
+        grid.deleteRow('filter_pos_0');
+        await delay();
+    });
+
+    it('Grid row addRow with rowFilter to parent', async () => {
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return rowItem.name && rowItem.name.indexOf('Add') !== -1;
+            }
+        });
+        grid.render();
+        await delay();
+
+        grid.addRow({
+            id: 'filter_parent',
+            name: 'Add Filter Parent',
+            subs: []
+        });
+        await delay();
+
+        const prevViewLen = grid.getViewRows().length;
+
+        grid.addRow({
+            id: 'filter_child_match',
+            name: 'Add Child Match'
+        }, 'filter_parent');
+        await delay();
+
+        assert.equal(grid.getViewRows().length, prevViewLen + 1);
+        assert.equal(grid.getRowItem('filter_parent').subs.length, 1);
+
+        grid.addRow({
+            id: 'filter_child_no_match',
+            name: 'NoMatchChild'
+        }, 'filter_parent');
+        await delay();
+
+        assert.equal(grid.getRowItem('filter_parent').subs.length, 2);
+        assert.equal(grid.getViewRows().length, prevViewLen + 1);
+
+        grid.deleteRow('filter_parent');
+        await delay();
+    });
+
+    it('Grid row addRow with rowFilter then clear filter', async () => {
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return rowItem.name && rowItem.name.indexOf('Add') !== -1;
+            }
+        });
+        grid.render();
+        await delay();
+
+        grid.addRow({
+            id: 'filter_clear_test',
+            name: 'ClearFilterTest'
+        });
+        await delay();
+
+        const viewIdsBefore = grid.getViewRows().map((r) => r.id);
+        assert.ok(viewIdsBefore.indexOf('filter_clear_test') === -1);
+
+        grid.setOption({
+            rowFilter: null
+        });
+        grid.render();
+        await delay();
+
+        const viewIdsAfter = grid.getViewRows().map((r) => r.id);
+        assert.ok(viewIdsAfter.indexOf('filter_clear_test') !== -1);
+
+        grid.deleteRow('filter_clear_test');
+        await delay();
+    });
+
+    it('Grid row deleteRow with rowFilter', async () => {
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return rowItem.name && rowItem.name.indexOf('Add') !== -1;
+            }
+        });
+        grid.render();
+        await delay();
+
+        // add a matching row first so we have something to delete
+        grid.addRow({
+            id: 'filter_del_test',
+            name: 'Add Delete Test'
+        });
+        await delay();
+
+        const prevViewLen = grid.getViewRows().length;
+        const prevDataLen = grid.getRows().length;
+
+        grid.deleteRow('filter_del_test');
+        await delay();
+
+        assert.equal(grid.getRows().length, prevDataLen - 1);
+        assert.equal(grid.getViewRows().length, prevViewLen - 1);
+    });
+
+    it('Grid row addRow with rowFilter multiple at once', async () => {
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return rowItem.name && rowItem.name.indexOf('Add') !== -1;
+            }
+        });
+        grid.render();
+        await delay();
+
+        const prevViewLen = grid.getViewRows().length;
+        const prevDataLen = grid.getRows().length;
+
+        grid.addRow([{
+            id: 'filter_multi_match',
+            name: 'Add Multi Match'
+        }, {
+            id: 'filter_multi_no_match',
+            name: 'NoMatchMulti'
+        }, {
+            id: 'filter_multi_match_2',
+            name: 'Add Multi Match 2'
+        }]);
+        await delay();
+
+        assert.equal(grid.getRows().length, prevDataLen + 3);
+        assert.equal(grid.getViewRows().length, prevViewLen + 2);
+
+        grid.deleteRow(['filter_multi_match', 'filter_multi_no_match', 'filter_multi_match_2']);
+        await delay();
     });
 
 });

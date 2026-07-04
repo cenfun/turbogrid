@@ -24,17 +24,19 @@ export default {
         const subs = this.getToBeAddedParentSubs(parentItem, this.rows);
         const positionIndex = this.getToBeAddedPositionIndex(position, subs);
 
-        // Compute flushFromIndex before splice. positionIndex is a data index, but
-        // flushRowFrom expects a view index (tg_view_index). When rowFilter is active,
-        // data index !== view index, so we use getRowItem to find the row at the
-        // insertion point and read its tg_view_index directly.
+        // Compute flushFromIndex before splice. positionIndex is an index into `subs`
+        // (root-level rows or a parent's children array). We read the row directly from
+        // `subs[positionIndex]` rather than using getRowItem(), because getRowItem uses
+        // indexCache which is a flat list of ALL rows (including nested children), so
+        // when positionIndex equals subs.length (append), getRowItem would incorrectly
+        // return a child row from indexCache instead of undefined.
         let flushFromIndex;
         const isTreePre = this.rowsInfo.isTree;
         if (parentItem) {
             // parent itself may need re-render (collapsed state changed, or subs added)
             flushFromIndex = parentItem.tg_view_index;
         } else {
-            const rowAtPosition = this.getRowItem(positionIndex);
+            const rowAtPosition = subs[positionIndex];
             flushFromIndex = rowAtPosition ? rowAtPosition.tg_view_index : 0;
         }
 

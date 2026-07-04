@@ -15,7 +15,7 @@ export default {
         if (!Util.isNum(fromIndex)) {
             return;
         }
-        if (fromIndex === 0) {
+        if (fromIndex <= 0) {
             this.flushBody();
             return;
         }

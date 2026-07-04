@@ -3,6 +3,8 @@ import Util from '../core/util.js';
 
 export default {
 
+    // after filter
+    // eslint-disable-next-line complexity
     addRow: function(rowInfo, parent, position, scrollTo = true) {
 
         const rowList = this.getToBeAddedItemList(rowInfo);
@@ -22,6 +24,20 @@ export default {
         const subs = this.getToBeAddedParentSubs(parentItem, this.rows);
         const positionIndex = this.getToBeAddedPositionIndex(position, subs);
 
+        // Compute flushFromIndex before splice. positionIndex is a data index, but
+        // flushRowFrom expects a view index (tg_view_index). When rowFilter is active,
+        // data index !== view index, so we use getRowItem to find the row at the
+        // insertion point and read its tg_view_index directly.
+        let flushFromIndex;
+        const isTreePre = this.rowsInfo.isTree;
+        if (parentItem) {
+            // parent itself may need re-render (collapsed state changed, or subs added)
+            flushFromIndex = parentItem.tg_view_index;
+        } else {
+            const rowAtPosition = this.getRowItem(positionIndex);
+            flushFromIndex = rowAtPosition ? rowAtPosition.tg_view_index : 0;
+        }
+
         // console.log('addRow', parentItem, positionIndex);
 
         const args = [positionIndex, 0].concat(rowList);
@@ -32,11 +48,12 @@ export default {
         if (parentItem) {
             // force to open for scroll to render
             parentItem.collapsed = false;
-            this.flushRowFrom(parentItem.tg_view_index + positionIndex);
-        } else {
-            // do not from 0, frozen row can not flush
-            this.flushRowFrom(positionIndex);
         }
+        if (isTreePre !== this.rowsInfo.isTree) {
+            flushFromIndex = 0;
+        }
+
+        this.flushRowFrom(flushFromIndex);
 
         this.onNextUpdated(function() {
             this.trigger(E.onRowAdded, rowList);
@@ -73,13 +90,18 @@ export default {
             return false;
         }
 
+        const isTreePre = this.rowsInfo.isTree;
         const sortedRows = this.removeRowsHandler(deletedRowsList);
 
         this.initRowsHandler();
 
         const minIndex = this.getRemovedMinIndex(sortedRows);
 
-        this.flushRowFrom(minIndex);
+        if (isTreePre === this.rowsInfo.isTree) {
+            this.flushRowFrom(minIndex);
+        } else {
+            this.flushBody();
+        }
 
         this.onNextUpdated(function() {
             this.trigger(E.onRowRemoved, deletedRowsList);

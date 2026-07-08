@@ -17,6 +17,7 @@
         width: 0;
         height: 100%;
         border-left: thin solid #ccc;
+        transition: border-color 0.1s ease-in-out;
 
         &.tg-active {
             border-left: thin solid #0077cf;

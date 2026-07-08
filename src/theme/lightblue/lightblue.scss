@@ -57,28 +57,28 @@ options.theme = "lightblue"
         }
 
         &.tg-selected {
-            background: rgb(58 116 213 / 5%);
+            background-color: rgb(58 116 213 / 5%);
         }
 
         &.tg-hover {
-            background: rgb(58 116 213 / 5%);
+            background-color: rgb(58 116 213 / 5%);
         }
 
         &.tg-even {
-            background: #fbfcfe;
+            background-color: #fbfcfe;
         }
 
         &.tg-odd {
-            background: #fff;
+            background-color: #fff;
         }
     }
 
     .tg-hover.tg-row::before {
-        background: rgb(58 116 213 / 5%);
+        background-color: rgb(58 116 213 / 5%);
     }
 
     .tg-selected.tg-row::after {
-        background: rgb(58 116 213 / 10%);
+        background-color: rgb(58 116 213 / 10%);
     }
 
     .tg-header-frame {
@@ -97,11 +97,11 @@ options.theme = "lightblue"
 
     /* scrollbar */
     .tg-scrollbar-track {
-        background: #fff;
+        background-color: #fff;
     }
 
     .tg-scrollbar-thumb {
-        background: rgb(48 66 101 / 35%);
+        background-color: rgb(48 66 101 / 35%);
     }
 
     .tg-scrollbar-thumb:hover {

@@ -3,7 +3,7 @@ options.theme = "dark"
 */
 
 %dark {
-    background: #1e1e1e;
+    background-color: #1e1e1e;
 
     .tg-checkbox {
         .tg-icon-item {
@@ -100,11 +100,11 @@ options.theme = "dark"
     }
 
     .tg-hover.tg-row::before {
-        background: rgb(255 255 255 / 10%);
+        background-color: rgb(255 255 255 / 10%);
     }
 
     .tg-selected.tg-row::after {
-        background: rgb(255 255 255 / 20%);
+        background-color: rgb(255 255 255 / 20%);
     }
 
     .tg-mask {
@@ -113,22 +113,22 @@ options.theme = "dark"
 
     /* scrollbar */
     .tg-scrollbar-track {
-        background: #333;
+        background-color: #333;
     }
 
     .tg-scrollbar-thumb {
-        background: #bbb;
+        background-color: #bbb;
     }
 
     .tg-scrollbar-thumb:hover {
-        background: #ddd;
+        background-color: #ddd;
     }
 
     .tg-scrollbar-thumb-hold {
-        background: #eee;
+        background-color: #eee;
     }
 
     .tg-scrollbar-thumb-hold:hover {
-        background: #eee;
+        background-color: #eee;
     }
 }

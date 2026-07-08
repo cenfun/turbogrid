@@ -172,8 +172,7 @@ export default {
         const columns = this.viewColumns;
         for (let i = 0, l = columns.length; i < l; i++) {
             const col = columns[i];
-            this.updateColumnHeaderWidth(col);
-            this.updateColumnHeaderHeight(col, true);
+            this.updateColumnHeaderSize(col);
         }
     },
 

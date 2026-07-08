@@ -19,6 +19,9 @@ export default {
         if (!item) {
             return false;
         }
+        if (this.isInvisible(item)) {
+            return false;
+        }
         if (!Util.hasOwn(item, 'exportable')) {
             return true;
         }

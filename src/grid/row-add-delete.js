@@ -32,12 +32,22 @@ export default {
         // return a child row from indexCache instead of undefined.
         let flushFromIndex;
         const isTreePre = this.rowsInfo.isTree;
+        const getCurrentViewIndex = (rowItem) => {
+            if (!rowItem || !Util.isNum(rowItem.tg_view_index)) {
+                return;
+            }
+            if (this.viewRows[rowItem.tg_view_index] === rowItem) {
+                return rowItem.tg_view_index;
+            }
+        };
         if (parentItem) {
             // parent itself may need re-render (collapsed state changed, or subs added)
-            flushFromIndex = parentItem.tg_view_index;
+            flushFromIndex = getCurrentViewIndex(parentItem);
         } else {
-            const rowAtPosition = subs[positionIndex];
-            flushFromIndex = rowAtPosition ? rowAtPosition.tg_view_index : 0;
+            flushFromIndex = getCurrentViewIndex(subs[positionIndex]);
+        }
+        if (!Util.isNum(flushFromIndex)) {
+            flushFromIndex = 0;
         }
 
         // console.log('addRow', parentItem, positionIndex);

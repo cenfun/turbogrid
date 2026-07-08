@@ -1,5 +1,13 @@
 # Changelog
 
++ 3.3.3
+    - fixed row add/delete partial refresh issues, including rowFilter/invisible row edge cases
+    - fixed exportData to exclude filtered or invisible rows/columns
+    - fixed autoColumnWidth calculations for widthWeight and header group width
+    - improved resize performance by caching total row height
+    - added renderSettings type definitions for render()
+    - refined theme styles with smoother color transitions and background-color usage
+
 + 3.3.2
     - fixed autoColumnWidth + autoHeight race: containerHeight now correctly
       recalculated after column width distribution changes headerHeight

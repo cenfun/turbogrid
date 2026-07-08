@@ -74,6 +74,7 @@
         .tg-sort-indicator-icon .tg-icon-item {
             display: none;
             fill: #1e1e1e;
+            transition: fill 0.1s ease-in-out;
         }
 
         .tg-sort-indicator-icon .tg-icon-item-light {
@@ -115,6 +116,7 @@
 
         .tg-sort-indicator-icon .tg-icon-item {
             fill: #ababab;
+            transition: fill 0.1s ease-in-out;
         }
 
         .tg-sort-indicator-icon .tg-icon-item-light {

@@ -27,6 +27,7 @@
         .tg-checkbox-item {
             display: none;
             fill: #808080;
+            transition: fill 0.1s ease-in-out;
         }
 
         .tg-checkbox-none {
@@ -70,8 +71,9 @@
                 height: 16px;
                 border: thin solid #808080;
                 border-radius: 50%;
-                background: #fff;
+                background-color: #fff;
                 transform: translate(-50%, -50%);
+                transition: border-color 0.1s ease-in-out;
             }
 
             &::after {
@@ -83,7 +85,7 @@
                 width: 10px;
                 height: 10px;
                 border-radius: 50%;
-                background: #0077cf;
+                background-color: #0077cf;
                 transform: translate(-50%, -50%);
             }
         }

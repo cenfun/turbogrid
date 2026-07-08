@@ -34,6 +34,9 @@
                     <button>exportData({"tg_frozen":true})</button>
                     <button>exportData({"tg_frozen":true,"minWidth":false})</button>
                 </div>
+                <div>
+                    <input type="text" value="" placeholder="keywords" class="ip-keywords" onfocus="this.select()" />
+                </div>
             </div>
             <div class="grid-container flex-auto"></div>
         </div>
@@ -46,13 +49,26 @@
             console.log('duration:', `${this.renderDuration}ms`);
         });
 
-
+        let keywords;
         const renderData = function(data) {
             grid.setOption({
                 theme: document.querySelector('.st-theme').value,
                 selectVisible: true,
                 frozenColumn: 0,
-                frozenRow: 1
+                frozenRow: 1,
+                rowNotFound: '<div>Not Found</div>',
+                rowFilter: function(rowItem) {
+                    let hasMatched = grid.highlightKeywordsFilter(rowItem, ['name'], keywords);
+
+                    if (rowItem.tg_frozen) {
+                        hasMatched = true;
+                    }
+                    // filter blank row
+                    if (rowItem.formatter === 'blank') {
+                        hasMatched = false;
+                    }
+                    return hasMatched;
+                }
             });
 
             grid.setData(data);
@@ -69,6 +85,17 @@
 
             renderData(window.sampleData);
         }
+
+        document.querySelector('.ip-keywords').addEventListener('keyup', function() {
+            const k = this.value;
+            if (k === keywords) {
+                return;
+            }
+            keywords = k;
+
+            // update rows
+            grid.update();
+        });
 
         ['.st-data', '.st-theme'].forEach(function(item) {
             document.querySelector(item).addEventListener('change', function() {

@@ -445,10 +445,16 @@ export default {
     },
 
     getScrollPaneWidth: function() {
+        if (!this.scrollPane) {
+            return 0;
+        }
         return this.scrollPane.width();
     },
 
     getScrollPaneHeight: function() {
+        if (!this.scrollPane) {
+            return 0;
+        }
         return this.scrollPane.height();
     },
 
@@ -467,18 +473,30 @@ export default {
     },
 
     getScrollLeft: function() {
+        if (!this.scrollPane) {
+            return 0;
+        }
         return this.scrollPane.getScrollLeft();
     },
 
     getScrollTop: function() {
+        if (!this.scrollPane) {
+            return 0;
+        }
         return this.scrollPane.getScrollTop();
     },
 
     getMaxScrollLeft: function() {
+        if (!this.scrollPane) {
+            return 0;
+        }
         return this.scrollPane.getMaxScrollLeft();
     },
 
     getMaxScrollTop: function() {
+        if (!this.scrollPane) {
+            return 0;
+        }
         return this.scrollPane.getMaxScrollTop();
     }
 

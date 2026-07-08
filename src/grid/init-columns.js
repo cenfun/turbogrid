@@ -294,6 +294,9 @@ export default {
                 }
             }
         }
+        if (Util.isNum(columnItem.widthWeight)) {
+            width = Math.round(width * columnItem.widthWeight);
+        }
         return Util.clamp(width, columnItem.minWidth, columnItem.maxWidth);
     },
 

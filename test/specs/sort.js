@@ -531,6 +531,75 @@ describe('Row sort', function() {
         assert.ok(grid.sortColumn);
     });
 
+    it('sortField function on init', async () => {
+        let callbackThis;
+        let callbackOptions;
+
+        grid.setOption({
+            sortOnInit: true,
+            collapseAllOnInit: true,
+            sortField: function(sortOptions) {
+                callbackThis = this;
+                callbackOptions = sortOptions;
+                return 'number';
+            },
+            sortAsc: true
+        });
+        grid.setData(getData());
+        grid.render();
+
+        await delay();
+
+        const columnItem = grid.getColumnItem('number');
+        const $node = $(grid.getColumnHeaderNode(columnItem));
+
+        assert.equal(callbackThis, grid);
+        assert.equal(callbackOptions, grid.options);
+        assert.equal($node.hasClass('tg-sort-asc'), true);
+        assert.equal(grid.getViewRows().map((it) => it.number).join(','), ',1,2,3,4,5,6,');
+    });
+
+    it('column sortField function', async () => {
+        let callbackThis;
+        let callbackOptions;
+
+        grid.setOption({
+            sortOnInit: false,
+            sortField: '',
+            sortAsc: true
+        });
+        grid.setData({
+            columns: [{
+                id: 'name', name: 'Name'
+            }, {
+                id: 'alias',
+                name: 'Alias',
+                type: 'number',
+                sortField: function(sortOptions) {
+                    callbackThis = this;
+                    callbackOptions = sortOptions;
+                    return 'value';
+                }
+            }],
+            rows: [{
+                name: 'B', value: 2
+            }, {
+                name: 'A', value: 1
+            }]
+        });
+        grid.render();
+        await delay();
+
+        const columnItem = grid.getColumnItem('alias');
+        const $node = $(grid.getColumnHeaderNode(columnItem));
+        $node.find('.tg-column-name').click();
+        await delay();
+
+        assert.equal(callbackThis, grid);
+        assert.equal(callbackOptions, columnItem);
+        assert.equal(grid.getViewRows().map((it) => it.value).join(','), '1,2');
+    });
+
     it('sortIndicator v', async () => {
         grid.setOption({
             sortOnInit: true,

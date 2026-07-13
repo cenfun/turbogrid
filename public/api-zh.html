@@ -879,6 +879,7 @@
                         <a name="removeSortColumn">removeSortColumn()</a>
                         <div>setSortColumn 支持与 getColumnItem 相同的传参形式。</div>
                         <div>对同一列重复调用 setSortColumn 会切换 sortAsc；removeSortColumn 用于清除当前排序状态。</div>
+                        <div>如果被排序的列定义了 sortField，则会使用该字段进行行比较，而不是使用列 id。sortField 可以是字符串，或返回字符串的函数。</div>
                         <pre><code class="language-js">
                             grid.setSortColumn(sortColumn);
                             grid.removeSortColumn();
@@ -1409,8 +1410,18 @@
                     
 
                     <section>
-                        <a name="options.sortField">sortField = ""</a>
-                        <div>指定排序比较时使用的字段。</div>
+                        <a name="options.sortField">sortField = "" | function(sortOptions)</a>
+                        <div>指定初始化排序列 id。支持字符串或函数。</div>
+                        <div>当传入函数时，this 指向 grid，参数 sortOptions 为最终的 grid options。函数必须返回非空字符串，否则会跳过排序。</div>
+                        <div>如需让某一列按不同的行字段排序，请在该列上设置 <a href="#options.columnProps">columnItem.sortField</a>。</div>
+                        <pre><code class="language-js">
+                            grid.setOption({
+                                sortOnInit: true,
+                                sortField: function(options) {
+                                    return options.useNumericSort ? 'amount' : 'name';
+                                }
+                            });
+                        </code></pre>
 
                         <a name="options.sortAsc">sortAsc = true</a>
                         <div>true 为升序，false 为降序。</div>
@@ -1436,6 +1447,7 @@
                         <a name="options.rowFilter">rowFilter</a>
                         <a name="options.rowFilteredSort">rowFilteredSort = null</a>
                         <div>在渲染前过滤行，并可选择对过滤结果进行排序。</div>
+                        <div>rowFilteredSort 支持字符串、对象（如 { sortField, sortAsc }），或返回上述格式的函数。其中 sortField 也可以是函数，并返回排序比较时使用的行字段。</div>
                         <div>示例 <a href="row-filter.html" target="_blank">行过滤</a></div>
                     </section>
 
@@ -1486,6 +1498,10 @@
 
                                     // 用于读取行数据的字段键
                                     //id: 字符串
+
+                                    // 当前列排序时使用的行字段
+                                    // 可以是字符串，或返回字符串的 function(columnItem)
+                                    //sortField: [字符串, 函数]
 
                                     // 预期为字符串，例如："string"、"number"、"date" 等
                                     //type: 字符串

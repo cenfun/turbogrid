@@ -308,8 +308,8 @@ export default {
         this.sortColumn = null;
 
         const o = this.options;
-        const sortField = o.sortField;
-        if (!sortField) {
+        const sortField = this.resolveSortField(o.sortField, o);
+        if (typeof sortField !== 'string' || !sortField) {
             return;
         }
 

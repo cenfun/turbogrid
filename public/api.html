@@ -879,6 +879,7 @@
                         <a name="removeSortColumn">removeSortColumn()</a>
                         <div>setSortColumn accepts the same input forms as getColumnItem.</div>
                         <div>Calling setSortColumn repeatedly with the same column toggles sortAsc. removeSortColumn clears the current sort state.</div>
+                        <div>If the sorted column defines sortField, that field is used for row comparisons instead of the column id. sortField may be a string or a function returning a string.</div>
                         <pre><code class="language-js">
                             grid.setSortColumn(sortColumn);
                             grid.removeSortColumn();
@@ -1409,8 +1410,18 @@
                     
 
                     <section>
-                        <a name="options.sortField">sortField = ""</a>
-                        <div>Specifies the field used for sorting comparisons.</div>
+                        <a name="options.sortField">sortField = "" | function(sortOptions)</a>
+                        <div>Specifies the initial sort column id. It can be a string or a function.</div>
+                        <div>When it is a function, it is called with this bound to the grid and the final grid options as sortOptions. The function must return a non-empty string; otherwise sorting is skipped.</div>
+                        <div>For sorting a column by a different row field, set <a href="#options.columnProps">columnItem.sortField</a> on that column.</div>
+                        <pre><code class="language-js">
+                            grid.setOption({
+                                sortOnInit: true,
+                                sortField: function(options) {
+                                    return options.useNumericSort ? 'amount' : 'name';
+                                }
+                            });
+                        </code></pre>
 
                         <a name="options.sortAsc">sortAsc = true</a>
                         <div>true sorts ascending; false sorts descending.</div>
@@ -1436,6 +1447,7 @@
                         <a name="options.rowFilter">rowFilter</a>
                         <a name="options.rowFilteredSort">rowFilteredSort = null</a>
                         <div>Filters rows before rendering and optionally sorts filtered matches.</div>
+                        <div>rowFilteredSort accepts a string, an object such as { sortField, sortAsc }, or a function returning either form. Its sortField can also be a function that returns the row field used for comparisons.</div>
                         <div>Demo <a href="row-filter.html" target="_blank">Row Filter</a></div>
                     </section>
 
@@ -1486,6 +1498,10 @@
 
                                     // for getting row value
                                     //id: String
+
+                                    // row field used for sorting when this column is sorted
+                                    // can be a string or function(columnItem) returning a string
+                                    //sortField: [String, Function]
 
                                     // expect to be a string, for example: "string", "number", "date" etc.
                                     //type: String

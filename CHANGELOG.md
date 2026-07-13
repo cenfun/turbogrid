@@ -1,5 +1,9 @@
 # Changelog
 
++ 3.3.4
+    - added support for function-valued `sortField` on grid options, column items, and rowFilteredSort options
+    - added column-level `sortField` support to sort a column by a different row field
+
 + 3.3.3
     - fixed row add/delete partial refresh issues, including rowFilter/invisible row edge cases
     - fixed exportData to exclude filtered or invisible rows/columns

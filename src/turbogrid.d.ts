@@ -27,7 +27,10 @@ export interface ColumnItem {
     /** Text alignment: left (default), center, or right */
     align?: 'left' | 'center' | 'right';
 
+    /** Fixed width value. Columns with width are excluded from autoColumnWidth and are not affected by widthWeight distribution. */
     width?: number;
+    /** Initial/base width. Can be a number or a callback returning a number; participates in autoColumnWidth and can be distributed by widthWeight. */
+    initWidth?: number | ((this: Grid, columnItem: ColumnItem) => number | null | undefined);
     /** Weight for autoColumnWidth distribution. Defaults to 1 if not set. 0.5 gets half, 2 gets double the proportional share */
     widthWeight?: number;
     minWidth?: number;

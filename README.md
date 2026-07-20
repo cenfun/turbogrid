@@ -17,7 +17,7 @@ TurboGrid is a high-performance JavaScript data grid library with zero dependenc
 - **High Performance** — Virtual rendering handles millions of rows and columns smoothly; row/column caching and lazy loading patterns
 - **Zero Dependencies** — Pure JavaScript, no external runtime dependencies
 - **Tree Data** — Hierarchical rows with expand/collapse, multi-level nesting, and lazy-loading child rows (`setRowSubs`)
-- **Auto Column Width** — Distribute remaining horizontal space proportionally across columns; fixed-width columns are excluded; use `widthWeight` per column to control the share
+- **Auto Column Width** — Distribute remaining horizontal space proportionally across columns; fixed-width columns are excluded; use `initWidth` for a custom base width and `widthWeight` to control the share
 - **Frozen Panes** — Freeze rows and columns at any edge (top/bottom/left/right) with configurable limits
 - **Row Operations** — Selection (single/multiple), drag & drop reordering, move, add/delete, row numbering
 - **Sorting & Filtering** — Built-in type-aware sorting (string/number/date/boolean), custom comparers, row filtering with keyword highlighting
@@ -145,6 +145,7 @@ Online docs home: [https://cenfun.github.io/turbogrid/](https://cenfun.github.io
 
 ### Columns, Header, Frozen
 
+- [auto-column-width](https://cenfun.github.io/turbogrid/auto-column-width.html)
 - [column-add-delete](https://cenfun.github.io/turbogrid/column-add-delete.html)
 - [column-display](https://cenfun.github.io/turbogrid/column-display.html)
 - [column-set](https://cenfun.github.io/turbogrid/column-set.html)

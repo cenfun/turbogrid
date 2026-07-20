@@ -449,6 +449,9 @@
         }, {
             name: 'Column',
             subs: [{
+                id: 'auto-column-width',
+                name: 'Auto Column Width'
+            }, {
                 id: 'column-add-delete',
                 name: 'Column Add/Delete'
             }, {

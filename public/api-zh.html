@@ -1347,8 +1347,10 @@
                         <div>自动调整表格高度，使其适配当前可见内容。</div>
                         <div>示例 <a href="auto-height.html" target="_blank">自动高度</a></div>
                         <a name="options.autoColumnWidth">autoColumnWidth = false</a>
-                        <div>将容器剩余水平空间按比例分配到没有显式指定 <code>width</code> 的列上。有显式 <code>width</code> 的列被排除。使用列的 <code>widthWeight</code> 控制分配权重（默认 <code>1</code>）。配合 <code>bindContainerResize</code> 自动响应容器尺寸变化。</div>
-                        <div>示例 <a href="column-display.html" target="_blank">Column Display</a></div>
+                        <div>将容器剩余水平空间按比例分配到没有显式指定 <code>width</code> 的列上。配合 <code>bindContainerResize</code> 自动响应容器尺寸变化。</div>
+                        <div><code>width</code>：固定宽度数值。该列不参与 <code>autoColumnWidth</code>，也不受 <code>widthWeight</code> 分配影响。</div>
+                        <div><code>initWidth</code>：初始/基础宽度。可以指定数值，也可以是返回数值的回调函数。该列仍参与 <code>autoColumnWidth</code>，并支持通过 <code>widthWeight</code> 按比例分配剩余宽度。</div>
+                        <div>示例 <a href="auto-column-width.html" target="_blank">Auto Column Width</a></div>
                     </section>
                     
 
@@ -1534,7 +1536,8 @@
                                     minWidth: 81,
                                     maxWidth: 300
 
-                                    //width: 数字
+                                    //width: 数字（固定宽度；不参与 autoColumnWidth，也不受 widthWeight 分配影响）
+                                    //initWidth: [数字, 函数]（初始/基础宽度；参与 autoColumnWidth 和 widthWeight 分配）
                                     //widthWeight: 数字（autoColumnWidth 分配权重，未指定则默认为 1）
                                     //height: 数字
 

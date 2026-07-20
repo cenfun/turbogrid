@@ -274,9 +274,8 @@ export default {
         columnItem.tg_width = width;
     },
 
-    getComputedColumnWidth: function(columnItem) {
-        const str = columnItem.name || '';
-        const len = Util.getCharLen(str);
+    getColumnWidthByName: function(name = '') {
+        const len = Util.getCharLen(name);
         // font size: 14px, single char width:
         const charWidth = 10;
         let width = Math.round(len * charWidth);
@@ -294,6 +293,23 @@ export default {
                 }
             }
         }
+
+        return width;
+    },
+
+    getComputedColumnWidth: function(columnItem) {
+
+        let width;
+        if (typeof columnItem.initWidth === 'function') {
+            width = columnItem.initWidth.call(this, columnItem);
+        } else if (Util.isSize(columnItem.initWidth)) {
+            width = columnItem.initWidth;
+        }
+
+        if (!Util.isSize(width)) {
+            width = this.getColumnWidthByName(columnItem.widthName || columnItem.name);
+        }
+
         if (Util.isNum(columnItem.widthWeight)) {
             width = Math.round(width * columnItem.widthWeight);
         }

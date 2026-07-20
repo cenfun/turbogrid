@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>TurboGrid - Auto Column Width</title>
+    <!--inject:start-->
+    <script src="../dist/turbogrid.js"></script>
+    <!--inject:end-->
+    <link href="assets/main.css" rel="stylesheet" />
+    <script src="assets/main.js"></script>
+    <style>
+        .grid-container {
+            min-height: 260px;
+        }
+
+        .status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .status span {
+            padding: 2px 6px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #f8f8f8;
+        }
+
+        .grid-container .tg-header-item {
+            border: 1px solid #080;
+        }
+
+        .grid-container .tg-header-item.tg-header-group-item::after {
+            border: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header flex-row">
+        <select class="st-theme"></select>
+    </div>
+    <div class="body flex-auto flex-row">
+        <div class="main flex-auto flex-column">
+            <div class="controller">
+                <div>
+                    <div class="controller-title">autoColumnWidth:</div>
+                    <select class="st-data">
+                        <option>init-width-data</option>
+                        <option>auto-width-data</option>
+                    </select>
+                    <label>
+                        <input type="checkbox" class="cb-auto" checked />
+                        autoColumnWidth
+                    </label>
+                    <label>
+                        frozenColumn
+                        <input type="number" min="-1" max="5" step="1" value="-1" class="ip-number ip_frozenColumn" />
+                    </label>
+                    <label>
+                        <input type="checkbox" class="cb_frozenRight" />
+                        frozenRight
+                    </label>
+                </div>
+                <div>
+                    <button class="bt-small">container 520px</button>
+                    <button class="bt-medium">container 760px</button>
+                    <button class="bt-large">container 1000px</button>
+                    <button class="bt-reset">reset width</button>
+                    <button class="bt-update">update()</button>
+                    <button class="bt-rerender">rerender()</button>
+                </div>
+                <div>
+                    <code>width</code> is a fixed value: excluded from <code>autoColumnWidth</code> and not affected by <code>widthWeight</code>. <code>initWidth</code> is an initial width: number or callback, participates in <code>autoColumnWidth</code>, and supports <code>widthWeight</code> distribution.
+                </div>
+                <div class="status"></div>
+            </div>
+            <div class="grid-container flex-auto"></div>
+        </div>
+    </div>
+    <script>
+        const Grid = window.turbogrid.Grid;
+        const container = document.querySelector('.grid-container');
+        const status = document.querySelector('.status');
+        const grid = new Grid(container);
+
+        const initWidthData = {
+            columns: [{
+                id: 'fixed',
+                name: 'Fixed width 120',
+                width: 120
+            }, {
+                id: 'default',
+                name: 'Default auto width'
+            }, {
+                id: 'initNumber',
+                name: 'initWidth 160',
+                initWidth: 160
+            }, {
+                id: 'initFunction',
+                name: 'initWidth function',
+                initWidth: function(columnItem) {
+                    return columnItem.name.length * 9;
+                }
+            }, {
+                id: 'weighted',
+                name: 'initWidth 100 + weight 2',
+                initWidth: 100,
+                widthWeight: 2
+            }],
+            rows: [{
+                fixed: 'Fixed column',
+                default: 'Base width is calculated by header text',
+                initNumber: 'Base width comes from initWidth number',
+                initFunction: 'Base width comes from initWidth function',
+                weighted: 'Gets a larger proportional share'
+            }, {
+                fixed: '120px',
+                default: 'auto',
+                initNumber: '160px base',
+                initFunction: 'function base',
+                weighted: 'weight 2'
+            }]
+        };
+
+        const autoWidthData = {
+            columns: [{
+                name: 'width 100',
+                width: 100
+            }, {
+                name: 'default width'
+            }, {
+                name: 'widthWeight 2',
+                widthWeight: 2
+            }, {
+                name: 'widthWeight 0.5',
+                widthWeight: 0.5
+            }, {
+                name: 'group width',
+                subs: [{
+                    name: 'widthWeight 1.5',
+                    widthWeight: 1.5
+                }, {
+                    name: 'sub 2'
+                }]
+            }, {
+                name: '50',
+                width: 50
+            }, {
+                name: 'end column'
+            }],
+            rows: [{
+                name: 'Row 1'
+            }, {
+                name: 'Row 2'
+            }, {
+                name: 'Row 3'
+            }, {
+                name: 'Row 4'
+            }, {
+                name: 'Row 5'
+            }]
+        };
+
+        const cloneData = function(data) {
+            return {
+                columns: data.columns.slice(),
+                rows: data.rows.slice()
+            };
+        };
+
+        const getData = function() {
+            if (document.querySelector('.st-data').value === 'auto-width-data') {
+                return cloneData(autoWidthData);
+            }
+            return cloneData(initWidthData);
+        };
+
+        const updateStatus = function() {
+            const html = grid.getViewColumns().slice(0, -1).map(function(columnItem) {
+                const name = columnItem.id || columnItem.name || columnItem.tg_view_index;
+                return `<span>${name}: ${columnItem.tg_width}px</span>`;
+            }).join('');
+            status.innerHTML = html;
+        };
+
+        const render = function() {
+            grid.setOption({
+                theme: document.querySelector('.st-theme').value,
+                autoColumnWidth: document.querySelector('.cb-auto').checked,
+                frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
+                frozenRight: document.querySelector('.cb_frozenRight').checked,
+                bindContainerResize: true
+            });
+            grid.setData(getData());
+            grid.render();
+        };
+
+        grid.bind('onUpdated onLayout onResize', updateStatus);
+
+        ['.st-data', '.st-theme', '.cb-auto', '.ip_frozenColumn', '.cb_frozenRight'].forEach(function(item) {
+            document.querySelector(item).addEventListener('change', function() {
+                render();
+            });
+        });
+
+        document.querySelector('.bt-small').addEventListener('click', function() {
+            container.style.width = '520px';
+            grid.resize();
+        });
+
+        document.querySelector('.bt-medium').addEventListener('click', function() {
+            container.style.width = '760px';
+            grid.resize();
+        });
+
+        document.querySelector('.bt-large').addEventListener('click', function() {
+            container.style.width = '1000px';
+            grid.resize();
+        });
+
+        document.querySelector('.bt-reset').addEventListener('click', function() {
+            container.style.width = '';
+            grid.resize();
+        });
+
+        document.querySelector('.bt-update').addEventListener('click', function() {
+            grid.update();
+        });
+
+        document.querySelector('.bt-rerender').addEventListener('click', function() {
+            grid.rerender();
+        });
+
+        window.addEventListener('resize', function() {
+            grid.resize();
+        });
+
+        window.addEventListener('load', function() {
+            render();
+            window.formatCodes();
+        });
+    </script>
+</body>
+
+</html>

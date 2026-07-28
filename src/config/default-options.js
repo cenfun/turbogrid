@@ -164,7 +164,7 @@ export default function() {
         // ==========================================================
         // sort
 
-        // single field, or a list for multiple compare
+        // single field or a function returning a single field
         sortField: '',
         sortAsc: true,
 

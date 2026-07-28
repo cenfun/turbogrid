@@ -39,10 +39,13 @@ export default class Sorter {
     comparerHandler(list) {
 
         const os = this.options;
-        const sortField = os.sortField;
         const sortFactor = os.sortFactor;
         const sortBlankFactor = os.sortBlankFactor;
         const sortComparer = os.sortComparer;
+        const sortField = os.sortField;
+        if (typeof sortField !== 'string' || !sortField) {
+            return false;
+        }
 
         if (typeof sortComparer !== 'function') {
             return false;

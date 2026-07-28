@@ -115,6 +115,13 @@ export default {
         return sortComparers.string;
     },
 
+    resolveSortField: function(sortField, sortOptions) {
+        if (typeof sortField === 'function') {
+            return sortField.call(this, sortOptions);
+        }
+        return sortField;
+    },
+
     // just sort data
     updateRowsSort: function() {
 
@@ -123,7 +130,7 @@ export default {
             return false;
         }
 
-        const sortField = sortColumn.id;
+        const sortField = sortColumn.sortField || sortColumn.id;
         if (!sortField) {
             return false;
         }
@@ -132,6 +139,11 @@ export default {
     },
 
     sortRows: function(sortField, sortOptions = {}) {
+
+        sortField = this.resolveSortField(sortField, sortOptions);
+        if (typeof sortField !== 'string' || !sortField) {
+            return false;
+        }
 
         const sortFactor = sortOptions.sortAsc ? -1 : 1;
         const sortBlankFactor = this.options.sortBlankValueBottom ? 1 : sortFactor;

@@ -37,7 +37,8 @@ export default {
     minWidth: 81,
     maxWidth: 300
 
-    // width: Number
+    // width: Number (fixed width value; excluded from autoColumnWidth and widthWeight distribution)
+    // initWidth: [Number, Function] (initial/base width; participates in autoColumnWidth and widthWeight distribution)
     // widthWeight: Number (for autoColumnWidth proportional share; default 1 if not set)
     // height: Number
 

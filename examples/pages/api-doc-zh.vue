@@ -1196,15 +1196,16 @@
           </div>
           <a name="options.autoColumnWidth">autoColumnWidth = false</a>
           <div>
-            将容器剩余水平空间按比例分配到没有显式指定 <code>width</code> 的列上。有显式 <code>width</code> 的列被排除。使用列的
-            <code>widthWeight</code> 控制分配权重（默认 <code>1</code>）。配合 <code>bindContainerResize</code>
-            自动响应容器尺寸变化。
+            将容器剩余水平空间按比例分配到没有显式指定 <code>width</code> 的列上。配合
+            <code>bindContainerResize</code> 自动响应容器尺寸变化。
           </div>
+          <div><code>width</code>：固定宽度值，不参与 <code>autoColumnWidth</code> 和 <code>widthWeight</code> 分配。</div>
+          <div><code>initWidth</code>：初始/基础宽度，可以是数字或返回数字的回调函数，仍参与 <code>autoColumnWidth</code>，并支持 <code>widthWeight</code> 分配。</div>
           <div>
             示例 <a
-              href="#/column-display"
+              href="#/auto-column-width"
               target="_blank"
-            >Column Display</a>
+            >自动列宽</a>
           </div>
         </section>
 
@@ -1420,7 +1421,8 @@
                                     minWidth: 81,
                                     maxWidth: 300
 
-                                    //width: 数字
+                                    //width: 数字（固定宽度值，不参与 autoColumnWidth 和 widthWeight 分配）
+                                    //initWidth: [Number, Function]（初始/基础宽度，参与 autoColumnWidth 和 widthWeight 分配）
                                     //widthWeight: 数字（autoColumnWidth 分配权重，未指定则默认为 1）
                                     //height: 数字
 

@@ -5,7 +5,6 @@
                 <div class="controller-title">Grid Column Width API:</div>
                 <select class="st-data">
                     <option>custom-data</option>
-                    <option>auto-width-data</option>
                     <option>random-5x10</option>
                     <option>random-10x2k</option>
                 </select>
@@ -35,10 +34,6 @@
             </div>
             <div>
                 <label>
-                    <input type="checkbox" class="cb-autoColumnWidth">
-                    autoColumnWidth
-                </label>
-                <label>
                     frozenColumn
                     <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
                 </label>
@@ -67,39 +62,6 @@ import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
 import { initCommonEvents } from '../global.js';
 const route = useRoute();
-
-const autoWidthData = {
-    columns: [{
-        name: 'width 100',
-        width: 100
-    }, {
-        name: 'default width'
-    }, {
-        name: 'widthWeight 2',
-        widthWeight: 2
-    }, {
-        name: 'widthWeight 0.5',
-        widthWeight: 0.5
-    }, {
-        name: 'default width'
-    }, {
-        name: '50',
-        width: 50
-    }, {
-        name: 'end column'
-    }],
-    rows: [{
-        name: 'Row 1'
-    }, {
-        name: 'Row 2'
-    }, {
-        name: 'Row 3'
-    }, {
-        name: 'Row 4'
-    }, {
-        name: 'Row 5'
-    }]
-};
 
 const customData = {
     columns: [{
@@ -230,7 +192,6 @@ onMounted(() => {
             theme: route.query.theme,
             frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
             frozenRow: 0,
-            autoColumnWidth: document.querySelector('.cb-autoColumnWidth').checked,
             frozenRight: document.querySelector('.cb_frozenRight').checked
         };
 
@@ -247,16 +208,11 @@ onMounted(() => {
             return;
         }
 
-        if (dataStr === 'auto-width-data') {
-            renderData(autoWidthData);
-            return;
-        }
-
         const data = JSON.parse(JSON.stringify(customData));
         renderData(data);
     };
 
-    ['.st-data', '.ip_frozenColumn', '.cb-autoColumnWidth', '.cb_frozenRight'].forEach(function(item) {
+    ['.st-data', '.ip_frozenColumn', '.cb_frozenRight'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {
             render();
         });

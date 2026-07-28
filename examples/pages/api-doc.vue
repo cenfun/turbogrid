@@ -1291,15 +1291,15 @@
           <a name="options.autoColumnWidth">autoColumnWidth = false</a>
           <div>
             Distributes remaining horizontal space proportionally across columns without an explicit
-            <code>width</code>. Columns with an explicit <code>width</code> are excluded. Use
-            <code>widthWeight</code> on a column to control its share (default <code>1</code>). Works with
-            <code>bindContainerResize</code>.
+            <code>width</code>. Works with <code>bindContainerResize</code>.
           </div>
+          <div><code>width</code>: fixed width value. The column is excluded from <code>autoColumnWidth</code> and is not affected by <code>widthWeight</code> distribution.</div>
+          <div><code>initWidth</code>: initial/base width. It can be a number or a callback function returning a number. The column still participates in <code>autoColumnWidth</code>, and <code>widthWeight</code> can control its proportional share.</div>
           <div>
             Demo <a
-              href="#/column-display"
+              href="#/auto-column-width"
               target="_blank"
-            >Column Display</a>
+            >Auto Column Width</a>
           </div>
         </section>
 
@@ -1527,7 +1527,8 @@
                                     minWidth: 81,
                                     maxWidth: 300
 
-                                    //width: Number
+                                    //width: Number (fixed width value; excluded from autoColumnWidth and widthWeight distribution)
+                                    //initWidth: [Number, Function] (initial/base width; participates in autoColumnWidth and widthWeight distribution)
                                     //widthWeight: Number (for autoColumnWidth proportional share; default 1 if not set)
                                     //height: Number
 

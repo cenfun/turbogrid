@@ -12,6 +12,7 @@ const configFile = path.resolve(projectRoot, 'vite.config.js');
 const coverageDir = path.resolve(projectRoot, '.temp/coverage');
 const pkg = JSON.parse(fs.readFileSync(path.resolve(projectRoot, 'package.json'), 'utf8'));
 const debug = process.argv.includes('--debug');
+const debugSpecFilter = debug ? process.argv.slice(2).find((arg) => !arg.startsWith('-')) : '';
 
 let previewServer;
 let browser;
@@ -121,6 +122,12 @@ try {
         mode: 'test'
     });
     testUrl = getPreviewUrl(previewServer);
+    if (debugSpecFilter) {
+        const url = new URL(testUrl);
+        url.searchParams.set('spec', debugSpecFilter);
+        testUrl = url.href;
+        console.log(`Spec filter: ${EC.cyan(debugSpecFilter)}`);
+    }
     console.log(`Test page: ${EC.cyan(testUrl)}`);
 
     browser = await chromium.launch({

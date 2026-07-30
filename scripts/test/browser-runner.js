@@ -95,6 +95,21 @@ const failBootstrap = function(error) {
     result.completed = true;
 };
 
+const getSpecFilters = function() {
+    const value = new URLSearchParams(window.location.search).get('spec') || '';
+    return value.split(',').map((item) => item.trim().toLowerCase()).filter(Boolean);
+};
+
+const filterSpecFiles = function(files, filters) {
+    if (!filters.length) {
+        return files;
+    }
+    return files.filter((file) => {
+        const fileName = file.split('/').pop().toLowerCase();
+        return filters.some((keyword) => fileName.includes(keyword));
+    });
+};
+
 const start = async function() {
     try {
         window.mocha.setup({
@@ -105,8 +120,13 @@ const start = async function() {
         });
 
         const specs = import.meta.glob('../../test/specs/*.js');
-        const specFiles = Object.keys(specs).sort();
-        console.log(EC.magenta(`Loading ${specFiles.length} test spec files`));
+        const allSpecFiles = Object.keys(specs).sort();
+        const filters = getSpecFilters();
+        const specFiles = filterSpecFiles(allSpecFiles, filters);
+        if (!specFiles.length) {
+            throw new Error(`No test spec files matched: ${filters.join(',')}`);
+        }
+        console.log(EC.magenta(`Loading ${specFiles.length}/${allSpecFiles.length} test spec files`));
 
         for (const file of specFiles) {
             await specs[file]();

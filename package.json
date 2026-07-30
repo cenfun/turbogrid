@@ -24,7 +24,8 @@
         "test:debug": "node test/run-tests.js --headed",
         "lint": "eslint src/ && stylelint src/**/*.scss",
         "build": "npm run lint && vite build",
-        "patch": "npm run build && sf publish patch",
+        "version": "npm run build",
+        "publish": "node ./scripts/publish.js",
         "docs": "vite build --mode docs",
         "docs:preview": "vite preview --mode docs"
     },

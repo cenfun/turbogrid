@@ -21,7 +21,7 @@
         "test:install": "playwright install chromium",
         "test:build": "vite build --mode test",
         "test:preview": "vite preview --mode test",
-        "test:debug": "node scripts/test.js --headed",
+        "test:debug": "node scripts/test.js --debug",
         "lint": "eslint src/ && stylelint src/**/*.scss",
         "build": "npm run lint && vite build",
         "version": "npm run build",

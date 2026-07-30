@@ -11,7 +11,7 @@ const projectRoot = path.resolve(scriptRoot, '..');
 const configFile = path.resolve(projectRoot, 'vite.config.js');
 const coverageDir = path.resolve(projectRoot, '.temp/coverage');
 const pkg = JSON.parse(fs.readFileSync(path.resolve(projectRoot, 'package.json'), 'utf8'));
-const headed = process.argv.includes('--headed');
+const debug = process.argv.includes('--debug');
 
 let previewServer;
 let browser;
@@ -106,8 +106,8 @@ try {
     console.log(`Test page: ${EC.cyan(testUrl)}`);
 
     browser = await chromium.launch({
-        headless: !headed,
-        slowMo: headed ? 50 : 0
+        headless: !debug,
+        slowMo: debug ? 50 : 0
     });
     const context = await browser.newContext({
         viewport: {

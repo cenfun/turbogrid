@@ -13,7 +13,7 @@ const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 // "publish" is also an npm lifecycle event. Do nothing when a later
 // `npm publish` invokes this script without a release type.
-if (!requestedVersion && process.env.npm_lifecycle_event === 'publish' && process.env.npm_command !== 'run-script') {
+if (!requestedVersion && process.env.npm_lifecycle_event === 'publish' && process.env.npm_command !== 'run') {
     console.log(EC.green('Release preparation already completed; continuing npm publish.'));
     process.exit(0);
 }

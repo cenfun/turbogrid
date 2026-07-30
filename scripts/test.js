@@ -11,7 +11,13 @@ const projectRoot = path.resolve(scriptRoot, '..');
 const configFile = path.resolve(projectRoot, 'vite.config.js');
 const coverageDir = path.resolve(projectRoot, '.temp/coverage');
 const pkg = JSON.parse(fs.readFileSync(path.resolve(projectRoot, 'package.json'), 'utf8'));
-const debug = process.argv.includes('--debug');
+const isDebugMode = function() {
+    if (process.argv.includes('--debug')) {
+        return true;
+    }
+    return process.env.npm_config_debug === 'true';
+};
+const debug = isDebugMode();
 const debugSpecFilter = debug ? process.argv.slice(2).find((arg) => !arg.startsWith('-')) : '';
 
 let previewServer;
@@ -22,7 +28,13 @@ let coverageData = [];
 let mochaResult;
 let executionError;
 let pageError;
+let debugClosed = false;
 let testUrl;
+
+const isTargetClosedError = function(error) {
+    const message = error && (error.message || `${error}`);
+    return Boolean(message && message.includes('Target page, context or browser has been closed'));
+};
 
 const getPreviewUrl = function(server) {
     const localUrl = server.resolvedUrls && server.resolvedUrls.local && server.resolvedUrls.local[0];
@@ -131,7 +143,8 @@ try {
     console.log(`Test page: ${EC.cyan(testUrl)}`);
 
     browser = await chromium.launch({
-        headless: !debug
+        headless: !debug,
+        devtools: debug
     });
     const context = await browser.newContext({
         viewport: {
@@ -140,6 +153,12 @@ try {
         }
     });
     page = await context.newPage();
+    browser.once('disconnected', () => {
+        debugClosed = debug;
+    });
+    page.once('close', () => {
+        debugClosed = debug;
+    });
     await page.exposeBinding('__playwrightPageApi', ({ page: sourcePage }, action, args) => {
         const actions = {
             'mouse.move': (... values) => sourcePage.mouse.move(... values),
@@ -186,9 +205,13 @@ try {
     });
     mochaResult = await page.evaluate(() => window.__MOCHA_RESULT__);
 } catch (error) {
-    executionError = error;
+    if (debug && (debugClosed || isTargetClosedError(error))) {
+        debugClosed = true;
+    } else {
+        executionError = error;
+    }
 } finally {
-    if (coverageStarted && page) {
+    if (coverageStarted && page && !page.isClosed() && browser?.isConnected()) {
         try {
             const [jsCoverage, cssCoverage] = await Promise.all([
                 page.coverage.stopJSCoverage(),
@@ -218,7 +241,7 @@ if (coverageData.length && testUrl) {
         executionError = executionError || error;
         console.error(EC.red(`Coverage report failed: ${error.stack || error.message}`));
     }
-} else if (!executionError) {
+} else if (!executionError && !debugClosed) {
     executionError = new Error('No Playwright coverage data was collected');
 }
 
@@ -228,11 +251,11 @@ if (pageError) {
 if (executionError) {
     console.error(EC.red(`\nUnit test runner failed: ${executionError.stack || executionError.message}`));
 }
-if (!mochaResult || mochaResult.failed > 0 || executionError) {
+if ((!mochaResult && !debugClosed) || mochaResult?.failed > 0 || executionError) {
     process.exitCode = 1;
 }
 
-if (debug && browser && page && previewServer) {
+if (debug && browser?.isConnected() && page && !page.isClosed() && previewServer) {
     await waitForDebugExit(browser, page);
 }
 

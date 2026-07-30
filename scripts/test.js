@@ -124,8 +124,7 @@ try {
     console.log(`Test page: ${EC.cyan(testUrl)}`);
 
     browser = await chromium.launch({
-        headless: !debug,
-        slowMo: debug ? 50 : 0
+        headless: !debug
     });
     const context = await browser.newContext({
         viewport: {

@@ -1,0 +1,205 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import MCR from 'monocart-coverage-reports';
+import { chromium } from 'playwright';
+import { build, preview } from 'vite';
+
+const testRoot = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(testRoot, '..');
+const configFile = path.resolve(testRoot, 'vite.config.js');
+const coverageDir = path.resolve(projectRoot, '.temp/coverage');
+const headed = process.argv.includes('--headed');
+
+let previewServer;
+let browser;
+let page;
+let coverageStarted = false;
+let coverageData = [];
+let mochaResult;
+let executionError;
+let pageError;
+let testUrl;
+
+const getPreviewUrl = function(server) {
+    const localUrl = server.resolvedUrls && server.resolvedUrls.local && server.resolvedUrls.local[0];
+    if (localUrl) {
+        return new URL('index.html', localUrl).href;
+    }
+
+    const address = server.httpServer.address();
+    if (!address || typeof address === 'string') {
+        throw new Error('Unable to resolve the Vite preview server address');
+    }
+    return `http://127.0.0.1:${address.port}/index.html`;
+};
+
+const normalizeSourcePath = function(filePath) {
+    const normalized = filePath.replace(/\\/g, '/');
+    const srcIndex = normalized.lastIndexOf('/src/');
+    if (srcIndex !== -1) {
+        return normalized.slice(srcIndex + 1);
+    }
+    if (normalized.startsWith('src/')) {
+        return normalized;
+    }
+    return normalized;
+};
+
+const generateCoverageReport = async function(data) {
+    if (!data.length) {
+        throw new Error('No Playwright coverage data was collected');
+    }
+
+    const origin = new URL(testUrl).origin;
+    const report = MCR({
+        name: 'TurboGrid unit test coverage',
+        outputDir: coverageDir,
+        reports: ['v8', 'console-summary'],
+        lcov: true,
+        cleanCache: true,
+        entryFilter: (entry) => entry.url.startsWith(origin) && entry.url.includes('/assets/'),
+        sourceFilter: (sourcePath) => {
+            const normalized = sourcePath.replace(/\\/g, '/');
+            return normalized.startsWith('src/') || normalized.includes('/src/');
+        },
+        sourcePath: normalizeSourcePath
+    });
+
+    await report.add(data);
+    return report.generate();
+};
+
+const printTestSummary = function(result) {
+    console.log('\nUnit test summary');
+    console.log(`  Suites: ${result.suites}`);
+    console.log(`  Tests: ${result.tests}`);
+    console.log(`  Passed: ${result.passed}`);
+    console.log(`  Skipped: ${result.skipped}`);
+    console.log(`  Failed: ${result.failed}`);
+    console.log(`  Duration: ${result.duration}ms`);
+
+    if (result.failures && result.failures.length) {
+        console.error('\nFailed tests:');
+        result.failures.forEach((failure, index) => {
+            console.error(`${index + 1}. ${failure.title}`);
+            console.error(failure.errorMsg);
+        });
+    }
+};
+
+try {
+    console.log('Building browser unit tests ...');
+    await build({
+        configFile
+    });
+
+    console.log('Starting Vite preview server ...');
+    previewServer = await preview({
+        configFile
+    });
+    testUrl = getPreviewUrl(previewServer);
+    console.log(`Test page: ${testUrl}`);
+
+    browser = await chromium.launch({
+        headless: !headed,
+        slowMo: headed ? 50 : 0
+    });
+    const context = await browser.newContext({
+        viewport: {
+            width: 1280,
+            height: 900
+        }
+    });
+    page = await context.newPage();
+    await page.exposeBinding('__playwrightPageApi', ({ page: sourcePage }, action, args) => {
+        const actions = {
+            'mouse.move': (... values) => sourcePage.mouse.move(... values),
+            'mouse.down': (... values) => sourcePage.mouse.down(... values),
+            'mouse.up': (... values) => sourcePage.mouse.up(... values),
+            'mouse.wheel': (... values) => sourcePage.mouse.wheel(... values)
+        };
+        const handler = actions[action];
+        if (!handler) {
+            throw new Error(`Unsupported Playwright page action: ${action}`);
+        }
+        return handler(... args);
+    });
+
+    page.on('console', (message) => {
+        const text = message.text();
+        if (message.type() === 'error') {
+            console.error(text);
+            return;
+        }
+        console.log(text);
+    });
+    page.on('pageerror', (error) => {
+        pageError = pageError || error;
+        console.error(`Browser page error: ${error.stack || error.message}`);
+    });
+
+    await Promise.all([
+        page.coverage.startJSCoverage({
+            resetOnNavigation: false
+        }),
+        page.coverage.startCSSCoverage({
+            resetOnNavigation: false
+        })
+    ]);
+    coverageStarted = true;
+
+    await page.goto(testUrl, {
+        waitUntil: 'load',
+        timeout: 60 * 1000
+    });
+    await page.waitForFunction(() => window.__MOCHA_RESULT__ && window.__MOCHA_RESULT__.completed, null, {
+        timeout: 10 * 60 * 1000
+    });
+    mochaResult = await page.evaluate(() => window.__MOCHA_RESULT__);
+} catch (error) {
+    executionError = error;
+} finally {
+    if (coverageStarted && page) {
+        try {
+            const [jsCoverage, cssCoverage] = await Promise.all([
+                page.coverage.stopJSCoverage(),
+                page.coverage.stopCSSCoverage()
+            ]);
+            coverageData = [... jsCoverage, ... cssCoverage];
+        } catch (error) {
+            executionError = executionError || error;
+        }
+    }
+}
+
+if (mochaResult) {
+    printTestSummary(mochaResult);
+    if (mochaResult.tests === 0) {
+        executionError = executionError || new Error('No unit tests were executed');
+    }
+}
+
+if (coverageData.length && testUrl) {
+    try {
+        console.log(`\nGenerating coverage report in ${coverageDir} ...`);
+        await generateCoverageReport(coverageData);
+    } catch (error) {
+        executionError = executionError || error;
+        console.error(`Coverage report failed: ${error.stack || error.message}`);
+    }
+} else if (!executionError) {
+    executionError = new Error('No Playwright coverage data was collected');
+}
+
+await browser?.close();
+await previewServer?.close();
+
+if (pageError) {
+    executionError = executionError || pageError;
+}
+if (executionError) {
+    console.error(`\nUnit test runner failed: ${executionError.stack || executionError.message}`);
+}
+if (!mochaResult || mochaResult.failed > 0 || executionError) {
+    process.exitCode = 1;
+}

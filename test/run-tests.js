@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import EC from 'eight-colors';
 import MCR from 'monocart-coverage-reports';
 import { chromium } from 'playwright';
 import { build, preview } from 'vite';
@@ -70,35 +71,35 @@ const generateCoverageReport = async function(data) {
 };
 
 const printTestSummary = function(result) {
-    console.log('\nUnit test summary');
+    console.log(EC.magenta('\nUnit test summary'));
     console.log(`  Suites: ${result.suites}`);
     console.log(`  Tests: ${result.tests}`);
-    console.log(`  Passed: ${result.passed}`);
+    console.log(`  Passed: ${EC.green(result.passed)}`);
     console.log(`  Skipped: ${result.skipped}`);
-    console.log(`  Failed: ${result.failed}`);
+    console.log(`  Failed: ${result.failed ? EC.red(result.failed) : EC.green(result.failed)}`);
     console.log(`  Duration: ${result.duration}ms`);
 
     if (result.failures && result.failures.length) {
-        console.error('\nFailed tests:');
+        console.error(EC.red('\nFailed tests:'));
         result.failures.forEach((failure, index) => {
-            console.error(`${index + 1}. ${failure.title}`);
-            console.error(failure.errorMsg);
+            console.error(EC.red(`${index + 1}. ${failure.title}`));
+            console.error(EC.red(failure.errorMsg));
         });
     }
 };
 
 try {
-    console.log('Building browser unit tests ...');
+    console.log(EC.magenta('Building browser unit tests ...'));
     await build({
         configFile
     });
 
-    console.log('Starting Vite preview server ...');
+    console.log(EC.magenta('Starting Vite preview server ...'));
     previewServer = await preview({
         configFile
     });
     testUrl = getPreviewUrl(previewServer);
-    console.log(`Test page: ${testUrl}`);
+    console.log(`Test page: ${EC.cyan(testUrl)}`);
 
     browser = await chromium.launch({
         headless: !headed,
@@ -135,7 +136,7 @@ try {
     });
     page.on('pageerror', (error) => {
         pageError = pageError || error;
-        console.error(`Browser page error: ${error.stack || error.message}`);
+        console.error(EC.red(`Browser page error: ${error.stack || error.message}`));
     });
 
     await Promise.all([
@@ -181,11 +182,13 @@ if (mochaResult) {
 
 if (coverageData.length && testUrl) {
     try {
-        console.log(`\nGenerating coverage report in ${coverageDir} ...`);
+        console.log(EC.magenta(`\nGenerating coverage report in ${coverageDir} ...`));
         await generateCoverageReport(coverageData);
+        const coverageReportPath = path.relative(projectRoot, path.resolve(coverageDir, 'index.html')).replace(/\\/g, '/');
+        console.log(`Coverage details: ${EC.cyan(coverageReportPath)}`);
     } catch (error) {
         executionError = executionError || error;
-        console.error(`Coverage report failed: ${error.stack || error.message}`);
+        console.error(EC.red(`Coverage report failed: ${error.stack || error.message}`));
     }
 } else if (!executionError) {
     executionError = new Error('No Playwright coverage data was collected');
@@ -198,7 +201,7 @@ if (pageError) {
     executionError = executionError || pageError;
 }
 if (executionError) {
-    console.error(`\nUnit test runner failed: ${executionError.stack || executionError.message}`);
+    console.error(EC.red(`\nUnit test runner failed: ${executionError.stack || executionError.message}`));
 }
 if (!mochaResult || mochaResult.failed > 0 || executionError) {
     process.exitCode = 1;

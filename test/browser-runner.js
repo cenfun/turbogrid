@@ -1,5 +1,6 @@
 import 'mocha/mocha.js';
 import { assert } from 'chai';
+import EC from 'eight-colors';
 
 const result = {
     completed: false,
@@ -43,7 +44,7 @@ const BrowserReporter = function(runner) {
 
     runner.on('suite', (suite) => {
         if (!suite.root) {
-            console.log(`${'   '.repeat(indent)}+ ${suite.title}`);
+            console.log(EC.magenta(`${'   '.repeat(indent)}+ ${suite.title}`));
             indent += 1;
         }
     });
@@ -55,16 +56,16 @@ const BrowserReporter = function(runner) {
     });
 
     runner.on('pending', (test) => {
-        console.log(`${'   '.repeat(indent)}- ${test.title}`);
+        console.log(EC.magenta(`${'   '.repeat(indent)}- ${test.title}`));
     });
 
     runner.on('pass', (test) => {
-        console.log(`${'   '.repeat(indent)}√ ${test.title}`);
+        console.log(EC.green(`${'   '.repeat(indent)}√ ${test.title}`));
     });
 
     runner.on('fail', (test, error) => {
         const message = errorMessage(error);
-        console.error(`${'   '.repeat(indent)}× ${test.title}\n${message}`);
+        console.error(EC.red(`${'   '.repeat(indent)}× ${test.title}\n${message}`));
         result.failures.push({
             title: typeof test.fullTitle === 'function' ? test.fullTitle() : test.title,
             errorMsg: message
@@ -85,7 +86,7 @@ const BrowserReporter = function(runner) {
 
 const failBootstrap = function(error) {
     const message = errorMessage(error);
-    console.error(message);
+    console.error(EC.red(message));
     result.failed = 1;
     result.failures.push({
         title: 'Test bootstrap failed',
@@ -105,7 +106,7 @@ const start = async function() {
 
         const specs = import.meta.glob('./specs/*.js');
         const specFiles = Object.keys(specs).sort();
-        console.log(`Loading ${specFiles.length} test spec files`);
+        console.log(EC.magenta(`Loading ${specFiles.length} test spec files`));
 
         for (const file of specFiles) {
             await specs[file]();

@@ -127,6 +127,13 @@ const start = async function() {
             throw new Error(`No test spec files matched: ${filters.join(',')}`);
         }
         console.log(EC.magenta(`Loading ${specFiles.length}/${allSpecFiles.length} test spec files`));
+        if (filters.length) {
+            console.log(EC.magenta(`Matched spec files (${filters.join(', ')}):`));
+            specFiles.forEach((file) => {
+                const relativePath = file.replace(/^(\.\.\/)+/, '');
+                console.log(EC.cyan(`  ${relativePath}`));
+            });
+        }
 
         for (const file of specFiles) {
             await specs[file]();

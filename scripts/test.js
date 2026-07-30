@@ -11,13 +11,7 @@ const projectRoot = path.resolve(scriptRoot, '..');
 const configFile = path.resolve(projectRoot, 'vite.config.js');
 const coverageDir = path.resolve(projectRoot, '.temp/coverage');
 const pkg = JSON.parse(fs.readFileSync(path.resolve(projectRoot, 'package.json'), 'utf8'));
-const isDebugMode = function() {
-    if (process.argv.includes('--debug')) {
-        return true;
-    }
-    return process.env.npm_config_debug === 'true';
-};
-const debug = isDebugMode();
+const debug = process.argv.includes('--debug');
 const debugSpecFilter = debug ? process.argv.slice(2).find((arg) => !arg.startsWith('-')) : '';
 
 let previewServer;
@@ -144,7 +138,8 @@ try {
 
     browser = await chromium.launch({
         headless: !debug,
-        devtools: debug
+        devtools: debug,
+        args: debug ? ['--auto-open-devtools-for-tabs'] : []
     });
     const context = await browser.newContext({
         viewport: {

@@ -64,12 +64,33 @@ function buildEndPlugin() {
 }
 
 
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
 
     const define = {
         'window.TAG': JSON.stringify(Object.values(tag).join('-')),
         'window.VERSION': JSON.stringify(pkg.version)
     };
+
+    if (mode === 'docs') {
+        return {
+            root: '.',
+            base: './',
+            publicDir: false,
+            define,
+            plugins: [vue(), inlineAssetsPlugin()],
+            build: {
+                outDir: 'docs',
+                emptyOutDir: true,
+                sourcemap: false
+            },
+            preview: {
+                host: '127.0.0.1',
+                port: 4173,
+                strictPort: false,
+                open: true
+            }
+        };
+    }
 
     if (command === 'serve') {
         return {

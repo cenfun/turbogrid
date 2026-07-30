@@ -25,7 +25,8 @@
         "lint": "eslint src/ && stylelint src/**/*.scss",
         "build": "npm run lint && vite build",
         "patch": "npm run build && sf publish patch",
-        "pack": "sf pack -o docs"
+        "pack": "vite build --mode docs",
+        "pack:preview": "vite preview --mode docs"
     },
     "files": [
         "dist",

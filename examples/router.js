@@ -2,13 +2,19 @@ import { getExampleList } from './global.js';
 
 export const routes = [];
 
+const pages = import.meta.glob('./pages/*.vue');
+
 function addRoute(path, componentPath, meta) {
     // console.log(`Adding route: ${path} -> ${componentPath}`);
+    const pagePath = `./pages/${componentPath}.vue`;
+    const component = pages[pagePath];
+    if (!component) {
+        throw new Error(`Example page not found: ${pagePath}`);
+    }
     routes.push({
         path,
         meta: meta || {},
-        // @vite-ignore
-        component: () => import(`./pages/${componentPath}.vue`)
+        component
     });
 }
 

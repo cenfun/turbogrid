@@ -9,7 +9,7 @@
         <div class="app-header-title">
           <a
             class="app-header-name"
-            href="/"
+            href="./"
           >
             TurboGrid
           </a>
@@ -59,7 +59,7 @@
         <div class="app-header-title">
           <a
             class="app-header-name"
-            href="/"
+            href="./"
           >
             TurboGrid
           </a>

@@ -1,6 +1,7 @@
 import 'mocha/mocha.js';
 import { assert } from 'chai';
 import EC from 'eight-colors';
+import specs from 'virtual:test-specs';
 
 const result = {
     completed: false,
@@ -95,21 +96,6 @@ const failBootstrap = function(error) {
     result.completed = true;
 };
 
-const getSpecFilters = function() {
-    const value = new URLSearchParams(window.location.search).get('spec') || '';
-    return value.split(',').map((item) => item.trim().toLowerCase()).filter(Boolean);
-};
-
-const filterSpecFiles = function(files, filters) {
-    if (!filters.length) {
-        return files;
-    }
-    return files.filter((file) => {
-        const fileName = file.split('/').pop().toLowerCase();
-        return filters.some((keyword) => fileName.includes(keyword));
-    });
-};
-
 const start = async function() {
     try {
         window.mocha.setup({
@@ -119,21 +105,8 @@ const start = async function() {
             reporter: BrowserReporter
         });
 
-        const specs = import.meta.glob('../../test/specs/*.js');
-        const allSpecFiles = Object.keys(specs).sort();
-        const filters = getSpecFilters();
-        const specFiles = filterSpecFiles(allSpecFiles, filters);
-        if (!specFiles.length) {
-            throw new Error(`No test spec files matched: ${filters.join(',')}`);
-        }
-        console.log(EC.magenta(`Loading ${specFiles.length}/${allSpecFiles.length} test spec files`));
-        if (filters.length) {
-            console.log(EC.magenta(`Matched spec files (${filters.join(', ')}):`));
-            specFiles.forEach((file) => {
-                const relativePath = file.replace(/^(\.\.\/)+/, '');
-                console.log(EC.cyan(`  ${relativePath}`));
-            });
-        }
+        const specFiles = Object.keys(specs).sort();
+        console.log(EC.magenta(`Running ${specFiles.length} test spec files`));
 
         for (const file of specFiles) {
             await specs[file]();

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import EC from 'eight-colors';
 import path from 'path';
 import fs from 'fs';
 
@@ -45,6 +46,47 @@ function inlineAssetsPlugin() {
                 const content = fs.readFileSync(filePath, 'utf-8');
                 return `export default ${JSON.stringify(content.replace(/\r?\n/g, ''))}`;
             }
+        }
+    };
+}
+
+
+function testSpecsPlugin() {
+    const virtualModuleId = 'virtual:test-specs';
+    const resolvedVirtualModuleId = `\0${virtualModuleId}`;
+    const virtualSpecPrefix = 'virtual:test-spec-file:';
+    const specsPath = path.resolve(__dirname, 'test/specs');
+    return {
+        name: 'test-specs',
+        resolveId(id) {
+            if (id === virtualModuleId) {
+                return resolvedVirtualModuleId;
+            }
+            if (id.startsWith(virtualSpecPrefix)) {
+                return path.resolve(specsPath, id.slice(virtualSpecPrefix.length));
+            }
+        },
+        load(id) {
+            if (id !== resolvedVirtualModuleId) {
+                return;
+            }
+            const files = fs.readdirSync(specsPath).filter((file) => file.endsWith('.js')).sort();
+            const filters = (process.env.TEST_SPEC_FILTER || '').split(',').map((item) => item.trim().toLowerCase()).filter(Boolean);
+            const selectedFiles = filters.length ? files.filter((file) => filters.some((keyword) => file.toLowerCase().includes(keyword))) : files;
+            if (!selectedFiles.length) {
+                this.error(`No test spec files matched: ${filters.join(',')}`);
+            }
+            console.log(EC.magenta(`Test specs: ${selectedFiles.length}/${files.length}`));
+            if (filters.length) {
+                console.log(EC.magenta(`Matched spec files (${filters.join(', ')}):`));
+                selectedFiles.forEach((file) => {
+                    console.log(EC.cyan(`  test/specs/${file}`));
+                });
+            }
+            const entries = selectedFiles.map((file) => {
+                return `${JSON.stringify(`test/specs/${file}`)}: () => import(${JSON.stringify(`${virtualSpecPrefix}${file}`)})`;
+            });
+            return `export default {${entries.join(',')}};`;
         }
     };
 }
@@ -113,6 +155,7 @@ export default defineConfig(({ command, mode }) => {
                 'window.TAG': JSON.stringify('test'),
                 'window.VERSION': JSON.stringify('test')
             },
+            plugins: [testSpecsPlugin()],
             build: {
                 outDir: path.resolve(__dirname, '.temp/test'),
                 emptyOutDir: true,

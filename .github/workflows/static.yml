@@ -38,7 +38,7 @@ jobs:
           cache: ''
       - run: npm i
       - run: npm run build
-      - run: npm run pack
+      - run: npm run docs
         env:
           FORCE_COLOR: true
         

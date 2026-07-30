@@ -64,6 +64,39 @@ function buildEndPlugin() {
 }
 
 
+function docsAssetsPlugin() {
+    const sourceEntry = path.resolve(__dirname, 'src/index.js');
+    const sourceFile = path.resolve(__dirname, 'dist/turbogrid.esm.js');
+    const targetFile = path.resolve(__dirname, 'docs/assets/turbogrid.esm.js');
+    return {
+        name: 'docs-assets',
+        enforce: 'pre',
+        buildStart() {
+            if (!fs.existsSync(sourceFile)) {
+                this.error('dist/turbogrid.esm.js not found. Run "npm run build" before "npm run docs".');
+            }
+        },
+        resolveId(source, importer) {
+            if (!importer) {
+                return;
+            }
+            const importerPath = importer.split('?')[0];
+            const resolved = path.resolve(path.dirname(importerPath), source);
+            if (resolved === sourceEntry) {
+                return {
+                    id: './turbogrid.esm.js',
+                    external: true
+                };
+            }
+        },
+        closeBundle() {
+            fs.copyFileSync(sourceFile, targetFile);
+            console.log('copied dist/turbogrid.esm.js to docs/assets/turbogrid.esm.js');
+        }
+    };
+}
+
+
 export default defineConfig(({ command, mode }) => {
 
     const define = {
@@ -77,7 +110,7 @@ export default defineConfig(({ command, mode }) => {
             base: './',
             publicDir: false,
             define,
-            plugins: [vue(), inlineAssetsPlugin()],
+            plugins: [docsAssetsPlugin(), vue(), inlineAssetsPlugin()],
             build: {
                 outDir: 'docs',
                 emptyOutDir: true,

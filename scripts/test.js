@@ -72,6 +72,24 @@ const generateCoverageReport = async function(data) {
     return report.generate();
 };
 
+const waitForDebugExit = function(activeBrowser, activePage) {
+    console.log(EC.magenta('\nDebug mode is active. The browser and preview server will remain open.'));
+    console.log(`Close Chromium or press ${EC.cyan('Ctrl+C')} to close the test process.`);
+    return new Promise((resolve) => {
+        const close = function() {
+            process.off('SIGINT', close);
+            process.off('SIGTERM', close);
+            activeBrowser.off('disconnected', close);
+            activePage.off('close', close);
+            resolve();
+        };
+        process.once('SIGINT', close);
+        process.once('SIGTERM', close);
+        activeBrowser.once('disconnected', close);
+        activePage.once('close', close);
+    });
+};
+
 const printTestSummary = function(result) {
     console.log(EC.magenta('\nUnit test summary'));
     console.log(`  Suites: ${result.suites}`);
@@ -198,9 +216,6 @@ if (coverageData.length && testUrl) {
     executionError = new Error('No Playwright coverage data was collected');
 }
 
-await browser?.close();
-await previewServer?.close();
-
 if (pageError) {
     executionError = executionError || pageError;
 }
@@ -210,3 +225,10 @@ if (executionError) {
 if (!mochaResult || mochaResult.failed > 0 || executionError) {
     process.exitCode = 1;
 }
+
+if (debug && browser && page && previewServer) {
+    await waitForDebugExit(browser, page);
+}
+
+await browser?.close();
+await previewServer?.close();

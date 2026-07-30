@@ -104,7 +104,7 @@ const start = async function() {
             reporter: BrowserReporter
         });
 
-        const specs = import.meta.glob('./specs/*.js');
+        const specs = import.meta.glob('../../test/specs/*.js');
         const specFiles = Object.keys(specs).sort();
         console.log(EC.magenta(`Loading ${specFiles.length} test spec files`));
 

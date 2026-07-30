@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import EC from 'eight-colors';
@@ -5,10 +6,11 @@ import MCR from 'monocart-coverage-reports';
 import { chromium } from 'playwright';
 import { build, preview } from 'vite';
 
-const testRoot = path.dirname(fileURLToPath(import.meta.url));
-const projectRoot = path.resolve(testRoot, '..');
-const configFile = path.resolve(testRoot, 'vite.config.js');
+const scriptRoot = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(scriptRoot, '..');
+const configFile = path.resolve(projectRoot, 'vite.config.js');
 const coverageDir = path.resolve(projectRoot, '.temp/coverage');
+const pkg = JSON.parse(fs.readFileSync(path.resolve(projectRoot, 'package.json'), 'utf8'));
 const headed = process.argv.includes('--headed');
 
 let previewServer;
@@ -53,7 +55,7 @@ const generateCoverageReport = async function(data) {
 
     const origin = new URL(testUrl).origin;
     const report = MCR({
-        name: 'TurboGrid unit test coverage',
+        name: `${pkg.name || path.basename(projectRoot)} unit test coverage`,
         outputDir: coverageDir,
         reports: ['v8', 'console-summary'],
         lcov: true,
@@ -91,12 +93,14 @@ const printTestSummary = function(result) {
 try {
     console.log(EC.magenta('Building browser unit tests ...'));
     await build({
-        configFile
+        configFile,
+        mode: 'test'
     });
 
     console.log(EC.magenta('Starting Vite preview server ...'));
     previewServer = await preview({
-        configFile
+        configFile,
+        mode: 'test'
     });
     testUrl = getPreviewUrl(previewServer);
     console.log(`Test page: ${EC.cyan(testUrl)}`);

@@ -104,6 +104,34 @@ export default defineConfig(({ command, mode }) => {
         'window.VERSION': JSON.stringify(pkg.version)
     };
 
+    if (mode === 'test') {
+        return {
+            root: path.resolve(__dirname, 'scripts/test'),
+            base: './',
+            publicDir: false,
+            define: {
+                'window.TAG': JSON.stringify('test'),
+                'window.VERSION': JSON.stringify('test')
+            },
+            build: {
+                outDir: path.resolve(__dirname, '.temp/test'),
+                emptyOutDir: true,
+                sourcemap: true,
+                minify: false,
+                cssMinify: false,
+                rolldownOptions: {
+                    treeshake: false
+                }
+            },
+            preview: {
+                host: '127.0.0.1',
+                port: 4173,
+                strictPort: false,
+                open: false
+            }
+        };
+    }
+
     if (mode === 'docs') {
         return {
             root: '.',

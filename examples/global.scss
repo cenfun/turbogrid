@@ -1,0 +1,293 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#app,
+.app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+a:link,
+a:visited {
+    color: #333;
+}
+
+pre {
+    max-width: 810px;
+    margin: 0;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f8f8f8;
+    overflow-x: auto;
+}
+
+/*
+flex
+*/
+
+.flex-row {
+    --flex-spacing: 0;
+
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex-row-5 {
+    --flex-spacing: 5px;
+}
+
+.flex-column {
+    --flex-spacing: 0;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-column-5 {
+    --flex-spacing: 5px;
+}
+
+.flex-row > * {
+    margin-left: var(--flex-spacing);
+}
+
+.flex-column > * {
+    margin-top: var(--flex-spacing);
+}
+
+.flex-row > *:first-child {
+    margin-left: 0;
+}
+
+.flex-column > *:first-child {
+    margin-top: 0;
+}
+
+.flex-center {
+    justify-content: center;
+}
+
+.flex-auto {
+    flex: 1 1 0%;
+    overflow: hidden;
+}
+
+/*
+icon
+*/
+
+.icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px 20px;
+    cursor: pointer;
+    opacity: 0.8;
+    overflow: hidden;
+}
+
+.icon:hover {
+    opacity: 1;
+}
+
+.icon-info {
+    background-image: url("./assets/images/info.svg");
+}
+
+.icon-menu {
+    background-image: url("./assets/images/menu.svg");
+}
+
+.icon-close {
+    background-image: url("./assets/images/close.svg");
+}
+
+.icon-github {
+    background-image: url("./assets/images/github.svg");
+}
+
+.icon-setting {
+    background-image: url("./assets/images/setting.svg");
+}
+
+.icon-double-up {
+    background-image: url("./assets/images/double-up.svg");
+}
+
+.icon-up {
+    background-image: url("./assets/images/up.svg");
+}
+
+.icon-double-down {
+    background-image: url("./assets/images/double-down.svg");
+}
+
+.icon-down {
+    background-image: url("./assets/images/down.svg");
+}
+
+/*
+main
+*/
+
+.main {
+    position: relative;
+    height: 100%;
+}
+
+.controller {
+    max-height: 38%;
+    padding: 5px 5px 0;
+    border-bottom: 1px solid #999;
+    overflow-y: auto;
+}
+
+.main .controller button {
+    font-size: 12px;
+}
+
+.main .controller .st-data {
+    float: right;
+    margin-right: 0;
+}
+
+.main .controller > * {
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.main .controller > *::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.main .controller > * > * {
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.main .controller > *:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.controller-title {
+    font-weight: bold;
+}
+
+/*
+    content-box fix autoHeight
+*/
+.grid-container {
+    margin: 5px;
+    box-sizing: content-box;
+    border: 1px solid #999;
+    overflow: hidden;
+}
+
+/*
+log
+*/
+
+.log-container {
+    width: 100%;
+    height: 66px;
+    border: 1px solid #999;
+    overflow: hidden auto;
+}
+
+.log-content div {
+    padding: 2px 5px;
+    color: #000;
+    font-size: 12px;
+}
+
+.log-content div span {
+    color: gray;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+/*
+form
+*/
+
+.ip-number {
+    width: 60px;
+}
+
+.ip-columns,
+.ip-rows {
+    width: 80px;
+}
+
+.tg-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tg-table tr {
+    border-bottom: 1px solid #ccc;
+}
+
+.tg-table tr:last-child {
+    border-bottom: none;
+}
+
+.tg-table tr th {
+    padding: 5px;
+    text-align: left;
+}
+
+.tg-table tr td {
+    padding: 5px;
+}
+
+.tg-table tr td label {
+    margin-right: 10px;
+}
+
+.tg-table pre {
+    margin: 0;
+}
+
+@keyframes tg-blink-fade-in {
+    from {
+        background: gray;
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.tg-blink {
+    animation-name: tg-blink-fade-in;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+}

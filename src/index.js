@@ -10,12 +10,12 @@ import ScrollPane from './components/scroll-pane.js';
 import Util from './core/util.js';
 
 const VERSION = CONST.VERSION;
-const TIMESTAMP = CONST.TIMESTAMP;
+const TAG = CONST.TAG;
 
 export {
 
     VERSION,
-    TIMESTAMP,
+    TAG,
 
     Grid,
 
@@ -32,7 +32,7 @@ export {
 export default {
 
     VERSION,
-    TIMESTAMP,
+    TAG,
 
     Grid,
 

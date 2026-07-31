@@ -366,6 +366,8 @@ export default {
             height: this.headerHeight
         });
 
+        this.autoColumnWidthDistributed = true;
+
         // blankColumn.tg_width stays 0 (already done by updateTotalColumnsWidth)
 
         // Recalculate autoHeight container height after column width distribution

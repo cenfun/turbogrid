@@ -85,6 +85,7 @@ export default {
         this.headerWidth = this.containerWidth;
         this.bodyWidth = this.containerWidth;
 
+
         // reset column width and update width for both header and body size
         if (this.options.autoColumnWidth) {
             // Reset auto-sized columns to their name-computed base widths before scroll calculation.

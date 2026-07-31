@@ -5,7 +5,7 @@ export default {
     NS: `tg-${ID}`,
 
     VERSION: window.VERSION,
-    TIMESTAMP: window.TIMESTAMP,
+    TAG: window.TAG,
 
     UP: 'up',
     DOWN: 'down',

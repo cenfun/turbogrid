@@ -17,7 +17,7 @@ TurboGrid 是一个零依赖、高性能的 JavaScript 数据表格库，专注�
 - **高性能** — 虚拟渲染可流畅处理百万级行列数据；支持行列缓存和懒加载模式
 - **零依赖** — 纯 JavaScript 实现，无任何外部运行时依赖
 - **树形数据** — 支持多级嵌套的层级行，展开/折叠，子行懒加载（`setRowSubs`）
-- **自动列宽** — 将容器剩余水平空间按比例分配到各列；固定宽度的列不参与分配；使用 `initWidth` 设置自定义基础宽度，使用 `widthWeight` 控制分配份额
+- **自动列宽** — 将容器剩余水平空间按比例分配到各列；固定宽度的列不参与分配；使用列的 `widthWeight` 控制分配份额
 - **冻结窗格** — 行列可冻结在任意边缘（上/下/左/右），支持配置冻结数量上限
 - **行操作** — 单选/多选、拖拽排序、移动、增删、行号显示
 - **排序与过滤** — 内置类型感知排序（string/number/date/boolean），自定义比较器，行过滤并支持关键字高亮
@@ -95,7 +95,7 @@ grid.render();
 
 TurboGrid 提供 100+ 公开方法、50+ 项配置和 36 种事件类型。完整且持续更新的 API 参考：
 
-[https://cenfun.github.io/turbogrid/api-zh.html](https://cenfun.github.io/turbogrid/api-zh.html)
+[https://cenfun.github.io/turbogrid/#/api-doc-zh](https://cenfun.github.io/turbogrid/#/api-doc-zh)
 
 API 涵盖：
 
@@ -104,84 +104,79 @@ API 涵盖：
 - **事件** — 生命周期（`onUpdated`、`onDestroy`）、交互（`onClick`、`onSort`、`onKeyDown`）、滚动、选择、拖拽
 - **数据结构** — 列项、行项及内部属性（`tg_*` 命名空间）
 
-## Demo 导航
-
-在线文档首页：[https://cenfun.github.io/turbogrid/](https://cenfun.github.io/turbogrid/)
-
 ### 基础与性能
 
-- [async](https://cenfun.github.io/turbogrid/async.html)
-- [auto-height](https://cenfun.github.io/turbogrid/auto-height.html)
-- [cache](https://cenfun.github.io/turbogrid/cache.html)
-- [loading](https://cenfun.github.io/turbogrid/loading.html)
-- [lifecycle](https://cenfun.github.io/turbogrid/lifecycle.html)
-- [multiple-instance](https://cenfun.github.io/turbogrid/multiple-instance.html)
-- [online-render](https://cenfun.github.io/turbogrid/online-render.html)
-- [performance-test](https://cenfun.github.io/turbogrid/performance-test.html)
-- [resize](https://cenfun.github.io/turbogrid/resize.html)
-- [scroll](https://cenfun.github.io/turbogrid/scroll.html)
-- [scrollbar](https://cenfun.github.io/turbogrid/scrollbar.html)
-- [touch](https://cenfun.github.io/turbogrid/touch.html)
+- [async](https://cenfun.github.io/turbogrid/#/async)
+- [auto-height](https://cenfun.github.io/turbogrid/#/auto-height)
+- [cache](https://cenfun.github.io/turbogrid/#/cache)
+- [loading](https://cenfun.github.io/turbogrid/#/loading)
+- [lifecycle](https://cenfun.github.io/turbogrid/#/lifecycle)
+- [multiple-instance](https://cenfun.github.io/turbogrid/#/multiple-instance)
+- [online-render](https://cenfun.github.io/turbogrid/#/online-render)
+- [performance-test](https://cenfun.github.io/turbogrid/#/performance-test)
+- [resize](https://cenfun.github.io/turbogrid/#/resize)
+- [scroll](https://cenfun.github.io/turbogrid/#/scroll)
+- [scrollbar](https://cenfun.github.io/turbogrid/#/scrollbar)
+- [touch](https://cenfun.github.io/turbogrid/#/touch)
 
 ### 行与数据操作
 
-- [load-rows](https://cenfun.github.io/turbogrid/load-rows.html)
-- [load-subs](https://cenfun.github.io/turbogrid/load-subs.html)
-- [set-rows](https://cenfun.github.io/turbogrid/set-rows.html)
-- [row-add-delete](https://cenfun.github.io/turbogrid/row-add-delete.html)
-- [row-collapse](https://cenfun.github.io/turbogrid/row-collapse.html)
-- [row-drag](https://cenfun.github.io/turbogrid/row-drag.html)
-- [row-filter](https://cenfun.github.io/turbogrid/row-filter.html)
-- [row-height](https://cenfun.github.io/turbogrid/row-height.html)
-- [row-hover](https://cenfun.github.io/turbogrid/row-hover.html)
-- [row-move](https://cenfun.github.io/turbogrid/row-move.html)
-- [row-not-found](https://cenfun.github.io/turbogrid/row-not-found.html)
-- [row-number](https://cenfun.github.io/turbogrid/row-number.html)
-- [row-select](https://cenfun.github.io/turbogrid/row-select.html)
-- [row-select-group](https://cenfun.github.io/turbogrid/row-select-group.html)
-- [row-select-limit](https://cenfun.github.io/turbogrid/row-select-limit.html)
-- [pagination](https://cenfun.github.io/turbogrid/pagination.html)
-- [infinite-scroll](https://cenfun.github.io/turbogrid/infinite-scroll.html)
+- [load-rows](https://cenfun.github.io/turbogrid/#/load-rows)
+- [load-subs](https://cenfun.github.io/turbogrid/#/load-subs)
+- [set-rows](https://cenfun.github.io/turbogrid/#/set-rows)
+- [row-add-delete](https://cenfun.github.io/turbogrid/#/row-add-delete)
+- [row-collapse](https://cenfun.github.io/turbogrid/#/row-collapse)
+- [row-drag](https://cenfun.github.io/turbogrid/#/row-drag)
+- [row-filter](https://cenfun.github.io/turbogrid/#/row-filter)
+- [row-height](https://cenfun.github.io/turbogrid/#/row-height)
+- [row-hover](https://cenfun.github.io/turbogrid/#/row-hover)
+- [row-move](https://cenfun.github.io/turbogrid/#/row-move)
+- [row-not-found](https://cenfun.github.io/turbogrid/#/row-not-found)
+- [row-number](https://cenfun.github.io/turbogrid/#/row-number)
+- [row-select](https://cenfun.github.io/turbogrid/#/row-select)
+- [row-select-group](https://cenfun.github.io/turbogrid/#/row-select-group)
+- [row-select-limit](https://cenfun.github.io/turbogrid/#/row-select-limit)
+- [pagination](https://cenfun.github.io/turbogrid/#/pagination)
+- [infinite-scroll](https://cenfun.github.io/turbogrid/#/infinite-scroll)
 
 ### 列、表头与冻结
 
-- [auto-column-width](https://cenfun.github.io/turbogrid/auto-column-width.html)
-- [column-add-delete](https://cenfun.github.io/turbogrid/column-add-delete.html)
-- [column-display](https://cenfun.github.io/turbogrid/column-display.html)
-- [column-set](https://cenfun.github.io/turbogrid/column-set.html)
-- [header-display](https://cenfun.github.io/turbogrid/header-display.html)
-- [header-group](https://cenfun.github.io/turbogrid/header-group.html)
-- [frozen](https://cenfun.github.io/turbogrid/frozen.html)
-- [frozen-middle](https://cenfun.github.io/turbogrid/frozen-middle.html)
+- [column-add-delete](https://cenfun.github.io/turbogrid/#/column-add-delete)
+- [column-display](https://cenfun.github.io/turbogrid/#/column-display)
+- [column-set](https://cenfun.github.io/turbogrid/#/column-set)
+- [header-display](https://cenfun.github.io/turbogrid/#/header-display)
+- [header-group](https://cenfun.github.io/turbogrid/#/header-group)
+- [frozen](https://cenfun.github.io/turbogrid/#/frozen)
+- [frozen-middle](https://cenfun.github.io/turbogrid/#/frozen-middle)
 
 ### 渲染、样式与 UI 扩展
 
-- [formatter](https://cenfun.github.io/turbogrid/formatter.html)
-- [load-cells](https://cenfun.github.io/turbogrid/load-cells.html)
-- [negative-number](https://cenfun.github.io/turbogrid/negative-number.html)
-- [skeleton-screen](https://cenfun.github.io/turbogrid/skeleton-screen.html)
-- [style](https://cenfun.github.io/turbogrid/style.html)
-- [tooltip](https://cenfun.github.io/turbogrid/tooltip.html)
-- [popover](https://cenfun.github.io/turbogrid/popover.html)
-- [context-menu](https://cenfun.github.io/turbogrid/context-menu.html)
+- [formatter](https://cenfun.github.io/turbogrid/#/formatter)
+- [load-cells](https://cenfun.github.io/turbogrid/#/load-cells)
+- [negative-number](https://cenfun.github.io/turbogrid/#/negative-number)
+- [skeleton-screen](https://cenfun.github.io/turbogrid/#/skeleton-screen)
+- [style](https://cenfun.github.io/turbogrid/#/style)
+- [tooltip](https://cenfun.github.io/turbogrid/#/tooltip)
+- [popover](https://cenfun.github.io/turbogrid/#/popover)
+- [context-menu](https://cenfun.github.io/turbogrid/#/context-menu)
 
 ### 排序、导出与高级场景
 
-- [sort](https://cenfun.github.io/turbogrid/sort.html)
-- [export](https://cenfun.github.io/turbogrid/export.html)
-- [events](https://cenfun.github.io/turbogrid/events.html)
-- [comfyui](https://cenfun.github.io/turbogrid/comfyui.html)
-- [poc](https://cenfun.github.io/turbogrid/poc.html)
-- [snake-game](https://cenfun.github.io/turbogrid/snake-game.html)
-- [conflict](https://cenfun.github.io/turbogrid/conflict.html)
-- [other](https://cenfun.github.io/turbogrid/other.html)
+- [sort](https://cenfun.github.io/turbogrid/#/sort)
+- [export](https://cenfun.github.io/turbogrid/#/export)
+- [events](https://cenfun.github.io/turbogrid/#/events)
+- [comfyui](https://cenfun.github.io/turbogrid/#/comfyui)
+- [poc](https://cenfun.github.io/turbogrid/#/poc)
+- [snake-game](https://cenfun.github.io/turbogrid/#/snake-game)
+- [conflict](https://cenfun.github.io/turbogrid/#/conflict)
+- [other](https://cenfun.github.io/turbogrid/#/other)
 
 ### 框架集成
 
-- [vue-integration](https://cenfun.github.io/turbogrid/vue-integration.html)
-- [vue-component](https://cenfun.github.io/turbogrid/vue-component.html)
-- [vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html)
-- [custom-element](https://cenfun.github.io/turbogrid/custom-element.html)
+- [vue-integration](https://cenfun.github.io/turbogrid/#/vue-integration)
+- [vue-component](https://cenfun.github.io/turbogrid/#/vue-component)
+- [vue-editor](https://cenfun.github.io/turbogrid/#/vue-editor)
+- [custom-element](https://cenfun.github.io/turbogrid/#/custom-element)
 - React：支持基于容器的集成方式（参见下方 [Vue / React 集成](#vue--react-集成)）
 
 ## 移动端 / 触摸支持
@@ -194,7 +189,7 @@ TurboGrid 内置移动端支持，无需额外适配层。
 - 触屏下同样支持冻结行列
 - 触摸事件可与 `onClick`、`onMouseWheel` 及冻结窗格选项组合使用，兼容混合设备
 
-查看在线示例了解配置方式：[touch](https://cenfun.github.io/turbogrid/touch.html)
+查看在线示例了解配置方式：[touch](https://cenfun.github.io/turbogrid/#/touch)
 
 ## Vue / React 集成
 
@@ -202,7 +197,7 @@ TurboGrid 与框架无关 — 传入容器创建实例，更新 data/options，�
 
 ### Vue
 
-仓库已提供 Vue 示例：[vue-integration](https://cenfun.github.io/turbogrid/vue-integration.html)、[vue-component](https://cenfun.github.io/turbogrid/vue-component.html)、[vue-editor](https://cenfun.github.io/turbogrid/vue-editor.html)。
+仓库已提供 Vue 示例：[vue-integration](https://cenfun.github.io/turbogrid/#/vue-integration)、[vue-component](https://cenfun.github.io/turbogrid/#/vue-component)、[vue-editor](https://cenfun.github.io/turbogrid/#/vue-editor)。
 
 ```js
 import { onMounted, onBeforeUnmount, ref } from 'vue';
@@ -294,8 +289,7 @@ TurboGrid 支持各层级的深度定制：
 
 ## 项目链接
 
-- 文档：[https://cenfun.github.io/turbogrid/](https://cenfun.github.io/turbogrid/)
-- API: [https://cenfun.github.io/turbogrid/api-zh.html](https://cenfun.github.io/turbogrid/api-zh.html)
+- 文档：[https://cenfun.github.io/turbogrid/#/api-doc-zh](https://cenfun.github.io/turbogrid/#/api-doc-zh)
 - NPM: [https://www.npmjs.com/package/turbogrid](https://www.npmjs.com/package/turbogrid)
 
 ## 相关项目

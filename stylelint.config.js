@@ -1,11 +1,3 @@
-module.exports = {
-    extends: ['stylelint-config-plus'],
-    rules: {
-        'at-rule-no-unknown': [true, {
-            ignoreAtRules: [
-                'use',
-                'extend'
-            ]
-        }]
-    }
+export default {
+    extends: ['stylelint-config-plus']
 };

@@ -1,24 +1,32 @@
 // https://eslint.org/docs/rules/
 
-const plus = require('eslint-config-plus');
-const html = require('eslint-plugin-html');
+import plus from 'eslint-config-plus';
+import vue from 'eslint-plugin-vue';
 
 // https://eslint.org/docs/latest/use/configure/configuration-files
-module.exports = [
+export default [
     {
+        ignores: [
+            'dist',
+            'node_modules',
+            '.temp'
+        ],
         languageOptions: {
             globals: {
-                delay: false,
-                assert: false,
-                page: false
+                delay: 'readonly',
+                assert: 'readonly',
+                page: 'readonly'
             }
         }
     },
+    plus,
+    ... vue.configs['flat/recommended'],
     {
-        files: ['**/*.html'],
-        plugins: {
-            html
+        rules: {
+            'max-len': 'off',
+            'vue/no-v-html': 'off',
+            'vue/multi-word-component-names': 'off',
+            'vue/require-explicit-emits': 'error'
         }
-    },
-    plus
+    }
 ];

@@ -2,6 +2,7 @@
     "name": "turbogrid",
     "version": "3.3.5",
     "description": "A high-performance JavaScript data grid library with zero dependencies",
+    "type": "module",
     "main": "dist/turbogrid.js",
     "module": "dist/turbogrid.esm.js",
     "exports": {
@@ -15,12 +16,14 @@
     },
     "types": "dist/turbogrid.d.ts",
     "scripts": {
-        "dev": "sf dev",
-        "test": "sf test",
-        "lint": "sf lint",
-        "build": "sf lint && sf b -e -p patch",
-        "patch": "npm run build && sf publish patch",
-        "pack": "sf pack -o docs"
+        "dev": "vite",
+        "test": "node scripts/test.js",
+        "lint": "eslint src/ && stylelint src/**/*.scss",
+        "build": "npm run lint && vite build",
+        "version": "npm run build",
+        "publish": "node ./scripts/publish.js",
+        "docs": "vite build --mode docs",
+        "docs:preview": "vite preview --mode docs"
     },
     "files": [
         "dist",
@@ -33,11 +36,24 @@
     },
     "dependencies": {},
     "devDependencies": {
-        "eslint": "^10.7.0",
+        "@vitejs/plugin-vue": "^6.0.8",
+        "chai": "^6.2.2",
+        "eight-colors": "^1.3.3",
+        "eslint": "^10.8.0",
         "eslint-config-plus": "^2.0.4",
-        "eslint-plugin-html": "^8.1.4",
+        "eslint-plugin-vue": "^10.10.0",
+        "execa": "^9.6.0",
+        "mocha": "^11.7.6",
+        "monocart-coverage-reports": "^2.12.12",
+        "playwright": "^1.62.0",
+        "prismjs": "^1.30.0",
+        "sass": "^1.102.0",
         "stylelint": "^17.14.1",
         "stylelint-config-plus": "^1.1.6",
-        "vine-ui": "^3.1.18"
+        "vine-ui": "^3.1.18",
+        "vite": "^8.1.5",
+        "vue": "^3.5.40",
+        "vue-eslint-parser": "^10.4.1",
+        "vue-router": "^5.2.0"
     }
 }

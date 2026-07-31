@@ -1,0 +1,4 @@
+<svg class="tg-icon-tree" pointer-events="none" viewBox="0 0 20 20">
+    <path class="tg-tree-item tg-tree-collapsed" fill="currentColor" d="M0,0 l20,10 l-20,10 z" />
+    <path class="tg-tree-item tg-tree-expanded" fill="currentColor" d="M0,0 l10,20 l10,-20 z" />
+</svg>

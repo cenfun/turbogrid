@@ -8,9 +8,6 @@
         <a href="#/api-doc-zh?position=events">事件</a>
         <a href="#/api-doc-zh?position=lifecycle">生命周期</a>
       </div>
-      <div class="api-language">
-        <a href="#/api-doc">English</a>
-      </div>
     </div>
     <div class="api-container flex-auto">
       <details
@@ -1550,224 +1547,224 @@
         <section>
           <table class="api-table api-table-zebra">
             <thead>
-            <tr>
-              <th>事件类型</th>
-              <th>事件数据</th>
-              <th>示例</th>
-            </tr>
+              <tr>
+                <th>事件类型</th>
+                <th>事件数据</th>
+                <th>示例</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>
-                <section>
-                  <a name="onUpdated">onUpdated</a>
-                  <a name="onFirstUpdated">onFirstUpdated</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onUpdated">onUpdated</a>
+                    <a name="onFirstUpdated">onFirstUpdated</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：viewport
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onHeaderUpdated">onHeaderUpdated</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onHeaderUpdated">onHeaderUpdated</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             node: headerNode
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onSort">onSort</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onSort">onSort</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                     对象：{
                                         e,
                                         columnItem,
                                         node: headerItemNode
                                     }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/sort"
-                    target="_blank"
-                  >行排序</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/sort"
+                      target="_blank"
+                    >行排序</a>
+                  </div>
+                </td>
+              </tr>
 
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onColumnAdded">onColumnAdded</a>
-                  <a name="onColumnRemoved">onColumnRemoved</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onColumnAdded">onColumnAdded</a>
+                    <a name="onColumnRemoved">onColumnRemoved</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         数组：[columnItem ...]
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/column-add-delete"
-                    target="_blank"
-                  >列新增/删除</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/column-add-delete"
+                      target="_blank"
+                    >列新增/删除</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onColumnWidthChanged">onColumnWidthChanged</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onColumnWidthChanged">onColumnWidthChanged</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：columnItem
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onRowAdded">onRowAdded</a>
-                  <a name="onRowRemoved">onRowRemoved</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onRowAdded">onRowAdded</a>
+                    <a name="onRowRemoved">onRowRemoved</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         数组：[rowItem ...]
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/row-add-delete"
-                    target="_blank"
-                  >行新增/删除</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/row-add-delete"
+                      target="_blank"
+                    >行新增/删除</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onRowExpanded">onRowExpanded</a>
-                  <a name="onRowCollapsed">onRowCollapsed</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onRowExpanded">onRowExpanded</a>
+                    <a name="onRowCollapsed">onRowCollapsed</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：rowItem
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onRowSubsRequest">onRowSubsRequest</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onRowSubsRequest">onRowSubsRequest</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：rowItem
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/load-subs"
-                    target="_blank"
-                  >动态加载子项</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/load-subs"
+                      target="_blank"
+                    >动态加载子项</a>
+                  </div>
+                </td>
+              </tr>
 
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onRowDragged">onRowDragged</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onRowDragged">onRowDragged</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             e,
                                             rowItem
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/row-drag"
-                    target="_blank"
-                  >行拖拽</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <section>
-                  <a name="onRowDropped">onRowDropped</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/row-drag"
+                      target="_blank"
+                    >行拖拽</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <section>
+                    <a name="onRowDropped">onRowDropped</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             rowItem,
                                             dragFrom,
@@ -1776,93 +1773,93 @@
                                             dropIndex
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/row-drag"
-                    target="_blank"
-                  >行拖拽</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/row-drag"
+                      target="_blank"
+                    >行拖拽</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onRowMoved">onRowMoved</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onRowMoved">onRowMoved</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         数组：[rowItem ...]
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/row-move"
-                    target="_blank"
-                  >行移动</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/row-move"
+                      target="_blank"
+                    >行移动</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onRowMouseEnter">onRowMouseEnter</a>
-                  <a name="onRowMouseLeave">onRowMouseLeave</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onRowMouseEnter">onRowMouseEnter</a>
+                    <a name="onRowMouseLeave">onRowMouseLeave</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             e,
                                             rowItem
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onSelectChanged">onSelectChanged</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onSelectChanged">onSelectChanged</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         数组：[rowItem ...]
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/row-select"
-                    target="_blank"
-                  >行选择</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/row-select"
+                      target="_blank"
+                    >行选择</a>
+                  </div>
+                </td>
+              </tr>
 
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onCellUpdated">onCellUpdated</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onCellUpdated">onCellUpdated</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             value,
                                             rowItem,
@@ -1870,26 +1867,26 @@
                                             node: cellNode
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onCellMouseEnter">onCellMouseEnter</a>
-                  <a name="onCellMouseLeave">onCellMouseLeave</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onCellMouseEnter">onCellMouseEnter</a>
+                    <a name="onCellMouseLeave">onCellMouseLeave</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             e,
                                             rowItem,
@@ -1898,29 +1895,29 @@
                                             cellNode
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onClick">onClick</a>
-                  <a name="onDblClick">onDblClick</a>
-                  <a name="onContextMenu">onContextMenu</a>
-                  <a name="onMouseOver">onMouseOver</a>
-                  <a name="onMouseOut">onMouseOut</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onClick">onClick</a>
+                    <a name="onDblClick">onDblClick</a>
+                    <a name="onContextMenu">onContextMenu</a>
+                    <a name="onMouseOver">onMouseOver</a>
+                    <a name="onMouseOut">onMouseOut</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         // 表头区域
                                         对象：{
                                             e,
@@ -1936,27 +1933,27 @@
                                             cellNode
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onTouchStart">onTouchStart</a>
-                  <a name="onTouchMove">onTouchMove</a>
-                  <a name="onTouchEnd">onTouchEnd</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onTouchStart">onTouchStart</a>
+                    <a name="onTouchMove">onTouchMove</a>
+                    <a name="onTouchEnd">onTouchEnd</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         // 表头区域
                                         对象：{
                                             e,
@@ -1972,123 +1969,123 @@
                                             cellNode?
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/touch"
-                    target="_blank"
-                  >触摸</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/touch"
+                      target="_blank"
+                    >触摸</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onScroll">onScroll</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onScroll">onScroll</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             scrollLeft,
                                             scrollTop
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/scroll"
-                    target="_blank"
-                  >滚动</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/scroll"
+                      target="_blank"
+                    >滚动</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onScrollStateChanged">onScrollStateChanged</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onScrollStateChanged">onScrollStateChanged</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                     对象：{
                                         hasHScroll,
                                         hasVScroll
                                     }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onMouseWheel">onMouseWheel</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onMouseWheel">onMouseWheel</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                     对象：{
                                         e,
                                         deltaX,
                                         deltaY
                                     }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/scroll"
-                    target="_blank"
-                  >滚动</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/scroll"
+                      target="_blank"
+                    >滚动</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onResize">onResize</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onResize">onResize</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             previous: 对象,
                                             width: 数字,
                                             height: 数字
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/resize"
-                    target="_blank"
-                  >尺寸调整</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/resize"
+                      target="_blank"
+                    >尺寸调整</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onLayout">onLayout</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onLayout">onLayout</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             previous: 对象,
                                             headerWidth: 数字,
@@ -2099,58 +2096,58 @@
                                             scrollbarHeight: 数字
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/resize"
-                    target="_blank"
-                  >尺寸调整</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/resize"
+                      target="_blank"
+                    >尺寸调整</a>
+                  </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onKeyDown">onKeyDown</a>
-                </section>
-              </td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>
+                  <section>
+                    <a name="onKeyDown">onKeyDown</a>
+                  </section>
+                </td>
+                <td>
+                  <pre><code class="language-js">
                                         对象：{
                                             e
                                         }
                                     </code></pre>
-              </td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/events"
-                    target="_blank"
-                  >事件</a>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/events"
+                      target="_blank"
+                    >事件</a>
+                  </div>
+                </td>
+              </tr>
 
 
-            <tr>
-              <td>
-                <section>
-                  <a name="onDestroy">onDestroy</a>
-                </section>
-              </td>
-              <td>无</td>
-              <td>
-                <div>
-                  示例 <a
-                    href="#/flush"
-                    target="_blank"
-                  >刷新</a>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+              <tr>
+                <td>
+                  <section>
+                    <a name="onDestroy">onDestroy</a>
+                  </section>
+                </td>
+                <td>无</td>
+                <td>
+                  <div>
+                    示例 <a
+                      href="#/flush"
+                      target="_blank"
+                    >刷新</a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </section>
       </details>
@@ -2166,105 +2163,105 @@
         <section>
           <table class="api-table">
             <thead>
-            <tr>
-              <th>阶段</th>
-              <th colspan="2">
-                子阶段
-              </th>
-              <th>负载</th>
-              <th>可用能力</th>
-              <th />
-            </tr>
+              <tr>
+                <th>阶段</th>
+                <th colspan="2">
+                  子阶段
+                </th>
+                <th>负载</th>
+                <th>可用能力</th>
+                <th />
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>创建</td>
-              <td colspan="2">
-                <div>在容器内创建样式和 DOM 结构。</div>
-                <div>应用初始数据。</div>
-                <div>应用初始配置。</div>
-                <div>注册初始格式化器。</div>
-                <div>绑定初始事件处理函数。</div>
-              </td>
-              <td>低</td>
-              <td>加载相关 API</td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>创建</td>
+                <td colspan="2">
+                  <div>在容器内创建样式和 DOM 结构。</div>
+                  <div>应用初始数据。</div>
+                  <div>应用初始配置。</div>
+                  <div>注册初始格式化器。</div>
+                  <div>绑定初始事件处理函数。</div>
+                </td>
+                <td>低</td>
+                <td>加载相关 API</td>
+                <td>
+                  <pre><code class="language-js">
                                         const grid = new Grid(container);
                                         grid.setData(data);
                                         grid.setOption(options);
                                         grid.setFormatter(formatters);
                                         grid.bind("[事件类型]", handler);
                                     </code></pre>
-              </td>
-            </tr>
-            <tr>
-              <td rowspan="4">
-                渲染
-              </td>
-              <td colspan="2">
-                初始化配置
-              </td>
-              <td>低</td>
-              <td rowspan="5">
-                全部 API
-              </td>
-              <td rowspan="4">
-                <pre><code class="language-js">
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="4">
+                  渲染
+                </td>
+                <td colspan="2">
+                  初始化配置
+                </td>
+                <td>低</td>
+                <td rowspan="5">
+                  全部 API
+                </td>
+                <td rowspan="4">
+                  <pre><code class="language-js">
                                         grid.render();
                                         grid.rerender();
                                     </code></pre>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                渲染表头
-              </td>
-              <td>中</td>
-            </tr>
-            <tr>
-              <td rowspan="2">
-                渲染主体
-              </td>
-              <td>渲染行</td>
-              <td>中</td>
-            </tr>
-            <tr>
-              <td>渲染单元格</td>
-              <td>高</td>
-            </tr>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  渲染表头
+                </td>
+                <td>中</td>
+              </tr>
+              <tr>
+                <td rowspan="2">
+                  渲染主体
+                </td>
+                <td>渲染行</td>
+                <td>中</td>
+              </tr>
+              <tr>
+                <td>渲染单元格</td>
+                <td>高</td>
+              </tr>
 
-            <tr>
-              <td>更新</td>
-              <td colspan="2">
-                <div>更新表格主体。</div>
-                <div>更新一行或多行。</div>
-                <div>更新一个或多个单元格。</div>
-              </td>
-              <td />
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>更新</td>
+                <td colspan="2">
+                  <div>更新表格主体。</div>
+                  <div>更新一行或多行。</div>
+                  <div>更新一个或多个单元格。</div>
+                </td>
+                <td />
+                <td>
+                  <pre><code class="language-js">
                                         grid.update();
                                         grid.updateRow(rowIndex, rowData);
                                         grid.updateCell(rowIndex, columnIndex, cellValue);
                                     </code></pre>
-              </td>
-            </tr>
+                </td>
+              </tr>
 
-            <tr>
-              <td>销毁</td>
-              <td colspan="2">
-                移除全部内容
-              </td>
-              <td>低</td>
-              <td>无</td>
-              <td>
-                <pre><code class="language-js">
+              <tr>
+                <td>销毁</td>
+                <td colspan="2">
+                  移除全部内容
+                </td>
+                <td>低</td>
+                <td>无</td>
+                <td>
+                  <pre><code class="language-js">
                                         grid.destroy();
                                     </code></pre>
-              </td>
-            </tr>
-          </tbody>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </section>
       </details>
@@ -2302,89 +2299,89 @@
           <div><b>行属性 (rowItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
             <thead>
-            <tr>
-              <th>属性</th>
-              <th>类型</th>
-              <th>说明</th>
-            </tr>
+              <tr>
+                <th>属性</th>
+                <th>类型</th>
+                <th>说明</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>tg_index</td>
-              <td>Number</td>
-              <td>行在完整数据树中的全局索引（包含不可见行）。</td>
-            </tr>
-            <tr>
-              <td>tg_view_index</td>
-              <td>Number</td>
-              <td>行在可见列表中的索引。仅对可见行设置。</td>
-            </tr>
-            <tr>
-              <td>tg_sub_index</td>
-              <td>Number</td>
-              <td>在父节点 subs 数组中的索引（包含不可见行）。</td>
-            </tr>
-            <tr>
-              <td>tg_list_index</td>
-              <td>Number</td>
-              <td>在同一父节点的可见子列表中的索引。</td>
-            </tr>
-            <tr>
-              <td>tg_parent</td>
-              <td>Object | undefined</td>
-              <td>指向父行的引用。根级行为 undefined。</td>
-            </tr>
-            <tr>
-              <td>tg_level</td>
-              <td>Number</td>
-              <td>在树形层级中的嵌套深度。根级行为 0。</td>
-            </tr>
-            <tr>
-              <td>tg_group</td>
-              <td>Boolean</td>
-              <td>如果行拥有 subs 数组（即分组/父节点），则为 true。</td>
-            </tr>
-            <tr>
-              <td>tg_subs_length</td>
-              <td>Number</td>
-              <td>行的 subs 数组中直接子节点的数量。</td>
-            </tr>
-            <tr>
-              <td>tg_frozen</td>
-              <td>Boolean</td>
-              <td>如果行处于冻结区域，则为 true。</td>
-            </tr>
-            <tr>
-              <td>tg_invisible</td>
-              <td>Boolean</td>
-              <td>如果行通过 hideRow() 或 invisible 属性被隐藏，则为 true。</td>
-            </tr>
-            <tr>
-              <td>tg_filtered</td>
-              <td>Boolean</td>
-              <td>如果行被 <a href="#/api-doc-zh?position=options.rowFilter">rowFilter</a> 函数过滤隐藏，则为 true。</td>
-            </tr>
-            <tr>
-              <td>tg_row_number</td>
-              <td>String | Number</td>
-              <td>显示用行号（不适用时为空字符串）。</td>
-            </tr>
-            <tr>
-              <td>tg_selected_index</td>
-              <td>Number</td>
-              <td>行被选中的顺序索引。</td>
-            </tr>
-            <tr>
-              <td>tg_top</td>
-              <td>Number</td>
-              <td>行渲染时的顶部偏移位置（像素）。</td>
-            </tr>
-            <tr>
-              <td>tg_height</td>
-              <td>Number</td>
-              <td>行的实际渲染高度（像素）。</td>
-            </tr>
-          </tbody>
+              <tr>
+                <td>tg_index</td>
+                <td>Number</td>
+                <td>行在完整数据树中的全局索引（包含不可见行）。</td>
+              </tr>
+              <tr>
+                <td>tg_view_index</td>
+                <td>Number</td>
+                <td>行在可见列表中的索引。仅对可见行设置。</td>
+              </tr>
+              <tr>
+                <td>tg_sub_index</td>
+                <td>Number</td>
+                <td>在父节点 subs 数组中的索引（包含不可见行）。</td>
+              </tr>
+              <tr>
+                <td>tg_list_index</td>
+                <td>Number</td>
+                <td>在同一父节点的可见子列表中的索引。</td>
+              </tr>
+              <tr>
+                <td>tg_parent</td>
+                <td>Object | undefined</td>
+                <td>指向父行的引用。根级行为 undefined。</td>
+              </tr>
+              <tr>
+                <td>tg_level</td>
+                <td>Number</td>
+                <td>在树形层级中的嵌套深度。根级行为 0。</td>
+              </tr>
+              <tr>
+                <td>tg_group</td>
+                <td>Boolean</td>
+                <td>如果行拥有 subs 数组（即分组/父节点），则为 true。</td>
+              </tr>
+              <tr>
+                <td>tg_subs_length</td>
+                <td>Number</td>
+                <td>行的 subs 数组中直接子节点的数量。</td>
+              </tr>
+              <tr>
+                <td>tg_frozen</td>
+                <td>Boolean</td>
+                <td>如果行处于冻结区域，则为 true。</td>
+              </tr>
+              <tr>
+                <td>tg_invisible</td>
+                <td>Boolean</td>
+                <td>如果行通过 hideRow() 或 invisible 属性被隐藏，则为 true。</td>
+              </tr>
+              <tr>
+                <td>tg_filtered</td>
+                <td>Boolean</td>
+                <td>如果行被 <a href="#/api-doc-zh?position=options.rowFilter">rowFilter</a> 函数过滤隐藏，则为 true。</td>
+              </tr>
+              <tr>
+                <td>tg_row_number</td>
+                <td>String | Number</td>
+                <td>显示用行号（不适用时为空字符串）。</td>
+              </tr>
+              <tr>
+                <td>tg_selected_index</td>
+                <td>Number</td>
+                <td>行被选中的顺序索引。</td>
+              </tr>
+              <tr>
+                <td>tg_top</td>
+                <td>Number</td>
+                <td>行渲染时的顶部偏移位置（像素）。</td>
+              </tr>
+              <tr>
+                <td>tg_height</td>
+                <td>Number</td>
+                <td>行的实际渲染高度（像素）。</td>
+              </tr>
+            </tbody>
           </table>
         </section>
 
@@ -2392,79 +2389,79 @@
           <div><b>列属性 (columnItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
             <thead>
-            <tr>
-              <th>属性</th>
-              <th>类型</th>
-              <th>说明</th>
-            </tr>
+              <tr>
+                <th>属性</th>
+                <th>类型</th>
+                <th>说明</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>tg_index</td>
-              <td>Number</td>
-              <td>列在完整列树中的全局索引。</td>
-            </tr>
-            <tr>
-              <td>tg_view_index</td>
-              <td>Number</td>
-              <td>列在可见列表中的索引。仅对可见列设置。</td>
-            </tr>
-            <tr>
-              <td>tg_sub_index</td>
-              <td>Number</td>
-              <td>在父分组的 subs 数组中的索引。</td>
-            </tr>
-            <tr>
-              <td>tg_list_index</td>
-              <td>Number</td>
-              <td>在同一父分组的可见子列表中的索引。</td>
-            </tr>
-            <tr>
-              <td>tg_parent</td>
-              <td>Object | undefined</td>
-              <td>指向父列分组的引用。顶级列为 undefined。</td>
-            </tr>
-            <tr>
-              <td>tg_group</td>
-              <td>Boolean</td>
-              <td>如果列拥有 subs 数组（即表头分组），则为 true。</td>
-            </tr>
-            <tr>
-              <td>tg_subs_length</td>
-              <td>Number</td>
-              <td>分组中直接子列的数量。</td>
-            </tr>
-            <tr>
-              <td>tg_frozen</td>
-              <td>Boolean</td>
-              <td>如果列处于冻结区域，则为 true。</td>
-            </tr>
-            <tr>
-              <td>tg_invisible</td>
-              <td>Boolean</td>
-              <td>如果列通过 <a href="#/api-doc-zh?position=hideColumn">hideColumn()</a> 或 invisible 属性被隐藏，则为 true。</td>
-            </tr>
-            <tr>
-              <td>tg_width</td>
-              <td>Number</td>
-              <td>列的实际渲染宽度（像素）。</td>
-            </tr>
-            <tr>
-              <td>tg_left</td>
-              <td>Number</td>
-              <td>列的左侧偏移位置（像素）。</td>
-            </tr>
-            <tr>
-              <td>tg_height</td>
-              <td>Number</td>
-              <td>列表头单元格的高度（像素）。</td>
-            </tr>
-            <tr>
-              <td>tg_layer</td>
-              <td>Number</td>
-              <td>表头布局的反向层级索引（0 = 最底层）。用于分组表头。</td>
-            </tr>
-          </tbody>
+              <tr>
+                <td>tg_index</td>
+                <td>Number</td>
+                <td>列在完整列树中的全局索引。</td>
+              </tr>
+              <tr>
+                <td>tg_view_index</td>
+                <td>Number</td>
+                <td>列在可见列表中的索引。仅对可见列设置。</td>
+              </tr>
+              <tr>
+                <td>tg_sub_index</td>
+                <td>Number</td>
+                <td>在父分组的 subs 数组中的索引。</td>
+              </tr>
+              <tr>
+                <td>tg_list_index</td>
+                <td>Number</td>
+                <td>在同一父分组的可见子列表中的索引。</td>
+              </tr>
+              <tr>
+                <td>tg_parent</td>
+                <td>Object | undefined</td>
+                <td>指向父列分组的引用。顶级列为 undefined。</td>
+              </tr>
+              <tr>
+                <td>tg_group</td>
+                <td>Boolean</td>
+                <td>如果列拥有 subs 数组（即表头分组），则为 true。</td>
+              </tr>
+              <tr>
+                <td>tg_subs_length</td>
+                <td>Number</td>
+                <td>分组中直接子列的数量。</td>
+              </tr>
+              <tr>
+                <td>tg_frozen</td>
+                <td>Boolean</td>
+                <td>如果列处于冻结区域，则为 true。</td>
+              </tr>
+              <tr>
+                <td>tg_invisible</td>
+                <td>Boolean</td>
+                <td>如果列通过 <a href="#/api-doc-zh?position=hideColumn">hideColumn()</a> 或 invisible 属性被隐藏，则为 true。</td>
+              </tr>
+              <tr>
+                <td>tg_width</td>
+                <td>Number</td>
+                <td>列的实际渲染宽度（像素）。</td>
+              </tr>
+              <tr>
+                <td>tg_left</td>
+                <td>Number</td>
+                <td>列的左侧偏移位置（像素）。</td>
+              </tr>
+              <tr>
+                <td>tg_height</td>
+                <td>Number</td>
+                <td>列表头单元格的高度（像素）。</td>
+              </tr>
+              <tr>
+                <td>tg_layer</td>
+                <td>Number</td>
+                <td>表头布局的反向层级索引（0 = 最底层）。用于分组表头。</td>
+              </tr>
+            </tbody>
           </table>
         </section>
 

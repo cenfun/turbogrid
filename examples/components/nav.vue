@@ -53,11 +53,15 @@ const update = () => {
 
     grid.bind('onClick', (e, d) => {
         const rowItem = d.rowItem;
-        const id = rowItem.id;
+        let id = rowItem.id;
 
         if (!id) {
             grid.toggleRow(rowItem);
             return;
+        }
+
+        if (d.e.target.closest('.tg-row-api-doc-zh')) {
+            id = 'api-doc-zh';
         }
 
         router.push({
@@ -85,8 +89,6 @@ const update = () => {
         frozenRow: 1,
         frozenRowHoverable: true,
 
-        autoColumnWidth: true,
-
         rowNumberFilter: (rowItem, i) => {
             if (rowItem.tg_group || rowItem.tg_frozen || rowItem.nameClassMap) {
                 return false;
@@ -99,6 +101,11 @@ const update = () => {
         tree: function(value, rowItem, columnItem, cellNode) {
             const defaultFormatter = this.getDefaultFormatter('tree');
             const rn = `<div class="tg-tree-row-number">${rowItem.tg_row_number}</div>`;
+
+            if (rowItem.id === 'api-doc') {
+                value += '<span class="tg-row-api-doc-zh">中文文档</span>';
+            }
+
             return rn + defaultFormatter(value, rowItem, columnItem, cellNode);
         }
     });
@@ -148,6 +155,16 @@ onUnmounted(() => {
 .nav-grid-container {
     width: 100%;
     height: 100%;
+
+    .tg-row-api-doc-zh {
+        margin-left: 10px;
+        font-size: 14px;
+
+        &:hover {
+            color: #1890ff;
+            text-decoration: underline;
+        }
+    }
 
     .tg-cell-effect {
         animation-name: tg-cell-effect-animate;

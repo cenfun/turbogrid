@@ -262,7 +262,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    width: 230px;
+    width: 231px;
     height: 100%;
     border-right: 1px solid #ccc;
 }

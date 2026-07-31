@@ -15,7 +15,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -252,6 +252,7 @@ const getData = function() {
 };
 
 onMounted(() => {
+    init();
     const container = gridContainer.value;
     const fmg = new FMG(container);
     fmg.setData(getData());

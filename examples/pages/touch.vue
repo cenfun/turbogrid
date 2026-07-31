@@ -1,38 +1,55 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Touch:</div>
-                <select class="st-data">
-                    <option></option>
-                    <option>random-1x3</option>
-                    <option>random-1x30</option>
-                    <option>random-10x3</option>
-                    <option>random-30x100</option>
-                    <option>random-50x1k</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" class="cb_autoHeight" />
-                    autoHeight
-                </label>
-                <label>
-                    <input type="checkbox" class="cb_preventDefault" />
-                    prevent default onTouchStart
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Touch:
         </div>
-        <div class="something-up">
-            <div class="output"></div>
-            <div>
-                <button class="bt-outputHeightMinus">-</button>
-                <button class="bt-outputHeightPlus">+</button>
-            </div>
-        </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
-        <div class="something-down">something else</div>
+        <select class="st-data">
+          <option />
+          <option>random-1x3</option>
+          <option>random-1x30</option>
+          <option>random-10x3</option>
+          <option>random-30x100</option>
+          <option>random-50x1k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_autoHeight"
+          >
+          autoHeight
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_preventDefault"
+          >
+          prevent default onTouchStart
+        </label>
+      </div>
     </div>
+    <div class="something-up">
+      <div class="output" />
+      <div>
+        <button class="bt-outputHeightMinus">
+          -
+        </button>
+        <button class="bt-outputHeightPlus">
+          +
+        </button>
+      </div>
+    </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+    <div class="something-down">
+      something else
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -43,7 +60,7 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -53,6 +70,7 @@ const gridContainer = ref(null);
 let onResize = null;
 
 onMounted(() => {
+    init();
     const $output = document.querySelector('.output');
     const log = console.log;
     let line = 0;

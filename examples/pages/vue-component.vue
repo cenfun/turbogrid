@@ -21,7 +21,7 @@
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 import {
     createApp, defineComponent, shallowReactive, ref, onMounted, onBeforeUnmount, watch, nextTick
 } from 'vue';
@@ -88,6 +88,7 @@ const renderGrid = () => {
 };
 
 onMounted(() => {
+    init();
     const container = gridContainer.value;
 
     const g = new Grid(container);

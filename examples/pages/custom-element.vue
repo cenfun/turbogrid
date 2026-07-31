@@ -24,7 +24,7 @@
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 import {
     ref, onMounted, onBeforeUnmount
 } from 'vue';
@@ -111,6 +111,7 @@ g.setOption({
 };
 
 onMounted(() => {
+    init();
     const dataStr = document.querySelector('.st-data').value;
     if (dataStr.startsWith('random')) {
         renderData(randomData(dataStr));

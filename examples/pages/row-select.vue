@@ -77,7 +77,7 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -92,6 +92,7 @@ const onResize = () => {
 };
 
 onMounted(() => {
+    init();
     const g = new Grid(gridContainer.value);
     grid.value = g;
 

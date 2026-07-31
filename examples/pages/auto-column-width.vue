@@ -41,12 +41,13 @@
 import { onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 
 const route = useRoute();
 let grid;
 
 onMounted(() => {
+    init();
     
             const container = document.querySelector('.grid-container');
             const status = document.querySelector('.status');

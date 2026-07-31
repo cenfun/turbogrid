@@ -27,7 +27,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -37,6 +37,7 @@ const keywords = ref('');
 const selectedCount = ref(0);
 
 onMounted(async () => {
+    init();
     // Dynamically import comfyui data (435KB) to avoid initial bundle bloat
     const { comfyuiData } = await import('../assets/comfyui-data.js');
 

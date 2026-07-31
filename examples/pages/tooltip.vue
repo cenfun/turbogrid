@@ -1,12 +1,17 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Tooltip Usage:</div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Tooltip Usage:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -15,7 +20,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -23,14 +28,15 @@ const gridContainer = ref(null);
 const grid = ref(null);
 
 onMounted(() => {
+    init();
     const g = new Grid(gridContainer.value);
     grid.value = g;
 
-    g.bind('onFirstUpdated', function () {
+    g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    const isNodeTruncated = function (node) {
+    const isNodeTruncated = function(node) {
         if (!node) {
             return false;
         }
@@ -40,7 +46,7 @@ onMounted(() => {
         return false;
     };
 
-    g.bind('onMouseOver', function (e, d) {
+    g.bind('onMouseOver', function(e, d) {
         const target = d.e.target;
 
         if (target.classList.contains('tg-tooltip-icon')) {
@@ -61,7 +67,7 @@ onMounted(() => {
             showTooltip(target, `Tooltip for header: ${d.rowItem.name}`);
         }
 
-    }).bind('onMouseOut', function (e, d) {
+    }).bind('onMouseOut', function(e, d) {
         // eslint-disable-next-line no-undef
         hideTooltip();
     });
@@ -219,7 +225,7 @@ onMounted(() => {
 
     const svgIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" width="100%" height="100%"><path fill="currentColor" d="M6.8 6H5.5v1h1.2v4.8h1.5V6H6.8zm0-1.5h1.5V3H6.8v1.5zM7.5 0C3.4 0 0 3.4 0 7.5S3.4 15 7.5 15 15 11.6 15 7.5 11.6 0 7.5 0zm0 14C3.9 14 1 11.1 1 7.5S3.9 1 7.5 1 14 3.9 14 7.5 11.1 14 7.5 14z"></path></svg>';
 
-    const render = function () {
+    const render = function() {
 
         g.setOption({
             theme: route.query.theme || 'default',
@@ -230,14 +236,14 @@ onMounted(() => {
 
         g.setFormatter({
 
-            header: function (value, rowItem, columnItem, cellNode) {
+            header: function(value, rowItem, columnItem, cellNode) {
                 if (columnItem.id === 'name') {
                     return `${value}<div class="tg-header-icon">${svgIcon}</div>`;
                 }
                 return value;
             },
 
-            iconInfo: function (value, rowItem, columnItem, cellNode) {
+            iconInfo: function(value, rowItem, columnItem, cellNode) {
                 return `<div class="tg-tooltip-icon">${svgIcon}</div>`;
             }
 
@@ -248,10 +254,10 @@ onMounted(() => {
 
     };
 
-    [].forEach(function (item) {
+    [].forEach(function(item) {
         const el = document.querySelector(item);
         if (el) {
-            el.addEventListener('change', function () {
+            el.addEventListener('change', function() {
                 render();
             });
         }
@@ -259,7 +265,7 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    const onResize = function () {
+    const onResize = function() {
         g.resize();
     };
     window.addEventListener('resize', onResize);

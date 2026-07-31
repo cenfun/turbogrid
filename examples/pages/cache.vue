@@ -1,53 +1,87 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Cache Length Test</div>
-                <select class="st-data">
-                    <option>random-20x100</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    rowCacheLength
-                    <input type="number" min="0" step="1" value="0" class="ip-number it_rowCacheLength" />
-                </label>
-                <label>
-                    columnCacheLength
-                    <input type="number" min="0" step="1" value="0" class="ip-number it_columnCacheLength" />
-                </label>
-            </div>
-            <div>
-                <label>
-                    frozenColumn
-                    <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                </label>
-                <label>
-                    frozenRow
-                    <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                </label>
-                <label>
-                    <input type="checkbox" class="cb_frozenBottom" />
-                    frozenBottom
-                </label>
-            </div>
-            <div>
-                <button>hideColumn(1)</button>
-                <button>hideColumn(2)</button>
-                <button>hideColumn(3)</button>
-                <button>hideColumn(4)</button>
-                <button>showColumn([1, 2, 3, 4])</button>
-                <button>hideColumn([1, 2, 3, 4])</button>
-            </div>
-            <div>
-                <div>onUpdated: (viewport)</div>
-                <div class="column-list"></div>
-                <div class="row-list"></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Cache Length Test
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>random-20x100</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          rowCacheLength
+          <input
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+            class="ip-number it_rowCacheLength"
+          >
+        </label>
+        <label>
+          columnCacheLength
+          <input
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+            class="ip-number it_columnCacheLength"
+          >
+        </label>
+      </div>
+      <div>
+        <label>
+          frozenColumn
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="0"
+            class="ip-number ip_frozenColumn"
+          >
+        </label>
+        <label>
+          frozenRow
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="1"
+            class="ip-number ip_frozenRow"
+          >
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenBottom"
+          >
+          frozenBottom
+        </label>
+      </div>
+      <div>
+        <button>hideColumn(1)</button>
+        <button>hideColumn(2)</button>
+        <button>hideColumn(3)</button>
+        <button>hideColumn(4)</button>
+        <button>showColumn([1, 2, 3, 4])</button>
+        <button>hideColumn([1, 2, 3, 4])</button>
+      </div>
+      <div>
+        <div>onUpdated: (viewport)</div>
+        <div class="column-list" />
+        <div class="row-list" />
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -58,7 +92,7 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 const gridContainer = ref(null);
@@ -69,6 +103,7 @@ const onResize = () => {
 };
 
 onMounted(() => {
+    init();
     grid.value = new Grid(gridContainer.value);
 
     grid.value.bind('onUpdated', function(e, viewport) {

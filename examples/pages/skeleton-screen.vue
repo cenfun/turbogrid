@@ -15,7 +15,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -24,6 +24,7 @@ const grid = ref(null);
 let timeout_load_rows;
 
 onMounted(() => {
+    init();
     const container = gridContainer.value;
     const g = new Grid(container);
     grid.value = g;

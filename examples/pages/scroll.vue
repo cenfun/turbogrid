@@ -87,7 +87,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -101,6 +101,7 @@ const onResize = () => {
 };
 
 onMounted(() => {
+    init();
     const customData = {
         columns: [{
             id: 'name',

@@ -18,7 +18,7 @@
 
 <script setup>
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 import {
     createApp, defineComponent, ref, onMounted, onBeforeUnmount, nextTick
 } from 'vue';
@@ -283,6 +283,7 @@ const onDisableChange = () => {
 };
 
 onMounted(() => {
+    init();
     const g = new Grid(gridContainer.value);
     grid.value = g;
 

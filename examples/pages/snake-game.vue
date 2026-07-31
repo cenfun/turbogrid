@@ -29,6 +29,8 @@
 </template>
 
 <script setup>
+
+import { init } from '../global.js';
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
@@ -437,6 +439,7 @@ class SHEGrid extends Grid {
 }
 
 onMounted(() => {
+    init();
     const container = gridContainer.value;
     const s = new SHEGrid(container);
     she.value = s;

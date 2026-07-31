@@ -72,7 +72,7 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -146,6 +146,7 @@ const frozenRightData = {
 };
 
 onMounted(() => {
+    init();
     const container = gridContainer.value;
     const g = new Grid(container);
     grid.value = g;

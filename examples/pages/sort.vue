@@ -97,7 +97,7 @@ import {
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -105,6 +105,7 @@ const gridContainer = ref(null);
 const grid = ref(null);
 
 onMounted(() => {
+    init();
     const customData = {
         columns: [{
             id: 'name',

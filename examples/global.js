@@ -61,56 +61,6 @@ export const formatCodes = function() {
     });
 };
 
-export const getHash = function(key) {
-    let hash = {};
-    const h = window.location.hash.slice(1);
-    if (h) {
-        const usp = new URLSearchParams(h);
-        hash = Object.fromEntries(usp);
-    }
-    if (key) {
-        return hash[key];
-    }
-    return hash;
-};
-
-const updateHash = function(hash) {
-    const usp = new URLSearchParams(hash);
-    const hashStr = usp.toString();
-    window.location.hash = hashStr;
-
-    if (window.parent === window) {
-        return;
-    }
-
-    window.parent.postMessage({
-        type: 'hash',
-        data: hashStr
-    }, '*');
-
-};
-
-export const setHash = function(key, value) {
-    if (!key) {
-        return;
-    }
-    const hash = getHash();
-    if (hash[key] === value) {
-        return;
-    }
-    hash[key] = value;
-    updateHash(hash);
-};
-
-export const delHash = function(key) {
-    if (!key) {
-        return;
-    }
-    const hash = getHash();
-    delete hash[key];
-    updateHash(hash);
-};
-
 export const getNum = function(str) {
     str = String(str).trim();
     let n = parseInt(str);
@@ -306,11 +256,15 @@ export const getExampleList = function() {
     return cloneJson(exampleList);
 };
 
-const initSource = function($header) {
+const initSource = function() {
     if (!document.querySelector('.grid-container')) {
         return;
     }
 
+    const $header = document.querySelector('.header');
+    if (!$header) {
+        return;
+    }
     $header.insertAdjacentHTML('beforeend', '<button class="bt-source">source</button>');
     const btSource = document.querySelector('.bt-source');
     btSource.title = 'Check demo source codes';
@@ -329,32 +283,6 @@ const initLogs = function() {
     }
 };
 
-const initDataSelect = function() {
-    const dataSelect = document.querySelector('.st-data');
-    if (!dataSelect) {
-        return;
-    }
-    dataSelect.addEventListener('change', function() {
-        setHash('data', this.value);
-    });
-
-    const data = getHash('data');
-    const item = Array.from(dataSelect.options).find((it) => it.value === data);
-    if (item) {
-        dataSelect.value = data;
-    } else {
-        delHash('data');
-    }
-
-};
-
-const initFavicon = function() {
-    const link = document.createElement('link');
-    link.rel = 'shortcut icon';
-    link.type = 'image/svg';
-    link.href = 'assets/images/logo.svg';
-    document.head.appendChild(link);
-};
 
 // Auto-generated from public/api.html
 // Contains all API anchor items for search functionality
@@ -363,9 +291,8 @@ export const getApiList = () => {
 };
 
 export const init = function() {
-    initFavicon();
+    formatCodes();
     initLogs();
-    initDataSelect();
     initSource();
 };
 

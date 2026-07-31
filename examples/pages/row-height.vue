@@ -69,7 +69,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -81,6 +81,7 @@ const onResize = () => {
 };
 
 onMounted(() => {
+    init();
     let keywords;
     grid.value = new Grid(gridContainer.value);
 

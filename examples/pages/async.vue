@@ -17,12 +17,15 @@
 </template>
 
 <script setup>
+
+import { init } from '../global.js';
 import { onMounted, ref } from 'vue';
 import { Util } from '../../src/index.js';
 
 const gridContainer = ref(null);
 
 onMounted(() => {
+    init();
 
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');

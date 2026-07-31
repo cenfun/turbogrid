@@ -51,6 +51,8 @@
 </template>
 
 <script setup>
+
+import { init } from '../global.js';
 import { Icon } from '../../src/index.js';
 import {
     ref, onMounted, nextTick
@@ -59,6 +61,7 @@ import {
 const gridContainer = ref(null);
 
 onMounted(() => {
+    init();
     nextTick(() => {
         const container = gridContainer.value;
 

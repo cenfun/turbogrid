@@ -128,7 +128,7 @@ import {
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { randomData } from '../assets/random-data.js';
-import { initCommonEvents } from '../global.js';
+import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
@@ -252,6 +252,7 @@ const render = function() {
 };
 
 onMounted(() => {
+    init();
     grid.value = new Grid(gridContainer.value);
 
     document.querySelector('.bt-start').addEventListener('click', function() {

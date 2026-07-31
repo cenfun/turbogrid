@@ -39,11 +39,6 @@
             {{ t.label }}
           </option>
         </select>
-        <a
-          class="icon icon-github"
-          href="https://github.com/cenfun/turbogrid"
-          target="_blank"
-        />
       </div>
     </div>
     <div class="app-body">

@@ -11,6 +11,16 @@
       ref="gridContainer"
       class="grid-container flex-auto"
     />
+    <div
+      ref="tooltip"
+      class="tg-tooltip"
+      popover="manual"
+    >
+      <div
+        ref="tooltipText"
+        class="tg-tooltip-text"
+      />
+    </div>
   </div>
 </template>
 
@@ -26,6 +36,47 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const tooltip = ref(null);
+const tooltipText = ref(null);
+
+const positionTooltip = function(target) {
+    const tooltipEl = tooltip.value;
+    if (!tooltipEl || !target) {
+        return;
+    }
+
+    const targetRect = target.getBoundingClientRect();
+    const tooltipRect = tooltipEl.getBoundingClientRect();
+    const gap = 8;
+    const margin = 8;
+    const left = Math.min(
+        Math.max(margin, targetRect.left + (targetRect.width - tooltipRect.width) / 2),
+        window.innerWidth - tooltipRect.width - margin
+    );
+    const above = targetRect.top - tooltipRect.height - gap;
+    const top = above >= margin ? above : targetRect.bottom + gap;
+
+    tooltipEl.style.left = `${left}px`;
+    tooltipEl.style.top = `${Math.max(margin, top)}px`;
+};
+
+const showTooltip = function(target, text) {
+    if (!target || !tooltip.value || !tooltipText.value) {
+        return;
+    }
+
+    tooltipText.value.textContent = text;
+    if (!tooltip.value.matches(':popover-open')) {
+        tooltip.value.showPopover();
+    }
+    positionTooltip(target);
+};
+
+const hideTooltip = function() {
+    if (tooltip.value && tooltip.value.matches(':popover-open')) {
+        tooltip.value.hidePopover();
+    }
+};
 
 onMounted(() => {
     init();
@@ -50,25 +101,21 @@ onMounted(() => {
         const target = d.e.target;
 
         if (target.classList.contains('tg-tooltip-icon')) {
-            // eslint-disable-next-line no-undef
             showTooltip(target, `Tooltip for icon: ${d.rowItem.name}`);
             return;
         }
 
         const value = d.rowItem[d.columnItem.id];
         if (value && isNodeTruncated(target)) {
-            // eslint-disable-next-line no-undef
             showTooltip(target, `Tooltip for truncated text: ${value}`);
             return;
         }
 
         if (target.classList.contains('tg-header-icon')) {
-            // eslint-disable-next-line no-undef
             showTooltip(target, `Tooltip for header: ${d.rowItem.name}`);
         }
 
     }).bind('onMouseOut', function(e, d) {
-        // eslint-disable-next-line no-undef
         hideTooltip();
     });
 
@@ -274,6 +321,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+    hideTooltip();
     if (grid.value) {
         grid.value.destroy();
         grid.value = null;
@@ -299,6 +347,17 @@ onBeforeUnmount(() => {
         height: 16px;
         cursor: pointer;
         transform: translate(0, -50%);
+    }
+
+    .tg-tooltip {
+        max-width: min(320px, calc(100vw - 16px));
+        margin: 0;
+        padding: 0;
+        border: 1px solid #999;
+        border-radius: 3px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+        pointer-events: none;
     }
 
     .tg-tooltip .tg-tooltip-text {

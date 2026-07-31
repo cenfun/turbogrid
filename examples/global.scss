@@ -2,6 +2,7 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    font-family: inherit;
 }
 
 html,
@@ -20,11 +21,6 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-}
-
-a:link,
-a:visited {
-    color: #333;
 }
 
 pre {

@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div :class="['app', 'app-'+state.theme]">
     <div class="app-header">
       <div class="app-header-left">
         <div
@@ -11,6 +11,10 @@
             class="app-header-name"
             href="./"
           >
+            <span
+              class="svg-icon"
+              v-html="IconLogo"
+            />
             TurboGrid
           </a>
           <a
@@ -93,11 +97,12 @@ import { Grid } from '../src/index.js';
 
 import Nav from './components/nav.vue';
 import Search from './components/search.vue';
+import IconLogo from './assets/images/logo.svg?raw';
+
 import { state } from './global.js';
 
 const route = useRoute();
 const router = useRouter();
-
 
 const flyoverEl = ref();
 
@@ -151,6 +156,26 @@ const toggleMenu = () => {
     }
 };
 
+
+const initThemes = () => {
+    state.theme = route.query.theme || '';
+
+    const themeList = Grid.getAllThemes().map((t) => {
+        return {
+            label: t,
+            value: t
+        };
+    });
+    state.themeOptions = themeList;
+
+    // console.log('initThemes', route.query, state.theme, state.themeOptions);
+
+};
+
+watch(() => route.query, () => {
+    initThemes();
+});
+
 watch(() => state.theme, (newTheme) => {
     const newQuery = {
         ... route.query
@@ -171,22 +196,6 @@ watch(() => route.path, () => {
     }
 });
 
-const initThemes = () => {
-    state.theme = route.query.theme || '';
-
-    const themeList = Grid.getAllThemes().map((t) => {
-        return {
-            label: t,
-            value: t
-        };
-    });
-    themeList.unshift({
-        label: 'theme',
-        value: ''
-    });
-    state.themeOptions = themeList;
-
-};
 
 onMounted(() => {
     initThemes();
@@ -195,9 +204,43 @@ onMounted(() => {
 
 <style lang="scss">
 .app {
+    --font-color: #1e1e1e;
+    --bg-color: #fff;
+
     display: flex;
     flex-direction: column;
     height: 100%;
+    color: var(--font-color);
+    background-color: var(--bg-color);
+}
+
+a:link,
+a:visited {
+    color: var(--font-color);
+}
+
+.app-lightblue {
+    --font-color: #1e1e1e;
+    --bg-color: #fff;
+}
+
+.app-dark {
+    --font-color: #fff;
+    --bg-color: #1e1e1e;
+}
+
+.svg-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+
+    svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
 }
 
 .app-header {
@@ -228,14 +271,12 @@ onMounted(() => {
 }
 
 .app-header-name {
-    padding-left: 20px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
     font-weight: bold;
     font-size: 16px;
     text-decoration: none;
-    background-image: url("./assets/images/logo.svg");
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 16px;
 }
 
 .app-header-version {
@@ -272,6 +313,8 @@ onMounted(() => {
     flex: auto;
     flex-direction: column;
     gap: 10px;
+    color: #1e1e1e;
+    background-color: #fff;
     overflow: auto;
 }
 

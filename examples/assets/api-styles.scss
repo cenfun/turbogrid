@@ -1,117 +1,138 @@
-ul,
-ol {
-    margin: 0;
-    padding-left: 20px;
-    font-size: 13px;
-}
+.api-page {
+    ul,
+    ol {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 13px;
+    }
 
-ul li,
-ol li {
-    padding: 2px 0;
-}
+    ul li,
+    ol li {
+        padding: 2px 0;
+    }
 
-details {
-    border-bottom: 1px solid #999;
-    overflow-x: auto;
-}
+    details {
+        border-bottom: 1px solid #999;
+        overflow-x: auto;
+    }
 
-details summary {
-    padding: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    background-color: #eee;
-    cursor: pointer;
-}
+    details summary {
+        padding: 10px;
+        font-weight: bold;
+        font-size: 16px;
+        background-color: #eee;
+        cursor: pointer;
+    }
 
-/*
+    /*
         for scroll position, same with summary
         */
-details summary a {
-    padding: 10px;
-}
+    details summary a {
+        padding: 10px;
+    }
 
-details summary span {
-    color: gray;
-}
+    details summary span {
+        color: gray;
+    }
 
-details section {
-    padding: 10px;
-}
+    details section {
+        padding: 10px;
+    }
 
-details section > div {
-    margin: 0;
-    padding: 5px 0;
-}
+    details section > div {
+        margin: 0;
+        padding: 5px 0;
+    }
 
-details section > a {
-    position: relative;
-    display: block;
-    padding: 5px;
-    font-weight: bold;
-}
+    details section > a {
+        position: relative;
+        display: block;
+        padding: 5px;
+        font-weight: bold;
+    }
 
-a:link,
-a:visited {
-    color: #333;
-    text-decoration: underline;
-}
+    a:link,
+    a:visited {
+        color: #333;
+        text-decoration: underline;
+    }
 
-a:hover {
-    color: #00a8e1;
-    transition: color 300ms;
-}
+    a:hover {
+        color: #00a8e1;
+        transition: color 300ms;
+    }
 
-a.focused {
-    outline: 2px solid #00a8e1;
-    outline-offset: -2px;
-}
+    a.focused {
+        outline: 2px solid #00a8e1;
+        outline-offset: -2px;
+    }
 
-details.turbogrid section > a {
-    padding-left: 18px;
-    background-image: url("./images/function.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 16px 16px;
-}
+    details.turbogrid section > a {
+        padding-left: 18px;
+        background-image: url("./images/function.svg");
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-size: 16px 16px;
+    }
 
-details.methods section > a {
-    padding-left: 18px;
-    background-image: url("./images/method.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 16px 16px;
-}
+    details.methods section > a {
+        padding-left: 18px;
+        background-image: url("./images/method.svg");
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-size: 16px 16px;
+    }
 
-details.data section > a {
-    padding-left: 20px;
-    background-image: url("./images/data.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 16px 16px;
-}
+    details.data section > a {
+        padding-left: 20px;
+        background-image: url("./images/data.svg");
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-size: 16px 16px;
+    }
 
-details.options section > a {
-    padding-left: 20px;
-    background-image: url("./images/setting.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 16px 16px;
-}
+    details.options section > a {
+        padding-left: 20px;
+        background-image: url("./images/setting.svg");
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-size: 16px 16px;
+    }
 
-details.events section > a {
-    padding-left: 16px;
-    background-image: url("./images/event.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 16px 16px;
-}
+    details.events section > a {
+        padding-left: 16px;
+        background-image: url("./images/event.svg");
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-size: 16px 16px;
+    }
 
-details section a[target="_blank"] {
-    padding-left: 20px;
-    background-image: url("./images/link.svg");
-    background-repeat: no-repeat;
-    background-position: 2px center;
-    background-size: 16px 16px;
+    details section a[target="_blank"] {
+        padding-left: 20px;
+        background-image: url("./images/link.svg");
+        background-repeat: no-repeat;
+        background-position: 2px center;
+        background-size: 16px 16px;
+    }
+
+    .api-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        a:link,
+        a:visited {
+            position: relative;
+            padding-right: 8px;
+            font-weight: bold;
+            text-decoration: underline;
+            border-right: 1px solid #333;
+        }
+
+        a:last-child {
+            border: none;
+        }
+    }
 }
 
 .api-header {
@@ -120,25 +141,6 @@ details section a[target="_blank"] {
     align-items: center;
     padding: 6px 10px;
     border-bottom: 1px solid #ccc;
-}
-
-.api-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.api-nav a:link,
-.api-nav a:visited {
-    position: relative;
-    padding-right: 8px;
-    font-weight: bold;
-    text-decoration: underline;
-    border-right: 1px solid #333;
-}
-
-.api-nav a:last-child {
-    border: none;
 }
 
 .api-toolbar {

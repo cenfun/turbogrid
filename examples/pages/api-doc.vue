@@ -1,5 +1,5 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="api-page main flex-auto flex-column">
     <div class="api-header">
       <div class="api-nav">
         <a href="#/api-doc?position=methods">Methods</a>

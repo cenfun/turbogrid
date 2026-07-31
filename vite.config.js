@@ -156,6 +156,10 @@ export default defineConfig(({ command, mode }) => {
                 'window.VERSION': JSON.stringify('test')
             },
             plugins: [testSpecsPlugin()],
+            optimizeDeps: {
+                // This is a Vite virtual module, not an npm dependency.
+                exclude: ['virtual:test-specs']
+            },
             build: {
                 outDir: path.resolve(__dirname, '.temp/test'),
                 emptyOutDir: true,

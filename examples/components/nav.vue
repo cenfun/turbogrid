@@ -13,6 +13,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { getExampleList } from '../global.js';
 
+import DocIcon from '../assets/images/double-right.svg?raw';
+
 const navGridEl = ref(null);
 const route = useRoute();
 const router = useRouter();
@@ -103,7 +105,7 @@ const update = () => {
             const rn = `<div class="tg-tree-row-number">${rowItem.tg_row_number}</div>`;
 
             if (rowItem.id === 'api-doc') {
-                value += '<span class="tg-row-api-doc-zh">中文文档</span>';
+                value = `<span class="tg-row-icon">${DocIcon}</span>${value}<span class="tg-row-api-doc-zh">中文文档</span>`;
             }
 
             return rn + defaultFormatter(value, rowItem, columnItem, cellNode);
@@ -181,18 +183,17 @@ onUnmounted(() => {
     .tg-row-top {
         position: relative;
         font-weight: bold;
-    }
 
-    .tg-row-top::after {
-        position: absolute;
-        top: 0;
-        left: 5px;
-        content: "";
-        width: 16px;
-        height: 30px;
-        background-image: url("../assets/images/double-right.svg");
-        background-repeat: no-repeat;
-        background-position: center center;
+        .tg-row-icon {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            display: block;
+            width: 20px;
+            height: 20px;
+            transform: translateY(-50%);
+            overflow: hidden;
+        }
     }
 
     .tg-gradient-top::before {
@@ -219,6 +220,16 @@ onUnmounted(() => {
         height: 30px;
         background-image: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fff);
         pointer-events: none;
+    }
+
+    .tg-dark {
+        .tg-gradient-top::before {
+            background-image: linear-gradient(to bottom, #1e1e1e, rgb(30 30 30 / 0%));
+        }
+
+        .tg-gradient-bottom::after {
+            background-image: linear-gradient(to bottom, rgb(30 30 30 / 0%), #1e1e1e);
+        }
     }
 }
 </style>

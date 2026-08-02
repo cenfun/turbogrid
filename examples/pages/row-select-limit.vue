@@ -1,30 +1,47 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid row select limit:</div>
-                <select class="st-data">
-                    <option>random-20x100</option>
-                    <option>random-20x3k</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" checked class="cb_selectMultiple" />
-                    selectMultiple
-                </label>
-                <label>
-                    Select Limit
-                    <input type="number" min="1" value="10" class="ip_limit" />
-                </label>
-                <span class="limitMessage" style="color: red;"></span>
-            </div>
-            <div>
-                <div>onSelectChanged: <span class="onSelectChanged"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid row select limit:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>random-20x100</option>
+          <option>random-20x3k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectMultiple"
+          >
+          selectMultiple
+        </label>
+        <label>
+          Select Limit
+          <input
+            type="number"
+            min="1"
+            value="10"
+            class="ip_limit"
+          >
+        </label>
+        <span
+          class="limitMessage"
+          style="color: red;"
+        />
+      </div>
+      <div>
+        <div>onSelectChanged: <span class="onSelectChanged" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

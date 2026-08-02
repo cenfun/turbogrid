@@ -1,28 +1,41 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid auto height example:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-10x100</option>
-                    <option>no-rows</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" checked class="cb_autoHeight" />
-                    autoHeight
-                </label>
-                <label>
-                    <input type="checkbox" checked class="cb_collapseAllOnInit" />
-                    collapseAllOnInit
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid auto height example:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-10x100</option>
+          <option>no-rows</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_autoHeight"
+          >
+          autoHeight
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_collapseAllOnInit"
+          >
+          collapseAllOnInit
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

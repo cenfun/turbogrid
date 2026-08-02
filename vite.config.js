@@ -1,8 +1,11 @@
-import { defineConfig } from 'vite';
+import fs from 'fs';
+import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import EC from 'eight-colors';
-import path from 'path';
-import fs from 'fs';
+
+import cssInjectedByJs from 'vite-plugin-css-injected-by-js';
+
+import { defineConfig } from 'vite';
 
 // Replace with your library id
 const ID = 'turbogrid';
@@ -38,26 +41,11 @@ const tag = {
 };
 
 
-function inlineAssetsPlugin() {
-    return {
-        name: 'inline-assets',
-        enforce: 'pre',
-        load(id) {
-            if (id.endsWith('.html?raw') || id.endsWith('.svg?raw')) {
-                const filePath = id.replace('?raw', '');
-                const content = fs.readFileSync(filePath, 'utf-8');
-                return `export default ${JSON.stringify(content.replace(/\r?\n/g, ''))}`;
-            }
-        }
-    };
-}
-
-
 function testSpecsPlugin() {
     const virtualModuleId = 'virtual:test-specs';
     const resolvedVirtualModuleId = `\0${virtualModuleId}`;
     const virtualSpecPrefix = 'virtual:test-spec-file:';
-    const specsPath = path.resolve(__dirname, 'test/specs');
+    const specsPath = path.resolve(import.meta.dirname, 'test/specs');
     return {
         name: 'test-specs',
         resolveId(id) {
@@ -99,47 +87,13 @@ function buildEndPlugin() {
         name: 'build-end',
         closeBundle() {
             fs.copyFileSync(
-                path.resolve(__dirname, `src/${ID}.d.ts`),
-                path.resolve(__dirname, `dist/${ID}.d.ts`)
+                path.resolve(import.meta.dirname, `src/${ID}.d.ts`),
+                path.resolve(import.meta.dirname, `dist/${ID}.d.ts`)
             );
             console.log(`copied types to dist/${ID}.d.ts`);
         }
     };
 }
-
-
-function docsAssetsPlugin() {
-    const sourceEntry = path.resolve(__dirname, 'src/index.js');
-    const sourceFile = path.resolve(__dirname, `dist/${ID}.esm.js`);
-    const targetFile = path.resolve(__dirname, `docs/assets/${ID}.esm.js`);
-    return {
-        name: 'docs-assets',
-        enforce: 'pre',
-        buildStart() {
-            if (!fs.existsSync(sourceFile)) {
-                this.error(`dist/${ID}.esm.js not found. Run "npm run build" before "npm run docs".`);
-            }
-        },
-        resolveId(source, importer) {
-            if (!importer) {
-                return;
-            }
-            const importerPath = importer.split('?')[0];
-            const resolved = path.resolve(path.dirname(importerPath), source);
-            if (resolved === sourceEntry) {
-                return {
-                    id: `./${ID}.esm.js`,
-                    external: true
-                };
-            }
-        },
-        closeBundle() {
-            fs.copyFileSync(sourceFile, targetFile);
-            console.log(`copied dist/${ID}.esm.js to docs/assets/${ID}.esm.js`);
-        }
-    };
-}
-
 
 export default defineConfig(({ command, mode }) => {
 
@@ -150,20 +104,17 @@ export default defineConfig(({ command, mode }) => {
 
     if (mode === 'test') {
         return {
-            root: path.resolve(__dirname, 'test'),
+            root: path.resolve(import.meta.dirname, 'test'),
             base: './',
             publicDir: false,
-            define: {
-                'window.TAG': JSON.stringify('test'),
-                'window.VERSION': JSON.stringify('test')
-            },
+            define,
             plugins: [testSpecsPlugin()],
             optimizeDeps: {
                 // This is a Vite virtual module, not an npm dependency.
                 exclude: ['virtual:test-specs']
             },
             build: {
-                outDir: path.resolve(__dirname, '.temp/test'),
+                outDir: path.resolve(import.meta.dirname, '.temp/test'),
                 emptyOutDir: true,
                 sourcemap: true,
                 minify: false,
@@ -187,11 +138,27 @@ export default defineConfig(({ command, mode }) => {
             base: './',
             publicDir: false,
             define,
-            plugins: [docsAssetsPlugin(), vue(), inlineAssetsPlugin()],
+            plugins: [vue()],
             build: {
                 outDir: 'docs',
                 emptyOutDir: true,
-                sourcemap: false
+                sourcemap: false,
+                rolldownOptions: {
+                    output: {
+                        manualChunks(id) {
+                            const chunks = {
+                                'vue': 'vue',
+                                'src': ID,
+                                'node_modules': 'vendor'
+                            };
+                            for (const key in chunks) {
+                                if (id.includes(key)) {
+                                    return chunks[key];
+                                }
+                            }
+                        }
+                    }
+                }
             },
             preview: {
                 host: '127.0.0.1',
@@ -207,7 +174,7 @@ export default defineConfig(({ command, mode }) => {
             root: '.',
             publicDir: 'public',
             define,
-            plugins: [vue(), inlineAssetsPlugin()],
+            plugins: [vue()],
             server: {
                 open: '/'
             }
@@ -217,13 +184,17 @@ export default defineConfig(({ command, mode }) => {
     // Production build (library)
     return {
         root: '.',
-        plugins: [inlineAssetsPlugin(), buildEndPlugin()],
+        plugins: [
+            // vue(),
+            cssInjectedByJs(),
+            buildEndPlugin()
+        ],
         publicDir: false,
         define,
         build: {
             outDir: 'dist',
             lib: {
-                entry: path.resolve(__dirname, 'src/index.js'),
+                entry: path.resolve(import.meta.dirname, 'src/index.js'),
                 name: ID,
                 formats: ['umd', 'es'],
                 fileName: (format) => (format === 'umd' ? `${ID}.js` : `${ID}.esm.js`)

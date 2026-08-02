@@ -1,18 +1,27 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Negative Number Align:</div>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" checked class="cb_negativeFormatter" />
-                    negative formatter
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Negative Number Align:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_negativeFormatter"
+          >
+          negative formatter
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -39,11 +48,11 @@ onMounted(() => {
     const g = new Grid(gridContainer.value);
     grid.value = g;
 
-    g.bind('onFirstUpdated', function () {
+    g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    const numFix = function (num, fix) {
+    const numFix = function(num, fix) {
         const n = Util.toNum;
         const f = Util.isNum(fix) ? fix : 2;
         return n(num).toFixed(n(f, true));
@@ -59,7 +68,7 @@ onMounted(() => {
         const negativeFormatter = document.querySelector('.cb_negativeFormatter').checked;
 
         g.setFormatter({
-            number: function (value, rowItem, columnItem, cellNode) {
+            number: function(value, rowItem, columnItem, cellNode) {
                 if (Util.isNum(value)) {
                     if (value < 0 && negativeFormatter) {
                         value = `(${numFix(-value)})`;
@@ -200,8 +209,8 @@ onMounted(() => {
         renderData(testData);
     };
 
-    ['.cb_negativeFormatter'].forEach(function (item) {
-        document.querySelector(item).addEventListener('change', function () {
+    ['.cb_negativeFormatter'].forEach(function(item) {
+        document.querySelector(item).addEventListener('change', function() {
             render();
         });
     });

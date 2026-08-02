@@ -1,51 +1,69 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid row add and delete:</div>
-                <select class="st-data">
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-                <button>addRow("New Row")</button>
-                <button>addRow({"name":"Row id1","id":"id1"})</button>
-                <button>addRow({"name":"Row 50","height":50})</button>
-                <button>addRow(["Row 1", "Row 2"])</button>
-                <button>addRow([{"name":"New Row 1"}, {"name":"New Row 2"}])</button>
-                <button>addRow("New Row Parent",2)</button>
-                <button>addRow(["Row 1 Parent","Row 2 Parent"],2)</button>
-                <button>addRow("New Row position",null,2)</button>
-                <button>addRow("New Row position",2,2)</button>
-            </div>
-            <div>
-                <button>deleteRow(0)</button>
-                <button>deleteRow("id1")</button>
-                <button>deleteRow([2,5,"id1"])</button>
-                <button>deleteRow(-1)</button>
-            </div>
-            <div>
-                <button>toggleAllRows()</button>
-                <button>exportData()</button>
-            </div>
-            <div>
-                <input class="bt-del" type="button" value="delete selected rows" />
-                <input type="text" value="" placeholder="keywords" class="ip-keywords" />
-                test collapsed or flush rows
-            </div>
-            <div>
-                <div class="flex-auto flex-column flex-column-5">
-                    <div>Event logs <button class="bt-clear">Clear Logs</button></div>
-                    <div class="log-container">
-                        <div class="log-content"></div>
-                    </div>
-                </div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid row add and delete:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div>
+        <button>addRow("New Row")</button>
+        <button>addRow({"name":"Row id1","id":"id1"})</button>
+        <button>addRow({"name":"Row 50","height":50})</button>
+        <button>addRow(["Row 1", "Row 2"])</button>
+        <button>addRow([{"name":"New Row 1"}, {"name":"New Row 2"}])</button>
+        <button>addRow("New Row Parent",2)</button>
+        <button>addRow(["Row 1 Parent","Row 2 Parent"],2)</button>
+        <button>addRow("New Row position",null,2)</button>
+        <button>addRow("New Row position",2,2)</button>
+      </div>
+      <div>
+        <button>deleteRow(0)</button>
+        <button>deleteRow("id1")</button>
+        <button>deleteRow([2,5,"id1"])</button>
+        <button>deleteRow(-1)</button>
+      </div>
+      <div>
+        <button>toggleAllRows()</button>
+        <button>exportData()</button>
+      </div>
+      <div>
+        <input
+          class="bt-del"
+          type="button"
+          value="delete selected rows"
+        >
+        <input
+          type="text"
+          value=""
+          placeholder="keywords"
+          class="ip-keywords"
+        >
+        test collapsed or flush rows
+      </div>
+      <div>
+        <div class="flex-auto flex-column flex-column-5">
+          <div>
+            Event logs <button class="bt-clear">
+              Clear Logs
+            </button>
+          </div>
+          <div class="log-container">
+            <div class="log-content" />
+          </div>
+        </div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -56,7 +74,9 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { init, initCommonEvents, appendLog } from '../global.js';
+import {
+    init, initCommonEvents, appendLog
+} from '../global.js';
 const route = useRoute();
 
 

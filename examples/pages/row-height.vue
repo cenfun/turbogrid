@@ -1,66 +1,124 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Row Height API:</div>
-            </div>
-            <div>
-                <button>setColumnWidth("title", 200)</button>
-                <button>setColumnWidth("title", 300)</button>
-                <button>setColumnWidth("title", 500)</button>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" checked class="cb_selectVisible" />
-                    selectVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_rowNumberVisible" />
-                    rowNumberVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_rowDragVisible" />
-                    rowDragVisible
-                </label>
-
-                <label>
-                    frozenColumn
-                    <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                </label>
-                <label>
-                    frozenRow
-                    <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                </label>
-                <label for="cb_frozenBottom">
-                    <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                    frozenBottom
-                </label>
-                <label>
-                    rowHeight
-                    <input type="number" value="23" class="ip-number ip_rowHeight" />
-                </label>
-                <label>
-                    rowCacheLength
-                    <input type="number" min="0" step="1" value="0" class="ip-number it_rowCacheLength" />
-                </label>
-
-                <label>rowFilter:
-                    <input type="text" value="" placeholder="keywords" class="ip-keywords" onfocus="this.select()" />
-                </label>
-
-            </div>
-            <div>
-                <textarea class="usage-data1" style="width: 100%; height: 38px;">This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1</textarea>
-                <textarea class="usage-data2" style="width: 100%; height: 38px;">This is text 2, This is text 2, This is text 2, This is text 2, This is text 2</textarea>
-            </div>
-            <div>
-                <input class="bt-del" type="button" value="delete selected rows" />
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Row Height API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <button>setColumnWidth("title", 200)</button>
+        <button>setColumnWidth("title", 300)</button>
+        <button>setColumnWidth("title", 500)</button>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowNumberVisible"
+          >
+          rowNumberVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowDragVisible"
+          >
+          rowDragVisible
+        </label>
+
+        <label>
+          frozenColumn
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="0"
+            class="ip-number ip_frozenColumn"
+          >
+        </label>
+        <label>
+          frozenRow
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="1"
+            class="ip-number ip_frozenRow"
+          >
+        </label>
+        <label for="cb_frozenBottom">
+          <input
+            id="cb_frozenBottom"
+            type="checkbox"
+            class="cb_frozenBottom"
+          >
+          frozenBottom
+        </label>
+        <label>
+          rowHeight
+          <input
+            type="number"
+            value="23"
+            class="ip-number ip_rowHeight"
+          >
+        </label>
+        <label>
+          rowCacheLength
+          <input
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+            class="ip-number it_rowCacheLength"
+          >
+        </label>
+
+        <label>rowFilter:
+          <input
+            type="text"
+            value=""
+            placeholder="keywords"
+            class="ip-keywords"
+            onfocus="this.select()"
+          >
+        </label>
+      </div>
+      <div>
+        <textarea
+          class="usage-data1"
+          style="width: 100%; height: 38px;"
+        >This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1</textarea>
+        <textarea
+          class="usage-data2"
+          style="width: 100%; height: 38px;"
+        >This is text 2, This is text 2, This is text 2, This is text 2, This is text 2</textarea>
+      </div>
+      <div>
+        <input
+          class="bt-del"
+          type="button"
+          value="delete selected rows"
+        >
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -317,7 +375,7 @@ onMounted(() => {
     });
 
     [
-        
+
         '.usage-data1',
         '.usage-data2',
         '.ip_rowHeight',

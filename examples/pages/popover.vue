@@ -1,34 +1,57 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Hover Icon Usage:</div>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" class="cb_rowNumberVisible" />
-                    rowNumberVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" checked class="cb_selectVisible" />
-                    selectVisible
-                </label>
-            </div>
-
-            <div>
-                <label for="rd-1">
-                    <input name="usage" type="radio" value="1" id="rd-1" checked />
-                    right float on name column
-                </label>
-                <label for="rd-2">
-                    <input name="usage" type="radio" value="2" id="rd-2" />
-                    a separated column for icon
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Hover Icon Usage:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowNumberVisible"
+          >
+          rowNumberVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+      </div>
+
+      <div>
+        <label for="rd-1">
+          <input
+            id="rd-1"
+            name="usage"
+            type="radio"
+            value="1"
+            checked
+          >
+          right float on name column
+        </label>
+        <label for="rd-2">
+          <input
+            id="rd-2"
+            name="usage"
+            type="radio"
+            value="2"
+          >
+          a separated column for icon
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

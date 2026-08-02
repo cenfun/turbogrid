@@ -1,70 +1,87 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid row move:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                </select>
-            </div>
-            <div>
-
-                <label>
-                    <input type="checkbox" checked class="cb_rowMoveCrossLevel" />
-                    rowMoveCrossLevel
-                </label>
-
-
-                <label>
-                    <input type="checkbox" checked class="cb_selectMultiple" />
-                    selectMultiple
-                </label>
-
-                <input type="text" value="" placeholder="keywords" class="ip-keywords" />
-            </div>
-            <div>
-                <button>moveRows(["level_0"], -1)</button>
-                <button>moveRows(["level_0"], 1)</button>
-                <button>moveRows(["level_0"], -10)</button>
-                <button>moveRows(["level_0"], 10)</button>
-
-                <button>moveRows("level_3_3", -2)</button>
-                <button>moveRows("level_3_3", 2)</button>
-                <button>moveRows("level_3_3", -3)</button>
-                <button>moveRows("level_3_3", 3)</button>
-            </div>
-            <div>
-                <button>moveRowsToTop(["level_0"])</button>
-                <button>moveRowsUp(["level_0"])</button>
-                <button>moveRowsDown(["level_0"])</button>
-                <button>moveRowsToBottom(["level_0"])</button>
-            </div>
-            <div>
-                <button class="tg-icon moveToTop">
-                    <div class="icon icon-double-up"></div>
-                    moveSelectedRowsToTop()
-                </button>
-                <button class="tg-icon moveUp">
-                    <div class="icon icon-up"></div>
-                    moveSelectedRowsUp()
-                </button>
-                <button class="tg-icon moveDown">
-                    <div class="icon icon-down"></div>
-                    moveSelectedRowsDown()
-                </button>
-                <button class="tg-icon moveToBottom">
-                    <div class="icon icon-double-down"></div>
-                    moveSelectedRowsToBottom()
-                </button>
-            </div>
-            <div>
-                <div>onRowMoved: <span class="onRowMoved"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid row move:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_rowMoveCrossLevel"
+          >
+          rowMoveCrossLevel
+        </label>
+
+
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectMultiple"
+          >
+          selectMultiple
+        </label>
+
+        <input
+          type="text"
+          value=""
+          placeholder="keywords"
+          class="ip-keywords"
+        >
+      </div>
+      <div>
+        <button>moveRows(["level_0"], -1)</button>
+        <button>moveRows(["level_0"], 1)</button>
+        <button>moveRows(["level_0"], -10)</button>
+        <button>moveRows(["level_0"], 10)</button>
+
+        <button>moveRows("level_3_3", -2)</button>
+        <button>moveRows("level_3_3", 2)</button>
+        <button>moveRows("level_3_3", -3)</button>
+        <button>moveRows("level_3_3", 3)</button>
+      </div>
+      <div>
+        <button>moveRowsToTop(["level_0"])</button>
+        <button>moveRowsUp(["level_0"])</button>
+        <button>moveRowsDown(["level_0"])</button>
+        <button>moveRowsToBottom(["level_0"])</button>
+      </div>
+      <div>
+        <button class="tg-icon moveToTop">
+          <div class="icon icon-double-up" />
+          moveSelectedRowsToTop()
+        </button>
+        <button class="tg-icon moveUp">
+          <div class="icon icon-up" />
+          moveSelectedRowsUp()
+        </button>
+        <button class="tg-icon moveDown">
+          <div class="icon icon-down" />
+          moveSelectedRowsDown()
+        </button>
+        <button class="tg-icon moveToBottom">
+          <div class="icon icon-double-down" />
+          moveSelectedRowsToBottom()
+        </button>
+      </div>
+      <div>
+        <div>onRowMoved: <span class="onRowMoved" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

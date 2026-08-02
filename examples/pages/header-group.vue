@@ -1,18 +1,30 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Header Group:</div>
-            </div>
-            <div>
-                <textarea class="tg_data" style="width: 100%; height: 100px;"></textarea>
-            </div>
-            <div>
-                <input type="button" class="bt-render" value="render()" />
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Header Group:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <textarea
+          class="tg_data"
+          style="width: 100%; height: 100px;"
+        />
+      </div>
+      <div>
+        <input
+          type="button"
+          class="bt-render"
+          value="render()"
+        >
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

@@ -1,44 +1,65 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid set rows without destroy columns</div>
-                <select class="st-data">
-                    <option>test-data</option>
-                    <option>random-20x100</option>
-                    <option>random-20x200</option>
-                </select>
-            </div>
-            <div>
-                <button>setRows([])</button>
-                <button>setRows([{"name":"new row 1"},{"name":"new row 2"}])</button>
-                <button>setRows([{"name":"row 1"},{"name":"row 2"},{"name":"row 3"}])</button>
-                <button>setRows(testRows)</button>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" checked class="cb_sortOnInit" />
-                    sortOnInit
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_sortBlankValueBottom" />
-                    sortBlankValueBottom
-                </label>
-
-                <label>
-                    <input type="checkbox" checked class="cb_selectVisible" />
-                    selectVisible
-                </label>
-
-                <label>
-                    sortField
-                    <input type="text" class="it_sortField" value="name" size="30" />
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid set rows without destroy columns
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>test-data</option>
+          <option>random-20x100</option>
+          <option>random-20x200</option>
+        </select>
+      </div>
+      <div>
+        <button>setRows([])</button>
+        <button>setRows([{"name":"new row 1"},{"name":"new row 2"}])</button>
+        <button>setRows([{"name":"row 1"},{"name":"row 2"},{"name":"row 3"}])</button>
+        <button>setRows(testRows)</button>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_sortOnInit"
+          >
+          sortOnInit
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_sortBlankValueBottom"
+          >
+          sortBlankValueBottom
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+
+        <label>
+          sortField
+          <input
+            type="text"
+            class="it_sortField"
+            value="name"
+            size="30"
+          >
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -61,6 +82,7 @@ const onResize = () => {
     }
 };
 
+// eslint-disable-next-line max-lines-per-function
 onMounted(() => {
     init();
     const columns = [{
@@ -1340,6 +1362,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style scoped>
-</style>

@@ -1,67 +1,106 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid frozen row/column example:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-3x30</option>
-                    <option>random-100x20k</option>
-                    <option>frozen_right</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    frozenColumn
-                    <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_frozenRight" />
-                    frozenRight
-                </label>
-
-                <label>
-                    frozenRow
-                    <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_frozenBottom" />
-                    frozenBottom
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_frozenRowHoverable" />
-                    frozenRowHoverable
-                </label>
-            </div>
-            <div>
-
-                <label>
-                    <input type="checkbox" class="cb_selectVisible" />
-                    selectVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_rowNumberVisible" />
-                    rowNumberVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_rowDragVisible" />
-                    rowDragVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_autoHeight" />
-                    autoHeight
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid frozen row/column example:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-3x30</option>
+          <option>random-100x20k</option>
+          <option>frozen_right</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          frozenColumn
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="0"
+            class="ip-number ip_frozenColumn"
+          >
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenRight"
+          >
+          frozenRight
+        </label>
+
+        <label>
+          frozenRow
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="1"
+            class="ip-number ip_frozenRow"
+          >
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenBottom"
+          >
+          frozenBottom
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenRowHoverable"
+          >
+          frozenRowHoverable
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowNumberVisible"
+          >
+          rowNumberVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowDragVisible"
+          >
+          rowDragVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_autoHeight"
+          >
+          autoHeight
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -191,7 +230,7 @@ onMounted(() => {
     };
 
     [
-        
+
         '.st-data',
         '.ip_frozenColumn',
         '.ip_frozenRow',

@@ -1,19 +1,24 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid row select API:</div>
-            </div>
-            <div>
-                <button>selectAll()</button>
-                <button>selectAll(false)</button>
-            </div>
-            <div>
-                <div>onSelectChanged: <span class="onSelectChanged"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid row select API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <button>selectAll()</button>
+        <button>selectAll(false)</button>
+      </div>
+      <div>
+        <div>onSelectChanged: <span class="onSelectChanged" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

@@ -1,24 +1,41 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">ComfyUI custom nodes data example:</div>
-            </div>
-            <div>
-                <button @click="showMask()">showMask()</button>
-                <button @click="hideMask()">hideMask()</button>
-                <button @click="showMask({opacity:'0.3'})">showMask({"opacity":"0.3"})</button>
-            </div>
-            <div>
-                <input type="text" v-model="keywords" placeholder="keywords" class="ip-keywords" @keyup="onKeywordsChange" />
-                rowFilter
-            </div>
-            <div>
-                <div>onSelectChanged: <span class="onSelectChanged">{{ selectedCount }}</span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          ComfyUI custom nodes data example:
         </div>
-        <div ref="gridContainer" class="grid-container custom-nodes-grid flex-auto"></div>
+      </div>
+      <div>
+        <button @click="showMask()">
+          showMask()
+        </button>
+        <button @click="hideMask()">
+          hideMask()
+        </button>
+        <button @click="showMask({opacity:'0.3'})">
+          showMask({"opacity":"0.3"})
+        </button>
+      </div>
+      <div>
+        <input
+          v-model="keywords"
+          type="text"
+          placeholder="keywords"
+          class="ip-keywords"
+          @keyup="onKeywordsChange"
+        >
+        rowFilter
+      </div>
+      <div>
+        <div>onSelectChanged: <span class="onSelectChanged">{{ selectedCount }}</span></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container custom-nodes-grid flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

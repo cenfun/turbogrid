@@ -1,55 +1,67 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid collapse and expand API:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>collapsed_specified_group</option>
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    collapseAllOnInit
-                    <select class="st_collapseAllOnInit">
-                        <option>null</option>
-                        <option>true</option>
-                        <option>false</option>
-                    </select>
-                </label>
-
-                <label>
-                    <input type="checkbox" checked class="cb_collapseAllVisible" />
-                    collapseAllVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" checked class="cb_rowNumberVisible" />
-                    rowNumberVisible
-                </label>
-
-            </div>
-            <div>
-                <button>expandAllRows()</button>
-                <button>collapseAllRows()</button>
-                <button>toggleAllRows()</button>
-            </div>
-            <div>
-                <button>expandRow("level_0")</button>
-                <button>collapseRow("level_0")</button>
-                <button>toggleRow("level_0")</button>
-            </div>
-            <div>
-                <button>expandRowLevel(0)</button>
-                <button>expandRowLevel(1)</button>
-                <button>expandRowLevel(2)</button>
-                <button>expandRowLevel(3)</button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid collapse and expand API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>collapsed_specified_group</option>
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          collapseAllOnInit
+          <select class="st_collapseAllOnInit">
+            <option>null</option>
+            <option>true</option>
+            <option>false</option>
+          </select>
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_collapseAllVisible"
+          >
+          collapseAllVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_rowNumberVisible"
+          >
+          rowNumberVisible
+        </label>
+      </div>
+      <div>
+        <button>expandAllRows()</button>
+        <button>collapseAllRows()</button>
+        <button>toggleAllRows()</button>
+      </div>
+      <div>
+        <button>expandRow("level_0")</button>
+        <button>collapseRow("level_0")</button>
+        <button>toggleRow("level_0")</button>
+      </div>
+      <div>
+        <button>expandRowLevel(0)</button>
+        <button>expandRowLevel(1)</button>
+        <button>expandRowLevel(2)</button>
+        <button>expandRowLevel(3)</button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

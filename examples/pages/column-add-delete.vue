@@ -1,53 +1,62 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid column add and delete:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                    <option>random-1kx200</option>
-                    <option>random-2kx100</option>
-                </select>
-            </div>
-            <div>
-                <button>addColumn("New Column")</button>
-                <button>addColumn({"name":"Column id1","id":"id1"})</button>
-                <button>addColumn(["C1", "C2"])</button>
-
-                <button>addColumn(["id1","id2"],"c2")</button>
-                <button>addColumn("End Sub","end_group")</button>
-
-                <button>addColumn("In c1","c1")</button>
-                <button>addColumn(["In c1 1","In c1 2"],"c1")</button>
-            </div>
-            <div>
-                <button>deleteColumn("id1")</button>
-                <button>deleteColumn(0)</button>
-                <button>deleteColumn(1)</button>
-                <button>deleteColumn(2)</button>
-                <button>deleteColumn(-1)</button>
-                <button>deleteColumn(-2)</button>
-                <button>deleteColumn([3,5,"id1"])</button>
-            </div>
-            <div>
-                <button>showColumn(3)</button>
-                <button>hideColumn(3)</button>
-
-                <button>exportData()</button>
-            </div>
-            <div>
-                <div class="flex-auto flex-column flex-column-5">
-                    <div>Event logs <button class="bt-clear">Clear Logs</button></div>
-                    <div class="log-container">
-                        <div class="log-content"></div>
-                    </div>
-                </div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid column add and delete:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+          <option>random-1kx200</option>
+          <option>random-2kx100</option>
+        </select>
+      </div>
+      <div>
+        <button>addColumn("New Column")</button>
+        <button>addColumn({"name":"Column id1","id":"id1"})</button>
+        <button>addColumn(["C1", "C2"])</button>
+
+        <button>addColumn(["id1","id2"],"c2")</button>
+        <button>addColumn("End Sub","end_group")</button>
+
+        <button>addColumn("In c1","c1")</button>
+        <button>addColumn(["In c1 1","In c1 2"],"c1")</button>
+      </div>
+      <div>
+        <button>deleteColumn("id1")</button>
+        <button>deleteColumn(0)</button>
+        <button>deleteColumn(1)</button>
+        <button>deleteColumn(2)</button>
+        <button>deleteColumn(-1)</button>
+        <button>deleteColumn(-2)</button>
+        <button>deleteColumn([3,5,"id1"])</button>
+      </div>
+      <div>
+        <button>showColumn(3)</button>
+        <button>hideColumn(3)</button>
+
+        <button>exportData()</button>
+      </div>
+      <div>
+        <div class="flex-auto flex-column flex-column-5">
+          <div>
+            Event logs <button class="bt-clear">
+              Clear Logs
+            </button>
+          </div>
+          <div class="log-container">
+            <div class="log-content" />
+          </div>
+        </div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -58,7 +67,9 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { init, initCommonEvents, appendLog } from '../global.js';
+import {
+    init, initCommonEvents, appendLog
+} from '../global.js';
 const route = useRoute();
 
 

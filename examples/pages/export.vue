@@ -1,22 +1,27 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid export to JSON data:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                </select>
-            </div>
-            <div>
-                <button>exportData()</button>
-                <button>exportData({"tg_frozen":true})</button>
-                <button>exportData({"tg_frozen":true,"minWidth":false})</button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid export to JSON data:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+        </select>
+      </div>
+      <div>
+        <button>exportData()</button>
+        <button>exportData({"tg_frozen":true})</button>
+        <button>exportData({"tg_frozen":true,"minWidth":false})</button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

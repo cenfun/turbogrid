@@ -1,34 +1,44 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid multiple instance:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-10x100</option>
-                </select>
-            </div>
-            <div>
-                <div>
-                    <button class="bt-position">position overlap</button>
-                    <label>left z-index:</label>
-                    <select class="st_index">
-                        <option>0</option>
-                        <option>100</option>
-                    </select>
-                </div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid multiple instance:
         </div>
-        <div class="container flex-auto">
-            <div class="container-left">
-                <div ref="gridContainer1" class="grid-container grid-container-1"></div>
-            </div>
-            <div class="container-right">
-                <div ref="gridContainer2" class="grid-container grid-container-2"></div>
-            </div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-10x100</option>
+        </select>
+      </div>
+      <div>
+        <div>
+          <button class="bt-position">
+            position overlap
+          </button>
+          <label>left z-index:</label>
+          <select class="st_index">
+            <option>0</option>
+            <option>100</option>
+          </select>
         </div>
+      </div>
     </div>
+    <div class="container flex-auto">
+      <div class="container-left">
+        <div
+          ref="gridContainer1"
+          class="grid-container grid-container-1"
+        />
+      </div>
+      <div class="container-right">
+        <div
+          ref="gridContainer2"
+          class="grid-container grid-container-2"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -66,7 +76,7 @@ onMounted(() => {
     grid2.value = g2;
 
     const renderData = (data) => {
-g.setOption({
+        g.setOption({
             theme: route.query.theme,
             selectVisible: true,
             frozenColumn: 0,

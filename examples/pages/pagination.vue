@@ -1,58 +1,63 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid pagination example</div>
-                <select class="st-data">
-                    <option>random-20x1k</option>
-                    <option>random-20x5k</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    page:
-                    <select class="st_page"></select>
-                </label>
-
-                <label>
-                    page size:
-                    <select class="st_pageSize">
-                        <option>50</option>
-                        <option>100</option>
-                        <option>200</option>
-                    </select>
-                </label>
-
-                <label>total page:
-                    <span class="totalPage"></span>
-                </label>
-
-                <label>
-                    total size:
-                    <span class="totalSize"></span>
-                </label>
-            </div>
-            <div class="page-list"></div>
-            <div>
-                <div>
-                    <div>We do NOT recommend using pagination which is NOT good solution to Grid usage.</div>
-                    <ul>
-                        <li>Grid rendering 100,000+ rows with high performance.</li>
-                        <li>It unnecessary to load all data to front-end because of high cost to back-end, but you could think about loading data dynamically.</li>
-                        <li>Require pagination management, UI controller and back-end API</li>
-                    </ul>
-                    <div>Pagination issues:</div>
-                    <ul>
-                        <li>Group/tree structure rows</li>
-                        <li>Sorting cross-page</li>
-                        <li>keeping selection state cross-page</li>
-                        <li>Selecting all rows</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid pagination example
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>random-20x1k</option>
+          <option>random-20x5k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          page:
+          <select class="st_page" />
+        </label>
+
+        <label>
+          page size:
+          <select class="st_pageSize">
+            <option>50</option>
+            <option>100</option>
+            <option>200</option>
+          </select>
+        </label>
+
+        <label>total page:
+          <span class="totalPage" />
+        </label>
+
+        <label>
+          total size:
+          <span class="totalSize" />
+        </label>
+      </div>
+      <div class="page-list" />
+      <div>
+        <div>
+          <div>We do NOT recommend using pagination which is NOT good solution to Grid usage.</div>
+          <ul>
+            <li>Grid rendering 100,000+ rows with high performance.</li>
+            <li>It unnecessary to load all data to front-end because of high cost to back-end, but you could think about loading data dynamically.</li>
+            <li>Require pagination management, UI controller and back-end API</li>
+          </ul>
+          <div>Pagination issues:</div>
+          <ul>
+            <li>Group/tree structure rows</li>
+            <li>Sorting cross-page</li>
+            <li>keeping selection state cross-page</li>
+            <li>Selecting all rows</li>
+          </ul>
+        </div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

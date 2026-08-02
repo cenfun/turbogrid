@@ -1,22 +1,32 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Dynamic Load Subs</div>
-                <select class="st-data">
-                    <option>test-data</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    Search:
-                    <input type="text" value="" placeholder="keywords" class="ip-keywords" />
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Dynamic Load Subs
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>test-data</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          Search:
+          <input
+            type="text"
+            value=""
+            placeholder="keywords"
+            class="ip-keywords"
+          >
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

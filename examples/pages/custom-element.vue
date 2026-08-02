@@ -1,23 +1,36 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Custom Element for Grid</div>
-                <select class="st-data" @change="onDataChange">
-                    <option>random-5x10</option>
-                    <option>random-100x2k</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" checked class="cb-shadow" @change="onDataChange" />
-                    Shadow Dom
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Custom Element for Grid
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select
+          class="st-data"
+          @change="onDataChange"
+        >
+          <option>random-5x10</option>
+          <option>random-100x2k</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb-shadow"
+            @change="onDataChange"
+          >
+          Shadow Dom
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -98,7 +111,7 @@ const renderData = (data) => {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-g.setOption({
+    g.setOption({
         theme: route.query.theme,
         frozenColumn: 0,
         frozenRow: 1

@@ -1,45 +1,65 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Row Number:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                </select>
-            </div>
-            <div>
-
-                <label>
-                    <input type="checkbox" class="cb_rowNumberVisible" checked />
-                    rowNumberVisible
-                </label>
-
-
-                <label>
-                    <input type="checkbox" class="cb_selectVisible" />
-                    selectVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_selectAllVisible" />
-                    selectAllVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_rowDragVisible" />
-                    rowDragVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_collapseAllVisible" />
-                    collapseAllVisible
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Row Number:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowNumberVisible"
+            checked
+          >
+          rowNumberVisible
+        </label>
+
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_selectAllVisible"
+          >
+          selectAllVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowDragVisible"
+          >
+          rowDragVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_collapseAllVisible"
+          >
+          collapseAllVisible
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

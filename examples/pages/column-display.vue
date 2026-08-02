@@ -1,56 +1,71 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Column Width API:</div>
-                <select class="st-data">
-                    <option>custom-data</option>
-                    <option>random-5x10</option>
-                    <option>random-10x2k</option>
-                </select>
-            </div>
-            <div>
-                <button>setColumnWidth(0, 100)</button>
-                <button>setColumnWidth(0, 300)</button>
-                <button>setColumnWidth(0, 500)</button>
-            </div>
-            <div>
-                <button>hideColumn(1)</button>
-                <button>showColumn(1)</button>
-                <button>hideColumn([1, 3, 5])</button>
-                <button>showColumn([1, 3, 5])</button>
-            </div>
-            <div>
-                <button>hideColumn("two")</button>
-                <button>showColumn("two")</button>
-                <button>hideColumn("two_center")</button>
-                <button>showColumn("two_center")</button>
-            </div>
-            <div>
-                <button>deleteColumn(-2)</button>
-                <button>addColumn(["Column 1", "Column 2"])</button>
-                <button>deleteRow(-1)</button>
-                <button>addRow(["Row 1", "Row 2"])</button>
-            </div>
-            <div>
-                <label>
-                    frozenColumn
-                    <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                </label>
-                <label>
-                    <input type="checkbox" class="cb_frozenRight" />
-                    frozenRight
-                </label>
-
-                <button>update()</button>
-                <button>rerender()</button>
-            </div>
-            <div>
-                <div>onColumnWidthChanged: <span class="onColumnWidthChanged"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Column Width API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>custom-data</option>
+          <option>random-5x10</option>
+          <option>random-10x2k</option>
+        </select>
+      </div>
+      <div>
+        <button>setColumnWidth(0, 100)</button>
+        <button>setColumnWidth(0, 300)</button>
+        <button>setColumnWidth(0, 500)</button>
+      </div>
+      <div>
+        <button>hideColumn(1)</button>
+        <button>showColumn(1)</button>
+        <button>hideColumn([1, 3, 5])</button>
+        <button>showColumn([1, 3, 5])</button>
+      </div>
+      <div>
+        <button>hideColumn("two")</button>
+        <button>showColumn("two")</button>
+        <button>hideColumn("two_center")</button>
+        <button>showColumn("two_center")</button>
+      </div>
+      <div>
+        <button>deleteColumn(-2)</button>
+        <button>addColumn(["Column 1", "Column 2"])</button>
+        <button>deleteRow(-1)</button>
+        <button>addRow(["Row 1", "Row 2"])</button>
+      </div>
+      <div>
+        <label>
+          frozenColumn
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="0"
+            class="ip-number ip_frozenColumn"
+          >
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenRight"
+          >
+          frozenRight
+        </label>
+
+        <button>update()</button>
+        <button>rerender()</button>
+      </div>
+      <div>
+        <div>onColumnWidthChanged: <span class="onColumnWidthChanged" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

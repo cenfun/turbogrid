@@ -17,13 +17,14 @@
     "types": "dist/turbogrid.d.ts",
     "scripts": {
         "dev": "vite",
+        "lint": "eslint src/ examples/ --fix && stylelint src/**/*.scss",
+        "build": "vite build",
         "test": "node scripts/test.js",
-        "lint": "eslint src/ && stylelint src/**/*.scss",
-        "build": "npm run lint && vite build",
+        "docs": "vite build --mode docs",
+        "docs:preview": "vite preview --mode docs",
         "version": "npm run build",
         "publish": "node ./scripts/publish.js",
-        "docs": "vite build --mode docs",
-        "docs:preview": "vite preview --mode docs"
+        "preview": "vite preview --mode docs"
     },
     "files": [
         "dist",
@@ -37,23 +38,25 @@
     "dependencies": {},
     "devDependencies": {
         "@vitejs/plugin-vue": "^6.0.8",
+        "async-tick": "^1.0.2",
+        "axios": "^1.19.0",
         "chai": "^6.2.2",
         "eight-colors": "^1.3.3",
         "eslint": "^10.8.0",
         "eslint-config-plus": "^2.0.4",
         "eslint-plugin-vue": "^10.10.0",
-        "execa": "^9.6.0",
+        "execa": "^10.0.1",
         "mocha": "^11.7.6",
         "monocart-coverage-reports": "^2.12.12",
-        "playwright": "^1.62.0",
+        "playwright": "^1.62.1",
         "prismjs": "^1.30.0",
         "sass": "^1.102.0",
         "stylelint": "^17.14.1",
         "stylelint-config-plus": "^1.1.6",
-        "vine-ui": "^3.1.18",
-        "vite": "^8.1.5",
+        "vine-ui": "^4.0.0",
+        "vite": "^8.2.0",
+        "vite-plugin-css-injected-by-js": "^5.0.2",
         "vue": "^3.5.40",
-        "vue-eslint-parser": "^10.4.1",
         "vue-router": "^5.2.0"
     }
 }

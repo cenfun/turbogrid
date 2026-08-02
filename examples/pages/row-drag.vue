@@ -1,51 +1,67 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Row Drag</div>
-                <select class="st-data">
-                    <option value="">sample data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x20k</option>
-                </select>
-            </div>
-            <div>
-
-                <label>
-                    rowDragCrossLevel
-                    <select class="st_rowDragCrossLevel">
-                        <option>true</option>
-                        <option>false</option>
-                        <option value="handler">specified drop list</option>
-                    </select>
-                </label>
-
-
-                <label>
-                    <input checked type="checkbox" class="cb_rowDragVisible" />
-                    rowDragVisible
-                </label>
-
-
-                <label>
-                    <input type="checkbox" class="cb_textSelectable" />
-                    textSelectable
-                </label>
-            </div>
-            <div>
-                <button>exportData()</button>
-                <label>
-                    <input type="checkbox" class="cb_preventDefaultOnRowDragged" />
-                    preventDefault onRowDragged
-                </label>
-            </div>
-            <div>
-                <div>onRowDragged: <span class="onRowDragged"></span></div>
-                <div>onRowDropped: <span class="onRowDropped"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Row Drag
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option value="">
+            sample data
+          </option>
+          <option>random-3x10</option>
+          <option>random-100x20k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          rowDragCrossLevel
+          <select class="st_rowDragCrossLevel">
+            <option>true</option>
+            <option>false</option>
+            <option value="handler">specified drop list</option>
+          </select>
+        </label>
+
+
+        <label>
+          <input
+            checked
+            type="checkbox"
+            class="cb_rowDragVisible"
+          >
+          rowDragVisible
+        </label>
+
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_textSelectable"
+          >
+          textSelectable
+        </label>
+      </div>
+      <div>
+        <button>exportData()</button>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_preventDefaultOnRowDragged"
+          >
+          preventDefault onRowDragged
+        </label>
+      </div>
+      <div>
+        <div>onRowDragged: <span class="onRowDragged" /></div>
+        <div>onRowDropped: <span class="onRowDropped" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

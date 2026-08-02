@@ -1,84 +1,114 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid scroll API:</div>
-            </div>
-            <div>
-                <button>scrollToRow(0)</button>
-                <button>scrollToRow(9)</button>
-                <button>scrollToRow("h0")</button>
-                <button>scrollToRow({"id":"total"})</button>
-                <button>scrollToFirstRow()</button>
-                <button>scrollToLastRow()</button>
-
-                <button>scrollRowIntoView(20)</button>
-                <button>scrollRowIntoView("h1")</button>
-                <button>scrollRowIntoView("h_last")</button>
-            </div>
-            <div>
-                <button>scrollToColumn(0)</button>
-                <button>scrollToColumn(5)</button>
-                <button>scrollToColumn("dp15")</button>
-                <button>scrollToColumn({"id":"dp_last"})</button>
-
-                <button>scrollToFirstColumn()</button>
-                <button>scrollToLastColumn()</button>
-                <button>scrollToLastColumn(true)</button>
-
-                <button>scrollColumnIntoView("dp5")</button>
-                <button>scrollColumnIntoView("dp23")</button>
-                <button>scrollColumnIntoView("dp_last")</button>
-            </div>
-            <div>
-                <button>scrollToCell(0,0)</button>
-                <button>scrollToCell(3,8)</button>
-                <button>scrollToCell("h1","dp5")</button>
-
-                <button>scrollCellIntoView("h1","dp5")</button>
-                <button>scrollCellIntoView("h0","dp20")</button>
-                <button>scrollCellIntoView("h0","dp_last")</button>
-                <button>scrollCellIntoView("h_last","dp12")</button>
-                <button>scrollCellIntoView("h_last","dp_last")</button>
-            </div>
-            <div>
-                <button>setScrollTop(300)</button>
-                <button>setScrollTop(0)</button>
-                <button>setScrollLeft(200)</button>
-                <button>setScrollLeft(0)</button>
-                <button>getScrollLeft()</button>
-                <button>getScrollTop()</button>
-            </div>
-            <div>
-                <input type="button" value="change container" class="bt-change_container" />
-                <input type="button" value="change container and size" class="bt-change_container_size" />
-                <div>Sets a highlight row and check scrollToRow API when resize with container changing</div>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" class="cb_preventDefaultOnMouseWheel" />
-                    preventDefault onMouseWheel
-                </label>
-                <label>
-                    <input type="checkbox" class="cb_appendRandomRows" />
-                    append random rows
-                    <input type="number" min="0" value="2000" class="ip-rows" />
-                </label>
-                <label>
-                    <input type="checkbox" class="cb_frozenRight" />
-                    frozenRight
-                </label>
-                <label>
-                    <input type="checkbox" class="cb_frozenBottom" />
-                    frozenBottom
-                </label>
-            </div>
-            <div>
-                <div>onScroll: <span class="onScroll"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid scroll API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <button>scrollToRow(0)</button>
+        <button>scrollToRow(9)</button>
+        <button>scrollToRow("h0")</button>
+        <button>scrollToRow({"id":"total"})</button>
+        <button>scrollToFirstRow()</button>
+        <button>scrollToLastRow()</button>
+
+        <button>scrollRowIntoView(20)</button>
+        <button>scrollRowIntoView("h1")</button>
+        <button>scrollRowIntoView("h_last")</button>
+      </div>
+      <div>
+        <button>scrollToColumn(0)</button>
+        <button>scrollToColumn(5)</button>
+        <button>scrollToColumn("dp15")</button>
+        <button>scrollToColumn({"id":"dp_last"})</button>
+
+        <button>scrollToFirstColumn()</button>
+        <button>scrollToLastColumn()</button>
+        <button>scrollToLastColumn(true)</button>
+
+        <button>scrollColumnIntoView("dp5")</button>
+        <button>scrollColumnIntoView("dp23")</button>
+        <button>scrollColumnIntoView("dp_last")</button>
+      </div>
+      <div>
+        <button>scrollToCell(0,0)</button>
+        <button>scrollToCell(3,8)</button>
+        <button>scrollToCell("h1","dp5")</button>
+
+        <button>scrollCellIntoView("h1","dp5")</button>
+        <button>scrollCellIntoView("h0","dp20")</button>
+        <button>scrollCellIntoView("h0","dp_last")</button>
+        <button>scrollCellIntoView("h_last","dp12")</button>
+        <button>scrollCellIntoView("h_last","dp_last")</button>
+      </div>
+      <div>
+        <button>setScrollTop(300)</button>
+        <button>setScrollTop(0)</button>
+        <button>setScrollLeft(200)</button>
+        <button>setScrollLeft(0)</button>
+        <button>getScrollLeft()</button>
+        <button>getScrollTop()</button>
+      </div>
+      <div>
+        <input
+          type="button"
+          value="change container"
+          class="bt-change_container"
+        >
+        <input
+          type="button"
+          value="change container and size"
+          class="bt-change_container_size"
+        >
+        <div>Sets a highlight row and check scrollToRow API when resize with container changing</div>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_preventDefaultOnMouseWheel"
+          >
+          preventDefault onMouseWheel
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_appendRandomRows"
+          >
+          append random rows
+          <input
+            type="number"
+            min="0"
+            value="2000"
+            class="ip-rows"
+          >
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenRight"
+          >
+          frozenRight
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenBottom"
+          >
+          frozenBottom
+        </label>
+      </div>
+      <div>
+        <div>onScroll: <span class="onScroll" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

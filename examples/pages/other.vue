@@ -1,53 +1,56 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Other Example:</div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Other Example:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto">
-            <div class="tg-turbogrid">
-
-                <div class="flex-row">
-                    <div>tree collapsed:</div>
-                    <div class="tg-cell">
-                        <div class="tg-tree-icon tg-tree-icon-collapsed"></div>
-                    </div>
-                    <div>expanded:</div>
-                    <div class="tg-cell">
-                        <div class="tg-tree-icon tg-tree-icon-expanded"></div>
-                    </div>
-                </div>
-
-                <div class="flex-row">
-                    <div>checkbox unselected:</div>
-                    <div class="tg-cell">
-                        <div class="tg-checkbox"></div>
-                    </div>
-                    <div>selected:</div>
-                    <div class="tg-cell">
-                        <div class="tg-checkbox tg-selected"></div>
-                    </div>
-                    <div>mixed:</div>
-                    <div class="tg-cell">
-                        <div class="tg-checkbox tg-mixed"></div>
-                    </div>
-                </div>
-
-                <div class="flex-row">
-                    <div>radio unselected:</div>
-                    <div class="tg-cell">
-                        <div class="tg-radio"></div>
-                    </div>
-                    <div>selected:</div>
-                    <div class="tg-cell">
-                        <div class="tg-radio tg-selected"></div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    >
+      <div class="tg-turbogrid">
+        <div class="flex-row">
+          <div>tree collapsed:</div>
+          <div class="tg-cell">
+            <div class="tg-tree-icon tg-tree-icon-collapsed" />
+          </div>
+          <div>expanded:</div>
+          <div class="tg-cell">
+            <div class="tg-tree-icon tg-tree-icon-expanded" />
+          </div>
+        </div>
+
+        <div class="flex-row">
+          <div>checkbox unselected:</div>
+          <div class="tg-cell">
+            <div class="tg-checkbox" />
+          </div>
+          <div>selected:</div>
+          <div class="tg-cell">
+            <div class="tg-checkbox tg-selected" />
+          </div>
+          <div>mixed:</div>
+          <div class="tg-cell">
+            <div class="tg-checkbox tg-mixed" />
+          </div>
+        </div>
+
+        <div class="flex-row">
+          <div>radio unselected:</div>
+          <div class="tg-cell">
+            <div class="tg-radio" />
+          </div>
+          <div>selected:</div>
+          <div class="tg-cell">
+            <div class="tg-radio tg-selected" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>

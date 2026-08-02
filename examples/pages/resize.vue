@@ -1,67 +1,91 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid resize example:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x20k</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    width:
-                    <input class="it_width" value="100%" />
-                    <select class="st_width">
-                        <option>100%</option>
-                        <option>500px</option>
-                        <option>800px</option>
-                    </select>
-                </label>
-
-                <label>
-                    height:
-                    <input class="it_height" value="100%" />
-                    <select class="st_height">
-                        <option>100%</option>
-                        <option>300px</option>
-                        <option>600px</option>
-                        <option>0</option>
-                    </select>
-                </label>
-
-                <button>resize()</button>
-            </div>
-            <div>
-                <button>resize(600, 400)</button>
-                <button>resize(800)</button>
-                <button>resize({"width":1024, "height":768})</button>
-                <button>resize("100%", "100%")</button>
-                <button>resize(0, 0)</button>
-            </div>
-            <div>
-                <label for="cb_bindWindowResize">
-                    <input type="checkbox" id="cb_bindWindowResize" class="cb_bindWindowResize" checked />
-                    bindWindowResize
-                </label>
-                <label for="cb_bindContainerResize">
-                    <input type="checkbox" id="cb_bindContainerResize" class="cb_bindContainerResize" checked />
-                    bindContainerResize
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_containerHidden" />
-                    container hidden
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid resize example:
         </div>
-        <div class="flex-auto">
-            <div class="grid-holder">
-                <div ref="gridContainer" class="grid-container"></div>
-            </div>
-        </div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x20k</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          width:
+          <input
+            class="it_width"
+            value="100%"
+          >
+          <select class="st_width">
+            <option>100%</option>
+            <option>500px</option>
+            <option>800px</option>
+          </select>
+        </label>
+
+        <label>
+          height:
+          <input
+            class="it_height"
+            value="100%"
+          >
+          <select class="st_height">
+            <option>100%</option>
+            <option>300px</option>
+            <option>600px</option>
+            <option>0</option>
+          </select>
+        </label>
+
+        <button>resize()</button>
+      </div>
+      <div>
+        <button>resize(600, 400)</button>
+        <button>resize(800)</button>
+        <button>resize({"width":1024, "height":768})</button>
+        <button>resize("100%", "100%")</button>
+        <button>resize(0, 0)</button>
+      </div>
+      <div>
+        <label for="cb_bindWindowResize">
+          <input
+            id="cb_bindWindowResize"
+            type="checkbox"
+            class="cb_bindWindowResize"
+            checked
+          >
+          bindWindowResize
+        </label>
+        <label for="cb_bindContainerResize">
+          <input
+            id="cb_bindContainerResize"
+            type="checkbox"
+            class="cb_bindContainerResize"
+            checked
+          >
+          bindContainerResize
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_containerHidden"
+          >
+          container hidden
+        </label>
+      </div>
     </div>
+    <div class="flex-auto">
+      <div class="grid-holder">
+        <div
+          ref="gridContainer"
+          class="grid-container"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>

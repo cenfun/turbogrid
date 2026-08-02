@@ -1,21 +1,31 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Row Hover:</div>
-            </div>
-            <div>
-                <textarea class="usage-data" style="width: 100%; height: 100px;"></textarea>
-                <button class="bt-render">render usage</button>
-            </div>
-            <div>
-                <button>showLoading()</button>
-                <button>hideLoading()</button>
-                <label>(test loading above background)</label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Row Hover:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <textarea
+          class="usage-data"
+          style="width: 100%; height: 100px;"
+        />
+        <button class="bt-render">
+          render usage
+        </button>
+      </div>
+      <div>
+        <button>showLoading()</button>
+        <button>hideLoading()</button>
+        <label>(test loading above background)</label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

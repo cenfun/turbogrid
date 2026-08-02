@@ -1,18 +1,23 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Dynamic Load Rows (request by row index)</div>
-            </div>
-            <div>
-                <label>
-                    <button>scrollToRow(2000)</button>
-                    (Locate test for dynamic data)
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Dynamic Load Rows (request by row index)
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <label>
+          <button>scrollToRow(2000)</button>
+          (Locate test for dynamic data)
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

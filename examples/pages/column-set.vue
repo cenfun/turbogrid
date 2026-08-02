@@ -1,23 +1,28 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Column Set Example:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-10x10</option>
-                    <option>random-10x2k</option>
-                </select>
-            </div>
-            <div>
-                <button class="bt-set">
-                    <div class="icon icon-setting"></div>
-                    Column Set
-                </button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Column Set Example:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-10x10</option>
+          <option>random-10x2k</option>
+        </select>
+      </div>
+      <div>
+        <button class="bt-set">
+          <div class="icon icon-setting" />
+          Column Set
+        </button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -29,7 +34,7 @@ import { Grid, Util } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { init, initCommonEvents } from '../global.js';
-import VuiPopover from 'vine-ui';
+import { VuiPopover } from 'vine-ui';
 const route = useRoute();
 
 
@@ -37,35 +42,8 @@ const gridContainer = ref(null);
 const grid = ref(null);
 const popoverApp = ref(null);
 
+// eslint-disable-next-line vue/one-component-per-file
 const ColumnSetContent = defineComponent({
-    template: `
-        <div class="column-set-content">
-            <div class="column-set-grid" ref="gridContainer"></div>
-            <div class="column-set-action">
-                <button @click="moveSelectedRowsToTop($event)">
-                    <div class="icon icon-double-up"></div>
-                    Top
-                </button>
-                <button @click="moveSelectedRowsUp($event)">
-                    <div class="icon icon-up"></div>
-                    Up
-                </button>
-                <button @click="moveSelectedRowsDown($event)">
-                    <div class="icon icon-down"></div>
-                    Down
-                </button>
-                <button @click="moveSelectedRowsToBottom($event)">
-                    <div class="icon icon-double-down"></div>
-                    Bottom
-                </button>
-            </div>
-            <div class="column-set-action">
-                <input ref="columnName" value="Column Name"/>
-                <button @click="addRow()">Add</button>
-                <button @click="removeSelected()">Remove Selected</button>
-            </div>
-        </div>
-    `,
     props: {
         list: {
             type: Array,
@@ -74,13 +52,13 @@ const ColumnSetContent = defineComponent({
             }
         }
     },
-    mounted() {
-        this.init();
-    },
     watch: {
         list: function() {
             this.init();
         }
+    },
+    mounted() {
+        this.init();
     },
     methods: {
         init() {
@@ -172,9 +150,38 @@ const ColumnSetContent = defineComponent({
                     delete item.tg_bak_formatter;
                 }
             });
+            // eslint-disable-next-line vue/require-explicit-emits
             this.$emit('change', list);
         }
-    }
+    },
+    template: `
+        <div class="column-set-content">
+            <div class="column-set-grid" ref="gridContainer"></div>
+            <div class="column-set-action">
+                <button @click="moveSelectedRowsToTop($event)">
+                    <div class="icon icon-double-up"></div>
+                    Top
+                </button>
+                <button @click="moveSelectedRowsUp($event)">
+                    <div class="icon icon-up"></div>
+                    Up
+                </button>
+                <button @click="moveSelectedRowsDown($event)">
+                    <div class="icon icon-down"></div>
+                    Down
+                </button>
+                <button @click="moveSelectedRowsToBottom($event)">
+                    <div class="icon icon-double-down"></div>
+                    Bottom
+                </button>
+            </div>
+            <div class="column-set-action">
+                <input ref="columnName" value="Column Name"/>
+                <button @click="addRow()">Add</button>
+                <button @click="removeSelected()">Remove Selected</button>
+            </div>
+        </div>
+    `
 });
 
 const onResize = () => {
@@ -233,6 +240,7 @@ onMounted(() => {
     // Mount the popover app
     const popoverContainer = document.createElement('div');
     document.body.appendChild(popoverContainer);
+    // eslint-disable-next-line vue/one-component-per-file
     const app = createApp({
         render() {
             return h(VuiPopover, {

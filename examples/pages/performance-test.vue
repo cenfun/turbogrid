@@ -1,124 +1,177 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Performance Test:</div>
-            </div>
-            <div>
-                <label>
-                    columns
-                    <select class="st-columns">
-                        <option>10</option>
-                        <option>20</option>
-                        <option>30</option>
-                        <option>50</option>
-                    </select>
-                    <input value="10" class="ip-columns" />
-                </label>
-                <label>
-                    rows
-                    <select class="st-rows">
-                        <option>100</option>
-                        <option>1k</option>
-                        <option>5k</option>
-                        <option selected>10k</option>
-                        <option>100k</option>
-                        <option>1m</option>
-                        <option>2m</option>
-                        <option>3m</option>
-                        <option>5m</option>
-                    </select>
-                    <input value="10k" class="ip-rows" />
-                </label>
-                <label>
-                    <input type="checkbox" class="cb-subs" />
-                    subs
-                </label>
-                <button class="bt-start">Start Test</button>
-                <div class="log-random"></div>
-            </div>
-            <div>
-                <div><b>Test Results:</b> <span class="time-result time-total-1"></span></div>
-                <div>Previous1: <span class="time-result time-total-2"></span></div>
-                <div>Previous2: <span class="time-result time-total-3"></span></div>
-                <div><b>Average:</b> <span class="time-result time-total-a"></span></div>
-            </div>
-            <div>
-
-                <label>
-                    frozenColumn:
-                    <input type="number" min="-1" max="5" step="1" value="-1" class="ip-number ip_frozenColumn" />
-                </label>
-                <label>
-                    frozenRow:
-                    <input type="number" min="-1" max="5" step="1" value="-1" class="ip-number ip_frozenRow" />
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_frozenBottom" />
-                    frozenBottom
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_rowNumberVisible" />
-                    rowNumberVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_selectVisible" />
-                    selectVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" class="cb_sortOnInit" />
-                    sortOnInit
-                </label>
-
-                <button class="bt-delete">Delete Selected Rows</button>
-
-            </div>
-            <div>
-                <div><b>Benchmark</b> (Intel i7-8700T 2.4GHz, 16.0GB, Win10 x64)</div>
-            </div>
-            <div class="benchmark">
-                <div>
-                    <b>Chrome</b>
-                    <div>v83</div>
-                </div>
-                <div class="red">
-                    <div class="benchmark-cr">10 x 3m</div>
-                    <div>1,611ms</div>
-                </div>
-                <div class="orange">
-                    <div class="benchmark-cr">10 x 2m</div>
-                    <div>1,086ms</div>
-                </div>
-                <div class="green">
-                    <div class="benchmark-cr">10 x 100k</div>
-                    <div>90ms</div>
-                </div>
-                <div class="benchmark-spacing"></div>
-                <div>
-                    <b>FireFox</b>
-                    <div>v77</div>
-                </div>
-                <div class="red">
-                    <div class="benchmark-cr">10 x 5m</div>
-                    <div>1,335ms</div>
-                </div>
-                <div class="orange">
-                    <div class="benchmark-cr">10 x 4m</div>
-                    <div>957ms</div>
-                </div>
-                <div class="green">
-                    <div class="benchmark-cr">10 x 300k</div>
-                    <div>105ms</div>
-                </div>
-
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Performance Test:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <label>
+          columns
+          <select class="st-columns">
+            <option>10</option>
+            <option>20</option>
+            <option>30</option>
+            <option>50</option>
+          </select>
+          <input
+            value="10"
+            class="ip-columns"
+          >
+        </label>
+        <label>
+          rows
+          <select class="st-rows">
+            <option>100</option>
+            <option>1k</option>
+            <option>5k</option>
+            <option selected>10k</option>
+            <option>100k</option>
+            <option>1m</option>
+            <option>2m</option>
+            <option>3m</option>
+            <option>5m</option>
+          </select>
+          <input
+            value="10k"
+            class="ip-rows"
+          >
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb-subs"
+          >
+          subs
+        </label>
+        <button class="bt-start">
+          Start Test
+        </button>
+        <div class="log-random" />
+      </div>
+      <div>
+        <div><b>Test Results:</b> <span class="time-result time-total-1" /></div>
+        <div>Previous1: <span class="time-result time-total-2" /></div>
+        <div>Previous2: <span class="time-result time-total-3" /></div>
+        <div><b>Average:</b> <span class="time-result time-total-a" /></div>
+      </div>
+      <div>
+        <label>
+          frozenColumn:
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="-1"
+            class="ip-number ip_frozenColumn"
+          >
+        </label>
+        <label>
+          frozenRow:
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="-1"
+            class="ip-number ip_frozenRow"
+          >
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_frozenBottom"
+          >
+          frozenBottom
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_rowNumberVisible"
+          >
+          rowNumberVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            class="cb_sortOnInit"
+          >
+          sortOnInit
+        </label>
+
+        <button class="bt-delete">
+          Delete Selected Rows
+        </button>
+      </div>
+      <div>
+        <div><b>Benchmark</b> (Intel i7-8700T 2.4GHz, 16.0GB, Win10 x64)</div>
+      </div>
+      <div class="benchmark">
+        <div>
+          <b>Chrome</b>
+          <div>v83</div>
+        </div>
+        <div class="red">
+          <div class="benchmark-cr">
+            10 x 3m
+          </div>
+          <div>1,611ms</div>
+        </div>
+        <div class="orange">
+          <div class="benchmark-cr">
+            10 x 2m
+          </div>
+          <div>1,086ms</div>
+        </div>
+        <div class="green">
+          <div class="benchmark-cr">
+            10 x 100k
+          </div>
+          <div>90ms</div>
+        </div>
+        <div class="benchmark-spacing" />
+        <div>
+          <b>FireFox</b>
+          <div>v77</div>
+        </div>
+        <div class="red">
+          <div class="benchmark-cr">
+            10 x 5m
+          </div>
+          <div>1,335ms</div>
+        </div>
+        <div class="orange">
+          <div class="benchmark-cr">
+            10 x 4m
+          </div>
+          <div>957ms</div>
+        </div>
+        <div class="green">
+          <div class="benchmark-cr">
+            10 x 300k
+          </div>
+          <div>105ms</div>
+        </div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

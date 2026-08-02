@@ -1,37 +1,44 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid loading API:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                </select>
-            </div>
-            <div>
-                <button>showLoading()</button>
-                <button>hideLoading()</button>
-
-                <button>showMask()</button>
-                <button>hideMask()</button>
-                <button>showMask({"opacity":"0.3"})</button>
-            </div>
-            <div>
-                <label>
-                    <button>setLoading()</button>
-                    (default)
-                </label>
-                <button>setLoading({"size":"16px", "color":"green"})</button>
-                <button>setLoading({"size":"60px", "color":"green", "fast":"fast"})</button>
-            </div>
-            <div>
-                <button>setLoading("Loading ...")</button>
-                <button class="setLoadingElement">setLoading with this element</button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid loading API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+        </select>
+      </div>
+      <div>
+        <button>showLoading()</button>
+        <button>hideLoading()</button>
+
+        <button>showMask()</button>
+        <button>hideMask()</button>
+        <button>showMask({"opacity":"0.3"})</button>
+      </div>
+      <div>
+        <label>
+          <button>setLoading()</button>
+          (default)
+        </label>
+        <button>setLoading({"size":"16px", "color":"green"})</button>
+        <button>setLoading({"size":"60px", "color":"green", "fast":"fast"})</button>
+      </div>
+      <div>
+        <button>setLoading("Loading ...")</button>
+        <button class="setLoadingElement">
+          setLoading with this element
+        </button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

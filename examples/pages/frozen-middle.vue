@@ -1,12 +1,17 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Frozen Middle:</div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Frozen Middle:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -114,7 +119,7 @@ FMG.prototype = {
         this.initData();
         this.resize();
 
-this.gridL.setOption({
+        this.gridL.setOption({
             theme: route.query.theme,
             scrollbarSize: this.scrollbarSize,
             scrollbarSizeV: 0

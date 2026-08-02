@@ -1,25 +1,34 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Online Render:</div>
-            </div>
-            <div>
-                <div class="tg-form">
-                    options:
-                    <textarea class="tg-textarea tg_options"></textarea>
-                </div>
-                <div class="tg-form">
-                    data:
-                    <textarea class="tg-textarea tg_data"></textarea>
-                </div>
-            </div>
-            <div>
-                <input type="button" class="bt-render" value="render()" />
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Online Render:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <div class="tg-form">
+          options:
+          <textarea class="tg-textarea tg_options" />
+        </div>
+        <div class="tg-form">
+          data:
+          <textarea class="tg-textarea tg_data" />
+        </div>
+      </div>
+      <div>
+        <input
+          type="button"
+          class="bt-render"
+          value="render()"
+        >
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -130,7 +139,7 @@ onMounted(() => {
 
     const render = () => {
         const options = JSON.parse(document.querySelector('.tg_options').value);
-options.theme = route.query.theme;
+        options.theme = route.query.theme;
         g.setOption(options);
         const data = JSON.parse(document.querySelector('.tg_data').value);
         g.setData(data);

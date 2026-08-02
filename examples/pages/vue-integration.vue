@@ -1,20 +1,26 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Vue Integration</div>
-                <select class="st-data" @change="onDataChange">
-                    <option>random-5x10</option>
-                    <option>random-100x2k</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Vue Integration
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select
+          class="st-data"
+          @change="onDataChange"
+        >
+          <option>random-5x10</option>
+          <option>random-100x2k</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div />
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

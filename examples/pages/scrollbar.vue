@@ -1,78 +1,121 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid customize scrollbar:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-5x20</option>
-                    <option>random-100x20k</option>
-                </select>
-            </div>
-            <div>
-                <label for="cb_frozenBottom">
-                    <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                    frozenBottom
-                </label>
-                <label>
-                    frozenColumn
-                    <input type="number" min="-1" max="5" step="1" value="0" class="ip-number ip_frozenColumn" />
-                </label>
-                <label>
-                    frozenRow
-                    <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenRow" />
-                </label>
-
-                <button>update()</button>
-                <button>rerender()</button>
-            </div>
-            <div>
-
-                <label>
-                    scrollPaneMinWidth
-                    <input type="number" value="30" class="ip-number ip_scrollPaneMinWidth" />
-                </label>
-
-                <label>scrollbarType
-                    <select class="st_scrollbarType">
-                        <option>auto</option>
-                        <option>touch</option>
-                        <option>mobile</option>
-                        <option></option>
-                    </select>
-                </label>
-
-                <label>scrollbarSize
-                    <input type="number" value="12" class="ip-number ip_scrollbarSize" />
-                </label>
-
-                <label for="cb_scrollbarRound">
-                    <input type="checkbox" id="cb_scrollbarRound" class="cb_scrollbarRound" />
-                    scrollbarRound
-                </label>
-
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" id="cb_scrollPaneGradient" class="cb_scrollPaneGradient" />
-                    scrollPaneGradient
-                </label>
-
-                <label for="cb_scrollbarFade">
-                    <input type="checkbox" id="cb_scrollbarFade" class="cb_scrollbarFade" />
-                    scrollbarFade
-                </label>
-
-                <label>
-                    scrollbarFadeTimeout
-                    <input type="number" value="1000" class="ip-number ip_scrollbarFadeTimeout" />
-                </label>
-
-            </div>
-
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid customize scrollbar:
         </div>
-        <div ref="gridContainer" class="grid-container grid-gradient flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-5x20</option>
+          <option>random-100x20k</option>
+        </select>
+      </div>
+      <div>
+        <label for="cb_frozenBottom">
+          <input
+            id="cb_frozenBottom"
+            type="checkbox"
+            class="cb_frozenBottom"
+          >
+          frozenBottom
+        </label>
+        <label>
+          frozenColumn
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="0"
+            class="ip-number ip_frozenColumn"
+          >
+        </label>
+        <label>
+          frozenRow
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="1"
+            class="ip-number ip_frozenRow"
+          >
+        </label>
+
+        <button>update()</button>
+        <button>rerender()</button>
+      </div>
+      <div>
+        <label>
+          scrollPaneMinWidth
+          <input
+            type="number"
+            value="30"
+            class="ip-number ip_scrollPaneMinWidth"
+          >
+        </label>
+
+        <label>scrollbarType
+          <select class="st_scrollbarType">
+            <option>auto</option>
+            <option>touch</option>
+            <option>mobile</option>
+            <option />
+          </select>
+        </label>
+
+        <label>scrollbarSize
+          <input
+            type="number"
+            value="12"
+            class="ip-number ip_scrollbarSize"
+          >
+        </label>
+
+        <label for="cb_scrollbarRound">
+          <input
+            id="cb_scrollbarRound"
+            type="checkbox"
+            class="cb_scrollbarRound"
+          >
+          scrollbarRound
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            id="cb_scrollPaneGradient"
+            type="checkbox"
+            class="cb_scrollPaneGradient"
+          >
+          scrollPaneGradient
+        </label>
+
+        <label for="cb_scrollbarFade">
+          <input
+            id="cb_scrollbarFade"
+            type="checkbox"
+            class="cb_scrollbarFade"
+          >
+          scrollbarFade
+        </label>
+
+        <label>
+          scrollbarFadeTimeout
+          <input
+            type="number"
+            value="1000"
+            class="ip-number ip_scrollbarFadeTimeout"
+          >
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container grid-gradient flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -139,7 +182,7 @@ onMounted(() => {
 
     [
         '.st-data',
-        
+
         '.ip_frozenColumn',
         '.ip_frozenRow',
         '.cb_frozenBottom',

@@ -1,17 +1,22 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid POC:</div>
-                <select class="st-data">
-                    <option>test-data</option>
-                    <option>random-3x10</option>
-                    <option>random-10x100</option>
-                </select>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid POC:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>test-data</option>
+          <option>random-3x10</option>
+          <option>random-10x100</option>
+        </select>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

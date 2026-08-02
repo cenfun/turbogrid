@@ -1,17 +1,22 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Dynamic Load Cells (request by row id and column id)</div>
-            </div>
-            <div>
-                <button>scrollToRow(2000)</button>
-                <button>scrollToColumn(20)</button>
-                <button>scrollToCell(3000, 30)</button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Dynamic Load Cells (request by row id and column id)
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <button>scrollToRow(2000)</button>
+        <button>scrollToColumn(20)</button>
+        <button>scrollToCell(3000, 30)</button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

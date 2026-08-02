@@ -1,19 +1,33 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid editor with Vue components <a href="https://cenfun.github.io/vine-ui" target="_blank">vine-ui</a></div>
-            </div>
-            <div>
-                <button @click="exportData">exportData()</button>
-                <label>
-                    <input class="bt-disable" type="checkbox" @change="onDisableChange" />
-                    disable editor
-                </label>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid editor with Vue components <a
+            href="https://cenfun.github.io/vine-ui"
+            target="_blank"
+          >vine-ui</a>
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <button @click="exportData">
+          exportData()
+        </button>
+        <label>
+          <input
+            class="bt-disable"
+            type="checkbox"
+            @change="onDisableChange"
+          >
+          disable editor
+        </label>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -23,32 +37,15 @@ import {
     createApp, defineComponent, ref, onMounted, onBeforeUnmount, nextTick
 } from 'vue';
 import { useRoute } from 'vue-router';
-import { components } from 'vine-ui';
+import { VuiSwitch, VuiSelect } from 'vine-ui';
 const route = useRoute();
-
-
-const { VuiSwitch, VuiSelect } = components;
 
 let currentInputEditor;
 
+// eslint-disable-next-line vue/one-component-per-file
 const InputEditor = defineComponent({
+    // eslint-disable-next-line vue/require-prop-types
     props: ['type', 'value', 'disabled', 'rowItem', 'columnItem'],
-    template: `<div :class="classMap" @focus="start" @click="start" tabindex="0">
-            <div v-if="editing">
-                <div v-if="editorType==='number'">
-                    <input type="number" v-model="moduleValue" @blur="end" />
-                </div>
-                <div v-else-if="editorType==='date'">
-                    <input type="date" v-model="moduleValue" @blur="end" />
-                </div>
-                <div v-else>
-                    <input v-model="moduleValue" @blur="end" />
-                </div>
-            </div>
-            <div v-else>
-                {{ originalValue }}
-            </div>
-        </div>`,
     data() {
         return {
             editing: false,
@@ -97,10 +94,27 @@ const InputEditor = defineComponent({
             if (this.moduleValue !== this.$props.value) {
                 this.$props.rowItem[this.$props.columnItem.id] = this.moduleValue;
                 this.originalValue = this.moduleValue;
+                // eslint-disable-next-line vue/require-explicit-emits
                 this.$emit('editor-change', this.moduleValue);
             }
         }
-    }
+    },
+    template: `<div :class="classMap" @focus="start" @click="start" tabindex="0">
+            <div v-if="editing">
+                <div v-if="editorType==='number'">
+                    <input type="number" v-model="moduleValue" @blur="end" />
+                </div>
+                <div v-else-if="editorType==='date'">
+                    <input type="date" v-model="moduleValue" @blur="end" />
+                </div>
+                <div v-else>
+                    <input v-model="moduleValue" @blur="end" />
+                </div>
+            </div>
+            <div v-else>
+                {{ originalValue }}
+            </div>
+        </div>`
 });
 
 const hasOwn = function(obj, key) {
@@ -132,6 +146,7 @@ const getEditable = (rowItem, columnItem) => {
 const editorFormatters = {
     inputEditor: (value, rowItem, columnItem) => {
         const div = document.createElement('div');
+        // eslint-disable-next-line vue/one-component-per-file
         createApp(InputEditor, {
             type: columnItem.editor,
             value,
@@ -147,6 +162,7 @@ const editorFormatters = {
     switchEditor: (value, rowItem, columnItem) => {
         const div = document.createElement('div');
         div.className = 'editor-switch';
+        // eslint-disable-next-line vue/one-component-per-file
         createApp(VuiSwitch, {
             checked: value,
             disabled: !getEditable(rowItem, columnItem),
@@ -159,6 +175,7 @@ const editorFormatters = {
     selectEditor: (value, rowItem, columnItem) => {
         const div = document.createElement('div');
         div.className = 'editor-select';
+        // eslint-disable-next-line vue/one-component-per-file
         createApp(VuiSelect, {
             options: columnItem.options,
             value,

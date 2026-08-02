@@ -1,41 +1,70 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Events Example:</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x20k</option>
-                </select>
-            </div>
-            <div>
-                <div class="flex-column flex-column-5">
-                    <div>Bind Events: <button title="remove" class="bt-event-remove">&gt;&gt;</button></div>
-                    <select multiple="multiple" class="event-list event-list-bind"></select>
-                </div>
-                <div class="flex-column flex-column-5">
-                    <div>Unbind Events: <button title="add" class="bt-event-add">&lt;&lt;</button></div>
-                    <select multiple="multiple" class="event-list event-list-unbind"></select>
-                </div>
-                <div class="flex-auto flex-column flex-column-5">
-                    <div>Event logs <button class="bt-clear">Clear Logs</button></div>
-                    <div class="log-container">
-                        <div class="log-content"></div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button>render()</button>
-                <button>rerender()</button>
-                <button>addRow({"id":"id1","name":"Row"})</button>
-                <button>deleteRow("id1")</button>
-                <button>showMask()</button>
-                <button>hideMask()</button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Events Example:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x20k</option>
+        </select>
+      </div>
+      <div>
+        <div class="flex-column flex-column-5">
+          <div>
+            Bind Events: <button
+              title="remove"
+              class="bt-event-remove"
+            >
+              &gt;&gt;
+            </button>
+          </div>
+          <select
+            multiple="multiple"
+            class="event-list event-list-bind"
+          />
+        </div>
+        <div class="flex-column flex-column-5">
+          <div>
+            Unbind Events: <button
+              title="add"
+              class="bt-event-add"
+            >
+              &lt;&lt;
+            </button>
+          </div>
+          <select
+            multiple="multiple"
+            class="event-list event-list-unbind"
+          />
+        </div>
+        <div class="flex-auto flex-column flex-column-5">
+          <div>
+            Event logs <button class="bt-clear">
+              Clear Logs
+            </button>
+          </div>
+          <div class="log-container">
+            <div class="log-content" />
+          </div>
+        </div>
+      </div>
+      <div>
+        <button>render()</button>
+        <button>rerender()</button>
+        <button>addRow({"id":"id1","name":"Row"})</button>
+        <button>deleteRow("id1")</button>
+        <button>showMask()</button>
+        <button>hideMask()</button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -46,7 +75,9 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
-import { init, initCommonEvents, appendLog } from '../global.js';
+import {
+    init, initCommonEvents, appendLog
+} from '../global.js';
 const route = useRoute();
 
 

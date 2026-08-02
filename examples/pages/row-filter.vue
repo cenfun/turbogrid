@@ -1,59 +1,72 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid row filter</div>
-                <select class="st-data">
-                    <option>sample-data</option>
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                    <option>random-10x10k</option>
-                    <option>random-10x100k</option>
-                </select>
-            </div>
-            <div>
-                <label>rowFilter:
-                    <input type="text" value="" placeholder="keywords" class="ip-keywords" onfocus="this.select()" />
-                </label>
-
-                <label>rowFilteredSort:
-                    <select class="st-rowFilteredSort">
-                        <option></option>
-                        <option>name</option>
-                        <option>{"sortField": "name", "sortAsc": false}</option>
-                    </select>
-                </label>
-
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" class="cb-removeSortColumn" />
-                    removeSortColumn on rowFilter
-                </label>
-            </div>
-            <div>
-                <button>hideRow("total")</button>
-                <button>showRow("total")</button>
-
-                <button>hideRow("top")</button>
-                <button>showRow("top")</button>
-
-                <button>hideRow(0)</button>
-                <button>showRow(0)</button>
-
-                <button>hideRow(1)</button>
-                <button>showRow(1)</button>
-            </div>
-            <div>
-                <button>getRowItem("total")</button>
-                <button>getRowItem("level_1_2")</button>
-                <button>getRowItem("level_3_2")</button>
-                <button>getRowsLength()</button>
-                <button>getRowsLength(true)</button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid row filter
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>sample-data</option>
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+          <option>random-10x10k</option>
+          <option>random-10x100k</option>
+        </select>
+      </div>
+      <div>
+        <label>rowFilter:
+          <input
+            type="text"
+            value=""
+            placeholder="keywords"
+            class="ip-keywords"
+            onfocus="this.select()"
+          >
+        </label>
+
+        <label>rowFilteredSort:
+          <select class="st-rowFilteredSort">
+            <option />
+            <option>name</option>
+            <option>{"sortField": "name", "sortAsc": false}</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            class="cb-removeSortColumn"
+          >
+          removeSortColumn on rowFilter
+        </label>
+      </div>
+      <div>
+        <button>hideRow("total")</button>
+        <button>showRow("total")</button>
+
+        <button>hideRow("top")</button>
+        <button>showRow("top")</button>
+
+        <button>hideRow(0)</button>
+        <button>showRow(0)</button>
+
+        <button>hideRow(1)</button>
+        <button>showRow(1)</button>
+      </div>
+      <div>
+        <button>getRowItem("total")</button>
+        <button>getRowItem("level_1_2")</button>
+        <button>getRowItem("level_3_2")</button>
+        <button>getRowsLength()</button>
+        <button>getRowsLength(true)</button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

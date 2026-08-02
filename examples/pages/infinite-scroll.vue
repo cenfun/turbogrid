@@ -1,33 +1,57 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Infinite Scroll</div>
-            </div>
-            <div>
-                <label>
-                    rowHeight
-                    <input type="number" value="30" class="ip-number ip_rowHeight" />
-                </label>
-                <label>
-                    <input type="checkbox" class="cb_scrollbarFade" />
-                    scrollbarFade
-                </label>
-            </div>
-            <div>
-                <label>
-                    Page Size
-                    <input type="number" value="50" class="ip-number ip_pageSize" />
-                </label>
-                <label>
-                    <input type="checkbox" checked class="cb_rowHeightFix" />
-                    rowHeightFix
-                </label>
-                <input class="bt-del" type="button" value="delete selected rows" />
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Infinite Scroll
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <label>
+          rowHeight
+          <input
+            type="number"
+            value="30"
+            class="ip-number ip_rowHeight"
+          >
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="cb_scrollbarFade"
+          >
+          scrollbarFade
+        </label>
+      </div>
+      <div>
+        <label>
+          Page Size
+          <input
+            type="number"
+            value="50"
+            class="ip-number ip_pageSize"
+          >
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_rowHeightFix"
+          >
+          rowHeightFix
+        </label>
+        <input
+          class="bt-del"
+          type="button"
+          value="delete selected rows"
+        >
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

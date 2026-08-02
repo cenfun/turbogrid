@@ -19,14 +19,12 @@ export default [
             }
         }
     },
-    plus,
     ... vue.configs['flat/recommended'],
+    plus,
     {
         rules: {
-            'max-len': 'off',
             'vue/no-v-html': 'off',
-            'vue/multi-word-component-names': 'off',
-            'vue/require-explicit-emits': 'error'
+            'vue/multi-word-component-names': 'off'
         }
     }
 ];

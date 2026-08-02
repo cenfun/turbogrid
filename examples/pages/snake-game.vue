@@ -1,35 +1,51 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Snake Game:</div>
-            </div>
-            <div>
-                <label>
-                    Size:
-                    <select class="st-size" v-model="size" @change="initGame">
-                        <option>10</option>
-                        <option selected>20</option>
-                    </select>
-                </label>
-                <label>
-                    Level:
-                    <select class="st-level" v-model="level" @change="initGame">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>
-                </label>
-                <button @click="start">Start</button>
-                <button @click="stop">Stop</button> (Press key ↑ ↓ ← →)
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Snake Game:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+      </div>
+      <div>
+        <label>
+          Size:
+          <select
+            v-model="size"
+            class="st-size"
+            @change="initGame"
+          >
+            <option>10</option>
+            <option selected>20</option>
+          </select>
+        </label>
+        <label>
+          Level:
+          <select
+            v-model="level"
+            class="st-level"
+            @change="initGame"
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </label>
+        <button @click="start">
+          Start
+        </button>
+        <button @click="stop">
+          Stop
+        </button> (Press key ↑ ↓ ← →)
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
-
 import { init } from '../global.js';
 import {
     onMounted, onBeforeUnmount, ref
@@ -43,6 +59,7 @@ const level = ref(1);
 
 class SHEGrid extends Grid {
 
+    // eslint-disable-next-line no-shadow
     createData(size, columnWidth) {
 
         const columns = [];
@@ -243,6 +260,7 @@ class SHEGrid extends Grid {
         const l = this.snake.length;
         if (l) {
 
+            // eslint-disable-next-line no-shadow
             let start = 0;
             if (noHead) {
                 start = 1;
@@ -344,6 +362,7 @@ class SHEGrid extends Grid {
         this.runSnake();
     }
 
+    // eslint-disable-next-line no-shadow
     init(size, level) {
         this.stop();
         this.snake = [];
@@ -520,8 +539,8 @@ onBeforeUnmount(() => {
 }
 
 .grid-container .tg-row .tg-cell {
-    border-right: 1px solid #ccc;
     padding: 0;
+    border-right: 1px solid #ccc;
 }
 
 .grid-container .tg-cell .outer {
@@ -540,8 +559,8 @@ onBeforeUnmount(() => {
 }
 
 .grid-container .tg-cell .outer.food {
-    background: #999;
     border: 1px solid #666;
+    background: #999;
     animation: food 1s linear infinite;
 }
 
@@ -549,9 +568,11 @@ onBeforeUnmount(() => {
     0% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.2;
     }
+
     100% {
         opacity: 1;
     }

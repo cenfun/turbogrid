@@ -1,39 +1,75 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid no rows demo</div>
-                <select class="st-data">
-                    <option>random-3x10</option>
-                    <option>random-100x2k</option>
-                    <option>random-10x10k</option>
-                    <option>random-10x100k</option>
-                </select>
-            </div>
-            <div>rowNotFound:
-                <input type="text" class="ip_rowNotFound" size="45" value="No Results" />
-            </div>
-            <div>
-                <label>frozenColumn
-                    <input type="number" min="-1" max="5" step="1" value="1" class="ip-number ip_frozenColumn" />
-                </label>
-                <label>frozenRow
-                    <input type="number" min="-1" max="5" step="1" value="-1" class="ip-number ip_frozenRow" />
-                </label>
-                <input type="checkbox" id="cb_frozenBottom" class="cb_frozenBottom" />
-                <label for="cb_frozenBottom">frozenBottom</label>
-            </div>
-            <div>
-                <button>addRow("New Row")</button>
-            </div>
-            <div>
-                <input type="text" value="" placeholder="keywords" class="ip-keywords" />
-                <button class="bt-del">delete selected rows</button>
-                <span class="message_log"></span>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid no rows demo
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>random-3x10</option>
+          <option>random-100x2k</option>
+          <option>random-10x10k</option>
+          <option>random-10x100k</option>
+        </select>
+      </div>
+      <div>
+        rowNotFound:
+        <input
+          type="text"
+          class="ip_rowNotFound"
+          size="45"
+          value="No Results"
+        >
+      </div>
+      <div>
+        <label>frozenColumn
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="1"
+            class="ip-number ip_frozenColumn"
+          >
+        </label>
+        <label>frozenRow
+          <input
+            type="number"
+            min="-1"
+            max="5"
+            step="1"
+            value="-1"
+            class="ip-number ip_frozenRow"
+          >
+        </label>
+        <input
+          id="cb_frozenBottom"
+          type="checkbox"
+          class="cb_frozenBottom"
+        >
+        <label for="cb_frozenBottom">frozenBottom</label>
+      </div>
+      <div>
+        <button>addRow("New Row")</button>
+      </div>
+      <div>
+        <input
+          type="text"
+          value=""
+          placeholder="keywords"
+          class="ip-keywords"
+        >
+        <button class="bt-del">
+          delete selected rows
+        </button>
+        <span class="message_log" />
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

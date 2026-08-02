@@ -1,58 +1,74 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid update/render API</div>
-                <select class="st-data">
-                    <option>random-20x100</option>
-                    <option>random-20x5k</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-                <label for="cb_selectMultiple">
-                    <input type="checkbox" checked id="cb_selectMultiple" class="cb_selectMultiple" />
-                    selectMultiple
-                </label>
-            </div>
-            <div>
-                <button>render()</button>
-                <button class="data-render">setData + render</button>
-                <button class="option-render">setOption + render</button>
-                <button class="formatter-render">setFormatter + render</button>
-            </div>
-            <div>
-                <button>update()</button>
-
-                <button>updateRow(3)</button>
-                <button>updateRow(3, {"name":"New Name", "index":"100", "c0": "New Value"})</button>
-
-                <button>updateCell(3,1)</button>
-                <button>updateCell(3,1,"New Cell Name")</button>
-                <button>updateCell(3,2,1000)</button>
-                <button>updateCell(3,3,"New Cell Value")</button>
-            </div>
-
-            <div>
-                <button>flushRow(5)</button>
-                <button>flushRow([7,8])</button>
-                <button>flushRowFrom(10)</button>
-                <button>flushCell(6,1)</button>
-                <button>flushCell([6,9],[3,4])</button>
-
-                <button>flushColumn(2)</button>
-                <button>flushColumn([3,4])</button>
-                <button>flushColumnFrom(6)</button>
-                <button>flushBody()</button>
-            </div>
-
-            <div>
-                <button>rerender()</button>
-                <button>destroy()</button>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid update/render API
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>random-20x100</option>
+          <option>random-20x5k</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div>
+        <label for="cb_selectMultiple">
+          <input
+            id="cb_selectMultiple"
+            type="checkbox"
+            checked
+            class="cb_selectMultiple"
+          >
+          selectMultiple
+        </label>
+      </div>
+      <div>
+        <button>render()</button>
+        <button class="data-render">
+          setData + render
+        </button>
+        <button class="option-render">
+          setOption + render
+        </button>
+        <button class="formatter-render">
+          setFormatter + render
+        </button>
+      </div>
+      <div>
+        <button>update()</button>
+
+        <button>updateRow(3)</button>
+        <button>updateRow(3, {"name":"New Name", "index":"100", "c0": "New Value"})</button>
+
+        <button>updateCell(3,1)</button>
+        <button>updateCell(3,1,"New Cell Name")</button>
+        <button>updateCell(3,2,1000)</button>
+        <button>updateCell(3,3,"New Cell Value")</button>
+      </div>
+
+      <div>
+        <button>flushRow(5)</button>
+        <button>flushRow([7,8])</button>
+        <button>flushRowFrom(10)</button>
+        <button>flushCell(6,1)</button>
+        <button>flushCell([6,9],[3,4])</button>
+
+        <button>flushColumn(2)</button>
+        <button>flushColumn([3,4])</button>
+        <button>flushColumnFrom(6)</button>
+        <button>flushBody()</button>
+      </div>
+
+      <div>
+        <button>rerender()</button>
+        <button>destroy()</button>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -95,7 +111,7 @@ onMounted(() => {
     });
 
     const renderData = function(data) {
-const options = {
+        const options = {
             theme: route.query.theme || 'default',
             selectMultiple: document.querySelector('.cb_selectMultiple').checked,
             selectVisible: true,

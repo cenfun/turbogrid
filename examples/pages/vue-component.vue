@@ -1,20 +1,26 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Vue Component</div>
-                <select class="st-data" @change="onDataChange">
-                    <option>random-5x10</option>
-                    <option>random-100x2k</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Vue Component
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select
+          class="st-data"
+          @change="onDataChange"
+        >
+          <option>random-5x10</option>
+          <option>random-100x2k</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div />
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -30,7 +36,9 @@ const route = useRoute();
 
 
 // ====================================================================
+// eslint-disable-next-line vue/one-component-per-file
 const HoverIcon = defineComponent({
+    // eslint-disable-next-line vue/require-prop-types
     props: ['value'],
     template: `
         <div class="hover-icon flex-row flex-row-5" :title="value">
@@ -101,6 +109,7 @@ onMounted(() => {
     g.setFormatter({
         'vue-sync': function(v, r, c) {
             const div = document.createElement('div');
+            // eslint-disable-next-line vue/one-component-per-file
             createApp(HoverIcon, {
                 value: v
             }).mount(div);
@@ -109,6 +118,7 @@ onMounted(() => {
         'vue-async': function(v, r, c) {
             const id = `${this.id}-c-${c.tg_index}-r-${r.tg_index}`;
             nextTick(function() {
+                // eslint-disable-next-line vue/one-component-per-file
                 createApp(HoverIcon, {
                     value: v
                 }).mount(`.${id}`);
@@ -145,7 +155,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style scoped>
-
-</style>

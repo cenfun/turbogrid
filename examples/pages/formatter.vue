@@ -77,6 +77,7 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
+// eslint-disable-next-line max-lines-per-function
 onMounted(() => {
     init();
     const g = new Grid(gridContainer.value);

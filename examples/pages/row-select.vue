@@ -1,72 +1,91 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid row select API:</div>
-                <select class="st-data">
-                    <option>random-10x20</option>
-                    <option>random-10x1k</option>
-                    <option>random-20x20k</option>
-                    <option>sample-data</option>
-                </select>
-            </div>
-            <div>
-
-
-                <label>
-                    <input type="checkbox" checked class="cb_selectMultiple" />
-                    selectMultiple
-                </label>
-
-                <label >
-                    <input type="checkbox" checked class="cb_selectVisible" />
-                    selectVisible
-                </label>
-
-                <label>
-                    <input type="checkbox" checked class="cb_selectAllVisible" />
-                    selectAllVisible
-                </label>
-
-                <label>
-                    selectAllOnInit
-                    <select class="st_selectAllOnInit">
-                        <option>null</option>
-                        <option>true</option>
-                        <option>false</option>
-                    </select>
-                </label>
-
-            </div>
-            <div>
-                <input type="text" value="" placeholder="keywords" class="ip-keywords" />
-                rowFilter
-            </div>
-            <div>
-                <button>selectAll()</button>
-                <button>selectAll(false)</button>
-            </div>
-            <div>
-                <button>setRowSelected(7)</button>
-                <button>setRowSelected(7, false)</button>
-                <button>setRowSelected(8)</button>
-                <button>setRowSelected(8, false)</button>
-                <button>setRowSelected(9,{"shiftKey":true})</button>
-
-                <button>setRowSelected([5,6])</button>
-                <button>setRowSelected([5,6],false)</button>
-                <button>setRowSelected(9,{"shiftKey":true})</button>
-            </div>
-            <div>
-                <button>getSelectedRow()</button>
-                <button>getSelectedRows()</button>
-            </div>
-            <div>
-                <div>onSelectChanged: <span class="onSelectChanged"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid row select API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option>random-10x20</option>
+          <option>random-10x1k</option>
+          <option>random-20x20k</option>
+          <option>sample-data</option>
+        </select>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectMultiple"
+          >
+          selectMultiple
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked
+            class="cb_selectAllVisible"
+          >
+          selectAllVisible
+        </label>
+
+        <label>
+          selectAllOnInit
+          <select class="st_selectAllOnInit">
+            <option>null</option>
+            <option>true</option>
+            <option>false</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <input
+          type="text"
+          value=""
+          placeholder="keywords"
+          class="ip-keywords"
+        >
+        rowFilter
+      </div>
+      <div>
+        <button>selectAll()</button>
+        <button>selectAll(false)</button>
+      </div>
+      <div>
+        <button>setRowSelected(7)</button>
+        <button>setRowSelected(7, false)</button>
+        <button>setRowSelected(8)</button>
+        <button>setRowSelected(8, false)</button>
+        <button>setRowSelected(9,{"shiftKey":true})</button>
+
+        <button>setRowSelected([5,6])</button>
+        <button>setRowSelected([5,6],false)</button>
+        <button>setRowSelected(9,{"shiftKey":true})</button>
+      </div>
+      <div>
+        <button>getSelectedRow()</button>
+        <button>getSelectedRows()</button>
+      </div>
+      <div>
+        <div>onSelectChanged: <span class="onSelectChanged" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>

@@ -1,93 +1,147 @@
 <template>
-    <div class="main flex-auto flex-column">
-        <div class="controller">
-            <div>
-                <div class="controller-title">Grid Row Sort API:</div>
-                <select class="st-data">
-                    <option value="sample-sort-data">sort data</option>
-                    <option value="sample-sort-data2">date</option>
-                    <option value="sample-sort-data3">unstable test 1500 rows</option>
-                    <option value="sample-sort-data4">all sortable false</option>
-                    <option value="sample-sort-data5">test sortFixed</option>
-                    <option>random-10x10</option>
-                    <option>random-10x2k</option>
-                </select>
-            </div>
-            <div>
-                <label for="cb_selectVisible">
-                    <input type="checkbox" id="cb_selectVisible" class="cb_selectVisible" />
-                    selectVisible
-                </label>
-
-                <label for="cb_selectAllVisible">
-                    <input type="checkbox" id="cb_selectAllVisible" class="cb_selectAllVisible" />
-                    selectAllVisible
-                </label>
-            </div>
-            <div>
-                <label>
-                    sortIndicator:
-                    <select class="st_sortIndicator">
-                        <option>h</option>
-                        <option>v</option>
-                    </select>
-                </label>
-
-                <label for="cb_sortOnInit">
-                    <input type="checkbox" checked id="cb_sortOnInit" class="cb_sortOnInit" />
-                    sortOnInit
-                </label>
-
-                <label for="cb_sortAsc">
-                    <input type="checkbox" checked id="cb_sortAsc" class="cb_sortAsc" />
-                    sortAsc
-                </label>
-
-                <label for="cb_sortBlankValueBottom">
-                    <input type="checkbox" checked id="cb_sortBlankValueBottom" class="cb_sortBlankValueBottom" />
-                    sortBlankValueBottom
-                </label>
-            </div>
-            <div>
-                <label>
-                    sortField:
-                    <input type="text" class="it_sortField" value="string_number" />
-                </label>
-                <select class="st_sortField">
-                    <option></option>
-                    <option selected>string_number</option>
-                    <option>name</option>
-                    <option>number</option>
-                    <option>number2</option>
-                    <option>date</option>
-                    <option>number_string</option>
-                    <option>string_null</option>
-                    <option>sortable_false</option>
-                </select>
-                <button class="bt-render">render</button>
-            </div>
-            <div>
-                <button>setSortColumn("index")</button>
-                <button>removeSortColumn()</button>
-                <button>exportData()</button>
-            </div>
-            <div>
-                <label for="cb_preventDefaultOnClick">
-                    <input type="checkbox" id="cb_preventDefaultOnClick" class="cb_preventDefaultOnClick" />
-                    preventDefault onClick
-                </label>
-
-                <label for="cb_preventDefaultOnSort">
-                    <input type="checkbox" id="cb_preventDefaultOnSort" class="cb_preventDefaultOnSort" />
-                    preventDefault onSort
-                </label>
-            </div>
-            <div>
-                <div>onSort: <span class="onSort"></span></div>
-            </div>
+  <div class="main flex-auto flex-column">
+    <div class="controller">
+      <div>
+        <div class="controller-title">
+          Grid Row Sort API:
         </div>
-        <div ref="gridContainer" class="grid-container flex-auto"></div>
+        <select class="st-data">
+          <option value="sample-sort-data">
+            sort data
+          </option>
+          <option value="sample-sort-data2">
+            date
+          </option>
+          <option value="sample-sort-data3">
+            unstable test 1500 rows
+          </option>
+          <option value="sample-sort-data4">
+            all sortable false
+          </option>
+          <option value="sample-sort-data5">
+            test sortFixed
+          </option>
+          <option>random-10x10</option>
+          <option>random-10x2k</option>
+        </select>
+      </div>
+      <div>
+        <label for="cb_selectVisible">
+          <input
+            id="cb_selectVisible"
+            type="checkbox"
+            class="cb_selectVisible"
+          >
+          selectVisible
+        </label>
+
+        <label for="cb_selectAllVisible">
+          <input
+            id="cb_selectAllVisible"
+            type="checkbox"
+            class="cb_selectAllVisible"
+          >
+          selectAllVisible
+        </label>
+      </div>
+      <div>
+        <label>
+          sortIndicator:
+          <select class="st_sortIndicator">
+            <option>h</option>
+            <option>v</option>
+          </select>
+        </label>
+
+        <label for="cb_sortOnInit">
+          <input
+            id="cb_sortOnInit"
+            type="checkbox"
+            checked
+            class="cb_sortOnInit"
+          >
+          sortOnInit
+        </label>
+
+        <label for="cb_sortAsc">
+          <input
+            id="cb_sortAsc"
+            type="checkbox"
+            checked
+            class="cb_sortAsc"
+          >
+          sortAsc
+        </label>
+
+        <label for="cb_sortBlankValueBottom">
+          <input
+            id="cb_sortBlankValueBottom"
+            type="checkbox"
+            checked
+            class="cb_sortBlankValueBottom"
+          >
+          sortBlankValueBottom
+        </label>
+      </div>
+      <div>
+        <label>
+          sortField:
+          <input
+            type="text"
+            class="it_sortField"
+            value="string_number"
+          >
+        </label>
+        <select class="st_sortField">
+          <option />
+          <option selected>
+            string_number
+          </option>
+          <option>name</option>
+          <option>number</option>
+          <option>number2</option>
+          <option>date</option>
+          <option>number_string</option>
+          <option>string_null</option>
+          <option>sortable_false</option>
+        </select>
+        <button class="bt-render">
+          render
+        </button>
+      </div>
+      <div>
+        <button>setSortColumn("index")</button>
+        <button>removeSortColumn()</button>
+        <button>exportData()</button>
+      </div>
+      <div>
+        <label for="cb_preventDefaultOnClick">
+          <input
+            id="cb_preventDefaultOnClick"
+            type="checkbox"
+            class="cb_preventDefaultOnClick"
+          >
+          preventDefault onClick
+        </label>
+
+        <label for="cb_preventDefaultOnSort">
+          <input
+            id="cb_preventDefaultOnSort"
+            type="checkbox"
+            class="cb_preventDefaultOnSort"
+          >
+          preventDefault onSort
+        </label>
+      </div>
+      <div>
+        <div>onSort: <span class="onSort" /></div>
+      </div>
     </div>
+    <div
+      ref="gridContainer"
+      class="grid-container flex-auto"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -104,6 +158,7 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
+// eslint-disable-next-line max-lines-per-function
 onMounted(() => {
     init();
     const customData = {
@@ -650,6 +705,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style scoped>
-</style>

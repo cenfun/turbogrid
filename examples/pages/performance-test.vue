@@ -17,7 +17,7 @@
           </select>
           <input
             value="10"
-            class="ip-columns"
+            class="ip-columns pt-columns"
           >
         </label>
         <label>
@@ -35,7 +35,7 @@
           </select>
           <input
             value="10k"
-            class="ip-rows"
+            class="ip-rows pt-rows"
           >
         </label>
         <label>
@@ -381,12 +381,12 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.ip-columns {
+<style lang="scss">
+.pt-columns {
     width: 50px;
 }
 
-.ip-rows {
+.pt-rows {
     width: 100px;
 }
 
@@ -402,11 +402,13 @@ onBeforeUnmount(() => {
     color: green;
 }
 
-.benchmark .red,
-.benchmark .orange,
-.benchmark .green {
-    border-left: 1px solid #ccc;
-    padding: 0 5px;
+.benchmark {
+    .red,
+    .orange,
+    .green {
+        border-left: 1px solid #ccc;
+        padding: 0 5px;
+    }
 }
 
 .benchmark-spacing {

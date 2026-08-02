@@ -61,7 +61,7 @@
       </div>
       <div class="status" />
     </div>
-    <div class="grid-container flex-auto" />
+    <div class="grid-container grid-container-auto-column-width flex-auto" />
   </div>
 </template>
 
@@ -245,31 +245,31 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.grid-container {
-            min-height: 260px;
-        }
+<style lang="scss">
+.grid-container-auto-column-width {
+    min-height: 260px;
 
-        .status {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 6px 0;
-            font-size: 13px;
-        }
+    .tg-header-item {
+        border: 1px solid #080;
 
-        .status span {
-            padding: 2px 6px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            background: #f8f8f8;
-        }
-
-        .grid-container .tg-header-item {
-            border: 1px solid #080;
-        }
-
-        .grid-container .tg-header-item.tg-header-group-item::after {
+        &.tg-header-group-item::after {
             border: none;
         }
+    }
+}
+
+.status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 13px;
+
+    span {
+        padding: 2px 6px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        background: #f8f8f8;
+    }
+}
 </style>

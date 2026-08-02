@@ -9,7 +9,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-tooltip flex-auto"
     />
     <div
       ref="tooltip"
@@ -329,8 +329,8 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-:deep(.grid-container) {
+<style lang="scss">
+.grid-container-tooltip {
     .tg-header-icon {
         display: inline-block;
         width: 25px;

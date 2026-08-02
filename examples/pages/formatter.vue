@@ -58,7 +58,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-formatter flex-auto"
     />
   </div>
 </template>
@@ -536,18 +536,18 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-:deep(.grid-container) {
+<style lang="scss">
+.grid-container-formatter {
     .tg-header-icon {
         display: flex;
         flex-direction: row;
-    }
 
-    .tg-header-icon svg {
-        display: block;
-        width: 16px;
-        height: 16px;
-        margin-right: 5px;
+        svg {
+            display: block;
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
     }
 
     .tg-align-right .tg-header-icon {
@@ -564,9 +564,9 @@ onBeforeUnmount(() => {
     border: none;
     background-color: #f5f5f5;
     outline: none;
-}
 
-.tg-form-input:focus {
-    border: 1px solid #039fdd;
+    &:focus {
+        border: 1px solid #039fdd;
+    }
 }
 </style>

@@ -184,16 +184,22 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.custom-nodes-grid a {
-    color: #55f;
-    font-weight: bold;
-    text-decoration: none;
-}
+<style lang="scss">
+.custom-nodes-grid {
+    a {
+        color: #55f;
+        font-weight: bold;
+        text-decoration: none;
 
-.custom-nodes-grid a:hover {
-    color: #77f;
-    text-decoration: underline;
+        &:hover {
+            color: #77f;
+            text-decoration: underline;
+        }
+    }
+
+    .tg-installed {
+        background: #003807;
+    }
 }
 
 .cm-warn-note {
@@ -204,9 +210,5 @@ onBeforeUnmount(() => {
     background-color: #101010 !important;
     overflow: auto;
     overflow-x: hidden;
-}
-
-.tg-installed {
-    background: #003807;
 }
 </style>

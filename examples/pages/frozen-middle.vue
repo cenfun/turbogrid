@@ -286,7 +286,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .fmg {
     position: relative;
     width: 100%;
@@ -299,17 +299,19 @@ onBeforeUnmount(() => {
     height: 100%;
 }
 
-.fmg .fmg-grid .fmg-middle-header {
-    color: #337f7f;
-}
+.fmg .fmg-grid {
+    .fmg-middle-header {
+        color: #337f7f;
+    }
 
-.fmg .fmg-grid .fmg-middle-cell {
-    background: #337f7f;
-    color: #fff;
-    font-weight: bold;
-}
+    .fmg-middle-cell {
+        background: #337f7f;
+        color: #fff;
+        font-weight: bold;
+    }
 
-.fmg .fmg-grid .tg-column-name {
-    border-right: none;
+    .tg-column-name {
+        border-right: none;
+    }
 }
 </style>

@@ -57,7 +57,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-style flex-auto"
     />
   </div>
 </template>
@@ -153,6 +153,7 @@ onMounted(() => {
         row.classMap = 'red-row';
         g.flushRow(rowIndex);
         g.render();
+        console.log('setErrorRow');
     });
 
     document.querySelector('.clearErrorRow').addEventListener('click', function() {
@@ -190,40 +191,44 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.grid-container .header-class {
-    background: #ddd;
-}
+<style lang="scss">
+.grid-container-style {
+    .header-class {
+        background: #ddd;
 
-.grid-container .header-class .tg-column-name {
-    color: green;
-}
+        .tg-column-name {
+            color: green;
+        }
+    }
 
-.grid-container .tg-row.row-class {
-    background: #ddd;
-}
+    .tg-row {
+        &.row-class {
+            background: #ddd;
 
-.grid-container .tg-cell.column-class {
-    background: #ddd;
-}
+            .column-class {
+                background: #999;
+            }
+        }
 
-.grid-container .tg-row.row-class .column-class {
-    background: #999;
-}
+        &.red-row {
+            background: red;
+        }
+    }
 
-.grid-container .cell-class {
-    border: 1px solid #999;
-}
+    .tg-cell.column-class {
+        background: #ddd;
+    }
 
-.grid-container .tg-row.red-row {
-    background: red;
-}
+    .cell-class {
+        border: 1px solid #999;
+    }
 
-.grid-container .tg-even {
-    background: #f5f5f5;
-}
+    .tg-even {
+        background: #f5f5f5;
+    }
 
-.grid-container .tg-odd {
-    background: #fff;
+    .tg-odd {
+        background: #fff;
+    }
 }
 </style>

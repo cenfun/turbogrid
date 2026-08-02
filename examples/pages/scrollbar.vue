@@ -220,56 +220,58 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.grid-gradient .tg-gradient-top .tg-scroll-view::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: "";
-    z-index: 10;
-    display: block;
-    width: 100%;
-    height: 50px;
-    background-image: linear-gradient(to bottom, rgb(255 0 0), rgb(255 0 0 / 0%));
-    pointer-events: none;
-}
+<style lang="scss">
+.grid-gradient {
+    .tg-gradient-top .tg-scroll-view::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        z-index: 10;
+        display: block;
+        width: 100%;
+        height: 50px;
+        background-image: linear-gradient(to bottom, rgb(255 0 0), rgb(255 0 0 / 0%));
+        pointer-events: none;
+    }
 
-.grid-gradient .tg-gradient-bottom::before {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    content: "";
-    z-index: 10;
-    display: block;
-    width: 100%;
-    height: 50px;
-    background-image: linear-gradient(to bottom, rgb(255 0 0 / 0%), rgb(255 0 0));
-    pointer-events: none;
-}
+    .tg-gradient-bottom::before {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        content: "";
+        z-index: 10;
+        display: block;
+        width: 100%;
+        height: 50px;
+        background-image: linear-gradient(to bottom, rgb(255 0 0 / 0%), rgb(255 0 0));
+        pointer-events: none;
+    }
 
-.grid-gradient .tg-gradient-left .tg-scroll-view::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: "";
-    z-index: 10;
-    display: block;
-    width: 50px;
-    height: 100%;
-    background-image: linear-gradient(to right, rgb(255 0 0), rgb(255 0 0 / 0%));
-    pointer-events: none;
-}
+    .tg-gradient-left .tg-scroll-view::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        z-index: 10;
+        display: block;
+        width: 50px;
+        height: 100%;
+        background-image: linear-gradient(to right, rgb(255 0 0), rgb(255 0 0 / 0%));
+        pointer-events: none;
+    }
 
-.grid-gradient .tg-gradient-right::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    content: "";
-    z-index: 10;
-    display: block;
-    width: 50px;
-    height: 100%;
-    background-image: linear-gradient(to right, rgb(255 0 0 / 0%), rgb(255 0 0));
-    pointer-events: none;
+    .tg-gradient-right::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        content: "";
+        z-index: 10;
+        display: block;
+        width: 50px;
+        height: 100%;
+        background-image: linear-gradient(to right, rgb(255 0 0 / 0%), rgb(255 0 0));
+        pointer-events: none;
+    }
 }
 </style>

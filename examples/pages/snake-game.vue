@@ -40,7 +40,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-snake-game flex-auto"
     />
   </div>
 </template>
@@ -520,48 +520,80 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.grid-container {
+<style lang="scss">
+.grid-container-snake-game {
     position: relative;
     border: none;
-}
 
-.grid-container .tg-row.tg-list-first {
-    border-top: 1px solid #ccc;
-}
+    .tg-row {
+        &.tg-list-first {
+            border-top: 1px solid #ccc;
+        }
 
-.grid-container .tg-cell.tg-list-first {
-    border-left: 1px solid #ccc;
-}
+        .tg-cell {
+            padding: 0;
+            border-right: 1px solid #ccc;
+        }
+    }
 
-.grid-container .tg-body .tg-row.tg-hover::before {
-    background: none;
-}
+    .tg-cell {
+        &.tg-list-first {
+            border-left: 1px solid #ccc;
+        }
 
-.grid-container .tg-row .tg-cell {
-    padding: 0;
-    border-right: 1px solid #ccc;
-}
+        .outer {
+            width: 100%;
+            height: 100%;
+            padding: 5px;
 
-.grid-container .tg-cell .outer {
-    width: 100%;
-    height: 100%;
-    padding: 5px;
-}
+            .inner {
+                width: 100%;
+                height: 100%;
+            }
 
-.grid-container .tg-cell .outer .inner {
-    width: 100%;
-    height: 100%;
-}
+            &.food {
+                border: 1px solid #666;
+                background: #999;
+                animation: food 1s linear infinite;
+            }
 
-.grid-container .tg-body .tg-row .tg-cell.last {
-    border-right: none;
-}
+            &.snake-head {
+                background: #666;
 
-.grid-container .tg-cell .outer.food {
-    border: 1px solid #666;
-    background: #999;
-    animation: food 1s linear infinite;
+                .inner {
+                    background: #333;
+                }
+            }
+
+            &.snake-body {
+                background: #999;
+            }
+        }
+    }
+
+    .tg-body .tg-row {
+        &.tg-hover::before {
+            background: none;
+        }
+
+        .tg-cell.last {
+            border-right: none;
+        }
+    }
+
+    &.fail .tg-cell .outer {
+        &.snake-head {
+            background: #c00;
+
+            .inner {
+                background: #6e0000;
+            }
+        }
+
+        &.snake-body {
+            background: #f00;
+        }
+    }
 }
 
 @keyframes food {
@@ -576,29 +608,5 @@ onBeforeUnmount(() => {
     100% {
         opacity: 1;
     }
-}
-
-.grid-container .tg-cell .outer.snake-head {
-    background: #666;
-}
-
-.grid-container .tg-cell .outer.snake-head .inner {
-    background: #333;
-}
-
-.grid-container .tg-cell .outer.snake-body {
-    background: #999;
-}
-
-.grid-container.fail .tg-cell .outer.snake-head {
-    background: #c00;
-}
-
-.grid-container.fail .tg-cell .outer.snake-head .inner {
-    background: #6e0000;
-}
-
-.grid-container.fail .tg-cell .outer.snake-body {
-    background: #f00;
 }
 </style>

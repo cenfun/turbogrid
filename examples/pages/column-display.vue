@@ -63,7 +63,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-column-display flex-auto"
     />
   </div>
 </template>
@@ -249,18 +249,14 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.icon-info {
-    width: 18px;
-    height: 18px;
-    margin: 3px 0 0 3px;
-}
+<style lang="scss">
+.grid-container-column-display {
+    .tg-header-item {
+        border: 1px solid #080;
 
-.grid-container .tg-header-item {
-    border: 1px solid #080;
-}
-
-.grid-container .tg-header-item.tg-header-group-item::after {
-    border: none;
+        &.tg-header-group-item::after {
+            border: none;
+        }
+    }
 }
 </style>

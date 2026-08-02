@@ -210,5 +210,5 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 </style>

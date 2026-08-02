@@ -208,17 +208,17 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .tg-icon {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
 
-.tg-icon .icon {
-    background-size: 12px 12px;
-    width: 12px;
-    height: 12px;
-    margin-right: 5px;
+    .icon {
+        background-size: 12px 12px;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+    }
 }
 </style>

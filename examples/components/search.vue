@@ -300,7 +300,7 @@ if (typeof document !== 'undefined') {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-search {
     position: relative;
 
@@ -356,18 +356,69 @@ if (typeof document !== 'undefined') {
     font-size: 13px;
     border-bottom: 1px solid #f0f0f0;
     cursor: pointer;
-}
 
-.app-search-item:last-child {
-    border-bottom: none;
-}
+    &:last-child {
+        border-bottom: none;
+    }
 
-.app-search-item:hover {
-    background: #f5f5f5;
-}
+    &:hover {
+        background: #f5f5f5;
+    }
 
-.app-search-item.selected {
-    background: #e8f4fd;
+    &.selected {
+        background: #e8f4fd;
+    }
+
+    &.turbogrid .app-search-item-label,
+    &.methods .app-search-item-label,
+    &.data .app-search-item-label,
+    &.options .app-search-item-label,
+    &.events .app-search-item-label,
+    &.lifecycle .app-search-item-label,
+    &.tg .app-search-item-label,
+    &.doc .app-search-item-label,
+    &.preview .app-search-item-label {
+        padding-left: 18px;
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-size: 14px;
+    }
+
+    &.turbogrid .app-search-item-label {
+        background-image: url("../assets/images/function.svg");
+    }
+
+    &.methods .app-search-item-label {
+        background-image: url("../assets/images/method.svg");
+    }
+
+    &.data .app-search-item-label {
+        background-image: url("../assets/images/data.svg");
+    }
+
+    &.options .app-search-item-label {
+        background-image: url("../assets/images/setting.svg");
+    }
+
+    &.events .app-search-item-label {
+        background-image: url("../assets/images/event.svg");
+    }
+
+    &.lifecycle .app-search-item-label {
+        background-image: url("../assets/images/cycle.svg");
+    }
+
+    &.tg .app-search-item-label {
+        background-image: url("../assets/images/namespace.svg");
+    }
+
+    &.doc .app-search-item-label {
+        background-image: url("../assets/images/doc.svg");
+    }
+
+    &.preview .app-search-item-label {
+        background-image: url("../assets/images/preview.svg");
+    }
 }
 
 .app-search-item-label {
@@ -375,10 +426,10 @@ if (typeof document !== 'undefined') {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-}
 
-.app-search-item-label :deep(strong) {
-    color: #00a8e1;
+    strong {
+        color: #00a8e1;
+    }
 }
 
 .app-search-item-category {
@@ -389,77 +440,5 @@ if (typeof document !== 'undefined') {
     font-size: 11px;
     border-radius: 3px;
     background: #f0f0f0;
-}
-
-.app-search-item.turbogrid .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/function.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.methods .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/method.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.data .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/data.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.options .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/setting.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.events .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/event.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.lifecycle .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/cycle.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.tg .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/namespace.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.doc .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/doc.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
-}
-
-.app-search-item.preview .app-search-item-label {
-    padding-left: 18px;
-    background-image: url("../assets/images/preview.svg");
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: 14px;
 }
 </style>

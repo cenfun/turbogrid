@@ -167,7 +167,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .tg-form {
     width: calc(50% - 5px);
 }

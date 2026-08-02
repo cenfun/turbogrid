@@ -319,10 +319,17 @@ a:visited {
         display: block;
     }
 
-    .app-body .app-nav,
-    .app-header .app-header-title,
-    .app-header .app-header-theme {
-        display: none;
+    .app-body {
+        .app-nav {
+            display: none;
+        }
+    }
+
+    .app-header {
+        .app-header-title,
+        .app-header-theme {
+            display: none;
+        }
     }
 }
 

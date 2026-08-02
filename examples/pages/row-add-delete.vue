@@ -217,7 +217,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .icon-remove {
     width: 16px;
     height: 16px;

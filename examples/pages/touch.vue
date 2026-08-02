@@ -44,7 +44,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-touch flex-auto"
     />
     <div class="something-down">
       something else
@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .main {
     display: block;
     overflow-y: auto;
@@ -215,14 +215,14 @@ onBeforeUnmount(() => {
     border: 1px solid #ccc;
     background-color: #f5f5f5;
     overflow: hidden scroll;
+
+    div {
+        padding: 3px 5px;
+        font-size: 12px;
+    }
 }
 
-.output div {
-    padding: 3px 5px;
-    font-size: 12px;
-}
-
-.grid-container {
+.grid-container-touch {
     height: 500px;
 }
 

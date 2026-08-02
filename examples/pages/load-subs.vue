@@ -295,7 +295,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .tg-waiting {
     opacity: 0.5;
 }

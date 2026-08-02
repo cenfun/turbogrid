@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .grid-element {
     width: 100%;
     height: 100%;

@@ -203,7 +203,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .page-list {
     position: relative;
     margin-top: 5px;
@@ -217,15 +217,15 @@ onBeforeUnmount(() => {
     cursor: pointer;
     margin: 0 5px 5px 0;
     border-radius: 3px;
-}
 
-.page-item:hover {
-    background: #f5f5f5;
-}
+    &:hover {
+        background: #f5f5f5;
+    }
 
-.page-item.selected {
-    background: #eee;
-    border: 1px solid #333;
-    font-weight: bold;
+    &.selected {
+        background: #eee;
+        border: 1px solid #333;
+        font-weight: bold;
+    }
 }
 </style>

@@ -49,7 +49,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-popover flex-auto"
     />
   </div>
 </template>
@@ -302,30 +302,32 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 input[type="radio"]:checked ~ label {
     font-weight: bold;
 }
 
-.tg-popover-icon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-    height: 32px;
-    padding: 2px 0;
-    cursor: pointer;
-}
+.grid-container-popover {
+    .tg-popover-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 32px;
+        padding: 2px 0;
+        cursor: pointer;
 
-.tg-popover-icon svg {
-    background: #fff;
-}
+        svg {
+            background: #fff;
+        }
 
-.tg-dark .tg-popover-icon svg {
-    background: #1e1e1e;
-}
+        &.tg-popover-icon-pin {
+            display: block;
+        }
+    }
 
-.grid-container .tg-popover-icon.tg-popover-icon-pin {
-    display: block;
+    &.tg-dark .tg-popover-icon svg {
+        background: #1e1e1e;
+    }
 }
 </style>

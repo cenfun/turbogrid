@@ -166,7 +166,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .column-list,
 .row-list {
     color: #666;

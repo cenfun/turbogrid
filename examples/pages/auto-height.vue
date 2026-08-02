@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .main {
     display: block;
     overflow-y: auto;

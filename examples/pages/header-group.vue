@@ -22,7 +22,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-header-group flex-auto"
     />
   </div>
 </template>
@@ -219,24 +219,26 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.tg-hover-icon {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    display: none;
-    transform: translate(0, -50%);
-}
+<style lang="scss">
+.grid-container-header-group {
+    .tg-hover-icon {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        display: none;
+        transform: translate(0, -50%);
+    }
 
-.tg-hover .tg-hover-icon {
-    display: inline-block;
-}
+    .tg-hover .tg-hover-icon {
+        display: inline-block;
+    }
 
-.grid-container .tg-header-item {
-    border: 1px solid #080;
-}
+    .tg-header-item {
+        border: 1px solid #080;
 
-.grid-container .tg-header-item.tg-header-group-item::after {
-    border: none;
+        &.tg-header-group-item::after {
+            border: none;
+        }
+    }
 }
 </style>

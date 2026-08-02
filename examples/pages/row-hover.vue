@@ -23,7 +23,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-row-hover flex-auto"
     />
   </div>
 </template>
@@ -182,44 +182,46 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.grid-container .tg-cell-bg-1 {
-    background: #c00;
-    color: #fff;
-}
+<style lang="scss">
+.grid-container-row-hover {
+    .tg-cell-bg-1 {
+        background: #c00;
+        color: #fff;
+    }
 
-.grid-container .tg-cell-bg-2 {
-    background: #c30;
-    color: #fff;
-}
+    .tg-cell-bg-2 {
+        background: #c30;
+        color: #fff;
+    }
 
-.grid-container .tg-cell-bg-3 {
-    background: #930;
-    color: #fff;
-}
+    .tg-cell-bg-3 {
+        background: #930;
+        color: #fff;
+    }
 
-.grid-container .tg-cell-bg-4 {
-    background: #960;
-    color: #fff;
-}
+    .tg-cell-bg-4 {
+        background: #960;
+        color: #fff;
+    }
 
-.grid-container .tg-cell-bg-5 {
-    background: #660;
-    color: #fff;
-}
+    .tg-cell-bg-5 {
+        background: #660;
+        color: #fff;
+    }
 
-.grid-container .tg-cell-bg-6 {
-    background: #690;
-    color: #fff;
-}
+    .tg-cell-bg-6 {
+        background: #690;
+        color: #fff;
+    }
 
-.grid-container .tg-cell-bg-7 {
-    background: #390;
-    color: #fff;
-}
+    .tg-cell-bg-7 {
+        background: #390;
+        color: #fff;
+    }
 
-.grid-container .tg-cell-bg-8 {
-    background: #0c0;
-    color: #fff;
+    .tg-cell-bg-8 {
+        background: #0c0;
+        color: #fff;
+    }
 }
 </style>

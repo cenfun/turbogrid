@@ -204,7 +204,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .tg-context-menu {
     position: absolute;
     background: #fff;
@@ -219,10 +219,10 @@ onBeforeUnmount(() => {
     white-space: nowrap;
     padding: 5px 20px;
     color: #333;
-}
 
-.tg-context-menu-item:hover {
-    color: #000;
-    background: #f5f5f5;
+    &:hover {
+        color: #000;
+        background: #f5f5f5;
+    }
 }
 </style>

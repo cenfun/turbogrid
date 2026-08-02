@@ -135,7 +135,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .tg-name-info {
     margin-left: 10px;
     color: #f00;

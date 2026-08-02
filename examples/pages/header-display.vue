@@ -23,7 +23,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-header-display flex-auto"
     />
   </div>
 </template>
@@ -97,8 +97,10 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.grid-container .tg-header-item {
-    border: 1px solid #080;
+<style lang="scss">
+.grid-container-header-display {
+    .tg-header-item {
+        border: 1px solid #080;
+    }
 }
 </style>

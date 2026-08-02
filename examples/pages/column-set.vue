@@ -293,7 +293,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .bt-set,
 .column-set-content button {
     display: flex;
@@ -302,20 +302,24 @@ onBeforeUnmount(() => {
     cursor: pointer;
 }
 
-.bt-set .icon {
-    margin-right: 5px;
+.bt-set {
+    .icon {
+        margin-right: 5px;
+    }
 }
 
-.column-set-content button .icon {
-    width: 12px;
-    height: 12px;
-    margin-right: 5px;
-    background-size: 12px 12px;
-}
+.column-set-content {
+    button .icon {
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        background-size: 12px 12px;
+    }
 
-.column-set-content button,
-.column-set-content input {
-    margin-right: 5px;
+    button,
+    input {
+        margin-right: 5px;
+    }
 }
 
 button svg {

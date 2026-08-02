@@ -140,10 +140,14 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .container {
     position: relative;
     overflow: visible;
+
+    .grid-container {
+        height: calc(100% - 10px);
+    }
 }
 
 .container-left {
@@ -160,10 +164,6 @@ onBeforeUnmount(() => {
     height: 100%;
     left: 50%;
     background: #eee;
-}
-
-.container .grid-container {
-    height: calc(100% - 10px);
 }
 
 .overlap {

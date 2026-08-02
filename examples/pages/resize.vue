@@ -81,7 +81,7 @@
       <div class="grid-holder">
         <div
           ref="gridContainer"
-          class="grid-container"
+          class="grid-container grid-container-resize"
         />
       </div>
     </div>
@@ -192,17 +192,17 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.grid-holder {
-    margin: 5px;
-    width: calc(100% - 12px);
-    height: calc(100% - 12px);
-}
-
-.grid-container {
+<style lang="scss">
+.grid-container-resize {
     margin: 0;
     width: 100%;
     height: 100%;
     border: 1px solid #333;
+}
+
+.grid-holder {
+    margin: 5px;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
 }
 </style>

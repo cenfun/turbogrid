@@ -195,20 +195,20 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .tg-dot {
     display: inline-block;
     width: 10px;
     height: 10px;
     border-radius: 5px;
     margin-right: 3px;
-}
 
-.tg-dot.tg-dot-orangered {
-    background: orangered;
-}
+    &.tg-dot-orangered {
+        background: orangered;
+    }
 
-.tg-dot.tg-dot-green {
-    background: green;
+    &.tg-dot-green {
+        background: green;
+    }
 }
 </style>

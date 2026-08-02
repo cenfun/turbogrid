@@ -153,7 +153,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 .tg-skeleton {
     position: absolute;
     background: rgb(194 207 214);
@@ -174,9 +174,11 @@ onBeforeUnmount(() => {
     transform-origin: right;
 }
 
-:deep(.tg-row.tg-odd) .tg-skeleton {
-    width: 70%;
-    animation-delay: 0.5s;
+.tg-row.tg-odd {
+    .tg-skeleton {
+        width: 70%;
+        animation-delay: 0.5s;
+    }
 }
 
 @keyframes tg-skeleton-keyframes {

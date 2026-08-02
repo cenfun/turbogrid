@@ -9,7 +9,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container grid-container-other flex-auto"
     >
       <div class="tg-turbogrid">
         <div class="flex-row">
@@ -83,10 +83,12 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.grid-container .flex-row .tg-cell {
-    width: 30px;
-    height: 30px;
-    position: relative;
+<style lang="scss">
+.grid-container-other {
+    .flex-row .tg-cell {
+        width: 30px;
+        height: 30px;
+        position: relative;
+    }
 }
 </style>

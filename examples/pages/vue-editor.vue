@@ -347,11 +347,13 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.editor-input input {
-    width: 100%;
-    height: 100%;
-    outline: none;
+<style lang="scss">
+.editor-input {
+    input {
+        width: 100%;
+        height: 100%;
+        outline: none;
+    }
 }
 
 .editor-input-disabled {

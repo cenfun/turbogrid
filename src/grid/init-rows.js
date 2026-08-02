@@ -218,6 +218,52 @@ export default {
 
     },
 
+    // keywords separated by spaces
+    // double quotes create single keywords with spaces (inner quotes escaped with \)
+    // leading hyphen negates keywords
+    // 'case:' makes keywords case-sensitive
+    parseKeywords: function(keywordsStr) {
+        const parsed = [];
+        if (!keywordsStr) {
+            return parsed;
+        }
+        const regex = /(?<=^|\s)(-)?(case:)?(?:"((?:.(?:\\")?)+?)"|([^\s]+))(?=\s|$)/g;
+        let match;
+        while ((match = regex.exec(keywordsStr))) {
+            parsed.push({
+                text: match[3]?.replace(/\\"/g, '"') ?? match[4],
+                caseSensitive: match[2] === 'case:',
+                negate: match[1] === '-'
+            });
+        }
+        return parsed;
+    },
+
+    matchKeywords: function(keywords, text) {
+        const matches = [];
+        const lowerText = text.toLowerCase();
+        for (const keyword of keywords) {
+            const searchFor = keyword.caseSensitive ? keyword.text : keyword.text.toLowerCase();
+            const lowText = keyword.caseSensitive ? text : lowerText;
+            const foundIndex = lowText.indexOf(searchFor);
+            const found = foundIndex !== -1;
+            if (keyword.negate ? found : !found) {
+                return null;
+            }
+            if (!keyword.negate) {
+                matches.push({
+                    index: foundIndex,
+                    length: searchFor.length,
+                    text: text.slice(foundIndex, foundIndex + searchFor.length)
+                });
+            }
+        }
+        if (matches.length === 0) {
+            return null;
+        }
+        return matches;
+    },
+
     highlightKeywordsFilter: function(rowItem, columns, keywordsStr) {
 
         const {
@@ -233,27 +279,10 @@ export default {
             return true;
         }
 
-        const keywords = `${keywordsStr}`.trim().toLowerCase().split(/\s+/g).filter((s) => s);
+        const keywords = this.parseKeywords(keywordsStr);
         if (!keywords.length) {
             return true;
         }
-
-        let hasMatched = false;
-        const getTextMatched = (text) => {
-
-            const lowText = text.toLowerCase();
-
-            let startPos = 0;
-            for (const key of keywords) {
-                const index = lowText.indexOf(key, startPos);
-                if (index === -1) {
-                    return;
-                }
-                startPos = index + key.length;
-            }
-
-            return true;
-        };
 
         const getHtmlText = (html, id) => {
             const cacheKey = `${textKey}${id}`;
@@ -269,14 +298,6 @@ export default {
             return text;
         };
 
-        const getMatched = (str, id) => {
-            const isHtml = (/<\/?[a-z][\s\S]*>/i).test(str);
-            if (isHtml) {
-                str = getHtmlText(str, id);
-            }
-            return getTextMatched(str);
-        };
-
         let textHandler = function(_rowItem, id) {
             return _rowItem[id];
         };
@@ -284,6 +305,8 @@ export default {
             textHandler = textGenerator;
         }
 
+        const htmlRegex = /<\/?[a-z][\s\S]*>/i;
+        const allMatches = [];
         columns.forEach((id) => {
 
             const text = textHandler(rowItem, id);
@@ -295,16 +318,20 @@ export default {
             if (!str) {
                 return;
             }
-            const matched = getMatched(str, id);
-            if (matched) {
-                rowItem[`${highlightKey}${id}`] = matched;
-                hasMatched = true;
-                // keep in instance
-                this.highlightKeywords = keywords;
+            const isHtml = htmlRegex.test(str);
+            const htmlText = isHtml ? getHtmlText(str, id) : str;
+            const matches = this.matchKeywords(keywords, htmlText);
+            if (matches) {
+                rowItem[`${highlightKey}${id}`] = true;
+                allMatches.push(... matches);
             }
         });
+        if (allMatches.length) {
+            // keep actual text matches in instance
+            this.highlightKeywords = allMatches;
+        }
 
-        return hasMatched;
+        return allMatches.length !== 0;
 
     },
 
@@ -315,19 +342,19 @@ export default {
             return;
         }
 
-        const keywords = this.highlightKeywords;
-        if (!keywords) {
+        const allMatches = this.highlightKeywords;
+        if (!allMatches) {
             return;
         }
 
         if (!this.asyncHighlightKeywords) {
             this.asyncHighlightKeywords = Util.debounce(this.highlightKeywordsSync, 10);
         }
-        this.asyncHighlightKeywords.apply(this, [highlightCells, keywords]);
+        this.asyncHighlightKeywords.apply(this, [highlightCells, allMatches]);
 
     },
 
-    highlightKeywordsSync: function(highlightCells, keywords) {
+    highlightKeywordsSync: function(highlightCells, allMatches) {
 
         // https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
         // there is no renderSettings in next tick
@@ -360,57 +387,56 @@ export default {
                 return;
             }
 
-            this.highlightTextNodes(allTextNodes, keywords);
+            this.highlightTextNodes(allTextNodes, allMatches);
 
         });
     },
 
-    highlightTextNodes: function(allTextNodes, keywords) {
+    highlightTextNodes: function(allTextNodes, allMatches) {
 
         const { highlightPre, highlightPost } = this.options.highlightKeywords;
 
-        let keyIndex = 0;
-        const nextKey = () => {
-            if (keyIndex >= keywords.length) {
-                keyIndex = 0;
-            }
-            return keywords[keyIndex++];
-        };
-
-        let key = nextKey();
-
         allTextNodes.forEach((textNode) => {
-            const text = textNode.textContent;
-            const lowText = text.toLowerCase();
-            const list = [];
-            let startPos = 0;
-            const textLength = text.length;
-            let hasKeyMatched = false;
-            while (startPos < textLength) {
-                const index = lowText.indexOf(key, startPos);
-                if (index === -1) {
-                    break;
+            const nodeText = textNode.textContent;
+            const matches = [];
+            const matchedRanges = [];
+            allMatches.forEach((match) => {
+                // use `text`, as `index` and `length` are not guaranteed in node text
+                const index = nodeText.indexOf(match.text);
+                if (index !== -1) {
+                    const relativeStart = index;
+                    const relativeEnd = index + match.text.length;
+                    let overlaps = false;
+                    for (const range of matchedRanges) {
+                        if (range[0] < relativeEnd && range[1] > relativeStart) {
+                            overlaps = true;
+                            break;
+                        }
+                    }
+                    if (!overlaps) {
+                        matches.push({
+                            index: relativeStart,
+                            length: match.text.length,
+                            text: match.text
+                        });
+                        matchedRanges.push([relativeStart, relativeEnd]);
+                    }
                 }
+            });
 
-                list.push(text.slice(startPos, index));
-                list.push(highlightPre);
-
-                startPos = index + key.length;
-                key = nextKey();
-                hasKeyMatched = true;
-
-                list.push(text.slice(index, startPos));
-                list.push(highlightPost);
-
-            }
-
-            if (hasKeyMatched) {
-                if (startPos < textLength) {
-                    list.push(text.slice(startPos, textLength));
-                }
-                //  console.log(list);
+            if (matches.length > 0) {
+                // reverse index sort
+                matches.sort((a, b) => b.index - a.index);
+                let highlightedText = nodeText;
+                matches.forEach(({
+                    index, length, text
+                }) => {
+                    const before = highlightedText.slice(0, index);
+                    const after = highlightedText.slice(index + length);
+                    highlightedText = before + highlightPre + text + highlightPost + after;
+                });
                 const spanNode = document.createElement('span');
-                spanNode.innerHTML = list.join('');
+                spanNode.innerHTML = highlightedText;
                 textNode.parentNode.replaceChild(spanNode, textNode);
             }
         });

@@ -56,16 +56,69 @@
 
 <script setup>
 import {
-    onMounted, onBeforeUnmount, ref
+    createApp, defineComponent, h, onBeforeUnmount, onMounted, reactive, ref
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { init, initCommonEvents } from '../global.js';
+import { VuiPopover } from 'vine-ui';
 const route = useRoute();
 
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const popoverApp = ref(null);
+
+const state = reactive({
+    visible: false,
+    target: null,
+    row: null
+});
+
+const dark = route.query.theme === 'dark';
+
+// eslint-disable-next-line vue/one-component-per-file
+const PopoverContent = defineComponent({
+    props: {
+        row: {
+            type: Object,
+            default: null
+        }
+    },
+    setup(props) {
+        return () => {
+            const row = props.row || {};
+            const keys = Object.keys(row).filter((k) => {
+                return !k.startsWith('tg_') && k !== 'subs';
+            });
+            return h('div', {
+                class: 'popover-row-info'
+            }, [
+                h('div', {
+                    class: 'popover-row-name'
+                }, row.name || ''),
+                h('ul', {
+                    class: 'popover-row-fields'
+                }, keys.map((k) => {
+                    return h('li', null, [
+                        `${k}: `,
+                        h('b', null, String(row[k]))
+                    ]);
+                }))
+            ]);
+        };
+    }
+});
+
+const showPopover = function(target, row) {
+    state.target = target;
+    state.row = row;
+    state.visible = true;
+};
+
+const hidePopover = function() {
+    state.visible = false;
+};
 
 const onResize = function() {
     grid.value.resize();
@@ -75,6 +128,33 @@ onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
 
+    // mount the popover
+    const popoverContainer = document.createElement('div');
+    document.body.appendChild(popoverContainer);
+    // eslint-disable-next-line vue/one-component-per-file
+    const app = createApp({
+        render() {
+            return h(VuiPopover, {
+                title: 'Row Info',
+                width: 260,
+                target: state.target,
+                modelValue: state.visible,
+                'onUpdate:modelValue': function(v) {
+                    state.visible = v;
+                },
+                bgColor: dark ? '#1e1e1e' : '',
+                color: dark ? '#fff' : ''
+            }, {
+                default: () => h(PopoverContent, {
+                    row: state.row
+                })
+            });
+        }
+    });
+    app.mount(popoverContainer);
+    popoverApp.value = app;
+    popoverApp.value.container = popoverContainer;
+
     grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
     });
@@ -82,13 +162,11 @@ onMounted(() => {
     grid.value.bind('onClick', function(e, d) {
         const icon = d.e.target;
         if (icon.classList.contains('tg-popover-icon')) {
-            // eslint-disable-next-line no-undef
             showPopover(icon, d.rowItem);
         }
     });
 
     grid.value.bind('onScroll', function(e, d) {
-        // eslint-disable-next-line no-undef
         hidePopover();
     });
 
@@ -294,6 +372,14 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+    hidePopover();
+    if (popoverApp.value) {
+        popoverApp.value.unmount();
+        if (popoverApp.value.container) {
+            popoverApp.value.container.remove();
+        }
+        popoverApp.value = null;
+    }
     if (grid.value) {
         grid.value.destroy();
         grid.value = null;
@@ -328,6 +414,21 @@ input[type="radio"]:checked ~ label {
 
     &.tg-dark .tg-popover-icon svg {
         background: #1e1e1e;
+    }
+}
+
+.popover-row-info {
+    font-size: 13px;
+    line-height: 1.6;
+
+    .popover-row-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 16px;
     }
 }
 </style>

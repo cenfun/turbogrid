@@ -11,72 +11,59 @@
       ref="gridContainer"
       class="grid-container grid-container-tooltip flex-auto"
     />
-    <div
-      ref="tooltip"
-      class="tg-tooltip"
-      popover="manual"
-    >
-      <div
-        ref="tooltipText"
-        class="tg-tooltip-text"
-      />
-    </div>
   </div>
 </template>
 
 <script setup>
 import {
-    onMounted, onBeforeUnmount, ref
+    createApp, h, onBeforeUnmount, onMounted, reactive, ref
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { init, initCommonEvents } from '../global.js';
+import { initGlobalTooltips, VuiTooltip } from 'vine-ui';
 const route = useRoute();
 
 
 const gridContainer = ref(null);
 const grid = ref(null);
-const tooltip = ref(null);
-const tooltipText = ref(null);
 
-const positionTooltip = function(target) {
-    const tooltipEl = tooltip.value;
-    if (!tooltipEl || !target) {
-        return;
-    }
-
-    const targetRect = target.getBoundingClientRect();
-    const tooltipRect = tooltipEl.getBoundingClientRect();
-    const gap = 8;
-    const margin = 8;
-    const left = Math.min(
-        Math.max(margin, targetRect.left + (targetRect.width - tooltipRect.width) / 2),
-        window.innerWidth - tooltipRect.width - margin
-    );
-    const above = targetRect.top - tooltipRect.height - gap;
-    const top = above >= margin ? above : targetRect.bottom + gap;
-
-    tooltipEl.style.left = `${left}px`;
-    tooltipEl.style.top = `${Math.max(margin, top)}px`;
-};
+const state = reactive({
+    visible: false,
+    target: null,
+    text: ''
+});
 
 const showTooltip = function(target, text) {
-    if (!target || !tooltip.value || !tooltipText.value) {
+    if (!target || !text) {
         return;
     }
-
-    tooltipText.value.textContent = text;
-    if (!tooltip.value.matches(':popover-open')) {
-        tooltip.value.showPopover();
-    }
-    positionTooltip(target);
+    state.target = target;
+    state.text = text;
+    state.visible = true;
 };
 
 const hideTooltip = function() {
-    if (tooltip.value && tooltip.value.matches(':popover-open')) {
-        tooltip.value.hidePopover();
-    }
+    state.visible = false;
 };
+
+// mount the global tooltip
+const tooltipContainer = document.createElement('div');
+document.body.appendChild(tooltipContainer);
+
+
+const tooltipApp = createApp({
+    render() {
+        return h(VuiTooltip, {
+            visible: state.visible,
+            target: state.target,
+            text: state.text,
+            maxWidth: 320,
+            nonreactive: true
+        });
+    }
+});
+tooltipApp.mount(tooltipContainer);
 
 onMounted(() => {
     init();
@@ -97,25 +84,29 @@ onMounted(() => {
         return false;
     };
 
+    // global tooltips for elements with tooltip attribute
+    initGlobalTooltips((target) => {
+        showTooltip(target, target.getAttribute('tooltip'));
+    }, () => {
+        hideTooltip();
+    });
+
     g.bind('onMouseOver', function(e, d) {
         const target = d.e.target;
 
-        if (target.classList.contains('tg-tooltip-icon')) {
-            showTooltip(target, `Tooltip for icon: ${d.rowItem.name}`);
+        // handled by initGlobalTooltips
+        if (target && target.hasAttribute && target.hasAttribute('tooltip')) {
             return;
         }
 
         const value = d.rowItem[d.columnItem.id];
         if (value && isNodeTruncated(target)) {
             showTooltip(target, `Tooltip for truncated text: ${value}`);
-            return;
-        }
-
-        if (target.classList.contains('tg-header-icon')) {
-            showTooltip(target, `Tooltip for header: ${d.rowItem.name}`);
         }
 
     }).bind('onMouseOut', function(e, d) {
+        hideTooltip();
+    }).bind('onScroll', function(e, d) {
         hideTooltip();
     });
 
@@ -285,13 +276,13 @@ onMounted(() => {
 
             header: function(value, rowItem, columnItem, cellNode) {
                 if (columnItem.id === 'name') {
-                    return `${value}<div class="tg-header-icon">${svgIcon}</div>`;
+                    return `${value}<div class="tg-header-icon" tooltip="Tooltip for header: ${rowItem.name}">${svgIcon}</div>`;
                 }
                 return value;
             },
 
             iconInfo: function(value, rowItem, columnItem, cellNode) {
-                return `<div class="tg-tooltip-icon">${svgIcon}</div>`;
+                return `<div class="tg-tooltip-icon" tooltip="Tooltip for icon: ${rowItem.name}">${svgIcon}</div>`;
             }
 
         });
@@ -322,6 +313,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     hideTooltip();
+    tooltipApp.unmount();
+    tooltipContainer.remove();
     if (grid.value) {
         grid.value.destroy();
         grid.value = null;
@@ -338,6 +331,10 @@ onBeforeUnmount(() => {
         padding: 0 5px;
         vertical-align: middle;
         cursor: pointer;
+
+        svg {
+            pointer-events: none;
+        }
     }
 
     .tg-tooltip-icon {
@@ -347,24 +344,10 @@ onBeforeUnmount(() => {
         height: 16px;
         cursor: pointer;
         transform: translate(0, -50%);
-    }
 
-    .tg-tooltip {
-        max-width: min(320px, calc(100vw - 16px));
-        margin: 0;
-        padding: 0;
-        border: 1px solid #999;
-        border-radius: 3px;
-        background: #fff;
-        box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
-        pointer-events: none;
-    }
-
-    .tg-tooltip .tg-tooltip-text {
-        position: relative;
-        padding: 5px;
-        color: #000;
-        pointer-events: none;
+        svg {
+            pointer-events: none;
+        }
     }
 }
 </style>

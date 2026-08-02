@@ -246,8 +246,11 @@ onMounted(() => {
             return h(VuiPopover, {
                 title: 'Column Set',
                 width: 350,
-                visible: state.visible,
                 target: state.target,
+                modelValue: state.visible,
+                'onUpdate:modelValue': function(v) {
+                    state.visible = v;
+                },
                 onClose: function() {
                     state.visible = false;
                 }

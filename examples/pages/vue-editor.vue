@@ -164,7 +164,7 @@ const editorFormatters = {
         div.className = 'editor-switch';
         // eslint-disable-next-line vue/one-component-per-file
         createApp(VuiSwitch, {
-            checked: value,
+            modelValue: value,
             disabled: !getEditable(rowItem, columnItem),
             onChange: (newValue) => {
                 rowItem[columnItem.id] = newValue;
@@ -178,9 +178,9 @@ const editorFormatters = {
         // eslint-disable-next-line vue/one-component-per-file
         createApp(VuiSelect, {
             options: columnItem.options,
-            value,
+            modelValue: value,
             disabled: !getEditable(rowItem, columnItem),
-            onChange: (newValue) => {
+            'onUpdate:modelValue': (newValue) => {
                 rowItem[columnItem.id] = newValue;
             }
         }).mount(div);

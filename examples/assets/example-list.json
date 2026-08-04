@@ -66,6 +66,10 @@
                 "name": "Row Filter"
             },
             {
+                "id": "row-highlight-filter",
+                "name": "Row Highlight Filter"
+            },
+            {
                 "id": "row-select",
                 "name": "Row Select"
             },

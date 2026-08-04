@@ -170,6 +170,19 @@ export interface ColumnTypes {
 // =============================================================================
 // Highlight Keywords
 
+export interface Keyword {
+    text: string;
+    negate: boolean;
+    caseSensitive: boolean;
+}
+
+export interface KeywordMatch {
+    index: number;
+    length: number;
+    text: string;
+    caseSensitive: boolean;
+}
+
 export interface HighlightKeywords {
     textKey?: string;
     textGenerator?: ((rowItem: RowItem, id: string) => string) | null;
@@ -716,6 +729,10 @@ export declare class Grid extends EventBase {
     getCellValue(rowItem: RowItem, columnItem: ColumnItem): any;
 
     // Highlight
+    /** Parses a keyword string into an array of keyword objects */
+    parseKeywords(keywordsStr: string): Keyword[];
+    /** Matches keywords against text and returns matched positions, or null if there is no match */
+    matchKeywords(keywords: Keyword[], text: string): KeywordMatch[] | null;
     /** Helper for rowFilter to match and mark keywords across specified columns */
     highlightKeywordsFilter(rowItem: RowItem, columns: string[], keywords: string): boolean;
 

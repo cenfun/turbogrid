@@ -322,14 +322,19 @@ describe('Grid rowFilter: highlightKeywordsFilter', function() {
         // 100 for debounce
         await delay(100);
 
+        const rows = grid.getViewRows();
+        assert.equal(rows.length, 1);
+
         // check mark tags
         const row1 = grid.getViewRows()[0];
 
         const cellNode = grid.getCellNode(row1, 'name');
         const marks = cellNode.querySelectorAll('mark');
-        assert.equal(marks.length, 2);
+        assert.equal(marks.length, 4);
         assert.equal(marks[0].innerText, 'When');
         assert.equal(marks[1].innerText, 'Re');
+        assert.equal(marks[2].innerText, 're');
+        assert.equal(marks[3].innerText, 'when');
     });
 
     it('complex', async () => {
@@ -383,6 +388,28 @@ describe('Grid rowFilter: highlightKeywordsFilter', function() {
         assert.equal(marks.length, 2);
         assert.equal(marks[0].innerText, 'Case 1');
         assert.equal(marks[1].innerText, 'Test');
+    });
+
+    it('negated', async () => {
+
+        keywords = '-0 -15';
+
+        const data = createData();
+        grid.setData(data);
+        grid.setOption({
+            rowNotFound: 'No Results',
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], keywords);
+            }
+        });
+
+        grid.render();
+
+        // 100 for debounce
+        await delay(100);
+
+        const rows = grid.getViewRows();
+        assert.equal(rows.length, data.rows.length - 3);
     });
 
 });

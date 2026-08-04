@@ -220,20 +220,20 @@ export default {
 
     // keywords separated by spaces
     // double quotes create single keywords with spaces (inner quotes escaped with \)
-    // leading hyphen negates keywords
+    // leading hyphen or exclamation mark negates keywords
     // 'case:' makes keywords case-sensitive
     parseKeywords: function(keywordsStr) {
         const parsed = [];
         if (!keywordsStr) {
             return parsed;
         }
-        const regex = /(?<=^|\s)(-)?(case:)?(?:"((?:.(?:\\")?)+?)"|([^\s]+))(?=\s|$)/g;
+        const regex = /(^|\s)([-!])?(case:)?(?:"((?:.(?:\\")?)+?)"|([^\s]+))(?=\s|$)/g;
         let match;
         while ((match = regex.exec(keywordsStr))) {
             parsed.push({
-                text: match[3]?.replace(/\\"/g, '"') ?? match[4],
-                caseSensitive: match[2] === 'case:',
-                negate: match[1] === '-'
+                text: match[4]?.replace(/\\"/g, '"') ?? match[5],
+                negate: ['-', '!'].includes(match[2]),
+                caseSensitive: match[3] === 'case:'
             });
         }
         return parsed;
@@ -254,14 +254,19 @@ export default {
                 matches.push({
                     index: foundIndex,
                     length: searchFor.length,
-                    text: text.slice(foundIndex, foundIndex + searchFor.length)
+                    text: text.slice(foundIndex, foundIndex + searchFor.length),
+                    caseSensitive: keyword.caseSensitive
                 });
             }
         }
-        if (matches.length === 0) {
+        if (this.noMatchingKeywords(keywords, matches)) {
             return null;
         }
         return matches;
+    },
+
+    noMatchingKeywords: function(keywords, matches) {
+        return matches.length === 0 && keywords.length > 0 && !(keywords.every((k) => k.negate));
     },
 
     highlightKeywordsFilter: function(rowItem, columns, keywordsStr) {
@@ -306,7 +311,7 @@ export default {
         }
 
         const htmlRegex = /<\/?[a-z][\s\S]*>/i;
-        const allMatches = [];
+        let allMatches = null;
         columns.forEach((id) => {
 
             const text = textHandler(rowItem, id);
@@ -321,17 +326,18 @@ export default {
             const isHtml = htmlRegex.test(str);
             const htmlText = isHtml ? getHtmlText(str, id) : str;
             const matches = this.matchKeywords(keywords, htmlText);
-            if (matches) {
+            if (matches !== null) {
                 rowItem[`${highlightKey}${id}`] = true;
+                allMatches = allMatches || [];
                 allMatches.push(... matches);
             }
         });
-        if (allMatches.length) {
+        if (allMatches !== null) {
             // keep actual text matches in instance
             this.highlightKeywords = allMatches;
         }
 
-        return allMatches.length !== 0;
+        return allMatches !== null;
 
     },
 
@@ -401,8 +407,12 @@ export default {
             const matches = [];
             const matchedRanges = [];
             allMatches.forEach((match) => {
-                // use `text`, as `index` and `length` are not guaranteed in node text
-                const index = nodeText.indexOf(match.text);
+                let index;
+                if (match.caseSensitive) {
+                    index = nodeText.indexOf(match.text);
+                } else {
+                    index = nodeText.toLowerCase().indexOf(match.text.toLowerCase());
+                }
                 if (index !== -1) {
                     const relativeStart = index;
                     const relativeEnd = index + match.text.length;
@@ -417,7 +427,7 @@ export default {
                         matches.push({
                             index: relativeStart,
                             length: match.text.length,
-                            text: match.text
+                            text: nodeText.slice(relativeStart, relativeEnd)
                         });
                         matchedRanges.push([relativeStart, relativeEnd]);
                     }

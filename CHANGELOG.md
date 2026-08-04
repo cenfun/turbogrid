@@ -1,7 +1,7 @@
 # Changelog
 
 + Unreleased
-    - improved keyword matching
+    - improved keyword matching including quoted phrases, negation prefixes and case-sensitive filtering
 
 + 3.3.5
     - added `initWidth` column property for autoColumnWidth: supports numeric or function-returned initial widths while still participating in `widthWeight` distribution

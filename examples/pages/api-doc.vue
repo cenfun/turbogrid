@@ -1071,12 +1071,25 @@
           <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
           <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
           <div>
-            columns should be a list of column ids, and keywords is split on whitespace before matching.
+            columns should be a list of column ids. keywords is split on whitespace and supports advanced syntax:
           </div>
+          <ul>
+            <li>Basic case-insensitive search by default</li>
+            <li>Negate keywords with - or ! prefix</li>
+            <li>Make keywords case-sensitive with case: prefix</li>
+            <li>Double-quoted phrases are not split on whitespace (escape inner quotes with backslashes)</li>
+          </ul>
+          <div>Examples:</div>
+          <ul>
+            <li>flaky test - Finds rows containing 'flaky' and 'test'</li>
+            <li>-flaky test - Finds rows containing 'test' but not 'flaky'</li>
+            <li>case:test - Finds rows containing 'test' (case-sensitive)</li>
+            <li>"\"flaky\" test" - Finds rows containing '"flaky" test'</li>
+          </ul>
           <pre><code class="language-js">
                             grid.setOption({
                                 rowFilter: function(rowItem) {
-                                    return this.highlightKeywordsFilter(rowItem, ["name", "type"], "foo bar");
+                                    return this.highlightKeywordsFilter(rowItem, ["name", "type"], 'foo -case:"bar"');
                                 }
                             });
                         </code></pre>

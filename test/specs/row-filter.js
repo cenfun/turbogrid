@@ -316,9 +316,21 @@ describe('highlightKeywordsFilter patterns and options', function() {
     let container;
     let grid;
 
-    before(function() {
+    before(async function() {
         container = createContainer('500px', '500px');
         grid = new Grid(container);
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }, {
+                id: 'title',
+                name: 'Title'
+            }],
+            rows: []
+        });
+        grid.render();
+        await delay();
     });
 
     after(function() {
@@ -344,6 +356,11 @@ describe('highlightKeywordsFilter patterns and options', function() {
         assert.equal(filter('foo missing'), true);
         assert.equal(filter('case:foo'), false);
         assert.equal(filter('case:Foo'), true);
+        assert.equal(filter('F*fox'), true);
+        assert.equal(filter('F\\*fox'), false);
+        rowItem.name = 'F*fox';
+        assert.equal(filter('F\\*fox'), true);
+        rowItem.name = 'Foo quick brown fox';
         assert.equal(filter('-case:foo'), true);
         assert.equal(filter('-case:Foo'), false);
         assert.equal(filter('foo missing', {

@@ -61,9 +61,25 @@ const getPatternInfo = (data, negatedPrefix) => {
     };
 };
 
+const stringPatternToSource = (pattern) => {
+    let source = '';
+    for (let i = 0; i < pattern.length; i++) {
+        const character = pattern[i];
+        if (character === '\\' && pattern[i + 1] === '*') {
+            source += '\\*';
+            i += 1;
+        } else if (character === '*') {
+            source += '[\\s\\S]*?';
+        } else {
+            source += escapeStringRegexp(character);
+        }
+    }
+    return source;
+};
+
 const setNormalizedRegExp = (normalized) => {
     const isRegExp = normalized.pattern instanceof RegExp;
-    const source = isRegExp ? normalized.pattern.source : escapeStringRegexp(normalized.pattern).replace(/\\\*/g, '[\\s\\S]*?');
+    const source = isRegExp ? normalized.pattern.source : stringPatternToSource(normalized.pattern);
     const originalFlags = isRegExp ? normalized.pattern.flags : '';
     normalized.source = source;
     normalized.regexp = new RegExp(source, getFlags(normalized.caseSensitive, originalFlags));

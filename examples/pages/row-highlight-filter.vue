@@ -5,7 +5,7 @@
         <div class="controller-title">
           highlightKeywordsFilter
         </div>
-        <span>String patterns (space-separated keywords, * wildcards, and case: prefix)</span>
+        <span>String patterns (space-separated keywords, * wildcards, \* literals, and case: prefix)</span>
       </div>
 
       <div class="controls-row">
@@ -67,6 +67,9 @@
         </button>
         <button @click="setExample('case:Grid')">
           case:Grid
+        </button>
+        <button @click="setExample('Grid\\*View')">
+          Grid\*View
         </button>
       </div>
 
@@ -148,6 +151,11 @@ const data = {
         category: 'Advanced',
         description: 'Use a function to return the exact text to highlight',
         status: 'Experimental'
+    }, {
+        name: 'Grid*View',
+        category: 'Escaping',
+        description: 'Escape the wildcard to find a literal * character',
+        status: 'Active'
     }]
 };
 

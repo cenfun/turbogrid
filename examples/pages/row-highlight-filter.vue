@@ -71,6 +71,15 @@
         <button @click="setExample">
           \*
         </button>
+        <button @click="setExample">
+          TestSource @tag
+        </button>
+        <button @click="setExample">
+          @smoke
+        </button>
+        <button @click="setExample">
+          -@smoke
+        </button>
       </div>
 
       <div class="pattern-preview">
@@ -155,6 +164,16 @@ const data = {
         name: 'Grid*View',
         category: 'Escaping',
         description: 'Escape the wildcard to find a literal * character',
+        status: 'Active'
+    }, {
+        name: 'TestSource parser',
+        category: '@tag',
+        description: 'Tagged test source for regression coverage',
+        status: 'Active'
+    }, {
+        name: 'Smoke test',
+        category: '@smoke',
+        description: 'A smoke-tagged row that can be excluded with -@smoke',
         status: 'Active'
     }]
 };

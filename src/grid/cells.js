@@ -41,9 +41,12 @@ export default {
         this.renderNodeContent(parentNode, content);
 
         const { highlightKey } = this.options.highlightKeywords;
-        const hasHighlight = rowItem[highlightKey + columnItem.id];
-        if (hasHighlight) {
-            this.renderSettings.highlightCells.push(cellNode);
+        const highlightPatterns = rowItem[highlightKey + columnItem.id];
+        if (highlightPatterns) {
+            this.renderSettings.highlightCells.push({
+                cellNode,
+                patterns: Array.isArray(highlightPatterns) ? highlightPatterns : null
+            });
         }
 
         this.trigger(E.onCellUpdated, {

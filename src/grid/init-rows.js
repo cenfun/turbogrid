@@ -1,3 +1,4 @@
+import Matcher from '../core/matcher.js';
 import Util from '../core/util.js';
 
 export default {
@@ -218,47 +219,30 @@ export default {
 
     },
 
-    highlightKeywordsFilter: function(rowItem, columns, keywordsStr) {
+    highlightKeywordsFilter: function(rowItem, columns, patterns) {
 
+        const highlightOptions = this.options.highlightKeywords;
         const {
             textKey, textGenerator, highlightKey
-        } = this.options.highlightKeywords;
+        } = highlightOptions;
 
         // clean matched cache
         columns.forEach((id) => {
             rowItem[`${highlightKey}${id}`] = null;
         });
 
-        if (!keywordsStr) {
+        const normalizedPatterns = Matcher.normalizePatterns(patterns, highlightOptions);
+        const positivePatterns = normalizedPatterns.filter((item) => !item.negated);
+        // keep positive patterns in the instance for the asynchronous highlighter
+        this.highlightKeywords = positivePatterns;
+        if (!normalizedPatterns.length) {
             return true;
         }
-
-        const keywords = `${keywordsStr}`.trim().toLowerCase().split(/\s+/g).filter((s) => s);
-        if (!keywords.length) {
-            return true;
-        }
-
-        let hasMatched = false;
-        const getTextMatched = (text) => {
-
-            const lowText = text.toLowerCase();
-
-            let startPos = 0;
-            for (const key of keywords) {
-                const index = lowText.indexOf(key, startPos);
-                if (index === -1) {
-                    return;
-                }
-                startPos = index + key.length;
-            }
-
-            return true;
-        };
 
         const getHtmlText = (html, id) => {
             const cacheKey = `${textKey}${id}`;
             const cacheText = rowItem[cacheKey];
-            if (cacheText) {
+            if (typeof cacheText === 'string') {
                 return cacheText;
             }
             const div = document.createElement('div');
@@ -269,14 +253,6 @@ export default {
             return text;
         };
 
-        const getMatched = (str, id) => {
-            const isHtml = (/<\/?[a-z][\s\S]*>/i).test(str);
-            if (isHtml) {
-                str = getHtmlText(str, id);
-            }
-            return getTextMatched(str);
-        };
-
         let textHandler = function(_rowItem, id) {
             return _rowItem[id];
         };
@@ -284,27 +260,50 @@ export default {
             textHandler = textGenerator;
         }
 
+        const texts = [];
         columns.forEach((id) => {
-
             const text = textHandler(rowItem, id);
             if (text === null || typeof text === 'undefined') {
                 return;
             }
 
-            const str = `${text}`.trim();
+            let str = `${text}`.trim();
             if (!str) {
                 return;
             }
-            const matched = getMatched(str, id);
-            if (matched) {
-                rowItem[`${highlightKey}${id}`] = matched;
-                hasMatched = true;
-                // keep in instance
-                this.highlightKeywords = keywords;
+            if ((/<\/?[a-z][\s\S]*>/i).test(str)) {
+                str = getHtmlText(str, id);
             }
+            texts.push({
+                id,
+                columnItem: this.getColumnItem(id),
+                text: str
+            });
         });
 
-        return hasMatched;
+        normalizedPatterns.forEach((item) => {
+            item.matches = texts.map(({
+                id, columnItem, text
+            }) => {
+                const matched = Matcher.match(item, text, rowItem, columnItem, this);
+                if (matched) {
+                    matched.id = id;
+                }
+                return matched;
+            }).filter(Boolean);
+            item.matched = Boolean(item.matches.length);
+        });
+
+        positivePatterns.forEach((item) => {
+            item.matches.forEach(({ id, highlightPattern }) => {
+                const cacheKey = `${highlightKey}${id}`;
+                const cellPatterns = rowItem[cacheKey] || [];
+                cellPatterns.push(highlightPattern);
+                rowItem[cacheKey] = cellPatterns;
+            });
+        });
+
+        return Matcher.isMatched(normalizedPatterns, highlightOptions.matchMode);
 
     },
 
@@ -331,7 +330,9 @@ export default {
 
         // https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
         // there is no renderSettings in next tick
-        highlightCells.forEach((cellNode) => {
+        highlightCells.forEach((highlightCell) => {
+            const cellNode = highlightCell.cellNode || highlightCell;
+            const cellPatterns = highlightCell.patterns || keywords;
 
             // highlight mark will breaking DOM
             // filter text in svg image
@@ -360,55 +361,33 @@ export default {
                 return;
             }
 
-            this.highlightTextNodes(allTextNodes, keywords);
+            this.highlightTextNodes(allTextNodes, cellPatterns);
 
         });
     },
 
-    highlightTextNodes: function(allTextNodes, keywords) {
+    highlightTextNodes: function(allTextNodes, patterns) {
 
         const { highlightPre, highlightPost } = this.options.highlightKeywords;
 
-        let keyIndex = 0;
-        const nextKey = () => {
-            if (keyIndex >= keywords.length) {
-                keyIndex = 0;
-            }
-            return keywords[keyIndex++];
-        };
-
-        let key = nextKey();
-
         allTextNodes.forEach((textNode) => {
             const text = textNode.textContent;
-            const lowText = text.toLowerCase();
+            const ranges = Matcher.getRanges(text, patterns);
             const list = [];
             let startPos = 0;
-            const textLength = text.length;
-            let hasKeyMatched = false;
-            while (startPos < textLength) {
-                const index = lowText.indexOf(key, startPos);
-                if (index === -1) {
-                    break;
+            ranges.forEach((range) => {
+                if (range.start < startPos) {
+                    return;
                 }
-
-                list.push(text.slice(startPos, index));
+                list.push(text.slice(startPos, range.start));
                 list.push(highlightPre);
-
-                startPos = index + key.length;
-                key = nextKey();
-                hasKeyMatched = true;
-
-                list.push(text.slice(index, startPos));
+                list.push(text.slice(range.start, range.end));
                 list.push(highlightPost);
+                startPos = range.end;
+            });
 
-            }
-
-            if (hasKeyMatched) {
-                if (startPos < textLength) {
-                    list.push(text.slice(startPos, textLength));
-                }
-                //  console.log(list);
+            if (startPos) {
+                list.push(text.slice(startPos));
                 const spanNode = document.createElement('span');
                 spanNode.innerHTML = list.join('');
                 textNode.parentNode.replaceChild(spanNode, textNode);

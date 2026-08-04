@@ -3,7 +3,7 @@
 
 export type StyleMap = string | string[] | Record<string, boolean | string | number>;
 export type ClassMap = string | string[] | Record<string, boolean>;
-export type SortField = string | ((this: Grid, sortOptions: any) => string | null | undefined);
+export type SortField = string | ((sortOptions: any) => string | null | undefined);
 
 // =============================================================================
 // Column
@@ -30,7 +30,7 @@ export interface ColumnItem {
     /** Fixed width value. Columns with width are excluded from autoColumnWidth and are not affected by widthWeight distribution. */
     width?: number;
     /** Initial/base width. Can be a number or a callback returning a number; participates in autoColumnWidth and can be distributed by widthWeight. */
-    initWidth?: number | ((this: Grid, columnItem: ColumnItem) => number | null | undefined);
+    initWidth?: number | ((columnItem: ColumnItem) => number | null | undefined);
     /** Weight for autoColumnWidth distribution. Defaults to 1 if not set. 0.5 gets half, 2 gets double the proportional share */
     widthWeight?: number;
     minWidth?: number;
@@ -176,7 +176,31 @@ export interface HighlightKeywords {
     highlightKey?: string;
     highlightPre?: string;
     highlightPost?: string;
+    /** Whether matching is case-sensitive. Defaults to false */
+    caseSensitive?: boolean;
+    /** Pattern combination and conflict-resolution mode. Defaults to "or" */
+    matchMode?: 'or' | 'and' | 'negatedFirst' | 'positiveFirst';
+    /** Prefix that marks negated string patterns. Defaults to "-" */
+    negatedPrefix?: string;
 }
+
+/** Returns the matched substring to filter and highlight, or an empty string when unmatched */
+export type HighlightKeywordMatcher = (
+    text: string,
+    rowItem: RowItem,
+    columnItem: ColumnItem
+) => string;
+
+export interface HighlightKeywordPattern {
+    /** String supports * wildcards; RegExp and function enable fully custom matching */
+    pattern: string | RegExp | HighlightKeywordMatcher;
+    /** Overrides the global caseSensitive option for String and RegExp patterns */
+    caseSensitive?: boolean;
+    /** Inverts this pattern's match result */
+    negated?: boolean;
+}
+
+export type HighlightKeywordPatterns = string | HighlightKeywordPattern | HighlightKeywordPattern[];
 
 // =============================================================================
 // Render
@@ -194,8 +218,11 @@ export interface RenderSettings {
     scrollColumn?: ColumnItem | null;
     /** Row item to bring into view before rendering */
     scrollRow?: RowItem | null;
-    /** Cell nodes collected for keyword highlighting during the render pass */
-    highlightCells?: HTMLElement[];
+    /** Cells and their matched patterns collected during the render pass */
+    highlightCells?: Array<HTMLElement | {
+        cellNode: HTMLElement;
+        patterns?: any[] | null;
+    }>;
 
     [key: string]: any;
 }
@@ -222,7 +249,7 @@ export interface GridOptions {
     /** Optionally sorts filtered matches */
     rowFilteredSort?: string | RowItem | (() => string | RowItem | null) | null;
     /** Empty-state content when no rows match. Accepts string, element, or factory function */
-    rowNotFound?: string | HTMLElement | ((this: Grid, info: any) => string | HTMLElement);
+    rowNotFound?: string | HTMLElement | ((info: any) => string | HTMLElement);
     /** Whether move APIs can move rows across hierarchy levels (default: true) */
     rowMoveCrossLevel?: boolean;
     /** Extra rows rendered outside the viewport as cache (default: 0) */
@@ -716,8 +743,8 @@ export declare class Grid extends EventBase {
     getCellValue(rowItem: RowItem, columnItem: ColumnItem): any;
 
     // Highlight
-    /** Helper for rowFilter to match and mark keywords across specified columns */
-    highlightKeywordsFilter(rowItem: RowItem, columns: string[], keywords: string): boolean;
+    /** Helper for rowFilter to match and mark keyword patterns across specified columns */
+    highlightKeywordsFilter(rowItem: RowItem, columns: string[], patterns: HighlightKeywordPatterns): boolean;
 
     // Node
     /** Finds nodes inside the grid root with a CSS selector */

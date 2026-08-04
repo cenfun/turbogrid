@@ -187,7 +187,10 @@ export default function() {
             textGenerator: null,
             highlightKey: 'tg_highlight_',
             highlightPre: '<mark>',
-            highlightPost: '</mark>'
+            highlightPost: '</mark>',
+            caseSensitive: false,
+            matchMode: 'or',
+            negatedPrefix: '-'
         },
 
         // ==========================================================

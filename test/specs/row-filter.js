@@ -311,3 +311,109 @@ describe('rowFilter and rowFilteredSort (invisible 15)', function() {
     });
 
 });
+
+describe('highlightKeywordsFilter patterns and options', function() {
+    let container;
+    let grid;
+
+    before(function() {
+        container = createContainer('500px', '500px');
+        grid = new Grid(container);
+    });
+
+    after(function() {
+        grid.destroy();
+        container.remove();
+    });
+
+    it('supports string, object, array and matching options', () => {
+        const rowItem = {
+            name: 'Foo quick brown fox',
+            title: 'Bar'
+        };
+        const columns = ['name', 'title'];
+        const filter = (patterns, options = {}) => {
+            Object.assign(grid.options.highlightKeywords, {
+                caseSensitive: false,
+                matchMode: 'or',
+                negatedPrefix: '-'
+            }, options);
+            return grid.highlightKeywordsFilter(rowItem, columns, patterns);
+        };
+
+        assert.equal(filter('foo missing'), true);
+        assert.equal(filter('foo missing', {
+            matchMode: 'and'
+        }), false);
+        assert.equal(filter('foo bar', {
+            matchMode: 'and'
+        }), true);
+        assert.equal(filter({
+            pattern: 'FOO'
+        }), true);
+        assert.equal(filter({
+            pattern: 'FOO'
+        }, {
+            caseSensitive: true
+        }), false);
+        assert.equal(filter([{
+            pattern: 'F*fox',
+            caseSensitive: true
+        }]), true);
+        assert.equal(filter({
+            pattern: /^foo/
+        }), true);
+        assert.equal(filter({
+            pattern: /^foo/,
+            caseSensitive: true
+        }), false);
+        assert.equal(filter({
+            pattern: function(text, matchedRowItem, columnItem) {
+                if (this === grid && matchedRowItem === rowItem && columnItem.id === 'title' && text === 'Bar') {
+                    return 'Bar';
+                }
+                return '';
+            }
+        }), true);
+        assert.equal(filter('!missing', {
+            negatedPrefix: '!'
+        }), true);
+        assert.equal(filter('!foo', {
+            negatedPrefix: '!'
+        }), false);
+        assert.equal(filter('foo -foo', {
+            matchMode: 'negatedFirst'
+        }), false);
+        assert.equal(filter('foo -foo', {
+            matchMode: 'positiveFirst'
+        }), true);
+    });
+
+    it('highlights the string returned by a custom matcher', async () => {
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }],
+            rows: [{
+                name: 'Foo quick fox'
+            }]
+        });
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], {
+                    pattern: function(text, matchedRowItem, columnItem) {
+                        assert.equal(matchedRowItem, rowItem);
+                        assert.equal(columnItem.id, 'name');
+                        return text.includes('quick') ? 'quick' : '';
+                    }
+                });
+            }
+        });
+        grid.render();
+        await delay(100);
+
+        const cellNode = grid.getCellNode(grid.getViewRows()[0], 'name');
+        assert.equal(cellNode.querySelector('mark').innerText, 'quick');
+    });
+});

@@ -110,7 +110,8 @@ onMounted(() => {
             selectVisible: true,
             rowNotFound: '<div>Not Found</div>',
             rowFilter: (rowItem) => {
-                let hasMatched = grid.value.highlightKeywordsFilter(rowItem, ['name'], keywords.value);
+                const keyword = keywords.value.trim().toLowerCase();
+                let hasMatched = !keyword || `${rowItem.name || ''}`.toLowerCase().includes(keyword);
 
                 if (rowItem.tg_frozen) {
                     hasMatched = true;
@@ -173,6 +174,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style lang="scss">
-</style>

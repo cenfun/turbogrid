@@ -5,7 +5,7 @@
         <div class="controller-title">
           highlightKeywordsFilter
         </div>
-        <span>String patterns (space-separated keywords and * wildcards)</span>
+        <span>String patterns (space-separated keywords, * wildcards, and case: prefix)</span>
       </div>
 
       <div class="controls-row">
@@ -64,6 +64,9 @@
         </button>
         <button @click="setExample('Vue*integration')">
           Vue*integration
+        </button>
+        <button @click="setExample('case:Grid')">
+          case:Grid
         </button>
       </div>
 

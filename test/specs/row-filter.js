@@ -342,6 +342,10 @@ describe('highlightKeywordsFilter patterns and options', function() {
         };
 
         assert.equal(filter('foo missing'), true);
+        assert.equal(filter('case:foo'), false);
+        assert.equal(filter('case:Foo'), true);
+        assert.equal(filter('-case:foo'), true);
+        assert.equal(filter('-case:Foo'), false);
         assert.equal(filter('foo missing', {
             matchMode: 'and'
         }), false);

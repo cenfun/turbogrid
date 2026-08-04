@@ -31,6 +31,14 @@ const getNegatedInfo = (pattern, negated, negatedPrefix) => {
     };
 };
 
+const getCaseSensitiveInfo = (info) => {
+    if (info.pattern.startsWith('case:')) {
+        info.pattern = info.pattern.slice('case:'.length);
+        info.caseSensitive = true;
+    }
+    return info;
+};
+
 const getPatternData = (item) => {
     return typeof item === 'string' ? {
         pattern: item
@@ -43,7 +51,8 @@ const getPatternInfo = (data, negatedPrefix) => {
         return;
     }
     if (patternType === 'string') {
-        const info = getNegatedInfo(data.pattern.trim(), data.negated, negatedPrefix);
+        const negatedInfo = getNegatedInfo(data.pattern.trim(), data.negated, negatedPrefix);
+        const info = getCaseSensitiveInfo(negatedInfo);
         return info.pattern ? info : null;
     }
     return {
@@ -73,7 +82,7 @@ const normalizePattern = (item, caseSensitive, negatedPrefix) => {
 
     const normalized = {
         pattern: info.pattern,
-        caseSensitive: getCaseSensitive(data.caseSensitive, caseSensitive),
+        caseSensitive: info.caseSensitive || getCaseSensitive(data.caseSensitive, caseSensitive),
         negated: info.negated === true
     };
     if (typeof info.pattern === 'function') {

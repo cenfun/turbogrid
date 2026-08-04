@@ -192,7 +192,7 @@ export type HighlightKeywordMatcher = (
 ) => string;
 
 export interface HighlightKeywordPattern {
-    /** String supports * wildcards; RegExp and function enable fully custom matching */
+    /** String supports * wildcards and the case: prefix; RegExp and function enable fully custom matching */
     pattern: string | RegExp | HighlightKeywordMatcher;
     /** Overrides the global caseSensitive option for String and RegExp patterns */
     caseSensitive?: boolean;

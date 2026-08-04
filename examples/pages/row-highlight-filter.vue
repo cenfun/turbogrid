@@ -53,23 +53,23 @@
 
       <div class="controls-row examples-row">
         <span>Examples:</span>
-        <button @click="setExample('grid')">
+        <button @click="setExample">
           grid
         </button>
-        <button @click="setExample('grid fast')">
+        <button @click="setExample">
           grid fast
         </button>
-        <button @click="setExample(`grid ${negatedPrefix}legacy`)">
+        <button @click="setExample">
           grid {{ negatedPrefix }}legacy
         </button>
-        <button @click="setExample('Vue*integration')">
-          Vue*integration
+        <button @click="setExample">
+          vue*on
         </button>
-        <button @click="setExample('case:Grid')">
+        <button @click="setExample">
           case:Grid
         </button>
-        <button @click="setExample('Grid\\*View')">
-          Grid\*View
+        <button @click="setExample">
+          \*
         </button>
       </div>
 
@@ -177,8 +177,8 @@ const updateOptions = () => {
     updateGrid();
 };
 
-const setExample = (value) => {
-    keywords.value = value;
+const setExample = (e) => {
+    keywords.value = e.target.innerText.trim();
     updateGrid();
 };
 
@@ -246,6 +246,5 @@ onBeforeUnmount(() => {
         align-items: center;
         margin-top: 8px;
     }
-
 }
 </style>

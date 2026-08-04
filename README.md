@@ -20,7 +20,8 @@ TurboGrid is a high-performance JavaScript data grid library with zero dependenc
 - **Auto Column Width** — Distribute remaining horizontal space proportionally across columns; fixed-width columns are excluded; use `widthWeight` per column to control the share
 - **Frozen Panes** — Freeze rows and columns at any edge (top/bottom/left/right) with configurable limits
 - **Row Operations** — Selection (single/multiple), drag & drop reordering, move, add/delete, row numbering
-- **Sorting & Filtering** — Built-in type-aware sorting (string/number/date/boolean), custom comparers, row filtering with keyword highlighting
+- **Sorting** — Built-in type-aware sorting (string/number/date/boolean) and custom comparers
+- **Filtering/Searching** — Row filtering with keyword highlighting (e.g.: `"string match"`, `-exclusion`, `case:Sensitive`)
 - **Rich Cell Rendering** — Formatter system for custom cell content — badges, progress bars, icons, checkboxes, or framework components
 - **Data Export** — Export grid data with configurable column/row inclusion and private field stripping
 - **Comprehensive API** — 100+ methods, 50+ configuration options, and 36 event types covering the full lifecycle
@@ -99,7 +100,7 @@ TurboGrid provides 100+ public methods, 50+ configuration options, and 36 event 
 
 The API covers:
 
-- **Methods** — Data management, row/column CRUD, scrolling & navigation, rendering, selection, tree operations, export
+- **Methods** — Data management, row/column CRUD, scrolling & navigation, rendering, selection, filter/search syntax, tree operations, export
 - **Options** — Display, selection, sorting, frozen panes, scrollbar, performance tuning, theming
 - **Events** — Lifecycle (`onUpdated`, `onDestroy`), interaction (`onClick`, `onSort`, `onKeyDown`), scroll, selection, drag & drop
 - **Data Structures** — Column items, row items, and internal properties (`tg_*` namespace)

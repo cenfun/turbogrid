@@ -247,9 +247,27 @@ describe('rowFilter and rowFilteredSort (invisible 15)', function() {
         assert.equal(values, '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19');
     });
 
-    it('Grid rowFilter: highlightKeywordsFilter', async () => {
+});
 
-        keywords = '1';
+describe('Grid rowFilter: highlightKeywordsFilter', function() {
+    let container;
+    let grid;
+    let keywords;
+
+    before(function() {
+        container = createContainer('500px', '500px');
+        grid = new Grid(container);
+    });
+    after(function() {
+        grid.destroy();
+        grid = null;
+        container.remove();
+        container = null;
+    });
+
+    it('basic', async () => {
+
+        keywords = '1 -11';
 
         const data = createData();
         grid.setData(data);
@@ -266,27 +284,30 @@ describe('rowFilter and rowFilteredSort (invisible 15)', function() {
         await delay(100);
 
         const rows = grid.getViewRows();
-        assert.equal(rows.length, 10);
+        const expected = [1, 10, 12, 13, 14, 16, 17, 18, 19];
+        assert.equal(rows.length, expected.length);
 
         const values = grid.getViewRows().map((it) => it.value).join(',');
-        assert.equal(values, '1,10,11,12,13,14,16,17,18,19');
+        assert.equal(values, expected.join(','));
 
-        // check mark tag
-        const row1 = grid.getViewRows()[0];
+        // check mark tags
+        for (let i = 0; i < expected.length; i++) {
+            const row = grid.getViewRows()[i];
 
-        const cellNode = grid.getCellNode(row1, 'name');
-        const mark = cellNode.querySelector('mark');
-        assert.ok(mark);
-        assert.equal(mark.innerText, keywords);
+            const cellNode = grid.getCellNode(row, 'name');
+            const mark = cellNode.querySelector('mark');
+            assert.ok(mark);
+            assert.equal(mark.innerText, '1');
+        }
     });
 
-    it('Grid rowFilter: highlightKeywordsFilter html', async () => {
+    it('html', async () => {
 
-        keywords = 're';
+        keywords = 're when';
 
         const data = createData();
         data.rows.push({
-            name: 'See <font color="red">red</font>'
+            name: 'When you see <font color="red">Red</font> on the screen, you know when'
         });
         grid.setData(data);
         grid.setOption({
@@ -301,13 +322,94 @@ describe('rowFilter and rowFilteredSort (invisible 15)', function() {
         // 100 for debounce
         await delay(100);
 
-        // check mark tag
+        const rows = grid.getViewRows();
+        assert.equal(rows.length, 1);
+
+        // check mark tags
         const row1 = grid.getViewRows()[0];
 
         const cellNode = grid.getCellNode(row1, 'name');
-        const mark = cellNode.querySelector('font mark');
-        assert.ok(mark);
-        assert.equal(mark.innerText, keywords);
+        const marks = cellNode.querySelectorAll('mark');
+        assert.equal(marks.length, 4);
+        assert.equal(marks[0].innerText, 'When');
+        assert.equal(marks[1].innerText, 'Re');
+        assert.equal(marks[2].innerText, 're');
+        assert.equal(marks[3].innerText, 'when');
+    });
+
+    it('complex', async () => {
+
+        keywords = 'case:Test "case 1" -@smoke';
+
+        const data = {
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }],
+            rows: [
+                {
+                    name: 'Example Case 1 Data Driven Test'
+                },
+                {
+                    // does not include case-sensitive 'Test'
+                    name: 'test case 1 fixme - not yet ready'
+                },
+                {
+                    // does not include 'case 1'
+                    name: 'Test case with custom steps 1'
+                },
+                {
+                    // includes '@smoke'
+                    name: '@smoke Test case 1 full report'
+                }
+            ]
+        };
+        grid.setData(data);
+        grid.setOption({
+            rowNotFound: 'No Results',
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], keywords);
+            }
+        });
+
+        grid.render();
+
+        // 100 for debounce
+        await delay(100);
+
+        const rows = grid.getViewRows();
+        assert.equal(rows.length, 1);
+
+        // check mark tags
+        const row1 = grid.getViewRows()[0];
+
+        const cellNode = grid.getCellNode(row1, 'name');
+        const marks = cellNode.querySelectorAll('mark');
+        assert.equal(marks.length, 2);
+        assert.equal(marks[0].innerText, 'Case 1');
+        assert.equal(marks[1].innerText, 'Test');
+    });
+
+    it('negated', async () => {
+
+        keywords = '-0 -15';
+
+        const data = createData();
+        grid.setData(data);
+        grid.setOption({
+            rowNotFound: 'No Results',
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], keywords);
+            }
+        });
+
+        grid.render();
+
+        // 100 for debounce
+        await delay(100);
+
+        const rows = grid.getViewRows();
+        assert.equal(rows.length, data.rows.length - 3);
     });
 
 });

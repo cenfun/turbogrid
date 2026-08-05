@@ -1551,7 +1551,7 @@
 
           <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "and"</a>
           <div>
-            控制正向和反向模式的组合方式。"or" 接受任一满足的模式条件；"and" 要求全部条件都满足；
+            控制正向和反向模式的组合方式。"and" 要求全部条件都满足；"or" 接受任一满足的模式条件；
             "negatedFirst" 优先处理已匹配的反向模式；"positiveFirst" 优先处理已匹配的正向模式。
           </div>
 

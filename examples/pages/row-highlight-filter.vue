@@ -15,8 +15,8 @@
             v-model="matchMode"
             @change="updateOptions"
           >
-            <option>or</option>
             <option>and</option>
+            <option>or</option>
             <option>negatedFirst</option>
             <option>positiveFirst</option>
           </select>

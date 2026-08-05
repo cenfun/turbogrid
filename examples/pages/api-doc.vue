@@ -1664,9 +1664,9 @@
 
           <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "and"</a>
           <div>
-            Controls how positive and negated patterns are combined. "or" accepts any satisfied pattern condition;
-            "and" requires all conditions; "negatedFirst" gives matched negations priority; and "positiveFirst" gives
-            matched positives priority.
+            Controls how positive and negated patterns are combined. "and" requires all conditions;
+            "or" accepts any satisfied pattern condition; "negatedFirst" gives matched negations priority; and
+            "positiveFirst" gives matched positives priority.
           </div>
 
           <a name="options.highlightKeywords.caseSensitive">highlightKeywords.caseSensitive = false</a>

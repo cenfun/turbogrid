@@ -172,7 +172,7 @@ export interface ColumnTypes {
 
 export interface HighlightKeywords {
     /** Pattern combination and conflict-resolution mode. Defaults to "and" */
-    matchMode?: 'or' | 'and' | 'negatedFirst' | 'positiveFirst';
+    matchMode?: 'and' | 'or' | 'negatedFirst' | 'positiveFirst';
     /** Whether matching is case-sensitive. Defaults to false */
     caseSensitive?: boolean;
     /** Prefix that marks negated string patterns. Defaults to "-" */

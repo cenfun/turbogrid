@@ -42,11 +42,8 @@
 import {
     onMounted, onBeforeUnmount, ref
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { init, initCommonEvents } from '../global.js';
-const route = useRoute();
-
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -80,7 +77,7 @@ onMounted(async () => {
                 minWidth: 100,
                 maxWidth: 500,
                 formatter: (v, rowItem, columnItem) => {
-                    return `<a href=${rowItem.reference} target="_blank"><font color="skyblue"><b>${v}</b></font></a>`;
+                    return `<a href="${rowItem.reference}" target="_blank">${v}</a>`;
                 }
             }, {
                 id: 'description',
@@ -125,7 +122,7 @@ onMounted(async () => {
         };
 
         const options = {
-            theme: route.query.theme,
+            theme: 'dark',
             selectVisible: true,
             selectMultiple: true,
             selectAllVisible: true,

@@ -181,7 +181,7 @@
             示例 <a
               href="#/formatter"
               target="_blank"
-            >格式化器</a>
+            >Formatter</a>
           </div>
         </section>
 
@@ -216,7 +216,7 @@
             示例 <a
               href="#/events"
               target="_blank"
-            >事件</a>
+            >Events</a>
           </div>
         </section>
 
@@ -261,7 +261,7 @@
             示例 <a
               href="#/events"
               target="_blank"
-            >事件</a>
+            >Events</a>
           </div>
         </section>
 
@@ -294,7 +294,7 @@
             示例 <a
               href="#/resize"
               target="_blank"
-            >尺寸调整</a>
+            >Resize</a>
           </div>
         </section>
 
@@ -353,7 +353,7 @@
             示例 <a
               href="#/loading"
               target="_blank"
-            >显示/隐藏加载态</a>
+            >Show/Hide Loading</a>
           </div>
         </section>
 
@@ -374,7 +374,7 @@
             示例 <a
               href="#/loading"
               target="_blank"
-            >显示/隐藏加载态</a>
+            >Show/Hide Loading</a>
           </div>
         </section>
 
@@ -392,7 +392,7 @@
             示例 <a
               href="#/row-collapse"
               target="_blank"
-            >行折叠/展开</a>
+            >Row Collapse/Expand</a>
           </div>
         </section>
 
@@ -411,7 +411,7 @@
             示例 <a
               href="#/row-collapse"
               target="_blank"
-            >行折叠/展开</a>
+            >Row Collapse/Expand</a>
           </div>
         </section>
 
@@ -425,7 +425,7 @@
             示例 <a
               href="#/row-collapse"
               target="_blank"
-            >行折叠/展开</a>
+            >Row Collapse/Expand</a>
           </div>
         </section>
 
@@ -444,7 +444,7 @@
             示例 <a
               href="#/export"
               target="_blank"
-            >导出</a>
+            >Export</a>
           </div>
         </section>
 
@@ -460,7 +460,7 @@
             示例 <a
               href="#/load-subs"
               target="_blank"
-            >动态加载子项</a>
+            >Dynamic Load Subs</a>
           </div>
         </section>
 
@@ -485,7 +485,7 @@
             示例 <a
               href="#/set-rows"
               target="_blank"
-            >动态设置行</a>
+            >Dynamic Set Rows</a>
           </div>
         </section>
 
@@ -529,7 +529,7 @@
             示例 <a
               href="#/row-add-delete"
               target="_blank"
-            >行新增/删除</a>
+            >Row Add/Delete</a>
           </div>
         </section>
 
@@ -564,7 +564,7 @@
             示例 <a
               href="#/row-move"
               target="_blank"
-            >行移动</a>
+            >Row Move</a>
           </div>
         </section>
 
@@ -580,7 +580,7 @@
             示例 <a
               href="#/row-select"
               target="_blank"
-            >行选择</a>
+            >Row Select</a>
           </div>
         </section>
 
@@ -597,7 +597,7 @@
             示例 <a
               href="#/row-select"
               target="_blank"
-            >行选择</a>
+            >Row Select</a>
           </div>
         </section>
 
@@ -614,7 +614,7 @@
             示例 <a
               href="#/row-select"
               target="_blank"
-            >行选择</a>
+            >Row Select</a>
           </div>
         </section>
 
@@ -629,7 +629,7 @@
             示例 <a
               href="#/frozen-middle"
               target="_blank"
-            >中间冻结</a>
+            >Frozen Middle</a>
           </div>
         </section>
 
@@ -656,7 +656,7 @@
             示例 <a
               href="#/sort"
               target="_blank"
-            >行排序</a>
+            >Row Sort</a>
           </div>
         </section>
 
@@ -671,7 +671,7 @@
             示例 <a
               href="#/column-display"
               target="_blank"
-            >列宽调整</a>
+            >Column Width Resize</a>
           </div>
         </section>
 
@@ -690,7 +690,7 @@
             示例 <a
               href="#/column-display"
               target="_blank"
-            >显示/隐藏列</a>
+            >Show/Hide Column</a>
           </div>
         </section>
 
@@ -714,7 +714,7 @@
             示例 <a
               href="#/column-add-delete"
               target="_blank"
-            >列新增/删除</a>
+            >Column Add/Delete</a>
           </div>
         </section>
 
@@ -737,7 +737,7 @@
             示例 <a
               href="#/scroll"
               target="_blank"
-            >滚动</a>
+            >Scroll</a>
           </div>
         </section>
 
@@ -755,7 +755,7 @@
             示例 <a
               href="#/scroll"
               target="_blank"
-            >滚动</a>
+            >Scroll</a>
           </div>
         </section>
 
@@ -775,7 +775,7 @@
             示例 <a
               href="#/scroll"
               target="_blank"
-            >滚动</a>
+            >Scroll</a>
           </div>
         </section>
 
@@ -815,7 +815,7 @@
             示例 <a
               href="#/flush"
               target="_blank"
-            >刷新</a>
+            >Flush</a>
           </div>
         </section>
 
@@ -979,6 +979,11 @@
           <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
           <div>用于 rowFilter 和 highlightKeywords 的关键字匹配与高亮辅助方法。</div>
           <div>columns 应为列 id 列表，keywords 会先按空白字符拆分后再逐个匹配。</div>
+          <div>
+            匹配方式、文本提取、缓存及高亮标记可通过 <a
+              href="#/api-doc-zh?position=options.highlightKeywords"
+            >highlightKeywords 配置项</a>自定义。
+          </div>
           <pre><code class="language-js">
                             grid.setOption({
                                 rowFilter: function(rowItem) {
@@ -986,6 +991,12 @@
                                 }
                             });
                         </code></pre>
+          <div>
+            示例 <a
+              href="#/row-highlight-filter"
+              target="_blank"
+            >Row Highlight Filter</a>
+          </div>
         </section>
 
         <section>
@@ -1123,7 +1134,7 @@
             示例 <a
               href="#/load-rows"
               target="_blank"
-            >动态加载行</a>
+            >Dynamic Load Rows</a>
           </div>
         </section>
       </details>
@@ -1154,7 +1165,7 @@
             示例 <a
               href="#/theme"
               target="_blank"
-            >主题</a>
+            >Theme</a>
           </div>
         </section>
 
@@ -1165,7 +1176,7 @@
             示例 <a
               href="#/multiple-instance"
               target="_blank"
-            >行高</a>
+            >Row Height</a>
           </div>
         </section>
 
@@ -1177,7 +1188,7 @@
             示例 <a
               href="#/cache"
               target="_blank"
-            >行/列缓存</a>
+            >Row/Column Cache</a>
           </div>
         </section>
 
@@ -1189,7 +1200,7 @@
             示例 <a
               href="#/auto-height"
               target="_blank"
-            >自动高度</a>
+            >Auto Height</a>
           </div>
           <a name="options.autoColumnWidth">autoColumnWidth = false</a>
           <div>
@@ -1202,7 +1213,7 @@
             示例 <a
               href="#/auto-column-width"
               target="_blank"
-            >自动列宽</a>
+            >Auto Column Width</a>
           </div>
         </section>
 
@@ -1214,7 +1225,7 @@
             示例 <a
               href="#/no-header"
               target="_blank"
-            >显示/隐藏表头</a>
+            >Show/Hide Header</a>
           </div>
         </section>
 
@@ -1227,7 +1238,7 @@
             示例 <a
               href="#/row-collapse"
               target="_blank"
-            >行折叠/展开</a>
+            >Row Collapse/Expand</a>
           </div>
         </section>
 
@@ -1246,7 +1257,7 @@
             示例 <a
               href="#/row-select"
               target="_blank"
-            >行选择</a>
+            >Row Select</a>
           </div>
         </section>
 
@@ -1258,7 +1269,7 @@
             示例 <a
               href="#/row-number"
               target="_blank"
-            >行号</a>
+            >Row Number</a>
           </div>
         </section>
 
@@ -1269,7 +1280,7 @@
             示例 <a
               href="#/row-not-found"
               target="_blank"
-            >空结果提示</a>
+            >Row Not Found</a>
           </div>
         </section>
 
@@ -1281,7 +1292,7 @@
             示例 <a
               href="#/row-drag"
               target="_blank"
-            >行拖拽</a>
+            >Row Drag</a>
           </div>
         </section>
 
@@ -1293,7 +1304,7 @@
             示例 <a
               href="#/row-move"
               target="_blank"
-            >行移动</a>
+            >Row Move</a>
           </div>
         </section>
 
@@ -1322,7 +1333,7 @@
             示例 <a
               href="#/sort"
               target="_blank"
-            >行排序</a>
+            >Row Sort</a>
           </div>
         </section>
 
@@ -1335,7 +1346,7 @@
             示例 <a
               href="#/row-filter"
               target="_blank"
-            >行过滤</a>
+            >Row Filter</a>
           </div>
         </section>
 
@@ -1442,7 +1453,7 @@
             示例 <a
               href="#/frozen"
               target="_blank"
-            >冻结</a>
+            >Frozen</a>
           </div>
         </section>
 
@@ -1472,7 +1483,7 @@
             示例 <a
               href="#/scrollbar"
               target="_blank"
-            >滚动条</a>
+            >Scrollbar</a>
           </div>
         </section>
 
@@ -1497,12 +1508,47 @@
 
         <section>
           <a name="options.highlightKeywords">highlightKeywords = {...}</a>
-          <div>配置匹配关键字的提取方式，以及高亮标记的包裹方式。</div>
-          <a name="options.highlightKeywords.textKey">textKey = "tg_text_"</a>
-          <a name="options.highlightKeywords.textGenerator">textGenerator = null</a>
-          <a name="options.highlightKeywords.highlightKey">highlightKey = "tg_highlight_"</a>
-          <a name="options.highlightKeywords.highlightPre">highlightPre = "&lt;mark&gt;"</a>
-          <a name="options.highlightKeywords.highlightPost">highlightPost = "&lt;/mark&gt;"</a>
+          <div>
+            配置 <a href="#/api-doc-zh?position=highlightKeywordsFilter">highlightKeywordsFilter()</a>
+            使用的匹配方式、文本提取、缓存及高亮标记。
+          </div>
+
+          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "or"</a>
+          <div>
+            控制正向和反向模式的组合方式。"or" 接受任一满足的模式条件；"and" 要求全部条件都满足；
+            "negatedFirst" 优先处理已匹配的反向模式；"positiveFirst" 优先处理已匹配的正向模式。
+          </div>
+
+          <a name="options.highlightKeywords.caseSensitive">highlightKeywords.caseSensitive = false</a>
+          <div>控制字符串模式默认是否区分大小写。</div>
+
+          <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
+          <div>将字符串模式标记为反向匹配的前缀，例如 "-legacy"。</div>
+
+          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
+          <div>用于在行数据属性中缓存从 HTML 单元格值提取的纯文本的前缀。</div>
+
+          <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
+          <div>
+            可选函数 <code>(rowItem, columnId) =&gt; text</code>，用于提供待匹配文本。默认读取
+            <code>rowItem[columnId]</code>。
+          </div>
+
+          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
+          <div>用于在行数据属性中按列缓存已匹配模式的前缀。</div>
+
+          <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
+          <div>插入到每处高亮匹配文本之前的 HTML。</div>
+
+          <a name="options.highlightKeywords.highlightPost">highlightKeywords.highlightPost = "&lt;/mark&gt;"</a>
+          <div>插入到每处高亮匹配文本之后的 HTML。</div>
+
+          <div>
+            示例 <a
+              href="#/row-highlight-filter"
+              target="_blank"
+            >Row Highlight Filter</a>
+          </div>
         </section>
 
         <section>
@@ -1519,7 +1565,7 @@
             示例 <a
               href="#/resize"
               target="_blank"
-            >尺寸调整</a>
+            >Resize</a>
           </div>
         </section>
 
@@ -1530,7 +1576,7 @@
             示例 <a
               href="#/row-height"
               target="_blank"
-            >行高</a>
+            >Row Height</a>
           </div>
         </section>
       </details>
@@ -1571,7 +1617,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1594,7 +1640,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1619,7 +1665,7 @@
                     示例 <a
                       href="#/sort"
                       target="_blank"
-                    >行排序</a>
+                    >Sort</a>
                   </div>
                 </td>
               </tr>
@@ -1642,7 +1688,7 @@
                     示例 <a
                       href="#/column-add-delete"
                       target="_blank"
-                    >列新增/删除</a>
+                    >Column Add/Delete</a>
                   </div>
                 </td>
               </tr>
@@ -1663,7 +1709,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1685,7 +1731,7 @@
                     示例 <a
                       href="#/row-add-delete"
                       target="_blank"
-                    >行新增/删除</a>
+                    >Row Add/Delete</a>
                   </div>
                 </td>
               </tr>
@@ -1707,7 +1753,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1728,7 +1774,7 @@
                     示例 <a
                       href="#/load-subs"
                       target="_blank"
-                    >动态加载子项</a>
+                    >Dynamic Load Subs</a>
                   </div>
                 </td>
               </tr>
@@ -1753,7 +1799,7 @@
                     示例 <a
                       href="#/row-drag"
                       target="_blank"
-                    >行拖拽</a>
+                    >Row Drag</a>
                   </div>
                 </td>
               </tr>
@@ -1779,7 +1825,7 @@
                     示例 <a
                       href="#/row-drag"
                       target="_blank"
-                    >行拖拽</a>
+                    >Row Drag</a>
                   </div>
                 </td>
               </tr>
@@ -1800,7 +1846,7 @@
                     示例 <a
                       href="#/row-move"
                       target="_blank"
-                    >行移动</a>
+                    >Row Move</a>
                   </div>
                 </td>
               </tr>
@@ -1825,7 +1871,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1846,7 +1892,7 @@
                     示例 <a
                       href="#/row-select"
                       target="_blank"
-                    >行选择</a>
+                    >Row Select</a>
                   </div>
                 </td>
               </tr>
@@ -1873,7 +1919,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1901,7 +1947,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1939,7 +1985,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -1975,7 +2021,7 @@
                     示例 <a
                       href="#/touch"
                       target="_blank"
-                    >触摸</a>
+                    >Touch</a>
                   </div>
                 </td>
               </tr>
@@ -1999,7 +2045,7 @@
                     示例 <a
                       href="#/scroll"
                       target="_blank"
-                    >滚动</a>
+                    >Scroll</a>
                   </div>
                 </td>
               </tr>
@@ -2023,7 +2069,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -2048,7 +2094,7 @@
                     示例 <a
                       href="#/scroll"
                       target="_blank"
-                    >滚动</a>
+                    >Scroll</a>
                   </div>
                 </td>
               </tr>
@@ -2073,7 +2119,7 @@
                     示例 <a
                       href="#/resize"
                       target="_blank"
-                    >尺寸调整</a>
+                    >Resize</a>
                   </div>
                 </td>
               </tr>
@@ -2102,7 +2148,7 @@
                     示例 <a
                       href="#/resize"
                       target="_blank"
-                    >尺寸调整</a>
+                    >Resize</a>
                   </div>
                 </td>
               </tr>
@@ -2125,7 +2171,7 @@
                     示例 <a
                       href="#/events"
                       target="_blank"
-                    >事件</a>
+                    >Events</a>
                   </div>
                 </td>
               </tr>
@@ -2143,7 +2189,7 @@
                     示例 <a
                       href="#/flush"
                       target="_blank"
-                    >刷新</a>
+                    >Flush</a>
                   </div>
                 </td>
               </tr>

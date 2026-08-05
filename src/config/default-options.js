@@ -183,14 +183,14 @@ export default function() {
 
         // ==========================================================
         highlightKeywords: {
+            matchMode: 'or',
+            caseSensitive: false,
+            negatedPrefix: '-',
             textKey: 'tg_text_',
             textGenerator: null,
             highlightKey: 'tg_highlight_',
             highlightPre: '<mark>',
-            highlightPost: '</mark>',
-            caseSensitive: false,
-            matchMode: 'or',
-            negatedPrefix: '-'
+            highlightPost: '</mark>'
         },
 
         // ==========================================================

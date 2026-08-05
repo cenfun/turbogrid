@@ -895,28 +895,43 @@
         "type": "options"
     },
     {
+        "name": "options.highlightKeywords.matchMode",
+        "text": "highlightKeywords.matchMode = \"or\"",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.caseSensitive",
+        "text": "highlightKeywords.caseSensitive = false",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.negatedPrefix",
+        "text": "highlightKeywords.negatedPrefix = \"-\"",
+        "type": "options"
+    },
+    {
         "name": "options.highlightKeywords.textKey",
-        "text": "textKey = \"tg_text_\"",
+        "text": "highlightKeywords.textKey = \"tg_text_\"",
         "type": "options"
     },
     {
         "name": "options.highlightKeywords.textGenerator",
-        "text": "textGenerator = null",
+        "text": "highlightKeywords.textGenerator = null",
         "type": "options"
     },
     {
         "name": "options.highlightKeywords.highlightKey",
-        "text": "highlightKey = \"tg_highlight_\"",
+        "text": "highlightKeywords.highlightKey = \"tg_highlight_\"",
         "type": "options"
     },
     {
         "name": "options.highlightKeywords.highlightPre",
-        "text": "highlightPre = \"&lt;mark&gt;\"",
+        "text": "highlightKeywords.highlightPre = \"&lt;mark&gt;\"",
         "type": "options"
     },
     {
         "name": "options.highlightKeywords.highlightPost",
-        "text": "highlightPost = \"&lt;/mark&gt;\"",
+        "text": "highlightKeywords.highlightPost = \"&lt;/mark&gt;\"",
         "type": "options"
     },
     {

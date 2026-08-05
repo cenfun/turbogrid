@@ -171,17 +171,22 @@ export interface ColumnTypes {
 // Highlight Keywords
 
 export interface HighlightKeywords {
-    textKey?: string;
-    textGenerator?: ((rowItem: RowItem, id: string) => string) | null;
-    highlightKey?: string;
-    highlightPre?: string;
-    highlightPost?: string;
-    /** Whether matching is case-sensitive. Defaults to false */
-    caseSensitive?: boolean;
     /** Pattern combination and conflict-resolution mode. Defaults to "or" */
     matchMode?: 'or' | 'and' | 'negatedFirst' | 'positiveFirst';
+    /** Whether matching is case-sensitive. Defaults to false */
+    caseSensitive?: boolean;
     /** Prefix that marks negated string patterns. Defaults to "-" */
     negatedPrefix?: string;
+    /** Prefix used to cache extracted plain text on row items. Defaults to "tg_text_" */
+    textKey?: string;
+    /** Custom generator used to get cell text for matching. Defaults to null */
+    textGenerator?: ((rowItem: RowItem, id: string) => string) | null;
+    /** Prefix used to cache matched highlight patterns on row items. Defaults to "tg_highlight_" */
+    highlightKey?: string;
+    /** HTML inserted before highlighted text. Defaults to "<mark>" */
+    highlightPre?: string;
+    /** HTML inserted after highlighted text. Defaults to "</mark>" */
+    highlightPost?: string;
 }
 
 /** Returns the matched substring to filter and highlight, or an empty string when unmatched */

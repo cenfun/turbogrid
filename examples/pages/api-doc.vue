@@ -193,7 +193,7 @@
                             }
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/formatter"
               target="_blank"
             >Formatter</a>
@@ -236,7 +236,7 @@
                             });
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/events"
               target="_blank"
             >Events</a>
@@ -284,7 +284,7 @@
                             const allEventTypes = grid.getAllEvents();
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/events"
               target="_blank"
             >Events</a>
@@ -322,7 +322,7 @@
                             grid.resize(600, 400);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/resize"
               target="_blank"
             >Resize</a>
@@ -395,7 +395,7 @@
                             });
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/loading"
               target="_blank"
             >Show/Hide Loading</a>
@@ -416,7 +416,7 @@
                             grid.hideMask();
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/loading"
               target="_blank"
             >Show/Hide Loading</a>
@@ -434,7 +434,7 @@
                             grid.toggleAllRows();
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
@@ -456,7 +456,7 @@
                             grid.toggleRow(rowIndex);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
@@ -470,7 +470,7 @@
                             grid.expandRowLevel(level);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
@@ -492,7 +492,7 @@
                             });
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/export"
               target="_blank"
             >Export</a>
@@ -510,7 +510,7 @@
                             grid.setRowSubs(rowIndex, subs);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/load-subs"
               target="_blank"
             >Dynamic Load Subs</a>
@@ -538,7 +538,7 @@
                             grid.setRows(rows);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/set-rows"
               target="_blank"
             >Dynamic Set Rows</a>
@@ -588,7 +588,7 @@
                             grid.deleteRow([1, 2]);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-add-delete"
               target="_blank"
             >Row Add/Delete</a>
@@ -626,7 +626,7 @@
                             grid.moveRows("row_id", 1);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-move"
               target="_blank"
             >Row Move</a>
@@ -642,7 +642,7 @@
                             grid.selectAll(false);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-select"
               target="_blank"
             >Row Select</a>
@@ -663,7 +663,7 @@
                             grid.setRowSelected(false);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-select"
               target="_blank"
             >Row Select</a>
@@ -680,7 +680,7 @@
                             const selectedRows = grid.getSelectedRows();
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/row-select"
               target="_blank"
             >Row Select</a>
@@ -695,7 +695,7 @@
                             grid.setRowHover(rowIndex, false);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/frozen-middle"
               target="_blank"
             >Frozen Middle</a>
@@ -725,7 +725,7 @@
                             grid.removeSortColumn();
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/sort"
               target="_blank"
             >Row Sort</a>
@@ -743,7 +743,7 @@
                             grid.setColumnWidth(columnIndex, width);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/column-display"
               target="_blank"
             >Column Width Resize</a>
@@ -762,7 +762,7 @@
                             grid.hideColumn([1, 3]);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/column-display"
               target="_blank"
             >Show/Hide Column</a>
@@ -789,7 +789,7 @@
                             grid.deleteColumn([1, 2]);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/column-add-delete"
               target="_blank"
             >Column Add/Delete</a>
@@ -812,7 +812,7 @@
                             grid.scrollToCell(rowIndex, columnIndex);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/scroll"
               target="_blank"
             >Scroll</a>
@@ -830,7 +830,7 @@
                             grid.scrollCellIntoView(rowIndex, columnIndex);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/scroll"
               target="_blank"
             >Scroll</a>
@@ -850,7 +850,7 @@
                             const sl = grid.getScrollLeft();
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/scroll"
               target="_blank"
             >Scroll</a>
@@ -895,7 +895,7 @@
                             grid.updateCell(rowIndex, columnIndex, cellValue);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/flush"
               target="_blank"
             >Flush</a>
@@ -1073,6 +1073,11 @@
           <div>
             columns should be a list of column ids, and keywords is split on whitespace before matching.
           </div>
+          <div>
+            Matching, text extraction, caching, and highlight markup can be customized with the <a
+              href="#/api-doc?position=options.highlightKeywords"
+            >highlightKeywords options</a>.
+          </div>
           <pre><code class="language-js">
                             grid.setOption({
                                 rowFilter: function(rowItem) {
@@ -1080,6 +1085,12 @@
                                 }
                             });
                         </code></pre>
+          <div>
+            Example <a
+              href="#/row-highlight-filter"
+              target="_blank"
+            >Row Highlight Filter</a>
+          </div>
         </section>
 
         <section>
@@ -1214,7 +1225,7 @@
                                 grid.setData(data);
                         </code></pre>
           <div>
-            Demo <a
+            Example <a
               href="#/load-rows"
               target="_blank"
             >Dynamic Load Rows</a>
@@ -1245,7 +1256,7 @@
           <a name="options.theme">theme = "[theme-name]"</a>
           <div>Sets the theme name. Available values: default, lightblue, dark.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/theme"
               target="_blank"
             >Theme</a>
@@ -1256,7 +1267,7 @@
           <a name="options.rowHeight">rowHeight = 32</a>
           <div>Sets the default row height in pixels.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/multiple-instance"
               target="_blank"
             >Row Height</a>
@@ -1268,7 +1279,7 @@
           <a name="options.columnCacheLength">columnCacheLength = 0</a>
           <div>Controls how many extra rows and columns are rendered outside the viewport as cache.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/cache"
               target="_blank"
             >Row/Column Cache</a>
@@ -1280,7 +1291,7 @@
           <a name="options.autoHeight">autoHeight = false</a>
           <div>Automatically adjusts the grid height to fit its visible content.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/auto-height"
               target="_blank"
             >Auto Height</a>
@@ -1293,7 +1304,7 @@
           <div><code>width</code>: fixed width value. The column is excluded from <code>autoColumnWidth</code> and is not affected by <code>widthWeight</code> distribution.</div>
           <div><code>initWidth</code>: initial/base width. It can be a number or a callback function returning a number. The column still participates in <code>autoColumnWidth</code>, and <code>widthWeight</code> can control its proportional share.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/auto-column-width"
               target="_blank"
             >Auto Column Width</a>
@@ -1305,7 +1316,7 @@
           <a name="options.headerVisible">headerVisible = true</a>
           <div>Shows or hides the header area.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/no-header"
               target="_blank"
             >Show/Hide Header</a>
@@ -1320,7 +1331,7 @@
             Controls whether collapse-all actions are shown and whether they run during initialization.
           </div>
           <div>
-            Demo <a
+            Example <a
               href="#/row-collapse"
               target="_blank"
             >Row Collapse/Expand</a>
@@ -1344,7 +1355,7 @@
 
           <a name="options.selectMultiple">selectMultiple = true</a>
           <div>
-            Demo <a
+            Example <a
               href="#/row-select"
               target="_blank"
             >Row Select</a>
@@ -1356,7 +1367,7 @@
           <a name="options.rowNumberVisible">rowNumberVisible = false</a>
           <div>Shows or hides the built-in row number column.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/row-number"
               target="_blank"
             >Row Number</a>
@@ -1367,7 +1378,7 @@
           <a name="options.rowNotFound">rowNotFound = ''</a>
           <div>Sets the empty-state content. Accepts an empty string, string, element, or function.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/row-not-found"
               target="_blank"
             >Row Not Found</a>
@@ -1382,7 +1393,7 @@
             returns the allowed drop list.
           </div>
           <div>
-            Demo <a
+            Example <a
               href="#/row-drag"
               target="_blank"
             >Row Drag</a>
@@ -1394,7 +1405,7 @@
           <a name="options.rowMoveCrossLevel">rowMoveCrossLevel = true</a>
           <div>Controls whether move APIs can move rows across hierarchy levels.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/row-move"
               target="_blank"
             >Row Move</a>
@@ -1425,7 +1436,7 @@
           <a name="options.sortComparers">sortComparers = {defaultSortComparers}</a>
           <div>Provides custom comparer functions for sorting.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/sort"
               target="_blank"
             >Row Sort</a>
@@ -1438,7 +1449,7 @@
           <a name="options.rowFilteredSort">rowFilteredSort = null</a>
           <div>Filters rows before rendering and optionally sorts filtered matches.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/row-filter"
               target="_blank"
             >Row Filter</a>
@@ -1548,7 +1559,7 @@
             frozen rows.
           </div>
           <div>
-            Demo <a
+            Example <a
               href="#/frozen"
               target="_blank"
             >Frozen</a>
@@ -1578,7 +1589,7 @@
           <a name="options.scrollPaneGradient">scrollPaneGradient = false</a>
           <div>Enables a gradient mask on the scroll pane edges.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/scrollbar"
               target="_blank"
             >Scrollbar</a>
@@ -1606,12 +1617,49 @@
 
         <section>
           <a name="options.highlightKeywords">highlightKeywords = {...}</a>
-          <div>Configures how matched keywords are extracted and wrapped with highlight markup.</div>
-          <a name="options.highlightKeywords.textKey">textKey = "tg_text_"</a>
-          <a name="options.highlightKeywords.textGenerator">textGenerator = null</a>
-          <a name="options.highlightKeywords.highlightKey">highlightKey = "tg_highlight_"</a>
-          <a name="options.highlightKeywords.highlightPre">highlightPre = "&lt;mark&gt;"</a>
-          <a name="options.highlightKeywords.highlightPost">highlightPost = "&lt;/mark&gt;"</a>
+          <div>
+            Configures matching, text extraction, caching, and highlight markup for <a
+              href="#/api-doc?position=highlightKeywordsFilter"
+            >highlightKeywordsFilter()</a>.
+          </div>
+
+          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "or"</a>
+          <div>
+            Controls how positive and negated patterns are combined. "or" accepts any satisfied pattern condition;
+            "and" requires all conditions; "negatedFirst" gives matched negations priority; and "positiveFirst" gives
+            matched positives priority.
+          </div>
+
+          <a name="options.highlightKeywords.caseSensitive">highlightKeywords.caseSensitive = false</a>
+          <div>Controls whether string pattern matching is case-sensitive by default.</div>
+
+          <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
+          <div>Prefix that marks a string pattern as negated, for example "-legacy".</div>
+
+          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
+          <div>Prefix for row item properties used to cache plain text extracted from HTML cell values.</div>
+
+          <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
+          <div>
+            Optional function <code>(rowItem, columnId) =&gt; text</code> used to provide the text to match. By default,
+            the value is read from <code>rowItem[columnId]</code>.
+          </div>
+
+          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
+          <div>Prefix for row item properties used to cache the matched patterns for each column.</div>
+
+          <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
+          <div>HTML inserted immediately before each highlighted match.</div>
+
+          <a name="options.highlightKeywords.highlightPost">highlightKeywords.highlightPost = "&lt;/mark&gt;"</a>
+          <div>HTML inserted immediately after each highlighted match.</div>
+
+          <div>
+            Example <a
+              href="#/row-highlight-filter"
+              target="_blank"
+            >Row Highlight Filter</a>
+          </div>
         </section>
 
         <section>
@@ -1625,7 +1673,7 @@
           <a name="options.bindContainerResize">bindContainerResize = false</a>
           <div>Uses ResizeObserver to watch container size and call resize automatically.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/resize"
               target="_blank"
             >Resize</a>
@@ -1636,7 +1684,7 @@
           <a name="options.cellResizeObserver">cellResizeObserver = null</a>
           <div>Filters which cells are observed for size changes. Requires ResizeObserver.</div>
           <div>
-            Demo <a
+            Example <a
               href="#/row-height"
               target="_blank"
             >Row Height</a>
@@ -1677,7 +1725,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -1700,7 +1748,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -1725,7 +1773,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/sort"
                       target="_blank"
                     >Sort</a>
@@ -1748,7 +1796,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/column-add-delete"
                       target="_blank"
                     >Column Add/Delete</a>
@@ -1769,7 +1817,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -1791,7 +1839,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/row-add-delete"
                       target="_blank"
                     >Row Add/Delete</a>
@@ -1813,7 +1861,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -1834,7 +1882,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/load-subs"
                       target="_blank"
                     >Dynamic Load Subs</a>
@@ -1859,7 +1907,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/row-drag"
                       target="_blank"
                     >Row Drag</a>
@@ -1885,7 +1933,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/row-drag"
                       target="_blank"
                     >Row Drag</a>
@@ -1906,7 +1954,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/row-move"
                       target="_blank"
                     >Row Move</a>
@@ -1931,7 +1979,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -1952,7 +2000,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/row-select"
                       target="_blank"
                     >Row Select</a>
@@ -1979,7 +2027,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -2007,7 +2055,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -2045,7 +2093,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -2081,7 +2129,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/touch"
                       target="_blank"
                     >Touch</a>
@@ -2105,7 +2153,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/scroll"
                       target="_blank"
                     >Scroll</a>
@@ -2129,7 +2177,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -2154,7 +2202,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/scroll"
                       target="_blank"
                     >Scroll</a>
@@ -2179,7 +2227,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/resize"
                       target="_blank"
                     >Resize</a>
@@ -2208,7 +2256,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/resize"
                       target="_blank"
                     >Resize</a>
@@ -2231,7 +2279,7 @@
                 </td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/events"
                       target="_blank"
                     >Events</a>
@@ -2249,7 +2297,7 @@
                 <td>N/A</td>
                 <td>
                   <div>
-                    Demo <a
+                    Example <a
                       href="#/flush"
                       target="_blank"
                     >Flush</a>

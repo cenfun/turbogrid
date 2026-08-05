@@ -78,7 +78,7 @@
           @smoke
         </button>
         <button @click="setExample">
-          -@smoke
+          {{ negatedPrefix }}@smoke
         </button>
       </div>
 
@@ -107,6 +107,7 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('grid');
+
 // false: case-insensitive matching (default)
 const caseSensitive = ref(false);
 const matchMode = ref('or');
@@ -210,6 +211,7 @@ onMounted(() => {
     grid.value = new Grid(gridContainer.value);
     grid.value.setOption({
         theme: route.query.theme,
+        rowNumberVisible: true,
         frozenColumn: 0,
         rowNotFound: '<div>No matching rows</div>',
         textSelectable: true,

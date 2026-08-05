@@ -4,21 +4,12 @@
       <div class="controller-header">
         <div class="controller-title">
           highlightKeywordsFilter
+          <span>String patterns (space-separated keywords, * wildcards, \* literals, and case: prefix)</span>
         </div>
-        <span>String patterns (space-separated keywords, * wildcards, \* literals, and case: prefix)</span>
       </div>
 
       <div>
-        <label>patterns:
-          <input
-            v-model="keywords"
-            type="text"
-            placeholder="Try: grid -legacy"
-            class="ip-keywords"
-            @keyup="updateGrid"
-          >
-        </label>
-
+        options:
         <label>matchMode:
           <select
             v-model="matchMode"
@@ -52,6 +43,15 @@
       </div>
 
       <div>
+        <label>patterns:
+          <input
+            v-model="keywords"
+            type="text"
+            placeholder="Try: grid -legacy"
+            class="ip-keywords"
+            @keyup="updateGrid"
+          >
+        </label>
         <span>Examples:</span>
         <button @click="setExample">
           grid

@@ -135,7 +135,16 @@ main
     }
 
     .controller-title {
+        display: flex;
+        gap: 5px;
+        align-items: center;
         font-weight: bold;
+
+        span {
+            color: gray;
+            font-weight: normal;
+            font-size: 12px;
+        }
     }
 
     button {
@@ -161,31 +170,35 @@ log
     height: 66px;
     border: 1px solid #999;
     overflow: hidden auto;
-}
 
-.log-content div {
-    padding: 2px 5px;
-    color: #000;
-    font-size: 12px;
-}
+    .log-content {
+        div {
+            padding: 2px 5px;
+            color: #000;
+            font-size: 12px;
 
-.log-content div span {
-    color: gray;
-    font-size: 12px;
-    word-break: break-all;
+            span {
+                color: gray;
+                font-size: 12px;
+                word-break: break-all;
+            }
+        }
+    }
 }
 
 /*
-form
+grid
 */
 
-.ip-number {
-    width: 60px;
-}
+@keyframes tg-blink-fade-in {
+    from {
+        background: gray;
+        opacity: 0;
+    }
 
-.ip-columns,
-.ip-rows {
-    width: 80px;
+    to {
+        opacity: 1;
+    }
 }
 
 .tg-table {
@@ -216,17 +229,6 @@ form
 
 .tg-table pre {
     margin: 0;
-}
-
-@keyframes tg-blink-fade-in {
-    from {
-        background: gray;
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
 }
 
 .tg-blink {

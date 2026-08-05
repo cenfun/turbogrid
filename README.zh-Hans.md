@@ -107,6 +107,7 @@ API 涵盖：
 ### 基础与性能
 
 - [async](https://cenfun.github.io/turbogrid/#/async)
+- [auto-column-width](https://cenfun.github.io/turbogrid/#/auto-column-width)
 - [auto-height](https://cenfun.github.io/turbogrid/#/auto-height)
 - [cache](https://cenfun.github.io/turbogrid/#/cache)
 - [loading](https://cenfun.github.io/turbogrid/#/loading)
@@ -128,6 +129,7 @@ API 涵盖：
 - [row-collapse](https://cenfun.github.io/turbogrid/#/row-collapse)
 - [row-drag](https://cenfun.github.io/turbogrid/#/row-drag)
 - [row-filter](https://cenfun.github.io/turbogrid/#/row-filter)
+- [row-highlight-filter](https://cenfun.github.io/turbogrid/#/row-highlight-filter)
 - [row-height](https://cenfun.github.io/turbogrid/#/row-height)
 - [row-hover](https://cenfun.github.io/turbogrid/#/row-hover)
 - [row-move](https://cenfun.github.io/turbogrid/#/row-move)

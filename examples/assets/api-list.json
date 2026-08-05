@@ -591,7 +591,7 @@
     },
     {
         "name": "highlightKeywordsFilter",
-        "text": "highlightKeywordsFilter(rowItem, columns, keywords)",
+        "text": "highlightKeywordsFilter(rowItem, columns, patterns)",
         "type": "methods"
     },
     {
@@ -1071,7 +1071,7 @@
     },
     {
         "name": "options.highlightKeywords.matchMode",
-        "text": "highlightKeywords.matchMode = \"or\"",
+        "text": "highlightKeywords.matchMode = \"and\"",
         "type": "options"
     },
     {

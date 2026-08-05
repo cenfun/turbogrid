@@ -183,7 +183,7 @@ export default function() {
 
         // ==========================================================
         highlightKeywords: {
-            matchMode: 'or',
+            matchMode: 'and',
             caseSensitive: false,
             negatedPrefix: '-',
             textKey: 'tg_text_',

@@ -171,7 +171,7 @@ export interface ColumnTypes {
 // Highlight Keywords
 
 export interface HighlightKeywords {
-    /** Pattern combination and conflict-resolution mode. Defaults to "or" */
+    /** Pattern combination and conflict-resolution mode. Defaults to "and" */
     matchMode?: 'or' | 'and' | 'negatedFirst' | 'positiveFirst';
     /** Whether matching is case-sensitive. Defaults to false */
     caseSensitive?: boolean;

@@ -110,7 +110,7 @@ const keywords = ref('grid');
 
 // false: case-insensitive matching (default)
 const caseSensitive = ref(false);
-const matchMode = ref('or');
+const matchMode = ref('and');
 const negatedPrefix = ref('-');
 
 const data = {

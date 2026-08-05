@@ -347,13 +347,18 @@ describe('highlightKeywordsFilter patterns and options', function() {
         const filter = (patterns, options = {}) => {
             Object.assign(grid.options.highlightKeywords, {
                 caseSensitive: false,
-                matchMode: 'or',
+                matchMode: 'and',
                 negatedPrefix: '-'
             }, options);
             return grid.highlightKeywordsFilter(rowItem, columns, patterns);
         };
 
-        assert.equal(filter('foo missing'), true);
+        // default matchMode 'and': every positive pattern must match
+        assert.equal(filter('foo missing'), false);
+        assert.equal(filter('foo bar'), true);
+        assert.equal(filter('foo missing', {
+            matchMode: 'or'
+        }), true);
         assert.equal(filter('case:foo'), false);
         assert.equal(filter('case:Foo'), true);
         assert.equal(filter('F*fox'), true);

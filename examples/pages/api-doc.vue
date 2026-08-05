@@ -1068,10 +1068,12 @@
         </section>
 
         <section>
-          <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, keywords)</a>
+          <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, patterns)</a>
           <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
           <div>
-            columns should be a list of column ids, and keywords is split on whitespace before matching.
+            columns should be a list of column ids. String patterns are split on whitespace before matching; arrays or
+            objects of patterns are also accepted. By default all patterns must match (<code>matchMode = "and"</code>),
+            same as the legacy multi-keyword behavior.
           </div>
           <div>
             Matching, text extraction, caching, and highlight markup can be customized with the <a
@@ -1660,7 +1662,7 @@
             >highlightKeywordsFilter()</a>.
           </div>
 
-          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "or"</a>
+          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "and"</a>
           <div>
             Controls how positive and negated patterns are combined. "or" accepts any satisfied pattern condition;
             "and" requires all conditions; "negatedFirst" gives matched negations priority; and "positiveFirst" gives

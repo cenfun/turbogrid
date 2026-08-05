@@ -148,8 +148,8 @@ const isPatternMatched = (item) => {
 };
 
 const isMatched = (patterns, matchMode) => {
-    if (matchMode === 'and') {
-        return patterns.every(isPatternMatched);
+    if (matchMode === 'or') {
+        return patterns.some(isPatternMatched);
     }
 
     const positivePatterns = patterns.filter((item) => !item.negated);
@@ -161,7 +161,8 @@ const isMatched = (patterns, matchMode) => {
     if (matchMode === 'positiveFirst') {
         return positiveMatched || (!negatedMatched && !positivePatterns.length);
     }
-    return patterns.some(isPatternMatched);
+    // default: 'and' — every pattern condition must be satisfied
+    return patterns.every(isPatternMatched);
 };
 
 const getRanges = (text, patterns) => {

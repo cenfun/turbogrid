@@ -31,8 +31,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { sampleData } from '../assets/sample-data.js';
-import { randomData } from '../assets/random-data.js';
+import { sampleData, randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
 import { mount } from 'vine-ui';
 import ColumnSetPopover from '../components/column-set-popover.vue';
@@ -71,7 +70,7 @@ onMounted(() => {
             renderData(randomData(dataStr));
             return;
         }
-        const d = JSON.parse(JSON.stringify(sampleData));
+        const d = sampleData();
         renderData(d);
     };
 

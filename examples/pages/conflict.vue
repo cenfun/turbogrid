@@ -48,7 +48,7 @@ onMounted(() => {
             frozenRow: 1
         };
         grid.value.setOption(options);
-        grid.value.setData(sampleData);
+        grid.value.setData(sampleData());
         grid.value.render();
     };
 

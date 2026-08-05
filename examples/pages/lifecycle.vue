@@ -77,8 +77,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { sampleData } from '../assets/sample-data.js';
-import { randomData } from '../assets/random-data.js';
+import { sampleData, randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
@@ -132,7 +131,7 @@ onMounted(() => {
             return;
         }
 
-        renderData(sampleData);
+        renderData(sampleData());
     }
 
     document.querySelector('.data-render').addEventListener('click', function() {

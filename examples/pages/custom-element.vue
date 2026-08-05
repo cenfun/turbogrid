@@ -35,8 +35,7 @@
 
 <script setup>
 import { Grid } from '../../src/index.js';
-import { sampleData } from '../assets/sample-data.js';
-import { randomData } from '../assets/random-data.js';
+import { sampleData, randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
 import {
     ref, onMounted, onBeforeUnmount
@@ -80,7 +79,7 @@ const onDataChange = () => {
         renderData(randomData(dataStr));
         return;
     }
-    renderData(sampleData);
+    renderData(sampleData());
 };
 
 const renderData = (data) => {
@@ -129,7 +128,7 @@ onMounted(() => {
     if (dataStr.startsWith('random')) {
         renderData(randomData(dataStr));
     } else {
-        renderData(sampleData);
+        renderData(sampleData());
     }
 
     onResize = () => {

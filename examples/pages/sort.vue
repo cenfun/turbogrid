@@ -150,7 +150,7 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
-import { randomData } from '../assets/random-data.js';
+import { randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 

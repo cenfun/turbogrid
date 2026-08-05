@@ -258,7 +258,7 @@ onMounted(() => {
         const dataStr = document.querySelector('.st-data').value;
 
         if (dataStr === 'sample-data') {
-            renderData(sampleData);
+            renderData(sampleData());
             return;
         }
 

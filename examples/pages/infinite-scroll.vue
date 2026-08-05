@@ -116,7 +116,7 @@ onMounted(() => {
             setTimeout(function() {
                 const list = [];
                 let i = 0;
-                const pageSize = parseInt(document.querySelector('.ip_pageSize').value, 10);
+                const pageSize = parseInt(document.querySelector('.ip_pageSize')?.value, 10);
                 while (i < pageSize) {
                     list.push(createRandomNews());
                     i++;
@@ -242,6 +242,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style lang="scss">
-</style>

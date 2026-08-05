@@ -384,7 +384,9 @@ const Util = {
         Object.keys(events).forEach((type) => {
             const item = events[type];
             item.target = item.target || target;
-            item.target.addEventListener(type, item.handler, item.options);
+            if (item.target) {
+                item.target.addEventListener(type, item.handler, item.options);
+            }
         });
     },
 

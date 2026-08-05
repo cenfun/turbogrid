@@ -38,7 +38,9 @@ export default {
     },
 
     getRowCache: function(row) {
-        return this.rowsCache.get(row);
+        if (this.rowsCache) {
+            return this.rowsCache.get(row);
+        }
     },
 
     deleteRowCache: function(row) {
@@ -103,9 +105,11 @@ export default {
 
     // callback(row, rowNodes, cellNodes)
     forEachRowsCache: function(callback) {
-        this.rowsCache.forEach((rowCache, row) => {
-            callback.call(this, row, rowCache.rowNodes, rowCache.cellNodes, rowCache.observerNodes);
-        });
+        if (this.rowsCache) {
+            this.rowsCache.forEach((rowCache, row) => {
+                callback.call(this, row, rowCache.rowNodes, rowCache.cellNodes, rowCache.observerNodes);
+            });
+        }
     },
 
     // =============================================================================

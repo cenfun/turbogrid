@@ -4,11 +4,13 @@ import Util from '../core/util.js';
 export default {
 
     getRowItem: function(context) {
-        if (Util.isNum(context)) {
+        if (Util.isNum(context) && this.rowsInfo) {
             if (context < 0) {
                 context = this.rowsInfo.length + context;
             }
-            return this.rowsInfo.indexCache[context];
+            if (this.rowsInfo.indexCache) {
+                return this.rowsInfo.indexCache[context];
+            }
         }
         if (!context) {
             return;
@@ -27,7 +29,9 @@ export default {
         if (typeof value === 'undefined') {
             return;
         }
-        return this.rowsInfo.indexCache.find((item) => item[key] === value);
+        if (this.rowsInfo && this.rowsInfo.indexCache) {
+            return this.rowsInfo.indexCache.find((item) => item[key] === value);
+        }
     },
 
     getRowsLength: function(total) {

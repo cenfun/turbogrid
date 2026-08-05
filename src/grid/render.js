@@ -13,6 +13,10 @@ export default {
 
     renderSync: function() {
 
+        if (this.destroyed) {
+            return;
+        }
+
         this.renderStartedTimestamp = Date.now();
 
         const renderSettings = this.generateRenderSettings.apply(this, arguments);

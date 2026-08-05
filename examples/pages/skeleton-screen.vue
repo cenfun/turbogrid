@@ -52,12 +52,14 @@ onMounted(() => {
         timeout_load_rows = setTimeout(function() {
             notReadyRowIndexList.forEach(function(rowIndex) {
                 const rowItem = g.getRowItem(rowIndex);
-                rowItem.c1 = 'string';
-                rowItem.c2 = Math.random().toFixed(3);
-                rowItem.c3 = Math.random().toFixed(3);
-                rowItem.c4 = 'string';
-                rowItem.c5 = 'string';
-                rowItem.dataReady = true;
+                if (rowItem) {
+                    rowItem.c1 = 'string';
+                    rowItem.c2 = Math.random().toFixed(3);
+                    rowItem.c3 = Math.random().toFixed(3);
+                    rowItem.c4 = 'string';
+                    rowItem.c5 = 'string';
+                    rowItem.dataReady = true;
+                }
             });
             g.flushCell(notReadyRowIndexList, [1, 2, 3, 4, 5]);
             g.render();

@@ -76,15 +76,68 @@ const state = reactive({
 });
 
 const dark = route.query.theme === 'dark';
+let pinnedIcon;
+let pendingPopover;
+let reopenTimer;
 
-const showPopover = function(target, row) {
+const clearReopenTimer = function() {
+    if (reopenTimer) {
+        clearTimeout(reopenTimer);
+        reopenTimer = null;
+    }
+};
+
+const unpinPopoverIcon = function() {
+    if (pinnedIcon) {
+        pinnedIcon.classList.remove('tg-popover-icon-pin');
+        pinnedIcon = null;
+    }
+};
+
+const setPopoverVisible = function(visible) {
+    state.visible = visible;
+};
+
+const openPopover = function(target, row) {
+    pinnedIcon = target;
+    pinnedIcon.classList.add('tg-popover-icon-pin');
     state.target = target;
     state.row = row;
-    state.visible = true;
+    setPopoverVisible(true);
+};
+
+const showPopover = function(target, row) {
+    clearReopenTimer();
+    if (pinnedIcon && (!state.visible || pinnedIcon !== target)) {
+        pendingPopover = {
+            target,
+            row
+        };
+        setPopoverVisible(false);
+        return;
+    }
+    openPopover(target, row);
 };
 
 const hidePopover = function() {
-    state.visible = false;
+    clearReopenTimer();
+    pendingPopover = null;
+    setPopoverVisible(false);
+};
+
+const onPopoverClose = function() {
+    unpinPopoverIcon();
+    if (!pendingPopover) {
+        return;
+    }
+    const nextPopover = pendingPopover;
+    pendingPopover = null;
+    // VuiPopover defers outside-click closing with setTimeout. Reopen in the
+    // following task so that the pending close cannot hide the new popover.
+    reopenTimer = setTimeout(() => {
+        reopenTimer = null;
+        openPopover(nextPopover.target, nextPopover.row);
+    });
 };
 
 const onResize = function() {
@@ -100,7 +153,10 @@ onMounted(() => {
             state,
             dark,
             onVisibleChange: function(visible) {
-                state.visible = visible;
+                setPopoverVisible(visible);
+            },
+            onClose: function() {
+                onPopoverClose();
             }
         }
     });
@@ -327,6 +383,7 @@ onBeforeUnmount(() => {
         popoverApp.value.unmount();
         popoverApp.value = null;
     }
+    unpinPopoverIcon();
     if (grid.value) {
         grid.value.destroy();
         grid.value = null;

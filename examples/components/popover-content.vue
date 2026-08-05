@@ -8,7 +8,7 @@
         v-for="field in fields"
         :key="field.key"
       >
-        {{ field.key }}: <b>{{ field.value }}</b>
+        {{ field.key }}: {{ field.value }}
       </li>
     </ul>
   </div>
@@ -34,3 +34,17 @@ const fields = computed(() => {
     }));
 });
 </script>
+<style lang="scss" scoped>
+.popover-row-info {
+    font-size: 12px;
+
+    .popover-row-name {
+        margin-bottom: 5px;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 16px;
+    }
+}
+</style>

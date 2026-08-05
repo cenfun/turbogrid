@@ -336,46 +336,29 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-input[type="radio"]:checked ~ label {
-    font-weight: bold;
-}
-
 .grid-container-popover {
     .tg-popover-icon {
         position: absolute;
-        top: 0;
+        top: 50%;
         right: 0;
-        width: 20px;
-        height: 32px;
-        padding: 2px 0;
+        width: 16px;
+        height: 16px;
         cursor: pointer;
+        transform: translateY(-50%);
 
         svg {
-            background: #fff;
-        }
-
-        &.tg-popover-icon-pin {
             display: block;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            overflow: hidden;
+            pointer-events: none;
         }
     }
 
-    &.tg-dark .tg-popover-icon svg {
-        background: #1e1e1e;
+    .tg-popover-icon-pin {
+        display: block;
     }
 }
 
-.popover-row-info {
-    font-size: 13px;
-    line-height: 1.6;
-
-    .popover-row-name {
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    ul {
-        margin: 0;
-        padding-left: 16px;
-    }
-}
 </style>

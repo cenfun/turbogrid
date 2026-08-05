@@ -2491,7 +2491,7 @@
         </section>
 
         <section>
-          <div><b>Row Item Properties (rowItem.tg_*)</b></div>
+          <div><b>Row Item Private Properties (rowItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
             <thead>
               <tr>
@@ -2583,7 +2583,7 @@
         </section>
 
         <section>
-          <div><b>Column Item Properties (columnItem.tg_*)</b></div>
+          <div><b>Column Item Private Properties (columnItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
             <thead>
               <tr>
@@ -2670,13 +2670,13 @@
           <pre><code class="language-js">
                             grid.setFormatter({
                                 string: function(value, rowItem, columnItem, cellNode) {
-                                    // access row properties
+                                    // access private row properties
                                     const rowIndex = rowItem.tg_index;
                                     const level = rowItem.tg_level;
                                     const isFrozen = rowItem.tg_frozen;
                                     const isGroup = rowItem.tg_group;
 
-                                    // access column properties
+                                    // access private column properties
                                     const columnIndex = columnItem.tg_index;
                                     const columnWidth = columnItem.tg_width;
 

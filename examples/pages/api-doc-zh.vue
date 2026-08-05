@@ -2377,7 +2377,7 @@
         </section>
 
         <section>
-          <div><b>行属性 (rowItem.tg_*)</b></div>
+          <div><b>行项目私有属性 (rowItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
             <thead>
               <tr>
@@ -2467,7 +2467,7 @@
         </section>
 
         <section>
-          <div><b>列属性 (columnItem.tg_*)</b></div>
+          <div><b>列项目私有属性 (columnItem.tg_*)</b></div>
           <table class="api-table api-table-zebra">
             <thead>
               <tr>
@@ -2551,13 +2551,13 @@
           <pre><code class="language-js">
                             grid.setFormatter({
                                 string: function(value, rowItem, columnItem, cellNode) {
-                                    // 访问行属性
+                                    // 访问行项目私有属性
                                     const rowIndex = rowItem.tg_index;
                                     const level = rowItem.tg_level;
                                     const isFrozen = rowItem.tg_frozen;
                                     const isGroup = rowItem.tg_group;
 
-                                    // 访问列属性
+                                    // 访问列项目私有属性
                                     const columnIndex = columnItem.tg_index;
                                     const columnWidth = columnItem.tg_width;
 

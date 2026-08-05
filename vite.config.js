@@ -149,12 +149,12 @@ export default defineConfig(({ command, mode }) => {
                 rolldownOptions: {
                     output: {
                         manualChunks(id) {
-                            if (id.includes('/examples/pages/') && id.includes('.vue?raw')) {
+                            if (id.includes('/examples/pages/')) {
                                 return;
                             }
                             const chunks = {
-                                'vue': 'vue',
                                 'src': ID,
+                                'vue': 'vue',
                                 'node_modules': 'vendor'
                             };
                             for (const key in chunks) {

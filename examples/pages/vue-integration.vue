@@ -49,7 +49,6 @@ const grid = ref(null);
 const infoApp = ref(null);
 
 let infoElement;
-let onResize;
 
 const onDataChange = () => {
     const dataStr = document.querySelector('.st-data').value;
@@ -119,11 +118,6 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    onResize = () => {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
-
     const dataStr = document.querySelector('.st-data').value;
     if (dataStr.startsWith('random')) {
         renderData(randomData(dataStr));
@@ -133,7 +127,6 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (infoApp.value) {
         infoApp.value.unmount();
         infoApp.value = null;

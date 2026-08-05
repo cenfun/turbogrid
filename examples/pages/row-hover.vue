@@ -115,12 +115,6 @@ const usageData = {
     }]
 };
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 onMounted(() => {
     init();
     const g = new Grid(gridContainer.value);
@@ -142,6 +136,7 @@ onMounted(() => {
 
     const render = () => {
         const options = {
+            bindWindowResize: true,
             theme: route.query.theme,
             selectVisible: true,
             frozenColumn: 1,
@@ -169,13 +164,10 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

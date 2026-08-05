@@ -190,12 +190,6 @@ const grid = ref(null);
 const reportList = ref([]);
 const previousData = ref(null);
 
-const onResize = function() {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 const getColor = function(v) {
     v = parseInt(`${v}`);
     if (v <= 120) {
@@ -367,8 +361,6 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
@@ -377,7 +369,6 @@ onBeforeUnmount(() => {
         grid.value.destroy();
         grid.value = null;
     }
-    window.removeEventListener('resize', onResize);
 });
 </script>
 

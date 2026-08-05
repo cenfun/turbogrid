@@ -132,12 +132,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 onMounted(() => {
     init();
     const g = new Grid(gridContainer.value);
@@ -150,6 +144,8 @@ onMounted(() => {
     const renderData = function(data) {
 
         const options = {
+
+            bindWindowResize: true,
             theme: route.query.theme || 'default',
             scrollPaneMinWidth: parseInt(document.querySelector('.ip_scrollPaneMinWidth').value, 10),
             scrollPaneGradient: document.querySelector('.cb_scrollPaneGradient').checked,
@@ -203,8 +199,6 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
@@ -212,9 +206,6 @@ onBeforeUnmount(() => {
     if (grid.value) {
         grid.value.destroy();
         grid.value = null;
-    }
-    if (onResize) {
-        window.removeEventListener('resize', onResize);
     }
 });
 </script>

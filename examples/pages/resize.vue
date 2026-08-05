@@ -100,10 +100,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    grid.value.resize();
-};
-
 const updateContainerSize = () => {
     const width = document.querySelector('.it_width').value;
     const height = document.querySelector('.it_height').value;
@@ -176,13 +172,10 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

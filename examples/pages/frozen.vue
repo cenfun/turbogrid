@@ -195,6 +195,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         const options = {
+            bindWindowResize: true,
             theme: route.query.theme,
             selectVisible: document.querySelector('.cb_selectVisible').checked,
             rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
@@ -247,11 +248,6 @@ onMounted(() => {
     });
 
     initCommonEvents(g);
-
-    const onResize = () => {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
 
     render();
 });

@@ -78,10 +78,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    grid.value.resize();
-};
-
 onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
@@ -104,6 +100,8 @@ onMounted(() => {
         collapseAllOnInit = collapseAllMap[collapseAllOnInit];
 
         const options = {
+
+            bindWindowResize: true,
             theme: route.query.theme,
             collapseAllOnInit: collapseAllOnInit,
             collapseAllVisible: document.querySelector('.cb_collapseAllVisible').checked,
@@ -172,13 +170,10 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

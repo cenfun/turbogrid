@@ -148,11 +148,6 @@ onMounted(async () => {
 
     initCommonEvents(g);
 
-    const onResize = () => {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
-
     render();
 });
 

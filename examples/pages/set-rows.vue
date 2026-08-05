@@ -76,12 +76,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 // eslint-disable-next-line max-lines-per-function
 onMounted(() => {
     init();
@@ -1318,6 +1312,7 @@ onMounted(() => {
 
     const renderData = function(data) {
         const options = {
+            bindWindowResize: true,
             theme: route.query.theme,
             frozenColumn: 0,
             selectVisible: document.querySelector('.cb_selectVisible').checked,
@@ -1350,13 +1345,10 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

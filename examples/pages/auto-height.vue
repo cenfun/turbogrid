@@ -52,10 +52,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    grid.value?.resize();
-};
-
 onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
@@ -68,6 +64,8 @@ onMounted(() => {
         gridContainer.value.style.height = '';
 
         const options = {
+
+            bindWindowResize: true,
             theme: route.query.theme,
             autoHeight: document.querySelector('.cb_autoHeight').checked,
             collapseAllOnInit: document.querySelector('.cb_collapseAllOnInit').checked,
@@ -104,13 +102,10 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

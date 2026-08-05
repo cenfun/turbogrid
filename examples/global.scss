@@ -110,6 +110,7 @@ main
 }
 
 .controller {
+    position: relative;
     flex-shrink: 0;
     max-height: 30%;
     overflow: hidden auto;
@@ -156,6 +157,7 @@ main
     content-box fix autoHeight
 */
 .grid-container {
+    position: relative;
     flex: auto;
     box-sizing: content-box;
     border: 1px solid #999;

@@ -124,12 +124,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 onMounted(() => {
     init();
     const customData = {
@@ -345,6 +339,7 @@ onMounted(() => {
 
     const render = function() {
         g.setOption({
+            bindWindowResize: true,
             theme: route.query.theme || 'default',
             frozenRight: document.querySelector('.cb_frozenRight').checked,
             frozenBottom: document.querySelector('.cb_frozenBottom').checked,
@@ -416,8 +411,6 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
@@ -426,7 +419,6 @@ onBeforeUnmount(() => {
         grid.value.destroy();
         grid.value = null;
     }
-    window.removeEventListener('resize', onResize);
 });
 </script>
 

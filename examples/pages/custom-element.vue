@@ -71,7 +71,6 @@ const gridContainer = ref(null);
 const grid = ref(null);
 const gridElement = ref(null);
 
-let onResize;
 
 const onDataChange = () => {
     const dataStr = document.querySelector('.st-data').value;
@@ -111,6 +110,8 @@ const renderData = (data) => {
     });
 
     g.setOption({
+
+        bindWindowResize: true,
         theme: route.query.theme,
         frozenColumn: 0,
         frozenRow: 1
@@ -131,16 +132,9 @@ onMounted(() => {
         renderData(sampleData());
     }
 
-    onResize = () => {
-        if (grid.value) {
-            grid.value.resize();
-        }
-    };
-    window.addEventListener('resize', onResize);
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

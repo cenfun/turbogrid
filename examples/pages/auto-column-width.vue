@@ -183,6 +183,7 @@ onMounted(() => {
 
     const render = function() {
         grid.setOption({
+            bindWindowResize: true,
             theme: route.query.theme,
             autoColumnWidth: document.querySelector('.cb-auto').checked,
             frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
@@ -227,10 +228,6 @@ onMounted(() => {
 
     document.querySelector('.bt-rerender').addEventListener('click', function() {
         grid.rerender();
-    });
-
-    window.addEventListener('resize', function() {
-        grid.resize();
     });
 
     render();

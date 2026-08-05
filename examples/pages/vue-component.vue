@@ -45,7 +45,6 @@ const gridData = shallowReactive({
 const gridContainer = ref(null);
 const grid = ref(null);
 
-let onResize;
 
 const onDataChange = () => {
     const dataStr = document.querySelector('.st-data').value;
@@ -67,6 +66,7 @@ const renderData = (data) => {
 
     gridData.data = data;
     gridData.options = {
+        bindWindowResize: true,
         theme: route.query.theme,
         frozenColumn: 0,
         frozenRow: 1
@@ -131,11 +131,6 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    onResize = () => {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
-
     // Re-render when gridData changes
     watch(gridData, () => {
         renderGrid();
@@ -151,7 +146,6 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

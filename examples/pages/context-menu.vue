@@ -71,10 +71,6 @@ const Copy = {
     }
 };
 
-const onResize = () => {
-    grid.value?.resize();
-};
-
 onMounted(() => {
     init();
     let contextMenu = null;
@@ -164,6 +160,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         const options = {
+            bindWindowResize: true,
             theme: route.query.theme,
             frozenColumn: 0,
             frozenRow: 1
@@ -190,13 +187,10 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

@@ -134,10 +134,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    grid.value.resize();
-};
-
 onMounted(() => {
     init();
     let keywords;
@@ -336,6 +332,7 @@ onMounted(() => {
 
     function render() {
         const options = {
+            bindWindowResize: true,
             theme: route.query.theme,
             rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
             frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
@@ -404,13 +401,10 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

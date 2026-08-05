@@ -616,6 +616,8 @@ onMounted(() => {
     const renderData = function(data) {
 
         const options = {
+
+            bindWindowResize: true,
             theme: route.query.theme || 'default',
             sortField: document.querySelector('.it_sortField').value,
             sortAsc: document.querySelector('.cb_sortAsc').checked,
@@ -689,11 +691,6 @@ onMounted(() => {
     });
 
     initCommonEvents(g);
-
-    const onResize = function() {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
 
     render();
 });

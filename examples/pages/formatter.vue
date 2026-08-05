@@ -328,6 +328,7 @@ onMounted(() => {
 
     const renderData = function(data) {
         g.setOption({
+            bindWindowResize: true,
 
             theme: route.query.theme || 'default',
             selectVisible: true,
@@ -518,11 +519,6 @@ onMounted(() => {
     });
 
     initCommonEvents(g);
-
-    const onResize = function() {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
 
     render();
 });

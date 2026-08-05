@@ -202,14 +202,11 @@ const setExample = (e) => {
     updateGrid();
 };
 
-const onResize = () => {
-    grid.value.resize();
-};
-
 onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
     grid.value.setOption({
+        bindWindowResize: true,
         theme: route.query.theme,
         rowNumberVisible: true,
         frozenColumn: 0,
@@ -230,12 +227,10 @@ onMounted(() => {
     });
     grid.value.setData(data);
     initCommonEvents(grid.value);
-    window.addEventListener('resize', onResize);
     grid.value.render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

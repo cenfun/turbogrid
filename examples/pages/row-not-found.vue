@@ -86,12 +86,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 onMounted(() => {
     init();
     let keywords = '';
@@ -106,6 +100,8 @@ onMounted(() => {
         const rowNotFound = document.querySelector('.ip_rowNotFound').value;
 
         const options = {
+
+            bindWindowResize: true,
             rowNotFound: rowNotFound,
 
             frozenBottom: document.querySelector('.cb_frozenBottom').checked,
@@ -179,13 +175,10 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

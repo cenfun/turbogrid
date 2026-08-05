@@ -81,10 +81,6 @@ const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('');
 
-const onResize = () => {
-    grid.value.resize();
-};
-
 onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
@@ -122,6 +118,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         const options = {
+            bindWindowResize: true,
             theme: route.query.theme,
             selectVisible: true,
             frozenColumn: 0,
@@ -201,13 +198,10 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

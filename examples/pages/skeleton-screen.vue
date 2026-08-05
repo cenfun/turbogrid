@@ -113,6 +113,8 @@ onMounted(() => {
         g.setData(data);
 
         g.setOption({
+
+            bindWindowResize: true,
             theme: route.query.theme,
             frozenColumn: 0
         });
@@ -137,11 +139,6 @@ onMounted(() => {
     });
 
     initCommonEvents(g);
-
-    const onResize = () => {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
 
     render();
 });

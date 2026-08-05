@@ -99,12 +99,6 @@ const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('');
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 onMounted(() => {
     init();
     const g = new Grid(gridContainer.value);
@@ -194,13 +188,10 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

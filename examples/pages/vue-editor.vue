@@ -216,7 +216,6 @@ while (i < 100) {
 const gridContainer = ref(null);
 const grid = ref(null);
 
-let onResize;
 
 const exportData = () => {
     if (grid.value) {
@@ -249,6 +248,7 @@ onMounted(() => {
 
     const renderData = (data) => {
         g.setOption({
+            bindWindowResize: true,
             theme: route.query.theme,
             selectVisible: true
         });
@@ -263,16 +263,10 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    onResize = () => {
-        g.resize();
-    };
-    window.addEventListener('resize', onResize);
-
     doRender();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

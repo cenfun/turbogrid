@@ -78,10 +78,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    grid.value.resize();
-};
-
 const customData = {
     columns: [{
         id: 'name',
@@ -360,6 +356,7 @@ onMounted(() => {
         };
         const rowDragCrossLevel = handlers[document.querySelector('.st_rowDragCrossLevel').value];
         const options = {
+            bindWindowResize: true,
             theme: route.query.theme,
             rowDragCrossLevel: rowDragCrossLevel,
             textSelectable: document.querySelector('.cb_textSelectable').checked,
@@ -391,13 +388,10 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

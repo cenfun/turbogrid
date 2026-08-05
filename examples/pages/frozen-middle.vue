@@ -120,11 +120,14 @@ FMG.prototype = {
         this.resize();
 
         this.gridL.setOption({
+
+            bindWindowResize: true,
             theme: route.query.theme,
             scrollbarSize: this.scrollbarSize,
             scrollbarSizeV: 0
         });
         this.gridR.setOption({
+            bindWindowResize: true,
             theme: route.query.theme,
             scrollbarSize: this.scrollbarSize,
             frozenColumn: 0
@@ -273,11 +276,6 @@ onMounted(() => {
     });
 
     initCommonEvents(fmg);
-
-    const onResize = () => {
-        fmg.resize();
-    };
-    window.addEventListener('resize', onResize);
 
     render();
 });

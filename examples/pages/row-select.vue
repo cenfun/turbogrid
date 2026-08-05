@@ -103,12 +103,6 @@ const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('');
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 onMounted(() => {
     init();
     const g = new Grid(gridContainer.value);
@@ -148,6 +142,8 @@ onMounted(() => {
         selectAllOnInit = selectAllOnInitMap[selectAllOnInit];
 
         const options = {
+
+            bindWindowResize: true,
             theme: route.query.theme,
             selectVisible: document.querySelector('.cb_selectVisible').checked,
             selectMultiple: document.querySelector('.cb_selectMultiple').checked,
@@ -205,13 +201,10 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

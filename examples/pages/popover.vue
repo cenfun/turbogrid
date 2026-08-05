@@ -140,10 +140,6 @@ const onPopoverClose = function() {
     });
 };
 
-const onResize = function() {
-    grid.value.resize();
-};
-
 onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
@@ -289,6 +285,7 @@ onMounted(() => {
 
     const getCommonOption = function() {
         return {
+            bindWindowResize: true,
             theme: route.query.theme || 'default',
             rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
             selectVisible: document.querySelector('.cb_selectVisible').checked,
@@ -372,8 +369,6 @@ onMounted(() => {
 
     initCommonEvents(grid.value);
 
-    window.addEventListener('resize', onResize);
-
     render1();
 });
 
@@ -388,7 +383,6 @@ onBeforeUnmount(() => {
         grid.value.destroy();
         grid.value = null;
     }
-    window.removeEventListener('resize', onResize);
 });
 </script>
 

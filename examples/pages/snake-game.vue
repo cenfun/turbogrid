@@ -38,10 +38,12 @@
         </button> (Press key ↑ ↓ ← →)
       </div>
     </div>
-    <div
-      ref="gridContainer"
-      class="grid-container grid-container-snake-game"
-    />
+    <div class="grid-container">
+      <div
+        ref="gridContainer"
+        class="grid-container-snake-game"
+      />
+    </div>
   </div>
 </template>
 
@@ -383,8 +385,20 @@ class SHEGrid extends Grid {
             this.levelFood = 5;
         }
 
-        const width = this.$holder.width();
-        const height = this.$holder.height();
+        if (!this.$holder || !this.$holder.parent()) {
+            return;
+        }
+
+        const $parent = this.$holder.parent();
+        if (!$parent || !$parent.length) {
+            return;
+        }
+
+        // console.log('init', $parent);
+
+        const width = $parent.width();
+        const height = $parent.height();
+        // console.log('width', width, 'height', height, 'size', size);
 
         const columnWidth = Math.floor(width / size);
         const rowHeight = Math.floor(height / size);
@@ -522,8 +536,10 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .grid-container-snake-game {
-    position: relative;
-    border: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     .tg-row {
         &.tg-list-first {

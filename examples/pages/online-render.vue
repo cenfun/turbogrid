@@ -44,12 +44,6 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 
-const onResize = () => {
-    if (grid.value) {
-        grid.value.resize();
-    }
-};
-
 onMounted(() => {
     init();
     const myOption = {
@@ -139,6 +133,7 @@ onMounted(() => {
 
     const render = () => {
         const options = JSON.parse(document.querySelector('.tg_options').value);
+        options.bindWindowResize = true;
         options.theme = route.query.theme;
         g.setOption(options);
         const data = JSON.parse(document.querySelector('.tg_data').value);
@@ -154,13 +149,10 @@ onMounted(() => {
 
     initCommonEvents(g);
 
-    window.addEventListener('resize', onResize);
-
     render();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize);
     if (grid.value) {
         grid.value.destroy();
     }

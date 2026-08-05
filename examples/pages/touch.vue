@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main main-touch">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid Touch:
         </div>
@@ -44,7 +44,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-container-touch flex-auto"
+      class="grid-container grid-container-touch"
     />
     <div class="something-down">
       something else
@@ -200,7 +200,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-.main {
+.main-touch {
     display: block;
     overflow-y: auto;
 }

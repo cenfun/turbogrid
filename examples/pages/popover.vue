@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid Hover Icon Usage:
         </div>
@@ -49,7 +49,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-container-popover flex-auto"
+      class="grid-container grid-container-popover"
     />
   </div>
 </template>
@@ -422,8 +422,8 @@ input[type="radio"]:checked ~ label {
     line-height: 1.6;
 
     .popover-row-name {
-        font-weight: bold;
         margin-bottom: 5px;
+        font-weight: bold;
     }
 
     ul {

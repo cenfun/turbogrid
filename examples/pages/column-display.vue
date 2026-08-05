@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid Column Width API:
         </div>
@@ -63,7 +63,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-container-column-display flex-auto"
+      class="grid-container grid-container-column-display"
     />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Frozen Middle:
         </div>
@@ -9,7 +9,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -305,9 +305,9 @@ onBeforeUnmount(() => {
     }
 
     .fmg-middle-cell {
-        background: #337f7f;
         color: #fff;
         font-weight: bold;
+        background: #337f7f;
     }
 
     .tg-column-name {

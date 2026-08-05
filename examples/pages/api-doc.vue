@@ -1,5 +1,5 @@
 <template>
-  <div class="api-page main flex-auto flex-column">
+  <div class="api-page main">
     <div class="api-header">
       <div class="api-nav">
         <a href="#/api-doc?position=methods">Methods</a>
@@ -9,7 +9,7 @@
         <a href="#/api-doc?position=lifecycle">Lifecycle</a>
       </div>
     </div>
-    <div class="api-container flex-auto">
+    <div class="api-container">
       <details
         open
         class="turbogrid"

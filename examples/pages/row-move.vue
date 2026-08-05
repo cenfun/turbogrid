@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid row move:
         </div>
@@ -79,7 +79,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -215,10 +215,10 @@ onBeforeUnmount(() => {
     align-items: center;
 
     .icon {
-        background-size: 12px 12px;
         width: 12px;
         height: 12px;
         margin-right: 5px;
+        background-size: 12px 12px;
     }
 }
 </style>

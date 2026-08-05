@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid customize scrollbar:
         </div>
@@ -113,7 +113,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-gradient flex-auto"
+      class="grid-container grid-gradient"
     />
   </div>
 </template>

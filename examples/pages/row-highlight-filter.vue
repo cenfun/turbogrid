@@ -1,14 +1,14 @@
 <template>
-  <div class="main flex-auto flex-column">
-    <div class="controller highlight-filter-controller">
-      <div>
+  <div class="main">
+    <div class="controller">
+      <div class="controller-header">
         <div class="controller-title">
           highlightKeywordsFilter
         </div>
         <span>String patterns (space-separated keywords, * wildcards, \* literals, and case: prefix)</span>
       </div>
 
-      <div class="controls-row">
+      <div>
         <label>patterns:
           <input
             v-model="keywords"
@@ -51,7 +51,7 @@
         </label>
       </div>
 
-      <div class="controls-row examples-row">
+      <div>
         <span>Examples:</span>
         <button @click="setExample">
           grid
@@ -82,7 +82,7 @@
         </button>
       </div>
 
-      <div class="pattern-preview">
+      <div>
         <b>Current call:</b>
         <code>highlightKeywordsFilter(rowItem, ['name', 'category', 'description'], keywords)</code>
       </div>
@@ -90,7 +90,7 @@
 
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -239,31 +239,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style lang="scss" scoped>
-.highlight-filter-controller {
-    .controls-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 16px;
-        align-items: center;
-        margin-top: 8px;
-    }
-
-    .ip-keywords {
-        width: 220px;
-    }
-
-    .examples-row button {
-        margin: 0;
-    }
-
-    .pattern-preview {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-        margin-top: 8px;
-    }
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid pagination example
         </div>
@@ -55,7 +55,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -210,22 +210,22 @@ onBeforeUnmount(() => {
 }
 
 .page-item {
-    border: 1px solid #ccc;
-    padding: 3px 5px;
     min-width: 30px;
-    text-align: center;
-    cursor: pointer;
     margin: 0 5px 5px 0;
+    padding: 3px 5px;
+    text-align: center;
+    border: 1px solid #ccc;
     border-radius: 3px;
+    cursor: pointer;
 
     &:hover {
         background: #f5f5f5;
     }
 
     &.selected {
-        background: #eee;
-        border: 1px solid #333;
         font-weight: bold;
+        border: 1px solid #333;
+        background: #eee;
     }
 }
 </style>

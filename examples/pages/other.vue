@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Other Example:
         </div>
@@ -9,7 +9,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-container-other flex-auto"
+      class="grid-container grid-container-other"
     >
       <div class="tg-turbogrid">
         <div class="flex-row">
@@ -86,9 +86,9 @@ onMounted(() => {
 <style lang="scss">
 .grid-container-other {
     .flex-row .tg-cell {
+        position: relative;
         width: 30px;
         height: 30px;
-        position: relative;
     }
 }
 </style>

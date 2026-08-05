@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid resize example:
         </div>
@@ -77,13 +77,11 @@
         </label>
       </div>
     </div>
-    <div class="flex-auto">
-      <div class="grid-holder">
-        <div
-          ref="gridContainer"
-          class="grid-container grid-container-resize"
-        />
-      </div>
+    <div class="grid-container">
+      <div
+        ref="gridContainer"
+        class="grid-container-resize"
+      />
     </div>
   </div>
 </template>
@@ -194,15 +192,10 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .grid-container-resize {
-    margin: 0;
+    position: relative;
     width: 100%;
     height: 100%;
-    border: 1px solid #333;
-}
-
-.grid-holder {
-    margin: 5px;
-    width: calc(100% - 12px);
-    height: calc(100% - 12px);
+    border: 1px solid #999;
+    overflow: hidden;
 }
 </style>

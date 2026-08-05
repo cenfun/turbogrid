@@ -310,7 +310,7 @@ a:visited {
     gap: 10px;
     color: #1e1e1e;
     background-color: #fff;
-    overflow: auto;
+    overflow: hidden;
 }
 
 /* Mobile responsive */

@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main main-auto-height">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid auto height example:
         </div>
@@ -33,7 +33,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -119,7 +119,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-.main {
+.main-auto-height {
     display: block;
     overflow-y: auto;
 }

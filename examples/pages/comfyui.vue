@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           ComfyUI custom nodes data example:
         </div>
@@ -33,7 +33,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container custom-nodes-grid flex-auto"
+      class="grid-container custom-nodes-grid"
     />
   </div>
 </template>

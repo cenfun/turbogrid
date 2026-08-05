@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid Events Example:
         </div>
@@ -40,7 +40,7 @@
             class="event-list event-list-unbind"
           />
         </div>
-        <div class="flex-auto flex-column flex-column-5">
+        <div class="flex-column flex-column-5">
           <div>
             Event logs <button class="bt-clear">
               Clear Logs
@@ -62,7 +62,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>

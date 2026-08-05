@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid Row Hover:
         </div>
@@ -23,7 +23,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-container-row-hover flex-auto"
+      class="grid-container grid-container-row-hover"
     />
   </div>
 </template>
@@ -185,43 +185,43 @@ onBeforeUnmount(() => {
 <style lang="scss">
 .grid-container-row-hover {
     .tg-cell-bg-1 {
-        background: #c00;
         color: #fff;
+        background: #c00;
     }
 
     .tg-cell-bg-2 {
-        background: #c30;
         color: #fff;
+        background: #c30;
     }
 
     .tg-cell-bg-3 {
-        background: #930;
         color: #fff;
+        background: #930;
     }
 
     .tg-cell-bg-4 {
-        background: #960;
         color: #fff;
+        background: #960;
     }
 
     .tg-cell-bg-5 {
-        background: #660;
         color: #fff;
+        background: #660;
     }
 
     .tg-cell-bg-6 {
-        background: #690;
         color: #fff;
+        background: #690;
     }
 
     .tg-cell-bg-7 {
-        background: #390;
         color: #fff;
+        background: #390;
     }
 
     .tg-cell-bg-8 {
-        background: #0c0;
         color: #fff;
+        background: #0c0;
     }
 }
 </style>

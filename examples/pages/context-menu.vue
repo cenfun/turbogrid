@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid Context Menu example (Right click)
         </div>
@@ -14,7 +14,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -207,18 +207,18 @@ onBeforeUnmount(() => {
 <style lang="scss">
 .tg-context-menu {
     position: absolute;
-    background: #fff;
     z-index: 10;
     border: 1px solid #ccc;
+    background: #fff;
     filter: drop-shadow(1px 2px 2px rgb(0 0 0 / 30%));
 }
 
 .tg-context-menu-item {
-    cursor: default;
-    font-size: 14px;
-    white-space: nowrap;
     padding: 5px 20px;
     color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: default;
 
     &:hover {
         color: #000;

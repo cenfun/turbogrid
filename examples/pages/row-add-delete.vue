@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid row add and delete:
         </div>
@@ -47,7 +47,7 @@
         test collapsed or flush rows
       </div>
       <div>
-        <div class="flex-auto flex-column flex-column-5">
+        <div class="flex-column flex-column-5">
           <div>
             Event logs <button class="bt-clear">
               Clear Logs
@@ -61,7 +61,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -219,12 +219,12 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .icon-remove {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
     position: absolute;
     top: 50%;
     right: 2px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
     transform: translate(0, -50%);
 }
 </style>

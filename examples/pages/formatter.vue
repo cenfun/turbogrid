@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid customize formatter example:
         </div>
@@ -58,7 +58,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-container-formatter flex-auto"
+      class="grid-container grid-container-formatter"
     />
   </div>
 </template>

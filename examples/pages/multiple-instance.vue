@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid multiple instance:
         </div>
@@ -24,17 +24,17 @@
         </div>
       </div>
     </div>
-    <div class="container flex-auto">
+    <div class="grid-container grid-container-multiple">
       <div class="container-left">
         <div
           ref="gridContainer1"
-          class="grid-container grid-container-1"
+          class="grid-container-1"
         />
       </div>
       <div class="container-right">
         <div
           ref="gridContainer2"
-          class="grid-container grid-container-2"
+          class="grid-container-2"
         />
       </div>
     </div>
@@ -141,34 +141,36 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-.container {
+.grid-container-multiple {
     position: relative;
     overflow: visible;
-
-    .grid-container {
-        height: calc(100% - 10px);
-    }
 }
 
 .container-left {
     position: absolute;
+    z-index: 0;
     width: 50%;
     height: 100%;
-    z-index: 0;
     background: #fff;
 }
 
 .container-right {
     position: absolute;
+    left: 50%;
     width: 50%;
     height: 100%;
-    left: 50%;
     background: #eee;
+}
+
+.grid-container-1,
+.grid-container-2 {
+    width: 100%;
+    height: 100%;
 }
 
 .overlap {
     position: absolute;
-    left: 30%;
     top: -50px;
+    left: 30%;
 }
 </style>

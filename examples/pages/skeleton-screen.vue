@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid skeleton screen example:
         </div>
@@ -9,7 +9,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -156,10 +156,10 @@ onBeforeUnmount(() => {
 <style lang="scss">
 .tg-skeleton {
     position: absolute;
-    background: rgb(194 207 214);
-    width: 80%;
     top: 20%;
+    width: 80%;
     height: 60%;
+    background: rgb(194 207 214);
     transform-origin: left;
     animation-name: tg-skeleton-keyframes;
     animation-duration: 0.5s;

@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid Snake Game:
         </div>
@@ -40,7 +40,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container grid-container-snake-game flex-auto"
+      class="grid-container grid-container-snake-game"
     />
   </div>
 </template>

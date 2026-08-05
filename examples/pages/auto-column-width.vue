@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           autoColumnWidth:
         </div>
@@ -61,7 +61,7 @@
       </div>
       <div class="status" />
     </div>
-    <div class="grid-container grid-container-auto-column-width flex-auto" />
+    <div class="grid-container grid-container-auto-column-width" />
   </div>
 </template>
 

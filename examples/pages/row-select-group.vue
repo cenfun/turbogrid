@@ -1,7 +1,7 @@
 <template>
-  <div class="main flex-auto flex-column">
+  <div class="main">
     <div class="controller">
-      <div>
+      <div class="controller-header">
         <div class="controller-title">
           Grid row select API:
         </div>
@@ -16,7 +16,7 @@
     </div>
     <div
       ref="gridContainer"
-      class="grid-container flex-auto"
+      class="grid-container"
     />
   </div>
 </template>
@@ -200,8 +200,8 @@ onBeforeUnmount(() => {
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: 5px;
     margin-right: 3px;
+    border-radius: 5px;
 
     &.tg-dot-orangered {
         background: orangered;

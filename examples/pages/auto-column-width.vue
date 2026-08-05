@@ -9,6 +9,8 @@
           <option>init-width-data</option>
           <option>auto-width-data</option>
         </select>
+      </div>
+      <div>
         <label>
           <input
             type="checkbox"

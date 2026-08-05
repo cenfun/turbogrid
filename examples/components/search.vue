@@ -1,20 +1,19 @@
 <template>
-  <div class="app-search">
-    <input
+  <div
+    class="app-search"
+    @keydown="onKeydown"
+  >
+    <VuiInput
       ref="inputEl"
       v-model="keywords"
       type="text"
       placeholder="Search..."
+      icon="search"
+      cleanable
+      select-on-focus
+      width="200px"
       @focus="onFocus"
-      @keydown="onKeydown"
       @input="onInput"
-    >
-    <div
-      v-if="keywords"
-      class="app-search-clear icon icon-close"
-      title="Clear"
-      @mousedown.prevent
-      @click.stop="clearKeywords"
     />
     <div
       v-show="visible && filteredList.length"
@@ -50,9 +49,10 @@
 
 <script setup>
 import {
-    ref, computed, nextTick
+    ref, computed, nextTick, watch
 } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { VuiInput } from 'vine-ui';
 import { getExampleList, getApiList } from '../global.js';
 
 const router = useRouter();
@@ -60,6 +60,17 @@ const route = useRoute();
 
 const inputEl = ref(null);
 const listEl = ref(null);
+
+// VuiInput only exposes its cid, so resolve the underlying DOM via the cid attribute
+const getInputRoot = () => {
+    const el = inputEl.value;
+    return el && el.cid ? document.querySelector(`[cid="${el.cid}"]`) : null;
+};
+
+const getInputEl = () => {
+    const root = getInputRoot();
+    return root ? root.querySelector('input') : null;
+};
 const keywords = ref('');
 const visible = ref(false);
 const selectedIndex = ref(0);
@@ -261,7 +272,10 @@ const onKeydown = (e) => {
     if (keyCode === 27) {
         // Escape
         visible.value = false;
-        inputEl.value.blur();
+        const input = getInputEl();
+        if (input) {
+            input.blur();
+        }
     }
 };
 
@@ -273,16 +287,19 @@ const onInput = () => {
     // When keywords is empty, keep visible as-is (controlled by focus/blur)
 };
 
-const clearKeywords = () => {
-    keywords.value = '';
-    selectedIndex.value = 0;
-    visible.value = true;
-    nextTick(() => {
-        if (inputEl.value) {
-            inputEl.value.focus();
-        }
-    });
-};
+// Keep the search box usable after the built-in clear button is clicked:
+// reset the selection and restore focus so the user can keep typing
+watch(keywords, (val) => {
+    if (!val) {
+        selectedIndex.value = 0;
+        nextTick(() => {
+            const input = getInputEl();
+            if (input) {
+                input.focus();
+            }
+        });
+    }
+});
 
 const onClick = (item) => {
     goto(item);
@@ -290,7 +307,8 @@ const onClick = (item) => {
 
 // Close on outside click
 const onDocumentClick = (e) => {
-    if (inputEl.value && !inputEl.value.contains(e.target) && listEl.value && !listEl.value.contains(e.target)) {
+    const root = getInputRoot();
+    if (root && !root.contains(e.target) && listEl.value && !listEl.value.contains(e.target)) {
         visible.value = false;
     }
 };
@@ -303,30 +321,6 @@ if (typeof document !== 'undefined') {
 <style lang="scss">
 .app-search {
     position: relative;
-
-    input {
-        max-width: 200px;
-        padding: 3px 24px 3px 22px;
-        line-height: 100%;
-        border: 1px solid #555;
-        border-radius: 5px;
-        background-image: url("../assets/images/search.svg");
-        background-repeat: no-repeat;
-        background-position: 3px center;
-        background-size: 16px;
-        outline: none;
-    }
-}
-
-.app-search-clear {
-    position: absolute;
-    top: 50%;
-    right: 4px;
-    z-index: 1;
-    width: 14px;
-    height: 14px;
-    background-size: 14px 14px;
-    transform: translateY(-50%);
 }
 
 .app-search-list {
@@ -346,6 +340,17 @@ if (typeof document !== 'undefined') {
     padding: 10px;
     color: gray;
     font-size: 13px;
+}
+
+.app-search-item-label {
+    flex: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    strong {
+        color: #00a8e1;
+    }
 }
 
 .app-search-item {
@@ -418,17 +423,6 @@ if (typeof document !== 'undefined') {
 
     &.preview .app-search-item-label {
         background-image: url("../assets/images/preview.svg");
-    }
-}
-
-.app-search-item-label {
-    flex: 1;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    strong {
-        color: #00a8e1;
     }
 }
 

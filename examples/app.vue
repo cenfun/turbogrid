@@ -2,19 +2,25 @@
   <div :class="['app', 'app-'+state.theme]">
     <div class="app-header">
       <div class="app-header-left">
-        <div
-          class="app-header-menu icon icon-menu"
-          @click="toggleMenu"
-        />
+        <div class="app-header-menu">
+          <VuiIconLabel
+            icon="menu"
+            size="20px"
+            @click="toggleMenu"
+          />
+          <a
+            class="app-header-name"
+            href="./"
+          >
+            TurboGrid
+          </a>
+        </div>
         <div class="app-header-title">
           <a
             class="app-header-name"
             href="./"
           >
-            <span
-              class="svg-icon"
-              v-html="IconLogo"
-            />
+            <VuiIcon icon="logo" />
             TurboGrid
           </a>
           <a
@@ -27,18 +33,11 @@
 
       <div class="app-header-right">
         <Search />
-        <select
+        <VuiSelect
           v-model="state.theme"
+          :options="state.themeOptions"
           class="app-header-theme"
-        >
-          <option
-            v-for="(t, ti) in state.themeOptions"
-            :key="ti"
-            :value="t.value"
-          >
-            {{ t.label }}
-          </option>
-        </select>
+        />
       </div>
     </div>
     <div class="app-body">
@@ -60,6 +59,7 @@
             class="app-header-name"
             href="./"
           >
+            <VuiIcon icon="logo" />
             TurboGrid
           </a>
           <a
@@ -88,13 +88,30 @@ import {
     nextTick
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import {
+    VuiSelect, VuiIcon, VuiIconLabel, setIcons
+} from 'vine-ui';
+
 import { Grid } from '../src/index.js';
 
 import Nav from './components/nav.vue';
 import Search from './components/search.vue';
-import IconLogo from './assets/images/logo.svg?raw';
 
 import { state } from './global.js';
+
+const moduleStrings = import.meta.glob('./assets/images/*.svg', {
+    query: '?raw',
+    eager: true
+});
+
+const icons = {};
+const keys = Object.keys(moduleStrings);
+for (const src of keys) {
+    const icon = src.split('/').pop().slice(0, -4);
+    icons[icon] = moduleStrings[src].default;
+}
+
+setIcons(icons);
 
 const route = useRoute();
 const router = useRouter();
@@ -161,6 +178,7 @@ const initThemes = () => {
             value: t
         };
     });
+
     state.themeOptions = themeList;
 
     // console.log('initThemes', route.query, state.theme, state.themeOptions);
@@ -224,27 +242,13 @@ a:visited {
     --bg-color: #1e1e1e;
 }
 
-.svg-icon {
-    display: block;
-    width: 16px;
-    height: 16px;
-    overflow: hidden;
-
-    svg {
-        display: block;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-    }
-}
-
 .app-header {
     display: flex;
     flex-shrink: 0;
     gap: 10px;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
     border-bottom: 1px solid #ccc;
 }
 
@@ -256,6 +260,10 @@ a:visited {
 
 .app-header-menu {
     display: none;
+    gap: 5px;
+    align-items: center;
+    padding: 0 5px;
+    line-height: 1;
     cursor: pointer;
 }
 
@@ -270,7 +278,8 @@ a:visited {
     gap: 5px;
     align-items: center;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
+    line-height: 1;
     text-decoration: none;
 }
 
@@ -316,7 +325,7 @@ a:visited {
 /* Mobile responsive */
 @media (width <= 768px) {
     .app-header-menu {
-        display: block;
+        display: flex;
     }
 
     .app-body {
@@ -351,7 +360,7 @@ a:visited {
         gap: 10px;
         justify-content: space-between;
         align-items: center;
-        padding: 10px;
+        padding: 9px;
         border-bottom: 1px solid #ccc;
     }
 

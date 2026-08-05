@@ -181,6 +181,11 @@ export default defineConfig(({ command, mode }) => {
             publicDir: 'public',
             define,
             plugins: [vue()],
+            optimizeDeps: {
+                // virtual:test-specs is only resolved by the test-specs plugin in test mode,
+                // but the dev server dependency scanner also crawls test/index.html.
+                exclude: ['virtual:test-specs']
+            },
             server: {
                 open: '/'
             }

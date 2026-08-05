@@ -1357,87 +1357,122 @@
 
 
         <section>
-          <a name="options.rowProps">rowProps = </a>
-          <pre><code class="language-js">
-                                {
+          <a name="options.rowProps">rowProps = {...}</a>
+          <div>
+            定义 <a href="#/api-doc-zh?position=data.rows">rows</a> 中行项目的默认属性。直接设置在行项目上的属性优先级更高。
+          </div>
 
-                                    //selected: 布尔值
-                                    //collapsed: 布尔值
+          <a name="options.rowProps.selected">rowProps.selected = false</a>
+          <div>控制该行是否处于选中状态。</div>
 
-                                    //selectable : true
-                                    //exportable: true
+          <a name="options.rowProps.collapsed">rowProps.collapsed = false</a>
+          <div>控制分组行的子行是否折叠。</div>
 
-                                    //sortFixed: [布尔值, 字符串 "top"]
+          <a name="options.rowProps.selectable">rowProps.selectable = true</a>
+          <div>控制该行是否允许被选中。</div>
 
-                                    // 自定义行样式
-                                    //classMap : [字符串, 数组, 对象]
-                                    //styleMap : [字符串, 数组, 对象]
-                                    //[columnId]ClassMap: [字符串, 数组, 对象]
-                                    //[columnId]StyleMap: [字符串, 数组, 对象]
+          <a name="options.rowProps.exportable">rowProps.exportable = true</a>
+          <div>控制 <code>exportData()</code> 是否包含该行。</div>
 
-                                    // 用于类名的行类型，例如 group
-                                    //type: 字符串
+          <a name="options.rowProps.sortFixed">rowProps.sortFixed = false</a>
+          <div>排序时保持该行位置固定。设置为 "top" 可将其固定在已排序行的上方。</div>
 
-                                    //formatter: [字符串, 函数]
+          <a name="options.rowProps.classMap">rowProps.classMap = null</a>
+          <div>行的自定义类名，支持字符串、数组或对象。</div>
 
-                                    //height: 数字
+          <a name="options.rowProps.styleMap">rowProps.styleMap = null</a>
+          <div>行的自定义内联样式，支持字符串、数组或对象。</div>
 
-                                    //subs: 数组
-                                }
-                        </code></pre>
+          <a name="options.rowProps.columnClassMap">rowProps.[columnId]ClassMap = null</a>
+          <div>指定单元格的自定义类名，使用对应列 id 作为属性名前缀。</div>
+
+          <a name="options.rowProps.columnStyleMap">rowProps.[columnId]StyleMap = null</a>
+          <div>指定单元格的自定义内联样式，使用对应列 id 作为属性名前缀。</div>
+
+          <a name="options.rowProps.type">rowProps.type = ""</a>
+          <div>附加到行 CSS 类名的行类型，例如 "group"。</div>
+
+          <a name="options.rowProps.formatter">rowProps.formatter = null</a>
+          <div>该行的默认单元格格式化器，支持已注册的格式化器名称或函数。</div>
+
+          <a name="options.rowProps.height">rowProps.height = null</a>
+          <div>自定义行高，单位为像素。默认使用 <code>rowHeight</code> 配置。</div>
+
+          <a name="options.rowProps.subs">rowProps.subs = null</a>
+          <div>用于构建行树的嵌套子行项目。</div>
         </section>
 
         <section>
-          <a name="options.columnProps">columnProps = </a>
-          <pre><code class="language-js">
-                                {
+          <a name="options.columnProps">columnProps = {...}</a>
+          <div>
+            定义 <a href="#/api-doc-zh?position=data.columns">columns</a> 中列项目的默认属性。直接设置在列项目上的属性优先级更高。
+          </div>
 
-                                    // 显示表头时必填
-                                    name: '',
+          <a name="options.columnProps.name">columnProps.name = ""</a>
+          <div>显示在列表头中的文本。</div>
 
-                                    // 用于读取行数据的字段键
-                                    //id: 字符串
+          <a name="options.columnProps.id">columnProps.id = ""</a>
+          <div>用于从行项目中读取单元格值的列标识符。</div>
 
-                                    // 预期为字符串，例如："string"、"number"、"date" 等
-                                    //type: 字符串
+          <a name="options.columnProps.type">columnProps.type = ""</a>
+          <div>用于解析类型预设和格式化器的列类型，例如 "string"、"number" 或 "date"。</div>
 
-                                    // formatter 通常是函数，也可以是类似 type 的字符串
-                                    // 优先级高于 type
-                                    // 用于单元格格式化
-                                    //formatter: [字符串, 函数]
-                                    //headerFormatter: [字符串, 函数]
+          <a name="options.columnProps.formatter">columnProps.formatter = null</a>
+          <div>单元格格式化器，支持已注册的格式化器名称或函数，优先级高于 type。</div>
 
-                                    // 排序时使用的比较函数 function(a, b, options)
-                                    //comparer: [字符串, 函数]
+          <a name="options.columnProps.headerFormatter">columnProps.headerFormatter = null</a>
+          <div>表头单元格格式化器，支持已注册的格式化器名称或函数。</div>
 
-                                    // left（默认）| center | right
-                                    //align: 字符串
+          <a name="options.columnProps.comparer">columnProps.comparer = null</a>
+          <div>列排序时使用的自定义比较函数。</div>
 
-                                    // 自定义列样式
-                                    //classMap: [字符串, 数组, 对象]
-                                    //styleMap: [字符串, 数组, 对象]
-                                    //headerClassMap: [字符串, 数组, 对象]
-                                    //headerStyleMap: [字符串, 数组, 对象]
+          <a name="options.columnProps.align">columnProps.align = "left"</a>
+          <div>单元格文本对齐方式，支持 "left"、"center" 和 "right"。</div>
 
-                                    //sortable: true
-                                    //resizable: true
-                                    //exportable: true
+          <a name="options.columnProps.classMap">columnProps.classMap = null</a>
+          <div>列单元格的自定义类名，支持字符串、数组或对象。</div>
 
-                                    //private: false
+          <a name="options.columnProps.styleMap">columnProps.styleMap = null</a>
+          <div>列单元格的自定义内联样式，支持字符串、数组或对象。</div>
 
-                                    // 列宽调整时常用
-                                    minWidth: 81,
-                                    maxWidth: 300
+          <a name="options.columnProps.headerClassMap">columnProps.headerClassMap = null</a>
+          <div>列表头的自定义类名，支持字符串、数组或对象。</div>
 
-                                    //width: 数字（固定宽度值，不参与 autoColumnWidth 和 widthWeight 分配）
-                                    //initWidth: [Number, Function]（初始/基础宽度，参与 autoColumnWidth 和 widthWeight 分配）
-                                    //widthWeight: 数字（autoColumnWidth 分配权重，未指定则默认为 1）
-                                    //height: 数字
+          <a name="options.columnProps.headerStyleMap">columnProps.headerStyleMap = null</a>
+          <div>列表头的自定义内联样式，支持字符串、数组或对象。</div>
 
-                                    //subs: 数组
+          <a name="options.columnProps.sortable">columnProps.sortable = true</a>
+          <div>控制该列是否允许排序。</div>
 
-                                }
-                        </code></pre>
+          <a name="options.columnProps.resizable">columnProps.resizable = true</a>
+          <div>控制该列是否允许调整宽度。</div>
+
+          <a name="options.columnProps.exportable">columnProps.exportable = true</a>
+          <div>控制 <code>exportData()</code> 是否包含该列。</div>
+
+          <a name="options.columnProps.private">columnProps.private = false</a>
+          <div>标记从导出数据中排除的内部列。</div>
+
+          <a name="options.columnProps.minWidth">columnProps.minWidth = 81</a>
+          <div>最小列宽，单位为像素。</div>
+
+          <a name="options.columnProps.maxWidth">columnProps.maxWidth = 300</a>
+          <div>最大列宽，单位为像素。</div>
+
+          <a name="options.columnProps.width">columnProps.width = null</a>
+          <div>固定列宽，单位为像素。该列不参与 autoColumnWidth 和 widthWeight 分配。</div>
+
+          <a name="options.columnProps.initWidth">columnProps.initWidth = null</a>
+          <div>初始列宽或列宽回调函数。该列仍参与 autoColumnWidth 分配。</div>
+
+          <a name="options.columnProps.widthWeight">columnProps.widthWeight = 1</a>
+          <div>autoColumnWidth 分配可用宽度时使用的比例权重。</div>
+
+          <a name="options.columnProps.height">columnProps.height = null</a>
+          <div>自定义列表头单元格高度，单位为像素。</div>
+
+          <a name="options.columnProps.subs">columnProps.subs = null</a>
+          <div>用于构建分组表头的嵌套子列项目。</div>
         </section>
 
         <section>

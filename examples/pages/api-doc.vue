@@ -1463,87 +1463,124 @@
 
 
         <section>
-          <a name="options.rowProps">rowProps = </a>
-          <pre><code class="language-js">
-                                {
+          <a name="options.rowProps">rowProps = {...}</a>
+          <div>
+            Defines default properties for items in <a href="#/api-doc?position=data.rows">rows</a>. Properties set
+            directly on a row item take precedence.
+          </div>
 
-                                    //selected: Boolean
-                                    //collapsed: Boolean
+          <a name="options.rowProps.selected">rowProps.selected = false</a>
+          <div>Controls whether the row is selected.</div>
 
-                                    //selectable : true
-                                    //exportable: true
+          <a name="options.rowProps.collapsed">rowProps.collapsed = false</a>
+          <div>Controls whether the child rows of a group row are collapsed.</div>
 
-                                    //sortFixed: [Boolean, String "top"]
+          <a name="options.rowProps.selectable">rowProps.selectable = true</a>
+          <div>Controls whether the row can be selected.</div>
 
-                                    // customize row style
-                                    //classMap : [String, Array, Object]
-                                    //styleMap : [String, Array, Object]
-                                    //[columnId]ClassMap: [String, Array, Object]
-                                    //[columnId]StyleMap: [String, Array, Object]
+          <a name="options.rowProps.exportable">rowProps.exportable = true</a>
+          <div>Controls whether the row is included in <code>exportData()</code>.</div>
 
-                                    // row type for class name: group
-                                    //type: String
+          <a name="options.rowProps.sortFixed">rowProps.sortFixed = false</a>
+          <div>Keeps the row fixed during sorting. Use "top" to pin it above sorted rows.</div>
 
-                                    //formatter: [String, Function]
+          <a name="options.rowProps.classMap">rowProps.classMap = null</a>
+          <div>Custom classes for the row. Accepts a string, array, or object.</div>
 
-                                    //height: Number
+          <a name="options.rowProps.styleMap">rowProps.styleMap = null</a>
+          <div>Custom inline styles for the row. Accepts a string, array, or object.</div>
 
-                                    //subs: Array
-                                }
-                        </code></pre>
+          <a name="options.rowProps.columnClassMap">rowProps.[columnId]ClassMap = null</a>
+          <div>Custom classes for a specific cell, using its column id as the property prefix.</div>
+
+          <a name="options.rowProps.columnStyleMap">rowProps.[columnId]StyleMap = null</a>
+          <div>Custom inline styles for a specific cell, using its column id as the property prefix.</div>
+
+          <a name="options.rowProps.type">rowProps.type = ""</a>
+          <div>Row type appended to the row CSS class, for example "group".</div>
+
+          <a name="options.rowProps.formatter">rowProps.formatter = null</a>
+          <div>Default cell formatter for the row. Accepts a registered formatter name or a function.</div>
+
+          <a name="options.rowProps.height">rowProps.height = null</a>
+          <div>Custom row height in pixels. By default, the <code>rowHeight</code> option is used.</div>
+
+          <a name="options.rowProps.subs">rowProps.subs = null</a>
+          <div>Nested child row items used to build the row tree.</div>
         </section>
 
         <section>
-          <a name="options.columnProps">columnProps = </a>
-          <pre><code class="language-js">
-                                {
+          <a name="options.columnProps">columnProps = {...}</a>
+          <div>
+            Defines default properties for items in <a href="#/api-doc?position=data.columns">columns</a>. Properties
+            set directly on a column item take precedence.
+          </div>
 
-                                    // require for showing header
-                                    name: '',
+          <a name="options.columnProps.name">columnProps.name = ""</a>
+          <div>Text displayed in the column header.</div>
 
-                                    // for getting row value
-                                    //id: String
+          <a name="options.columnProps.id">columnProps.id = ""</a>
+          <div>Column identifier used to read cell values from row items.</div>
 
-                                    // expect to be a string, for example: "string", "number", "date" etc.
-                                    //type: String
+          <a name="options.columnProps.type">columnProps.type = ""</a>
+          <div>Column type used to resolve type presets and formatters, such as "string", "number", or "date".</div>
 
-                                    // formatter expect to be a function, but also can be a string like type
-                                    // priority is higher than type
-                                    // be used for cell formatting
-                                    //formatter: [String, Function]
-                                    //headerFormatter: [String, Function]
+          <a name="options.columnProps.formatter">columnProps.formatter = null</a>
+          <div>Cell formatter. Accepts a registered formatter name or a function and takes precedence over type.</div>
 
-                                    // comparer function when sort function(a, b, options)
-                                    //comparer: [String, Function]
+          <a name="options.columnProps.headerFormatter">columnProps.headerFormatter = null</a>
+          <div>Header cell formatter. Accepts a registered formatter name or a function.</div>
 
-                                    // left (default) | center | right
-                                    //align: String
+          <a name="options.columnProps.comparer">columnProps.comparer = null</a>
+          <div>Custom comparison function used when sorting the column.</div>
 
-                                    // customize column style
-                                    //classMap: [String, Array, Object]
-                                    //styleMap: [String, Array, Object]
-                                    //headerClassMap: [String, Array, Object]
-                                    //headerStyleMap: [String, Array, Object]
+          <a name="options.columnProps.align">columnProps.align = "left"</a>
+          <div>Cell text alignment. Supports "left", "center", and "right".</div>
 
-                                    //sortable: true
-                                    //resizable: true
-                                    //exportable: true
+          <a name="options.columnProps.classMap">columnProps.classMap = null</a>
+          <div>Custom classes for column cells. Accepts a string, array, or object.</div>
 
-                                    //private: false
+          <a name="options.columnProps.styleMap">columnProps.styleMap = null</a>
+          <div>Custom inline styles for column cells. Accepts a string, array, or object.</div>
 
-                                    // require for column resize
-                                    minWidth: 81,
-                                    maxWidth: 300
+          <a name="options.columnProps.headerClassMap">columnProps.headerClassMap = null</a>
+          <div>Custom classes for the column header. Accepts a string, array, or object.</div>
 
-                                    //width: Number (fixed width value; excluded from autoColumnWidth and widthWeight distribution)
-                                    //initWidth: [Number, Function] (initial/base width; participates in autoColumnWidth and widthWeight distribution)
-                                    //widthWeight: Number (for autoColumnWidth proportional share; default 1 if not set)
-                                    //height: Number
+          <a name="options.columnProps.headerStyleMap">columnProps.headerStyleMap = null</a>
+          <div>Custom inline styles for the column header. Accepts a string, array, or object.</div>
 
-                                    //subs: Array
+          <a name="options.columnProps.sortable">columnProps.sortable = true</a>
+          <div>Controls whether the column can be sorted.</div>
 
-                                }
-                        </code></pre>
+          <a name="options.columnProps.resizable">columnProps.resizable = true</a>
+          <div>Controls whether the column width can be resized.</div>
+
+          <a name="options.columnProps.exportable">columnProps.exportable = true</a>
+          <div>Controls whether the column is included in <code>exportData()</code>.</div>
+
+          <a name="options.columnProps.private">columnProps.private = false</a>
+          <div>Marks an internal column that is excluded from exported data.</div>
+
+          <a name="options.columnProps.minWidth">columnProps.minWidth = 81</a>
+          <div>Minimum column width in pixels.</div>
+
+          <a name="options.columnProps.maxWidth">columnProps.maxWidth = 300</a>
+          <div>Maximum column width in pixels.</div>
+
+          <a name="options.columnProps.width">columnProps.width = null</a>
+          <div>Fixed width in pixels. The column is excluded from autoColumnWidth and widthWeight distribution.</div>
+
+          <a name="options.columnProps.initWidth">columnProps.initWidth = null</a>
+          <div>Initial width or width callback. The column still participates in autoColumnWidth distribution.</div>
+
+          <a name="options.columnProps.widthWeight">columnProps.widthWeight = 1</a>
+          <div>Proportional share used when autoColumnWidth distributes available width.</div>
+
+          <a name="options.columnProps.height">columnProps.height = null</a>
+          <div>Custom height for the column header cell in pixels.</div>
+
+          <a name="options.columnProps.subs">columnProps.subs = null</a>
+          <div>Nested child column items used to build grouped headers.</div>
         </section>
 
         <section>

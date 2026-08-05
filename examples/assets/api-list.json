@@ -766,12 +766,187 @@
     },
     {
         "name": "options.rowProps",
-        "text": "rowProps = ",
+        "text": "rowProps = {...}",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.selected",
+        "text": "rowProps.selected = false",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.collapsed",
+        "text": "rowProps.collapsed = false",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.selectable",
+        "text": "rowProps.selectable = true",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.exportable",
+        "text": "rowProps.exportable = true",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.sortFixed",
+        "text": "rowProps.sortFixed = false",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.classMap",
+        "text": "rowProps.classMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.styleMap",
+        "text": "rowProps.styleMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.columnClassMap",
+        "text": "rowProps.[columnId]ClassMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.columnStyleMap",
+        "text": "rowProps.[columnId]StyleMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.type",
+        "text": "rowProps.type = \"\"",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.formatter",
+        "text": "rowProps.formatter = null",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.height",
+        "text": "rowProps.height = null",
+        "type": "options"
+    },
+    {
+        "name": "options.rowProps.subs",
+        "text": "rowProps.subs = null",
         "type": "options"
     },
     {
         "name": "options.columnProps",
-        "text": "columnProps = ",
+        "text": "columnProps = {...}",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.name",
+        "text": "columnProps.name = \"\"",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.id",
+        "text": "columnProps.id = \"\"",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.type",
+        "text": "columnProps.type = \"\"",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.formatter",
+        "text": "columnProps.formatter = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.headerFormatter",
+        "text": "columnProps.headerFormatter = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.comparer",
+        "text": "columnProps.comparer = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.align",
+        "text": "columnProps.align = \"left\"",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.classMap",
+        "text": "columnProps.classMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.styleMap",
+        "text": "columnProps.styleMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.headerClassMap",
+        "text": "columnProps.headerClassMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.headerStyleMap",
+        "text": "columnProps.headerStyleMap = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.sortable",
+        "text": "columnProps.sortable = true",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.resizable",
+        "text": "columnProps.resizable = true",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.exportable",
+        "text": "columnProps.exportable = true",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.private",
+        "text": "columnProps.private = false",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.minWidth",
+        "text": "columnProps.minWidth = 81",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.maxWidth",
+        "text": "columnProps.maxWidth = 300",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.width",
+        "text": "columnProps.width = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.initWidth",
+        "text": "columnProps.initWidth = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.widthWeight",
+        "text": "columnProps.widthWeight = 1",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.height",
+        "text": "columnProps.height = null",
+        "type": "options"
+    },
+    {
+        "name": "options.columnProps.subs",
+        "text": "columnProps.subs = null",
         "type": "options"
     },
     {

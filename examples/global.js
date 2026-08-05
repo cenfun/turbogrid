@@ -72,39 +72,96 @@ export const getNum = function(str) {
     return n;
 };
 
-export const showPage = (content) => {
-    const html = `
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+})[char]);
+
+export const showPage = (content, title, targetWindow) => {
+    const pageTitle = title || 'TurboGrid';
+    const win = targetWindow || window.open('', '_blank');
+    if (!win) {
+        return null;
+    }
+
+    const html = `<!DOCTYPE html>
         <html>
         <head>
-            <link href="assets/prism.css" rel="stylesheet" />
-            <script src="assets/prism.js" data-manual></script>
-            <link href="assets/main.css" rel="stylesheet" />
-            <script src="assets/main.js"></script>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>${escapeHtml(pageTitle)}</title>
             <style>
             body {
-                padding: 10px 10px;
+                padding: 10px;
+                color: #1e1e1e;
+                font-family: Arial, sans-serif;
+                background: #fff;
             }
             pre {
-                border: none;
-                max-width: none;
-                border-radius: unset;
-                overflow-x: unset;
+                padding: 12px;
+                border: 1px solid #ddd;
+                overflow: auto;
+                font-family: Consolas, Monaco, monospace;
+                font-size: 13px;
+                line-height: 1.5;
+                background: #f5f5f5;
+            }
+            code {
+                white-space: pre;
+            }
+            .token.comment,
+            .token.prolog,
+            .token.doctype,
+            .token.cdata {
+                color: slategray;
+            }
+            .token.punctuation {
+                color: #999;
+            }
+            .token.property,
+            .token.tag,
+            .token.boolean,
+            .token.number,
+            .token.constant,
+            .token.symbol,
+            .token.deleted {
+                color: #905;
+            }
+            .token.selector,
+            .token.attr-name,
+            .token.string,
+            .token.char,
+            .token.builtin,
+            .token.inserted {
+                color: #690;
+            }
+            .token.operator,
+            .token.entity,
+            .token.url,
+            .token.variable {
+                color: #9a6e3a;
+            }
+            .token.atrule,
+            .token.attr-value,
+            .token.function,
+            .token.class-name {
+                color: #dd4a68;
+            }
+            .token.keyword {
+                color: #07a;
             }
             </style>
         </head>
-        <body>
-            ${content}
-            <script>
-                formatCodes();
-            </script>
-        </body>
-        </html>
-        `;
+        <body>${content}</body>
+        </html>`;
 
-    const win = window.open('', '_blank');
     win.document.open();
     win.document.write(html);
     win.document.close();
+    return win;
 };
 
 const showJson = (res) => {
@@ -113,13 +170,14 @@ const showJson = (res) => {
         return;
     }
     const json = JSON.stringify(res, null, 4);
+    const highlighted = Prism.highlight(json, Prism.languages.javascript, 'javascript');
 
     const content = `
             <h3>JSON</h3>
-            <pre><code class="language-js">${json}</code></pre>
+            <pre><code class="language-js">${highlighted}</code></pre>
         `;
 
-    showPage(content);
+    showPage(content, 'JSON');
 
 };
 
@@ -211,45 +269,40 @@ export const appendLog = function(type, d) {
 };
 
 
-const showSource = () => {
-    const listJs = Array.from(document.querySelectorAll('script'));
-    const listCss = Array.from(document.querySelectorAll('style'));
+let currentSource;
 
-    const list = [];
+export const setCurrentSource = (source) => {
+    currentSource = source;
+};
 
-    const js = listJs.map(function(elem) {
-        const src = elem.getAttribute('src');
-        if (src) {
-            const ignore = ['livereload.js', 'prism.js'].find((it) => src.indexOf(it) !== -1);
-            if (ignore) {
-                return '';
-            }
-            return `<pre><code class="language-js">//${src}</code></pre>`;
-        }
-
-        return `<pre><code class="language-js">${elem.innerHTML}</code></pre>`;
-
-    }).join('');
-
-    if (js) {
-        list.push('<h3>JS</h3>');
-        list.push(js);
+export const showSource = async () => {
+    if (!currentSource?.loader) {
+        return;
     }
 
-    const css = listCss.map(function(elem) {
-        if (elem.getAttribute('context')) {
-            return '';
-        }
-        return `<pre><code class="language-css">${elem.innerHTML}</code></pre>`;
-    }).join('');
-
-    if (css) {
-        list.push('<h3>CSS</h3>');
-        list.push(css);
+    // Open synchronously from the click handler so the browser does not block it.
+    const win = window.open('', '_blank');
+    if (!win) {
+        return;
     }
 
-    const content = list.join('');
-    showPage(content);
+    const sourceInfo = currentSource;
+    const sourcePath = sourceInfo.path || 'Source';
+    showPage('<p>Loading source...</p>', sourcePath, win);
+
+    try {
+        const result = await sourceInfo.loader();
+        const source = typeof result === 'string' ? result : result.default;
+        const highlighted = Prism.highlight(source, Prism.languages.markup, 'markup');
+        const content = `
+            <h3>${escapeHtml(sourcePath)}</h3>
+            <pre><code class="language-markup">${highlighted}</code></pre>
+        `;
+        showPage(content, sourcePath, win);
+    } catch (err) {
+        const message = err instanceof Error ? err.message : err;
+        showPage(`<h3>Failed to load source</h3><pre>${escapeHtml(message)}</pre>`, sourcePath, win);
+    }
 };
 
 export const getExampleList = function() {
@@ -261,12 +314,15 @@ const initSource = function() {
         return;
     }
 
-    const $header = document.querySelector('.header');
+    const $header = document.querySelector('.controller-header');
     if (!$header) {
         return;
     }
+    if ($header.querySelector('.bt-source')) {
+        return;
+    }
     $header.insertAdjacentHTML('beforeend', '<button class="bt-source">source</button>');
-    const btSource = document.querySelector('.bt-source');
+    const btSource = $header.querySelector('.bt-source');
     btSource.title = 'Check demo source codes';
     btSource.addEventListener('click', function() {
         showSource();

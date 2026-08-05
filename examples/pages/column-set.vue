@@ -27,162 +27,20 @@
 
 <script setup>
 import {
-    ref, onMounted, onBeforeUnmount, reactive, createApp, h, defineComponent
+    ref, onMounted, onBeforeUnmount, reactive
 } from 'vue';
 import { useRoute } from 'vue-router';
-import { Grid, Util } from '../../src/index.js';
+import { Grid } from '../../src/index.js';
 import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { init, initCommonEvents } from '../global.js';
-import { VuiPopover } from 'vine-ui';
+import { mount } from 'vine-ui';
+import ColumnSetPopover from '../components/column-set-popover.vue';
 const route = useRoute();
-
 
 const gridContainer = ref(null);
 const grid = ref(null);
 const popoverApp = ref(null);
-
-// eslint-disable-next-line vue/one-component-per-file
-const ColumnSetContent = defineComponent({
-    props: {
-        list: {
-            type: Array,
-            default: function() {
-                return [];
-            }
-        }
-    },
-    watch: {
-        list: function() {
-            this.init();
-        }
-    },
-    mounted() {
-        this.init();
-    },
-    methods: {
-        init() {
-            const g = new Grid(this.$refs.gridContainer);
-            g.setOption({
-                theme: route.query.theme,
-                rowDragVisible: true,
-                selectVisible: true,
-                selectAllVisible: false,
-                collapseAllVisible: false,
-                headerVisible: false
-            });
-
-            g.bind('onRowRemoved', () => {
-                this.change();
-            });
-            g.bind('onRowAdded', () => {
-                this.change();
-            });
-            g.bind('onRowMoved', () => {
-                this.change();
-            });
-            g.bind('onRowDropped', () => {
-                this.change();
-            });
-
-            Util.forEachTree(this.list, function(item) {
-                item.tg_bak_formatter = item.formatter;
-                delete item.formatter;
-                item.selectable = true;
-            });
-
-            const data = {
-                columns: [{
-                    id: 'name',
-                    name: 'Column Name',
-                    width: 248,
-                    resizable: false,
-                    sortable: false
-                }],
-                rows: this.list
-            };
-
-            g.setData(data);
-            g.render();
-
-            this.grid = g;
-        },
-
-        removeSelected() {
-            const selectedRows = this.grid.getSelectedRows();
-            if (!selectedRows.length) {
-                return;
-            }
-            this.grid.deleteRow(selectedRows);
-        },
-
-        addRow() {
-            const it = this.$refs.columnName;
-            const name = it.value;
-            if (!name) {
-                return;
-            }
-            this.grid.addRow({
-                name: name,
-                selectable: true
-            });
-            it.value = '';
-        },
-
-        moveSelectedRowsToTop() {
-            this.grid.moveSelectedRowsToTop();
-        },
-        moveSelectedRowsUp() {
-            this.grid.moveSelectedRowsUp();
-        },
-        moveSelectedRowsDown() {
-            this.grid.moveSelectedRowsDown();
-        },
-        moveSelectedRowsToBottom() {
-            this.grid.moveSelectedRowsToBottom();
-        },
-
-        change() {
-            const list = this.grid.exportData().rows;
-            Util.forEachTree(list, function(item) {
-                if (item.tg_bak_formatter) {
-                    item.formatter = item.tg_bak_formatter;
-                    delete item.tg_bak_formatter;
-                }
-            });
-            // eslint-disable-next-line vue/require-explicit-emits
-            this.$emit('change', list);
-        }
-    },
-    template: `
-        <div class="column-set-content">
-            <div class="column-set-grid" ref="gridContainer"></div>
-            <div class="column-set-action">
-                <button @click="moveSelectedRowsToTop($event)">
-                    <div class="icon icon-double-up"></div>
-                    Top
-                </button>
-                <button @click="moveSelectedRowsUp($event)">
-                    <div class="icon icon-up"></div>
-                    Up
-                </button>
-                <button @click="moveSelectedRowsDown($event)">
-                    <div class="icon icon-down"></div>
-                    Down
-                </button>
-                <button @click="moveSelectedRowsToBottom($event)">
-                    <div class="icon icon-double-down"></div>
-                    Bottom
-                </button>
-            </div>
-            <div class="column-set-action">
-                <input ref="columnName" value="Column Name"/>
-                <button @click="addRow()">Add</button>
-                <button @click="removeSelected()">Remove Selected</button>
-            </div>
-        </div>
-    `
-});
 
 const onResize = () => {
     grid.value?.resize();
@@ -237,40 +95,21 @@ onMounted(() => {
         showPopover(e);
     });
 
-    // Mount the popover app
-    const popoverContainer = document.createElement('div');
-    document.body.appendChild(popoverContainer);
-    // eslint-disable-next-line vue/one-component-per-file
-    const app = createApp({
-        render() {
-            return h(VuiPopover, {
-                title: 'Column Set',
-                width: 350,
-                target: state.target,
-                modelValue: state.visible,
-                'onUpdate:modelValue': function(v) {
-                    state.visible = v;
-                },
-                onClose: function() {
-                    state.visible = false;
-                }
-            }, {
-                default: () => {
-                    return h(ColumnSetContent, {
-                        list: state.list,
-                        onChange: function(list) {
-                            const data = grid.value.getData();
-                            data.columns = list;
-                            grid.value.setData(data);
-                            grid.value.render();
-                        }
-                    });
-                }
-            });
+    popoverApp.value = mount(ColumnSetPopover, {
+        props: {
+            state,
+            theme: route.query.theme,
+            onVisibleChange: function(visible) {
+                state.visible = visible;
+            },
+            onChange: function(list) {
+                const data = grid.value.getData();
+                data.columns = list;
+                grid.value.setData(data);
+                grid.value.render();
+            }
         }
     });
-    app.mount(popoverContainer);
-    popoverApp.value = app;
 
     ['.st-data'].forEach(function(item) {
         document.querySelector(item).addEventListener('change', function() {

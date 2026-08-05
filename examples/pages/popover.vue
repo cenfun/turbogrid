@@ -56,14 +56,14 @@
 
 <script setup>
 import {
-    createApp, defineComponent, h, onBeforeUnmount, onMounted, reactive, ref
+    onBeforeUnmount, onMounted, reactive, ref
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { init, initCommonEvents } from '../global.js';
-import { VuiPopover } from 'vine-ui';
+import { mount } from 'vine-ui';
+import RowInfoPopover from '../components/row-info-popover.vue';
 const route = useRoute();
-
 
 const gridContainer = ref(null);
 const grid = ref(null);
@@ -76,39 +76,6 @@ const state = reactive({
 });
 
 const dark = route.query.theme === 'dark';
-
-// eslint-disable-next-line vue/one-component-per-file
-const PopoverContent = defineComponent({
-    props: {
-        row: {
-            type: Object,
-            default: null
-        }
-    },
-    setup(props) {
-        return () => {
-            const row = props.row || {};
-            const keys = Object.keys(row).filter((k) => {
-                return !k.startsWith('tg_') && k !== 'subs';
-            });
-            return h('div', {
-                class: 'popover-row-info'
-            }, [
-                h('div', {
-                    class: 'popover-row-name'
-                }, row.name || ''),
-                h('ul', {
-                    class: 'popover-row-fields'
-                }, keys.map((k) => {
-                    return h('li', null, [
-                        `${k}: `,
-                        h('b', null, String(row[k]))
-                    ]);
-                }))
-            ]);
-        };
-    }
-});
 
 const showPopover = function(target, row) {
     state.target = target;
@@ -128,32 +95,15 @@ onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
 
-    // mount the popover
-    const popoverContainer = document.createElement('div');
-    document.body.appendChild(popoverContainer);
-    // eslint-disable-next-line vue/one-component-per-file
-    const app = createApp({
-        render() {
-            return h(VuiPopover, {
-                title: 'Row Info',
-                width: 260,
-                target: state.target,
-                modelValue: state.visible,
-                'onUpdate:modelValue': function(v) {
-                    state.visible = v;
-                },
-                bgColor: dark ? '#1e1e1e' : '',
-                color: dark ? '#fff' : ''
-            }, {
-                default: () => h(PopoverContent, {
-                    row: state.row
-                })
-            });
+    popoverApp.value = mount(RowInfoPopover, {
+        props: {
+            state,
+            dark,
+            onVisibleChange: function(visible) {
+                state.visible = visible;
+            }
         }
     });
-    app.mount(popoverContainer);
-    popoverApp.value = app;
-    popoverApp.value.container = popoverContainer;
 
     grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
@@ -375,9 +325,6 @@ onBeforeUnmount(() => {
     hidePopover();
     if (popoverApp.value) {
         popoverApp.value.unmount();
-        if (popoverApp.value.container) {
-            popoverApp.value.container.remove();
-        }
         popoverApp.value = null;
     }
     if (grid.value) {

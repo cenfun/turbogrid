@@ -29,9 +29,11 @@ import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { init, initCommonEvents } from '../global.js';
 import {
-    createApp, defineComponent, shallowReactive, toRefs, ref, onMounted, onBeforeUnmount
+    shallowReactive, ref, onMounted, onBeforeUnmount
 } from 'vue';
 import { useRoute } from 'vue-router';
+import { mount } from 'vine-ui';
+import InfoComponent from '../components/info-component.vue';
 const route = useRoute();
 
 
@@ -41,19 +43,13 @@ const infoData = shallowReactive({
     selected: 0
 });
 
-const InfoComponent = defineComponent({
-    setup() {
-        return toRefs(infoData);
-    },
-    template: '( Selected: {{selected}} )'
-});
-
 // =====================================================================
 
 const gridContainer = ref(null);
 const grid = ref(null);
 const infoApp = ref(null);
 
+let infoElement;
 let onResize;
 
 const onDataChange = () => {
@@ -93,10 +89,21 @@ onMounted(() => {
     grid.value = g;
 
     const updateInfo = () => {
-        if (!infoApp.value) {
-            infoApp.value = createApp(InfoComponent).mount('.tg-name-info');
-        }
         infoData.selected = g.getSelectedRows().length;
+        const target = container.querySelector('.tg-name-info');
+        if (!target || (infoApp.value && infoElement === target)) {
+            return;
+        }
+        if (infoApp.value) {
+            infoApp.value.unmount();
+        }
+        infoElement = target;
+        infoApp.value = mount(InfoComponent, {
+            el: target,
+            props: {
+                info: infoData
+            }
+        });
     };
 
     g.bind('onFirstUpdated', function() {
@@ -104,7 +111,6 @@ onMounted(() => {
     });
 
     g.bind('onUpdated', () => {
-        infoApp.value = null;
         updateInfo();
     });
 
@@ -129,6 +135,11 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     window.removeEventListener('resize', onResize);
+    if (infoApp.value) {
+        infoApp.value.unmount();
+        infoApp.value = null;
+        infoElement = null;
+    }
     if (grid.value) {
         grid.value.destroy();
     }

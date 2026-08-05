@@ -29,24 +29,12 @@ import { sampleData } from '../assets/sample-data.js';
 import { randomData } from '../assets/random-data.js';
 import { init, initCommonEvents } from '../global.js';
 import {
-    createApp, defineComponent, shallowReactive, ref, onMounted, onBeforeUnmount, watch, nextTick
+    shallowReactive, ref, onMounted, onBeforeUnmount, watch, nextTick
 } from 'vue';
 import { useRoute } from 'vue-router';
+import { mount, VuiIcon } from 'vine-ui';
 const route = useRoute();
 
-
-// ====================================================================
-// eslint-disable-next-line vue/one-component-per-file
-const HoverIcon = defineComponent({
-    // eslint-disable-next-line vue/require-prop-types
-    props: ['value'],
-    template: `
-        <div class="hover-icon" :title="value">
-            <div class="icon icon-info"></div>
-            <div style="color:red;">{{value}}</div>
-        </div>
-    `
-});
 
 // ====================================================================
 
@@ -109,19 +97,34 @@ onMounted(() => {
     g.setFormatter({
         'vue-sync': function(v, r, c) {
             const div = document.createElement('div');
-            // eslint-disable-next-line vue/one-component-per-file
-            createApp(HoverIcon, {
-                value: v
-            }).mount(div);
+            div.title = v;
+            div.style.display = 'flex';
+            div.style.height = '100%';
+            div.style.alignItems = 'center';
+            mount(VuiIcon, {
+                el: div,
+                props: {
+                    icon: 'info'
+                }
+            });
             return div;
         },
         'vue-async': function(v, r, c) {
             const id = `${this.id}-c-${c.tg_index}-r-${r.tg_index}`;
             nextTick(function() {
-                // eslint-disable-next-line vue/one-component-per-file
-                createApp(HoverIcon, {
-                    value: v
-                }).mount(`.${id}`);
+                const target = container.querySelector(`.${id}`);
+                if (target) {
+                    target.title = v;
+                    target.style.display = 'flex';
+                    target.style.height = '100%';
+                    target.style.alignItems = 'center';
+                    mount(VuiIcon, {
+                        el: target,
+                        props: {
+                            icon: 'info'
+                        }
+                    });
+                }
             });
             return `<div class="${id}"></div>`;
         }

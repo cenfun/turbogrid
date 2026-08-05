@@ -34,88 +34,14 @@
 import { Grid } from '../../src/index.js';
 import { init, initCommonEvents } from '../global.js';
 import {
-    createApp, defineComponent, ref, onMounted, onBeforeUnmount, nextTick
+    ref, onMounted, onBeforeUnmount
 } from 'vue';
 import { useRoute } from 'vue-router';
-import { VuiSwitch, VuiSelect } from 'vine-ui';
+import {
+    mount, VuiSwitch, VuiSelect
+} from 'vine-ui';
+import InputEditor from '../components/input-editor.vue';
 const route = useRoute();
-
-let currentInputEditor;
-
-// eslint-disable-next-line vue/one-component-per-file
-const InputEditor = defineComponent({
-    // eslint-disable-next-line vue/require-prop-types
-    props: ['type', 'value', 'disabled', 'rowItem', 'columnItem'],
-    data() {
-        return {
-            editing: false,
-            editorType: this.$props.type,
-            originalValue: this.$props.value,
-            moduleValue: this.$props.value
-        };
-    },
-    computed: {
-        classMap: function() {
-            const ls = ['editor-input'];
-            if (this.$props.disabled) {
-                ls.push('editor-input-disabled');
-            }
-            return ls;
-        }
-    },
-    methods: {
-        start: function() {
-            if (this.$props.disabled) {
-                return;
-            }
-
-            if (this.editing) {
-                return;
-            }
-
-            if (currentInputEditor) {
-                currentInputEditor.end();
-                currentInputEditor = null;
-            }
-
-            this.editing = true;
-            currentInputEditor = this;
-
-            nextTick(() => {
-                const $input = this.$el.querySelector('input');
-                if ($input) {
-                    $input.focus();
-                    $input.select();
-                }
-            });
-        },
-        end: function() {
-            this.editing = false;
-            if (this.moduleValue !== this.$props.value) {
-                this.$props.rowItem[this.$props.columnItem.id] = this.moduleValue;
-                this.originalValue = this.moduleValue;
-                // eslint-disable-next-line vue/require-explicit-emits
-                this.$emit('editor-change', this.moduleValue);
-            }
-        }
-    },
-    template: `<div :class="classMap" @focus="start" @click="start" tabindex="0">
-            <div v-if="editing">
-                <div v-if="editorType==='number'">
-                    <input type="number" v-model="moduleValue" @blur="end" />
-                </div>
-                <div v-else-if="editorType==='date'">
-                    <input type="date" v-model="moduleValue" @blur="end" />
-                </div>
-                <div v-else>
-                    <input v-model="moduleValue" @blur="end" />
-                </div>
-            </div>
-            <div v-else>
-                {{ originalValue }}
-            </div>
-        </div>`
-});
 
 const hasOwn = function(obj, key) {
     return Object.prototype.hasOwnProperty.call(obj, key);
@@ -146,44 +72,50 @@ const getEditable = (rowItem, columnItem) => {
 const editorFormatters = {
     inputEditor: (value, rowItem, columnItem) => {
         const div = document.createElement('div');
-        // eslint-disable-next-line vue/one-component-per-file
-        createApp(InputEditor, {
-            type: columnItem.editor,
-            value,
-            rowItem,
-            columnItem,
-            disabled: !getEditable(rowItem, columnItem),
-            onEditorChange: (newValue) => {
-                // console.log('editor-change', newValue);
+        mount(InputEditor, {
+            el: div,
+            props: {
+                type: columnItem.editor,
+                value,
+                rowItem,
+                columnItem,
+                disabled: !getEditable(rowItem, columnItem),
+                onEditorChange: (newValue) => {
+                    rowItem[columnItem.id] = newValue;
+                }
             }
-        }).mount(div);
+        });
         return div;
     },
     switchEditor: (value, rowItem, columnItem) => {
         const div = document.createElement('div');
         div.className = 'editor-switch';
-        // eslint-disable-next-line vue/one-component-per-file
-        createApp(VuiSwitch, {
-            modelValue: value,
-            disabled: !getEditable(rowItem, columnItem),
-            onChange: (newValue) => {
-                rowItem[columnItem.id] = newValue;
+        mount(VuiSwitch, {
+            el: div,
+            props: {
+                modelValue: value,
+                disabled: !getEditable(rowItem, columnItem),
+                onChange: (newValue) => {
+                    rowItem[columnItem.id] = newValue;
+                }
             }
-        }).mount(div);
+        });
         return div;
     },
     selectEditor: (value, rowItem, columnItem) => {
         const div = document.createElement('div');
         div.className = 'editor-select';
-        // eslint-disable-next-line vue/one-component-per-file
-        createApp(VuiSelect, {
-            options: columnItem.options,
-            modelValue: value,
-            disabled: !getEditable(rowItem, columnItem),
-            'onUpdate:modelValue': (newValue) => {
-                rowItem[columnItem.id] = newValue;
+        mount(VuiSelect, {
+            el: div,
+            props: {
+                options: columnItem.options,
+                modelValue: value,
+                disabled: !getEditable(rowItem, columnItem),
+                'onUpdate:modelValue': (newValue) => {
+                    rowItem[columnItem.id] = newValue;
+                }
             }
-        }).mount(div);
+        });
         return div;
     }
 };

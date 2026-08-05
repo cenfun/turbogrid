@@ -46,7 +46,7 @@
         "eslint-config-plus": "^2.0.4",
         "eslint-plugin-vue": "^10.10.0",
         "execa": "^10.0.1",
-        "mocha": "^11.7.6",
+        "mocha": "^11.8.0",
         "monocart-coverage-reports": "^2.12.12",
         "playwright": "^1.62.1",
         "prismjs": "^1.30.0",
@@ -57,7 +57,7 @@
         "vine-ui": "^4.0.0",
         "vite": "^8.2.0",
         "vite-plugin-css-injected-by-js": "^5.0.2",
-        "vue": "^3.5.40",
+        "vue": "^3.5.41",
         "vue-router": "^5.2.0"
     }
 }

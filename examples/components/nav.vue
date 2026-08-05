@@ -88,7 +88,7 @@ const update = () => {
         scrollPaneGradient: true,
         bindWindowResize: true,
         bindContainerResize: true,
-        frozenRow: 1,
+        frozenRow: 0,
         frozenRowHoverable: true,
 
         rowNumberFilter: (rowItem, i) => {

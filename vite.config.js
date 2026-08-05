@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import EC from 'eight-colors';
 
 import cssInjectedByJs from 'vite-plugin-css-injected-by-js';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 import { defineConfig } from 'vite';
 
@@ -138,7 +139,9 @@ export default defineConfig(({ command, mode }) => {
             base: './',
             publicDir: false,
             define,
-            plugins: [vue()],
+            plugins: [vue(), visualizer({
+                filename: '.temp/build-stats.html'
+            })],
             build: {
                 outDir: 'docs',
                 emptyOutDir: true,

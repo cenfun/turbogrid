@@ -50,6 +50,7 @@
         "monocart-coverage-reports": "^2.12.12",
         "playwright": "^1.62.1",
         "prismjs": "^1.30.0",
+        "rollup-plugin-visualizer": "^7.0.1",
         "sass": "^1.102.0",
         "stylelint": "^17.14.1",
         "stylelint-config-plus": "^1.1.6",

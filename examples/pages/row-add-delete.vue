@@ -47,15 +47,13 @@
         test collapsed or flush rows
       </div>
       <div>
-        <div class="flex-column flex-column-5">
-          <div>
-            Event logs <button class="bt-clear">
-              Clear Logs
-            </button>
-          </div>
-          <div class="log-container">
-            <div class="log-content" />
-          </div>
+        <div>
+          Event logs <button class="bt-clear">
+            Clear Logs
+          </button>
+        </div>
+        <div class="log-container">
+          <div class="log-content" />
         </div>
       </div>
     </div>

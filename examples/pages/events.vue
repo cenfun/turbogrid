@@ -12,7 +12,7 @@
         </select>
       </div>
       <div>
-        <div class="flex-column flex-column-5">
+        <div class="events-column">
           <div>
             Bind Events: <button
               title="remove"
@@ -26,7 +26,7 @@
             class="event-list event-list-bind"
           />
         </div>
-        <div class="flex-column flex-column-5">
+        <div class="events-column">
           <div>
             Unbind Events: <button
               title="add"
@@ -40,7 +40,7 @@
             class="event-list event-list-unbind"
           />
         </div>
-        <div class="flex-column flex-column-5">
+        <div class="events-column">
           <div>
             Event logs <button class="bt-clear">
               Clear Logs
@@ -241,4 +241,10 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
+.events-column {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 </style>

@@ -12,7 +12,7 @@
       class="grid-container grid-container-other"
     >
       <div class="tg-turbogrid">
-        <div class="flex-row">
+        <div>
           <div>tree collapsed:</div>
           <div class="tg-cell">
             <div class="tg-tree-icon tg-tree-icon-collapsed" />
@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <div class="flex-row">
+        <div>
           <div>checkbox unselected:</div>
           <div class="tg-cell">
             <div class="tg-checkbox" />
@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <div class="flex-row">
+        <div>
           <div>radio unselected:</div>
           <div class="tg-cell">
             <div class="tg-radio" />
@@ -85,7 +85,7 @@ onMounted(() => {
 
 <style lang="scss">
 .grid-container-other {
-    .flex-row .tg-cell {
+    .tg-cell {
         position: relative;
         width: 30px;
         height: 30px;

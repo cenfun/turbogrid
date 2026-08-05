@@ -41,7 +41,7 @@ const HoverIcon = defineComponent({
     // eslint-disable-next-line vue/require-prop-types
     props: ['value'],
     template: `
-        <div class="hover-icon flex-row flex-row-5" :title="value">
+        <div class="hover-icon" :title="value">
             <div class="icon icon-info"></div>
             <div style="color:red;">{{value}}</div>
         </div>

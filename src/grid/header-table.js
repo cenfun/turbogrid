@@ -1,4 +1,4 @@
-import Icon from '../core/icon.js';
+import { getIcon } from '../core/icons.js';
 import Util from '../core/util.js';
 
 export default {
@@ -179,7 +179,7 @@ export default {
 
         if (this.options.collapseAllVisible) {
 
-            const icon = Icon.getIcon('tree');
+            const icon = getIcon('tree');
             const treeIcon = this.createElement('div', {
                 'class': 'tg-tree-icon tg-tree-icon-all'
             }, icon);
@@ -207,7 +207,7 @@ export default {
     },
 
     createHeaderSelectName: function() {
-        const icon = Icon.getIcon('checkbox');
+        const icon = getIcon('checkbox');
         const attr = {
             'class': 'tg-select-icon-all tg-checkbox'
         };
@@ -235,7 +235,7 @@ export default {
         const attr = {
             'class': 'tg-sort-indicator'
         };
-        const icon = Icon.getIcon('sort-h');
+        const icon = getIcon('sort-h');
         const children = [
             this.createElement('div', {
                 'class': 'tg-sort-indicator-line'
@@ -251,7 +251,7 @@ export default {
         const attr = {
             'class': 'tg-sort-indicator'
         };
-        const icon = Icon.getIcon('sort-v');
+        const icon = getIcon('sort-v');
         const children = [
             this.createElement('div', {
                 'class': 'tg-sort-indicator-icon'

@@ -1,5 +1,5 @@
 import CONST from '../core/const.js';
-import Icon from '../core/icon.js';
+import { getIcon } from '../core/icons.js';
 import Util from '../core/util.js';
 
 import defaultFormatters from '../config/default-formatters.js';
@@ -52,7 +52,7 @@ export default {
             type = 'checkbox';
         }
 
-        const icon = Icon.getIcon(type);
+        const icon = getIcon(type);
 
         const className = Util.classMap(['tg-select-icon', `tg-${type}`, {
             'tg-selected': rowItem.selected
@@ -66,7 +66,7 @@ export default {
             return '';
         }
 
-        const icon = Icon.getIcon('drag');
+        const icon = getIcon('drag');
         return `<div class="tg-row-drag-icon">${icon}</div>`;
     },
 
@@ -116,7 +116,7 @@ export default {
                 'tg-tree-icon-expanded': !isCollapsed,
                 'tg-tree-icon-empty': isEmptyGroup
             };
-            const icon = Icon.getIcon('tree');
+            const icon = getIcon('tree');
             const iconElem = `<div class="${Util.classMap(classMap)}">${icon}</div>`;
             list.push(iconElem);
         }

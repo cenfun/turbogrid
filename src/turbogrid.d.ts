@@ -833,11 +833,15 @@ export declare const CONST: {
 // =============================================================================
 // Icon
 
+export declare const icons: Record<string, string>;
+export declare function getIcon(name: string): string;
+
 export interface Icon {
-    icons: Record<string, string>;
-    getIcon(name: string): string;
+    icons: typeof icons;
+    getIcon: typeof getIcon;
 }
 
+/** @deprecated Prefer the named icons and getIcon exports. */
 export declare const Icon: Icon;
 
 // =============================================================================
@@ -968,6 +972,8 @@ declare const TurboGrid: {
     CONST: typeof CONST;
     EventBase: typeof EventBase;
     Icon: typeof Icon;
+    icons: typeof icons;
+    getIcon: typeof getIcon;
     Motion: typeof Motion;
     ScrollPane: typeof ScrollPane;
     Util: typeof Util;

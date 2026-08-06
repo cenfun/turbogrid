@@ -442,4 +442,35 @@ describe('highlightKeywordsFilter patterns and options', function() {
         const cellNode = grid.getCellNode(grid.getViewRows()[0], 'name');
         assert.equal(cellNode.querySelector('mark').innerText, 'quick');
     });
+
+    it('highlights every text node covered by a cross-node match', async () => {
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }],
+            rows: [{
+                name: '<b>foo</b><span>middle</span><i>bar</i>'
+            }]
+        });
+        Object.assign(grid.options.highlightKeywords, {
+            caseSensitive: false,
+            matchMode: 'and',
+            negatedPrefix: '-'
+        });
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], 'foo*bar');
+            }
+        });
+        grid.render();
+        await delay(100);
+
+        const cellNode = grid.getCellNode(grid.getViewRows()[0], 'name');
+        const marks = cellNode.querySelectorAll('mark');
+        assert.equal(marks.length, 3);
+        assert.equal(marks[0].innerText, 'foo');
+        assert.equal(marks[1].innerText, 'middle');
+        assert.equal(marks[2].innerText, 'bar');
+    });
 });

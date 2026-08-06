@@ -1,6 +1,8 @@
 import Matcher from '../core/matcher.js';
 import Util from '../core/util.js';
 
+const escapeHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 export default {
 
     // only create rows, diff with init columns
@@ -369,29 +371,75 @@ export default {
     highlightTextNodes: function(allTextNodes, patterns) {
 
         const { highlightPre, highlightPost } = this.options.highlightKeywords;
+        const texts = allTextNodes.map((textNode) => textNode.textContent);
+        const fullText = texts.join('');
+        let textOffset = 0;
+        const nodeInfos = allTextNodes.map((textNode, index) => {
+            const text = texts[index];
+            const start = textOffset;
+            textOffset += text.length;
+            return {
+                textNode,
+                text,
+                start,
+                end: textOffset,
+                ranges: []
+            };
+        });
 
-        allTextNodes.forEach((textNode) => {
-            const text = textNode.textContent;
-            const ranges = Matcher.getRanges(text, patterns);
+        const ranges = Matcher.getRanges(fullText, patterns);
+        if (!ranges.length) {
+            return;
+        }
+
+        let previousEnd = 0;
+        let nodeIndex = 0;
+        ranges.forEach((range) => {
+            // Keep the existing overlap behavior: the first (longest) range wins.
+            if (range.start < previousEnd) {
+                return;
+            }
+            previousEnd = range.end;
+
+            while (nodeIndex < nodeInfos.length && nodeInfos[nodeIndex].end <= range.start) {
+                nodeIndex += 1;
+            }
+
+            let currentIndex = nodeIndex;
+            while (currentIndex < nodeInfos.length && nodeInfos[currentIndex].start < range.end) {
+                const nodeInfo = nodeInfos[currentIndex];
+                const start = Math.max(range.start, nodeInfo.start);
+                const end = Math.min(range.end, nodeInfo.end);
+                if (start < end) {
+                    nodeInfo.ranges.push({
+                        start: start - nodeInfo.start,
+                        end: end - nodeInfo.start
+                    });
+                }
+                currentIndex += 1;
+            }
+        });
+        nodeInfos.forEach(({
+            textNode, text, ranges: nodeRanges
+        }) => {
+            if (!nodeRanges.length) {
+                return;
+            }
+
             const list = [];
             let startPos = 0;
-            ranges.forEach((range) => {
-                if (range.start < startPos) {
-                    return;
-                }
-                list.push(text.slice(startPos, range.start));
+            nodeRanges.forEach((range) => {
+                list.push(escapeHtml(text.slice(startPos, range.start)));
                 list.push(highlightPre);
-                list.push(text.slice(range.start, range.end));
+                list.push(escapeHtml(text.slice(range.start, range.end)));
                 list.push(highlightPost);
                 startPos = range.end;
             });
+            list.push(escapeHtml(text.slice(startPos)));
 
-            if (startPos) {
-                list.push(text.slice(startPos));
-                const spanNode = document.createElement('span');
-                spanNode.innerHTML = list.join('');
-                textNode.parentNode.replaceChild(spanNode, textNode);
-            }
+            const spanNode = document.createElement('span');
+            spanNode.innerHTML = list.join('');
+            textNode.parentNode.replaceChild(spanNode, textNode);
         });
 
     },

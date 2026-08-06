@@ -3,6 +3,7 @@
 + 3.4.0
     - reworked `highlightKeywords` matching with `*` wildcards, `\*` literals, the `case:` prefix, `RegExp`, custom matcher functions, negated patterns, and the new `matchMode` and `caseSensitive` options
     - changed multi-pattern matching to allow matches across columns and in any order; `*`, `case:`, and the negated prefix are now interpreted as pattern syntax
+    - fixed and optimized cross-node keyword highlighting by mapping whole-cell match ranges back to covered text nodes with a linear scan
     - simplified package outputs to browser UMD (`dist/turbogrid.js`) and ESM (`dist/turbogrid.esm.js`) builds
     - corrected callback `this` types and expanded `HighlightKeywordPatterns` to include string arrays
 

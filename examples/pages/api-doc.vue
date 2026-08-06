@@ -1072,8 +1072,7 @@
           <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
           <div>
             columns should be a list of column ids. String patterns are split on whitespace before matching; arrays or
-            objects of patterns are also accepted. By default all patterns must match (<code>matchMode = "and"</code>),
-            same as the legacy multi-keyword behavior.
+            objects of patterns are also accepted. By default all patterns must match (<code>matchMode = "and"</code>).
           </div>
           <div>
             Matching, text extraction, caching, and highlight markup can be customized with the <a

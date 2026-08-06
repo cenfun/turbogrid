@@ -10,7 +10,7 @@
             "types": "./dist/turbogrid.d.ts",
             "import": "./dist/turbogrid.esm.js",
             "require": "./dist/turbogrid.js",
-            "default": "./dist/turbogrid.js"
+            "default": "./dist/turbogrid.esm.js"
         },
         "./package.json": "./package.json"
     },

@@ -978,8 +978,10 @@
         <section>
           <a name="highlightKeywordsFilter">highlightKeywordsFilter(rowItem, columns, patterns)</a>
           <div>用于 rowFilter 和 highlightKeywords 的关键字匹配与高亮辅助方法。</div>
-          <div>columns 应为列 id 列表。字符串模式会先按空白字符拆分后再逐个匹配，也支持传入模式数组或对象。默认要求所有模式都匹配
-            （<code>matchMode = "and"</code>），与旧版多关键字行为一致。</div>
+          <div>
+            columns 应为列 id 列表。字符串模式会先按空白字符拆分后再逐个匹配，也支持传入模式数组或对象。
+            默认要求所有模式都匹配（<code>matchMode = "and"</code>）。
+          </div>
           <div>
             匹配方式、文本提取、缓存及高亮标记可通过 <a
               href="#/api-doc-zh?position=options.highlightKeywords"

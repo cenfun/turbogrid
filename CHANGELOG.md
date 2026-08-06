@@ -1,9 +1,10 @@
 # Changelog
 
-+ unreleased
-    - reworked `highlightKeywords` matching: string patterns now support `*` wildcards, `\*` literals, the `case:` prefix, `RegExp` and custom matcher functions, plus `negated` patterns via the `negatedPrefix` option; added `matchMode` and `caseSensitive` options
-    - `highlightKeywords.matchMode` defaults to `"and"` — all positive patterns must match, preserving the legacy multi-keyword behavior of 3.3.5 and earlier; set `matchMode: "or"` for any-pattern matching
-    - (note) matching semantics differ slightly from 3.3.5: patterns may match across different columns and in any order (previously all keywords had to match sequentially within a single cell), and string patterns starting with the `negatedPrefix` or containing `*`/`case:` are now treated as syntax rather than literal text
++ 3.4.0
+    - reworked `highlightKeywords` matching with `*` wildcards, `\*` literals, the `case:` prefix, `RegExp`, custom matcher functions, negated patterns, and the new `matchMode` and `caseSensitive` options
+    - changed multi-pattern matching to allow matches across columns and in any order; `*`, `case:`, and the negated prefix are now interpreted as pattern syntax
+    - simplified package outputs to browser UMD (`dist/turbogrid.js`) and ESM (`dist/turbogrid.esm.js`) builds
+    - corrected callback `this` types and expanded `HighlightKeywordPatterns` to include string arrays
 
 + 3.3.5
     - added `initWidth` column property for autoColumnWidth: supports numeric or function-returned initial widths while still participating in `widthWeight` distribution

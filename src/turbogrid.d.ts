@@ -3,7 +3,7 @@
 
 export type StyleMap = string | string[] | Record<string, boolean | string | number>;
 export type ClassMap = string | string[] | Record<string, boolean>;
-export type SortField = string | ((sortOptions: any) => string | null | undefined);
+export type SortField = string | ((this: Grid, sortOptions: any) => string | null | undefined);
 
 // =============================================================================
 // Column
@@ -30,7 +30,7 @@ export interface ColumnItem {
     /** Fixed width value. Columns with width are excluded from autoColumnWidth and are not affected by widthWeight distribution. */
     width?: number;
     /** Initial/base width. Can be a number or a callback returning a number; participates in autoColumnWidth and can be distributed by widthWeight. */
-    initWidth?: number | ((columnItem: ColumnItem) => number | null | undefined);
+    initWidth?: number | ((this: Grid, columnItem: ColumnItem) => number | null | undefined);
     /** Weight for autoColumnWidth distribution. Defaults to 1 if not set. 0.5 gets half, 2 gets double the proportional share */
     widthWeight?: number;
     minWidth?: number;
@@ -191,6 +191,7 @@ export interface HighlightKeywords {
 
 /** Returns the matched substring to filter and highlight, or an empty string when unmatched */
 export type HighlightKeywordMatcher = (
+    this: Grid,
     text: string,
     rowItem: RowItem,
     columnItem: ColumnItem
@@ -205,7 +206,8 @@ export interface HighlightKeywordPattern {
     negated?: boolean;
 }
 
-export type HighlightKeywordPatterns = string | HighlightKeywordPattern | HighlightKeywordPattern[];
+export type HighlightKeyword = string | HighlightKeywordPattern;
+export type HighlightKeywordPatterns = HighlightKeyword | HighlightKeyword[];
 
 // =============================================================================
 // Render
@@ -254,7 +256,7 @@ export interface GridOptions {
     /** Optionally sorts filtered matches */
     rowFilteredSort?: string | RowItem | (() => string | RowItem | null) | null;
     /** Empty-state content when no rows match. Accepts string, element, or factory function */
-    rowNotFound?: string | HTMLElement | ((info: any) => string | HTMLElement);
+    rowNotFound?: string | HTMLElement | ((this: Grid, info: any) => string | HTMLElement);
     /** Whether move APIs can move rows across hierarchy levels (default: true) */
     rowMoveCrossLevel?: boolean;
     /** Extra rows rendered outside the viewport as cache (default: 0) */

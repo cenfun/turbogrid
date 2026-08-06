@@ -83,6 +83,17 @@ function testSpecsPlugin() {
 }
 
 
+function rawNewlinePlugin() {
+    return {
+        name: 'raw-newline',
+        transform(code, id) {
+            if (id.includes('?raw')) {
+                return code.replace(/\\r|\\n/g, '');
+            }
+        }
+    };
+}
+
 function buildEndPlugin() {
     return {
         name: 'build-end',
@@ -196,7 +207,7 @@ export default defineConfig(({ command, mode }) => {
     return {
         root: '.',
         plugins: [
-            // vue(),
+            rawNewlinePlugin(),
             cssInjectedByJs(),
             buildEndPlugin()
         ],

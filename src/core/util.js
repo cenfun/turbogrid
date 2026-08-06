@@ -376,6 +376,16 @@ const Util = {
         }
     },
 
+    getContainerInstance: function() {
+        return gridInstanceMap.get(this);
+    },
+
+    deleteInstance: function(container) {
+        if (container) {
+            gridInstanceMap.delete(container);
+        }
+    },
+
     bindEvents: function(events, target) {
         if (!events) {
             return;

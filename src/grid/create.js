@@ -84,6 +84,11 @@ export default {
         // cache instance for automation test
         this.container = this.$container.get(0);
         Util.setInstance(this.container, this);
+        Object.defineProperty(this.container, 'getInstance', {
+            configurable: true,
+            enumerable: false,
+            value: Util.getContainerInstance
+        });
 
         // ===============================================================
 

@@ -42,11 +42,13 @@ describe('Instance', function() {
         assert(id);
 
         assert.equal(Grid.getInstance(id), grid);
+        assert.equal(elem.getInstance(), grid);
 
         grid.destroy();
         container.remove();
 
         assert(!Grid.getInstance(id));
+        assert(!elem.getInstance());
 
     });
 

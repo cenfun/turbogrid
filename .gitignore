@@ -9,3 +9,4 @@ server/package-lock.json
 /.claude
 /.codegraph
 /.mcp.json
+/nul

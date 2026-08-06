@@ -100,6 +100,7 @@ export default {
         this.removeScrollPane();
 
         // remove inner container
+        Util.deleteInstance(this.container);
         this.container = null;
         if (this.$container) {
             this.$container.remove();

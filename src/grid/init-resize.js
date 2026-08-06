@@ -22,6 +22,7 @@ export default {
 
     unbindWindowResize: function() {
         Util.unbindEvents(this.windowResizeEvents);
+        this.windowResizeEvents = null;
     },
 
     // =============================================================================

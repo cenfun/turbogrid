@@ -136,13 +136,13 @@ export default {
             return;
         }
         if (typeof formatter === 'function') {
-            row.tg_formatter = formatter.bind(this);
+            row.tg_formatter = formatter;
             return;
         }
 
         // default string formatter is not required
-        formatter = this.getFormatter(formatter);
-        if (formatter) {
+        formatter = this.formatters[formatter];
+        if (typeof formatter === 'function') {
             row.tg_formatter = formatter;
         }
 

@@ -551,6 +551,12 @@ export default class Scrollbar extends EventBase {
 
     destroy() {
         this.remove();
+        this.unbind();
+        this.delEventListeners();
+        this.$holder = null;
+        this.scrollEvents = null;
+        this.trackEvents = null;
+        this.options = null;
         return this;
     }
 

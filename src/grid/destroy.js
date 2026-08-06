@@ -6,6 +6,8 @@ export default {
     // for reset all
     reset: function() {
 
+        this.autoScrollStop();
+
         this.firstUpdated = false;
         this.headerCreated = false;
 
@@ -125,6 +127,14 @@ export default {
         this.options = null;
         this.formatters = null;
         this.data = null;
+        this.constructorOptions = null;
+        this.customOptions = null;
+        this.dataOptions = null;
+        this.customFormatters = null;
+        this.renderSettings = null;
+        this.viewport = null;
+        this.shadowRoot = null;
+        this.windowResizeEvents = null;
 
     }
 

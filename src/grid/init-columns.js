@@ -227,19 +227,18 @@ export default {
         let formatter = columnItem[key];
         // already is function
         if (typeof formatter === 'function') {
-            columnItem[`tg_${key}`] = formatter.bind(this);
+            columnItem[`tg_${key}`] = formatter;
             return;
         }
 
-        formatter = this.getFormatter(formatterName);
-        if (formatter) {
-            // already bind this
+        formatter = this.formatters[formatterName];
+        if (typeof formatter === 'function') {
             columnItem[`tg_${key}`] = formatter;
             return;
         }
 
         // default string formatter
-        columnItem[`tg_${key}`] = this.getFormatter('string');
+        columnItem[`tg_${key}`] = this.formatters.string;
 
     },
 

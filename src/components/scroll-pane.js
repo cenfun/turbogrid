@@ -580,6 +580,8 @@ export default class ScrollPane extends EventBase {
         this.groupH = null;
         this.groupV = null;
         Util.cancelAsync(this);
+        this.unbind();
+        this.delEventListeners();
         if (this.scrollbarV) {
             this.scrollbarV.destroy();
             this.scrollbarV = null;
@@ -591,6 +593,7 @@ export default class ScrollPane extends EventBase {
         this.$container = null;
         this.$scrollView = null;
         this.$scrollBody = null;
+        this.options = null;
         return this;
     }
 

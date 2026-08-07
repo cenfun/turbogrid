@@ -10,10 +10,12 @@ import {
     watch
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Grid } from '../../src/index.js';
+import { Grid, TAG } from '../../src/index.js';
 import { getExampleList } from '../global.js';
 
 import DocIcon from '../assets/images/double-right.svg?raw';
+
+console.log('TAG', TAG);
 
 const navGridEl = ref(null);
 const route = useRoute();

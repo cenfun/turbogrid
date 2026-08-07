@@ -7,6 +7,10 @@ export default {
     // eslint-disable-next-line complexity
     addRow: function(rowInfo, parent, position, scrollTo = true) {
 
+        if (this.destroyed) {
+            return;
+        }
+
         const rowList = this.getToBeAddedItemList(rowInfo);
         if (!rowList.length) {
             return false;

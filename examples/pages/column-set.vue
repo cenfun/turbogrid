@@ -5,14 +5,21 @@
         <div class="controller-title">
           Grid Column Set Example:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-10x10</option>
           <option>random-10x2k</option>
         </select>
       </div>
       <div>
-        <button class="bt-set">
+        <button
+          class="bt-set"
+          @click="showPopover"
+        >
           <div class="icon icon-setting" />
           Column Set
         </button>
@@ -40,6 +47,44 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 const popoverApp = ref(null);
+const dataStr = ref('sample-data');
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 0
+    };
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    const d = sampleData();
+    renderData(d);
+};
+
+const state = reactive({
+    visible: false,
+    target: null,
+    list: null
+});
+
+const showPopover = (e) => {
+    if (state.visible) {
+        state.visible = false;
+        return;
+    }
+    state.visible = true;
+    state.target = e.currentTarget;
+    state.list = grid.value.exportData().columns;
+};
 
 onMounted(() => {
     init();
@@ -47,48 +92,6 @@ onMounted(() => {
 
     grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = (data) => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 0
-        };
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-        const d = sampleData();
-        renderData(d);
-    };
-
-    const state = reactive({
-        visible: false,
-        target: null,
-        list: null
-    });
-
-    const showPopover = (e) => {
-        if (state.visible) {
-            state.visible = false;
-            return;
-        }
-        state.visible = true;
-        state.target = e.currentTarget;
-        state.list = grid.value.exportData().columns;
-    };
-
-    document.querySelector('.bt-set').addEventListener('click', function(e) {
-        showPopover(e);
     });
 
     popoverApp.value = mount(ColumnSetPopover, {
@@ -105,12 +108,6 @@ onMounted(() => {
                 grid.value.render();
             }
         }
-    });
-
-    ['.st-data'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

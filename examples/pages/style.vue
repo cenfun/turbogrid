@@ -5,7 +5,11 @@
         <div class="controller-title">
           Customize column/row CSS style:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>random-10x100</option>
           <option>random-100x2k</option>
         </select>
@@ -47,10 +51,16 @@
       </div>
 
       <div>
-        <button class="setErrorRow">
+        <button
+          class="setErrorRow"
+          @click="setErrorRow"
+        >
           setErrorRow
         </button>
-        <button class="clearErrorRow">
+        <button
+          class="clearErrorRow"
+          @click="clearErrorRow"
+        >
           clearErrorRow
         </button>
       </div>
@@ -75,6 +85,83 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('random-10x100');
+
+const renderData = function(data) {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme || 'default',
+        frozenColumn: 0,
+        frozenRow: 1
+    });
+
+    data.rows[2].styleMap = {
+        'font-weight': 'bold'
+    };
+
+    data.rows[3].classMap = 'row-class';
+
+    data.rows[4].styleMap = 'background:#ddd;';
+
+    data.rows[5].c3ClassMap = 'cell-class';
+
+    data.rows[5].c4StyleMap = 'color:red;';
+
+    const c1 = data.columns[1];
+    if (c1) {
+        c1.styleMap = {
+            'background': '#ddd'
+        };
+    }
+
+    data.rows[5].c1StyleMap = 'background:#666;color:#fff;';
+
+    const c2 = data.columns[2];
+    if (c2) {
+        c2.headerClassMap = 'header-class';
+        c2.classMap = 'column-class';
+    }
+
+    const c4 = data.columns[4];
+    if (c4 && !c4.subs) {
+        c4.headerClassMap = 'header-class';
+        c4.classMap = 'column-class';
+    }
+
+    const c6 = data.columns[6];
+    if (c6 && !c6.subs) {
+        c6.headerClassMap = 'header-class';
+        c6.classMap = 'column-class';
+    }
+
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+function render() {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+}
+
+const setErrorRow = function() {
+    const rowIndex = 1;
+    const row = grid.value.getRowItem(rowIndex);
+    row.classMap = 'red-row';
+    grid.value.flushRow(rowIndex);
+    grid.value.render();
+    console.log('setErrorRow');
+};
+
+const clearErrorRow = function() {
+    const rowIndex = 1;
+    const row = grid.value.getRowItem(rowIndex);
+    row.classMap = '';
+    grid.value.flushRow(rowIndex);
+    grid.value.render();
+};
 
 onMounted(() => {
     init();
@@ -83,94 +170,6 @@ onMounted(() => {
 
     g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = function(data) {
-        g.setOption({
-            bindWindowResize: true,
-            theme: route.query.theme || 'default',
-            frozenColumn: 0,
-            frozenRow: 1
-        });
-
-        data.rows[2].styleMap = {
-            'font-weight': 'bold'
-        };
-
-        data.rows[3].classMap = 'row-class';
-
-        data.rows[4].styleMap = 'background:#ddd;';
-
-        data.rows[5].c3ClassMap = 'cell-class';
-
-        data.rows[5].c4StyleMap = 'color:red;';
-
-        const c1 = data.columns[1];
-        if (c1) {
-            c1.styleMap = {
-                'background': '#ddd'
-            };
-        }
-
-        data.rows[5].c1StyleMap = 'background:#666;color:#fff;';
-
-        const c2 = data.columns[2];
-        if (c2) {
-            c2.headerClassMap = 'header-class';
-            c2.classMap = 'column-class';
-        }
-
-        const c4 = data.columns[4];
-        if (c4 && !c4.subs) {
-            c4.headerClassMap = 'header-class';
-            c4.classMap = 'column-class';
-        }
-
-        const c6 = data.columns[6];
-        if (c6 && !c6.subs) {
-            c6.headerClassMap = 'header-class';
-            c6.classMap = 'column-class';
-        }
-
-        g.setData(data);
-        g.render();
-    };
-
-    function render() {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    }
-
-    document.querySelector('.setErrorRow').addEventListener('click', function() {
-        const rowIndex = 1;
-        const row = g.getRowItem(rowIndex);
-        row.classMap = 'red-row';
-        g.flushRow(rowIndex);
-        g.render();
-        console.log('setErrorRow');
-    });
-
-    document.querySelector('.clearErrorRow').addEventListener('click', function() {
-        const rowIndex = 1;
-        const row = g.getRowItem(rowIndex);
-        row.classMap = '';
-        g.flushRow(rowIndex);
-        g.render();
-    });
-
-    ['.st-data'].forEach(function(item) {
-        const el = document.querySelector(item);
-        if (el) {
-            el.addEventListener('change', function() {
-                render();
-            });
-        }
     });
 
     initCommonEvents(g);

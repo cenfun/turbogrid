@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid Touch:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option />
           <option>random-1x3</option>
           <option>random-1x30</option>
@@ -17,13 +21,16 @@
       <div>
         <label>
           <input
+            v-model="autoHeight"
             type="checkbox"
             class="cb_autoHeight"
+            @change="render"
           >
           autoHeight
         </label>
         <label>
           <input
+            v-model="preventDefault"
             type="checkbox"
             class="cb_preventDefault"
           >
@@ -32,12 +39,21 @@
       </div>
     </div>
     <div class="something-up">
-      <div class="output" />
+      <div
+        ref="output"
+        class="output"
+      />
       <div>
-        <button class="bt-outputHeightMinus">
+        <button
+          class="bt-outputHeightMinus"
+          @click="outputHeightMinus"
+        >
           -
         </button>
-        <button class="bt-outputHeightPlus">
+        <button
+          class="bt-outputHeightPlus"
+          @click="outputHeightPlus"
+        >
           +
         </button>
       </div>
@@ -65,15 +81,59 @@ const route = useRoute();
 
 const grid = ref(null);
 const gridContainer = ref(null);
+const dataStr = ref('');
+const autoHeight = ref(false);
+const preventDefault = ref(false);
+const output = ref(null);
 
+const renderData = (data) => {
+    if (!autoHeight.value) {
+        gridContainer.value.style.height = '500px';
+    }
+
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 0,
+        frozenRow: 0,
+        scrollbarSize: 10,
+        autoHeight: autoHeight.value
+    };
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const outputHeightMinus = () => {
+    output.value.style.height = `${output.value.clientHeight - 100}px`;
+    grid.value.resize();
+};
+
+const outputHeightPlus = () => {
+    output.value.style.height = `${output.value.clientHeight + 100}px`;
+    grid.value.resize();
+};
 
 onMounted(() => {
     init();
-    const $output = document.querySelector('.output');
     const log = console.log;
     let line = 0;
     console.log = function() {
         log.apply(null, arguments);
+
+        if (!output.value) {
+            return;
+        }
+
         const arr = [];
         for (let i = 0, l = arguments.length; i < l; i++) {
             arr.push(arguments[i]);
@@ -83,14 +143,13 @@ onMounted(() => {
         const item = document.createElement('div');
         item.innerText = `${line}, ${str}`;
 
-        $output.appendChild(item);
-        $output.scrollTop = $output.scrollHeight;
+        output.value.appendChild(item);
+        output.value.scrollTop = output.value.scrollHeight;
 
         line += 1;
     };
 
-    const container = gridContainer.value;
-    const g = new Grid(container);
+    const g = new Grid(gridContainer.value);
     grid.value = g;
 
     g.bind('onFirstUpdated', function() {
@@ -107,8 +166,7 @@ onMounted(() => {
     });
 
     g.bind('onTouchStart', function(e, d) {
-        const preventDefault = document.querySelector('.cb_preventDefault').checked;
-        if (preventDefault) {
+        if (preventDefault.value) {
             d.e.preventDefault();
         }
 
@@ -133,52 +191,6 @@ onMounted(() => {
             info = `row:${d.rowItem.tg_index}, column:${d.columnItem.tg_index}`;
         }
         console.log('onTouchEnd', info);
-    });
-
-    const renderData = (data) => {
-        const autoHeight = document.querySelector('.cb_autoHeight').checked;
-        if (!autoHeight) {
-            container.style.height = '500px';
-        }
-
-        const options = {
-
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 0,
-            frozenRow: 0,
-            scrollbarSize: 10,
-            autoHeight
-        };
-        g.setOption(options);
-        g.setData(data);
-        g.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-        renderData(sampleData());
-    };
-
-    document.querySelector('.bt-outputHeightMinus').addEventListener('click', function() {
-        $output.style.height = `${$output.clientHeight - 100}px`;
-        g.resize();
-    });
-
-    document.querySelector('.bt-outputHeightPlus').addEventListener('click', function() {
-        $output.style.height = `${$output.clientHeight + 100}px`;
-        g.resize();
-    });
-
-    ['.st-data', '.cb_autoHeight'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(g);

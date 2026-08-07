@@ -5,7 +5,11 @@
         <div class="controller-title">
           autoColumnWidth:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>init-width-data</option>
           <option>auto-width-data</option>
         </select>
@@ -13,233 +17,253 @@
       <div>
         <label>
           <input
+            v-model="autoColumnWidth"
             type="checkbox"
             class="cb-auto"
-            checked
+            @change="render"
           >
           autoColumnWidth
         </label>
         <label>
           frozenColumn
           <input
+            v-model.number="frozenColumn"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="-1"
             class="ip-number ip_frozenColumn"
+            @change="render"
           >
         </label>
         <label>
           <input
+            v-model="frozenRight"
             type="checkbox"
             class="cb_frozenRight"
+            @change="render"
           >
           frozenRight
         </label>
       </div>
       <div>
-        <button class="bt-small">
+        <button
+          class="bt-small"
+          @click="setContainerWidth('520px')"
+        >
           container 520px
         </button>
-        <button class="bt-medium">
+        <button
+          class="bt-medium"
+          @click="setContainerWidth('760px')"
+        >
           container 760px
         </button>
-        <button class="bt-large">
+        <button
+          class="bt-large"
+          @click="setContainerWidth('1000px')"
+        >
           container 1000px
         </button>
-        <button class="bt-reset">
+        <button
+          class="bt-reset"
+          @click="resetWidth"
+        >
           reset width
         </button>
-        <button class="bt-update">
+        <button
+          class="bt-update"
+          @click="updateGrid"
+        >
           update()
         </button>
-        <button class="bt-rerender">
+        <button
+          class="bt-rerender"
+          @click="rerenderGrid"
+        >
           rerender()
         </button>
       </div>
       <div>
         <code>width</code> is a fixed value: excluded from <code>autoColumnWidth</code> and not affected by <code>widthWeight</code>. <code>initWidth</code> is an initial width: number or callback, participates in <code>autoColumnWidth</code>, and supports <code>widthWeight</code> distribution.
       </div>
-      <div class="status" />
+      <div
+        ref="status"
+        class="status"
+        v-html="statusHtml"
+      />
     </div>
-    <div class="grid-container grid-container-auto-column-width" />
+    <div
+      ref="gridContainer"
+      class="grid-container grid-container-auto-column-width"
+    />
   </div>
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount } from 'vue';
+import {
+    onMounted, onBeforeUnmount, ref
+} from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { init, initCommonEvents } from '../global.js';
 
 const route = useRoute();
-let grid;
+const grid = ref(null);
+const gridContainer = ref(null);
+const status = ref(null);
+const dataStr = ref('init-width-data');
+const autoColumnWidth = ref(true);
+const frozenColumn = ref(-1);
+const frozenRight = ref(false);
+const statusHtml = ref('');
+
+const setContainerWidth = (width) => {
+    gridContainer.value.style.width = width;
+    grid.value.resize();
+};
+
+const resetWidth = () => {
+    gridContainer.value.style.width = '';
+    grid.value.resize();
+};
+
+const updateGrid = () => {
+    grid.value.update();
+};
+
+const rerenderGrid = () => {
+    grid.value.rerender();
+};
+
+const initWidthData = {
+    columns: [{
+        id: 'fixed',
+        name: 'Fixed width 120',
+        width: 120
+    }, {
+        id: 'default',
+        name: 'Default auto width'
+    }, {
+        id: 'initNumber',
+        name: 'initWidth 160',
+        initWidth: 160
+    }, {
+        id: 'initFunction',
+        name: 'initWidth function',
+        initWidth: function(columnItem) {
+            return columnItem.name.length * 9;
+        }
+    }, {
+        id: 'weighted',
+        name: 'initWidth 100 + weight 2',
+        initWidth: 100,
+        widthWeight: 2
+    }],
+    rows: [{
+        fixed: 'Fixed column',
+        default: 'Base width is calculated by header text',
+        initNumber: 'Base width comes from initWidth number',
+        initFunction: 'Base width comes from initWidth function',
+        weighted: 'Gets a larger proportional share'
+    }, {
+        fixed: '120px',
+        default: 'auto',
+        initNumber: '160px base',
+        initFunction: 'function base',
+        weighted: 'weight 2'
+    }]
+};
+
+const autoWidthData = {
+    columns: [{
+        name: 'width 100',
+        width: 100
+    }, {
+        name: 'default width'
+    }, {
+        name: 'widthWeight 2',
+        widthWeight: 2
+    }, {
+        name: 'widthWeight 0.5',
+        widthWeight: 0.5
+    }, {
+        name: 'group width',
+        subs: [{
+            name: 'widthWeight 1.5',
+            widthWeight: 1.5
+        }, {
+            name: 'sub 2'
+        }]
+    }, {
+        name: '50',
+        width: 50
+    }, {
+        name: 'end column'
+    }],
+    rows: [{
+        name: 'Row 1'
+    }, {
+        name: 'Row 2'
+    }, {
+        name: 'Row 3'
+    }, {
+        name: 'Row 4'
+    }, {
+        name: 'Row 5'
+    }]
+};
+
+const cloneData = function(data) {
+    return {
+        columns: data.columns.slice(),
+        rows: data.rows.slice()
+    };
+};
+
+const getData = function() {
+    if (dataStr.value === 'auto-width-data') {
+        return cloneData(autoWidthData);
+    }
+    return cloneData(initWidthData);
+};
+
+const updateStatus = function() {
+    const html = grid.value.getViewColumns().slice(0, -1).map(function(columnItem) {
+        const name = columnItem.id || columnItem.name || columnItem.tg_view_index;
+        return `<span>${name}: ${columnItem.tg_width}px</span>`;
+    }).join('');
+    statusHtml.value = html;
+};
+
+const render = function() {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme,
+        autoColumnWidth: autoColumnWidth.value,
+        frozenColumn: frozenColumn.value,
+        frozenRight: frozenRight.value,
+        bindContainerResize: true
+    });
+    grid.value.setData(getData());
+    grid.value.render();
+};
 
 onMounted(() => {
     init();
 
-    const container = document.querySelector('.grid-container');
-    const status = document.querySelector('.status');
-    grid = new Grid(container);
+    grid.value = new Grid(gridContainer.value);
 
-    const initWidthData = {
-        columns: [{
-            id: 'fixed',
-            name: 'Fixed width 120',
-            width: 120
-        }, {
-            id: 'default',
-            name: 'Default auto width'
-        }, {
-            id: 'initNumber',
-            name: 'initWidth 160',
-            initWidth: 160
-        }, {
-            id: 'initFunction',
-            name: 'initWidth function',
-            initWidth: function(columnItem) {
-                return columnItem.name.length * 9;
-            }
-        }, {
-            id: 'weighted',
-            name: 'initWidth 100 + weight 2',
-            initWidth: 100,
-            widthWeight: 2
-        }],
-        rows: [{
-            fixed: 'Fixed column',
-            default: 'Base width is calculated by header text',
-            initNumber: 'Base width comes from initWidth number',
-            initFunction: 'Base width comes from initWidth function',
-            weighted: 'Gets a larger proportional share'
-        }, {
-            fixed: '120px',
-            default: 'auto',
-            initNumber: '160px base',
-            initFunction: 'function base',
-            weighted: 'weight 2'
-        }]
-    };
-
-    const autoWidthData = {
-        columns: [{
-            name: 'width 100',
-            width: 100
-        }, {
-            name: 'default width'
-        }, {
-            name: 'widthWeight 2',
-            widthWeight: 2
-        }, {
-            name: 'widthWeight 0.5',
-            widthWeight: 0.5
-        }, {
-            name: 'group width',
-            subs: [{
-                name: 'widthWeight 1.5',
-                widthWeight: 1.5
-            }, {
-                name: 'sub 2'
-            }]
-        }, {
-            name: '50',
-            width: 50
-        }, {
-            name: 'end column'
-        }],
-        rows: [{
-            name: 'Row 1'
-        }, {
-            name: 'Row 2'
-        }, {
-            name: 'Row 3'
-        }, {
-            name: 'Row 4'
-        }, {
-            name: 'Row 5'
-        }]
-    };
-
-    const cloneData = function(data) {
-        return {
-            columns: data.columns.slice(),
-            rows: data.rows.slice()
-        };
-    };
-
-    const getData = function() {
-        if (document.querySelector('.st-data').value === 'auto-width-data') {
-            return cloneData(autoWidthData);
-        }
-        return cloneData(initWidthData);
-    };
-
-    const updateStatus = function() {
-        const html = grid.getViewColumns().slice(0, -1).map(function(columnItem) {
-            const name = columnItem.id || columnItem.name || columnItem.tg_view_index;
-            return `<span>${name}: ${columnItem.tg_width}px</span>`;
-        }).join('');
-        status.innerHTML = html;
-    };
-
-    const render = function() {
-        grid.setOption({
-            bindWindowResize: true,
-            theme: route.query.theme,
-            autoColumnWidth: document.querySelector('.cb-auto').checked,
-            frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
-            frozenRight: document.querySelector('.cb_frozenRight').checked,
-            bindContainerResize: true
-        });
-        grid.setData(getData());
-        grid.render();
-    };
-
-    grid.bind('onUpdated onLayout onResize', updateStatus);
-
-    ['.st-data', '.cb-auto', '.ip_frozenColumn', '.cb_frozenRight'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
-
-    document.querySelector('.bt-small').addEventListener('click', function() {
-        container.style.width = '520px';
-        grid.resize();
-    });
-
-    document.querySelector('.bt-medium').addEventListener('click', function() {
-        container.style.width = '760px';
-        grid.resize();
-    });
-
-    document.querySelector('.bt-large').addEventListener('click', function() {
-        container.style.width = '1000px';
-        grid.resize();
-    });
-
-    document.querySelector('.bt-reset').addEventListener('click', function() {
-        container.style.width = '';
-        grid.resize();
-    });
-
-    document.querySelector('.bt-update').addEventListener('click', function() {
-        grid.update();
-    });
-
-    document.querySelector('.bt-rerender').addEventListener('click', function() {
-        grid.rerender();
-    });
+    grid.value.bind('onUpdated onLayout onResize', updateStatus);
 
     render();
     window.formatCodes?.();
-    initCommonEvents(grid);
+    initCommonEvents(grid.value);
 });
 
 onBeforeUnmount(() => {
-    if (grid) {
-        grid.destroy();
+    if (grid.value) {
+        grid.value.destroy();
     }
 });
 </script>

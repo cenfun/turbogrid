@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid Events Example:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x20k</option>
@@ -17,47 +21,67 @@
             Bind Events: <button
               title="remove"
               class="bt-event-remove"
+              @click="removeEvents"
             >
               &gt;&gt;
             </button>
           </div>
           <select
+            v-model="bindSelected"
             multiple="multiple"
             class="event-list event-list-bind"
-          />
+            @dblclick="removeEvents"
+          >
+            <option
+              v-for="type in bindList"
+              :key="type"
+              :value="type"
+            >
+              {{ type }}
+            </option>
+          </select>
         </div>
         <div class="events-column">
           <div>
             Unbind Events: <button
               title="add"
               class="bt-event-add"
+              @click="addEvents"
             >
               &lt;&lt;
             </button>
           </div>
           <select
+            v-model="unbindSelected"
             multiple="multiple"
             class="event-list event-list-unbind"
-          />
+            @dblclick="addEvents"
+          >
+            <option
+              v-for="type in unbindList"
+              :key="type"
+              :value="type"
+            >
+              {{ type }}
+            </option>
+          </select>
         </div>
         <div class="events-column">
           <div>
-            Event logs <button class="bt-clear">
+            Event logs <button
+              class="bt-clear"
+              @click="clearLogs"
+            >
               Clear Logs
             </button>
           </div>
           <div class="log-container">
-            <div class="log-content" />
+            <div
+              ref="logContent"
+              class="log-content"
+            />
           </div>
         </div>
-      </div>
-      <div>
-        <button>render()</button>
-        <button>rerender()</button>
-        <button>addRow({"id":"id1","name":"Row"})</button>
-        <button>deleteRow("id1")</button>
-        <button>showMask()</button>
-        <button>hideMask()</button>
       </div>
     </div>
     <div
@@ -82,6 +106,79 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-data');
+const logContent = ref(null);
+const bindList = ref([]);
+const unbindList = ref([]);
+const bindSelected = ref([]);
+const unbindSelected = ref([]);
+
+const currentBind = {
+    onScroll: true,
+    onSort: true,
+    onClick: true,
+    onUpdated: true,
+    onFirstUpdated: true,
+    onSelectChanged: true
+};
+
+const bindEvents = function() {
+    grid.value.unbind('.tge');
+    bindList.value.forEach(function(type) {
+        grid.value.bind(`${type}.tge`, function(e, d) {
+            appendLog(type, d);
+        });
+    });
+};
+
+const drawEventList = function() {
+    const events = grid.value.getAllEvents();
+    console.log(events);
+    bindList.value = events.filter((type) => currentBind[type]);
+    unbindList.value = events.filter((type) => !currentBind[type]);
+    bindEvents();
+};
+
+const toggleBind = function(list, toBind) {
+    list.value.forEach((k) => {
+        currentBind[k] = toBind;
+    });
+    drawEventList();
+};
+
+const addEvents = () => {
+    toggleBind(unbindSelected, true);
+};
+
+const removeEvents = () => {
+    toggleBind(bindSelected, false);
+};
+
+const clearLogs = () => {
+    logContent.value.innerHTML = '';
+};
+
+const renderData = function(data) {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme || 'default',
+        selectVisible: true,
+        frozenColumn: 0,
+        frozenRow: 1
+    });
+
+    data.columns[0].type = 'tree';
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+function render() {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+}
 
 onMounted(() => {
     init();
@@ -91,135 +188,9 @@ onMounted(() => {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    const bindEvents = function() {
-        grid.value.unbind('.tge');
-        const es = [];
-        const types = document.querySelector('.event-list-bind').querySelectorAll('option');
-        for (let i = 0; i < types.length; i++) {
-            es.push(types[i].innerHTML);
-        }
-
-        es.forEach(function(type) {
-            grid.value.bind(`${type}.tge`, function(e, d) {
-                appendLog(type, d);
-            });
-        });
-    };
-
-    const currentBind = {
-        onScroll: true,
-        onSort: true,
-        onClick: true,
-        onUpdated: true,
-        onFirstUpdated: true,
-        onSelectChanged: true
-    };
-
-    const event_list_bind = document.querySelector('.event-list-bind');
-    const event_list_unbind = document.querySelector('.event-list-unbind');
-
-    const drawEventList = function() {
-
-        event_list_bind.innerHTML = '';
-        event_list_unbind.innerHTML = '';
-
-        const events = grid.value.getAllEvents();
-        console.log(events);
-        events.forEach(function(type, i) {
-            const item = document.createElement('option');
-            item.innerHTML = type;
-            if (currentBind[type]) {
-                event_list_bind.appendChild(item);
-            } else {
-                event_list_unbind.appendChild(item);
-            }
-        });
-
-        bindEvents();
-    };
+    initCommonEvents(grid.value);
 
     drawEventList();
-
-    const getValues = function(select) {
-        const list = [];
-        const options = select.querySelectorAll('option');
-        for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-            if (option.selected) {
-                list.push(option.innerHTML);
-            }
-        }
-        return list;
-    };
-
-    event_list_bind.addEventListener('dblclick', function() {
-        getValues(this).forEach(function(k) {
-            currentBind[k] = false;
-        });
-        drawEventList();
-    });
-    event_list_unbind.addEventListener('dblclick', function() {
-        getValues(this).forEach(function(k) {
-            currentBind[k] = true;
-        });
-        drawEventList();
-    });
-
-    document.querySelector('.bt-event-add').addEventListener('click', function() {
-        getValues(event_list_unbind).forEach(function(k) {
-            currentBind[k] = true;
-        });
-        drawEventList();
-    });
-
-    document.querySelector('.bt-event-remove').addEventListener('click', function() {
-        getValues(event_list_bind).forEach(function(k) {
-            currentBind[k] = false;
-        });
-        drawEventList();
-    });
-
-    document.querySelector('.bt-clear').addEventListener('click', function() {
-        document.querySelector('.log-content').innerHTML = '';
-    });
-
-    const renderData = function(data) {
-
-        grid.value.setOption({
-
-            bindWindowResize: true,
-            theme: route.query.theme || 'default',
-            selectVisible: true,
-            frozenColumn: 0,
-            frozenRow: 1
-        });
-
-        data.columns[0].type = 'tree';
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    function render() {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    }
-
-    ['.st-data'].forEach(function(item) {
-        const el = document.querySelector(item);
-        if (el) {
-            el.addEventListener('change', function() {
-                render();
-            });
-        }
-    });
-
-    initCommonEvents(grid.value);
 
     render();
 });
@@ -231,12 +202,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style lang="scss">
-.events-column {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-</style>

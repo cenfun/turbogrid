@@ -49,12 +49,6 @@ onMounted(() => {
         grid.value.render();
     };
 
-    [].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
-
     const loadAgain = function() {
         Array.from(document.querySelectorAll('script')).forEach(function(elem) {
             const src = elem.getAttribute('src');

@@ -9,11 +9,17 @@
       <div>
         <div class="tg-form">
           options:
-          <textarea class="tg-textarea tg_options" />
+          <textarea
+            v-model="optionsText"
+            class="tg-textarea tg_options"
+          />
         </div>
         <div class="tg-form">
           data:
-          <textarea class="tg-textarea tg_data" />
+          <textarea
+            v-model="dataText"
+            class="tg-textarea tg_data"
+          />
         </div>
       </div>
       <div>
@@ -21,6 +27,7 @@
           type="button"
           class="bt-render"
           value="render()"
+          @click="render"
         >
       </div>
     </div>
@@ -43,6 +50,18 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const optionsText = ref('');
+const dataText = ref('');
+
+const render = () => {
+    const options = JSON.parse(optionsText.value);
+    options.bindWindowResize = true;
+    options.theme = route.query.theme;
+    grid.value.setOption(options);
+    const data = JSON.parse(dataText.value);
+    grid.value.setData(data);
+    grid.value.render();
+};
 
 onMounted(() => {
     init();
@@ -121,30 +140,14 @@ onMounted(() => {
         }]
     };
 
-    document.querySelector('.tg_options').value = JSON.stringify(myOption, null, 4);
-    document.querySelector('.tg_data').value = JSON.stringify(myData, null, 4);
+    optionsText.value = JSON.stringify(myOption, null, 4);
+    dataText.value = JSON.stringify(myData, null, 4);
 
     const g = new Grid(gridContainer.value);
     grid.value = g;
 
     g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const render = () => {
-        const options = JSON.parse(document.querySelector('.tg_options').value);
-        options.bindWindowResize = true;
-        options.theme = route.query.theme;
-        g.setOption(options);
-        const data = JSON.parse(document.querySelector('.tg_data').value);
-        g.setData(data);
-        g.render();
-    };
-
-    ['.tg_options', '.tg_data', '.bt-render'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(g);

@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid set rows without destroy columns
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="onDataChange"
+        >
           <option>test-data</option>
           <option>random-20x100</option>
           <option>random-20x200</option>
@@ -20,26 +24,30 @@
       <div>
         <label>
           <input
+            v-model="sortOnInit"
             type="checkbox"
-            checked
             class="cb_sortOnInit"
+            @change="onDataChange"
           >
           sortOnInit
         </label>
 
         <label>
           <input
+            v-model="sortBlankValueBottom"
             type="checkbox"
             class="cb_sortBlankValueBottom"
+            @change="onDataChange"
           >
           sortBlankValueBottom
         </label>
 
         <label>
           <input
+            v-model="selectVisible"
             type="checkbox"
-            checked
             class="cb_selectVisible"
+            @change="onDataChange"
           >
           selectVisible
         </label>
@@ -47,10 +55,11 @@
         <label>
           sortField
           <input
+            v-model="sortField"
             type="text"
             class="it_sortField"
-            value="name"
             size="30"
+            @change="onDataChange"
           >
         </label>
       </div>
@@ -75,6 +84,18 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('test-data');
+const sortOnInit = ref(true);
+const sortBlankValueBottom = ref(false);
+const selectVisible = ref(true);
+const sortField = ref('name');
+let doRender = null;
+
+const onDataChange = () => {
+    if (doRender) {
+        doRender();
+    }
+};
 
 // eslint-disable-next-line max-lines-per-function
 onMounted(() => {
@@ -1315,33 +1336,29 @@ onMounted(() => {
             bindWindowResize: true,
             theme: route.query.theme,
             frozenColumn: 0,
-            selectVisible: document.querySelector('.cb_selectVisible').checked,
-            sortField: document.querySelector('.it_sortField').value,
-            sortOnInit: document.querySelector('.cb_sortOnInit').checked,
-            sortBlankValueBottom: document.querySelector('.cb_sortBlankValueBottom').checked
+            selectVisible: selectVisible.value,
+            sortField: sortField.value,
+            sortOnInit: sortOnInit.value,
+            sortBlankValueBottom: sortBlankValueBottom.value
         };
-        g.setOption(options);
+        grid.value.setOption(options);
 
-        g.setData(data);
-        g.render();
+        grid.value.setData(data);
+        grid.value.render();
     };
 
     function render() {
-        const dataStr = document.querySelector('.st-data').value;
+        const ds = dataStr.value;
 
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
+        if (ds.startsWith('random')) {
+            renderData(randomData(ds));
             return;
         }
 
         renderData(testData);
     }
 
-    ['.st-data', '.cb_sortOnInit', '.cb_sortBlankValueBottom', '.cb_selectVisible', '.it_sortField'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
+    doRender = render;
 
     initCommonEvents(g);
 

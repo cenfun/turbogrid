@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid Column Width API:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>custom-data</option>
           <option>random-5x10</option>
           <option>random-10x2k</option>
@@ -38,18 +42,21 @@
         <label>
           frozenColumn
           <input
+            v-model.number="frozenColumn"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="0"
             class="ip-number ip_frozenColumn"
+            @change="render"
           >
         </label>
         <label>
           <input
+            v-model="frozenRight"
             type="checkbox"
             class="cb_frozenRight"
+            @change="render"
           >
           frozenRight
         </label>
@@ -58,7 +65,7 @@
         <button>rerender()</button>
       </div>
       <div>
-        <div>onColumnWidthChanged: <span class="onColumnWidthChanged" /></div>
+        <div>onColumnWidthChanged: <span class="onColumnWidthChanged">{{ widthChanged }}</span></div>
       </div>
     </div>
     <div
@@ -182,6 +189,33 @@ const customData = {
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('custom-data');
+const frozenColumn = ref(0);
+const frozenRight = ref(false);
+const widthChanged = ref('');
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        frozenColumn: frozenColumn.value,
+        frozenRow: 0,
+        frozenRight: frozenRight.value
+    };
+
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    const data = JSON.parse(JSON.stringify(customData));
+    renderData(data);
+};
 
 onMounted(() => {
     init();
@@ -192,43 +226,11 @@ onMounted(() => {
     });
 
     grid.value.bind('onColumnWidthChanged', function(e, d) {
-        document.querySelector('.onColumnWidthChanged').innerHTML = `${d.tg_index}, ${d.name}, ${d.tg_width}`;
+        widthChanged.value = `${d.tg_index}, ${d.name}, ${d.tg_width}`;
     });
 
     grid.value.bind('onLayout onResize', function(e, d) {
         // console.log(e.type, d);
-    });
-
-    const renderData = (data) => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
-            frozenRow: 0,
-            frozenRight: document.querySelector('.cb_frozenRight').checked
-        };
-
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        const data = JSON.parse(JSON.stringify(customData));
-        renderData(data);
-    };
-
-    ['.st-data', '.ip_frozenColumn', '.cb_frozenRight'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

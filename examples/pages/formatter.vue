@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid customize formatter example:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="onDataChange"
+        >
           <option>custom_data</option>
           <option>tg_style</option>
           <option>random-10x10</option>
@@ -16,7 +20,11 @@
       <div>
         <label>
           Number Decimal
-          <select class="st_decimal">
+          <select
+            v-model="decimal"
+            class="st_decimal"
+            @change="onDataChange"
+          >
             <option />
             <option>0</option>
             <option>1</option>
@@ -29,7 +37,11 @@
 
         <label>
           Date Format
-          <select class="st_dateFilter">
+          <select
+            v-model="dateFilter"
+            class="st_dateFilter"
+            @change="onDataChange"
+          >
             <option />
             <option selected>yyyy-mm-dd</option>
             <option>yyyy/mm/dd</option>
@@ -47,11 +59,12 @@
         </label>
         <label>rowFilter:
           <input
+            v-model="keywords"
             type="text"
-            value=""
             placeholder="keywords"
             class="ip-keywords"
-            onfocus="this.select()"
+            @focus="$event.target.select()"
+            @keyup="updateGrid"
           >
         </label>
       </div>
@@ -75,6 +88,24 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('custom_data');
+const decimal = ref('2');
+const dateFilter = ref('yyyy-mm-dd');
+const sortIndicator = ref('h');
+const keywords = ref('');
+let doRender = null;
+
+const onDataChange = () => {
+    if (doRender) {
+        doRender();
+    }
+};
+
+const updateGrid = () => {
+    if (grid.value) {
+        grid.value.update();
+    }
+};
 
 // eslint-disable-next-line max-lines-per-function
 onMounted(() => {
@@ -333,7 +364,7 @@ onMounted(() => {
             theme: route.query.theme || 'default',
             selectVisible: true,
             frozenColumn: 0,
-            sortIndicator: document.querySelector('.st_sortIndicator').value,
+            sortIndicator: sortIndicator.value,
             rowNotFound: 'No Results',
             highlightKeywords: {
                 textGenerator: null,
@@ -341,7 +372,7 @@ onMounted(() => {
                 highlightPost: '</mark>'
             },
             rowFilter: function(rowItem) {
-                return g.highlightKeywordsFilter(rowItem, ['name', 'html'], keywords);
+                return g.highlightKeywordsFilter(rowItem, ['name', 'html'], keywords.value);
             }
         });
 
@@ -363,18 +394,18 @@ onMounted(() => {
                 if (typeof value !== 'number') {
                     return value;
                 }
-                const decimal = document.querySelector('.st_decimal').value;
-                if (!decimal) {
+                const decimalValue = decimal.value;
+                if (!decimalValue) {
                     return value;
                 }
-                return value.toFixed(Number(decimal), 10);
+                return value.toFixed(Number(decimalValue), 10);
             },
 
             date: function(value, rowItem) {
                 if (!rowItem.date) {
                     return value;
                 }
-                const format = document.querySelector('.st_dateFilter').value;
+                const format = dateFilter.value;
                 if (!format) {
                     return value;
                 }
@@ -478,19 +509,19 @@ onMounted(() => {
     };
 
     const render = function() {
-        const dataStr = document.querySelector('.st-data').value;
+        const ds = dataStr.value;
 
-        if (dataStr.startsWith('random')) {
-            renderRadomData(randomData(dataStr));
+        if (ds.startsWith('random')) {
+            renderRadomData(randomData(ds));
             return;
         }
 
-        if (dataStr.startsWith('tg')) {
+        if (ds.startsWith('tg')) {
             renderData(tgData);
             return;
         }
 
-        if (dataStr.startsWith('custom')) {
+        if (ds.startsWith('custom')) {
             renderData(customData);
             return;
         }
@@ -498,25 +529,7 @@ onMounted(() => {
         renderData(sampleData());
     };
 
-    const keywords = '';
-
-    ['.st-data', '.st_decimal', '.st_dateFilter', '.st_sortIndicator'].forEach(function(item) {
-        const el = document.querySelector(item);
-        if (el) {
-            el.addEventListener('change', function() {
-                render();
-            });
-        }
-    });
-
-    document.querySelector('.ip-keywords').addEventListener('keyup', function() {
-        const k = this.value;
-        if (k === this.keywords) {
-            return;
-        }
-        this.keywords = k;
-        g.update();
-    });
+    doRender = render;
 
     initCommonEvents(g);
 

@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid no rows demo
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>random-3x10</option>
           <option>random-100x2k</option>
           <option>random-10x10k</option>
@@ -15,37 +19,42 @@
       <div>
         rowNotFound:
         <input
+          v-model="rowNotFound"
           type="text"
           class="ip_rowNotFound"
           size="45"
-          value="No Results"
+          @change="render"
         >
       </div>
       <div>
         <label>frozenColumn
           <input
+            v-model.number="frozenColumn"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="1"
             class="ip-number ip_frozenColumn"
+            @change="render"
           >
         </label>
         <label>frozenRow
           <input
+            v-model.number="frozenRow"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="-1"
             class="ip-number ip_frozenRow"
+            @change="render"
           >
         </label>
         <input
           id="cb_frozenBottom"
+          v-model="frozenBottom"
           type="checkbox"
           class="cb_frozenBottom"
+          @change="render"
         >
         <label for="cb_frozenBottom">frozenBottom</label>
       </div>
@@ -54,15 +63,22 @@
       </div>
       <div>
         <input
+          v-model="keywords"
           type="text"
-          value=""
           placeholder="keywords"
           class="ip-keywords"
+          @keyup="updateGrid"
         >
-        <button class="bt-del">
+        <button
+          class="bt-del"
+          @click="deleteSelectedRows"
+        >
           delete selected rows
         </button>
-        <span class="message_log" />
+        <span
+          ref="messageLog"
+          class="message_log"
+        />
       </div>
     </div>
     <div
@@ -85,92 +101,80 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('random-3x10');
+const rowNotFound = ref('No Results');
+const frozenColumn = ref(1);
+const frozenRow = ref(-1);
+const frozenBottom = ref(false);
+const keywords = ref('');
+const messageLog = ref(null);
+
+const renderData = function(data) {
+    const options = {
+        bindWindowResize: true,
+        rowNotFound: rowNotFound.value,
+        frozenBottom: frozenBottom.value,
+        frozenColumn: frozenColumn.value,
+        frozenRow: frozenRow.value,
+        theme: route.query.theme,
+        textSelectable: true,
+        selectVisible: true,
+        rowFilter: function(rowItem) {
+            if (!keywords.value) {
+                return true;
+            }
+            if (rowItem.tg_frozen) {
+                return true;
+            }
+            let name = rowItem.name || rowItem.c0;
+            if (name) {
+                name = name.toLowerCase();
+                if (name.indexOf(keywords.value) !== -1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
+
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+function render() {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+}
+
+const updateGrid = () => {
+    if (grid.value) {
+        grid.value.update();
+    }
+};
+
+const deleteSelectedRows = () => {
+    const selectedRows = grid.value.getSelectedRows();
+    if (!selectedRows.length) {
+        messageLog.value.innerHTML = 'Nothing selected';
+        return;
+    }
+
+    grid.value.deleteRow(selectedRows);
+
+    messageLog.value.innerHTML = `${selectedRows.length} row(s) be removed`;
+};
 
 onMounted(() => {
     init();
-    let keywords = '';
     const g = new Grid(gridContainer.value);
     grid.value = g;
 
     g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = function(data) {
-        const rowNotFound = document.querySelector('.ip_rowNotFound').value;
-
-        const options = {
-
-            bindWindowResize: true,
-            rowNotFound: rowNotFound,
-
-            frozenBottom: document.querySelector('.cb_frozenBottom').checked,
-            frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
-            frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
-            theme: route.query.theme,
-
-            textSelectable: true,
-            selectVisible: true,
-            rowFilter: function(rowItem) {
-                if (!keywords) {
-                    return true;
-                }
-                if (rowItem.tg_frozen) {
-                    return true;
-                }
-                let name = rowItem.name || rowItem.c0;
-                if (name) {
-                    name = name.toLowerCase();
-                    if (name.indexOf(keywords) !== -1) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        };
-
-        g.setOption(options);
-        g.setData(data);
-        g.render();
-    };
-
-    function render() {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    }
-
-    document.querySelector('.ip-keywords').addEventListener('keyup', function() {
-        const k = this.value;
-        if (k === keywords) {
-            return;
-        }
-        keywords = k;
-        g.update();
-    });
-
-    document.querySelector('.bt-del').addEventListener('click', function() {
-        const log = document.querySelector('.message_log');
-        const selectedRows = g.getSelectedRows();
-        if (!selectedRows.length) {
-            log.innerHTML = 'Nothing selected';
-            return;
-        }
-
-        g.deleteRow(selectedRows);
-
-        log.innerHTML = `${selectedRows.length} row(s) be removed`;
-    });
-
-    ['.st-data', '.ip_rowNotFound', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(g);

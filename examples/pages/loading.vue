@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid loading API:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x2k</option>
@@ -29,7 +33,11 @@
       </div>
       <div>
         <button>setLoading("Loading ...")</button>
-        <button class="setLoadingElement">
+        <button
+          ref="loadingElement"
+          class="setLoadingElement"
+          @click="setLoadingElement"
+        >
           setLoading with this element
         </button>
       </div>
@@ -54,6 +62,34 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-data');
+const loadingElement = ref(null);
+
+const renderData = (data) => {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme,
+        frozenColumn: 0,
+        frozenRow: 1
+    });
+
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const setLoadingElement = function() {
+    grid.value.setLoading(function() {
+        return loadingElement.value.cloneNode(true);
+    });
+};
 
 onMounted(() => {
     init();
@@ -62,41 +98,6 @@ onMounted(() => {
 
     g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = (data) => {
-        g.setOption({
-            bindWindowResize: true,
-            theme: route.query.theme,
-            frozenColumn: 0,
-            frozenRow: 1
-        });
-
-        g.setData(data);
-        g.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    };
-
-    document.querySelector('.setLoadingElement').addEventListener('click', function() {
-        g.setLoading(function() {
-            return document.querySelector('.setLoadingElement').cloneNode(true);
-        });
-    });
-
-    ['.st-data'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(g);

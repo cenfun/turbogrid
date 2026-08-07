@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid update/render API
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="onDataChange"
+        >
           <option>random-20x100</option>
           <option>random-20x5k</option>
           <option>sample-data</option>
@@ -15,22 +19,32 @@
         <label for="cb_selectMultiple">
           <input
             id="cb_selectMultiple"
+            v-model="selectMultiple"
             type="checkbox"
-            checked
             class="cb_selectMultiple"
+            @change="onDataChange"
           >
           selectMultiple
         </label>
       </div>
       <div>
         <button>render()</button>
-        <button class="data-render">
+        <button
+          class="data-render"
+          @click="dataRender"
+        >
           setData + render
         </button>
-        <button class="option-render">
+        <button
+          class="option-render"
+          @click="optionRender"
+        >
           setOption + render
         </button>
-        <button class="formatter-render">
+        <button
+          class="formatter-render"
+          @click="formatterRender"
+        >
           setFormatter + render
         </button>
       </div>
@@ -84,6 +98,57 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('random-20x100');
+const selectMultiple = ref(true);
+let doRender = null;
+
+const onDataChange = () => {
+    if (doRender) {
+        doRender();
+    }
+};
+
+const dataRender = () => {
+    if (!grid.value) {
+        return;
+    }
+    const data = randomData('20x100');
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const optionRender = () => {
+    if (!grid.value) {
+        return;
+    }
+    grid.value.setOption({
+        theme: route.query.theme || 'default',
+        selectVisible: true,
+        rowHeight: 26
+    });
+    grid.value.render();
+};
+
+const formatterRender = () => {
+    if (!grid.value) {
+        return;
+    }
+    grid.value.setFormatter({
+        string: function(value, rowItem, columnItem) {
+            if (columnItem.id === 'index') {
+                return `${value} (formatted)`;
+            }
+            return value;
+        },
+        number: function(value, rowItem, columnItem) {
+            if (columnItem.id === 'index') {
+                return `${value} (formatted)`;
+            }
+            return value;
+        }
+    });
+    grid.value.render();
+};
 
 onMounted(() => {
     init();
@@ -107,7 +172,7 @@ onMounted(() => {
         const options = {
             bindWindowResize: true,
             theme: route.query.theme || 'default',
-            selectMultiple: document.querySelector('.cb_selectMultiple').checked,
+            selectMultiple: selectMultiple.value,
             selectVisible: true,
             frozenColumn: 0,
             frozenRow: 1
@@ -119,66 +184,17 @@ onMounted(() => {
     };
 
     function render() {
-        const dataStr = document.querySelector('.st-data').value;
+        const ds = dataStr.value;
 
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
+        if (ds.startsWith('random')) {
+            renderData(randomData(ds));
             return;
         }
 
         renderData(sampleData());
     }
 
-    document.querySelector('.data-render').addEventListener('click', function() {
-        if (!g) {
-            return;
-        }
-        const data = randomData('20x100');
-        g.setData(data);
-        g.render();
-    });
-
-    document.querySelector('.option-render').addEventListener('click', function() {
-        if (!g) {
-            return;
-        }
-        g.setOption({
-            theme: route.query.theme || 'default',
-            selectVisible: true,
-            rowHeight: 26
-        });
-        g.render();
-    });
-
-    document.querySelector('.formatter-render').addEventListener('click', function() {
-        if (!g) {
-            return;
-        }
-        g.setFormatter({
-            string: function(value, rowItem, columnItem) {
-                if (columnItem.id === 'index') {
-                    return `${value} (formatted)`;
-                }
-                return value;
-            },
-            number: function(value, rowItem, columnItem) {
-                if (columnItem.id === 'index') {
-                    return `${value} (formatted)`;
-                }
-                return value;
-            }
-        });
-        g.render();
-    });
-
-    ['.st-data', '.cb_selectMultiple'].forEach(function(item) {
-        const el = document.querySelector(item);
-        if (el) {
-            el.addEventListener('change', function() {
-                render();
-            });
-        }
-    });
+    doRender = render;
 
     initCommonEvents(g);
 

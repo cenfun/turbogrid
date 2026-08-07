@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid row select API:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>random-10x20</option>
           <option>random-10x1k</option>
           <option>random-20x20k</option>
@@ -15,34 +19,41 @@
       <div>
         <label>
           <input
+            v-model="selectMultiple"
             type="checkbox"
-            checked
             class="cb_selectMultiple"
+            @change="render"
           >
           selectMultiple
         </label>
 
         <label>
           <input
+            v-model="selectVisible"
             type="checkbox"
-            checked
             class="cb_selectVisible"
+            @change="render"
           >
           selectVisible
         </label>
 
         <label>
           <input
+            v-model="selectAllVisible"
             type="checkbox"
-            checked
             class="cb_selectAllVisible"
+            @change="render"
           >
           selectAllVisible
         </label>
 
         <label>
           selectAllOnInit
-          <select class="st_selectAllOnInit">
+          <select
+            v-model="selectAllOnInit"
+            class="st_selectAllOnInit"
+            @change="render"
+          >
             <option>null</option>
             <option>true</option>
             <option>false</option>
@@ -51,10 +62,11 @@
       </div>
       <div>
         <input
+          v-model="keywords"
           type="text"
-          value=""
           placeholder="keywords"
           class="ip-keywords"
+          @keyup="updateGrid"
         >
         rowFilter
       </div>
@@ -78,7 +90,7 @@
         <button>getSelectedRows()</button>
       </div>
       <div>
-        <div>onSelectChanged: <span class="onSelectChanged" /></div>
+        <div>onSelectChanged: <span class="onSelectChanged">{{ selectCount }}</span></div>
       </div>
     </div>
     <div
@@ -102,6 +114,66 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('');
+const dataStr = ref('random-10x20');
+const selectMultiple = ref(true);
+const selectVisible = ref(true);
+const selectAllVisible = ref(true);
+const selectAllOnInit = ref('null');
+const selectCount = ref(0);
+
+const renderData = (data) => {
+    selectCount.value = '';
+
+    const selectAllOnInitMap = {
+        'null': null,
+        'true': true,
+        'false': false
+    };
+
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: selectVisible.value,
+        selectMultiple: selectMultiple.value,
+        selectAllVisible: selectAllVisible.value,
+        selectAllOnInit: selectAllOnInitMap[selectAllOnInit.value],
+        frozenColumn: 0,
+        frozenRow: 1,
+        rowFilter: (rowItem) => {
+            if (!keywords.value) {
+                return true;
+            }
+            if (rowItem.tg_frozen) {
+                return true;
+            }
+            let name = rowItem.name || rowItem.c0;
+            if (name) {
+                name = name.toLowerCase();
+                if (name.indexOf(keywords.value) !== -1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const updateGrid = () => {
+    if (grid.value) {
+        grid.value.update();
+    }
+};
 
 onMounted(() => {
     init();
@@ -127,76 +199,7 @@ onMounted(() => {
 
     g.bind('onSelectChanged', function(e, d) {
         console.log('onSelectChanged', d);
-        document.querySelector('.onSelectChanged').innerHTML = d.length;
-    });
-
-    const renderData = (data) => {
-        document.querySelector('.onSelectChanged').innerHTML = '';
-
-        let selectAllOnInit = document.querySelector('.st_selectAllOnInit').value;
-        const selectAllOnInitMap = {
-            'null': null,
-            'true': true,
-            'false': false
-        };
-        selectAllOnInit = selectAllOnInitMap[selectAllOnInit];
-
-        const options = {
-
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: document.querySelector('.cb_selectVisible').checked,
-            selectMultiple: document.querySelector('.cb_selectMultiple').checked,
-            selectAllVisible: document.querySelector('.cb_selectAllVisible').checked,
-            selectAllOnInit: selectAllOnInit,
-            frozenColumn: 0,
-            frozenRow: 1,
-            rowFilter: (rowItem) => {
-                if (!keywords.value) {
-                    return true;
-                }
-                if (rowItem.tg_frozen) {
-                    return true;
-                }
-                let name = rowItem.name || rowItem.c0;
-                if (name) {
-                    name = name.toLowerCase();
-                    if (name.indexOf(keywords.value) !== -1) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        };
-        g.setOption(options);
-        g.setData(data);
-        g.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    };
-
-    document.querySelector('.ip-keywords').addEventListener('keyup', () => {
-        const k = document.querySelector('.ip-keywords').value;
-        if (k === keywords.value) {
-            return;
-        }
-        keywords.value = k;
-        g.update();
-    });
-
-    ['.st-data', '.cb_selectVisible', '.cb_selectMultiple', '.cb_selectAllVisible', '.st_selectAllOnInit'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
+        selectCount.value = d.length;
     });
 
     initCommonEvents(g);

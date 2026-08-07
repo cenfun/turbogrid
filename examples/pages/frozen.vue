@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid frozen row/column example:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-3x30</option>
@@ -17,19 +21,22 @@
         <label>
           frozenColumn
           <input
+            v-model.number="frozenColumn"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="0"
             class="ip-number ip_frozenColumn"
+            @change="render"
           >
         </label>
 
         <label>
           <input
+            v-model="frozenRight"
             type="checkbox"
             class="cb_frozenRight"
+            @change="render"
           >
           frozenRight
         </label>
@@ -37,27 +44,32 @@
         <label>
           frozenRow
           <input
+            v-model.number="frozenRow"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="1"
             class="ip-number ip_frozenRow"
+            @change="render"
           >
         </label>
 
         <label>
           <input
+            v-model="frozenBottom"
             type="checkbox"
             class="cb_frozenBottom"
+            @change="render"
           >
           frozenBottom
         </label>
 
         <label>
           <input
+            v-model="frozenRowHoverable"
             type="checkbox"
             class="cb_frozenRowHoverable"
+            @change="render"
           >
           frozenRowHoverable
         </label>
@@ -65,32 +77,40 @@
       <div>
         <label>
           <input
+            v-model="selectVisible"
             type="checkbox"
             class="cb_selectVisible"
+            @change="render"
           >
           selectVisible
         </label>
 
         <label>
           <input
+            v-model="rowNumberVisible"
             type="checkbox"
             class="cb_rowNumberVisible"
+            @change="render"
           >
           rowNumberVisible
         </label>
 
         <label>
           <input
+            v-model="rowDragVisible"
             type="checkbox"
             class="cb_rowDragVisible"
+            @change="render"
           >
           rowDragVisible
         </label>
 
         <label>
           <input
+            v-model="autoHeight"
             type="checkbox"
             class="cb_autoHeight"
+            @change="render"
           >
           autoHeight
         </label>
@@ -113,9 +133,6 @@ import { sampleData, randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
-
-const gridContainer = ref(null);
-const grid = ref(null);
 
 const frozenRightData = {
     options: {
@@ -183,71 +200,62 @@ const frozenRightData = {
     rowsLength: 200
 };
 
+const gridContainer = ref(null);
+const grid = ref(null);
+const dataStr = ref('sample-data');
+const selectVisible = ref(false);
+const rowNumberVisible = ref(false);
+const rowDragVisible = ref(false);
+const frozenRight = ref(false);
+const frozenBottom = ref(false);
+const frozenRowHoverable = ref(false);
+const frozenColumn = ref(0);
+const frozenRow = ref(1);
+const autoHeight = ref(false);
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: selectVisible.value,
+        rowNumberVisible: rowNumberVisible.value,
+        rowDragVisible: rowDragVisible.value,
+        frozenRight: frozenRight.value,
+        frozenBottom: frozenBottom.value,
+        frozenRowHoverable: frozenRowHoverable.value,
+        frozenColumn: frozenColumn.value,
+        frozenRow: frozenRow.value,
+        autoHeight: autoHeight.value
+    };
+
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+
+    if (dataStr.value === 'frozen_right') {
+        renderData(frozenRightData);
+        return;
+    }
+
+    renderData(sampleData());
+};
+
 onMounted(() => {
     init();
-    const container = gridContainer.value;
-    const g = new Grid(container);
-    grid.value = g;
+    grid.value = new Grid(gridContainer.value);
 
-    g.bind('onFirstUpdated', function() {
+    grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    const renderData = (data) => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: document.querySelector('.cb_selectVisible').checked,
-            rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
-            rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
-            frozenRight: document.querySelector('.cb_frozenRight').checked,
-            frozenBottom: document.querySelector('.cb_frozenBottom').checked,
-            frozenRowHoverable: document.querySelector('.cb_frozenRowHoverable').checked,
-            frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
-            frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
-            autoHeight: document.querySelector('.cb_autoHeight').checked
-        };
-
-        g.setOption(options);
-        g.setData(data);
-        g.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        if (dataStr === 'frozen_right') {
-            renderData(frozenRightData);
-            return;
-        }
-
-        renderData(sampleData());
-    };
-
-    [
-
-        '.st-data',
-        '.ip_frozenColumn',
-        '.ip_frozenRow',
-        '.cb_frozenRight',
-        '.cb_frozenBottom',
-        '.cb_selectVisible',
-        '.cb_rowNumberVisible',
-        '.cb_rowDragVisible',
-        '.cb_frozenRowHoverable',
-        '.cb_autoHeight'
-    ].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
-
-    initCommonEvents(g);
+    initCommonEvents(grid.value);
 
     render();
 });

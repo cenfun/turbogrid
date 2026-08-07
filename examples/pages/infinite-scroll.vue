@@ -10,15 +10,18 @@
         <label>
           rowHeight
           <input
+            v-model.number="rowHeight"
             type="number"
-            value="30"
             class="ip-number ip_rowHeight"
+            @change="render"
           >
         </label>
         <label>
           <input
+            v-model="scrollbarFade"
             type="checkbox"
             class="cb_scrollbarFade"
+            @change="render"
           >
           scrollbarFade
         </label>
@@ -27,16 +30,18 @@
         <label>
           Page Size
           <input
+            v-model.number="pageSize"
             type="number"
-            value="50"
             class="ip-number ip_pageSize"
+            @change="render"
           >
         </label>
         <label>
           <input
+            v-model="rowHeightFix"
             type="checkbox"
-            checked
             class="cb_rowHeightFix"
+            @change="render"
           >
           rowHeightFix
         </label>
@@ -44,6 +49,7 @@
           class="bt-del"
           type="button"
           value="delete selected rows"
+          @click="deleteSelectedRows"
         >
       </div>
     </div>
@@ -66,6 +72,75 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const rowHeight = ref(30);
+const scrollbarFade = ref(false);
+const pageSize = ref(50);
+const rowHeightFix = ref(true);
+
+const deleteSelectedRows = () => {
+    const selectedRows = grid.value.getSelectedRows();
+    if (!selectedRows.length) {
+        return;
+    }
+    grid.value.deleteRow(selectedRows);
+};
+
+const getData = function() {
+    return {
+        columns: [{
+            id: 'tg_index',
+            name: 'NO.',
+            sortable: false,
+            align: 'center',
+            width: 50,
+            formatter: function(v) {
+                return v + 1;
+            }
+        }, {
+            id: 'title',
+            name: 'Title',
+            sortable: false,
+            resizable: false,
+            maxWidth: 2048
+        }, {
+            id: 'date',
+            name: 'Date',
+            type: 'date',
+            width: 90,
+            sortable: false,
+            formatter: function(v) {
+                if (typeof v === 'number') {
+                    return new Intl.DateTimeFormat('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    }).format(v);
+                }
+            }
+        }],
+        rows: []
+    };
+};
+
+function render() {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        rowHeight: rowHeight.value,
+        scrollbarFade: scrollbarFade.value,
+        frozenRow: 1,
+        selectVisible: true,
+        textSelectable: true,
+        cellResizeObserver: function(rowItem, columnItem) {
+            if (columnItem.id === 'title') {
+                return true;
+            }
+        }
+    };
+    grid.value.setOption(options);
+    grid.value.setData(getData());
+    grid.value.render();
+}
 
 onMounted(() => {
     init();
@@ -116,8 +191,8 @@ onMounted(() => {
             setTimeout(function() {
                 const list = [];
                 let i = 0;
-                const pageSize = parseInt(document.querySelector('.ip_pageSize')?.value, 10);
-                while (i < pageSize) {
+                const size = pageSize.value;
+                while (i < size) {
                     list.push(createRandomNews());
                     i++;
                 }
@@ -158,77 +233,6 @@ onMounted(() => {
     g.bind('onUpdated', function(e, d) {
         updateWidth();
         loadNextPage();
-    });
-
-    function getData() {
-        return {
-            columns: [{
-                id: 'tg_index',
-                name: 'NO.',
-                sortable: false,
-                align: 'center',
-                width: 50,
-                formatter: function(v) {
-                    return v + 1;
-                }
-            }, {
-                id: 'title',
-                name: 'Title',
-                sortable: false,
-                resizable: false,
-                maxWidth: 2048
-            }, {
-                id: 'date',
-                name: 'Date',
-                type: 'date',
-                width: 90,
-                sortable: false,
-                formatter: function(v) {
-                    if (typeof v === 'number') {
-                        return new Intl.DateTimeFormat('en-US', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit'
-                        }).format(v);
-                    }
-                }
-            }],
-            rows: []
-        };
-    }
-
-    function render() {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
-            scrollbarFade: document.querySelector('.cb_scrollbarFade').checked,
-            frozenRow: 1,
-            selectVisible: true,
-            textSelectable: true,
-            cellResizeObserver: function(rowItem, columnItem) {
-                if (columnItem.id === 'title') {
-                    return true;
-                }
-            }
-        };
-        g.setOption(options);
-        g.setData(getData());
-        g.render();
-    }
-
-    document.querySelector('.bt-del').addEventListener('click', function() {
-        const selectedRows = g.getSelectedRows();
-        if (!selectedRows.length) {
-            return;
-        }
-        g.deleteRow(selectedRows);
-    });
-
-    ['.ip_pageSize', '.ip_rowHeight', '.cb_scrollbarFade', '.cb_rowHeightFix'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(g);

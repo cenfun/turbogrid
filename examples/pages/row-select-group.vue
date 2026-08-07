@@ -11,7 +11,7 @@
         <button>selectAll(false)</button>
       </div>
       <div>
-        <div>onSelectChanged: <span class="onSelectChanged" /></div>
+        <div>onSelectChanged: <span class="onSelectChanged">{{ selectCount }}</span></div>
       </div>
     </div>
     <div
@@ -33,6 +33,7 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const selectCount = ref(0);
 
 onMounted(() => {
     init();
@@ -59,7 +60,7 @@ onMounted(() => {
 
     g.bind('onSelectChanged', function(e, d) {
         console.log(d);
-        document.querySelector('.onSelectChanged').innerHTML = d.length;
+        selectCount.value = d.length;
     });
 
     const render = () => {
@@ -168,12 +169,6 @@ onMounted(() => {
         g.setData(data);
         g.render();
     };
-
-    [].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
 
     initCommonEvents(g);
 

@@ -8,6 +8,7 @@
       </div>
       <div>
         <textarea
+          v-model="dataText"
           class="tg_data"
           style="width: 100%; height: 100px;"
         />
@@ -17,6 +18,7 @@
           type="button"
           class="bt-render"
           value="render()"
+          @click="render"
         >
       </div>
     </div>
@@ -146,6 +148,40 @@ const customData = {
     }]
 };
 
+const dataText = ref('');
+
+const render = () => {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 0,
+        frozenRow: -1,
+        sortField: 'c1',
+        sortOnInit: true
+    });
+
+    grid.value.setFormatter({
+        header: function(value, rowItem, columnItem, cellNode) {
+            if (columnItem.tg_group) {
+                console.log('header-formatter', value);
+            }
+            return value;
+        },
+        tree: function(value, rowItem, columnItem, cellNode) {
+            const defaultFormatter = this.getDefaultFormatter('tree');
+            if (rowItem.type !== 'summary') {
+                value = `${value}<div class="tg-hover-icon"><div class="icon icon-info"></div></div>`;
+            }
+            return defaultFormatter(value, rowItem, columnItem, cellNode);
+        }
+    });
+
+    const data = JSON.parse(dataText.value);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
 onMounted(() => {
     init();
     const g = new Grid(gridContainer.value);
@@ -155,49 +191,7 @@ onMounted(() => {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    document.querySelector('.tg_data').value = JSON.stringify(customData, null, 4);
-
-    const render = () => {
-        g.setOption({
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 0,
-            frozenRow: -1,
-            sortField: 'c1',
-            sortOnInit: true
-        });
-
-        g.setFormatter({
-            header: function(value, rowItem, columnItem, cellNode) {
-                if (columnItem.tg_group) {
-                    console.log('header-formatter', value);
-                }
-                return value;
-            },
-            tree: function(value, rowItem, columnItem, cellNode) {
-                const defaultFormatter = this.getDefaultFormatter('tree');
-                if (rowItem.type !== 'summary') {
-                    value = `${value}<div class="tg-hover-icon"><div class="icon icon-info"></div></div>`;
-                }
-                return defaultFormatter(value, rowItem, columnItem, cellNode);
-            }
-        });
-
-        const data = JSON.parse(document.querySelector('.tg_data').value);
-        g.setData(data);
-        g.render();
-    };
-
-    document.querySelector('.bt-render').addEventListener('click', function() {
-        render();
-    });
-
-    [].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
+    dataText.value = JSON.stringify(customData, null, 4);
 
     initCommonEvents(g);
 

@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid export to JSON data:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x2k</option>
@@ -37,6 +41,31 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-data');
+
+const renderData = (data) => {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 0,
+        frozenRow: 1
+    });
+
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (!grid.value) {
+        return;
+    }
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
 
 onMounted(() => {
     init();
@@ -44,36 +73,6 @@ onMounted(() => {
 
     grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = (data) => {
-        grid.value.setOption({
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 0,
-            frozenRow: 1
-        });
-
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    };
-
-    ['.st-data'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

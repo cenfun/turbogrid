@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid Cache Length Test
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>random-20x100</option>
           <option>sample-data</option>
         </select>
@@ -14,21 +18,23 @@
         <label>
           rowCacheLength
           <input
+            v-model.number="rowCacheLength"
             type="number"
             min="0"
             step="1"
-            value="0"
             class="ip-number it_rowCacheLength"
+            @change="render"
           >
         </label>
         <label>
           columnCacheLength
           <input
+            v-model.number="columnCacheLength"
             type="number"
             min="0"
             step="1"
-            value="0"
             class="ip-number it_columnCacheLength"
+            @change="render"
           >
         </label>
       </div>
@@ -36,29 +42,33 @@
         <label>
           frozenColumn
           <input
+            v-model.number="frozenColumn"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="0"
             class="ip-number ip_frozenColumn"
+            @change="render"
           >
         </label>
         <label>
           frozenRow
           <input
+            v-model.number="frozenRow"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="1"
             class="ip-number ip_frozenRow"
+            @change="render"
           >
         </label>
         <label>
           <input
+            v-model="frozenBottom"
             type="checkbox"
             class="cb_frozenBottom"
+            @change="render"
           >
           frozenBottom
         </label>
@@ -73,8 +83,12 @@
       </div>
       <div>
         <div>onUpdated: (viewport)</div>
-        <div class="column-list" />
-        <div class="row-list" />
+        <div class="column-list">
+          {{ columnList }}
+        </div>
+        <div class="row-list">
+          {{ rowList }}
+        </div>
       </div>
     </div>
     <div
@@ -96,58 +110,55 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('random-20x100');
+const rowCacheLength = ref(0);
+const columnCacheLength = ref(0);
+const frozenColumn = ref(0);
+const frozenRow = ref(1);
+const frozenBottom = ref(false);
+const columnList = ref('');
+const rowList = ref('');
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenBottom: frozenBottom.value,
+        frozenColumn: frozenColumn.value,
+        frozenRow: frozenRow.value,
+        rowCacheLength: rowCacheLength.value,
+        columnCacheLength: columnCacheLength.value
+    };
+
+    grid.value.setFormatter({
+        header: function(v, rowItem, columnItem, cellNode) {
+            return `${v} (${columnItem.tg_index})`;
+        }
+    });
+
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
 
 onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
 
     grid.value.bind('onUpdated', function(e, viewport) {
-        document.querySelector('.column-list').innerHTML = `columns: ${viewport.columns}`;
-        document.querySelector('.row-list').innerHTML = `rows: ${viewport.rows}`;
+        columnList.value = `columns: ${viewport.columns}`;
+        rowList.value = `rows: ${viewport.rows}`;
     }).bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = (data) => {
-        const rowCacheLength = parseInt(document.querySelector('.it_rowCacheLength').value);
-        const columnCacheLength = parseInt(document.querySelector('.it_columnCacheLength').value);
-
-        const options = {
-
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenBottom: document.querySelector('.cb_frozenBottom').checked,
-            frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value),
-            frozenRow: parseInt(document.querySelector('.ip_frozenRow').value),
-            rowCacheLength: rowCacheLength,
-            columnCacheLength: columnCacheLength
-        };
-
-        grid.value.setFormatter({
-            header: function(v, rowItem, columnItem, cellNode) {
-                return `${v} (${columnItem.tg_index})`;
-            }
-        });
-
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-        renderData(sampleData());
-    };
-
-    ['.st-data', '.it_rowCacheLength', '.it_columnCacheLength', '.ip_frozenColumn', '.ip_frozenRow', '.cb_frozenBottom'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

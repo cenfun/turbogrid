@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid header display
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x20k</option>
@@ -14,8 +18,10 @@
       <div>
         <label>
           <input
+            v-model="headerVisible"
             type="checkbox"
             class="cb_headerVisible"
+            @change="render"
           >
           headerVisible
         </label>
@@ -41,6 +47,29 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-data');
+const headerVisible = ref(false);
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        headerVisible: headerVisible.value,
+        frozenColumn: 0,
+        frozenRow: -1
+    };
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
 
 onMounted(() => {
     init();
@@ -48,34 +77,6 @@ onMounted(() => {
 
     grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = (data) => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            headerVisible: document.querySelector('.cb_headerVisible').checked,
-            frozenColumn: 0,
-            frozenRow: -1
-        };
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-        renderData(sampleData());
-    };
-
-    ['.st-data', '.cb_headerVisible'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

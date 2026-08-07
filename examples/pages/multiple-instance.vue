@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid multiple instance:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-10x100</option>
@@ -13,11 +17,17 @@
       </div>
       <div>
         <div>
-          <button class="bt-position">
+          <button
+            class="bt-position"
+            @click="togglePosition"
+          >
             position overlap
           </button>
           <label>left z-index:</label>
-          <select class="st_index">
+          <select
+            v-model="indexValue"
+            class="st_index"
+          >
             <option>0</option>
             <option>100</option>
           </select>
@@ -25,13 +35,19 @@
       </div>
     </div>
     <div class="grid-container grid-container-multiple">
-      <div class="container-left">
+      <div
+        ref="containerLeft"
+        class="container-left"
+      >
         <div
           ref="gridContainer1"
           class="grid-container-1"
         />
       </div>
-      <div class="container-right">
+      <div
+        ref="containerRight"
+        class="container-right"
+      >
         <div
           ref="gridContainer2"
           class="grid-container-2"
@@ -56,66 +72,57 @@ const gridContainer1 = ref(null);
 const gridContainer2 = ref(null);
 const grid = ref(null);
 const grid2 = ref(null);
+const dataStr = ref('sample-data');
+const indexValue = ref('0');
+const containerLeft = ref(null);
+const containerRight = ref(null);
+
+const renderData = (data) => {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 0,
+        frozenRow: -1
+    });
+    grid.value.setDataSnapshot(data);
+    grid.value.render();
+
+    grid2.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme,
+        height: 50,
+        selectVisible: true,
+        frozenColumn: 0,
+        frozenRow: -1
+    });
+    grid2.value.setDataSnapshot(data);
+    grid2.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const togglePosition = () => {
+    containerLeft.value.style.zIndex = indexValue.value;
+    if (containerRight.value.classList.contains('overlap')) {
+        containerRight.value.classList.remove('overlap');
+    } else {
+        containerRight.value.classList.add('overlap');
+    }
+};
 
 onMounted(() => {
     init();
-    const g = new Grid(gridContainer1.value);
-    grid.value = g;
+    grid.value = new Grid(gridContainer1.value);
+    grid2.value = new Grid(gridContainer2.value);
 
-    const g2 = new Grid(gridContainer2.value);
-    grid2.value = g2;
-
-    const renderData = (data) => {
-        g.setOption({
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 0,
-            frozenRow: -1
-        });
-        g.setDataSnapshot(data);
-        g.render();
-
-        g2.setOption({
-
-            bindWindowResize: true,
-            theme: route.query.theme,
-            height: 50,
-            selectVisible: true,
-            frozenColumn: 0,
-            frozenRow: -1
-        });
-        g2.setDataSnapshot(data);
-        g2.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-        renderData(sampleData());
-    };
-
-    document.querySelector('.bt-position').addEventListener('click', function() {
-        const st_index = document.querySelector('.st_index').value;
-        document.querySelector('.container-left').style.zIndex = st_index;
-        const divR = document.querySelector('.container-right');
-        if (divR.classList.contains('overlap')) {
-            divR.classList.remove('overlap');
-        } else {
-            divR.classList.add('overlap');
-        }
-    });
-
-    ['.st-data'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
-
-    initCommonEvents(g);
+    initCommonEvents(grid.value);
 
     render();
 });

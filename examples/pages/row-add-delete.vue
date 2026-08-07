@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid row add and delete:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>random-3x10</option>
           <option>random-100x2k</option>
           <option>sample-data</option>
@@ -34,26 +38,34 @@
       </div>
       <div>
         <input
-          class="bt-del"
           type="button"
           value="delete selected rows"
+          class="bt-del"
+          @click="deleteSelectedRows"
         >
         <input
+          v-model="keywords"
           type="text"
-          value=""
           placeholder="keywords"
           class="ip-keywords"
+          @keyup="updateGrid"
         >
         test collapsed or flush rows
       </div>
       <div>
         <div>
-          Event logs <button class="bt-clear">
+          Event logs <button
+            class="bt-clear"
+            @click="clearLogs"
+          >
             Clear Logs
           </button>
         </div>
         <div class="log-container">
-          <div class="log-content" />
+          <div
+            ref="logContent"
+            class="log-content"
+          />
         </div>
       </div>
     </div>
@@ -80,6 +92,78 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('');
+const dataStr = ref('random-3x10');
+const logContent = ref(null);
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 0,
+        rowFilter: (rowItem) => {
+            if (!keywords.value) {
+                return true;
+            }
+            if (rowItem.tg_frozen) {
+                return true;
+            }
+            let name = rowItem.name || rowItem.c0;
+            if (name) {
+                const arr = keywords.value.toLowerCase().split(' ');
+                name = name.toLowerCase();
+                for (let i = 0, l = arr.length; i < l; i++) {
+                    const item = arr[i];
+                    if (item && name.indexOf(item) !== -1) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    };
+    grid.value.setFormatter({
+        string: function(value, rowItem, columnItem, cellNode) {
+            if (columnItem.id === 'name') {
+                if (!rowItem.tg_random) {
+                    rowItem.tg_random = Math.random().toString().substr(2, 3);
+                }
+                return `${value} (${rowItem.tg_random})`;
+            }
+            return value;
+        }
+    });
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+    console.log('render');
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const updateGrid = () => {
+    if (grid.value) {
+        grid.value.update();
+    }
+};
+
+const deleteSelectedRows = () => {
+    const selectedRows = grid.value.getSelectedRows();
+    if (!selectedRows.length) {
+        return;
+    }
+    grid.value.deleteRow(selectedRows);
+};
+
+const clearLogs = () => {
+    logContent.value.innerHTML = '';
+};
 
 onMounted(() => {
     init();
@@ -114,86 +198,6 @@ onMounted(() => {
         appendLog(`event: ${e.type}`, d);
     }).bind('onSelectChanged', function(e, d) {
         appendLog(`event: ${e.type}`, d);
-    });
-
-    const renderData = (data) => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 0,
-            rowFilter: (rowItem) => {
-                if (!keywords.value) {
-                    return true;
-                }
-                if (rowItem.tg_frozen) {
-                    return true;
-                }
-                let name = rowItem.name || rowItem.c0;
-                if (name) {
-                    const arr = keywords.value.toLowerCase().split(' ');
-                    name = name.toLowerCase();
-                    for (let i = 0, l = arr.length; i < l; i++) {
-                        const item = arr[i];
-                        if (item && name.indexOf(item) !== -1) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-        };
-        grid.value.setFormatter({
-            string: function(value, rowItem, columnItem, cellNode) {
-                if (columnItem.id === 'name') {
-                    if (!rowItem.tg_random) {
-                        rowItem.tg_random = Math.random().toString().substr(2, 3);
-                    }
-                    return `${value} (${rowItem.tg_random})`;
-                }
-                return value;
-            }
-        });
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-        console.log('render');
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-        renderData(sampleData());
-    };
-
-    document.querySelector('.ip-keywords').addEventListener('keyup', () => {
-        const k = document.querySelector('.ip-keywords').value;
-        if (k === keywords.value) {
-            return;
-        }
-        keywords.value = k;
-        grid.value.update();
-    });
-
-    document.querySelector('.bt-del').addEventListener('click', () => {
-        const selectedRows = grid.value.getSelectedRows();
-        if (!selectedRows.length) {
-            return;
-        }
-        grid.value.deleteRow(selectedRows);
-    });
-
-    document.querySelector('.bt-clear').addEventListener('click', () => {
-        document.querySelector('.log-content').innerHTML = '';
-    });
-
-    ['.st-data'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

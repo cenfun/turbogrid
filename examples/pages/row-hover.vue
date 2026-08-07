@@ -8,10 +8,14 @@
       </div>
       <div>
         <textarea
+          v-model="usageText"
           class="usage-data"
           style="width: 100%; height: 100px;"
         />
-        <button class="bt-render">
+        <button
+          class="bt-render"
+          @click="render"
+        >
           render usage
         </button>
       </div>
@@ -114,6 +118,26 @@ const usageData = {
         type: 'number'
     }]
 };
+const usageText = ref(JSON.stringify(usageData, null, 4));
+
+const render = () => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 1,
+        frozenRow: -1,
+        sortField: 'name',
+        sortOnInit: true
+    };
+    grid.value.setOption(options);
+
+    const data = JSON.parse(usageText.value);
+    grid.value.setData(data);
+
+    grid.value.render();
+};
+
 
 onMounted(() => {
     init();
@@ -130,36 +154,6 @@ onMounted(() => {
     }).bind('onRowMouseLeave', function(e, d) {
         const cellNode = this.getCellNode(d.rowItem, 'c5');
         cellNode.style.background = 'none';
-    });
-
-    document.querySelector('.usage-data').value = JSON.stringify(usageData, null, 4);
-
-    const render = () => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 1,
-            frozenRow: -1,
-            sortField: 'name',
-            sortOnInit: true
-        };
-        g.setOption(options);
-
-        const data = JSON.parse(document.querySelector('.usage-data').value);
-        g.setData(data);
-
-        g.render();
-    };
-
-    document.querySelector('.bt-render').addEventListener('click', function() {
-        render();
-    });
-
-    [].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(g);

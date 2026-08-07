@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid Row Sort API:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="onDataChange"
+        >
           <option value="sample-sort-data">
             sort data
           </option>
@@ -29,8 +33,10 @@
         <label for="cb_selectVisible">
           <input
             id="cb_selectVisible"
+            v-model="selectVisible"
             type="checkbox"
             class="cb_selectVisible"
+            @change="onDataChange"
           >
           selectVisible
         </label>
@@ -38,8 +44,10 @@
         <label for="cb_selectAllVisible">
           <input
             id="cb_selectAllVisible"
+            v-model="selectAllVisible"
             type="checkbox"
             class="cb_selectAllVisible"
+            @change="onDataChange"
           >
           selectAllVisible
         </label>
@@ -47,7 +55,11 @@
       <div>
         <label>
           sortIndicator:
-          <select class="st_sortIndicator">
+          <select
+            v-model="sortIndicator"
+            class="st_sortIndicator"
+            @change="onDataChange"
+          >
             <option>h</option>
             <option>v</option>
           </select>
@@ -56,9 +68,10 @@
         <label for="cb_sortOnInit">
           <input
             id="cb_sortOnInit"
+            v-model="sortOnInit"
             type="checkbox"
-            checked
             class="cb_sortOnInit"
+            @change="onDataChange"
           >
           sortOnInit
         </label>
@@ -66,9 +79,10 @@
         <label for="cb_sortAsc">
           <input
             id="cb_sortAsc"
+            v-model="sortAsc"
             type="checkbox"
-            checked
             class="cb_sortAsc"
+            @change="onDataChange"
           >
           sortAsc
         </label>
@@ -76,9 +90,10 @@
         <label for="cb_sortBlankValueBottom">
           <input
             id="cb_sortBlankValueBottom"
+            v-model="sortBlankValueBottom"
             type="checkbox"
-            checked
             class="cb_sortBlankValueBottom"
+            @change="onDataChange"
           >
           sortBlankValueBottom
         </label>
@@ -87,12 +102,16 @@
         <label>
           sortField:
           <input
+            v-model="sortField"
             type="text"
             class="it_sortField"
-            value="string_number"
           >
         </label>
-        <select class="st_sortField">
+        <select
+          v-model="sortField"
+          class="st_sortField"
+          @change="onDataChange"
+        >
           <option />
           <option selected>
             string_number
@@ -105,7 +124,10 @@
           <option>string_null</option>
           <option>sortable_false</option>
         </select>
-        <button class="bt-render">
+        <button
+          class="bt-render"
+          @click="onDataChange"
+        >
           render
         </button>
       </div>
@@ -118,6 +140,7 @@
         <label for="cb_preventDefaultOnClick">
           <input
             id="cb_preventDefaultOnClick"
+            v-model="preventDefaultOnClick"
             type="checkbox"
             class="cb_preventDefaultOnClick"
           >
@@ -127,6 +150,7 @@
         <label for="cb_preventDefaultOnSort">
           <input
             id="cb_preventDefaultOnSort"
+            v-model="preventDefaultOnSort"
             type="checkbox"
             class="cb_preventDefaultOnSort"
           >
@@ -134,7 +158,7 @@
         </label>
       </div>
       <div>
-        <div>onSort: <span class="onSort" /></div>
+        <div>onSort: <span class="onSort">{{ sortInfo }}</span></div>
       </div>
     </div>
     <div
@@ -157,6 +181,24 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-sort-data');
+const sortField = ref('string_number');
+const selectVisible = ref(false);
+const selectAllVisible = ref(false);
+const sortIndicator = ref('h');
+const sortOnInit = ref(true);
+const sortAsc = ref(true);
+const sortBlankValueBottom = ref(true);
+const preventDefaultOnClick = ref(false);
+const preventDefaultOnSort = ref(false);
+const sortInfo = ref('');
+let doRender = null;
+
+const onDataChange = () => {
+    if (doRender) {
+        doRender();
+    }
+};
 
 // eslint-disable-next-line max-lines-per-function
 onMounted(() => {
@@ -587,21 +629,21 @@ onMounted(() => {
     });
 
     g.bind('onClick', function(e, d) {
-        if (document.querySelector('.cb_preventDefaultOnClick').checked) {
+        if (preventDefaultOnClick.value) {
             d.e.preventDefault();
             console.log('event prevented');
         }
     });
 
     g.bind('onSort', function(e, d) {
-        if (document.querySelector('.cb_preventDefaultOnSort').checked) {
+        if (preventDefaultOnSort.value) {
             d.e.preventDefault();
             console.log('event prevented');
             return;
         }
-        const sortField = d.columnItem.id;
-        document.querySelector('.it_sortField').value = sortField;
-        document.querySelector('.onSort').innerHTML = sortField;
+        const sf = d.columnItem.id;
+        sortField.value = sf;
+        sortInfo.value = sf;
     });
 
     g.setFormatter({
@@ -619,13 +661,13 @@ onMounted(() => {
 
             bindWindowResize: true,
             theme: route.query.theme || 'default',
-            sortField: document.querySelector('.it_sortField').value,
-            sortAsc: document.querySelector('.cb_sortAsc').checked,
-            sortBlankValueBottom: document.querySelector('.cb_sortBlankValueBottom').checked,
-            sortOnInit: document.querySelector('.cb_sortOnInit').checked,
-            sortIndicator: document.querySelector('.st_sortIndicator').value,
-            selectVisible: document.querySelector('.cb_selectVisible').checked,
-            selectAllVisible: document.querySelector('.cb_selectAllVisible').checked,
+            sortField: sortField.value,
+            sortAsc: sortAsc.value,
+            sortBlankValueBottom: sortBlankValueBottom.value,
+            sortOnInit: sortOnInit.value,
+            sortIndicator: sortIndicator.value,
+            selectVisible: selectVisible.value,
+            selectAllVisible: selectAllVisible.value,
             collapseAllOnInit: true,
             sortComparers: {
                 custom_comparer: function(a, b, o) {
@@ -643,27 +685,27 @@ onMounted(() => {
     };
 
     function render() {
-        const dataStr = document.querySelector('.st-data').value;
+        const ds = dataStr.value;
 
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
+        if (ds.startsWith('random')) {
+            renderData(randomData(ds));
             return;
         }
 
-        if (dataStr === 'sample-sort-data2') {
+        if (ds === 'sample-sort-data2') {
             renderData(customData2);
             return;
         }
-        if (dataStr === 'sample-sort-data3') {
+        if (ds === 'sample-sort-data3') {
             renderData(getCustomData3());
             return;
         }
-        if (dataStr === 'sample-sort-data4') {
+        if (ds === 'sample-sort-data4') {
             renderData(customDataNoSort);
             return;
         }
 
-        if (dataStr === 'sample-sort-data5') {
+        if (ds === 'sample-sort-data5') {
             renderData(customData5);
             return;
         }
@@ -672,23 +714,7 @@ onMounted(() => {
         renderData(d);
     }
 
-    document.querySelector('.bt-render').addEventListener('click', function() {
-        render();
-    });
-
-    document.querySelector('.st_sortField').addEventListener('change', function() {
-        document.querySelector('.it_sortField').value = this.value;
-        render();
-    });
-
-    ['.st-data', '.cb_sortOnInit', '.cb_sortAsc', '.cb_sortBlankValueBottom', '.st_sortIndicator', '.cb_selectVisible', '.cb_selectAllVisible'].forEach(function(item) {
-        const el = document.querySelector(item);
-        if (el) {
-            el.addEventListener('change', function() {
-                render();
-            });
-        }
-    });
+    doRender = render;
 
     initCommonEvents(g);
 

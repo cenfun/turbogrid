@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid column add and delete:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x2k</option>
@@ -41,12 +45,18 @@
       </div>
       <div>
         <div>
-          Event logs <button class="bt-clear">
+          Event logs <button
+            class="bt-clear"
+            @click="clearLogs"
+          >
             Clear Logs
           </button>
         </div>
         <div class="log-container">
-          <div class="log-content" />
+          <div
+            ref="logContent"
+            class="log-content"
+          />
         </div>
       </div>
     </div>
@@ -72,6 +82,32 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-data');
+const logContent = ref(null);
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        selectVisible: true,
+        frozenColumn: 0
+    };
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const clearLogs = () => {
+    logContent.value.innerHTML = '';
+};
 
 onMounted(() => {
     init();
@@ -86,37 +122,6 @@ onMounted(() => {
         appendLog(`event: ${e.type}`, d);
     }).bind('onSelectChanged', function(e, d) {
         appendLog(`event: ${e.type}`, d);
-    });
-
-    const renderData = (data) => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            selectVisible: true,
-            frozenColumn: 0
-        };
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-        renderData(sampleData());
-    };
-
-    document.querySelector('.bt-clear').addEventListener('click', function() {
-        document.querySelector('.log-content').innerHTML = '';
-    });
-
-    ['.st-data'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

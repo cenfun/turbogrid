@@ -1,5 +1,8 @@
 <template>
-  <div class="main">
+  <div
+    ref="main"
+    class="main"
+  >
     <div class="controller">
       <div class="controller-header">
         <div class="controller-title">
@@ -56,17 +59,20 @@
           type="button"
           value="change container"
           class="bt-change_container"
+          @click="changeContainer"
         >
         <input
           type="button"
           value="change container and size"
           class="bt-change_container_size"
+          @click="changeContainerSize"
         >
         <div>Sets a highlight row and check scrollToRow API when resize with container changing</div>
       </div>
       <div>
         <label>
           <input
+            v-model="preventDefaultOnMouseWheel"
             type="checkbox"
             class="cb_preventDefaultOnMouseWheel"
           >
@@ -74,34 +80,41 @@
         </label>
         <label>
           <input
+            v-model="appendRandomRows"
             type="checkbox"
             class="cb_appendRandomRows"
+            @change="render"
           >
           append random rows
           <input
+            v-model.number="rowsCount"
             type="number"
             min="0"
-            value="2000"
             class="ip-rows"
+            @change="render"
           >
         </label>
         <label>
           <input
+            v-model="frozenRight"
             type="checkbox"
             class="cb_frozenRight"
+            @change="render"
           >
           frozenRight
         </label>
         <label>
           <input
+            v-model="frozenBottom"
             type="checkbox"
             class="cb_frozenBottom"
+            @change="render"
           >
           frozenBottom
         </label>
       </div>
       <div>
-        <div>onScroll: <span class="onScroll" /></div>
+        <div>onScroll: <span class="onScroll">{{ scrollInfo }}</span></div>
       </div>
     </div>
     <div
@@ -121,203 +134,273 @@ import { init, initCommonEvents } from '../global.js';
 const route = useRoute();
 
 
+const customData = {
+    columns: [{
+        id: 'name',
+        name: 'Name'
+    }, {
+        id: 'dp1',
+        name: 'DP 1'
+    }, {
+        id: 'dp2',
+        name: 'DP 2'
+    }, {
+        name: 'Group 1',
+        subs: [{
+            id: 'dp3',
+            name: 'DP 3'
+        }, {
+            id: 'dp4',
+            name: 'DP 4'
+        }]
+    }, {
+        name: 'Group 2',
+        subs: [{
+            id: 'dp5',
+            name: 'DP 5'
+        }, {
+            id: 'dp6',
+            name: 'DP 6'
+        }]
+    }, {
+        name: 'Group 3',
+        subs: [{
+            id: 'dp7',
+            name: 'DP 7'
+        }, {
+            id: 'dp8',
+            name: 'DP 8'
+        }]
+    }, {
+        id: 'dp9',
+        name: 'DP 9'
+    }, {
+        id: 'dp10',
+        name: 'DP 10'
+    }, {
+        id: 'dp11',
+        name: 'DP 11'
+    }, {
+        id: 'dp12',
+        name: 'DP 12'
+    }, {
+        id: 'dp13',
+        name: 'DP 13'
+    }, {
+        id: 'dp14',
+        name: 'DP 14'
+    }, {
+        id: 'dp15',
+        name: 'DP 15'
+    }, {
+        id: 'dp16',
+        name: 'DP 16'
+    }, {
+        id: 'dp17',
+        name: 'DP 17'
+    }, {
+        id: 'dp18',
+        name: 'DP 18'
+    }, {
+        id: 'dp19',
+        name: 'DP 19'
+    }, {
+        id: 'dp20',
+        name: 'DP 20'
+    }, {
+        id: 'dp21',
+        name: 'DP 21'
+    }, {
+        id: 'dp22',
+        name: 'DP 22'
+    }, {
+        id: 'dp23',
+        name: 'DP 23'
+    }, {
+        id: 'dp24',
+        name: 'DP 24'
+    }, {
+        id: 'dp25',
+        name: 'DP 25'
+    }, {
+        id: 'dp_last',
+        width: 500,
+        name: 'DP Last'
+    }],
+
+    rows: [{
+        id: 'total',
+        name: 'Total'
+    }, {
+        name: 'Group',
+        subs: [{
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }]
+    }, {
+        name: 'Group',
+        subs: [{
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }]
+    }, {
+        name: 'Group',
+        subs: [{
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            id: 'h0',
+            name: 'Holding (id=h0)'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            id: 'h1',
+            name: 'Holding (id=h1)'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            name: 'Holding'
+        }, {
+            id: 'h_last',
+            name: 'Holding (id=h_last)'
+        }]
+    }]
+};
+
 const gridContainer = ref(null);
 const grid = ref(null);
+const preventDefaultOnMouseWheel = ref(false);
+const appendRandomRows = ref(false);
+const rowsCount = ref(2000);
+const frozenRight = ref(false);
+const frozenBottom = ref(false);
+const scrollInfo = ref('');
+const main = ref(null);
+let zoomIn = false;
+
+const changeContainer = () => {
+    const c = gridContainer.value;
+    main.value.appendChild(c);
+    if (grid.value) {
+        grid.value.resize();
+    }
+};
+
+const changeContainerSize = () => {
+    const c = gridContainer.value;
+    if (zoomIn) {
+        c.style.margin = '5px';
+    } else {
+        c.style.margin = '5px 205px 105px 5px';
+    }
+    zoomIn = !zoomIn;
+    main.value.appendChild(c);
+    if (grid.value) {
+        grid.value.resize();
+    }
+};
+
+const render = function() {
+    grid.value.setOption({
+        bindWindowResize: true,
+        theme: route.query.theme || 'default',
+        frozenRight: frozenRight.value,
+        frozenBottom: frozenBottom.value,
+        frozenColumn: 0,
+        frozenRow: 0
+    });
+    grid.value.setFormatter({
+        tree: function(value, rowItem, columnItem, cellNode) {
+            const defaultFormatter = this.getDefaultFormatter('tree');
+            return defaultFormatter(`${value} (index=${rowItem.tg_index})`, rowItem, columnItem, cellNode);
+        },
+        header: function(v, rowItem, columnItem, cellNode) {
+            let s = `index:${columnItem.tg_index} `;
+            if (columnItem.id) {
+                s += `id:${columnItem.id} `;
+            }
+            cellNode.title = s;
+            return v;
+        }
+    });
+
+    const data = JSON.parse(JSON.stringify(customData));
+    if (appendRandomRows.value) {
+        const rows = rowsCount.value;
+        let i = 0;
+        while (i < rows) {
+            data.rows.splice(2, 0, {
+                name: `Row ${i + 11}`
+            });
+            i++;
+        }
+    }
+
+    grid.value.setData(data);
+    grid.value.render();
+};
 
 onMounted(() => {
     init();
-    const customData = {
-        columns: [{
-            id: 'name',
-            name: 'Name'
-        }, {
-            id: 'dp1',
-            name: 'DP 1'
-        }, {
-            id: 'dp2',
-            name: 'DP 2'
-        }, {
-            name: 'Group 1',
-            subs: [{
-                id: 'dp3',
-                name: 'DP 3'
-            }, {
-                id: 'dp4',
-                name: 'DP 4'
-            }]
-        }, {
-            name: 'Group 2',
-            subs: [{
-                id: 'dp5',
-                name: 'DP 5'
-            }, {
-                id: 'dp6',
-                name: 'DP 6'
-            }]
-        }, {
-            name: 'Group 3',
-            subs: [{
-                id: 'dp7',
-                name: 'DP 7'
-            }, {
-                id: 'dp8',
-                name: 'DP 8'
-            }]
-        }, {
-            id: 'dp9',
-            name: 'DP 9'
-        }, {
-            id: 'dp10',
-            name: 'DP 10'
-        }, {
-            id: 'dp11',
-            name: 'DP 11'
-        }, {
-            id: 'dp12',
-            name: 'DP 12'
-        }, {
-            id: 'dp13',
-            name: 'DP 13'
-        }, {
-            id: 'dp14',
-            name: 'DP 14'
-        }, {
-            id: 'dp15',
-            name: 'DP 15'
-        }, {
-            id: 'dp16',
-            name: 'DP 16'
-        }, {
-            id: 'dp17',
-            name: 'DP 17'
-        }, {
-            id: 'dp18',
-            name: 'DP 18'
-        }, {
-            id: 'dp19',
-            name: 'DP 19'
-        }, {
-            id: 'dp20',
-            name: 'DP 20'
-        }, {
-            id: 'dp21',
-            name: 'DP 21'
-        }, {
-            id: 'dp22',
-            name: 'DP 22'
-        }, {
-            id: 'dp23',
-            name: 'DP 23'
-        }, {
-            id: 'dp24',
-            name: 'DP 24'
-        }, {
-            id: 'dp25',
-            name: 'DP 25'
-        }, {
-            id: 'dp_last',
-            width: 500,
-            name: 'DP Last'
-        }],
-
-        rows: [{
-            id: 'total',
-            name: 'Total'
-        }, {
-            name: 'Group',
-            subs: [{
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }]
-        }, {
-            name: 'Group',
-            subs: [{
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }]
-        }, {
-            name: 'Group',
-            subs: [{
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                id: 'h0',
-                name: 'Holding (id=h0)'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                id: 'h1',
-                name: 'Holding (id=h1)'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                name: 'Holding'
-            }, {
-                id: 'h_last',
-                name: 'Holding (id=h_last)'
-            }]
-        }]
-    };
-
     const g = new Grid(gridContainer.value);
     grid.value = g;
 
@@ -326,7 +409,7 @@ onMounted(() => {
     });
 
     g.bind('onMouseWheel', function(e, d) {
-        if (document.querySelector('.cb_preventDefaultOnMouseWheel').checked) {
+        if (preventDefaultOnMouseWheel.value) {
             d.e.preventDefault();
             console.log('event prevented');
         }
@@ -334,85 +417,14 @@ onMounted(() => {
 
     g.bind('onScroll', function(e, d) {
         console.log(d);
-        document.querySelector('.onScroll').innerHTML = JSON.stringify(d);
-    });
-
-    const render = function() {
-        g.setOption({
-            bindWindowResize: true,
-            theme: route.query.theme || 'default',
-            frozenRight: document.querySelector('.cb_frozenRight').checked,
-            frozenBottom: document.querySelector('.cb_frozenBottom').checked,
-            frozenColumn: 0,
-            frozenRow: 0
-        });
-        g.setFormatter({
-            tree: function(value, rowItem, columnItem, cellNode) {
-                const defaultFormatter = this.getDefaultFormatter('tree');
-                return defaultFormatter(`${value} (index=${rowItem.tg_index})`, rowItem, columnItem, cellNode);
-            },
-            header: function(v, rowItem, columnItem, cellNode) {
-                let s = `index:${columnItem.tg_index} `;
-                if (columnItem.id) {
-                    s += `id:${columnItem.id} `;
-                }
-                cellNode.title = s;
-                return v;
-            }
-        });
-
-        const data = JSON.parse(JSON.stringify(customData));
-        if (document.querySelector('.cb_appendRandomRows').checked) {
-            const rows = Number(document.querySelector('.ip-rows').value);
-            let i = 0;
-            while (i < rows) {
-                data.rows.splice(2, 0, {
-                    name: `Row ${i + 11}`
-                });
-                i++;
-            }
-        }
-
-        g.setData(data);
-        g.render();
-    };
-
-    document.querySelector('.bt-change_container').addEventListener('click', function() {
-        const c = gridContainer.value;
-        document.querySelector('.main').appendChild(c);
-        if (g) {
-            g.resize();
-        }
-    });
-
-    let zoomIn = false;
-    document.querySelector('.bt-change_container_size').addEventListener('click', function() {
-        const c = gridContainer.value;
-        if (zoomIn) {
-            c.style.margin = '5px';
-        } else {
-            c.style.margin = '5px 205px 105px 5px';
-        }
-        zoomIn = !zoomIn;
-        document.querySelector('.main').appendChild(c);
-        if (g) {
-            g.resize();
-        }
-    });
-
-    ['.cb_appendRandomRows', '.ip-rows', '.cb_frozenRight', '.cb_frozenBottom'].forEach(function(item) {
-        const el = document.querySelector(item);
-        if (el) {
-            el.addEventListener('change', function() {
-                render();
-            });
-        }
+        scrollInfo.value = JSON.stringify(d);
     });
 
     initCommonEvents(g);
 
     render();
 });
+
 
 onBeforeUnmount(() => {
     if (grid.value) {

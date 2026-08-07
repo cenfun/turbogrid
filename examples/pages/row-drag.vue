@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid Row Drag
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option value="">
             sample data
           </option>
@@ -16,7 +20,11 @@
       <div>
         <label>
           rowDragCrossLevel
-          <select class="st_rowDragCrossLevel">
+          <select
+            v-model="rowDragCrossLevel"
+            class="st_rowDragCrossLevel"
+            @change="render"
+          >
             <option>true</option>
             <option>false</option>
             <option value="handler">specified drop list</option>
@@ -26,9 +34,10 @@
 
         <label>
           <input
-            checked
+            v-model="rowDragVisible"
             type="checkbox"
             class="cb_rowDragVisible"
+            @change="render"
           >
           rowDragVisible
         </label>
@@ -36,8 +45,10 @@
 
         <label>
           <input
+            v-model="textSelectable"
             type="checkbox"
             class="cb_textSelectable"
+            @change="render"
           >
           textSelectable
         </label>
@@ -46,6 +57,7 @@
         <button>exportData()</button>
         <label>
           <input
+            v-model="preventDefaultOnRowDragged"
             type="checkbox"
             class="cb_preventDefaultOnRowDragged"
           >
@@ -53,8 +65,8 @@
         </label>
       </div>
       <div>
-        <div>onRowDragged: <span class="onRowDragged" /></div>
-        <div>onRowDropped: <span class="onRowDropped" /></div>
+        <div>onRowDragged: <span class="onRowDragged">{{ draggedInfo }}</span></div>
+        <div>onRowDropped: <span class="onRowDropped">{{ droppedInfo }}</span></div>
       </div>
     </div>
     <div
@@ -299,6 +311,45 @@ const customData = {
     }]
 };
 
+const dataStr = ref('');
+const rowDragCrossLevel = ref('true');
+const rowDragVisible = ref(true);
+const textSelectable = ref(false);
+const preventDefaultOnRowDragged = ref(false);
+const draggedInfo = ref('');
+const droppedInfo = ref('');
+
+const renderData = (data) => {
+    const handlers = {
+        true: true,
+        false: false,
+        handler: function(d) {
+            console.log(d);
+            return [data.rows[1], data.rows[2]];
+        }
+    };
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        rowDragCrossLevel: handlers[rowDragCrossLevel.value],
+        textSelectable: textSelectable.value,
+        rowDragVisible: rowDragVisible.value,
+        frozenColumn: 0,
+        frozenRow: 0
+    };
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(customData);
+};
+
 onMounted(() => {
     init();
     grid.value = new Grid(gridContainer.value);
@@ -321,14 +372,14 @@ onMounted(() => {
 
         console.log('onRowDragged:', indexes, d);
 
-        if (document.querySelector('.cb_preventDefaultOnRowDragged').checked) {
+        if (preventDefaultOnRowDragged.value) {
             d.e.preventDefault();
             console.log('event prevented');
             return;
         }
 
-        document.querySelector('.onRowDragged').innerHTML = `${d.rowItem.name} (${d.rowItem.tg_view_index})`;
-        document.querySelector('.onRowDropped').innerHTML = '';
+        draggedInfo.value = `${d.rowItem.name} (${d.rowItem.tg_view_index})`;
+        droppedInfo.value = '';
     });
 
     grid.value.bind('onRowDropped', function(e, d) {
@@ -340,50 +391,9 @@ onMounted(() => {
         };
 
         console.log('onRowDropped:', indexes, d);
-        document.querySelector('.onRowDropped').innerHTML = `${d.rowItem.name} (${d.rowItem.tg_view_index})`;
+        droppedInfo.value = `${d.rowItem.name} (${d.rowItem.tg_view_index})`;
         const $nodes = this.getRowNodes(d.rowItem);
         $nodes.addClass('tg-blink');
-    });
-
-    const renderData = (data) => {
-        const handlers = {
-            true: true,
-            false: false,
-            handler: function(d) {
-                console.log(d);
-                return [data.rows[1], data.rows[2]];
-            }
-        };
-        const rowDragCrossLevel = handlers[document.querySelector('.st_rowDragCrossLevel').value];
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            rowDragCrossLevel: rowDragCrossLevel,
-            textSelectable: document.querySelector('.cb_textSelectable').checked,
-            rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
-            frozenColumn: 0,
-            frozenRow: 0
-        };
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(customData);
-    };
-
-    ['.st-data', '.st_rowDragCrossLevel', '.cb_rowDragVisible', '.cb_textSelectable'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

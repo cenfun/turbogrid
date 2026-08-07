@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid Row Number:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x2k</option>
@@ -14,9 +18,10 @@
       <div>
         <label>
           <input
+            v-model="rowNumberVisible"
             type="checkbox"
             class="cb_rowNumberVisible"
-            checked
+            @change="render"
           >
           rowNumberVisible
         </label>
@@ -24,32 +29,40 @@
 
         <label>
           <input
+            v-model="selectVisible"
             type="checkbox"
             class="cb_selectVisible"
+            @change="render"
           >
           selectVisible
         </label>
 
         <label>
           <input
+            v-model="selectAllVisible"
             type="checkbox"
             class="cb_selectAllVisible"
+            @change="render"
           >
           selectAllVisible
         </label>
 
         <label>
           <input
+            v-model="rowDragVisible"
             type="checkbox"
             class="cb_rowDragVisible"
+            @change="render"
           >
           rowDragVisible
         </label>
 
         <label>
           <input
+            v-model="collapseAllVisible"
             type="checkbox"
             class="cb_collapseAllVisible"
+            @change="render"
           >
           collapseAllVisible
         </label>
@@ -75,6 +88,38 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-data');
+const rowNumberVisible = ref(true);
+const selectVisible = ref(false);
+const selectAllVisible = ref(false);
+const rowDragVisible = ref(false);
+const collapseAllVisible = ref(false);
+
+const renderData = (data) => {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        rowNumberVisible: rowNumberVisible.value,
+        collapseAllVisible: collapseAllVisible.value,
+        selectVisible: selectVisible.value,
+        selectAllVisible: selectAllVisible.value,
+        rowDragVisible: rowDragVisible.value,
+        frozenColumn: 0,
+        frozenRow: 1
+    };
+
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
 
 onMounted(() => {
     init();
@@ -83,41 +128,6 @@ onMounted(() => {
 
     g.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = (data) => {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
-            collapseAllVisible: document.querySelector('.cb_collapseAllVisible').checked,
-            selectVisible: document.querySelector('.cb_selectVisible').checked,
-            selectAllVisible: document.querySelector('.cb_selectAllVisible').checked,
-            rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
-            frozenColumn: 0,
-            frozenRow: 1
-        };
-
-        g.setOption(options);
-        g.setData(data);
-        g.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    };
-
-    ['.st-data', '.cb_rowNumberVisible', '.cb_collapseAllVisible', '.cb_selectVisible', '.cb_selectAllVisible', '.cb_rowDragVisible'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(g);

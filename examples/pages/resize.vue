@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid resize example:
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x20k</option>
@@ -15,10 +19,15 @@
         <label>
           width:
           <input
+            v-model="width"
             class="it_width"
-            value="100%"
+            @change="updateContainerSize"
           >
-          <select class="st_width">
+          <select
+            v-model="width"
+            class="st_width"
+            @change="updateContainerSize"
+          >
             <option>100%</option>
             <option>500px</option>
             <option>800px</option>
@@ -28,10 +37,15 @@
         <label>
           height:
           <input
+            v-model="height"
             class="it_height"
-            value="100%"
+            @change="updateContainerSize"
           >
-          <select class="st_height">
+          <select
+            v-model="height"
+            class="st_height"
+            @change="updateContainerSize"
+          >
             <option>100%</option>
             <option>300px</option>
             <option>600px</option>
@@ -52,26 +66,30 @@
         <label for="cb_bindWindowResize">
           <input
             id="cb_bindWindowResize"
+            v-model="bindWindowResize"
             type="checkbox"
             class="cb_bindWindowResize"
-            checked
+            @change="render"
           >
           bindWindowResize
         </label>
         <label for="cb_bindContainerResize">
           <input
             id="cb_bindContainerResize"
+            v-model="bindContainerResize"
             type="checkbox"
             class="cb_bindContainerResize"
-            checked
+            @change="render"
           >
           bindContainerResize
         </label>
 
         <label>
           <input
+            v-model="containerHidden"
             type="checkbox"
             class="cb_containerHidden"
+            @click="toggleContainerHidden"
           >
           container hidden
         </label>
@@ -99,14 +117,42 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('sample-data');
+const width = ref('100%');
+const height = ref('100%');
+const bindWindowResize = ref(true);
+const bindContainerResize = ref(true);
+const containerHidden = ref(false);
 
 const updateContainerSize = () => {
-    const width = document.querySelector('.it_width').value;
-    const height = document.querySelector('.it_height').value;
-
     const elem = gridContainer.value;
-    elem.style.width = width;
-    elem.style.height = height;
+    elem.style.width = width.value;
+    elem.style.height = height.value;
+};
+
+const renderData = (data) => {
+    grid.value.setOption({
+        theme: route.query.theme,
+        bindWindowResize: bindWindowResize.value,
+        bindContainerResize: bindContainerResize.value
+    });
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (!grid.value) {
+        return;
+    }
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const toggleContainerHidden = () => {
+    gridContainer.value.style.display = containerHidden.value ? 'none' : 'block';
 };
 
 onMounted(() => {
@@ -123,51 +169,6 @@ onMounted(() => {
 
     grid.value.bind('onLayout', function(e, d) {
         console.log(e.type, d);
-    });
-
-    const renderData = (data) => {
-        grid.value.setOption({
-            theme: route.query.theme,
-            bindWindowResize: document.querySelector('.cb_bindWindowResize').checked,
-            bindContainerResize: document.querySelector('.cb_bindContainerResize').checked
-        });
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    };
-
-    ['.it_width', '.it_height'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function(e) {
-            updateContainerSize();
-        });
-    });
-
-    ['.st_width', '.st_height'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            document.querySelector('.it_width').value = document.querySelector('.st_width').value;
-            document.querySelector('.it_height').value = document.querySelector('.st_height').value;
-            updateContainerSize();
-        });
-    });
-
-    document.querySelector('.cb_containerHidden').addEventListener('click', function(e) {
-        gridContainer.value.style.display = this.checked ? 'none' : 'block';
-    });
-
-    ['.st-data', '.cb_bindWindowResize', '.cb_bindContainerResize'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

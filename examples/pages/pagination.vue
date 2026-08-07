@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid pagination example
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>random-20x1k</option>
           <option>random-20x5k</option>
         </select>
@@ -13,12 +17,28 @@
       <div>
         <label>
           page:
-          <select class="st_page" />
+          <select
+            v-model.number="page"
+            class="st_page"
+            @change="render"
+          >
+            <option
+              v-for="n in totalPage"
+              :key="n"
+              :value="n"
+            >
+              {{ n }}
+            </option>
+          </select>
         </label>
 
         <label>
           page size:
-          <select class="st_pageSize">
+          <select
+            v-model.number="pageSize"
+            class="st_pageSize"
+            @change="render"
+          >
             <option>50</option>
             <option>100</option>
             <option>200</option>
@@ -26,15 +46,25 @@
         </label>
 
         <label>total page:
-          <span class="totalPage" />
+          <span class="totalPage">{{ totalPage }}</span>
         </label>
 
         <label>
           total size:
-          <span class="totalSize" />
+          <span class="totalSize">{{ totalSize }}</span>
         </label>
       </div>
-      <div class="page-list" />
+      <div class="page-list">
+        <div
+          v-for="n in totalPage"
+          :key="n"
+          class="page-item"
+          :class="[`page-item_${n}`, { selected: n === page }]"
+          @click="selectPage(n)"
+        >
+          {{ n }}
+        </div>
+      </div>
       <div>
         <div>
           <div>We do NOT recommend using pagination which is NOT good solution to Grid usage.</div>
@@ -73,6 +103,77 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const dataStr = ref('random-20x1k');
+const page = ref(1);
+const pageSize = ref(50);
+const totalPage = ref(0);
+const totalSize = ref(0);
+
+let _totalData;
+let _dataStr;
+const getRandomData = function() {
+    if (dataStr.value !== _dataStr) {
+        _totalData = null;
+        _dataStr = dataStr.value;
+    }
+
+    if (_totalData) {
+        return _totalData;
+    }
+
+    _totalData = randomData(dataStr.value);
+
+    return _totalData;
+};
+
+const pageHandler = function(td) {
+    const totalRows = td.rows;
+    totalSize.value = totalRows.length;
+
+    const size = pageSize.value;
+
+    totalPage.value = Math.ceil(totalSize.value / size);
+
+    let p = page.value || 1;
+    p = Math.max(1, p);
+    p = Math.min(totalPage.value, p);
+    page.value = p;
+
+    const start = (p - 1) * size;
+    const end = start + size;
+    const pageRows = totalRows.slice(start, end);
+
+    return {
+        rows: pageRows,
+        columns: td.columns
+    };
+};
+
+const selectPage = (n) => {
+    page.value = n;
+    render();
+};
+
+function render() {
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        frozenColumn: 0,
+        frozenRow: -1
+    };
+    grid.value.setOption(options);
+
+    const pageData = pageHandler(getRandomData());
+
+    grid.value.showLoading();
+    setTimeout(function() {
+        grid.value.hideLoading();
+
+        grid.value.setData(pageData);
+        grid.value.render();
+
+    }, 1000);
+}
 
 onMounted(() => {
     init();
@@ -80,109 +181,6 @@ onMounted(() => {
 
     grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    let _totalData;
-    let _dataStr;
-    const getRandomData = function() {
-        const dataStr = document.querySelector('.st-data').value;
-        if (dataStr !== _dataStr) {
-            _totalData = null;
-            _dataStr = dataStr;
-        }
-
-        if (_totalData) {
-            return _totalData;
-        }
-
-        _totalData = randomData(dataStr);
-
-        return _totalData;
-    };
-
-    function render() {
-        const options = {
-            bindWindowResize: true,
-            theme: route.query.theme,
-            frozenColumn: 0,
-            frozenRow: -1
-        };
-        grid.value.setOption(options);
-
-        const pageData = pageHandler(getRandomData());
-
-        grid.value.showLoading();
-        setTimeout(function() {
-            grid.value.hideLoading();
-
-            grid.value.setData(pageData);
-            grid.value.render();
-
-        }, 1000);
-    }
-
-    const pageNode = document.querySelector('.st_page');
-    const pageList = document.querySelector('.page-list');
-    pageList.addEventListener('click', function(e) {
-        if (!e.target.classList.contains('page-item')) {
-            return;
-        }
-        const page = parseInt(e.target.innerHTML, 10) || 1;
-        pageNode.value = page;
-        render();
-    });
-
-    const pageHandler = function(td) {
-        const totalRows = td.rows;
-        const totalSize = totalRows.length;
-        document.querySelector('.totalSize').innerHTML = totalSize;
-
-        const pageSize = parseInt(document.querySelector('.st_pageSize').value, 10);
-
-        const totalPage = Math.ceil(totalSize / pageSize);
-        document.querySelector('.totalPage').innerHTML = totalPage;
-
-        let page = parseInt(document.querySelector('.st_page').value, 10) || 1;
-        page = Math.max(1, page);
-        page = Math.min(totalPage, page);
-
-        pageNode.innerHTML = '';
-        pageList.innerHTML = '';
-
-        for (let i = 1; i <= totalPage; i++) {
-            const option = document.createElement('option');
-            option.innerHTML = i;
-            pageNode.appendChild(option);
-
-            const item = document.createElement('div');
-            item.className = `page-item page-item_${i}`;
-            item.innerHTML = i;
-            pageList.appendChild(item);
-        }
-
-        pageNode.value = page;
-
-        const selected = pageList.querySelector('.selected');
-        if (selected) {
-            selected.classList.remove('selected');
-        }
-
-        pageList.querySelector(`.page-item_${page}`).classList.add('selected');
-
-        const start = (page - 1) * pageSize;
-        const end = start + pageSize;
-        const pageRows = totalRows.slice(start, end);
-
-        return {
-            rows: pageRows,
-            columns: td.columns
-        };
-    };
-
-    ['.st-data', '.st_pageSize', '.st_page'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);
@@ -196,30 +194,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style lang="scss">
-.page-list {
-    position: relative;
-    margin-top: 5px;
-}
-
-.page-item {
-    min-width: 30px;
-    margin: 0 5px 5px 0;
-    padding: 3px 5px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
-
-    &:hover {
-        background: #f5f5f5;
-    }
-
-    &.selected {
-        font-weight: bold;
-        border: 1px solid #333;
-        background: #eee;
-    }
-}
-</style>

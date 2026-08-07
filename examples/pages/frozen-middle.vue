@@ -269,12 +269,6 @@ onMounted(() => {
         fmg.render();
     };
 
-    [].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
-
     initCommonEvents(fmg);
 
     render();

@@ -5,7 +5,11 @@
         <div class="controller-title">
           Grid row filter
         </div>
-        <select class="st-data">
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
           <option>sample-data</option>
           <option>random-3x10</option>
           <option>random-100x2k</option>
@@ -16,16 +20,21 @@
       <div>
         <label>rowFilter:
           <input
+            v-model="keywords"
             type="text"
-            value=""
             placeholder="keywords"
             class="ip-keywords"
-            onfocus="this.select()"
+            @focus="$event.target.select()"
+            @keyup="updateGrid"
           >
         </label>
 
         <label>rowFilteredSort:
-          <select class="st-rowFilteredSort">
+          <select
+            v-model="rowFilteredSort"
+            class="st-rowFilteredSort"
+            @change="render"
+          >
             <option />
             <option>name</option>
             <option>{"sortField": "name", "sortAsc": false}</option>
@@ -35,6 +44,7 @@
       <div>
         <label>
           <input
+            v-model="removeSortColumn"
             type="checkbox"
             class="cb-removeSortColumn"
           >
@@ -83,6 +93,59 @@ const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('');
+const dataStr = ref('sample-data');
+const rowFilteredSort = ref('');
+const removeSortColumn = ref(false);
+
+const renderData = (data) => {
+    let sortValue = rowFilteredSort.value;
+    if (sortValue.startsWith('{')) {
+        sortValue = JSON.parse(sortValue);
+    }
+
+    const options = {
+        bindWindowResize: true,
+        theme: route.query.theme,
+        frozenColumn: 0,
+        frozenRow: 1,
+        selectVisible: true,
+        rowNotFound: '<div>Not Found</div>',
+        rowFilter: (rowItem) => {
+            const keyword = keywords.value.trim().toLowerCase();
+            let hasMatched = !keyword || `${rowItem.name || ''}`.toLowerCase().includes(keyword);
+
+            if (rowItem.tg_frozen) {
+                hasMatched = true;
+            }
+            if (rowItem.formatter === 'blank') {
+                hasMatched = false;
+            }
+            return hasMatched;
+        },
+        rowFilteredSort: sortValue
+    };
+    grid.value.setOption(options);
+    grid.value.setData(data);
+    grid.value.render();
+};
+
+const render = () => {
+    if (dataStr.value.startsWith('random')) {
+        renderData(randomData(dataStr.value));
+        return;
+    }
+    renderData(sampleData());
+};
+
+const updateGrid = () => {
+    if (!grid.value) {
+        return;
+    }
+    if (removeSortColumn.value) {
+        grid.value.removeSortColumn();
+    }
+    grid.value.update();
+};
 
 onMounted(() => {
     init();
@@ -90,71 +153,6 @@ onMounted(() => {
 
     grid.value.bind('onFirstUpdated', function() {
         console.log('duration:', `${this.renderDuration}ms`);
-    });
-
-    const renderData = (data) => {
-        let rowFilteredSort = document.querySelector('.st-rowFilteredSort').value;
-        if (rowFilteredSort.startsWith('{')) {
-            rowFilteredSort = JSON.parse(rowFilteredSort);
-        }
-
-        const options = {
-
-            bindWindowResize: true,
-            theme: route.query.theme,
-            frozenColumn: 0,
-            frozenRow: 1,
-            selectVisible: true,
-            rowNotFound: '<div>Not Found</div>',
-            rowFilter: (rowItem) => {
-                const keyword = keywords.value.trim().toLowerCase();
-                let hasMatched = !keyword || `${rowItem.name || ''}`.toLowerCase().includes(keyword);
-
-                if (rowItem.tg_frozen) {
-                    hasMatched = true;
-                }
-                if (rowItem.formatter === 'blank') {
-                    hasMatched = false;
-                }
-                return hasMatched;
-            },
-            rowFilteredSort
-        };
-        grid.value.setOption(options);
-        grid.value.setData(data);
-        grid.value.render();
-    };
-
-    const render = () => {
-        const dataStr = document.querySelector('.st-data').value;
-
-        if (dataStr.startsWith('random')) {
-            renderData(randomData(dataStr));
-            return;
-        }
-
-        renderData(sampleData());
-    };
-
-    document.querySelector('.ip-keywords').addEventListener('keyup', () => {
-        const k = document.querySelector('.ip-keywords').value;
-        if (k === keywords.value) {
-            return;
-        }
-        keywords.value = k;
-
-        const removeSortColumn = document.querySelector('.cb-removeSortColumn').checked;
-        if (removeSortColumn) {
-            grid.value.removeSortColumn();
-        }
-
-        grid.value.update();
-    });
-
-    ['.st-rowFilteredSort', '.st-data'].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
     });
 
     initCommonEvents(grid.value);

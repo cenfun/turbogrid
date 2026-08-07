@@ -14,25 +14,30 @@
       <div>
         <label>
           <input
+            v-model="selectVisible"
             type="checkbox"
-            checked
             class="cb_selectVisible"
+            @change="render"
           >
           selectVisible
         </label>
 
         <label>
           <input
+            v-model="rowNumberVisible"
             type="checkbox"
             class="cb_rowNumberVisible"
+            @change="render"
           >
           rowNumberVisible
         </label>
 
         <label>
           <input
+            v-model="rowDragVisible"
             type="checkbox"
             class="cb_rowDragVisible"
+            @change="render"
           >
           rowDragVisible
         </label>
@@ -40,77 +45,87 @@
         <label>
           frozenColumn
           <input
+            v-model.number="frozenColumn"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="0"
             class="ip-number ip_frozenColumn"
+            @change="render"
           >
         </label>
         <label>
           frozenRow
           <input
+            v-model.number="frozenRow"
             type="number"
             min="-1"
             max="5"
             step="1"
-            value="1"
             class="ip-number ip_frozenRow"
+            @change="render"
           >
         </label>
         <label for="cb_frozenBottom">
           <input
             id="cb_frozenBottom"
+            v-model="frozenBottom"
             type="checkbox"
             class="cb_frozenBottom"
+            @change="render"
           >
           frozenBottom
         </label>
         <label>
           rowHeight
           <input
+            v-model.number="rowHeight"
             type="number"
-            value="23"
             class="ip-number ip_rowHeight"
+            @change="render"
           >
         </label>
         <label>
           rowCacheLength
           <input
+            v-model.number="rowCacheLength"
             type="number"
             min="0"
             step="1"
-            value="0"
             class="ip-number it_rowCacheLength"
+            @change="render"
           >
         </label>
 
         <label>rowFilter:
           <input
+            v-model="keywords"
             type="text"
-            value=""
             placeholder="keywords"
             class="ip-keywords"
-            onfocus="this.select()"
+            @focus="$event.target.select()"
+            @keyup="updateGrid"
           >
         </label>
       </div>
       <div>
         <textarea
+          v-model="usageText1"
           class="usage-data1"
           style="width: 100%; height: 38px;"
-        >This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1</textarea>
+        />
         <textarea
+          v-model="usageText2"
           class="usage-data2"
           style="width: 100%; height: 38px;"
-        >This is text 2, This is text 2, This is text 2, This is text 2, This is text 2</textarea>
+        />
       </div>
       <div>
         <input
           class="bt-del"
           type="button"
           value="delete selected rows"
+          @click="deleteSelectedRows"
         >
       </div>
     </div>
@@ -133,10 +148,34 @@ const route = useRoute();
 
 const gridContainer = ref(null);
 const grid = ref(null);
+const keywords = ref('');
+const selectVisible = ref(true);
+const rowNumberVisible = ref(false);
+const rowDragVisible = ref(false);
+const frozenColumn = ref(0);
+const frozenRow = ref(1);
+const frozenBottom = ref(false);
+const rowHeight = ref(23);
+const rowCacheLength = ref(0);
+const usageText1 = ref('This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1, This is long text 1');
+const usageText2 = ref('This is text 2, This is text 2, This is text 2, This is text 2, This is text 2');
+
+const deleteSelectedRows = () => {
+    const selectedRows = grid.value.getSelectedRows();
+    if (!selectedRows.length) {
+        return;
+    }
+    grid.value.deleteRow(selectedRows);
+};
+
+const updateGrid = () => {
+    if (grid.value) {
+        grid.value.update();
+    }
+};
 
 onMounted(() => {
     init();
-    let keywords;
     grid.value = new Grid(gridContainer.value);
 
     grid.value.bind('onFirstUpdated', function() {
@@ -146,8 +185,8 @@ onMounted(() => {
     const svg = '<svg aria-roledescription="gantt" role="graphics-document document" style="max-width: 653px;" viewBox="0 0 653 196" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid-1718846914600"><style>#mermaid-1718846914600{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-1718846914600 .error-icon{fill:#552222;}#mermaid-1718846914600 .error-text{fill:#552222;stroke:#552222;}#mermaid-1718846914600 .edge-thickness-normal{stroke-width:2px;}#mermaid-1718846914600 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1718846914600 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1718846914600 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1718846914600 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1718846914600 .marker{fill:#333333;stroke:#333333;}#mermaid-1718846914600 .marker.cross{stroke:#333333;}#mermaid-1718846914600 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-1718846914600 .mermaid-main-font{font-family:var(--mermaid-font-family, "trebuchet ms", verdana, arial, sans-serif);}#mermaid-1718846914600 .exclude-range{fill:#eeeeee;}#mermaid-1718846914600 .section{stroke:none;opacity:0.2;}#mermaid-1718846914600 .section0{fill:rgba(102, 102, 255, 0.49);}#mermaid-1718846914600 .section2{fill:#fff400;}#mermaid-1718846914600 .section1,#mermaid-1718846914600 .section3{fill:white;opacity:0.2;}#mermaid-1718846914600 .sectionTitle0{fill:#333;}#mermaid-1718846914600 .sectionTitle1{fill:#333;}#mermaid-1718846914600 .sectionTitle2{fill:#333;}#mermaid-1718846914600 .sectionTitle3{fill:#333;}#mermaid-1718846914600 .sectionTitle{text-anchor:start;font-family:var(--mermaid-font-family, "trebuchet ms", verdana, arial, sans-serif);}#mermaid-1718846914600 .grid .tick{stroke:lightgrey;opacity:0.8;shape-rendering:crispEdges;}#mermaid-1718846914600 .grid .tick text{font-family:"trebuchet ms",verdana,arial,sans-serif;fill:#333;}#mermaid-1718846914600 .grid path{stroke-width:0;}#mermaid-1718846914600 .today{fill:none;stroke:red;stroke-width:2px;}#mermaid-1718846914600 .task{stroke-width:2;}#mermaid-1718846914600 .taskText{text-anchor:middle;font-family:var(--mermaid-font-family, "trebuchet ms", verdana, arial, sans-serif);}#mermaid-1718846914600 .taskTextOutsideRight{fill:black;text-anchor:start;font-family:var(--mermaid-font-family, "trebuchet ms", verdana, arial, sans-serif);}#mermaid-1718846914600 .taskTextOutsideLeft{fill:black;text-anchor:end;}#mermaid-1718846914600 .task.clickable{cursor:pointer;}#mermaid-1718846914600 .taskText.clickable{cursor:pointer;fill:#003163!important;font-weight:bold;}#mermaid-1718846914600 .taskTextOutsideLeft.clickable{cursor:pointer;fill:#003163!important;font-weight:bold;}#mermaid-1718846914600 .taskTextOutsideRight.clickable{cursor:pointer;fill:#003163!important;font-weight:bold;}#mermaid-1718846914600 .taskText0,#mermaid-1718846914600 .taskText1,#mermaid-1718846914600 .taskText2,#mermaid-1718846914600 .taskText3{fill:white;}#mermaid-1718846914600 .task0,#mermaid-1718846914600 .task1,#mermaid-1718846914600 .task2,#mermaid-1718846914600 .task3{fill:#8a90dd;stroke:#534fbc;}#mermaid-1718846914600 .taskTextOutside0,#mermaid-1718846914600 .taskTextOutside2{fill:black;}#mermaid-1718846914600 .taskTextOutside1,#mermaid-1718846914600 .taskTextOutside3{fill:black;}#mermaid-1718846914600 .active0,#mermaid-1718846914600 .active1,#mermaid-1718846914600 .active2,#mermaid-1718846914600 .active3{fill:#bfc7ff;stroke:#534fbc;}#mermaid-1718846914600 .activeText0,#mermaid-1718846914600 .activeText1,#mermaid-1718846914600 .activeText2,#mermaid-1718846914600 .activeText3{fill:black!important;}#mermaid-1718846914600 .done0,#mermaid-1718846914600 .done1,#mermaid-1718846914600 .done2,#mermaid-1718846914600 .done3{stroke:grey;fill:lightgrey;stroke-width:2;}#mermaid-1718846914600 .doneText0,#mermaid-1718846914600 .doneText1,#mermaid-1718846914600 .doneText2,#mermaid-1718846914600 .doneText3{fill:black!important;}#mermaid-1718846914600 .crit0,#mermaid-1718846914600 .crit1,#mermaid-1718846914600 .crit2,#mermaid-1718846914600 .crit3{stroke:#ff8888;fill:red;stroke-width:2;}#mermaid-1718846914600 .activeCrit0,#mermaid-1718846914600 .activeCrit1,#mermaid-1718846914600 .activeCrit2,#mermaid-1718846914600 .activeCrit3{stroke:#ff8888;fill:#bfc7ff;stroke-width:2;}#mermaid-1718846914600 .doneCrit0,#mermaid-1718846914600 .doneCrit1,#mermaid-1718846914600 .doneCrit2,#mermaid-1718846914600 .doneCrit3{stroke:#ff8888;fill:lightgrey;stroke-width:2;cursor:pointer;shape-rendering:crispEdges;}#mermaid-1718846914600 .milestone{transform:rotate(45deg) scale(0.8,0.8);}#mermaid-1718846914600 .milestoneText{font-style:italic;}#mermaid-1718846914600 .doneCritText0,#mermaid-1718846914600 .doneCritText1,#mermaid-1718846914600 .doneCritText2,#mermaid-1718846914600 .doneCritText3{fill:black!important;}#mermaid-1718846914600 .activeCritText0,#mermaid-1718846914600 .activeCritText1,#mermaid-1718846914600 .activeCritText2,#mermaid-1718846914600 .activeCritText3{fill:black!important;}#mermaid-1718846914600 .titleText{text-anchor:middle;font-size:18px;fill:#333;font-family:var(--mermaid-font-family, "trebuchet ms", verdana, arial, sans-serif);}#mermaid-1718846914600 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g></g><g><rect class="exclude-range" transform-origin="193px 98px" height="111" width="30" y="35" x="193" id="exclude-2014-01-10"></rect></g><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(75, 146)" class="grid"><path d="M0.5,-111V0.5H503.5V-111" stroke="currentColor" class="domain"></path><g transform="translate(30.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-07</text></g><g transform="translate(89.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-09</text></g><g transform="translate(148.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-11</text></g><g transform="translate(207.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-13</text></g><g transform="translate(266.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-15</text></g><g transform="translate(325.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-17</text></g><g transform="translate(385.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-19</text></g><g transform="translate(444.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-21</text></g><g transform="translate(503.5,0)" opacity="1" class="tick"><line y2="-111" stroke="currentColor"></line><text style="text-anchor: middle;" font-size="10" stroke="none" dy="1em" y="3" fill="#000">2014-01-23</text></g></g><g><rect class="section section0" height="24" width="615.5" y="48" x="0"></rect><rect class="section section0" height="24" width="615.5" y="72" x="0"></rect><rect class="section section0" height="24" width="615.5" y="96" x="0"></rect><rect class="section section0" height="24" width="615.5" y="120" x="0"></rect></g><g><rect class="task done0" transform-origin="104.5px 60px" height="20" width="59" y="50" x="75" ry="3" rx="3" id="des1"></rect><rect class="task active0" transform-origin="223px 84px" height="20" width="118" y="74" x="164" ry="3" rx="3" id="des2"></rect><rect class="task task0" transform-origin="356px 108px" height="20" width="148" y="98" x="282" ry="3" rx="3" id="des3"></rect><rect class="task task0" transform-origin="504px 132px" height="20" width="148" y="122" x="430" ry="3" rx="3" id="des4"></rect><text class="taskTextOutsideRight taskTextOutside0  doneText0 width-77.3818359375" y="63.5" x="139" font-size="11" id="des1-text">Completed task            </text><text class="taskText taskText0 activeText0 width-55.7265625" y="87.5" x="223" font-size="11" id="des2-text">Active task               </text><text class="taskText taskText0  width-56.337890625" y="111.5" x="356" font-size="11" id="des3-text">Future task               </text><text class="taskText taskText0  width-61.88623046875" y="135.5" x="504" font-size="11" id="des4-text">Future task2               </text></g><g><text class="sectionTitle sectionTitle0" font-size="11" y="98" x="10" dy="0em"><tspan x="10" alignment-baseline="central">A section</tspan></text></g><g class="today"><line class="today" y2="171" y1="25" x2="113055" x1="113055"></line></g><text class="titleText" y="25" x="326.5">Gantt diagram for Monocart Reporter</text></svg>';
 
     function getData() {
-        const text1 = document.querySelector('.usage-data1').value;
-        const text2 = document.querySelector('.usage-data2').value;
+        const text1 = usageText1.value;
+        const text2 = usageText2.value;
         return {
             rows: [{
                 name: 'Row a'
@@ -334,15 +373,15 @@ onMounted(() => {
         const options = {
             bindWindowResize: true,
             theme: route.query.theme,
-            rowHeight: parseInt(document.querySelector('.ip_rowHeight').value, 10),
-            frozenColumn: parseInt(document.querySelector('.ip_frozenColumn').value, 10),
-            frozenRow: parseInt(document.querySelector('.ip_frozenRow').value, 10),
-            frozenBottom: document.querySelector('.cb_frozenBottom').checked,
-            rowCacheLength: parseInt(document.querySelector('.it_rowCacheLength').value),
+            rowHeight: rowHeight.value,
+            frozenColumn: frozenColumn.value,
+            frozenRow: frozenRow.value,
+            frozenBottom: frozenBottom.value,
+            rowCacheLength: rowCacheLength.value,
 
-            selectVisible: document.querySelector('.cb_selectVisible').checked,
-            rowNumberVisible: document.querySelector('.cb_rowNumberVisible').checked,
-            rowDragVisible: document.querySelector('.cb_rowDragVisible').checked,
+            selectVisible: selectVisible.value,
+            rowNumberVisible: rowNumberVisible.value,
+            rowDragVisible: rowDragVisible.value,
 
             textSelectable: true,
             cellResizeObserver: function(rowItem, columnItem) {
@@ -351,7 +390,7 @@ onMounted(() => {
                 }
             },
             rowFilter: function(rowItem) {
-                let hasMatched = grid.value.highlightKeywordsFilter(rowItem, ['name', 'title'], keywords);
+                let hasMatched = grid.value.highlightKeywordsFilter(rowItem, ['name', 'title'], keywords.value);
                 if (rowItem.tg_frozen) {
                     hasMatched = true;
                 }
@@ -362,42 +401,6 @@ onMounted(() => {
         grid.value.setData(getData());
         grid.value.render();
     }
-
-    document.querySelector('.bt-del').addEventListener('click', function() {
-        const selectedRows = grid.value.getSelectedRows();
-        if (!selectedRows.length) {
-            return;
-        }
-        grid.value.deleteRow(selectedRows);
-    });
-
-    [
-
-        '.usage-data1',
-        '.usage-data2',
-        '.ip_rowHeight',
-        '.ip_frozenColumn',
-        '.ip_frozenRow',
-        '.cb_frozenBottom',
-        '.it_rowCacheLength',
-        '.cb_selectVisible',
-        '.cb_rowNumberVisible',
-        '.cb_rowDragVisible'
-    ].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
-
-    document.querySelector('.ip-keywords').addEventListener('keyup', function() {
-        const k = this.value;
-        if (k === keywords) {
-            return;
-        }
-        keywords = k;
-
-        grid.value.update();
-    });
 
     initCommonEvents(grid.value);
 

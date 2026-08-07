@@ -184,12 +184,6 @@ onMounted(() => {
         g.render();
     };
 
-    [].forEach(function(item) {
-        document.querySelector(item).addEventListener('change', function() {
-            render();
-        });
-    });
-
     initCommonEvents(g);
 
     render();

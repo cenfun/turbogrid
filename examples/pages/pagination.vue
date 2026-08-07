@@ -194,3 +194,29 @@ onBeforeUnmount(() => {
     }
 });
 </script>
+<style lang="scss">
+.page-list {
+    position: relative;
+    margin-top: 5px;
+}
+
+.page-item {
+    min-width: 30px;
+    margin: 0 5px 5px 0;
+    padding: 3px 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+        background: #f5f5f5;
+    }
+
+    &.selected {
+        font-weight: bold;
+        border: 1px solid #333;
+        background: #eee;
+    }
+}
+</style>

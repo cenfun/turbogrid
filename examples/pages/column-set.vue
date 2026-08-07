@@ -20,7 +20,10 @@
           class="bt-set"
           @click="showPopover"
         >
-          <div class="icon icon-setting" />
+          <VuiIcon
+            icon="setting"
+            size="20px"
+          />
           Column Set
         </button>
       </div>
@@ -40,7 +43,7 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData, randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
-import { mount } from 'vine-ui';
+import { mount, VuiIcon } from 'vine-ui';
 import ColumnSetPopover from '../components/column-set-popover.vue';
 const route = useRoute();
 
@@ -135,17 +138,14 @@ onBeforeUnmount(() => {
 }
 
 .bt-set {
-    .icon {
+    .vui-icon {
         margin-right: 5px;
     }
 }
 
 .column-set-content {
-    button .icon {
-        width: 12px;
-        height: 12px;
+    button .vui-icon {
         margin-right: 5px;
-        background-size: 12px 12px;
     }
 
     button,

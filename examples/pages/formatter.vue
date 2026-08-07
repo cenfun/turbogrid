@@ -52,7 +52,11 @@
         </label>
         <label>
           sortIndicator
-          <select class="st_sortIndicator">
+          <select
+            v-model="sortIndicator"
+            class="st_sortIndicator"
+            @change="onDataChange"
+          >
             <option>h</option>
             <option>v</option>
           </select>

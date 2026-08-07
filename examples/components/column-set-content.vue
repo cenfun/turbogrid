@@ -6,19 +6,31 @@
     />
     <div class="column-set-action">
       <button @click="moveSelectedRowsToTop">
-        <div class="icon icon-double-up" />
+        <VuiIcon
+          icon="double-up"
+          size="12px"
+        />
         Top
       </button>
       <button @click="moveSelectedRowsUp">
-        <div class="icon icon-up" />
+        <VuiIcon
+          icon="up"
+          size="12px"
+        />
         Up
       </button>
       <button @click="moveSelectedRowsDown">
-        <div class="icon icon-down" />
+        <VuiIcon
+          icon="down"
+          size="12px"
+        />
         Down
       </button>
       <button @click="moveSelectedRowsToBottom">
-        <div class="icon icon-double-down" />
+        <VuiIcon
+          icon="double-down"
+          size="12px"
+        />
         Bottom
       </button>
     </div>
@@ -42,6 +54,7 @@ import {
     onBeforeUnmount, onMounted, ref, watch
 } from 'vue';
 import { Grid, Util } from '../../src/index.js';
+import { VuiIcon } from 'vine-ui';
 
 const props = defineProps({
     list: {

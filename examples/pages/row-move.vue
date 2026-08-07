@@ -64,19 +64,31 @@
       </div>
       <div>
         <button class="tg-icon moveToTop">
-          <div class="icon icon-double-up" />
+          <VuiIcon
+            icon="double-up"
+            size="12px"
+          />
           moveSelectedRowsToTop()
         </button>
         <button class="tg-icon moveUp">
-          <div class="icon icon-up" />
+          <VuiIcon
+            icon="up"
+            size="12px"
+          />
           moveSelectedRowsUp()
         </button>
         <button class="tg-icon moveDown">
-          <div class="icon icon-down" />
+          <VuiIcon
+            icon="down"
+            size="12px"
+          />
           moveSelectedRowsDown()
         </button>
         <button class="tg-icon moveToBottom">
-          <div class="icon icon-double-down" />
+          <VuiIcon
+            icon="double-down"
+            size="12px"
+          />
           moveSelectedRowsToBottom()
         </button>
       </div>
@@ -99,6 +111,7 @@ import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
 import { sampleData, randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
+import { VuiIcon } from 'vine-ui';
 const route = useRoute();
 
 
@@ -203,11 +216,8 @@ onBeforeUnmount(() => {
     flex-direction: row;
     align-items: center;
 
-    .icon {
-        width: 12px;
-        height: 12px;
+    .vui-icon {
         margin-right: 5px;
-        background-size: 12px 12px;
     }
 }
 </style>

@@ -202,3 +202,11 @@ onBeforeUnmount(() => {
     }
 });
 </script>
+<style lang="scss">
+.events-column {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+</style>

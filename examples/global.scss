@@ -41,62 +41,6 @@ label {
 }
 
 /*
-icon
-*/
-
-.icon {
-    display: block;
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 20px 20px;
-    cursor: pointer;
-    opacity: 0.8;
-    overflow: hidden;
-}
-
-.icon:hover {
-    opacity: 1;
-}
-
-.icon-info {
-    background-image: url("./assets/images/info.svg");
-}
-
-.icon-menu {
-    background-image: url("./assets/images/menu.svg");
-}
-
-.icon-close {
-    background-image: url("./assets/images/close.svg");
-}
-
-.icon-github {
-    background-image: url("./assets/images/github.svg");
-}
-
-.icon-setting {
-    background-image: url("./assets/images/setting.svg");
-}
-
-.icon-double-up {
-    background-image: url("./assets/images/double-up.svg");
-}
-
-.icon-up {
-    background-image: url("./assets/images/up.svg");
-}
-
-.icon-double-down {
-    background-image: url("./assets/images/double-down.svg");
-}
-
-.icon-down {
-    background-image: url("./assets/images/down.svg");
-}
-
-/*
 main
 */
 

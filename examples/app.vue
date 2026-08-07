@@ -68,8 +68,10 @@
             target="_blank"
           >v{{ state.version }}</a>
         </div>
-        <div
-          class="icon icon-close"
+        <VuiIcon
+          icon="close"
+          size="20px"
+          button
           @click="toggleMenu"
         />
       </div>

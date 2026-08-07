@@ -171,7 +171,7 @@ const render = () => {
         tree: function(value, rowItem, columnItem, cellNode) {
             const defaultFormatter = this.getDefaultFormatter('tree');
             if (rowItem.type !== 'summary') {
-                value = `${value}<div class="tg-hover-icon"><div class="icon icon-info"></div></div>`;
+                value = `${value}<div class="tg-hover-icon"><svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" width="20" height="20" viewBox="0 0 20 20"><path fill="#333" d="M10 0c5.523 0 10 4.477 10 10s-4.477 10-10 10S0 15.523 0 10 4.477 0 10 0Zm0 1.395a8.605 8.605 0 1 0 0 17.21 8.605 8.605 0 0 0 0-17.21ZM9.855 7.21c.385 0 .697.313.697.698v7.558a.698.698 0 0 1-1.395 0V7.907c0-.385.312-.698.698-.698Zm.028-2.79a.93.93 0 1 1 0 1.86.93.93 0 0 1 0-1.86Z"/></svg></div>`;
             }
             return defaultFormatter(value, rowItem, columnItem, cellNode);
         }
@@ -217,6 +217,15 @@ onBeforeUnmount(() => {
 
     .tg-hover .tg-hover-icon {
         display: inline-block;
+    }
+
+    .tg-hover-icon svg {
+        opacity: 0.8;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
     }
 
     .tg-header-item {

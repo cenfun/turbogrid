@@ -399,3 +399,42 @@ onBeforeUnmount(() => {
     }
 });
 </script>
+
+<style lang="scss">
+.pt-columns {
+    width: 50px;
+}
+
+.pt-rows {
+    width: 100px;
+}
+
+.red {
+    color: red;
+}
+
+.orange {
+    color: orange;
+}
+
+.green {
+    color: green;
+}
+
+.benchmark {
+    .red,
+    .orange,
+    .green {
+        padding: 0 5px;
+        border-left: 1px solid #ccc;
+    }
+}
+
+.benchmark-spacing {
+    width: 20px;
+}
+
+.benchmark-cr {
+    cursor: pointer;
+}
+</style>

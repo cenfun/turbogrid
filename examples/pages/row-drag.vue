@@ -397,6 +397,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-
-<style lang="scss">
-</style>

@@ -69,7 +69,9 @@ describe('Instance', function() {
         container.remove();
 
         assert(!Grid.getInstance(id));
-        assert(!elem.getInstance());
+        // the getInstance helper is removed from the container on destroy
+        assert.equal(typeof elem.getInstance, 'undefined');
+        assert.equal('getInstance' in elem, false);
         assert(autoScrollDestroyed);
         assert.equal(sampleData.columns[0].tg_formatter, sampleData.columns[0].formatter);
         assert.equal(sampleData.columns[0].tg_headerFormatter, sampleData.columns[0].headerFormatter);

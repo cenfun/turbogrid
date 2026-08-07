@@ -383,6 +383,8 @@ const Util = {
     deleteInstance: function(container) {
         if (container) {
             gridInstanceMap.delete(container);
+            // remove the getInstance helper attached by createContainer
+            delete container.getInstance;
         }
     },
 

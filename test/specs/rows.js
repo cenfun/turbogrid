@@ -116,11 +116,16 @@ describe('Rows', function() {
 
     it('Grid custom rowNumberFilter', async () => {
         let filterCalled = false;
+        let parentCalled = false;
         grid.setData(data);
         grid.setOption({
             rowNumberVisible: true,
-            rowNumberFilter: function(rowItem, i) {
+            rowNumberFilter: function(rowItem, i, parent) {
                 filterCalled = true;
+                if (rowItem.id === 'row11') {
+                    assert.equal(parent.id, 'row1');
+                    parentCalled = true;
+                }
                 return !rowItem.tg_group;
             }
         });
@@ -128,6 +133,7 @@ describe('Rows', function() {
         await delay();
 
         assert.equal(filterCalled, true);
+        assert.equal(parentCalled, true);
     });
 
     it('Grid row formatter as function', async () => {

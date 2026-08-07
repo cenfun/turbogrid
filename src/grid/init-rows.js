@@ -32,8 +32,8 @@ export default {
         const rowNumberFilter = this.getRowNumberFilter();
 
         let rowNumber = 1;
-        const rowNumberHandler = (rowItem, i) => {
-            if (rowNumberFilter.call(this, rowItem, i)) {
+        const rowNumberHandler = (rowItem, i, parent) => {
+            if (rowNumberFilter.call(this, rowItem, i, parent)) {
                 rowItem.tg_row_number = rowNumber;
                 rowNumber += 1;
                 return;
@@ -65,7 +65,7 @@ export default {
                 this.gridRowItemHandler(rowItem);
 
                 // need row number even collapsed, and need frozen info first too
-                rowNumberHandler(rowItem, list_index);
+                rowNumberHandler(rowItem, list_index, parent);
 
                 if (!collapsed) {
                     viewRows.push(rowItem);

@@ -1664,6 +1664,12 @@
         <section>
           <a name="options.rowNumberWidth">rowNumberWidth = 36</a>
           <a name="options.rowNumberFilter">rowNumberFilter = null</a>
+          <div>Controls which rows participate in row numbering. The callback receives (rowItem, index, parent). Return true to show and consume a row number; return false to leave it blank without consuming a number. parent is undefined for root rows.</div>
+          <pre><code class="language-js">
+                            rowNumberFilter: function(rowItem, index, parent) {
+                                return Boolean(parent) &amp;&amp; !rowItem.tg_group;
+                            }
+                        </code></pre>
           <a name="options.rowNumberColumn">rowNumberColumn = {...}</a>
           <div>Configures the built-in row number column.</div>
         </section>

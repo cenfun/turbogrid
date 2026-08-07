@@ -1555,6 +1555,12 @@
         <section>
           <a name="options.rowNumberWidth">rowNumberWidth = 36</a>
           <a name="options.rowNumberFilter">rowNumberFilter = null</a>
+          <div>控制哪些行参与行号编号。回调参数为 (rowItem, index, parent)，返回 true 显示行号，返回 false 则该行不显示且不占用行号；根行的 parent 为 undefined。</div>
+          <pre><code class="language-js">
+                            rowNumberFilter: function(rowItem, index, parent) {
+                                return Boolean(parent) &amp;&amp; !rowItem.tg_group;
+                            }
+                        </code></pre>
           <a name="options.rowNumberColumn">rowNumberColumn = {...}</a>
           <div>配置内置行号列。</div>
         </section>

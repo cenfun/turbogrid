@@ -321,8 +321,8 @@ export interface GridOptions {
     // row number
     /** Width of the row number column in pixels (default: 36) */
     rowNumberWidth?: number;
-    /** Filter which rows show a row number */
-    rowNumberFilter?: ((rowItem: RowItem, index: number) => boolean) | null;
+    /** Filter which rows show a row number. parent is undefined for root rows. */
+    rowNumberFilter?: ((rowItem: RowItem, index: number, parent?: RowItem) => boolean) | null;
     /** Whether the row number column is visible (default: false) */
     rowNumberVisible?: boolean;
     /** Configuration for the built-in row number column */

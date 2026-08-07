@@ -1343,7 +1343,54 @@
 
         <section>
           <a name="options.rowFilter">rowFilter</a>
-          <div>在渲染前过滤行。函数返回 true 显示行，返回 false 隐藏行。</div>
+          <div>
+            在渲染前过滤行。函数返回 true 显示行，返回 false 隐藏行。可使用
+            <a href="#/api-doc-zh?position=highlightKeywordsFilter">highlightKeywordsFilter()</a>
+            匹配并高亮关键字。
+          </div>
+
+          <a name="options.highlightKeywords">highlightKeywords = {...}</a>
+          <div>
+            配置 <a href="#/api-doc-zh?position=highlightKeywordsFilter">highlightKeywordsFilter()</a>
+            使用的匹配方式、文本提取、缓存及高亮标记。
+          </div>
+
+          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "and"</a>
+          <div>
+            控制正向和反向模式的组合方式。"and" 要求全部条件都满足；"or" 接受任一满足的模式条件；
+            "negatedFirst" 优先处理已匹配的反向模式；"positiveFirst" 优先处理已匹配的正向模式。
+          </div>
+
+          <a name="options.highlightKeywords.caseSensitive">highlightKeywords.caseSensitive = false</a>
+          <div>控制字符串模式默认是否区分大小写。</div>
+
+          <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
+          <div>将字符串模式标记为反向匹配的前缀，例如 "-legacy"。</div>
+
+          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
+          <div>用于在行数据属性中缓存从 HTML 单元格值提取的纯文本的前缀。</div>
+
+          <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
+          <div>
+            可选函数 <code>(rowItem, columnId) =&gt; text</code>，用于提供待匹配文本。默认读取
+            <code>rowItem[columnId]</code>。
+          </div>
+
+          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
+          <div>用于在行数据属性中按列缓存已匹配模式的前缀。</div>
+
+          <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
+          <div>插入到每处高亮匹配文本之前的 HTML。</div>
+
+          <a name="options.highlightKeywords.highlightPost">highlightKeywords.highlightPost = "&lt;/mark&gt;"</a>
+          <div>插入到每处高亮匹配文本之后的 HTML。</div>
+
+          <div>
+            示例 <a
+              href="#/row-highlight-filter"
+              target="_blank"
+            >Row Highlight Filter</a>
+          </div>
 
           <a name="options.rowFilteredSort">rowFilteredSort = null</a>
           <div>在 rowFilter 执行后对行进行排序，适用于搜索结果排名等场景。</div>
@@ -1569,51 +1616,6 @@
           <a name="options.selectColumn">selectColumn = {...}</a>
           <a name="options.blankColumn">blankColumn = {...}</a>
           <div>配置用于选择和布局填充的内置私有列。</div>
-        </section>
-
-        <section>
-          <a name="options.highlightKeywords">highlightKeywords = {...}</a>
-          <div>
-            配置 <a href="#/api-doc-zh?position=highlightKeywordsFilter">highlightKeywordsFilter()</a>
-            使用的匹配方式、文本提取、缓存及高亮标记。
-          </div>
-
-          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "and"</a>
-          <div>
-            控制正向和反向模式的组合方式。"and" 要求全部条件都满足；"or" 接受任一满足的模式条件；
-            "negatedFirst" 优先处理已匹配的反向模式；"positiveFirst" 优先处理已匹配的正向模式。
-          </div>
-
-          <a name="options.highlightKeywords.caseSensitive">highlightKeywords.caseSensitive = false</a>
-          <div>控制字符串模式默认是否区分大小写。</div>
-
-          <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
-          <div>将字符串模式标记为反向匹配的前缀，例如 "-legacy"。</div>
-
-          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
-          <div>用于在行数据属性中缓存从 HTML 单元格值提取的纯文本的前缀。</div>
-
-          <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
-          <div>
-            可选函数 <code>(rowItem, columnId) =&gt; text</code>，用于提供待匹配文本。默认读取
-            <code>rowItem[columnId]</code>。
-          </div>
-
-          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
-          <div>用于在行数据属性中按列缓存已匹配模式的前缀。</div>
-
-          <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
-          <div>插入到每处高亮匹配文本之前的 HTML。</div>
-
-          <a name="options.highlightKeywords.highlightPost">highlightKeywords.highlightPost = "&lt;/mark&gt;"</a>
-          <div>插入到每处高亮匹配文本之后的 HTML。</div>
-
-          <div>
-            示例 <a
-              href="#/row-highlight-filter"
-              target="_blank"
-            >Row Highlight Filter</a>
-          </div>
         </section>
 
         <section>

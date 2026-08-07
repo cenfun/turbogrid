@@ -755,6 +755,51 @@
         "type": "options"
     },
     {
+        "name": "options.highlightKeywords",
+        "text": "highlightKeywords = {...}",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.matchMode",
+        "text": "highlightKeywords.matchMode = \"and\"",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.caseSensitive",
+        "text": "highlightKeywords.caseSensitive = false",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.negatedPrefix",
+        "text": "highlightKeywords.negatedPrefix = \"-\"",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.textKey",
+        "text": "highlightKeywords.textKey = \"tg_text_\"",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.textGenerator",
+        "text": "highlightKeywords.textGenerator = null",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.highlightKey",
+        "text": "highlightKeywords.highlightKey = \"tg_highlight_\"",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.highlightPre",
+        "text": "highlightKeywords.highlightPre = \"&lt;mark&gt;\"",
+        "type": "options"
+    },
+    {
+        "name": "options.highlightKeywords.highlightPost",
+        "text": "highlightKeywords.highlightPost = \"&lt;/mark&gt;\"",
+        "type": "options"
+    },
+    {
         "name": "options.rowFilteredSort",
         "text": "rowFilteredSort = null",
         "type": "options"
@@ -1062,51 +1107,6 @@
     {
         "name": "options.blankColumn",
         "text": "blankColumn = {...}",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords",
-        "text": "highlightKeywords = {...}",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.matchMode",
-        "text": "highlightKeywords.matchMode = \"and\"",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.caseSensitive",
-        "text": "highlightKeywords.caseSensitive = false",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.negatedPrefix",
-        "text": "highlightKeywords.negatedPrefix = \"-\"",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.textKey",
-        "text": "highlightKeywords.textKey = \"tg_text_\"",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.textGenerator",
-        "text": "highlightKeywords.textGenerator = null",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.highlightKey",
-        "text": "highlightKeywords.highlightKey = \"tg_highlight_\"",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.highlightPre",
-        "text": "highlightKeywords.highlightPre = \"&lt;mark&gt;\"",
-        "type": "options"
-    },
-    {
-        "name": "options.highlightKeywords.highlightPost",
-        "text": "highlightKeywords.highlightPost = \"&lt;/mark&gt;\"",
         "type": "options"
     },
     {

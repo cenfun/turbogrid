@@ -1447,7 +1447,56 @@
 
         <section>
           <a name="options.rowFilter">rowFilter</a>
-          <div>Filters rows before rendering. Return true to show a row and false to hide it.</div>
+          <div>
+            Filters rows before rendering. Return true to show a row and false to hide it. Use <a
+              href="#/api-doc?position=highlightKeywordsFilter"
+            >highlightKeywordsFilter()</a> to match and highlight keyword patterns.
+          </div>
+
+          <a name="options.highlightKeywords">highlightKeywords = {...}</a>
+          <div>
+            Configures matching, text extraction, caching, and highlight markup for <a
+              href="#/api-doc?position=highlightKeywordsFilter"
+            >highlightKeywordsFilter()</a>.
+          </div>
+
+          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "and"</a>
+          <div>
+            Controls how positive and negated patterns are combined. "and" requires all conditions;
+            "or" accepts any satisfied pattern condition; "negatedFirst" gives matched negations priority; and
+            "positiveFirst" gives matched positives priority.
+          </div>
+
+          <a name="options.highlightKeywords.caseSensitive">highlightKeywords.caseSensitive = false</a>
+          <div>Controls whether string pattern matching is case-sensitive by default.</div>
+
+          <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
+          <div>Prefix that marks a string pattern as negated, for example "-legacy".</div>
+
+          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
+          <div>Prefix for row item properties used to cache plain text extracted from HTML cell values.</div>
+
+          <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
+          <div>
+            Optional function <code>(rowItem, columnId) =&gt; text</code> used to provide the text to match. By default,
+            the value is read from <code>rowItem[columnId]</code>.
+          </div>
+
+          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
+          <div>Prefix for row item properties used to cache the matched patterns for each column.</div>
+
+          <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
+          <div>HTML inserted immediately before each highlighted match.</div>
+
+          <a name="options.highlightKeywords.highlightPost">highlightKeywords.highlightPost = "&lt;/mark&gt;"</a>
+          <div>HTML inserted immediately after each highlighted match.</div>
+
+          <div>
+            Example <a
+              href="#/row-highlight-filter"
+              target="_blank"
+            >Row Highlight Filter</a>
+          </div>
 
           <a name="options.rowFilteredSort">rowFilteredSort = null</a>
           <div>Sorts rows after rowFilter runs, for example to rank search results.</div>
@@ -1678,53 +1727,6 @@
           <a name="options.selectColumn">selectColumn = {...}</a>
           <a name="options.blankColumn">blankColumn = {...}</a>
           <div>Configures the built-in private columns used for selection and layout filling.</div>
-        </section>
-
-        <section>
-          <a name="options.highlightKeywords">highlightKeywords = {...}</a>
-          <div>
-            Configures matching, text extraction, caching, and highlight markup for <a
-              href="#/api-doc?position=highlightKeywordsFilter"
-            >highlightKeywordsFilter()</a>.
-          </div>
-
-          <a name="options.highlightKeywords.matchMode">highlightKeywords.matchMode = "and"</a>
-          <div>
-            Controls how positive and negated patterns are combined. "and" requires all conditions;
-            "or" accepts any satisfied pattern condition; "negatedFirst" gives matched negations priority; and
-            "positiveFirst" gives matched positives priority.
-          </div>
-
-          <a name="options.highlightKeywords.caseSensitive">highlightKeywords.caseSensitive = false</a>
-          <div>Controls whether string pattern matching is case-sensitive by default.</div>
-
-          <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
-          <div>Prefix that marks a string pattern as negated, for example "-legacy".</div>
-
-          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
-          <div>Prefix for row item properties used to cache plain text extracted from HTML cell values.</div>
-
-          <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
-          <div>
-            Optional function <code>(rowItem, columnId) =&gt; text</code> used to provide the text to match. By default,
-            the value is read from <code>rowItem[columnId]</code>.
-          </div>
-
-          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
-          <div>Prefix for row item properties used to cache the matched patterns for each column.</div>
-
-          <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
-          <div>HTML inserted immediately before each highlighted match.</div>
-
-          <a name="options.highlightKeywords.highlightPost">highlightKeywords.highlightPost = "&lt;/mark&gt;"</a>
-          <div>HTML inserted immediately after each highlighted match.</div>
-
-          <div>
-            Example <a
-              href="#/row-highlight-filter"
-              target="_blank"
-            >Row Highlight Filter</a>
-          </div>
         </section>
 
         <section>

@@ -1,8 +1,7 @@
 import CONST from '../core/const.js';
 import {
-    escapeHtml, getCachedPatterns, getHighlightTexts, getPatternResult, setHighlightMatches
-} from '../core/highlight-keywords.js';
-import Matcher from '../core/matcher.js';
+    escapeHtml, getCachedPatterns, getHighlightMatchScore, getHighlightTexts, getPatternResults, getRanges, setHighlightMatches
+} from '../core/highlight.js';
 import Util from '../core/util.js';
 
 export default {
@@ -248,16 +247,18 @@ export default {
         const texts = getHighlightTexts(this, rowItem, columns, textGenerator, hasCustomMatcher);
 
         // First determine row visibility without generating every match range.
-        const patternResults = normalizedPatterns.map((item) => getPatternResult(this, item, texts, rowItem));
-        const isMatched = Matcher.isMatched(patternResults, highlightOptions.matchMode);
+        const { patternResults, isMatched } = getPatternResults(
+            this, normalizedPatterns, texts, rowItem, highlightOptions.matchMode
+        );
         if (!isMatched) {
             return false;
         }
 
         const positiveResults = patternResults.filter((item) => !item.negated);
-        setHighlightMatches(rowItem, positiveResults);
+        // ranges are only consumed by scoring, defer them until scoring is enabled
+        setHighlightMatches(rowItem, positiveResults, Boolean(scoreKey));
         if (scoreKey) {
-            rowItem[scoreKey] = Matcher.getHighlightMatchScore(positiveResults);
+            rowItem[scoreKey] = getHighlightMatchScore(positiveResults);
         }
         return true;
 
@@ -341,7 +342,7 @@ export default {
             };
         });
 
-        const ranges = Matcher.getRanges(fullText, patterns);
+        const ranges = getRanges(fullText, patterns);
         if (!ranges.length) {
             return;
         }

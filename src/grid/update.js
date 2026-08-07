@@ -1,4 +1,5 @@
 import E from '../core/event-types.js';
+import { clearHighlightCache } from '../core/highlight.js';
 
 export default {
 
@@ -17,6 +18,8 @@ export default {
             const snapshot = this.getItemSnapshot(rowData);
             Object.keys(snapshot).forEach(function(k) {
                 rowItem[k] = snapshot[k];
+                // clear the highlight/text caches of the changed column
+                clearHighlightCache(rowItem, k);
             });
         }
         // may in for loop require async
@@ -37,6 +40,8 @@ export default {
         if (arguments.length > 2) {
             rowItem[columnItem.id] = value;
         }
+        // clear the highlight/text caches of the changed cell
+        clearHighlightCache(rowItem, columnItem.id);
         // may in for loop require async
         this.flushCell(rowItem.tg_view_index, columnItem.tg_view_index);
         this.render('rows');

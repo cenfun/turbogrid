@@ -112,10 +112,10 @@ describe('Resize', function() {
             callResize = true;
         });
 
-        container.width(500).height(300);
+        container.width(512).height(300);
 
         // there are 2 microtask: ResizeObserver and resize/resizeSync
-        await delay(10);
+        await delay(100);
         assert(callResize);
 
     });

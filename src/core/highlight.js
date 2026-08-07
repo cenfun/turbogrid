@@ -1,3 +1,8 @@
+import CONST from './const.js';
+
+// =============================================================================
+// pattern normalization, matching, range and score computation
+
 const escapeStringRegexp = (str) => str.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
 
 const toPatternList = (patterns) => {
@@ -230,10 +235,14 @@ const getOrderScore = (previousColumnRanges, matchInfo) => {
     if (!previousColumnRanges) {
         return 0;
     }
-    const firstRange = matchInfo.ranges[0];
+    const ranges = matchInfo.ranges;
+    // Ranges are sorted by start, so the last range has the largest start and the
+    // stored previous range (first range of the previous pattern) the smallest end.
+    // Comparing them keeps the original any-occurrence order check in O(1).
+    const lastRange = ranges[ranges.length - 1];
     const previousRange = previousColumnRanges.get(matchInfo.id);
-    previousColumnRanges.set(matchInfo.id, firstRange);
-    return previousRange && firstRange.start >= previousRange.end ? 5 : 0;
+    previousColumnRanges.set(matchInfo.id, ranges[0]);
+    return previousRange && lastRange.start >= previousRange.end ? 5 : 0;
 };
 
 const getHighlightMatchScore = (patterns) => {
@@ -316,11 +325,223 @@ const getRanges = (text, patterns) => {
     return ranges;
 };
 
-export default {
-    normalizePatterns,
-    match,
-    isMatched,
+// =============================================================================
+// highlight keywords: text extraction, row matching, caches
+
+const htmlRegexp = /<\/?[a-z][\s\S]*>/i;
+
+const escapeHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const getPatternSnapshot = (item) => {
+    if (!item || typeof item !== 'object') {
+        return {
+            value: item
+        };
+    }
+    return {
+        object: true,
+        pattern: item.pattern,
+        caseSensitive: item.caseSensitive,
+        negated: item.negated
+    };
+};
+
+const isSamePatternItem = (item, snapshot) => {
+    if (!snapshot.object) {
+        return item === snapshot.value;
+    }
+    if (!item || typeof item !== 'object') {
+        return false;
+    }
+    return item.pattern === snapshot.pattern
+        && item.caseSensitive === snapshot.caseSensitive
+        && item.negated === snapshot.negated;
+};
+
+const isSamePatterns = (patterns, snapshots) => {
+    const isList = Array.isArray(patterns);
+    const length = isList ? patterns.length : 1;
+    if (!snapshots || snapshots.length !== length) {
+        return false;
+    }
+    for (let i = 0; i < length; i++) {
+        const item = isList ? patterns[i] : patterns;
+        if (!isSamePatternItem(item, snapshots[i])) {
+            return false;
+        }
+    }
+    return true;
+};
+
+const getPatternSnapshots = (patterns) => {
+    const list = Array.isArray(patterns) ? patterns : [patterns];
+    return list.map(getPatternSnapshot);
+};
+
+const getCachedPatterns = (context, patterns, options) => {
+    const caseSensitive = options.caseSensitive === true;
+    const negatedPrefix = typeof options.negatedPrefix === 'string' ? options.negatedPrefix : '-';
+    const cache = context.highlightKeywordsPatternCache;
+    if (cache && cache.caseSensitive === caseSensitive && cache.negatedPrefix === negatedPrefix && isSamePatterns(patterns, cache.snapshots)) {
+        return cache;
+    }
+
+    const normalizedPatterns = normalizePatterns(patterns, options);
+    const newCache = {
+        caseSensitive,
+        negatedPrefix,
+        snapshots: getPatternSnapshots(patterns),
+        normalizedPatterns,
+        positivePatterns: normalizedPatterns.filter((item) => !item.negated),
+        hasCustomMatcher: normalizedPatterns.some((item) => item.matcher)
+    };
+    context.highlightKeywordsPatternCache = newCache;
+    return newCache;
+};
+
+const getHtmlText = (rowItem, html, id) => {
+    const cacheKey = `${CONST.HIGHLIGHT_TEXT_KEY}${id}`;
+    const cacheText = rowItem[cacheKey];
+    if (typeof cacheText === 'string') {
+        return cacheText;
+    }
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    // textContent includes hidden text, but innerText not
+    const text = div.innerText;
+    rowItem[cacheKey] = text;
+    return text;
+};
+
+const getHighlightTextInfo = (context, rowItem, id, textGenerator, hasCustomMatcher) => {
+    let text = rowItem[id];
+    if (typeof textGenerator === 'function') {
+        text = textGenerator(rowItem, id);
+    }
+    if (text === null || typeof text === 'undefined') {
+        return;
+    }
+
+    let str = `${text}`.trim();
+    if (!str) {
+        return;
+    }
+    if (str.includes('<') && htmlRegexp.test(str)) {
+        str = getHtmlText(rowItem, str, id);
+    }
+    return {
+        id,
+        columnItem: hasCustomMatcher ? context.getColumnItem(id) : null,
+        text: str
+    };
+};
+
+const getHighlightTexts = (context, rowItem, columns, textGenerator, hasCustomMatcher) => {
+    const texts = [];
+    for (const id of columns) {
+        const textInfo = getHighlightTextInfo(context, rowItem, id, textGenerator, hasCustomMatcher);
+        if (textInfo) {
+            texts.push(textInfo);
+        }
+    }
+    return texts;
+};
+
+const getPatternResult = (context, item, texts, rowItem) => {
+    const result = {
+        negated: item.negated,
+        matches: [],
+        matched: false
+    };
+    for (const textInfo of texts) {
+        if (item.negated) {
+            // Negated patterns only need a boolean result and are never highlighted
+            // or scored, so stop at the first matching column.
+            if (match(item, textInfo.text, rowItem, textInfo.columnItem, context)) {
+                result.matched = true;
+                break;
+            }
+            continue;
+        }
+        const matched = match(item, textInfo.text, rowItem, textInfo.columnItem, context);
+        if (!matched) {
+            continue;
+        }
+        matched.id = textInfo.id;
+        matched.text = textInfo.text;
+        result.matches.push(matched);
+        result.matched = true;
+    }
+    return result;
+};
+
+const getPatternResults = (context, normalizedPatterns, texts, rowItem, matchMode) => {
+    const patternResults = [];
+    if (matchMode === 'and') {
+        // Every pattern must be satisfied, so stop at the first unsatisfied pattern
+        // (a positive pattern with no match, or a negated pattern that matched)
+        // instead of evaluating the remaining patterns for this row.
+        for (const item of normalizedPatterns) {
+            const result = getPatternResult(context, item, texts, rowItem);
+            patternResults.push(result);
+            const satisfied = item.negated ? !result.matched : result.matched;
+            if (!satisfied) {
+                return {
+                    patternResults,
+                    isMatched: false
+                };
+            }
+        }
+        return {
+            patternResults,
+            isMatched: true
+        };
+    }
+    for (const item of normalizedPatterns) {
+        patternResults.push(getPatternResult(context, item, texts, rowItem));
+    }
+    return {
+        patternResults,
+        isMatched: isMatched(patternResults, matchMode)
+    };
+};
+
+const setHighlightMatches = (rowItem, patternResults, computeRanges) => {
+    for (const result of patternResults) {
+        for (const matchInfo of result.matches) {
+            // Ranges are only consumed by score computation; skip the extra full-text
+            // regex scan when scoring is disabled.
+            if (computeRanges) {
+                matchInfo.ranges = getPatternRanges(matchInfo.text, matchInfo.highlightPattern);
+            }
+            const cacheKey = `${CONST.HIGHLIGHT_KEY}${matchInfo.id}`;
+            const cellPatterns = rowItem[cacheKey] || [];
+            cellPatterns.push(matchInfo.highlightPattern);
+            rowItem[cacheKey] = cellPatterns;
+        }
+    }
+};
+
+// Invalidate the per-row highlight caches for a changed column. The extracted
+// html text (HIGHLIGHT_TEXT_KEY) is cached on the row item and would otherwise
+// stay stale after updateCell/updateRow mutate the same row object.
+const clearHighlightCache = (rowItem, id) => {
+    if (!rowItem || !id) {
+        return;
+    }
+    rowItem[`${CONST.HIGHLIGHT_KEY}${id}`] = null;
+    rowItem[`${CONST.HIGHLIGHT_TEXT_KEY}${id}`] = null;
+};
+
+// exported surface is only what grid modules (init-rows/update) consume;
+// normalization, matching, ranges and per-pattern results stay module-internal
+export {
+    clearHighlightCache,
+    escapeHtml,
+    getCachedPatterns,
     getHighlightMatchScore,
-    getPatternRanges,
-    getRanges
+    getHighlightTexts,
+    getPatternResults,
+    getRanges,
+    setHighlightMatches
 };

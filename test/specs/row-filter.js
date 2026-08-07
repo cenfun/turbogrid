@@ -459,6 +459,13 @@ describe('highlightKeywordsFilter patterns and options', function() {
         assert.equal(score({
             name: 'Bar Foo'
         }, ['name'], 'Foo Bar'), 259);
+        // a later occurrence ordered after the previous keyword still earns the bonus
+        assert.equal(score({
+            name: 'Bar Foo Bar'
+        }, ['name'], 'Foo Bar'), 265);
+        assert.equal(score({
+            name: 'Bar Foo Foo'
+        }, ['name'], 'Foo Bar'), 260);
 
         assert.equal(score({
             name: 'x Foo Foo'
@@ -570,5 +577,104 @@ describe('highlightKeywordsFilter patterns and options', function() {
         assert.equal(marks[0].innerText, 'foo');
         assert.equal(marks[1].innerText, 'middle');
         assert.equal(marks[2].innerText, 'bar');
+    });
+});
+
+describe('highlightKeywordsFilter single-scan and cache invalidation', function() {
+    let container;
+    let grid;
+
+    before(async function() {
+        container = createContainer('500px', '500px');
+        grid = new Grid(container);
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }],
+            rows: []
+        });
+        grid.render();
+        await delay();
+        // options are initialized on the first render
+        Object.assign(grid.options.highlightKeywords, {
+            caseSensitive: false,
+            matchMode: 'and',
+            negatedPrefix: '-'
+        });
+    });
+
+    after(function() {
+        grid.destroy();
+        container.remove();
+    });
+
+    it('preserves sticky and empty-match regexp semantics with the single-scan matcher', () => {
+        // sticky regexes still only match at the reset lastIndex
+        assert.equal(grid.highlightKeywordsFilter({
+            name: 'x foo bar'
+        }, ['name'], {
+            pattern: /^foo/y
+        }), false);
+        assert.equal(grid.highlightKeywordsFilter({
+            name: 'foo x'
+        }, ['name'], {
+            pattern: /^foo/y
+        }), true);
+
+        // patterns that can match empty still include the row (empty-match semantics)
+        assert.equal(grid.highlightKeywordsFilter({
+            name: 'x foo bar'
+        }, ['name'], {
+            pattern: /a*/
+        }), true);
+
+        // the normal single-scan path matches and still records ranges for scoring
+        const rowItem = {
+            name: 'x foo foo'
+        };
+        assert.equal(grid.highlightKeywordsFilter(rowItem, ['name'], {
+            pattern: /foo/
+        }), true);
+        assert.equal(rowItem.tg_match_score, 128);
+    });
+
+    it('invalidates extracted html text caches on updateCell/updateRow', async () => {
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }],
+            rows: [{
+                name: '<b>Foo</b>'
+            }]
+        });
+        let keywords = 'Foo';
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], keywords);
+            }
+        });
+        grid.render();
+        await delay();
+
+        assert.equal(grid.getViewRows().length, 1);
+
+        // changing the cell must not reuse the stale extracted text 'Foo'
+        grid.updateCell(0, 0, '<b>Bar</b>');
+        await delay(50);
+        assert.equal(grid.getViewRows().length, 0, 'stale tg_text_ cache should not match after updateCell');
+
+        // updateRow with new data also refreshes the extracted text
+        grid.updateRow(0, {
+            name: '<b>Foo</b>'
+        });
+        await delay(50);
+        assert.equal(grid.getViewRows().length, 1);
+
+        keywords = 'Bar';
+        grid.update();
+        await delay(50);
+        assert.equal(grid.getViewRows().length, 0);
     });
 });

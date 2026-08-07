@@ -1367,17 +1367,29 @@
           <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
           <div>将字符串模式标记为反向匹配的前缀，例如 "-legacy"。</div>
 
-          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
-          <div>用于在行数据属性中缓存从 HTML 单元格值提取的纯文本的前缀。</div>
-
           <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
           <div>
             可选函数 <code>(rowItem, columnId) =&gt; text</code>，用于提供待匹配文本。默认读取
             <code>rowItem[columnId]</code>。
           </div>
 
-          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
-          <div>用于在行数据属性中按列缓存已匹配模式的前缀。</div>
+          <a name="options.highlightKeywords.scoreKey">highlightKeywords.scoreKey = "tg_match_score"</a>
+          <div>
+            用于记录匹配分数的行数据属性。大小写完全一致、关键字顺序一致、重复匹配以及多列匹配都会
+            提高分数。设置为空字符串可禁用评分。
+          </div>
+          <pre><code class="language-js">
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    return this.highlightKeywordsFilter(rowItem, ["name", "title"], keywords);
+                                },
+                                rowFilteredSort: {
+                                    sortField: "tg_match_score",
+                                    sortAsc: false,
+                                    comparer: "number"
+                                }
+                            });
+                        </code></pre>
 
           <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
           <div>插入到每处高亮匹配文本之前的 HTML。</div>

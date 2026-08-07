@@ -1,3 +1,4 @@
+import CONST from '../core/const.js';
 import E from '../core/event-types.js';
 import Util from '../core/util.js';
 
@@ -40,8 +41,7 @@ export default {
         const parentNode = observerNode || cellNode;
         this.renderNodeContent(parentNode, content);
 
-        const { highlightKey } = this.options.highlightKeywords;
-        const highlightPatterns = rowItem[highlightKey + columnItem.id];
+        const highlightPatterns = rowItem[CONST.HIGHLIGHT_KEY + columnItem.id];
         if (highlightPatterns) {
             this.renderSettings.highlightCells.push({
                 cellNode,

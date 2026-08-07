@@ -775,18 +775,13 @@
         "type": "options"
     },
     {
-        "name": "options.highlightKeywords.textKey",
-        "text": "highlightKeywords.textKey = \"tg_text_\"",
-        "type": "options"
-    },
-    {
         "name": "options.highlightKeywords.textGenerator",
         "text": "highlightKeywords.textGenerator = null",
         "type": "options"
     },
     {
-        "name": "options.highlightKeywords.highlightKey",
-        "text": "highlightKeywords.highlightKey = \"tg_highlight_\"",
+        "name": "options.highlightKeywords.scoreKey",
+        "text": "highlightKeywords.scoreKey = \"tg_match_score\"",
         "type": "options"
     },
     {

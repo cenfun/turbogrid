@@ -1,7 +1,60 @@
+import CONST from '../core/const.js';
 import Matcher from '../core/matcher.js';
 import Util from '../core/util.js';
 
 const escapeHtml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const isCaseExactMatch = (text, range, pattern) => {
+    if (pattern.caseSensitive) {
+        return true;
+    }
+    const flags = pattern.regexp.flags.replace(/[igy]/g, '');
+    const regexp = new RegExp(`^(?:${pattern.source})$`, flags);
+    return regexp.test(text.slice(range.start, range.end));
+};
+
+const getHighlightMatchScore = (patterns) => {
+    let score = 0;
+    const columnMatches = new Map();
+
+    patterns.forEach((pattern, patternIndex) => {
+        pattern.matches.forEach((match) => {
+            match.ranges.forEach((range) => {
+                // Every occurrence contributes to the score; exact casing contributes again.
+                score += 1;
+                if (isCaseExactMatch(match.text, range, match.highlightPattern)) {
+                    score += 1;
+                }
+            });
+
+            if (!match.ranges.length) {
+                return;
+            }
+            const matches = columnMatches.get(match.id) || [];
+            matches.push({
+                patternIndex,
+                ranges: match.ranges
+            });
+            columnMatches.set(match.id, matches);
+        });
+    });
+
+    // Reward keyword pairs that occur in their input order within the same column.
+    columnMatches.forEach((matches) => {
+        for (let i = 1; i < matches.length; i++) {
+            const previous = matches[i - 1];
+            const current = matches[i];
+            const ordered = previous.ranges.some((previousRange) => {
+                return current.ranges.some((currentRange) => currentRange.start >= previousRange.end);
+            });
+            if (ordered) {
+                score += 1;
+            }
+        }
+    });
+
+    return score;
+};
 
 export default {
 
@@ -224,14 +277,15 @@ export default {
     highlightKeywordsFilter: function(rowItem, columns, patterns) {
 
         const highlightOptions = this.options.highlightKeywords;
-        const {
-            textKey, textGenerator, highlightKey
-        } = highlightOptions;
+        const { textGenerator, scoreKey } = highlightOptions;
 
         // clean matched cache
         columns.forEach((id) => {
-            rowItem[`${highlightKey}${id}`] = null;
+            rowItem[`${CONST.HIGHLIGHT_KEY}${id}`] = null;
         });
+        if (scoreKey) {
+            rowItem[scoreKey] = 0;
+        }
 
         const normalizedPatterns = Matcher.normalizePatterns(patterns, highlightOptions);
         const positivePatterns = normalizedPatterns.filter((item) => !item.negated);
@@ -242,7 +296,7 @@ export default {
         }
 
         const getHtmlText = (html, id) => {
-            const cacheKey = `${textKey}${id}`;
+            const cacheKey = `${CONST.HIGHLIGHT_TEXT_KEY}${id}`;
             const cacheText = rowItem[cacheKey];
             if (typeof cacheText === 'string') {
                 return cacheText;
@@ -290,6 +344,8 @@ export default {
                 const matched = Matcher.match(item, text, rowItem, columnItem, this);
                 if (matched) {
                     matched.id = id;
+                    matched.text = text;
+                    matched.ranges = Matcher.getRanges(text, [matched.highlightPattern]);
                 }
                 return matched;
             }).filter(Boolean);
@@ -298,14 +354,18 @@ export default {
 
         positivePatterns.forEach((item) => {
             item.matches.forEach(({ id, highlightPattern }) => {
-                const cacheKey = `${highlightKey}${id}`;
+                const cacheKey = `${CONST.HIGHLIGHT_KEY}${id}`;
                 const cellPatterns = rowItem[cacheKey] || [];
                 cellPatterns.push(highlightPattern);
                 rowItem[cacheKey] = cellPatterns;
             });
         });
 
-        return Matcher.isMatched(normalizedPatterns, highlightOptions.matchMode);
+        const isMatched = Matcher.isMatched(normalizedPatterns, highlightOptions.matchMode);
+        if (isMatched && scoreKey) {
+            rowItem[scoreKey] = getHighlightMatchScore(positivePatterns);
+        }
+        return isMatched;
 
     },
 

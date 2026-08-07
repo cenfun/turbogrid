@@ -123,6 +123,7 @@ export interface RowItem {
     /** @internal */ tg_top?: number;
     /** @internal */ tg_row_number?: number | string;
     /** @internal */ tg_invisible?: boolean;
+    /** @internal Keyword match score written by highlightKeywordsFilter */ tg_match_score?: number;
     /** @internal */ tg_filtered?: boolean;
     /** @internal */ tg_selected_index?: number;
 
@@ -194,12 +195,10 @@ export interface HighlightKeywords {
     caseSensitive?: boolean;
     /** Prefix that marks negated string patterns. Defaults to "-" */
     negatedPrefix?: string;
-    /** Prefix used to cache extracted plain text on row items. Defaults to "tg_text_" */
-    textKey?: string;
     /** Custom generator used to get cell text for matching. Defaults to null */
     textGenerator?: ((rowItem: RowItem, id: string) => string) | null;
-    /** Prefix used to cache matched highlight patterns on row items. Defaults to "tg_highlight_" */
-    highlightKey?: string;
+    /** Row property used to store the keyword match score. Set to an empty string to disable. Defaults to "tg_match_score" */
+    scoreKey?: string;
     /** HTML inserted before highlighted text. Defaults to "<mark>" */
     highlightPre?: string;
     /** HTML inserted after highlighted text. Defaults to "</mark>" */
@@ -770,7 +769,7 @@ export declare class Grid extends EventBase {
     getCellValue(rowItem: RowItem, columnItem: ColumnItem): any;
 
     // Highlight
-    /** Helper for rowFilter to match and mark keyword patterns across specified columns */
+    /** Helper for rowFilter to match and mark keyword patterns across specified columns and record their match score */
     highlightKeywordsFilter(rowItem: RowItem, columns: string[], patterns: HighlightKeywordPatterns): boolean;
 
     // Node

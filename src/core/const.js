@@ -7,6 +7,9 @@ export default {
     VERSION: window.VERSION,
     TAG: window.TAG,
 
+    HIGHLIGHT_TEXT_KEY: 'tg_text_',
+    HIGHLIGHT_KEY: 'tg_highlight_',
+
     UP: 'up',
     DOWN: 'down',
     LEFT: 'left',

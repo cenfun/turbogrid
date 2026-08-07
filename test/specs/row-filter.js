@@ -415,6 +415,94 @@ describe('highlightKeywordsFilter patterns and options', function() {
         }), true);
     });
 
+    it('uses fixed internal text and highlight cache keys', () => {
+        const rowItem = {
+            name: '<b>Foo</b>'
+        };
+        Object.assign(grid.options.highlightKeywords, {
+            textKey: 'custom_text_',
+            highlightKey: 'custom_highlight_'
+        });
+
+        assert.equal(grid.highlightKeywordsFilter(rowItem, ['name'], 'Foo'), true);
+        assert.equal(rowItem.tg_text_name, 'Foo');
+        assert.ok(rowItem.tg_highlight_name);
+        assert.equal(typeof rowItem.custom_text_name, 'undefined');
+        assert.equal(typeof rowItem.custom_highlight_name, 'undefined');
+
+        delete grid.options.highlightKeywords.textKey;
+        delete grid.options.highlightKeywords.highlightKey;
+    });
+
+    it('records a match score for case, order, occurrences and columns', () => {
+        const score = (rowItem, columns, patterns) => {
+            assert.equal(grid.highlightKeywordsFilter(rowItem, columns, patterns), true);
+            return rowItem.tg_match_score;
+        };
+
+        assert.ok(score({
+            name: 'Foo'
+        }, ['name'], 'Foo') > score({
+            name: 'foo'
+        }, ['name'], 'Foo'));
+
+        assert.ok(score({
+            name: 'Foo Bar'
+        }, ['name'], 'Foo Bar') > score({
+            name: 'Bar Foo'
+        }, ['name'], 'Foo Bar'));
+
+        assert.ok(score({
+            name: 'Foo Foo'
+        }, ['name'], 'Foo') > score({
+            name: 'Foo'
+        }, ['name'], 'Foo'));
+
+        assert.ok(score({
+            name: 'Foo',
+            title: 'Foo'
+        }, ['name', 'title'], 'Foo') > score({
+            name: 'Foo',
+            title: ''
+        }, ['name', 'title'], 'Foo'));
+
+        const unmatched = {
+            name: 'Bar'
+        };
+        assert.equal(grid.highlightKeywordsFilter(unmatched, ['name'], 'Foo'), false);
+        assert.equal(unmatched.tg_match_score, 0);
+    });
+
+    it('sorts match scores with rowFilteredSort', async () => {
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }],
+            rows: [{
+                name: 'foo'
+            }, {
+                name: 'Foo Foo'
+            }, {
+                name: 'Foo'
+            }]
+        });
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], 'Foo');
+            },
+            rowFilteredSort: {
+                sortField: 'tg_match_score',
+                sortAsc: false,
+                comparer: 'number'
+            }
+        });
+        grid.render();
+        await delay();
+
+        assert.deepEqual(grid.getViewRows().map((rowItem) => rowItem.name), ['Foo Foo', 'Foo', 'foo']);
+    });
+
     it('highlights the string returned by a custom matcher', async () => {
         grid.setData({
             columns: [{

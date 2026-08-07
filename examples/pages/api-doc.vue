@@ -1473,17 +1473,29 @@
           <a name="options.highlightKeywords.negatedPrefix">highlightKeywords.negatedPrefix = "-"</a>
           <div>Prefix that marks a string pattern as negated, for example "-legacy".</div>
 
-          <a name="options.highlightKeywords.textKey">highlightKeywords.textKey = "tg_text_"</a>
-          <div>Prefix for row item properties used to cache plain text extracted from HTML cell values.</div>
-
           <a name="options.highlightKeywords.textGenerator">highlightKeywords.textGenerator = null</a>
           <div>
             Optional function <code>(rowItem, columnId) =&gt; text</code> used to provide the text to match. By default,
             the value is read from <code>rowItem[columnId]</code>.
           </div>
 
-          <a name="options.highlightKeywords.highlightKey">highlightKeywords.highlightKey = "tg_highlight_"</a>
-          <div>Prefix for row item properties used to cache the matched patterns for each column.</div>
+          <a name="options.highlightKeywords.scoreKey">highlightKeywords.scoreKey = "tg_match_score"</a>
+          <div>
+            Row item property used to record the match score. Exact casing, keyword order, repeated matches, and
+            matches across multiple columns increase the score. Set it to an empty string to disable scoring.
+          </div>
+          <pre><code class="language-js">
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    return this.highlightKeywordsFilter(rowItem, ["name", "title"], keywords);
+                                },
+                                rowFilteredSort: {
+                                    sortField: "tg_match_score",
+                                    sortAsc: false,
+                                    comparer: "number"
+                                }
+                            });
+                        </code></pre>
 
           <a name="options.highlightKeywords.highlightPre">highlightKeywords.highlightPre = "&lt;mark&gt;"</a>
           <div>HTML inserted immediately before each highlighted match.</div>

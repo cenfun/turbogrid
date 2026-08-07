@@ -186,9 +186,8 @@ export default function() {
             matchMode: 'and',
             caseSensitive: false,
             negatedPrefix: '-',
-            textKey: 'tg_text_',
             textGenerator: null,
-            highlightKey: 'tg_highlight_',
+            scoreKey: 'tg_match_score',
             highlightPre: '<mark>',
             highlightPost: '</mark>'
         },

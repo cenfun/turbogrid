@@ -227,9 +227,12 @@ export default {
         const highlightOptions = this.options.highlightKeywords;
         const { textGenerator, scoreKey } = highlightOptions;
 
-        // clean matched cache
-        for (const id of columns) {
-            rowItem[`${CONST.HIGHLIGHT_KEY}${id}`] = null;
+        // clean matched pattern cache
+        const patternCache = rowItem[CONST.HIGHLIGHT_PATTERNS_KEY];
+        if (patternCache && typeof patternCache === 'object') {
+            for (const id of columns) {
+                delete patternCache[id];
+            }
         }
         if (scoreKey) {
             rowItem[scoreKey] = 0;

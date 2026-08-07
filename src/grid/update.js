@@ -18,10 +18,13 @@ export default {
             const snapshot = this.getItemSnapshot(rowData);
             Object.keys(snapshot).forEach(function(k) {
                 rowItem[k] = snapshot[k];
-                // clear the highlight/text caches of the changed column
+                // clear the highlight cache of the changed column
                 clearHighlightCache(rowItem, k);
             });
         }
+        // The row may have been mutated before updateRow(rowIndex), and a
+        // textGenerator may make one column depend on another column.
+        clearHighlightCache(rowItem);
         // may in for loop require async
         this.flushRow(rowItem.tg_view_index);
         this.render('rows');

@@ -431,8 +431,11 @@ describe('highlightKeywordsFilter patterns and options', function() {
         });
 
         assert.equal(grid.highlightKeywordsFilter(rowItem, ['name'], 'Foo'), true);
-        assert.equal(rowItem.tg_text_name, 'Foo');
-        assert.ok(rowItem.tg_highlight_name);
+        assert.equal(rowItem.tg_highlight_texts.name.source, '<b>Foo</b>');
+        assert.equal(rowItem.tg_highlight_texts.name.text, 'Foo');
+        assert.equal(Object.getPrototypeOf(rowItem.tg_highlight_texts), null);
+        assert.ok(rowItem.tg_highlight_patterns.name);
+        assert.equal(Object.getPrototypeOf(rowItem.tg_highlight_patterns), null);
         assert.equal(typeof rowItem.custom_text_name, 'undefined');
         assert.equal(typeof rowItem.custom_highlight_name, 'undefined');
 
@@ -663,7 +666,7 @@ describe('highlightKeywordsFilter single-scan and cache invalidation', function(
         // changing the cell must not reuse the stale extracted text 'Foo'
         grid.updateCell(0, 0, '<b>Bar</b>');
         await delay(50);
-        assert.equal(grid.getViewRows().length, 0, 'stale tg_text_ cache should not match after updateCell');
+        assert.equal(grid.getViewRows().length, 0, 'stale tg_highlight_texts cache should not match after updateCell');
 
         // updateRow with new data also refreshes the extracted text
         grid.updateRow(0, {
@@ -672,9 +675,59 @@ describe('highlightKeywordsFilter single-scan and cache invalidation', function(
         await delay(50);
         assert.equal(grid.getViewRows().length, 1);
 
+        // updateRow without rowData supports rows mutated by the caller
+        const rowItem = grid.getRows()[0];
+        rowItem.name = '<b>Bar</b>';
+        grid.updateRow(0);
+        await delay(50);
+        assert.equal(grid.getViewRows().length, 0);
+
+        // source-aware entries also detect direct mutations before a full update
+        rowItem.name = '<b>Foo</b>';
+        grid.update();
+        await delay(50);
+        assert.equal(grid.getViewRows().length, 1);
+
         keywords = 'Bar';
         grid.update();
         await delay(50);
         assert.equal(grid.getViewRows().length, 0);
+    });
+
+    it('refreshes generated html when another column changes', async () => {
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }, {
+                id: 'title',
+                name: 'Title'
+            }],
+            rows: [{
+                name: 'constant',
+                title: 'Foo'
+            }]
+        });
+        grid.setOption({
+            highlightKeywords: {
+                textGenerator: function(rowItem, id) {
+                    return id === 'name' ? `<b>${rowItem.title}</b>` : rowItem[id];
+                }
+            },
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], 'Foo');
+            }
+        });
+        grid.render();
+        await delay();
+        assert.equal(grid.getViewRows().length, 1);
+
+        // Only title's explicit cache is cleared; name is refreshed by comparing
+        // the newly generated source with its cached source.
+        grid.updateCell(0, 1, 'Bar');
+        await delay(50);
+        assert.equal(grid.getViewRows().length, 0);
+
+        grid.options.highlightKeywords.textGenerator = null;
     });
 });

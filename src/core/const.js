@@ -7,8 +7,8 @@ export default {
     VERSION: window.VERSION,
     TAG: window.TAG,
 
-    HIGHLIGHT_TEXT_KEY: 'tg_text_',
-    HIGHLIGHT_KEY: 'tg_highlight_',
+    HIGHLIGHT_TEXTS_KEY: 'tg_highlight_texts',
+    HIGHLIGHT_PATTERNS_KEY: 'tg_highlight_patterns',
 
     UP: 'up',
     DOWN: 'down',

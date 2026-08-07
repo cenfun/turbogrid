@@ -400,16 +400,26 @@ const getCachedPatterns = (context, patterns, options) => {
 };
 
 const getHtmlText = (rowItem, html, id) => {
-    const cacheKey = `${CONST.HIGHLIGHT_TEXT_KEY}${id}`;
-    const cacheText = rowItem[cacheKey];
-    if (typeof cacheText === 'string') {
-        return cacheText;
+    let cache = rowItem[CONST.HIGHLIGHT_TEXTS_KEY];
+    if (!cache || typeof cache !== 'object') {
+        // Column ids are used as keys, so avoid special Object prototype keys.
+        cache = Object.create(null);
+        rowItem[CONST.HIGHLIGHT_TEXTS_KEY] = cache;
+    }
+    const cached = cache[id];
+    // Comparing the source also catches direct row mutations and textGenerator
+    // dependencies on another column without requiring eager invalidation.
+    if (cached && cached.source === html) {
+        return cached.text;
     }
     const div = document.createElement('div');
     div.innerHTML = html;
     // textContent includes hidden text, but innerText not
     const text = div.innerText;
-    rowItem[cacheKey] = text;
+    cache[id] = {
+        source: html,
+        text
+    };
     return text;
 };
 
@@ -507,6 +517,12 @@ const getPatternResults = (context, normalizedPatterns, texts, rowItem, matchMod
 };
 
 const setHighlightMatches = (rowItem, patternResults, computeRanges) => {
+    let patternCache = rowItem[CONST.HIGHLIGHT_PATTERNS_KEY];
+    if (!patternCache || typeof patternCache !== 'object') {
+        // Column ids are used as keys, so avoid special Object prototype keys.
+        patternCache = Object.create(null);
+        rowItem[CONST.HIGHLIGHT_PATTERNS_KEY] = patternCache;
+    }
     for (const result of patternResults) {
         for (const matchInfo of result.matches) {
             // Ranges are only consumed by score computation; skip the extra full-text
@@ -514,23 +530,33 @@ const setHighlightMatches = (rowItem, patternResults, computeRanges) => {
             if (computeRanges) {
                 matchInfo.ranges = getPatternRanges(matchInfo.text, matchInfo.highlightPattern);
             }
-            const cacheKey = `${CONST.HIGHLIGHT_KEY}${matchInfo.id}`;
-            const cellPatterns = rowItem[cacheKey] || [];
+            const cellPatterns = patternCache[matchInfo.id] || [];
             cellPatterns.push(matchInfo.highlightPattern);
-            rowItem[cacheKey] = cellPatterns;
+            patternCache[matchInfo.id] = cellPatterns;
         }
     }
 };
 
-// Invalidate the per-row highlight caches for a changed column. The extracted
-// html text (HIGHLIGHT_TEXT_KEY) is cached on the row item and would otherwise
-// stay stale after updateCell/updateRow mutate the same row object.
+// Invalidate the per-row highlight caches. Omitting id clears all extracted
+// text and matched patterns for updateRow(rowIndex), where the caller may have
+// mutated the row.
 const clearHighlightCache = (rowItem, id) => {
-    if (!rowItem || !id) {
+    if (!rowItem) {
         return;
     }
-    rowItem[`${CONST.HIGHLIGHT_KEY}${id}`] = null;
-    rowItem[`${CONST.HIGHLIGHT_TEXT_KEY}${id}`] = null;
+    const textCache = rowItem[CONST.HIGHLIGHT_TEXTS_KEY];
+    const patternCache = rowItem[CONST.HIGHLIGHT_PATTERNS_KEY];
+    if (typeof id === 'undefined') {
+        rowItem[CONST.HIGHLIGHT_TEXTS_KEY] = null;
+        rowItem[CONST.HIGHLIGHT_PATTERNS_KEY] = null;
+        return;
+    }
+    if (textCache && typeof textCache === 'object') {
+        delete textCache[id];
+    }
+    if (patternCache && typeof patternCache === 'object') {
+        delete patternCache[id];
+    }
 };
 
 // exported surface is only what grid modules (init-rows/update) consume;

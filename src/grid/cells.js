@@ -41,7 +41,8 @@ export default {
         const parentNode = observerNode || cellNode;
         this.renderNodeContent(parentNode, content);
 
-        const highlightPatterns = rowItem[CONST.HIGHLIGHT_KEY + columnItem.id];
+        const patternCache = rowItem[CONST.HIGHLIGHT_PATTERNS_KEY];
+        const highlightPatterns = patternCache && patternCache[columnItem.id];
         if (highlightPatterns) {
             this.renderSettings.highlightCells.push({
                 cellNode,

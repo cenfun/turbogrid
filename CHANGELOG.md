@@ -3,8 +3,9 @@
 + 3.4.0
     - reworked `highlightKeywords` matching with `*` wildcards, `\*` literals, the `case:` prefix, `RegExp`, custom matcher functions, negated patterns, and the new `matchMode` and `caseSensitive` options
     - changed multi-pattern matching to allow matches across columns and in any order; `*`, `case:`, and the negated prefix are now interpreted as pattern syntax
-    - added `highlightKeywords.scoreKey` to record match relevance for `rowFilteredSort`, rewarding exact case, keyword order, repeated occurrences, and multi-column matches
+    - added `highlightKeywords.scoreKey` to record match relevance for `rowFilteredSort` with fast fixed-integer scoring for matched patterns and columns, whole-field/prefix/word-boundary quality, exact case, capped repetitions, and keyword order
     - made the keyword text and highlight cache key prefixes internal constants instead of configurable options
+    - optimized `highlightKeywordsFilter` with reusable compiled patterns and range regexes, deferred range generation for visible positive matches, negated-pattern short-circuiting, lazy column lookup, and allocation-light loops
     - fixed and optimized cross-node keyword highlighting by mapping whole-cell match ranges back to covered text nodes with a linear scan
     - simplified package outputs to browser UMD (`dist/turbogrid.js`) and ESM (`dist/turbogrid.esm.js`) builds
     - corrected callback `this` types and expanded `HighlightKeywordPatterns` to include string arrays

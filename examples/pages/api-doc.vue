@@ -1484,21 +1484,21 @@
             Row item property used to record the match score. Set it to an empty string to disable scoring.
             The score is reset to 0 on every call and is calculated only when the overall filter result is true.
           </div>
-          <div>Only positive (non-negated) patterns contribute points, using the following rules:</div>
+          <div>Only positive (non-negated) patterns contribute points, using fixed integer weights:</div>
           <ul>
-            <li>Each occurrence in each searched column adds 1 point.</li>
-            <li>An occurrence whose casing exactly matches the pattern adds 1 additional point.</li>
-            <li>
-              For each column, each consecutive pair of matched positive patterns adds 1 point when an occurrence
-              of the latter starts at or after the end of an occurrence of the former.
-            </li>
+            <li>Each positive pattern that matches at least one column adds 100 points.</li>
+            <li>Each column matched by a pattern adds 20 points.</li>
+            <li>The best occurrence for each pattern and column adds 20 points for a whole-field match, 10 for a field prefix, or 5 for a word-boundary match.</li>
+            <li>The best occurrence adds 2 more points when its casing exactly matches the pattern.</li>
+            <li>Repeated occurrences add up to 2 points: 1 for the second occurrence and 1 for the third. Further occurrences add nothing.</li>
+            <li>Within each column, each consecutive pair of positive patterns adds 5 points when their first occurrences follow the input order without overlapping.</li>
             <li>Negated patterns affect whether the row matches but never add points.</li>
           </ul>
           <div>
-            Therefore repeated occurrences and matches across multiple columns accumulate points. For example,
-            pattern "Foo" against "Foo Foo" scores 4, while patterns "Foo Bar" against "Foo Bar" score 5:
-            2 occurrence points, 2 exact-case points, and 1 order point. Match position and text length do not
-            otherwise affect the score.
+            The calculation uses existing match ranges, fixed integer addition, and first-occurrence order checks;
+            it does not perform corpus statistics or an additional row scan. For example, pattern "Foo" against
+            the whole field "Foo" scores 142. Patterns "Foo Bar" against "Foo Bar" score 264: 200 pattern points,
+            40 column points, 10 prefix points, 5 word-boundary points, 4 exact-case points, and 5 order points.
           </div>
           <pre><code class="language-js">
                             grid.setOption({

@@ -382,6 +382,12 @@ describe('highlightKeywordsFilter patterns and options', function() {
         }, {
             caseSensitive: true
         }), false);
+        const mutablePattern = {
+            pattern: 'Foo'
+        };
+        assert.equal(filter(mutablePattern), true);
+        mutablePattern.pattern = 'missing';
+        assert.equal(filter(mutablePattern), false);
         assert.equal(filter([{
             pattern: 'F*fox',
             caseSensitive: true
@@ -440,31 +446,35 @@ describe('highlightKeywordsFilter patterns and options', function() {
             return rowItem.tg_match_score;
         };
 
-        assert.ok(score({
+        assert.equal(score({
             name: 'Foo'
-        }, ['name'], 'Foo') > score({
+        }, ['name'], 'Foo'), 142);
+        assert.equal(score({
             name: 'foo'
-        }, ['name'], 'Foo'));
+        }, ['name'], 'Foo'), 140);
 
-        assert.ok(score({
+        assert.equal(score({
             name: 'Foo Bar'
-        }, ['name'], 'Foo Bar') > score({
+        }, ['name'], 'Foo Bar'), 264);
+        assert.equal(score({
             name: 'Bar Foo'
-        }, ['name'], 'Foo Bar'));
+        }, ['name'], 'Foo Bar'), 259);
 
-        assert.ok(score({
-            name: 'Foo Foo'
-        }, ['name'], 'Foo') > score({
-            name: 'Foo'
-        }, ['name'], 'Foo'));
+        assert.equal(score({
+            name: 'x Foo Foo'
+        }, ['name'], 'Foo'), 128);
+        assert.equal(score({
+            name: 'x Foo'
+        }, ['name'], 'Foo'), 127);
 
-        assert.ok(score({
+        assert.equal(score({
             name: 'Foo',
             title: 'Foo'
-        }, ['name', 'title'], 'Foo') > score({
+        }, ['name', 'title'], 'Foo'), 184);
+        assert.equal(score({
             name: 'Foo',
             title: ''
-        }, ['name', 'title'], 'Foo'));
+        }, ['name', 'title'], 'Foo'), 142);
 
         const unmatched = {
             name: 'Bar'
@@ -500,7 +510,7 @@ describe('highlightKeywordsFilter patterns and options', function() {
         grid.render();
         await delay();
 
-        assert.deepEqual(grid.getViewRows().map((rowItem) => rowItem.name), ['Foo Foo', 'Foo', 'foo']);
+        assert.deepEqual(grid.getViewRows().map((rowItem) => rowItem.name), ['Foo', 'foo', 'Foo Foo']);
     });
 
     it('highlights the string returned by a custom matcher', async () => {

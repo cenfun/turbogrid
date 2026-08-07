@@ -139,6 +139,11 @@ onMounted(async () => {
             bindWindowResize: true,
             rowFilter: (rowItem) => {
                 return g.highlightKeywordsFilter(rowItem, ['author', 'description', 'title'], keywords.value);
+            },
+            rowFilteredSort: {
+                sortField: 'tg_match_score',
+                sortAsc: false,
+                comparer: 'number'
             }
         };
         g.setOption(options);

@@ -40,6 +40,15 @@
             <option>!</option>
           </select>
         </label>
+
+        <label>
+          <input
+            v-model="rowFilteredSortEnabled"
+            type="checkbox"
+            @change="updateRowFilteredSort"
+          >
+          rowFilteredSort (match score)
+        </label>
       </div>
 
       <div>
@@ -112,6 +121,7 @@ const keywords = ref('grid');
 const caseSensitive = ref(false);
 const matchMode = ref('and');
 const negatedPrefix = ref('-');
+const rowFilteredSortEnabled = ref(false);
 
 const data = {
     columns: [{
@@ -130,6 +140,9 @@ const data = {
         id: 'status',
         name: 'Status',
         width: 100
+    }, {
+        id: 'tg_match_score',
+        name: 'Match Score'
     }],
     rows: [{
         name: 'TurboGrid',
@@ -197,6 +210,25 @@ const updateOptions = () => {
     updateGrid();
 };
 
+const getRowFilteredSort = () => {
+    if (!rowFilteredSortEnabled.value) {
+        return null;
+    }
+    return {
+        sortField: 'tg_match_score',
+        sortAsc: false,
+        comparer: 'number'
+    };
+};
+
+const updateRowFilteredSort = () => {
+    if (!grid.value) {
+        return;
+    }
+    grid.value.setOption('rowFilteredSort', getRowFilteredSort());
+    updateGrid();
+};
+
 const setExample = (e) => {
     keywords.value = e.target.innerText.trim();
     updateGrid();
@@ -212,6 +244,7 @@ onMounted(() => {
         frozenColumn: 0,
         rowNotFound: '<div>No matching rows</div>',
         textSelectable: true,
+        rowFilteredSort: getRowFilteredSort(),
         highlightKeywords: {
             caseSensitive: caseSensitive.value,
             matchMode: matchMode.value,

@@ -1481,11 +1481,30 @@
 
           <a name="options.highlightKeywords.scoreKey">highlightKeywords.scoreKey = "tg_match_score"</a>
           <div>
-            Row item property used to record the match score. Exact casing, keyword order, repeated matches, and
-            matches across multiple columns increase the score. Set it to an empty string to disable scoring.
+            Row item property used to record the match score. Set it to an empty string to disable scoring.
+            The score is reset to 0 on every call and is calculated only when the overall filter result is true.
+          </div>
+          <div>Only positive (non-negated) patterns contribute points, using the following rules:</div>
+          <ul>
+            <li>Each occurrence in each searched column adds 1 point.</li>
+            <li>An occurrence whose casing exactly matches the pattern adds 1 additional point.</li>
+            <li>
+              For each column, each consecutive pair of matched positive patterns adds 1 point when an occurrence
+              of the latter starts at or after the end of an occurrence of the former.
+            </li>
+            <li>Negated patterns affect whether the row matches but never add points.</li>
+          </ul>
+          <div>
+            Therefore repeated occurrences and matches across multiple columns accumulate points. For example,
+            pattern "Foo" against "Foo Foo" scores 4, while patterns "Foo Bar" against "Foo Bar" score 5:
+            2 occurrence points, 2 exact-case points, and 1 order point. Match position and text length do not
+            otherwise affect the score.
           </div>
           <pre><code class="language-js">
                             grid.setOption({
+                                highlightKeywords: {
+                                    scoreKey: "tg_match_score"
+                                },
                                 rowFilter: function(rowItem) {
                                     return this.highlightKeywordsFilter(rowItem, ["name", "title"], keywords);
                                 },

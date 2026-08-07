@@ -1375,11 +1375,29 @@
 
           <a name="options.highlightKeywords.scoreKey">highlightKeywords.scoreKey = "tg_match_score"</a>
           <div>
-            用于记录匹配分数的行数据属性。大小写完全一致、关键字顺序一致、重复匹配以及多列匹配都会
-            提高分数。设置为空字符串可禁用评分。
+            用于记录匹配分数的行数据属性。设置为空字符串可禁用评分。每次调用都会先将分数重置为 0，
+            并且仅当整行最终匹配通过时才计算分数。
+          </div>
+          <div>只有正向（非反向）模式参与计分，具体规则如下：</div>
+          <ul>
+            <li>每个搜索列中的每次匹配加 1 分。</li>
+            <li>匹配文本与模式的大小写完全一致时，额外加 1 分。</li>
+            <li>
+              在每一列中，连续的两个已匹配正向模式如果保持输入顺序，即后一个模式的某次匹配位置
+              位于前一个模式某次匹配结束位置之后，则额外加 1 分。
+            </li>
+            <li>反向模式只影响该行是否匹配，不参与计分。</li>
+          </ul>
+          <div>
+            因此，同一模式重复出现或在多个列中出现都会累加分数。例如，模式 "Foo" 匹配 "Foo Foo"
+            时得 4 分；模式 "Foo Bar" 匹配 "Foo Bar" 时得 5 分，其中包含 2 分匹配次数、2 分大小写
+            完全一致和 1 分顺序奖励。除此之外，匹配位置和文本长度不会影响分数。
           </div>
           <pre><code class="language-js">
                             grid.setOption({
+                                highlightKeywords: {
+                                    scoreKey: "tg_match_score"
+                                },
                                 rowFilter: function(rowItem) {
                                     return this.highlightKeywordsFilter(rowItem, ["name", "title"], keywords);
                                 },

@@ -1343,8 +1343,29 @@
 
         <section>
           <a name="options.rowFilter">rowFilter</a>
+          <div>在渲染前过滤行。函数返回 true 显示行，返回 false 隐藏行。</div>
+
           <a name="options.rowFilteredSort">rowFilteredSort = null</a>
-          <div>在渲染前过滤行，并可选择对过滤结果进行排序。</div>
+          <div>在 rowFilter 执行后对行进行排序，适用于搜索结果排名等场景。</div>
+          <div>仅当 rowFilter 是函数且当前没有活动的 sortColumn 时生效；点击列头、sortOnInit 或 setSortColumn() 产生的列排序优先级更高。需要恢复过滤排序时，可先调用 removeSortColumn() 再调用 update()。</div>
+          <div>支持以下配置形式：</div>
+          <ul>
+            <li>字符串：作为 sortField，并使用全局 sortAsc。</li>
+            <li>对象或列对象：通过 sortField 或 id 指定字段，可设置 sortAsc、comparer 和 type。</li>
+            <li>函数：以当前 Grid 为 this，返回字符串、对象、列对象或 null。</li>
+          </ul>
+          <div>排序会递归调整原始 rows 及各级 subs 的顺序，而不只是排列当前可见的 viewRows；frozen 和 sortFixed 行仍遵循普通排序规则。</div>
+          <pre><code class="language-js">
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    return rowItem.name.includes(keyword);
+                                },
+                                rowFilteredSort: {
+                                    sortField: "score",
+                                    sortAsc: false
+                                }
+                            });
+                        </code></pre>
           <div>
             示例 <a
               href="#/row-filter"

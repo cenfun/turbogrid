@@ -1447,8 +1447,29 @@
 
         <section>
           <a name="options.rowFilter">rowFilter</a>
+          <div>Filters rows before rendering. Return true to show a row and false to hide it.</div>
+
           <a name="options.rowFilteredSort">rowFilteredSort = null</a>
-          <div>Filters rows before rendering and optionally sorts filtered matches.</div>
+          <div>Sorts rows after rowFilter runs, for example to rank search results.</div>
+          <div>It only applies when rowFilter is a function and there is no active sortColumn. Sorting from a header click, sortOnInit, or setSortColumn() takes precedence. To restore filtered sorting, call removeSortColumn() before update().</div>
+          <div>The following forms are supported:</div>
+          <ul>
+            <li>String: used as sortField with the global sortAsc value.</li>
+            <li>Object or column item: uses sortField or id and may provide sortAsc, comparer, and type.</li>
+            <li>Function: called with the current Grid as this and returns a string, object, column item, or null.</li>
+          </ul>
+          <div>Sorting recursively changes the order of the source rows and every subs array, not only the visible viewRows. Frozen and sortFixed rows continue to follow the normal sorting rules.</div>
+          <pre><code class="language-js">
+                            grid.setOption({
+                                rowFilter: function(rowItem) {
+                                    return rowItem.name.includes(keyword);
+                                },
+                                rowFilteredSort: {
+                                    sortField: "score",
+                                    sortAsc: false
+                                }
+                            });
+                        </code></pre>
           <div>
             Example <a
               href="#/row-filter"

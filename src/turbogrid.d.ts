@@ -150,6 +150,23 @@ export interface SortComparers {
     [name: string]: ((a: any, b: any, options: any) => number) | undefined;
 }
 
+/** Sorting configuration applied after rowFilter when no interactive sort column is active. */
+export interface RowFilteredSortOptions {
+    /** Row field used for sorting. A callback can resolve the field dynamically. */
+    sortField?: SortField;
+    /** Column id used as the sort field when sortField is omitted. */
+    id?: string;
+    /** true for ascending and false for descending. */
+    sortAsc?: boolean;
+    /** Registered comparer name or a custom comparer. */
+    comparer?: string | ((a: any, b: any, options: any) => number);
+    /** Column type used to select a registered comparer when comparer is omitted. */
+    type?: string;
+}
+
+export type RowFilteredSortValue = string | RowFilteredSortOptions | ColumnItem;
+export type RowFilteredSort = RowFilteredSortValue | ((this: Grid) => RowFilteredSortValue | null | undefined) | null;
+
 // =============================================================================
 // Column Types
 
@@ -253,8 +270,11 @@ export interface GridOptions {
     rowHeight?: number;
     /** Filters rows before rendering. Return true to show the row */
     rowFilter?: ((rowItem: RowItem, index: number, parent?: RowItem) => boolean) | null;
-    /** Optionally sorts filtered matches */
-    rowFilteredSort?: string | RowItem | (() => string | RowItem | null) | null;
+    /**
+     * Sorts rows after rowFilter when no interactive sort column is active.
+     * A string is treated as sortField and uses the global sortAsc value.
+     */
+    rowFilteredSort?: RowFilteredSort;
     /** Empty-state content when no rows match. Accepts string, element, or factory function */
     rowNotFound?: string | HTMLElement | ((this: Grid, info: any) => string | HTMLElement);
     /** Whether move APIs can move rows across hierarchy levels (default: true) */

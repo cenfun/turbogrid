@@ -1,6 +1,7 @@
 import { VERSION, Util } from '../src/index.js';
 import Prism from 'prismjs';
 import { shallowReactive } from 'vue';
+import { showToast } from 'vine-ui';
 import exampleList from './assets/example-list.json';
 import apiList from './assets/api-list.json';
 
@@ -48,6 +49,21 @@ const formatCode = function(code) {
     }
 
     code.innerHTML = Prism.highlight(html, Prism.languages[language], language);
+
+    const $copy = document.createElement('div');
+    $copy.className = 'bt-copy-code';
+    $copy.addEventListener('click', (e) => {
+        try {
+            navigator.clipboard.writeText(html);
+            showToast({
+                type: 'success',
+                content: 'Copied'
+            });
+        } catch (ee) {
+            console.log(ee);
+        }
+    });
+    code.parentNode.appendChild($copy);
 
 };
 

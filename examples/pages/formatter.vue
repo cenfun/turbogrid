@@ -161,6 +161,10 @@ onMounted(() => {
             name: 'Icon Font',
             type: 'icon'
         }, {
+            id: 'icon',
+            name: 'Icon SVG',
+            formatter: 'iconFormatter'
+        }, {
             id: 'image',
             name: 'Image',
             formatter: 'imageFormatter'
@@ -444,7 +448,7 @@ onMounted(() => {
                 const img = document.createElement('img');
                 img.src = 'data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20pointer-events%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010a4%204%200%201%200-4-4%204%204%200%200%200%204%204Zm0-6a2%202%200%201%201-2%202%202%202%200%200%201%202-2ZM2%2022h20a1%201%200%200%200%20.949-1.316l-4-12a1%201%200%200%200-1.708-.335l-5.39%206.289L8.6%2012.2a1%201%200%200%200-1.4.2l-6%208A1%201%200%200%200%202%2022Zm6.2-7.6%203.2%202.4a1%201%200%200%200%201.359-.149l4.851-5.659%203%209.008H4Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E';
                 img.height = 16;
-                img.style.margin = '3px 0px 0px 0px';
+                img.style.display = 'inline-block';
                 return img;
             },
 
@@ -460,8 +464,8 @@ onMounted(() => {
             },
 
             iconFormatter: function(value, rowItem, columnItem, cellNode) {
-                const icon = '<svg class="tg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" id="style-box-top-right" width="100%" height="100%"><path d="M15 2H2v19h19V2h-6zm-1 12H9V9h5v5zm0-11v5H9V3h5zM3 3h5v5H3V3zm0 6h5v5H3V9zm0 11v-5h5v5H3zm6 0v-5h5v5H9zm11 0h-5v-5h5v5zm0-6h-5V9h5v5z"></path></svg>';
-                return `<div style="height:23px;width:23px;">${icon}</div>`;
+                const icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" id="style-box-top-right" width="100%" height="100%"><path d="M15 2H2v19h19V2h-6zm-1 12H9V9h5v5zm0-11v5H9V3h5zM3 3h5v5H3V3zm0 6h5v5H3V9zm0 11v-5h5v5H3zm6 0v-5h5v5H9zm11 0h-5v-5h5v5zm0-6h-5V9h5v5z"></path></svg>';
+                return `<div class="tg-cell-icon">${icon}</div>`;
             },
 
             checkboxFormatter: function(value, rowItem, columnItem, cellNode) {
@@ -553,17 +557,34 @@ onBeforeUnmount(() => {
     .tg-header-icon {
         display: flex;
         flex-direction: row;
+        gap: 5px;
 
         svg {
             display: block;
+            flex-shrink: 0;
             width: 16px;
             height: 16px;
-            margin-right: 5px;
+            overflow: hidden;
         }
     }
 
     .tg-align-right .tg-header-icon {
         justify-content: end;
+    }
+
+    .tg-cell-icon {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        svg {
+            display: block;
+            flex-shrink: 0;
+            width: 23px;
+            height: 23px;
+            overflow: hidden;
+        }
     }
 }
 

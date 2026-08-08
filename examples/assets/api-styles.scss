@@ -37,6 +37,10 @@
 
     details section {
         padding: 10px;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
     }
 
     details section > div {

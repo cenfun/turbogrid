@@ -980,6 +980,10 @@
           <div>用于 rowFilter 和 highlightKeywords 的关键字匹配与高亮辅助方法。</div>
           <div>
             columns 应为列 id 列表。字符串模式会先按空白字符拆分后再逐个匹配，也支持传入模式数组或对象。
+            成对的单引号、双引号或反引号可将包含空格的内容保留为一个模式，匹配时引号会被移除。例如
+            <code>'grid render'</code>、<code>"grid render"</code> 与 <code>`grid render`</code> 都会匹配短语
+            <code>grid render</code>。否定前缀可放在引号内或引号外，因此 <code>'-foo bar'</code> 与
+            <code>-'foo bar'</code> 等效。
             默认要求所有模式都匹配（<code>matchMode = "and"</code>）。
           </div>
           <div>

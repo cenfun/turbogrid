@@ -1072,7 +1072,12 @@
           <div>Helper used by rowFilter and highlightKeywords to match and mark keywords.</div>
           <div>
             columns should be a list of column ids. String patterns are split on whitespace before matching; arrays or
-            objects of patterns are also accepted. By default all patterns must match (<code>matchMode = "and"</code>).
+            objects of patterns are also accepted. Whitespace enclosed by matching single quotes, double quotes, or
+            backticks is retained as part of one pattern, and the quotes are removed. For example,
+            <code>'grid render'</code>, <code>"grid render"</code>, and <code>`grid render`</code> all match the phrase
+            <code>grid render</code>. A negated quoted pattern may put the prefix inside or outside the quotes, so
+            <code>'-foo bar'</code> and <code>-'foo bar'</code> are equivalent.
+            By default all patterns must match (<code>matchMode = "and"</code>).
           </div>
           <div>
             Matching, text extraction, caching, and highlight markup can be customized with the <a

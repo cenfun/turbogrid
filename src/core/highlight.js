@@ -5,9 +5,48 @@ import CONST from './const.js';
 
 const escapeStringRegexp = (str) => str.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
 
+const isQuote = (character) => character === '"' || character === '\'' || character === '`';
+
+const getOpeningQuote = (patterns, index) => {
+    const character = patterns[index];
+    if (isQuote(character) && patterns.indexOf(character, index + 1) !== -1) {
+        return character;
+    }
+    return '';
+};
+
+const splitPatternString = (patterns) => {
+    const list = [];
+    let pattern = '';
+    let quote = '';
+    for (let i = 0; i < patterns.length; i++) {
+        const character = patterns[i];
+        if (quote) {
+            if (character === quote) {
+                quote = '';
+            } else {
+                pattern += character;
+            }
+        } else if (getOpeningQuote(patterns, i)) {
+            quote = character;
+        } else if ((/\s/).test(character)) {
+            if (pattern) {
+                list.push(pattern);
+                pattern = '';
+            }
+        } else {
+            pattern += character;
+        }
+    }
+    if (pattern) {
+        list.push(pattern);
+    }
+    return list;
+};
+
 const toPatternList = (patterns) => {
     if (typeof patterns === 'string') {
-        return patterns.trim().split(/\s+/g);
+        return splitPatternString(patterns);
     }
     if (Array.isArray(patterns)) {
         return patterns;

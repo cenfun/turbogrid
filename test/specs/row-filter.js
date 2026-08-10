@@ -356,6 +356,10 @@ describe('highlightKeywordsFilter patterns and options', function() {
         // default matchMode 'and': every positive pattern must match
         assert.equal(filter('foo missing'), false);
         assert.equal(filter('foo bar'), true);
+        assert.equal(filter('foo "quick brown"'), true);
+        assert.equal(filter("foo 'quick brown'"), true);
+        assert.equal(filter('foo `quick brown`'), true);
+        assert.equal(filter('foo "quick missing"'), false);
         assert.equal(filter('foo missing', {
             matchMode: 'or'
         }), true);

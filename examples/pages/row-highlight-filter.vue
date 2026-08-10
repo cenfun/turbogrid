@@ -4,7 +4,7 @@
       <div class="controller-header">
         <div class="controller-title">
           highlightKeywordsFilter
-          <span>String patterns (space-separated keywords, * wildcards, \* literals, and case: prefix)</span>
+          <span>String patterns (space-separated keywords, quoted phrases, * wildcards, \* literals, and case: prefix)</span>
         </div>
       </div>
 
@@ -67,6 +67,15 @@
         </button>
         <button @click="setExample">
           grid fast
+        </button>
+        <button @click="setExample">
+          "grid render"
+        </button>
+        <button @click="setExample">
+          '-grid render'
+        </button>
+        <button @click="setExample">
+          -`grid render`
         </button>
         <button @click="setExample">
           grid {{ negatedPrefix }}legacy

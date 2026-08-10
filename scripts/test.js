@@ -4,6 +4,7 @@ import EC from 'eight-colors';
 import MCR from 'monocart-coverage-reports';
 import { chromium } from 'playwright';
 import { build, preview } from 'vite';
+import { e2eRunner } from '../test/e2e/e2e-runner.js';
 
 const projectRoot = process.cwd();
 const configFile = path.resolve(projectRoot, 'vite.config.js');
@@ -19,6 +20,7 @@ let page;
 let coverageStarted = false;
 let coverageData = [];
 let mochaResult;
+let e2eError;
 let executionError;
 let pageError;
 let debugClosed = false;
@@ -96,6 +98,16 @@ const waitForDebugExit = function(activeBrowser, activePage) {
     });
 };
 
+const runE2ETest = async function() {
+    const e2eBrowser = await chromium.launch();
+    try {
+        const e2ePage = await e2eBrowser.newPage();
+        await e2eRunner(e2ePage);
+    } finally {
+        await e2eBrowser.close();
+    }
+};
+
 const printTestSummary = function(result) {
     console.log(EC.magenta('\nUnit test summary'));
     console.log(`  Suites: ${result.suites}`);
@@ -113,6 +125,25 @@ const printTestSummary = function(result) {
         });
     }
 };
+
+if (debug) {
+    console.log(EC.magenta('Debug mode: skipping production E2E test'));
+} else {
+    try {
+        console.log(EC.magenta('Building production ...'));
+        await build({
+            configFile,
+            mode: 'production'
+        });
+
+        console.log(EC.magenta('Testing production E2E ...'));
+        await runE2ETest();
+        console.log(EC.green('Production E2E test passed'));
+    } catch (error) {
+        e2eError = error;
+        console.error(EC.red(`Production E2E test failed: ${error.stack || error.message}`));
+    }
+}
 
 try {
     console.log(EC.magenta('Building browser unit tests ...'));
@@ -242,7 +273,7 @@ if (pageError) {
 if (executionError) {
     console.error(EC.red(`\nUnit test runner failed: ${executionError.stack || executionError.message}`));
 }
-if ((!mochaResult && !debugClosed) || mochaResult?.failed > 0 || executionError) {
+if ((!mochaResult && !debugClosed) || mochaResult?.failed > 0 || e2eError || executionError) {
     process.exitCode = 1;
 }
 

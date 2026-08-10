@@ -223,6 +223,23 @@ export interface HighlightKeywordPattern {
 }
 
 export type HighlightKeyword = string | HighlightKeywordPattern;
+
+/**
+ * Keyword patterns accepted by highlightKeywordsFilter:
+ * - A string containing one or more whitespace-separated patterns.
+ * - Matching single quotes, double quotes, or backticks group text containing
+ *   whitespace into one pattern; the quotes are removed before matching.
+ * - String patterns support `*` wildcards, escaped `\*` literals, the `case:`
+ *   prefix, and the configured negated prefix (default `-`).
+ * - A HighlightKeywordPattern object can contain a string, RegExp, or custom
+ *   matcher and override case sensitivity or negation.
+ * - An array can combine string and HighlightKeywordPattern entries.
+ *
+ * @example "foo bar"                        // two patterns: foo and bar
+ * @example '"foo bar" baz'                  // quoted phrase and baz
+ * @example "`foo bar` baz"                  // backtick-quoted phrase and baz
+ * @example "-'foo bar' case:Grid foo*bar"  // negation, case prefix, and wildcard
+ */
 export type HighlightKeywordPatterns = HighlightKeyword | HighlightKeyword[];
 
 // =============================================================================

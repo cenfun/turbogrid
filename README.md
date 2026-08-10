@@ -1,14 +1,14 @@
-![TurboGrid](public/assets/images/logo.svg)
+![TurboGrid](examples/assets/images/logo.svg)
 
 # TurboGrid
 
 🌐 English | [简体中文](README.zh-Hans.md)
 
-[![](https://img.shields.io/npm/v/turbogrid)](https://www.npmjs.com/package/turbogrid)
-[![](https://devimg.vercel.app/npm/downloads/turbogrid?label={total}%20downloads/month)](https://www.npmjs.com/package/turbogrid)
-![](https://img.shields.io/librariesio/github/cenfun/turbogrid)
-![](https://img.shields.io/github/license/cenfun/turbogrid)
-![](https://img.shields.io/github/actions/workflow/status/cenfun/turbogrid/static.yml)
+[![npm version](https://img.shields.io/npm/v/turbogrid)](https://www.npmjs.com/package/turbogrid)
+[![npm downloads](https://devimg.vercel.app/npm/downloads/turbogrid?label={total}%20downloads/month)](https://www.npmjs.com/package/turbogrid)
+![dependency status](https://img.shields.io/librariesio/github/cenfun/turbogrid)
+![license](https://img.shields.io/github/license/cenfun/turbogrid)
+![build status](https://img.shields.io/github/actions/workflow/status/cenfun/turbogrid/static.yml)
 
 TurboGrid is a high-performance JavaScript data grid library with zero dependencies, focused on large-data rendering, rich interactions, and deep customizability.
 
@@ -16,6 +16,7 @@ TurboGrid is a high-performance JavaScript data grid library with zero dependenc
 
 - **High Performance** — Virtual rendering handles millions of rows and columns smoothly; row/column caching and lazy loading patterns
 - **Zero Dependencies** — Pure JavaScript, no external runtime dependencies
+- **TypeScript Support** — Built-in type declarations with no separate `@types` package required
 - **Tree Data** — Hierarchical rows with expand/collapse, multi-level nesting, and lazy-loading child rows (`setRowSubs`)
 - **Auto Column Width** — Distribute remaining horizontal space proportionally across columns; fixed-width columns are excluded; use `widthWeight` per column to control the share
 - **Frozen Panes** — Freeze rows and columns at any edge (top/bottom/left/right) with configurable limits
@@ -52,7 +53,7 @@ const { Grid, Util } = require('turbogrid');
 ```html
 <script src="dist/turbogrid.js"></script>
 <script>
-	console.log(window.turbogrid);
+	const { Grid } = window.turbogrid;
 </script>
 ```
 

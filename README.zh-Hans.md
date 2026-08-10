@@ -1,14 +1,14 @@
-![TurboGrid](public/assets/images/logo.svg)
+![TurboGrid](examples/assets/images/logo.svg)
 
 # TurboGrid
 
 🌐 [English](README.md) | 简体中文
 
-[![](https://img.shields.io/npm/v/turbogrid)](https://www.npmjs.com/package/turbogrid)
-[![](https://devimg.vercel.app/npm/downloads/turbogrid?label={total}%20downloads/month)](https://www.npmjs.com/package/turbogrid)
-![](https://img.shields.io/librariesio/github/cenfun/turbogrid)
-![](https://img.shields.io/github/license/cenfun/turbogrid)
-![](https://img.shields.io/github/actions/workflow/status/cenfun/turbogrid/static.yml)
+[![npm version](https://img.shields.io/npm/v/turbogrid)](https://www.npmjs.com/package/turbogrid)
+[![npm downloads](https://devimg.vercel.app/npm/downloads/turbogrid?label={total}%20downloads/month)](https://www.npmjs.com/package/turbogrid)
+![dependency status](https://img.shields.io/librariesio/github/cenfun/turbogrid)
+![license](https://img.shields.io/github/license/cenfun/turbogrid)
+![build status](https://img.shields.io/github/actions/workflow/status/cenfun/turbogrid/static.yml)
 
 TurboGrid 是一个零依赖、高性能的 JavaScript 数据表格库，专注于大数据量渲染、丰富交互和深度可定制能力。
 
@@ -16,6 +16,7 @@ TurboGrid 是一个零依赖、高性能的 JavaScript 数据表格库，专注�
 
 - **高性能** — 虚拟渲染可流畅处理百万级行列数据；支持行列缓存和懒加载模式
 - **零依赖** — 纯 JavaScript 实现，无任何外部运行时依赖
+- **TypeScript 支持** — 内置类型声明，无需额外安装 `@types` 包
 - **树形数据** — 支持多级嵌套的层级行，展开/折叠，子行懒加载（`setRowSubs`）
 - **自动列宽** — 将容器剩余水平空间按比例分配到各列；固定宽度的列不参与分配；使用列的 `widthWeight` 控制分配份额
 - **冻结窗格** — 行列可冻结在任意边缘（上/下/左/右），支持配置冻结数量上限
@@ -52,7 +53,7 @@ const { Grid, Util } = require('turbogrid');
 ```html
 <script src="dist/turbogrid.js"></script>
 <script>
-	console.log(window.turbogrid);
+	const { Grid } = window.turbogrid;
 </script>
 ```
 

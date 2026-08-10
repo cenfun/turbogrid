@@ -102,7 +102,24 @@ const runE2ETest = async function() {
     const e2eBrowser = await chromium.launch();
     try {
         const e2ePage = await e2eBrowser.newPage();
+        let e2ePageError;
+        e2ePage.on('console', (message) => {
+            const text = message.text();
+            if (message.type() === 'error') {
+                console.error(EC.red(`[E2E] ${text}`));
+                return;
+            }
+            console.log(`[E2E] ${text}`);
+        });
+        e2ePage.on('pageerror', (error) => {
+            e2ePageError = e2ePageError || error;
+            console.error(EC.red(`[E2E] Page error: ${error.stack || error.message}`));
+        });
+
         await e2eRunner(e2ePage);
+        if (e2ePageError) {
+            throw e2ePageError;
+        }
     } finally {
         await e2eBrowser.close();
     }

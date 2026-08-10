@@ -30,7 +30,8 @@ export const e2eRunner = async (page) => {
     });
 
     await page.evaluate(() => {
-        const { Grid } = window.turbogrid;
+        const { Grid, VERSION } = window.turbogrid;
+        console.log(`Running E2E tests with TurboGrid v${VERSION}`);
         const grid = new Grid(document.querySelector('#grid'));
         grid.setData({
             columns: [

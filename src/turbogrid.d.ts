@@ -1,13 +1,17 @@
 // Type definitions for TurboGrid
 // https://github.com/cenfun/turbogrid
 
+/** CSS declarations, declaration lists, or property-value mappings accepted by styleMap helpers. */
 export type StyleMap = string | string[] | Record<string, boolean | string | number>;
+/** CSS class names, class-name lists, or conditional class mappings. */
 export type ClassMap = string | string[] | Record<string, boolean>;
+/** Row field name or callback used to resolve the field to sort. */
 export type SortField = string | ((this: Grid, sortOptions: any) => string | null | undefined);
 
 // =============================================================================
 // Column
 
+/** Column definition and runtime metadata. Custom properties are preserved. */
 export interface ColumnItem {
     /** Column identifier, used to map row values to columns */
     id?: string;
@@ -33,14 +37,18 @@ export interface ColumnItem {
     initWidth?: number | ((this: Grid, columnItem: ColumnItem) => number | null | undefined);
     /** Weight for autoColumnWidth distribution. Defaults to 1 if not set. 0.5 gets half, 2 gets double the proportional share */
     widthWeight?: number;
+    /** Minimum column width in pixels (default: 81) */
     minWidth?: number;
+    /** Maximum column width in pixels (default: 300) */
     maxWidth?: number;
+    /** Explicit header/cell height in pixels */
     height?: number;
 
     /** Whether the column is sortable (default: true) */
     sortable?: boolean;
     /** Field used for sorting when this column is the sort column */
     sortField?: SortField;
+    /** Initial direction for this column: true for ascending, false for descending */
     sortAsc?: boolean;
     /** Whether the column is resizable (default: true) */
     resizable?: boolean;
@@ -52,27 +60,31 @@ export interface ColumnItem {
     /** Whether the column is private and excluded from exports */
     private?: boolean;
 
+    /** CSS classes applied to body cells in this column */
     classMap?: ClassMap;
+    /** Inline styles applied to body cells in this column */
     styleMap?: StyleMap;
+    /** CSS classes applied to this column's header cell */
     headerClassMap?: ClassMap;
+    /** Inline styles applied to this column's header cell */
     headerStyleMap?: StyleMap;
 
     /** Nested sub-columns for grouped headers */
     subs?: ColumnItem[];
 
-    /** @internal */ tg_index?: number;
-    /** @internal */ tg_view_index?: number;
-    /** @internal */ tg_sub_index?: number;
-    /** @internal */ tg_list_index?: number;
-    /** @internal */ tg_width?: number;
-    /** @internal */ tg_left?: number;
-    /** @internal */ tg_frozen?: boolean;
-    /** @internal */ tg_group?: boolean;
-    /** @internal */ tg_parent?: ColumnItem;
-    /** @internal */ tg_subs_length?: number;
-    /** @internal */ tg_invisible?: boolean;
-    /** @internal */ tg_height?: number;
-    /** @internal */ tg_layer?: number;
+    /** @internal Global depth-first source index */ tg_index?: number;
+    /** @internal Index in the current visible column list */ tg_view_index?: number;
+    /** @internal Source index within the parent's subs array */ tg_sub_index?: number;
+    /** @internal Visible index within the current sibling list */ tg_list_index?: number;
+    /** @internal Computed column width in pixels */ tg_width?: number;
+    /** @internal Computed horizontal offset in pixels */ tg_left?: number;
+    /** @internal Whether the column belongs to the frozen pane */ tg_frozen?: boolean;
+    /** @internal Whether the column has a subs array */ tg_group?: boolean;
+    /** @internal Parent column for nested headers */ tg_parent?: ColumnItem;
+    /** @internal Number of direct child columns */ tg_subs_length?: number;
+    /** @internal Normalized invisible state */ tg_invisible?: boolean;
+    /** @internal Computed header height in pixels */ tg_height?: number;
+    /** @internal Header hierarchy layer */ tg_layer?: number;
 
     [key: string]: any;
 }
@@ -80,8 +92,11 @@ export interface ColumnItem {
 // =============================================================================
 // Row
 
+/** Row data, tree structure, presentation settings, and runtime metadata. */
 export interface RowItem {
+    /** Optional row identifier used by id-based row APIs */
     id?: string;
+    /** Optional display name or user-defined row value */
     name?: string;
     /** Row type for CSS class name, e.g. "group" */
     type?: string;
@@ -104,28 +119,30 @@ export interface RowItem {
     /** Custom row height in pixels */
     height?: number;
 
+    /** CSS classes applied to the rendered row */
     classMap?: ClassMap;
+    /** Inline styles applied to the rendered row */
     styleMap?: StyleMap;
 
     /** Nested child rows for tree structure */
     subs?: RowItem[];
 
-    /** @internal */ tg_index?: number;
-    /** @internal */ tg_view_index?: number;
-    /** @internal */ tg_sub_index?: number;
-    /** @internal */ tg_list_index?: number;
-    /** @internal */ tg_level?: number;
-    /** @internal */ tg_group?: boolean;
-    /** @internal */ tg_frozen?: boolean;
-    /** @internal */ tg_parent?: RowItem;
-    /** @internal */ tg_subs_length?: number;
-    /** @internal */ tg_height?: number;
-    /** @internal */ tg_top?: number;
-    /** @internal */ tg_row_number?: number | string;
-    /** @internal */ tg_invisible?: boolean;
+    /** @internal Global depth-first source index */ tg_index?: number;
+    /** @internal Index in the current visible row list */ tg_view_index?: number;
+    /** @internal Source index within the parent's subs array */ tg_sub_index?: number;
+    /** @internal Visible index within the current sibling list */ tg_list_index?: number;
+    /** @internal Zero-based tree depth */ tg_level?: number;
+    /** @internal Whether the row has a subs array */ tg_group?: boolean;
+    /** @internal Whether the row belongs to the frozen pane */ tg_frozen?: boolean;
+    /** @internal Parent row for nested data */ tg_parent?: RowItem;
+    /** @internal Number of direct child rows */ tg_subs_length?: number;
+    /** @internal Computed row height in pixels */ tg_height?: number;
+    /** @internal Computed vertical offset in pixels */ tg_top?: number;
+    /** @internal Generated row-number display value */ tg_row_number?: number | string;
+    /** @internal Normalized invisible state */ tg_invisible?: boolean;
     /** @internal Keyword match score written by highlightKeywordsFilter */ tg_match_score?: number;
-    /** @internal */ tg_filtered?: boolean;
-    /** @internal */ tg_selected_index?: number;
+    /** @internal Whether rowFilter excluded the row */ tg_filtered?: boolean;
+    /** @internal Selection-order index */ tg_selected_index?: number;
 
     [key: string]: any;
 }
@@ -133,8 +150,11 @@ export interface RowItem {
 // =============================================================================
 // Data
 
+/** Data payload consumed by Grid.setData(). */
 export interface GridData {
+    /** Top-level column definitions; nested columns are supplied through subs */
     columns?: ColumnItem[];
+    /** Top-level row records; nested rows are supplied through subs */
     rows?: RowItem[];
     /** Total row count for lazy loading when rows are not all provided upfront */
     rowsLength?: number;
@@ -145,9 +165,13 @@ export interface GridData {
 // =============================================================================
 // Sort Comparers
 
+/** Registry of named sort comparer functions. */
 export interface SortComparers {
+    /** Comparer used for string columns */
     string?: (a: any, b: any, options: any) => number;
+    /** Comparer used for numeric columns */
     number?: (a: any, b: any, options: any) => number;
+    /** Additional comparers addressable by name or column type */
     [name: string]: ((a: any, b: any, options: any) => number) | undefined;
 }
 
@@ -165,22 +189,33 @@ export interface RowFilteredSortOptions {
     type?: string;
 }
 
+/** Concrete post-filter sorting configuration. A string is treated as a sort field. */
 export type RowFilteredSortValue = string | RowFilteredSortOptions | ColumnItem;
+/** Static or dynamically resolved sorting applied after rowFilter; null disables it. */
 export type RowFilteredSort = RowFilteredSortValue | ((this: Grid) => RowFilteredSortValue | null | undefined) | null;
 
 // =============================================================================
 // Column Types
 
+/** Reusable defaults merged into columns of a matching type. */
 export interface ColumnTypeDefinition {
+    /** Base type to inherit from */
     type?: string;
+    /** Registered formatter name */
     formatter?: string;
+    /** Default cell alignment */
     align?: string;
+    /** Default fixed width in pixels */
     width?: number;
+    /** Default minimum width in pixels */
     minWidth?: number;
+    /** Default maximum width in pixels */
     maxWidth?: number;
+    /** Additional ColumnItem defaults */
     [key: string]: any;
 }
 
+/** Maps a column type or column id to defaults or to another registered type name. */
 export interface ColumnTypes {
     [typeOrId: string]: ColumnTypeDefinition | string;
 }
@@ -188,6 +223,7 @@ export interface ColumnTypes {
 // =============================================================================
 // Highlight Keywords
 
+/** Global matching, scoring, text extraction, and markup options for keyword highlighting. */
 export interface HighlightKeywords {
     /** Pattern combination and conflict-resolution mode. Defaults to "and" */
     matchMode?: 'and' | 'or' | 'negatedFirst' | 'positiveFirst';
@@ -205,7 +241,12 @@ export interface HighlightKeywords {
     highlightPost?: string;
 }
 
-/** Returns the matched substring to filter and highlight, or an empty string when unmatched */
+/**
+ * Returns the matched substring to filter and highlight, or an empty string when unmatched.
+ * @param text Plain text extracted from the current cell.
+ * @param rowItem Row currently being tested.
+ * @param columnItem Column currently being tested.
+ */
 export type HighlightKeywordMatcher = (
     this: Grid,
     text: string,
@@ -213,8 +254,9 @@ export type HighlightKeywordMatcher = (
     columnItem: ColumnItem
 ) => string;
 
+/** Object form of one keyword pattern with per-pattern overrides. */
 export interface HighlightKeywordPattern {
-    /** String supports * wildcards, escaped \\* literals, and the case: prefix; RegExp and function enable fully custom matching */
+    /** String supports * wildcards, escaped \* literals, and the case: prefix; RegExp and function enable fully custom matching */
     pattern: string | RegExp | HighlightKeywordMatcher;
     /** Overrides the global caseSensitive option for String and RegExp patterns */
     caseSensitive?: boolean;
@@ -222,6 +264,7 @@ export interface HighlightKeywordPattern {
     negated?: boolean;
 }
 
+/** One string pattern or object-form pattern. */
 export type HighlightKeyword = string | HighlightKeywordPattern;
 
 /**
@@ -245,8 +288,10 @@ export type HighlightKeywordPatterns = HighlightKeyword | HighlightKeyword[];
 // =============================================================================
 // Render
 
+/** Scope of work requested for a render pass; custom strings remain accepted for compatibility. */
 export type RenderType = 'all' | 'columns' | 'rows' | 'rows_cache' | 'resize' | (string & {});
 
+/** Optional render scope, initial scroll position, and transient render state. */
 export interface RenderSettings {
     /** Render scope. Defaults to the current pending render type, or "all" before the first render */
     type?: RenderType | null;
@@ -260,7 +305,9 @@ export interface RenderSettings {
     scrollRow?: RowItem | null;
     /** Cells and their matched patterns collected during the render pass */
     highlightCells?: Array<HTMLElement | {
+        /** Cell element to receive highlight markup */
         cellNode: HTMLElement;
+        /** Normalized patterns matched in the cell */
         patterns?: any[] | null;
     }>;
 
@@ -270,7 +317,9 @@ export interface RenderSettings {
 // =============================================================================
 // Options
 
+/** Grid construction and runtime behavior options. */
 export interface GridOptions {
+    /** Host element or CSS selector. Usually supplied to the Grid constructor. */
     container?: string | HTMLElement;
 
     /** Root CSS class name used as the grid namespace (default: "tg-turbogrid") */
@@ -398,8 +447,8 @@ export interface GridOptions {
     scrollbarFade?: boolean;
     /** Delay in ms before faded scrollbars are hidden (default: 1000) */
     scrollbarFadeTimeout?: number;
-    /** Scrollbar preset: "auto" or "mobile" (fade + size 6) */
-    scrollbarType?: 'auto' | 'touch' | 'classic';
+    /** Scrollbar preset. "auto" detects touch; "touch"/"mobile" enable fade with size 6; "classic" keeps desktop behavior. */
+    scrollbarType?: 'auto' | 'touch' | 'mobile' | 'classic';
 
     // scroll pane
     /** Minimum width of the scroll pane in pixels (default: 30) */
@@ -428,6 +477,7 @@ export interface GridOptions {
 // =============================================================================
 // Event Types
 
+/** Built-in event names emitted by Grid. Namespaced variants are accepted by bind/unbind. */
 export type GridEventType =
     | 'onUpdated'
     | 'onFirstUpdated'
@@ -469,25 +519,39 @@ export type GridEventType =
 // =============================================================================
 // Event Data
 
+/** Context resolved for a grid or component event. Fields vary by event type. */
 export interface EventData {
+    /** Original browser event, when the event originated from the DOM */
     e?: Event;
+    /** Row associated with the event */
     rowItem?: RowItem;
+    /** Column associated with the event */
     columnItem?: ColumnItem;
+    /** Rendered cell associated with the event */
     cellNode?: HTMLElement;
+    /** Rendered row associated with the event */
     rowNode?: HTMLElement;
+    /** Visible row index */
     row?: number;
+    /** Visible column index */
     column?: number;
+    /** Event-specific values */
     [key: string]: any;
 }
 
+/** Handler invoked with normalized event context and optional event-specific data. */
 export type EventHandler = (e: EventData, data?: any) => void;
 
 // =============================================================================
 // EventBase
 
+/** Lightweight event emitter used by Grid, Motion, and ScrollPane. */
 export declare class EventBase {
+    /** Listener-count warning threshold */
     maxListeners: number;
+    /** Sets the listener-count warning threshold */
     setMaxListeners(n: number): void;
+    /** Returns the listener-count warning threshold */
     getMaxListeners(): number;
     /** Binds an event handler. Supports namespaced events like "onUpdated.demo" */
     bind(types: string | string[], handler: EventHandler, options?: { once?: boolean }): this;
@@ -502,17 +566,27 @@ export declare class EventBase {
 // =============================================================================
 // Grid
 
+/** Virtualized data grid with tree rows, grouped columns, sorting, selection, and highlighting. */
 export declare class Grid extends EventBase {
 
+    /** DOM query helper used internally and exposed for integrations */
     static $: QueryFunction;
+    /** Returns the grid associated with the element id, when available */
     static getInstance(id: string): Grid | undefined;
+    /** Returns all registered theme names */
     static getAllThemes(): string[];
+    /** Returns all built-in grid event names */
     static getAllEvents(): string[];
+    /** Library version */
     static VERSION: string;
+    /** Build tag */
     static TAG: string;
 
+    /** DOM query helper bound to the library implementation */
     $: QueryFunction;
+    /** Library version */
     VERSION: string;
+    /** Build tag */
     TAG: string;
 
     /**
@@ -661,10 +735,15 @@ export declare class Grid extends EventBase {
     // Row collapse
     /** Expands a specific row. May trigger onRowSubsRequest for lazy loading */
     expandRow(rowIndex: number | string | RowItem): this;
+    /** Collapses a specific row */
     collapseRow(rowIndex: number | string | RowItem): this;
+    /** Toggles a specific row between expanded and collapsed */
     toggleRow(rowIndex: number | string | RowItem): this;
+    /** Expands all rows that contain children */
     expandAllRows(): this;
+    /** Collapses all rows that contain children */
     collapseAllRows(): this;
+    /** Expands all rows when any are collapsed; otherwise collapses all rows */
     toggleAllRows(): this;
     /** Expands rows up to the specified tree level */
     expandRowLevel(level: number): this;
@@ -692,13 +771,21 @@ export declare class Grid extends EventBase {
     // Row move
     /** Moves rows by offset. Negative = up, positive = down */
     moveRows(rowList: number | string | RowItem | Array<number | string | RowItem>, offset: number): boolean;
+    /** Moves rows one position upward */
     moveRowsUp(rowList: number | string | RowItem | Array<number | string | RowItem>): boolean;
+    /** Moves rows one position downward */
     moveRowsDown(rowList: number | string | RowItem | Array<number | string | RowItem>): boolean;
+    /** Moves rows to the beginning of their list */
     moveRowsToTop(rowList: number | string | RowItem | Array<number | string | RowItem>): boolean;
+    /** Moves rows to the end of their list */
     moveRowsToBottom(rowList: number | string | RowItem | Array<number | string | RowItem>): boolean;
+    /** Moves selected rows one position upward */
     moveSelectedRowsUp(): boolean;
+    /** Moves selected rows one position downward */
     moveSelectedRowsDown(): boolean;
+    /** Moves selected rows to the beginning of their list */
     moveSelectedRowsToTop(): boolean;
+    /** Moves selected rows to the end of their list */
     moveSelectedRowsToBottom(): boolean;
 
     // Sort
@@ -714,8 +801,11 @@ export declare class Grid extends EventBase {
     scrollToColumn(column: number | string | ColumnItem): this;
     /** Scrolls directly to the specified cell */
     scrollToCell(row: number | string | RowItem, column: number | string | ColumnItem): this;
+    /** Scrolls to the first visible row */
     scrollToFirstRow(): this;
+    /** Scrolls to the last visible row */
     scrollToLastRow(): this;
+    /** Scrolls to the first visible column */
     scrollToFirstColumn(): this;
     /** Scrolls to the last column. Pass true to skip the trailing blank filler column */
     scrollToLastColumn(end?: boolean): this;
@@ -725,12 +815,19 @@ export declare class Grid extends EventBase {
     scrollColumnIntoView(column: number | string | ColumnItem): this;
     /** Scrolls just enough to bring the target cell into view */
     scrollCellIntoView(row: number | string | RowItem, column: number | string | ColumnItem): this;
+    /** Sets horizontal and vertical scroll positions in pixels */
     setScroll(x: number, y: number): this;
+    /** Sets horizontal scroll position in pixels */
     setScrollLeft(x: number): this;
+    /** Sets vertical scroll position in pixels */
     setScrollTop(y: number): this;
+    /** Returns horizontal scroll position in pixels */
     getScrollLeft(): number;
+    /** Returns vertical scroll position in pixels */
     getScrollTop(): number;
+    /** Returns the maximum horizontal scroll position */
     getMaxScrollLeft(): number;
+    /** Returns the maximum vertical scroll position */
     getMaxScrollTop(): number;
 
     // Scroll size
@@ -802,78 +899,131 @@ export declare class Grid extends EventBase {
     getColumnHeaderNode(columnIndex: number | string | ColumnItem): HTMLElement | undefined;
 
     // Destroy
+    /** Clears runtime state so the instance can be initialized again */
     reset(): this;
     /** Destroys the grid instance and removes DOM, observers, and event bindings */
     destroy(): void;
 
+    /** Returns the grid's string tag */
     toString(): string;
 }
 
 // =============================================================================
 // Query
 
+/** Small chainable DOM collection used by TurboGrid. */
 export interface Query {
+    /** Number of elements in the collection */
     length: number;
+    /** Returns the element at an index */
     get(index: number): HTMLElement | undefined;
+    /** Iterates elements; return false to stop */
     each(callback: (node: HTMLElement, index: number) => void | false): this;
+    /** Adds an element or another collection */
     add(item: HTMLElement | Query): this;
+    /** Removes all child nodes from every element */
     empty(): this;
+    /** Removes every element from the DOM */
     remove(): this;
+    /** Finds descendants matching a CSS selector */
     find(selector: string): Query;
+    /** Inserts content at the beginning of every element */
     prepend(selector: string | HTMLElement | Query): this;
+    /** Inserts content at the end of every element */
     append(selector: string | HTMLElement | Query): this;
+    /** Appends this collection to a target */
     appendTo(selector: string | HTMLElement | Query): this;
+    /** Returns the first element's inner HTML */
     html(): string;
+    /** Sets inner HTML for every element */
     html(str: string): this;
+    /** Returns the first element's width */
     width(): number;
+    /** Sets width for every element */
     width(value: number | string): this;
+    /** Returns the first element's height */
     height(): number;
+    /** Sets height for every element */
     height(value: number | string): this;
+    /** Returns a computed style value from the first element */
     css(key: string): string | undefined;
+    /** Sets one style property on every element */
     css(key: string, value: string | number): this;
+    /** Sets multiple style properties on every element */
     css(styles: Record<string, string | number>): this;
+    /** Returns an attribute from the first element */
     attr(key: string): string | undefined;
+    /** Sets one attribute on every element */
     attr(key: string, value: string): this;
+    /** Sets multiple attributes on every element */
     attr(attrs: Record<string, string>): this;
+    /** Removes an attribute from every element */
     removeAttr(key: string): this;
+    /** Adds one or more CSS classes */
     addClass(className: string): this;
+    /** Removes specified CSS classes, or all classes when omitted */
     removeClass(className?: string): this;
+    /** Returns whether any element has a CSS class */
     hasClass(className: string): boolean;
+    /** Shows every element */
     show(): this;
+    /** Hides every element */
     hide(): this;
+    /** Invokes click() on the first element */
     click(): this;
+    /** Returns the first element's document-relative position */
     offset(): { left: number; top: number };
+    /** Deep-clones the collection's elements */
     clone(): Query;
+    /** Returns direct child nodes from all elements */
     children(): Query;
+    /** Returns the first element's parent */
     parent(): Query;
+    /** Returns whether every element has a tag name in the comma-separated list */
     is(selector: string): boolean;
 }
 
+/** Creates a Query from a selector, element, or existing Query. */
 export type QueryFunction = (selector: string | HTMLElement | Query) => Query;
 
 // =============================================================================
 // CONST
 
+/** Public library constants. */
 export declare const CONST: {
+    /** Library id */
     ID: string;
+    /** CSS/event namespace */
     NS: string;
+    /** Library version */
     VERSION: string;
+    /** Build tag */
     TAG: string;
+    /** Up direction token */
     UP: string;
+    /** Down direction token */
     DOWN: string;
+    /** Left direction token */
     LEFT: string;
+    /** Right direction token */
     RIGHT: string;
+    /** Tree indentation per hierarchy level in pixels */
     TREE_INDENT: number;
 };
 
 // =============================================================================
 // Icon
 
+/** Registry of built-in SVG icon markup by name. */
 export declare const icons: Record<string, string>;
+/** Returns built-in SVG markup by icon name, or an empty string when not found. */
 export declare function getIcon(name: string): string;
 
+/** Legacy namespace containing the icon registry and lookup function. */
 export interface Icon {
+    /** Built-in SVG icon registry */
     icons: typeof icons;
+    /** Built-in icon lookup function */
     getIcon: typeof getIcon;
 }
 
@@ -883,135 +1033,218 @@ export declare const Icon: Icon;
 // =============================================================================
 // Motion
 
+/** Options for numeric or object-property interpolation by Motion. */
+export interface MotionOptions {
+    /** Easing function or registered easing path; null uses linear easing */
+    easing?: string | ((k: number) => number) | null;
+    /** Animation duration in milliseconds (default: 100) */
+    duration?: number;
+    /** Initial number or numeric property map (default: 0) */
+    from?: number | Record<string, number>;
+    /** Final number or numeric property map (default: 1) */
+    till?: number | Record<string, number>;
+}
+
+/** requestAnimationFrame-based numeric interpolation that emits lifecycle events. */
 export declare class Motion extends EventBase {
+    /** Motion lifecycle event names */
     static EVENT: {
+        /** Emitted with the initial value when motion starts */
         MOTION_START: string;
+        /** Emitted with each interpolated value */
         MOTION_MOVE: string;
+        /** Emitted with the final value after completion */
         MOTION_END: string;
+        /** Emitted when an active motion is stopped */
         MOTION_STOP: string;
     };
 
-    constructor(options?: {
-        easing?: string | ((k: number) => number) | null;
-        duration?: number;
-        from?: number | Record<string, number>;
-        till?: number | Record<string, number>;
-    });
+    /** Creates a motion with reusable default options. */
+    constructor(options?: MotionOptions);
 
-    start(options?: {
-        easing?: string | ((k: number) => number) | null;
-        duration?: number;
-        from?: number | Record<string, number>;
-        till?: number | Record<string, number>;
-    }): this;
+    /** Stops any current motion and starts interpolation with merged options. */
+    start(options?: MotionOptions): this;
+    /** Stops the active motion and emits MOTION_STOP. */
     stop(): this;
+    /** Stops motion and releases event listeners. */
     destroy(): void;
 }
 
 // =============================================================================
 // ScrollPane
 
+/** Two-axis custom scrolling surface used by grid panes. */
 export declare class ScrollPane extends EventBase {
+    /** ScrollPane event names */
     static EVENT: {
+        /** Emitted after the scroll position changes */
         CHANGE: string;
+        /** Emitted when scrollbar interaction starts */
         START: string;
+        /** Emitted when scrollbar interaction ends */
         END: string;
     };
 
+    /** Creates a named scroll pane inside the supplied container. */
     constructor(container: HTMLElement | string, name: string);
 
+    /** Shows the scroll pane */
     show(): this;
+    /** Hides the scroll pane */
     hide(): this;
+    /** Returns the configured pane width */
     width(): number;
+    /** Returns the configured pane height */
     height(): number;
+    /** Merges options and updates dimensions, scroll state, and scrollbars */
     render(options?: Record<string, any>): this;
 
+    /** Returns horizontal scroll position */
     getScrollLeft(): number;
+    /** Returns vertical scroll position */
     getScrollTop(): number;
+    /** Returns maximum horizontal scroll position */
     getMaxScrollLeft(): number;
+    /** Returns maximum vertical scroll position */
     getMaxScrollTop(): number;
 
+    /** Sets both scroll positions and synchronizes grouped panes */
     setPosition(scrollLeft: number, scrollTop: number): this;
+    /** Sets horizontal scrollbar offset; returns whether it changed */
     setOffsetH(offset: number): boolean;
+    /** Sets vertical scrollbar offset; returns whether it changed */
     setOffsetV(offset: number): boolean;
 
+    /** Sets panes whose horizontal positions should stay synchronized */
     setGroupH(list: ScrollPane | ScrollPane[]): void;
+    /** Sets panes whose vertical positions should stay synchronized */
     setGroupV(list: ScrollPane | ScrollPane[]): void;
 
+    /** Returns whether either axis currently has a scrollbar */
     hasScrollbar(): boolean;
+    /** Destroys scrollbars, event listeners, and references */
     destroy(): this;
 }
 
 // =============================================================================
 // Util
 
+/** General-purpose helpers used by TurboGrid and available to integrations. */
 export interface Util {
+    /** Returns whether a value is a plain object or array */
     isObject(obj: any): boolean;
+    /** Deep-merges objects or arrays; pass false as the final argument for a shallow merge */
     merge(...args: any[]): any;
+    /** Safely checks whether an object owns a property */
     hasOwn(obj: any, key: string): boolean;
+    /** Creates a random base-36 id with optional length and prefix (default length: 8) */
     uid(len?: number, prefix?: string): string;
 
+    /** Returns whether a value is a finite, usable number */
     isNum(num: any): boolean;
+    /** Converts a value to a number, falling back to 0; optionally rounds to an integer */
     toNum(num: any, toInt?: boolean): number;
+    /** Converts a strictly numeric string to a number and leaves other values unchanged */
     convertNum(str: any): number | any;
+    /** Clamps a number to the inclusive min/max range */
     clamp(num: number, min: number, max: number): number;
+    /** Returns whether a value is a valid non-negative width or height */
     isSize(num: any): boolean;
+    /** Converts a value to a number clamped between 0 and 1 */
     per(num: any): number;
 
+    /** Replaces `{key}` placeholders with values from an object */
     replace(str: string, obj: Record<string, any>): string;
 
+    /** Returns whether data is an Array */
     isArray(data: any): boolean;
+    /** Normalizes arrays, array-like values, strings, scalars, and undefined to an array */
     toList(data: any): any[];
+    /** Returns whether data is a non-empty array */
     isList(data: any): boolean;
+    /** Returns whether a non-empty list contains an item by identity */
     inList(item: any, list: any[]): boolean;
+    /** Returns whether a value is a valid Date */
     isDate(date: any): boolean;
+    /** Returns whether a value is thenable */
     isPromise(obj: any): boolean;
 
+    /** Reads a dot-separated property path and returns a fallback when absent */
     getValue(data: any, path: string, defaultValue?: any): any;
+    /** Depth-first traversal of items and their subs arrays; return false to stop */
     forEachTree(tree: any[], callback: (item: any, index: number, parent?: any) => void | false): void;
 
+    /** Detects devices whose primary pointer does not support hover */
     isTouchDevice(): boolean;
+    /** Returns whether target is or is contained by container */
     contains(container: HTMLElement, target: HTMLElement): boolean;
+    /** Returns whether a Unicode character occupies one display-width unit */
     isNarrowCharacter(character: string): boolean;
+    /** Returns display width using 1 for narrow and 2 for wide characters */
     getCharLen(text: string): number;
 
+    /** Normalizes supported class-map forms to a deduplicated class string */
     classMap(obj: ClassMap): string;
+    /** Normalizes supported style-map forms to a CSS declaration string */
     styleMap(obj: StyleMap): string;
 
+    /** Returns the Grid instance registered to an element id */
     getInstance(id: string): Grid | undefined;
 
+    /** Prevents a cancelable browser event's default action */
     preventDefault(e: Event): void;
 
+    /** Creates a trailing debounce wrapper with a cancel method (default delay: 100 ms) */
     debounce<T extends (...args: any[]) => any>(callback: T, delay?: number): T & { cancel: () => void };
+    /** Creates a leading/trailing throttle wrapper with a cancel method (default delay: 100 ms) */
     throttle<T extends (...args: any[]) => any>(callback: T, delay?: number): T & { cancel: () => void };
+    /** Coalesces calls into one microtask and exposes a cancel method */
     microtask<T extends (...args: any[]) => any>(callback: T): T & { cancel: () => void };
+    /** Schedules a callback in the microtask queue */
     nextTick(callback: () => void): void;
 }
 
+/** Shared utility helper namespace. */
 export declare const Util: Util;
 
 // =============================================================================
 // Exports
 
+/** Library version. */
 export declare const VERSION: string;
+/** Build tag. */
 export declare const TAG: string;
+/** Shared DOM query helper. */
 export declare const $: QueryFunction;
 
 // =============================================================================
 // Default export
 
+/** Namespace-style default export containing all public runtime exports. */
 declare const TurboGrid: {
+    /** Library version */
     VERSION: string;
+    /** Build tag */
     TAG: string;
+    /** Grid constructor */
     Grid: typeof Grid;
+    /** DOM query helper */
     $: QueryFunction;
+    /** Public constants */
     CONST: typeof CONST;
+    /** Base event emitter constructor */
     EventBase: typeof EventBase;
+    /** Deprecated icon namespace */
     Icon: typeof Icon;
+    /** SVG icon registry */
     icons: typeof icons;
+    /** SVG icon lookup function */
     getIcon: typeof getIcon;
+    /** Animation constructor */
     Motion: typeof Motion;
+    /** Scroll pane constructor */
     ScrollPane: typeof ScrollPane;
+    /** Utility helper namespace */
     Util: typeof Util;
 };
 

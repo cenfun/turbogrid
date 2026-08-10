@@ -143,25 +143,6 @@ const printTestSummary = function(result) {
     }
 };
 
-if (debug) {
-    console.log(EC.magenta('Debug mode: skipping production E2E test'));
-} else {
-    try {
-        console.log(EC.magenta('Building production ...'));
-        await build({
-            configFile,
-            mode: 'production'
-        });
-
-        console.log(EC.magenta('Testing production E2E ...'));
-        await runE2ETest();
-        console.log(EC.green('Production E2E test passed'));
-    } catch (error) {
-        e2eError = error;
-        console.error(EC.red(`Production E2E test failed: ${error.stack || error.message}`));
-    }
-}
-
 try {
     console.log(EC.magenta('Building browser unit tests ...'));
     await build({
@@ -290,13 +271,32 @@ if (pageError) {
 if (executionError) {
     console.error(EC.red(`\nUnit test runner failed: ${executionError.stack || executionError.message}`));
 }
-if ((!mochaResult && !debugClosed) || mochaResult?.failed > 0 || e2eError || executionError) {
-    process.exitCode = 1;
-}
-
 if (debug && browser?.isConnected() && page && !page.isClosed() && previewServer) {
     await waitForDebugExit(browser, page);
 }
 
 await browser?.close();
 await previewServer?.close();
+
+if (debug) {
+    console.log(EC.magenta('Debug mode: skipping production E2E test'));
+} else {
+    try {
+        console.log(EC.magenta('\nBuilding production ...'));
+        await build({
+            configFile,
+            mode: 'production'
+        });
+
+        console.log(EC.magenta('Testing production E2E ...'));
+        await runE2ETest();
+        console.log(EC.green('Production E2E test passed'));
+    } catch (error) {
+        e2eError = error;
+        console.error(EC.red(`Production E2E test failed: ${error.stack || error.message}`));
+    }
+}
+
+if ((!mochaResult && !debugClosed) || mochaResult?.failed > 0 || e2eError || executionError) {
+    process.exitCode = 1;
+}

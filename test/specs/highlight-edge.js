@@ -120,4 +120,40 @@ describe('highlight cache edge cases', function() {
         await delay();
         assert.equal(grid.getViewRows().length, 0);
     });
+
+    it('highlights all visible cells after rapid overlapping scroll renders', async () => {
+        grid.setData({
+            columns: [{
+                id: 'name',
+                name: 'Name'
+            }],
+            rows: Array.from({
+                length: 100
+            }, (item, index) => ({
+                name: `Foo ${index}`
+            }))
+        });
+        grid.setOption({
+            rowFilter: function(rowItem) {
+                return this.highlightKeywordsFilter(rowItem, ['name'], 'Foo');
+            }
+        });
+        grid.render();
+        await delay();
+
+        // Yield to each render microtask, but not to the 10ms highlight debounce.
+        // Each small scroll retains most existing cells and creates only a few new ones.
+        grid.setScrollTop(30);
+        await delay();
+        grid.setScrollTop(60);
+        await delay();
+        grid.setScrollTop(90);
+        await delay(30);
+
+        const visibleCells = grid.viewport.rows.map((row) => grid.getCellNodeByIndex(row, 0)).filter(Boolean);
+        assert.isAbove(visibleCells.length, 1);
+        visibleCells.forEach((cellNode) => {
+            assert.equal(cellNode.querySelector('mark')?.innerText, 'Foo');
+        });
+    });
 });

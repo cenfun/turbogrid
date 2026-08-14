@@ -6,6 +6,14 @@
           highlightKeywordsFilter
           <span>String patterns (space-separated keywords, quoted phrases, * wildcards, \* literals, and case: prefix)</span>
         </div>
+        <select
+          v-model="dataStr"
+          class="st-data"
+          @change="render"
+        >
+          <option>custom-data</option>
+          <option>random-10x2k</option>
+        </select>
       </div>
 
       <div>
@@ -119,12 +127,14 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { Grid } from '../../src/index.js';
+import { randomData } from '../assets/sample-data.js';
 import { init, initCommonEvents } from '../global.js';
 
 const route = useRoute();
 const gridContainer = ref(null);
 const grid = ref(null);
 const keywords = ref('grid');
+const dataStr = ref('custom-data');
 
 // false: case-insensitive matching (default)
 const caseSensitive = ref(false);
@@ -201,6 +211,12 @@ const data = {
     }]
 };
 
+const render = () => {
+    const currentData = dataStr.value.startsWith('random') ? randomData(dataStr.value) : data;
+    grid.value.setData(currentData);
+    grid.value.render();
+};
+
 const updateGrid = () => {
     if (grid.value) {
         grid.value.update();
@@ -267,9 +283,8 @@ onMounted(() => {
             );
         }
     });
-    grid.value.setData(data);
     initCommonEvents(grid.value);
-    grid.value.render();
+    render();
 });
 
 onBeforeUnmount(() => {

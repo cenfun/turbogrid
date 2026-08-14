@@ -270,19 +270,52 @@ export default {
     highlightKeywordsHandler: function() {
 
         const { highlightCells } = this.renderSettings;
-        if (!highlightCells.length) {
+        if (!highlightCells.length || !this.highlightKeywords) {
             return;
         }
 
-        const keywords = this.highlightKeywords;
-        if (!keywords) {
-            return;
+        // A render only reports newly created cells. Keep cells collected by earlier
+        // renders so that a following scroll render cannot cancel their highlighting.
+        let pendingHighlightCells = this.pendingHighlightCells;
+        if (!pendingHighlightCells) {
+            pendingHighlightCells = new Map();
+            this.pendingHighlightCells = pendingHighlightCells;
         }
+        // Do not retain virtual cells discarded by an intermediate scroll.
+        pendingHighlightCells.forEach((highlightCell, cellNode) => {
+            if (!this.container.contains(cellNode)) {
+                pendingHighlightCells.delete(cellNode);
+            }
+        });
+        highlightCells.forEach((highlightCell) => {
+            const cellNode = highlightCell.cellNode || highlightCell;
+            pendingHighlightCells.set(cellNode, highlightCell);
+        });
 
         if (!this.asyncHighlightKeywords) {
-            this.asyncHighlightKeywords = Util.debounce(this.highlightKeywordsSync, 10);
+            this.asyncHighlightKeywords = Util.debounce(this.highlightKeywordsPendingSync, 10);
         }
-        this.asyncHighlightKeywords.apply(this, [highlightCells, keywords]);
+        this.asyncHighlightKeywords();
+
+    },
+
+    highlightKeywordsPendingSync: function() {
+
+        const pendingHighlightCells = this.pendingHighlightCells;
+        if (!pendingHighlightCells || !pendingHighlightCells.size) {
+            return;
+        }
+
+        const highlightCells = [];
+        pendingHighlightCells.forEach((highlightCell, cellNode) => {
+            // Rapid scrolling can remove queued virtual cells before the debounce runs.
+            if (this.container.contains(cellNode)) {
+                highlightCells.push(highlightCell);
+            }
+        });
+        pendingHighlightCells.clear();
+
+        this.highlightKeywordsSync(highlightCells, this.highlightKeywords);
 
     },
 

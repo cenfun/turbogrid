@@ -12,6 +12,8 @@ export default {
         this.headerCreated = false;
 
         Util.cancelAsync(this);
+        // Release virtual cell nodes queued by the debounced keyword highlighter.
+        this.pendingHighlightCells = null;
         Util.removePreProps(this, 'previous');
 
         this.removeSortColumn();

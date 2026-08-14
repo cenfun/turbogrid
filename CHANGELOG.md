@@ -1,5 +1,8 @@
 # Changelog
 
++ 3.4.1
+    - fixed intermittent missing keyword highlights during rapid virtual scrolling
+
 + 3.4.0
     - (breaking) reworked `highlightKeywords` matching (`*` wildcards, `case:` prefix, `RegExp`, custom matchers, negated patterns, `matchMode`/`caseSensitive`); patterns now match across columns in any order, and `matchMode` defaults to `"and"` preserving the legacy multi-keyword behavior
     - added `highlightKeywords.scoreKey` to record match relevance for `rowFilteredSort` (patterns, columns, match quality, exact case, keyword order)

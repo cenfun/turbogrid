@@ -65,6 +65,16 @@ const tooltipApp = createApp({
 });
 tooltipApp.mount(tooltipContainer);
 
+const isNodeTruncated = function(node) {
+    if (!node) {
+        return false;
+    }
+    if (node.clientWidth < node.scrollWidth) {
+        return true;
+    }
+    return false;
+};
+
 onMounted(() => {
     init();
     const g = new Grid(gridContainer.value);
@@ -74,16 +84,6 @@ onMounted(() => {
         console.log('duration:', `${this.renderDuration}ms`);
     });
 
-    const isNodeTruncated = function(node) {
-        if (!node) {
-            return false;
-        }
-        if (node.clientWidth < node.scrollWidth) {
-            return true;
-        }
-        return false;
-    };
-
     // global tooltips for elements with tooltip attribute
     initGlobalTooltips((target) => {
         showTooltip(target, target.getAttribute('tooltip'));
@@ -92,17 +92,29 @@ onMounted(() => {
     });
 
     g.bind('onMouseOver', function(e, d) {
-        const target = d.e.target;
 
+        // console.log('onMouseOver', d);
+
+        const target = d.e.target;
         // handled by initGlobalTooltips
         if (target && target.hasAttribute && target.hasAttribute('tooltip')) {
             return;
         }
 
-        const value = d.rowItem[d.columnItem.id];
-        if (value && isNodeTruncated(target)) {
-            showTooltip(target, `Tooltip for truncated text: ${value}`);
+        // cell auto tooltip for truncated text
+        const cellNode = d.cellNode;
+        // show tooltip if cell truncated
+        if (cellNode && isNodeTruncated(cellNode)) {
+            showTooltip(cellNode, cellNode.innerText);
+            return;
         }
+
+        // tree name auto tooltip for truncated text
+        const treeNode = cellNode.querySelector('.tg-tree-name');
+        if (treeNode && isNodeTruncated(treeNode)) {
+            showTooltip(treeNode, treeNode.innerText);
+        }
+
 
     }).bind('onMouseOut', function(e, d) {
         hideTooltip();

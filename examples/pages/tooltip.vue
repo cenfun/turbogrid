@@ -101,10 +101,13 @@ onMounted(() => {
             return;
         }
 
-        // cell auto tooltip for truncated text
+        // Header hover payloads have a headerNode, not a cellNode.
         const cellNode = d.cellNode;
+        if (!cellNode) {
+            return;
+        }
         // show tooltip if cell truncated
-        if (cellNode && isNodeTruncated(cellNode)) {
+        if (isNodeTruncated(cellNode)) {
             showTooltip(cellNode, cellNode.innerText);
             return;
         }

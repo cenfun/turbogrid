@@ -1,6 +1,16 @@
 // Type definitions for TurboGrid
 // https://github.com/cenfun/turbogrid
 
+/**
+ * AI agent skill: ../skills/turbogrid/SKILL.md (relative to this declaration file).
+ * Included in the npm package with runnable examples for vanilla JS, Vue, and React.
+ * Locate from the host project: node -p "require.resolve('turbogrid/skills/turbogrid/SKILL.md')"
+ * Read the skill directly, or copy the entire ../skills/turbogrid/ directory,
+ * including references/, into your agent's supported skills directory.
+ * Installing the npm package does not automatically register the skill with agents.
+ * @see ../skills/turbogrid/SKILL.md
+ */
+
 /** CSS declarations, declaration lists, or property-value mappings accepted by styleMap helpers. */
 export type StyleMap = string | string[] | Record<string, boolean | string | number>;
 /** CSS class names, class-name lists, or conditional class mappings. */
@@ -566,7 +576,10 @@ export declare class EventBase {
 // =============================================================================
 // Grid
 
-/** Virtualized data grid with tree rows, grouped columns, sorting, selection, and highlighting. */
+/**
+ * Virtualized data grid with tree rows, grouped columns, sorting, selection, and highlighting.
+ * @see ../skills/turbogrid/SKILL.md for AI agent setup, usage examples, and integration recipes.
+ */
 export declare class Grid extends EventBase {
 
     /** DOM query helper used internally and exposed for integrations */

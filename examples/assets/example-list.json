@@ -194,6 +194,10 @@
                 "name": "Vue Component"
             },
             {
+                "id": "vue-turbogrid",
+                "name": "TurboGrid Vue Component"
+            },
+            {
                 "id": "vue-integration",
                 "name": "Vue Integration"
             },

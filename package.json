@@ -12,7 +12,8 @@
             "require": "./dist/turbogrid.js",
             "default": "./dist/turbogrid.esm.js"
         },
-        "./package.json": "./package.json"
+        "./package.json": "./package.json",
+        "./skills/*": "./skills/*"
     },
     "types": "dist/turbogrid.d.ts",
     "scripts": {
@@ -28,6 +29,7 @@
     },
     "files": [
         "dist",
+        "skills",
         "README.zh-Hans.md"
     ],
     "license": "MIT",

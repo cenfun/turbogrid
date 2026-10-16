@@ -120,7 +120,7 @@ export default defineConfig(({ command, mode }) => {
             base: './',
             publicDir: false,
             define,
-            plugins: [testSpecsPlugin()],
+            plugins: [vue(), testSpecsPlugin()],
             optimizeDeps: {
                 // This is a Vite virtual module, not an npm dependency.
                 exclude: ['virtual:test-specs']

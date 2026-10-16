@@ -1,5 +1,10 @@
 # Changelog
 
++ 3.4.2
+    - added AI agent skills, included in the npm package
+    - added a reusable Vue `TurboGrid` component and demo
+    - improved the tooltip demo
+
 + 3.4.1
     - fixed intermittent missing keyword highlights during rapid virtual scrolling
 

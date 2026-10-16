@@ -92,6 +92,20 @@ grid.setData({
 grid.render();
 ```
 
+## AI Agent Skill
+
+项目提供可复用的 [TurboGrid skill](skills/turbogrid/SKILL.md)，帮助 AI 编程助手快速使用原生 JavaScript、Vue 或 React 实现表格页面，包含可运行示例、常见功能配方、远端数据处理，以及性能和安全注意事项。
+
+npm 包已包含该 skill，安装后位于 `node_modules/turbogrid/skills/turbogrid/`。将此目录（或仓库中的 [`skills/turbogrid/`](skills/turbogrid/)）连同 `references/` 完整复制到 agent 支持的 skills 目录，或直接让 agent 阅读其中的 `SKILL.md`。技能说明使用英文编写，不限制提问语言和页面文案语言，可直接使用中文提出需求。
+
+安装 npm 包不会自动向所有 agent 注册技能，部分 agent 默认忽略 `node_modules`。请显式让 agent 加载该 skill，或在其支持的项目指令中添加入口提示。在应用目录下可通过以下命令定位：
+
+```bash
+node -p "require.resolve('turbogrid/skills/turbogrid/SKILL.md')"
+```
+
+包内指南无需仓库源码即可使用，在线仓库示例仅作为可选参考。
+
 ## API 概览
 
 TurboGrid 提供 100+ 公开方法、50+ 项配置和 36 种事件类型。完整且持续更新的 API 参考：
@@ -178,6 +192,7 @@ API 涵盖：
 
 - [vue-integration](https://cenfun.github.io/turbogrid/#/vue-integration)
 - [vue-component](https://cenfun.github.io/turbogrid/#/vue-component)
+- [vue-turbogrid](https://cenfun.github.io/turbogrid/#/vue-turbogrid)
 - [vue-editor](https://cenfun.github.io/turbogrid/#/vue-editor)
 - [custom-element](https://cenfun.github.io/turbogrid/#/custom-element)
 - React：支持基于容器的集成方式（参见下方 [Vue / React 集成](#vue--react-集成)）

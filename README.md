@@ -92,6 +92,20 @@ grid.setData({
 grid.render();
 ```
 
+## AI Agent Skill
+
+A reusable [TurboGrid skill](skills/turbogrid/SKILL.md) helps AI coding agents quickly build grid pages with vanilla JavaScript, Vue, or React. It includes working examples, common feature recipes, remote data handling, and performance and safety guidance.
+
+The npm package includes the skill at `node_modules/turbogrid/skills/turbogrid/`. Copy this entire directory (or [`skills/turbogrid/`](skills/turbogrid/) from the repository), including `references/`, into your agent's supported skills directory, or ask the agent to read its `SKILL.md` directly. The instructions are in English, but you can ask questions and request UI copy in any language.
+
+An npm install does not automatically register the skill with every agent; some agents skip `node_modules`. Explicitly load it or add a pointer in your agent's supported project instructions. From your application directory, locate the entry with:
+
+```bash
+node -p "require.resolve('turbogrid/skills/turbogrid/SKILL.md')"
+```
+
+The bundled guides work without a repository checkout; online repository examples are optional.
+
 ## API Overview
 
 TurboGrid provides 100+ public methods, 50+ configuration options, and 36 event types. For the complete and always up-to-date documentation:
@@ -178,6 +192,7 @@ The API covers:
 
 - [vue-integration](https://cenfun.github.io/turbogrid/#/vue-integration)
 - [vue-component](https://cenfun.github.io/turbogrid/#/vue-component)
+- [vue-turbogrid](https://cenfun.github.io/turbogrid/#/vue-turbogrid)
 - [vue-editor](https://cenfun.github.io/turbogrid/#/vue-editor)
 - [custom-element](https://cenfun.github.io/turbogrid/#/custom-element)
 - React: container-based integration (see [Vue / React Integration](#vue--react-integration) below)
